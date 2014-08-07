@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">	           
+	<head>
+		<title>JRP Browse</title>
+		<!--#include virtual="/includes/usual-head-contents.html" -->
+	</head>
+
+
+<body>
+	<div class="page container" id="home-page">
+			<!--#include virtual="/includes/header-browse.html" -->
+
+		<header class="simple">
+			<nav id="primary-nav">
+				<ul>
+					<li class="logo"><a href="/index.html"><img src="/images/logo-small.jpg" alt="Josquin Research Project"></a></li>
+					<li><a href="/index.html">Home</a></li>
+					<li class="active"><a href="#">Browse</a></li>
+					<li><a href="/search">Search/Analysis</a></li>
+					<li><a href="/about">About JRP</a></li>                             
+				</ul>
+			</nav> <!-- primary-nav -->
+		</header>
+
+		<section id="content">
+			<aside class="browse">
+				<form action="#">
+					<div class="form-body">
+						<div class="form-group">
+							<select id="generes" data-placeholder="All Genres">
+								<option value="all" label="default">All Genres</option>
+								<!--#include virtual="/includes/repertories.html" -->
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group">
+							<select id="voices" data-placeholder="All Voices">
+								<option value="all" label="default">All Voices</option>
+								<option value="voice3">3 voices</option>
+								<option value="voice4">4 voices</option>
+								<option value="voice4">more voices</option>
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group">
+							<select id="composers" data-placeholder="All Composers">
+								<option label="all">All Composers</option>
+								<!--#include virtual="/includes/repertories.html" -->
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Enter Title">
+						</div>
+						<div class="form-group text-center">
+							<button type="submit" class="btn btn-brown btn-large">Browse</button>
+						</div> <!-- form-group -->
+					</div> <!-- form-body -->
+				</form> <!-- quick browse form -->
+				<div class="repertory">
+					<a href="#" class="btn btn-brown">View Complete Repertory</a>
+				</div>
+				
+			</aside>
+
+			<section id="primary-content" class="browse-content">
+			<!--#include virtual="/includes/about-content.html" -->
+			</section>
+		</section> <!-- content -->
+
+		<footer>
+			<nav class="secondary-nav">
+				<ul>
+					<li class="logo"><a href="#">Josquin Research Project</a></li>
+					<li><a href="#">Feedback</a></li>
+					<li><a href="#">Under the Hood</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav> <!-- secondary-nav -->
+		</footer>
+	</div> <!-- page -->
+	<!-- scripts -->
+	<script type="text/javascript" src="/scripts/jquery.js"></script>
+	<script type="text/javascript" src="/scripts/select2.js"></script>
+	<script type="text/javascript" src="/scripts/jquery.ezmark.min.js"></script>
+	<script type="text/javascript" src="/scripts/scripts.js"></script>
+	<script type="text/javascript" src="/scripts/placeholders.min.js"></script>		
+</body>
+</html>
