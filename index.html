@@ -1,17 +1,9 @@
 <!doctype html>
-<html lang="en">	           
+<html lang="en">	
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=1010"/>
 	<title>The Josquin Research Project</title>
-	<!-- styles -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Lusitana:400,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<!--[if lte IE 9]>
-		<link rel="stylesheet" type="text/css" href="css/ie9.css" />
-	<![endif]-->
+	<!--#include virtual="/includes/usual-head-contents.html" -->
+
 
 </head>
 
@@ -21,53 +13,68 @@
 		<!--#include virtual="/includes/header-main.html" -->
 		<section id="content">
 			<aside>
-				<form action="browse.html" class="quick-browse">
-					<h2 class="blue-bar">quick browse</h2>
+				<!-- form action="browse.html" class="quick-browse"-->
+				<!form method="get" action="/browse" class="quick-browse">
+				<form class="quick-browse">
+					<a style="text-decoration:none;" onclick="clearBrowseFields(); localStorage.BROWSEhome='false';" href="/browse"><h2 class="blue-bar">quick browse</h2></a>
 					<div class="form-body">
+
 						<div class="form-group">
-							<select id="repertory">
-								<option label="all">Complete Repertory</option>
-								<!--#include virtual="/includes/repertories.html" -->
+							<select name="c" id="composers">
+								<option value="" label="all">All Composers</option>
+								<!--#include virtual="/includes/select-repertories.html" -->
 							</select>
 						</div> <!-- form-group -->
+
 						<div class="form-group">
-							<select id="generes">
-								<option label="all">All Genres</option>
-								<!--#include virtual="/includes/genres.html" -->
+							<select name="g" id="genres">
+								<option value="" label="all">All Genres</option>
+								<!--#include virtual="/includes/select-genres.html" -->
 							</select>
 						</div> <!-- form-group -->
+
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Enter Title">
+							<input id="titlebox" name="t" value="" type="text" class="form-control" placeholder="Enter Title">
 						</div>
 						<div class="form-group text-center">
-							<button type="submit" class="btn btn-brown">Browse</button>
+							<button onclick="return storeBrowseParameters();" type="" class="btn btn-brown">Browse</button>
 						</div> <!-- form-group -->
+
 					</div> <!-- form-body -->
 				</form> <!-- quick browse form -->
 				<section id="news">
 					<h3 class="grey-title">
-						JRP NEWS <small>and updates</small>
+						JRP NEWS <small><span style="letter-spacing: 3.5px;"> and updates</span></small>
 					</h3>
 					<article class="news">
 						<p>
-							Du Fay lovers, take note: scores of all four late cyclic masses are now available with complete text underlay (<a class="text-link" style="display:inline;" href=http://jrp.ccarh.org/cgi-bin/jrp?a=notationwithtext&f=Duf1002>Ave regina celorum</a>, <a class="text-link" style="display:inline;" href=http://jrp.ccarh.org/cgi-bin/jrp?a=notationwithtext&f=Duf1003>Ecce ancilla domini</a>, <a class="text-link" style="display:inline;" href=http://jrp.ccarh.org/cgi-bin/jrp?a=notationwithtext&f=Duf1004>L'homme arm&eacute;</a>, <a class="text-link" style="display:inline;" href=http://jrp.ccarh.org/cgi-bin/jrp?a=notationwithtext&f=Duf1005>Se la face ay pale</a>)
-
+							Du Fay lovers, take note: scores of all four late cyclic masses are <a class="text-link" href="/browse?c=Duf&g=mass">now available</a> with complete text underlay.
 						</p>
-						<a href="#" class="text-link">Past announcements&gt;</a>
+						<p>
+							<a href="https://www.facebook.com/JosquinResearchProject" target=_new class="text-link">more on Facebook&gt;</a>
+						</p>
 					</article>	 <!-- news -->
 				</section> <!-- news -->
 			</aside>
 			<section id="primary-content">
-				<h2 class="sample-title">
-					<a href="#" class="sw">Sample Work: <span  class="text-link"> Anonymous, À cheval (Escorial B)</span></a>
-					<a href="#" class="play">mp3</a>
-				</h2>
-				<div class="music-area"><img src="images/music-area.jpg" alt="music placeholder"></div> <!-- music area -->
-				<section id="recenty-added">
+				<section id="sample-music">
+					<div style="height:230px"></div>
+<!--
+					<h2 class="sample-title">
+						<a href="#" class="sw">Sample Work: <span  class="text-link"> Anonymous, À cheval (Escorial B)</span></a>
+						<a href="#" class="play">mp3</a>
+					</h2>
+					<div class="music-area"><img src="images/music-area.jpg" alt="music placeholder"></div>
+-->
+				</section>
+				<section id="recently-added">
 					<h2 class="blue-bar">
 						recently added
 					</h2>
-					<p class="text-brown">Click the title of any piece for work-specific search and analysis tools.</p>
+					<p class="text-brown" style="letter-spacing:0.5px;">Click the title of any piece for work-specific search and analysis tools.</p>
+
+					<div id="recently-added-table">
+<!--
 					<table>
 						<thead>
 							<tr>
@@ -75,8 +82,9 @@
 								<th>Voices</th>
 								<th>Scores</th>
 								<th>MP3</th>
-							</tr>                                                                                      
+							</tr>
 						</thead>
+
 						<tbody>
 							<tr>
 								<td>Anonymous</td>
@@ -138,17 +146,16 @@
 							</tr>
 						</tbody>
 					</table>
+-->
+					</div> <!-- recently-added-table -->
 				</section> <!-- recently-added -->
+
 			</section> <!-- primary-content -->
 		</section> <!-- content -->
 	<!--#include virtual="/includes/footer-main.html" -->
 	</div> <!-- page -->
-	<!-- scripts -->
-	<script type="text/javascript" src="/scripts/jquery.js"></script>
-	<script type="text/javascript" src="/scripts/select2.js"></script>
-	<script type="text/javascript" src="/scripts/jquery.ezmark.min.js"></script>
-	<script type="text/javascript" src="/scripts/scripts.js"></script>
-	<script type="text/javascript" src="/scripts/placeholders.min.js"></script>	
+	<!--#include virtual="/includes/scripts.html" -->
+	<!--#include virtual="scripts-local.html" -->
 
 </body>
 </html>

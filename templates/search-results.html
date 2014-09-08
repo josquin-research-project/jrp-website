@@ -1,34 +1,14 @@
 <!doctype html>
 <html lang="en">	           
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=1010"/>
-	<title>The Josquin Research Project</title>
-	<!-- styles -->
-	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Lusitana:400,700' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
-	<link rel="stylesheet" type="text/css" href="css/style.css" />
-	<!--[if lte IE 9]>
-		<link rel="stylesheet" type="text/css" href="css/ie9.css" />
-	<![endif]-->
-
+	<title>JRP Search Results</title>
+	<!--#include virtual="/includes/usual-head-contents.html" -->
 </head>
 
 
 <body>
 	<div class="page container">
-		<header class="simple">
-			<nav id="primary-nav">
-				<ul>
-					<li class="logo"><a href="#"><img src="images/logo-small.jpg" alt="Josquin Research Project"></a></li>
-					<li><a href="#">Home</a></li>
-					<li  class="active"><a href="#">Browse</a></li>
-					<li><a href="#">Search/Analysis</a></li>
-					<li><a href="#">About JRP</a></li>                             
-				</ul>
-			</nav> <!-- primary-nav -->
-		</header>
+		<!--#include virtual="/includes/header-generic.html" -->
 		<section id="content">
 			<aside class="search-filter">
 				<section id="search">
@@ -50,23 +30,23 @@
 						<div class="form-group">
 							<select id="composers" data-placeholder="All Composers">
 								<option label="default">All Composers</option>
-								<option value="option1">option 1</option>
-								<option value="option2">option2</option>
+								<!--#include virtual="/includes/select-repertories.html" -->
 							</select>
 						</div> <!-- form-group -->
 						<div class="form-group">
-							<select id="generes" data-placeholder="All Genre">
-								<option label="default">All Genre</option>
-								<option value="option1">option 1</option>
-								<option value="option2">option2</option>
+							<select id="generes" data-placeholder="All Genres">
+								<option label="default">All Genres</option>
+								<!--#include virtual="/includes/select-repertories.html" -->
 							</select>
 						</div> <!-- form-group -->
 						<div class="form-group">
+<!--
 							<select id="voices" data-placeholder="All Mensurations">
 								<option label="default">All Mensurations</option>
 								<option value="option1">option 1</option>
 								<option value="option2">option2</option>
 							</select>
+-->
 						</div> <!-- form-group -->
 						<div class="form-group checkbox-small">
 							<label><input type="checkbox"> Editorial Accidentals</label>
@@ -116,11 +96,12 @@
 						<li><a href="#">view all</a></li>
 					</ul>
 				</div>
+
 				<table class="search-results-table">
 					<thead>
 						<tr>
 							<th class="sortable"><a href="#">Match Locations </a></th>
-							<th class="sortable  active"><a href="#">Composer</a></th>
+							<th class="sortable active"><a href="#">Composer</a></th>
 							<th class="sortable"><a href="#">Title</a></th>
 							<th>Voices</th>
 							<th>Scores</th>
@@ -128,6 +109,7 @@
 						</tr>
 					</thead>
 					<tbody>
+
 						<tr>
 							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
 							<td>Anonymous</td>
@@ -142,7 +124,7 @@
 
 						<tr>
 							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
-							<td>Anonymousss</td>
+							<td>Anonymous</td>
 							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
 							<td>3</td>
 							<td>
@@ -190,7 +172,7 @@
 
 						<tr>
 							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
-							<td>Anonymousss</td>
+							<td>Anonymous</td>
 							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
 							<td>3</td>
 							<td>
@@ -238,7 +220,7 @@
 
 						<tr>
 							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
-							<td>Anonymousss</td>
+							<td>Anonymous</td>
 							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
 							<td>3</td>
 							<td>
@@ -286,7 +268,7 @@
 
 						<tr>
 							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
-							<td>Anonymousss</td>
+							<td>Anonymous</td>
 							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
 							<td>3</td>
 							<td>
@@ -334,7 +316,7 @@
 
 						<tr>
 							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
-							<td>Anonymousss</td>
+							<td>Anonymous</td>
 							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
 							<td>3</td>
 							<td>
@@ -444,8 +426,10 @@
 							</td>
 							<td><a href="#" class="play">play</a></td>
 						</tr>
+
 					</tbody>
 				</table>
+
 				<div class="pagination">
 					<ul>
 						<li class="active"><a href="#">&lt;</a></li>
@@ -472,12 +456,7 @@
 			</nav> <!-- secondary-nav -->
 		</footer>
 	</div> <!-- page -->
-	<!-- scripts -->
-	<script type="text/javascript" src="scripts/jquery.js"></script>
-	<script type="text/javascript" src="scripts/select2.js"></script>
-	<script type="text/javascript" src="scripts/jquery.ezmark.min.js"></script>
-	<script type="text/javascript" src="scripts/scripts.js"></script>
-	<script type="text/javascript" src="scripts/placeholders.min.js"></script>
-	
+	<!--#include virtual="/includes/scripts.html" -->
 </body>
 </html>
+<!-- vim: set ts=2 nowrap: -->

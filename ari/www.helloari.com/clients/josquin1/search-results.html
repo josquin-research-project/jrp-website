@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">	           
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=1010"/>
+	<title>The Josquin Research Project</title>
+	<!-- styles -->
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lusitana:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<!--[if lte IE 9]>
+		<link rel="stylesheet" type="text/css" href="css/ie9.css" />
+	<![endif]-->
+
+</head>
+
+
+<body>
+	<div class="page container">
+		<header class="simple">
+			<nav id="primary-nav">
+				<ul>
+					<li class="logo"><a href="#"><img src="images/logo-small.jpg" alt="Josquin Research Project"></a></li>
+					<li><a href="#">Home</a></li>
+					<li  class="active"><a href="#">Browse</a></li>
+					<li><a href="#">Search/Analysis</a></li>
+					<li><a href="#">About JRP</a></li>                             
+				</ul>
+			</nav> <!-- primary-nav -->
+		</header>
+		<section id="content">
+			<aside class="search-filter">
+				<section id="search">
+					<h2 class="blue-bar">Search <span class="info">info</span></h2>
+					<form action="#">
+						<div class="form-group radio-wrap">
+							<label><input type="radio" name="work" checked>All Works</label>
+							<label><input type="radio" name="work">Refine Results</label>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Enter Pitch">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Enter Interval">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Enter Rhythm">
+						</div>
+						<div class="form-group">
+							<select id="composers" data-placeholder="All Composers">
+								<option label="default">All Composers</option>
+								<option value="option1">option 1</option>
+								<option value="option2">option2</option>
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group">
+							<select id="generes" data-placeholder="All Genre">
+								<option label="default">All Genre</option>
+								<option value="option1">option 1</option>
+								<option value="option2">option2</option>
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group">
+							<select id="voices" data-placeholder="All Mensurations">
+								<option label="default">All Mensurations</option>
+								<option value="option1">option 1</option>
+								<option value="option2">option2</option>
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group checkbox-small">
+							<label><input type="checkbox"> Editorial Accidentals</label>
+						</div> <!-- form-group -->
+						
+						<div class="form-group text-center border-dotted">
+							<button type="submit" class="btn btn-brown btn-medium">Search</button>
+						</div> <!-- form-group -->
+					</form>
+				</section> <!-- search -->
+
+
+				<section id="tools">
+					<h2 class="blue-bar">ANALYSIS TOOLS <span class="info">info</span></h2>
+
+					<div class="form-group">
+						<label for="complete-repertory">All Works</label>
+						<select id="complete-repertory" data-placeholder="Complete Repertory">
+							<option label="default">Complete Repertory</option>
+							<option value="option1">option 1</option>
+							<option value="option2">option 2</option>
+						</select>
+					</div> <!-- form-group -->
+					<div class="form-group border-dotted">
+						<ul>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Activity <small>attacks per measure</small></span></a></li>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Parallel <small>parallel perfect intervals</small></span></a></li>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Rhythm <small>measure-long patterns</small></span></a></li>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Range</span></a></li>
+						</ul>
+					</div> <!-- form-group -->
+				</section> <!-- tools -->
+			</aside>
+
+			<div id="primary-content" class="search-results-content">
+				<h3 class="brown-border">Search Results   Pitch: A   Interval: 222  Rhythm: 1442</h3>
+				<div class="pagination">
+					<span class="grey">658 matches in 281 works/movements</span>
+					<ul>
+						<li class="active"><a href="#">&lt;</a></li>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">...</a></li>
+						<li><a href="#">10</a></li>
+						<li><a href="#">20</a></li>
+						<li><a href="#">&gt;</a></li>
+						<li><a href="#">view all</a></li>
+					</ul>
+				</div>
+				<table class="search-results-table">
+					<thead>
+						<tr>
+							<th>Match Locations </th>
+							<th>Composer</th>
+							<th>Title</th>
+							<th>Voices</th>
+							<th>Scores</th>
+							<th>MP3</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
+							<td>Anonymousss</td>
+							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
+							<td>3</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
+							<td>Anonymousss</td>
+							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
+							<td>3</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
+							<td>Anonymousss</td>
+							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
+							<td>3</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
+							<td>Anonymousss</td>
+							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
+							<td>3</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 5px"></span><span class="point point-green" style="top: 2px; right: 5px"></span></span> (2)</td>
+							<td>Anonymousss</td>
+							<td><A class="text-link">Sanctus Super iste puer magnus (Munich 3154)</A></td>
+							<td>3</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (2)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+						<tr>
+							<td><span class="location"><span class="point" style="top: 4px; left: 29px"></span><span class="point point-blue" style="top: 2px; right: 22px"></span></span> (1)</td>
+							<td>Anonymous</td>
+							<td><A class="text-link">Fama malum (Brussels 228)</A></td>
+							<td>4</td>
+							<td>
+								<a href="#" class="file">file</a>
+								<a href="#" class="file-ed">Ed.</a>
+							</td>
+							<td><a href="#" class="play">play</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="pagination">
+					<ul>
+						<li class="active"><a href="#">&lt;</a></li>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">...</a></li>
+						<li><a href="#">10</a></li>
+						<li><a href="#">20</a></li>
+						<li><a href="#">&gt;</a></li>
+						<li><a href="#">view all</a></li>
+					</ul>
+				</div>
+			</div>
+			
+		</section> <!-- content -->
+		<footer>
+			<nav class="secondary-nav">
+				<ul>
+					<li class="logo"><a href="#">Josquin Research Project</a></li>
+					<li><a href="#">Feedback</a></li>
+					<li><a href="#">Under the Hood</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav> <!-- secondary-nav -->
+		</footer>
+	</div> <!-- page -->
+	<!-- scripts -->
+	<script type="text/javascript" src="scripts/jquery.js"></script>
+	<script type="text/javascript" src="scripts/select2.js"></script>
+	<script type="text/javascript" src="scripts/jquery.ezmark.min.js"></script>
+	<script type="text/javascript" src="scripts/scripts.js"></script>
+	<script type="text/javascript" src="scripts/placeholders.min.js"></script>
+	
+</body>
+</html>

@@ -1,0 +1,50 @@
+#!/usr/bin/perl
+
+use strict;
+
+foreach my $file (@ARGV) {
+   die "Cannot read file: $file" if !-r $file;
+   convertFile($file);
+}
+
+exit(0);
+
+
+##############################
+##
+## convertFile --
+##
+
+sub convertFile {
+   my ($file) = @_;
+
+   if ($file !~ /(.*)\.([^\.]+)/) {
+      return;
+   }
+
+   my $base = $1;
+   my $ext  = $2;
+
+   my $prefix1 = "<img src=\"data:image/";
+   my $prefix3 = ";base64,";
+   my $postfix = "\">";
+
+   my $prefix2 = "";
+
+   if ($ext =~ /jpg/i) {
+      $prefix2 = "jpeg";
+   } elsif ($ext =~ /png/i) {
+      $prefix2 = "png";
+   } else {
+      return;
+   }
+
+   my $data = `base64 -w 0 $file`;
+ 
+   open (FILE, ">$base.base64") or die "Cannot write $base.base64";
+   print FILE "$prefix1$prefix2$prefix3$data$postfix";
+   close FILE;
+}
+
+
+

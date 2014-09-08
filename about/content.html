@@ -1,115 +1,305 @@
 
 <article class="about">
 	<h2 class="brown-heading">About the Josquin Research Project</h2>
-	<p>
-		The Josquin Research Project (JRP) offers digital tools for accessing and analyzing music from ca. 1420-1520. Formed by Jesse Rodin in 2010 at Stanford University, the JRP hosts an ever-expanding database of scores that is fully searchable and browsable in a user-friendly format. Users can search the database by entering any string of pitches, interval successions, and/or rhythms. The JRP also offers a growing menu of analytical tools with which to approach both individual pieces and the repertory as a whole. These include:
-	</p>
-	<ul>
-		<li class="hanging-indent">
-			<strong>Range.</strong> Displays the total range of each voice in a given composition, along with a graph showing information about the relative frequency of each note.
-		</li>
-		<li class="hanging-indent">
-			<strong>Parallels.</strong> Highlights all parallel unisons, fifths, and octaves in a single composition or the entire repertory.
-		</li>
-		<li class="hanging-indent">
-			<strong>Rhythm.</strong> Displays every breve-long rhythmic pattern in a single piece or the repertory as a whole.
-		</li>
-		<li class="hanging-indent">
-			<strong>Dissonance.</strong> Highlights all dissonances in any complete score.
-		</li>
-		<li class="hanging-indent">
-			<strong>Piano roll.</strong> Displays any score as a simple graph, with each voice represented by a distinct color.
-		</li>
-		<li class="hanging-indent">
-			<strong>Activity Plot.</strong> Graphs the number of note attacks per measure in any composition.
-		</li>
-	</ul>
+
+<p>
+The Josquin Research Project (JRP) changes what it means to engage with
+Renaissance music.  Our open-access website not only hosts an ever-growing
+collection of complete scores, but for the first time makes the music
+fully searchable: in a few clicks you can identify every instance of a
+given melodic and/or rhythmic pattern. The JRP also provides analytical
+tools that can be used to gain insight into individual works, the style of
+a given composer, or the musical lingua franca. The goal of the project
+is to facilitate a new kind of <i>knowing</i> that brings "big data" into
+conversation with traditional analytical methods.
+</p>
+
 </article>
 
+
+
 <article class="about">
-	<h3 class="brown-border">Project Team</h3>
-	<ul>
-		<li><strong>Jesse Rodin</strong>, Director | jrodin at stanford.edu</li>
-		<li><strong>Craig Stuart Sapp</strong>, Technical Director | craigsapp at stanford.edu</li>
-		<li><strong>Clare Robinson</strong>, Team Leader | clarer at stanford.edu</li>
-	</ul>
-	<p>
-		The JRP is also staffed by a team of undergraduate and graduate students at Stanford University and other institutions.
-	</p>
+	<h3 class="brown-border">FAQ</h3>
+
+<p style="margin-bottom:-16px;">
+<i><b>Why the “Josquin Research Project”?</b></i>
+</p>
+
+<p>
+Formed by Jesse Rodin in 2010, the JRP was provided funding to confront a
+well-known scholarly problem: of roughly 340 works attributed to Josquin
+des Prez, only a fraction are securely attributed. As an initial goal, we
+sought to digitize all these works to enable comparative analysis. Drawing
+on a <a class="text-link" target="_new" href=http://www.worldcat.org/oclc/26188059>foundational essay</a>
+by Joshua Rifkin, we chose the name "Josquin Research Project" in
+emulation of the <a class="text-link" target="_new" href=http://www.rembrandtresearchproject.org>Rembrandt
+Research Project</a>, which is similarly interested in questions
+of attribution.
+</p>
+
+<p style="margin-top:-8px;">
+Shortly after beginning our work, we came to see how much more
+this project could accomplish. While we continue to be interested in
+attributive research, we now pose a range of questions aimed at discerning
+relationships among pieces, composers, genres, even whole periods. By
+way of example: How does style change over time? What separates a song
+from a mass? What really makes one composer different from another?
+</p>
+
+<p style="margin-bottom:-16px;">
+<i><b>What is your process for putting music online?</b></i>
+</p>
+
+<p>
+<ol style="margin-left:0;">
+
+<li>	Starting with a reference score (usually a published edition),
+we enter music using the notation software Finale, then tag items such
+as mensuration signs and section headings.
+
+<li>	Rodin reviews each file by listening to it twice: once while
+viewing it in Finale, another time while reading along with the reference
+score. (During this process he adjusts editorial accidentals.) He then
+exports the file into Music XML.
+
+<li>	Sapp translates the MusicXML data into Humdrum syntax, which is
+used to create search indexes, analyze the music, and generate graphical
+scores for display on the JRP website.
+
+<li>	Rodin checks the online version for errors.  
+</ol>
+</p>
+
+<p style="margin-top:-18px;"> If you find a mistake, please visit the relevant Work page and submit an 
+<a class="text-link" href="/error">error report</a>.
+</p>
+
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>How good is your data?</b></i>
+</p>
+
+<p>
+We pride ourselves on presenting extremely high-quality data. Not only
+do we choose our reference scores with care, but we also go out of our
+way to remove what we consider to be unhelpful features of some modern
+editions (e.g., quixotic barring). When we transcribe, we enter the
+music voice-by-voice in real time; listening to how each newly added
+voice fits with the others helps prevent errors. Equally important is the
+threefold review process undertaken by the project director (see above).
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>Why do JRP editions use original note values and mensuration signs?</b></i>
+</p>
+
+<p>
+We believe modern editions should facilitate comparison with original
+sources. We also want users to be able to compare works across composers,
+genres, and time periods without having to adjust for different editorial
+policies.
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>Why doesn’t the JRP encode variant readings or text underlay?</b></i>
+</p>
+
+<p>
+In an ideal world we would. Unfortunately doing so would take so much time
+that new works would be added at a snail’s pace. We therefore use modern
+editions as reference points for our transcriptions and, except in rare
+cases, encode only textual incipits. This points up an important aspect
+of the project: the JRP is above all a powerful finding aid and analytical
+tool. It is not intended to replace published critical editions.
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>Why don’t all JRP editions include editorial accidentals?</b></i>
+</p>
+
+<p>
+Rifkin has argued that editorial accidentals, while <i>implicit</i> in the
+sources that have come down to us, are not strictly speaking <i>part of</i>
+the musical texts. They belong instead to the realm of realization:
+it is up to the singer to decide between what we today would call <i>f</i> and
+<i>f#</i><!--&#9839;-->. For all of this, we recognize that many people find editorial
+accidentals helpful. The JRP therefore offers two versions of each score:
+one free of editorial accidentals, another that displays accidentals
+that have been added by the project director. (The latter underpins our
+MIDI files; for practical reasons, decisions about which accidentals to
+include cannot be weighed with great care.) All JRP analyses depend on
+the version of the score without editorial accidentals.
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>Why does the JRP use unconventional Latin spellings (e.g., "celi")?</b></i>
+</p>
+<p>
+For the sake of transparency, we generally adopt the spellings used in the 
+surviving musical sources.
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>How do I know what edition the JRP has used as a reference for a given work?</b></i>
+</p>
+
+<p>
+We plan to implement a display of this information soon on each Work
+page. While we generally rely on Complete Works editions and other
+scholarly editions, we routinely make changes in order to remove barriers
+to a transparent representation of the original notation. For the same
+reason, we sometimes also consult original manuscript and print sources.
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>I’m working on repertoire that I want to see on the JRP site. How can I help make this happen?</b></i>
+</p>
+
+<p>
+Volunteer to transcribe for us! We’ll need you to "tag" your
+Finale files for use by the JRP; to that end we can make available a
+series of straightforward instructional videos. (By way of example,
+the first section of a Kyrie must be labeled: "Section: Kyrie I.")
+</p>
+
+
+
+<p style="margin-bottom:-16px;">
+<i><b>What if this repertoire falls outside the JRP’s chronological range (ca. 1420–1520)?</b></i>
+</p>
+
+<p>
+We would still be happy to consider it. (We already host some
+mid-sixteenth-century music in the form of motets posthumously attributed
+to Josquin.)
+</p>
+
+
+<p style="margin-bottom:-16px;">
+<i><b>What are the project’s funding sources?</b></i>
+</p>
+
+<p>
+The JRP has received funding from the American Council of Learned
+Societies and from Stanford University, with in-kind support from the
+Center for Computer Assisted Research in the Humanities
+(<a class="text-link" target="_new" href=http://ccarh.stanford.edu>CCARH</a>).
+</p>
+
+
+<p style="margin-bottom:-16px;">
+<i><b>How can I contribute?</b></i>
+</p>
+
+<p>
+
+The JRP is constantly developing new tools and expanding our
+database of scores. To make a tax-free donation through Stanford
+University, enter "Josquin Research Project" in the "Special
+instructions/Other designation" field <a class="text-link" target="_new"
+href=https://alumni.stanford.edu/get/page/makeagift?indexredir=r>here</a>.
+We also welcome donations of data and time.  Occasionally we are able
+to hire paid employees.
+
+
+<p style="margin-bottom:-16px;">
+<i><b>Something isn’t working/could work better. What can I do?</b></i>
+</p>
+
+<p>
+<a class="text-link" href=/contact>Let us know</a>.  We are committed to addressing problems and answering questions.
+</p>
+
+
 </article>
+
+
+
 
 <article class="about board">
-	<h3 class="brown-border">Advisory Board</h3>
-	<ul>
-		<li>Anna Maria Busse Berger (University of California, Davis) </li>
-		<li>Mauro Calcagno (University of Pennsylvania) </li>
-		<li>Michael Scott Cuthbert (Massachusetts Institute of Technology) </li>
-		<li>Theodor Dumitrescu (Berkeley, CA) </li>
-		<li>David Fallows (Emeritus Professor, University of Manchester) </li>
-		<li>Fabrice Fitch (Royal Northern College of Music) </li>
-		<li>Sean Gallagher (Boston University) </li>
-		<li>Nori Jacoby (Bar-Ilan University) </li>
-		<li>Thomas Forrest Kelly (Harvard University) </li>
-		<li>Youngmoo Kim (Drexel University) </li>
-		<li>Andrea Lindmayr-Brandl (University of Salzburg)</li>
-		<li>Birgit Lodes (University of Vienna) </li>
-		<li>Patrick Macey (Eastman School of Music, University of Rochester) </li>
-		<li>Honey Meconi (University of Rochester) </li>
-		<li>Alejandro Enrique Planchart (Emeritus Professor, University of California, Santa Barbara) </li>
-		<li>Richard Sherr (Smith College) </li>
-		<li>Peter Urquhart (University of New Hampshire) </li>
-		<li>Ge Wang (Stanford University)</li>
-	</ul>
+
+<h3 class="brown-border">People</h3>
+
+<p style="margin-bottom:0;">
+<b>Directors</b>
+</p>
+
+<ul style="margin-top:8px;">
+<li> Jesse Rodin, Project Director	(jrodin &#120250;&#120269; stanford.edu)
+<li> Craig Stuart Sapp, Technical Director (craigsapp &#120250;&#120269; stanford.edu)
+<li> Clare Bokulich, Team Leader (clarer &#120250;&#120269; stanford.edu)
+</ul>
+
+
+
+
+<p style="margin-bottom:0;">
+<b>Advisory Board</b>
+</p>
+
+<ul style="margin-top:8px;">
+
+<li>Anna Maria Busse Berger (University of California, Davis) </li>
+<li>Mauro Calcagno (University of Pennsylvania) </li>
+<li>Michael Scott Cuthbert (Massachusetts Institute of Technology) </li>
+<li>Theodor Dumitrescu (Berkeley, CA) </li>
+<li>David Fallows (Professor Emeritus, University of Manchester) </li>
+<li>Fabrice Fitch (Royal Northern College of Music) </li>
+<li>Sean Gallagher (New England Conservatory) </li>
+<li>Nori Jacoby (Bar-Ilan University) </li>
+<li>Thomas Forrest Kelly (Harvard University) </li>
+<li>Youngmoo Kim (Drexel University) </li>
+<li>Andrea Lindmayr-Brandl (University of Salzburg) </li>
+<li>Birgit Lodes (University of Vienna) </li>
+<li>Patrick Macey (Eastman School of Music, University of Rochester) </li>
+<li>Honey Meconi (University of Rochester) </li>
+<li>Alejandro Enrique Planchart (Professor Emeritus, University of California, Santa Barbara) </li>
+<li>Richard Sherr (Smith College) </li>
+<li>Peter Urquhart (University of New Hampshire) </li>
+<li>Ge Wang (Stanford University)</li>
+
+</ul>
+
+
 </article>
+
+
+
+
 
 <article class="about">
-	<h3 class="brown-border">Sponsors</h3>
-	<p>
-		Startup funding for the Josquin Research Project came from a Stanford University Hellman Faculty Scholar Fund grant in 2010. In 2012 Rodin and the JRP were awarded a <a href="https://www.acls.org/news/3-19-2012" class="text-link">Digital Innovation Fellowship</a> from the American Council of Learned Societies.
-	</p>
+<h3 class="brown-border">Thank Yous</h3>
+
+<p>
+
+We are grateful to the members of our Advisory Board and to Julie Cumming,
+Richard Freedman, and Joshua Rifkin for their feedback.  Thanks also to
+those who have donated data:
+
+<ul>
+<li> Andrea Lindmayr-Brandl and Agnese Pavanello (music by Gaspar van Weerbeke)</li>
+<li> Theodor Dumitrescu (several dozen works attributed to Josquin)</li>
+<li> Alejandro Enrique Planchart (complete works of Guillaume Du Fay)</li>
+<li> Rob C. Wegman (a large corpus of masses, 1440&ndash;1520)</li>
+</ul>
+
+</p>
+
+
 </article>
-
-<article class="about">
-	<h3 class="brown-border">Thank You</h3>
-	<p>
-		We are grateful to the members of our Advisory Board and to Joshua Rifkin, Julie Cumming, and Richard Freedman for their feedback and collaboration. Thanks also to those who have donated high-quality data:
-	</p>
-	<ul class="grey-list">
-		<li>
-			<div class="pl">
-				Andrea Lindmayr-Brandl and Agnese Pavanello, editors of Gaspar van Weerbeke, Collected Works
-			</div>
-			<div class="pr">
-				Motets by Gaspar
-			</div>
-		</li>
-
-		<li>
-			<div class="pl">
-				Theodor Dumitrescu, editor of <a href="http://www.cmme.org/database/projects/14" class="text-link">The Other Josquin</a>
-			</div>
-			<div class="pr">
-				Several dozen works attributed to Josquin
-			</div>
-		</li>
-
-		<li>
-			<div class="pl">
-				Alejandro Planchart, editor of the online <a href="http://planchart.github.io" class="text-link">Du Fay Opera Omnia</a>
-			</div>
-			<div class="pr">
-				Complete works of Guillaume Du Fay
-			</div>
-		</li>
-
-		<li>
-			<div class="pl">
-				Rob Wegman, curator of the website <a href="#" class="text-link">Renaissance Masses, 1440-1520</a>
-			</div>
-			<div class="pr">
-				Large database of mass music
-			</div>
-		</li>
-	</ul>
-</article>
-
+<!-- vim: set ts=2: -->

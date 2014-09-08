@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">	           
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=1010"/>
+	<title>The Josquin Research Project</title>
+	<!-- styles -->
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lusitana:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	<!--[if lte IE 9]>
+		<link rel="stylesheet" type="text/css" href="css/ie9.css" />
+	<![endif]-->
+	
+</head>
+
+
+<body>
+	<div class="page container">
+		<header class="simple">
+			<nav id="primary-nav">
+				<ul>
+					<li class="logo"><a href="#"><img src="images/logo-small.jpg" alt="Josquin Research Project"></a></li>
+					<li><a href="#">Home</a></li>
+					<li  class="active"><a href="#">Browse</a></li>
+					<li><a href="#">Search/Analysis</a></li>
+					<li><a href="#">About JRP</a></li>                             
+				</ul>
+			</nav> <!-- primary-nav -->
+		</header>
+		<section id="content">
+			<aside class="search-filter">
+				<section id="search">
+					<h2 class="blue-bar">Search <span class="info">info</span></h2>
+					<form action="#">
+						<div class="form-group radio-wrap">
+							<label><input type="radio" name="work" checked>All Works</label>
+							<label><input type="radio" name="work">Refine Results</label>
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Enter Pitch">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Enter Interval">
+						</div>
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Enter Rhythm">
+						</div>
+						<div class="form-group">
+							<select id="composers" data-placeholder="All Composers">
+								<option label="default">All Composers</option>
+								<option value="option1">option 1</option>
+								<option value="option2">option2</option>
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group">
+							<select id="generes" data-placeholder="All Genre">
+								<option label="default">All Genre</option>
+								<option value="option1">option 1</option>
+								<option value="option2">option2</option>
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group">
+							<select id="voices" data-placeholder="All Mensurations">
+								<option label="default">All Mensurations</option>
+								<option value="option1">option 1</option>
+								<option value="option2">option2</option>
+							</select>
+						</div> <!-- form-group -->
+						<div class="form-group checkbox-small">
+							<label><input type="checkbox"> Editorial Accidentals</label>
+						</div> <!-- form-group -->
+						
+						<div class="form-group text-center border-dotted">
+							<button type="submit" class="btn btn-brown btn-medium">Search</button>
+						</div> <!-- form-group -->
+					</form>
+				</section> <!-- search -->
+
+
+				<section id="tools">
+					<h2 class="blue-bar">ANALYSIS TOOLS <span class="info">info</span></h2>
+
+					<div class="form-group">
+						<label for="complete-repertory">All Works</label>
+						<select id="complete-repertory" data-placeholder="Complete Repertory">
+							<option label="default">Complete Repertory</option>
+							<option value="option1">option 1</option>
+							<option value="option2">option 2</option>
+						</select>
+					</div> <!-- form-group -->
+					<div class="form-group border-dotted">
+						<ul>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Activity <small>attacks per measure</small></span></a></li>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Parallel <small>parallel perfect intervals</small></span></a></li>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Rhythm <small>measure-long patterns</small></span></a></li>
+							<li><a href="#" class="btn btn-brown btn-medium"><span>Range</span></a></li>
+						</ul>
+					</div> <!-- form-group -->
+				</section> <!-- tools -->
+			</aside>
+
+			<div id="primary-content" class="work-content">
+				<div id="breadcrumbs">
+					<ul>
+						<li><a href="#">Search Results </a></li>
+						<li>À cheval (Escorial B)</li>		
+					</ul>
+				</div> <!-- breadcrumbs -->
+
+				<div class="title">
+				<h2>No. CH-3002</h2>
+					<ul>
+						<li><a class="file-orange" href="#">Score</a></li>
+						<li><a class="file-ed-orange" href="#">Score w/ed. accidentals</a></li>
+						<li><a class="mp3" href="#">MP3</a></li>
+					</ul>
+				</div>
+				<div class="music-area"><img src="images/music-area.jpg" alt="music placeholder"></div> <!-- music area -->
+				<div class="vocal-ranges">
+					<h3 class="brown-border">Vocal Ranges</h3>
+					<a href="#" class="orange-text">mouse-over to see counts</a>
+					<a class="vocal-wrap" href="#"><img src="images/vocal.png" alt="vocal-placeholder"></a>
+				</div> <!-- vocal-ranges -->
+				<div class="downloads">
+					<h3 class="brown-border">Downloads</h3>
+					<div class="col first-col">
+						<ul>
+							<li><a class="icon-file" href="#">PDF score</a></li>
+							<li><a class="icon-file-ed" href="#">PDF score w/edits</a></li>
+							<li><a class="icon-midi" href="#">MIDI</a></li>
+						</ul>
+					</div> <!-- col -->
+
+					<div class="col">
+						<ul>
+							<li><a class="icon-file-list" href="#">Humdrum</a></li>
+							<li><a class="icon-list" href="#">MuseData</a></li>
+							<li><a class="icon-list" href="#">NoteArray</a></li>
+						</ul>
+					</div> <!-- col -->
+
+					<div class="col">
+						<ul>
+							<li><a class="icon-file-list" href="#">MusicXML</a></li>
+							<li><a class="icon-list" href="#">MEI</a></li>
+							<li><a class="icon-list" href="#">MP3</a></li>
+						</ul>
+					</div> <!-- col -->
+				</div>  <!-- downloads -->
+				<div class="text-right">
+					<a href="#" class="btn btn-brown">Report an error for this work</a>
+				</div> <!-- text-right -->
+			</div>
+			
+		</section> <!-- content -->
+		<footer>
+			<nav class="secondary-nav">
+				<ul>
+					<li class="logo"><a href="#">Josquin Research Project</a></li>
+					<li><a href="#">Feedback</a></li>
+					<li><a href="#">Under the Hood</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav> <!-- secondary-nav -->
+		</footer>
+	</div> <!-- page -->
+	<!-- scripts -->
+	<script type="text/javascript" src="scripts/jquery.js"></script>
+	<script type="text/javascript" src="scripts/select2.js"></script>
+	<script type="text/javascript" src="scripts/jquery.ezmark.min.js"></script>
+	<script type="text/javascript" src="scripts/scripts.js"></script>
+	<script type="text/javascript" src="scripts/placeholders.min.js"></script>	
+</body>
+</html>

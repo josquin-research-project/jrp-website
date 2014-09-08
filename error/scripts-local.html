@@ -1,0 +1,80 @@
+<script type="text/javascript">
+
+errorFormDisplay();
+
+
+
+//////////////////////////////
+//
+// readFile -- Download URL content which is returned as a string.
+//      The URL must be on the same domain as index.html due to
+//      JavaScript Same-Origin policy:
+//         http://en.wikipedia.org/wiki/Same-origin_policy
+//
+
+function readFile(url) {
+   var xmlHttp = null;
+   xmlHttp = new XMLHttpRequest();
+   xmlHttp.open('GET', url, false);
+   xmlHttp.send(null);
+   var string = xmlHttp.responseText;
+   if ((string.length < 1000) && string.match(/Not Found/)) {
+      return '';
+   } else {
+      return xmlHttp.responseText;
+   }
+}
+
+
+
+//////////////////////////////
+//
+// errorFormDisplay -- display works of one or more composer.
+//
+
+function errorFormDisplay() {
+   var maincontent = document.getElementById('content');
+   var CgiParameters = getCgiParameters();
+   var jrpid = CgiParameters['id'];
+   if (jrpid != '') {
+      maincontent.innerHTML = readFile('/data?action=errorformraw&error_catalog=' + jrpid);
+   } else {
+      maincontent.innerHTML = "Cannot access form without catalog number.";
+   }
+   
+}
+
+
+
+//////////////////////////////
+//
+// getCgiParameters -- Returns an associative array containing the
+//     page's URL's CGI parameters
+//
+
+function getCgiParameters() {
+   var url = window.location.search.substring(1);
+   var output = {};
+   var settings = url.split('&');
+   for (var i=0; i<settings.length; i++) {
+      var pair = settings[i].split('=');
+      pair[0] = decodeURIComponent(pair[0]);
+      pair[1] = decodeURIComponent(pair[1]);
+      if (typeof output[pair[0]] === 'undefined') {
+         output[pair[0]] = pair[1];
+      } else if (typeof output[pair[0]] === 'string') {
+         var arr = [ output[pair[0]], pair[1] ];
+         output[pair[0]] = arr;
+      } else {
+         output[pair[0]].push(pair[1]);
+      }
+   }
+   return output;
+}
+
+
+
+
+</script>
+
+

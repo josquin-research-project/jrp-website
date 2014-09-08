@@ -2,17 +2,20 @@
 	<nav id="primary-nav">
 		<ul>
 			<li class="active"><a name="Home">Home</a></li>
-			<li><a href="/browse">Browse</a></li>
-			<li><a href="/search">Search/Analysis</a></li>
-			<li><a href="/about">About JRP</a></li>                             
+			<li><a href="/browse?home=true">Browse</a></li>
+			<li><a onclick="sessionStorage.SEARCHLIST='';" href="/search">Search/Analysis</a></li>
+			<li><a href="/about">About</a></li>                             
 		</ul>
 	</nav> <!-- primary-nav -->
 	<div id="banner">
-		<a name="" class="logo"><img src="/images/logo.png" alt="Josquin Research Project"></a>
+		<a id="IMAGE_logo" name="" class="logo">
+		<!--#include virtual="/images/logo.base64" -->
+		</a>
+
 		<div class="descr">
 			<h1>The Josquin Research Project</h1>
 			<p>
-				Search, browse, and analyze complete scores of polyphonic music from ca. 1420 to ca. 1520.
+				<span style="word-spacing:0.0px; letter-spacing:-.5px;">Search, browse, and analyze complete scores</span><br><span style="letter-spacing:0.3px;">of polyphonic music, ca. 1420&ndash;ca. 1520</span>
 			</p>
 		</div> <!-- descr -->
 	</div> <!-- banner -->
