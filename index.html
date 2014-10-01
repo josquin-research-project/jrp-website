@@ -9,149 +9,72 @@
 
 
 <body>
+	<audio id="audio"></audio>
 	<div class="page container" id="home-page">
 		<!--#include virtual="/includes/header-main.html" -->
 		<section id="content">
+
 			<aside>
+
 				<!-- form action="browse.html" class="quick-browse"-->
 				<!form method="get" action="/browse" class="quick-browse">
 				<form class="quick-browse">
-					<a style="text-decoration:none;" onclick="clearBrowseFields(); localStorage.BROWSEhome='false';" href="/browse"><h2 class="blue-bar">quick browse</h2></a>
+					<a style="text-decoration:none;" onclick="clearBrowseFields(); localStorage.BROWSEhome='false';" href="/browse"><h2 style="width:316px;" class="blue-bar">quick browse</h2></a>
 					<div class="form-body">
 
-						<div class="form-group">
-							<select name="c" id="composers">
-								<option value="" label="all">All Composers</option>
-								<!--#include virtual="/includes/select-repertories.html" -->
-							</select>
-						</div> <!-- form-group -->
-
-						<div class="form-group">
-							<select name="g" id="genres">
-								<option value="" label="all">All Genres</option>
-								<!--#include virtual="/includes/select-genres.html" -->
-							</select>
-						</div> <!-- form-group -->
-
+						<div id="composers-select" class="form-group">
+							<div style="height:24px;"></div>
+						</div>
+						<div id="genres-select" class="form-group">
+							<div style="height:26px;"></div>
+						</div>
 						<div class="form-group">
 							<input id="titlebox" name="t" value="" type="text" class="form-control" placeholder="Enter Title">
 						</div>
 						<div class="form-group text-center">
-							<button onclick="return storeBrowseParameters();" type="" class="btn btn-brown">Browse</button>
+							<button style="width:110px;" onclick="return storeBrowseParameters();" type="" class="btn btn-brown">Browse</button>
 						</div> <!-- form-group -->
 
 					</div> <!-- form-body -->
 				</form> <!-- quick browse form -->
+
 				<section id="news">
 					<h3 class="grey-title">
 						JRP NEWS <small><span style="letter-spacing: 3.5px;"> and updates</span></small>
 					</h3>
 					<article class="news">
+
 						<p>
-							Du Fay lovers, take note: scores of all four late cyclic masses are <a class="text-link" href="/browse?c=Duf&g=mass">now available</a> with complete text underlay.
+JRP editions were used by 
+<a style="display:inline" target="new" href=http://cutcircle.org>Cut Circle</a> 
+in a 
+<a style="display:inline;" target="new" href="http://www.radio4.nl/luister-concerten/concerten/4696/avondconcert-musica-sacra-2014-" title="NPO Radio 4">recent performance</a>
+of Brumel’s twelve-voice 
+<a href="http://josquin.stanford.edu/work/?id=Bru1008" class="text-link">Earthquake Mass</a> (<a style="display:inline" href=http://www.musicasacramaastricht.nl target="new">Musica Sacra</a> festival, Maastricht, the Netherlands)
 						</p>
+
 						<p>
-							<a href="https://www.facebook.com/JosquinResearchProject" target=_new class="text-link">more on Facebook&gt;</a>
+Now available with complete text: all 
+<a class="text-link" style="display:inline" href="/browse?c=Duf&g=mass&t=">four late cyclic masses</a> 
+of Guillaume Du Fay.
 						</p>
-					</article>	 <!-- news -->
-				</section> <!-- news -->
-			</aside>
-			<section id="primary-content">
-				<section id="sample-music">
-					<div style="height:230px"></div>
-<!--
-					<h2 class="sample-title">
-						<a href="#" class="sw">Sample Work: <span  class="text-link"> Anonymous, À cheval (Escorial B)</span></a>
-						<a href="#" class="play">mp3</a>
-					</h2>
-					<div class="music-area"><img src="images/music-area.jpg" alt="music placeholder"></div>
--->
+
+						<p>
+							<a href="https://www.facebook.com/JosquinResearchProject" target="new" style="display:inline" class="text-link">more on Facebook&gt;</a>
+						</p>
+					</article>
 				</section>
+
+			</aside>
+
+			<section id="primary-content">
+				<section id="sample-music"></section>
 				<section id="recently-added">
-					<h2 class="blue-bar">
-						recently added
-					</h2>
-					<p class="text-brown" style="letter-spacing:0.5px;">Click the title of any piece for work-specific search and analysis tools.</p>
+					<div style="height:900px;"></div>
+				</section>
+			</section>
+		</section>
 
-					<div id="recently-added-table">
-<!--
-					<table>
-						<thead>
-							<tr>
-								<th>Title</th>
-								<th>Voices</th>
-								<th>Scores</th>
-								<th>MP3</th>
-							</tr>
-						</thead>
-
-						<tbody>
-							<tr>
-								<td>Anonymous</td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td><a href="#" class="text-link">Fama malum (Brussels 228) </a></td>
-								<td>4</td>
-								<td>
-									<a href="#" class="file">file</a>
-									<a href="#" class="file-ed">Ed.</a>
-								</td>
-								<td><a href="#" class="play">play</a></td>
-							</tr>
-							<tr>
-								<td><a href="#" class="text-link">Sanctus Super iste puer magnus (Munich 3154)   </a></td>
-								<td>3</td>
-								<td>
-									<a href="#" class="file">file</a>
-									<a href="#" class="file-ed">Ed.</a>
-								</td>
-								<td><a href="#" class="play">play</a></td>
-							</tr>
-
-							<tr>
-								<td>Antoine Busnoys</td>
-								<td></td>
-								<td></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td><a href="#" class="text-link">Anima mea liquefacta est/Stirips Jesse </a></td>
-								<td>5</td>
-								<td>
-									<a href="#" class="file">file</a>
-									<a href="#" class="file-ed">Ed.</a>
-								</td>
-								<td><a href="#" class="play">play</a></td>
-							</tr>
-							<tr>
-								<td><a href="#" class="text-link">Anthoni usque limina      </a></td>
-								<td>4</td>
-								<td>
-									<a href="#" class="file">file</a>
-									<a href="#" class="file-ed">Ed.</a>
-								</td>
-								<td><a href="#" class="play">play</a></td>
-							</tr>
-							<tr>
-								<td><a href="#" class="text-link">Chanter ne puis chieux la mynonne  </a></td>
-								<td>4</td>
-								<td>
-									<a href="#" class="file">file</a>
-									<a href="#" class="file-ed">Ed.</a>
-								</td>
-								<td><a href="#" class="play">play</a></td>
-							</tr>
-						</tbody>
-					</table>
--->
-					</div> <!-- recently-added-table -->
-				</section> <!-- recently-added -->
-
-			</section> <!-- primary-content -->
-		</section> <!-- content -->
 	<!--#include virtual="/includes/footer-main.html" -->
 	</div> <!-- page -->
 	<!--#include virtual="/includes/scripts.html" -->

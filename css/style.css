@@ -11,6 +11,13 @@ html {
   overflow-y: scroll;
 }
 
+a {
+  display: inline-block;
+  color: #0066cc;
+  font-size: 18px;
+  text-decoration: none;
+}
+
 /* http://webdesign.tutsplus.com/articles/quick-tip-styling-scrollbars-to-match-your-ui-design--webdesign-9430 */
 
 ::-webkit-scrollbar {
@@ -137,6 +144,12 @@ body {
   text-align: center;
 }
 
+.full-container {
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+}
+
 .form-control {
   display: block;
   border: 1px solid #bbbbbb;
@@ -158,6 +171,7 @@ body {
 .btn {
   display: inline-block;
   border: none;
+  text-align: center;
   padding: 10px 24px;
   font-family: "PT Sans", sans-serif;
 }
@@ -165,8 +179,9 @@ body {
   padding: 16px 58px;
 }
 .btn.btn-medium {
-  padding: 17px 50px;
+/*  padding: 17px 50px; */
 }
+
 .btn.btn-brown {
   font-family: "Lato", "sans-serif";
   font-size: 18px;
@@ -211,6 +226,17 @@ body {
   display: inline-block;
   text-indent: -19999px;
   background: url(../images/mp3.png) no-repeat 0 0;
+  width: 56px;
+  height: 27px;
+  margin-left: 15px;
+  position: relative;
+  top: 3px;
+}
+
+.pause {
+  display: inline-block;
+  text-indent: -19999px;
+  background: url(../images/mp3-pause.png) no-repeat 0 0;
   width: 56px;
   height: 27px;
   margin-left: 15px;
@@ -333,6 +359,21 @@ label {
 
 span.grey {
   color: #999999;
+  font-family: "Lato";
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.grey, .gray {
+  color: #999999;
+  font-family: "Lato";
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.passiveoption {
+  color: #ffffff;
+  background: #333333;
   font-family: "Lato";
   font-size: 14px;
   font-weight: 700;
@@ -1296,6 +1337,15 @@ h2.brown-heading {
   margin-bottom: 31px;
 }
 
+h3.brown-heading {
+  color: #d7ab5b;
+  font-family: "Lusitana", "serif";
+  font-size: 18px;
+  font-weight: 700;
+  padding-top: 18px;
+  margin-bottom: 12px;
+}
+
 h3.brown-border {
   font-size: 18px;
   color: #d8ab5c;
@@ -1648,6 +1698,14 @@ aside.search-filter #tools .form-group.border-dotted {
   top: 0;
 }
 
+#primary-content #recently-added table .pause {
+  width: 29px;
+  height: 28px;
+  background: url(../images/square-pause2.png) no-repeat 0 0;
+  margin-left: 5px;
+  top: 0;
+}
+
 #primary-content.browse-content {
   padding-top: 9px;
   padding-left: 22px;
@@ -1746,10 +1804,10 @@ aside.search-filter #tools .form-group.border-dotted {
   text-decoration: none;
 }
 #primary-content.search-results-content table.search-results-table thead tr th.sortable:hover, #primary-content.search-results-content table.search-results-table thead tr th.sortable.active {
-  background: #cecdc0;
+/*  background: #cecdc0; */ /* Disabled until sorting is allowed */
 }
 #primary-content.search-results-content table.search-results-table thead tr th.sortable:hover a, #primary-content.search-results-content table.search-results-table thead tr th.sortable.active a {
-  color: #6b6a5b;
+  /* color: #6b6a5b; */ /* Disabled until sorting is allowed */
 }
 #primary-content.search-results-content table.search-results-table td, #primary-content.search-results-content table.search-results-table th {
   text-align: center;
@@ -1786,6 +1844,14 @@ aside.search-filter #tools .form-group.border-dotted {
   top: 0;
 }
 
+#primary-content.search-results-content table.search-results-table td .pause {
+  width: 29px;
+  height: 28px;
+  background: url(../images/square-pause.png) no-repeat 0 0;
+  margin-left: 5px;
+  top: 0;
+}
+
 #primary-content.search-results-content table.search-results-table td:first-child + td {
   text-align: left;
   text-indent: 10px;
@@ -1810,7 +1876,7 @@ aside.search-filter #tools .form-group.border-dotted {
   border-radius: 3px;
   position: relative;
   top: 1px;
-  margin-left: 5px;
+  /* margin-left: -5px; */
 }
 #primary-content.search-results-content table.search-results-table span.location span.point {
   width: 2px;
@@ -1830,11 +1896,19 @@ aside.search-filter #tools .form-group.border-dotted {
   padding-left: 20px;
   width: 739px;
 }
+
+#primary-content.work-content .fullpdf {
+  margin: 20px 116px 25px 76px;
+  border-bottom: 1px solid #e1e1e1;
+  padding-bottom: 20px;
+}
+
 #primary-content.work-content .title {
   margin: 20px 116px 25px 76px;
   border-bottom: 1px solid #e1e1e1;
   padding-bottom: 20px;
 }
+
 #primary-content.work-content .title:after {
   content: "";
   display: block;
@@ -1888,6 +1962,7 @@ aside.search-filter #tools .form-group.border-dotted {
   width: 22px;
   height: 24px;
 }
+
 #primary-content.work-content .title ul li > div.file-orange:before, #primary-content.work-content .title ul li > a.file-orange:before {
   background: url(../images/file-orange.png) no-repeat 0 0;
 }
@@ -1897,6 +1972,7 @@ aside.search-filter #tools .form-group.border-dotted {
 #primary-content.work-content .title ul li > div.mp3:before, #primary-content.work-content .title ul li > a.mp3:before {
   background: url(../images/mp3-orange.png) no-repeat 0 0;
 }
+
 #primary-content.work-content .title .fl {
   width: 220px;
   float: left;
@@ -1907,6 +1983,8 @@ aside.search-filter #tools .form-group.border-dotted {
   margin-top: 0;
   margin-bottom: 7px;
 }
+
+
 #primary-content.work-content .music-area img {
   margin-left: 60px;
 }
@@ -1942,7 +2020,7 @@ aside.search-filter #tools .form-group.border-dotted {
 }
 #primary-content.work-content .downloads .col {
   float: left;
-  margin-left: 70px;
+  margin-left: 30px;
 }
 #primary-content.work-content .downloads .col.first-col {
   margin-left: 0;
@@ -2141,6 +2219,7 @@ article.about.board h3 + ul {
   display: block;
   margin-bottom: 10px;
 }
+
 #tools ul li a {
   text-decoration: none;
   display: table;
@@ -2151,15 +2230,32 @@ article.about.board h3 + ul {
   margin: 0 auto;
   padding: 0;
 }
+
 #tools ul li a span {
   display: table-cell;
   vertical-align: middle;
+  text-decoration: none;
+  display: table;
+  width: 142px;
+  height: 56px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 0 auto;
+  padding: 0;
 }
+
 #tools ul li a small {
   display: block;
   font-family: "Lato", "sans-serif";
   font-size: 12px;
 }
+
+#tools ul li span small {
+  display: block;
+  font-family: "Lato", "sans-serif";
+  font-size: 12px;
+}
+
 #tools .form-group {
   margin-right: 40px;
   margin-left: 40px;
@@ -2173,6 +2269,11 @@ footer {
 }
 
 footer nav ul li a:hover {
+  color: #b6b6b6;
+  text-decoration: none;
+}
+
+footer nav ul li span:hover {
   color: #b6b6b6;
   text-decoration: none;
 }

@@ -1,20 +1,18 @@
 <script type="text/javascript">
 //
-// Programmer:    Craig Stuart Sapp <craig@ccrma.stanford.edu>
-// Creation Date: Wed Aug 27 17:13:25 PDT 2014
-// Last Modified: Thu Sep  4 00:41:17 PDT 2014
-// Filename:      .../search/scripts-local.html
-// Web Address:   http://josquin.stanford.edu/search/scripts-local.html
-// Syntax:        JavaScript 1.8/ECMAScript 5
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Wed Aug 27 17:13:25 PDT 2014
+// Last Modified:	Thu Sep  4 00:41:17 PDT 2014
+// Filename:		.../search/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/search/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
 //
 // Description:   JavaScript management of the JRP data searches.
 //
 
-
-// Used to display extra info:
 var SEARCHhome  = null;
 var SEARCHLIST  = null;
-
 
 
 //////////////////////////////
@@ -23,8 +21,33 @@ var SEARCHLIST  = null;
 //
 
 window.onload = function() {
-   localStorage.removeItem(SEARCHLIST);
-   displayContents();
+	localStorage.removeItem(SEARCHLIST);
+	displayContents();
+}
+
+
+//////////////////////////////
+//
+// storeRepertory --
+//
+
+function storeRepertory() {
+   var repertory = document.getElementById("repertory").value;
+   localStorage.ANALYSISrepertory = repertory;
+}
+
+
+
+//////////////////////////////
+//
+// showPopupHelp --
+//
+
+function showPopupHelp(url, title) {
+	var newwindow = window.open(url, title,
+		'left=20,top=20,width=620,height=830,resizable=no,scrollbars=no,directories=no,location=no,status=no,toolbar=no');
+	if (window.focus) {newwindow.focus()}
+	return false;
 }
 
 
@@ -35,22 +58,46 @@ window.onload = function() {
 //
 
 function displayContents() {
-   var maincontent = document.getElementById('content');
-   if (!maincontent) {
-      return;
-   }
-   if (SEARCHhome == null) {
-      if (typeof localStorage.SEARCHhome === 'undefined') {
-         SEARCHhome = readFile('content.html');
-         localStorage.SEARCHhome = SEARCHhome;
-      } else {
-         SEARCHhome = localStorage.SEARCHhome;
+	var maincontent = document.getElementById('content');
+	if (!maincontent) {
+		return;
+	}
+	if (SEARCHhome == null) {
+//      if (typeof localStorage.SEARCHhome === 'undefined') {
+			SEARCHhome = readFile('content.html');
+//         localStorage.SEARCHhome = SEARCHhome;
+//      } else {
+//         SEARCHhome = localStorage.SEARCHhome;
+//      }
+	}
+	maincontent.innerHTML = SEARCHhome;
+	buildComposerSelect();
+	buildGenreSelect();
+   setupSearchOnEnter();
+	// updateEzMark(); // already done in buildComposerSelect & buildGenreSelect
+}
+
+
+
+/////////////////////////////
+//
+// Setup enter key to start search.
+//
+
+function setupSearchOnEnter() {
+	$("#pitch")   .focus(function() { $(this).data("hasfocus", true);});
+	$("#interval").focus(function() { $(this).data("hasfocus", true);});
+	$("#rhythm")  .focus(function() { $(this).data("hasfocus", true);});
+	$("#pitch")   .blur(function()  { $(this).data("hasfocus", false);});
+	$("#interval").blur(function()  { $(this).data("hasfocus", false);});
+	$("#rhythm")  .blur(function()  { $(this).data("hasfocus", false);});
+   $(document.body).keyup(function(ev) {
+      if (ev.which === EnterKey) {
+         if      ($("#pitch")   .data("hasfocus")) { doSearch(); }
+         else if ($("#interval").data("hasfocus")) { doSearch(); }
+         else if ($("#rhythm")  .data("hasfocus")) { doSearch(); }
       }
-   }
-   maincontent.innerHTML = SEARCHhome;
-   buildComposerSelect();
-   buildGenreSelect();
-   // updateEzMark(); // already done in buildComposerSelect & buildGenreSelect
+   });
 }
 
 
@@ -61,84 +108,84 @@ function displayContents() {
 //
 
 function doSearch() {
-   var pitch     = document.getElementById("pitch");
-   var interval  = document.getElementById("interval");
-   var rhythm    = document.getElementById("rhythm");
-   var composers = document.getElementById("composers");
-   var genres    = document.getElementById("genres");
+	var pitch     = document.getElementById("pitch");
+	var interval  = document.getElementById("interval");
+	var rhythm    = document.getElementById("rhythm");
+	var composers = document.getElementById("composers");
+	var genres    = document.getElementById("genres");
 
-   tablecontent = document.getElementById("search-results-table");
-   if (tablecontent != null) {
-      tablecontent.innerHTML = "Searching...";
-   } else {
-      maincontent = document.getElementById("content");
-      maincontent.innerHTML = "Searching...";
-   }
+	var empty = 0;
+	if (pitch.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (interval.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (rhythm.value.match(/^\s*$/)) {
+		empty += 1;
+	}
 
-   var empty = 0;
-   if (pitch.value.match(/^\s*$/)) {
-      empty += 1;
-   } 
-   if (interval.value.match(/^\s*$/)) {
-      empty += 1;
-   } 
-   if (pitch.value.match(/^\s*$/)) {
-      empty += 1;
-   }
+	if (empty == 3) {
+		var empty2 = 0;
+		if (composers.value.match(/^\s*$/) || composers.value.match(/All/i)) {
+			empty2 += 1;
+		} 
+		if (genres.value.match(/^\s*$/) || genres.value.match(/All/i)) {
+			empty2 += 1;
+		} 
 
-   if (empty == 3) {
-      var empty2 = 0;
-      if (composers.value.match(/^\s*$/) || composers.value.match(/All/i)) {
-         empty2 += 1;
-      } 
-      if (genres.value.match(/^\s*$/) || genres.value.match(/All/i)) {
-         empty2 += 1;
-      } 
+		if (empty2 == 2) {
+			displayContents();
+			return;
+		} else {
+			localStorage.BROWSEcomposers = composers.value;
+			localStorage.BROWSEgenres    = genres.value;
+			localStorage.BROWSEvoices    = "";
+			localStorage.BROWSEtitlebox  = "";
+			localStorage.BROWSEhome      = "false";
+			window.location.href = "/browse";
+			return;
+		}
+	}
 
-      if (empty2 == 2) {
-         displayContents();
-         return;
-      } else {
-         localStorage.BROWSEcomposers = composers.value;
-         localStorage.BROWSEgenres    = genres.value;
-         localStorage.BROWSEvoices    = "";
-         localStorage.BROWSEtitlebox  = "";
-         localStorage.BROWSEhome      = "false";
-         window.location.href = "/browse";
-         return;
-      }
-   }
+	var c = composers.value;
+	if (c.match(/All/i)) {
+		c = "";
+	}
+	var g = genres.value;
+	if (g.match(/All/i)) {
+		g = "";
+	}
 
-   var c = composers.value;
-   if (c.match(/All/i)) {
-      c = "";
-   }
-   var g = genres.value;
-   if (g.match(/All/i)) {
-      g = "";
-   }
+	var searchparam = "";
+	if (c != "") {
+		searchparam += "&composer=" + encodeURIComponent(c);
+	}
+	if (g != "") {
+		searchparam += "&genre=" + encodeURIComponent(g);
+	}
+	if (pitch.value != "") {
+		searchparam += "&pitch=" + encodeURIComponent(pitch.value);
+	}
+	if (rhythm.value != "") {
+		searchparam += "&rhythm=" + encodeURIComponent(rhythm.value);
+	}
+	if (interval.value != "") {
+		searchparam += "&interval=" + encodeURIComponent(interval.value);
+	}
 
-   var searchparam = "";
-   if (c != "") {
-      searchparam += "&composer=" + encodeURIComponent(c);
-   }
-   if (g != "") {
-      searchparam += "&genre=" + encodeURIComponent(g);
-   }
-   if (pitch.value != "") {
-      searchparam += "&pitch=" + encodeURIComponent(pitch.value);
-   }
-   if (rhythm.value != "") {
-      searchparam += "&rhythm=" + encodeURIComponent(rhythm.value);
-   }
-   if (interval.value != "") {
-      searchparam += "&interval=" + encodeURIComponent(interval.value);
-   }
+   // The search-results page will look at sessionStorage.QUERY.  If it find
+   // that it has content, then it will run the query and display the results.
+	var QUERY = {};
+	QUERY.composer = c;
+	QUERY.genre    = g;
+	QUERY.pitch    = pitch.value;
+	QUERY.rhythm   = rhythm.value;
+	QUERY.interval = interval.value;
+	sessionStorage.QUERY = JSON.stringify(QUERY);
 
-   sessionStorage.SEARCHLIST = readFile("/data?a=search" + searchparam);
-   
-   window.location.href = "/searchresults";
-   return;
+	window.location.href = "/search-results";
+	return;
 }
 
 
@@ -149,33 +196,41 @@ function doSearch() {
 //
 
 function buildComposerSelect() {
-   var composerselect = document.getElementById("composers-select");
-   if (composerselect == null) {
-      return;
-   }
+	var composerselect = document.getElementById("composers-select");
+	if (composerselect == null) {
+		return;
+	}
 
-   var output = "<select id=\"composers\"";
-   output += " data-placeholder=\"All Composers\">\n";
-   output += "<option label=\"default\">All Composers</option>\n";
-   var clist = getComposerOptions();
-   output += clist;
-   output += "</select>\n";
-   composerselect.innerHTML = output;
+	var output = "<select id=\"composers\"";
+	output += " data-placeholder=\"All Composers\">\n";
+	output += "<option label=\"default\">All Composers</option>\n";
+	var clist = getComposerOptions();
+	output += clist;
+	output += "</select>\n";
+	composerselect.innerHTML = output;
 
 
-   var composerselect2 = document.getElementById("composers-select2");
-   if (composerselect2 == null) {
-      updateEzMark();
-      return;
-   }
+	var cs2 = document.getElementById("repertory-select");
+	if (cs2 == null) {
+		updateEzMark();
+		return;
+	}
 
-   output  = "<select id=\"complete-repertory\" ";
-   output += "data-placeholder=\"Josquin des Prez\">\n";
-   output += clist;
-   output += "</select>\n";
-   composerselect2.innerHTML = output;
+	output  = "<select style=\"width:230px;\" id=\"repertory\" ";
+	output += ">\n";
+	output += clist;
+	output += "</select>\n";
+	cs2.innerHTML = output;
 
-   updateEzMark();
+   if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
+			(localStorage.ANALYSISrepertory != "")) {
+		$('#repertory').val(localStorage.ANALYSISrepertory);
+	   updateEzMark();
+	} else {
+		$('#repertory').val("Jos");
+	}
+	updateEzMark();
+
 }
 
 
@@ -186,17 +241,17 @@ function buildComposerSelect() {
 //
 
 function buildGenreSelect() {
-   var genreselect = document.getElementById("genres-select");
-   if (genreselect == null) {
-      return;
-   }
+	var genreselect = document.getElementById("genres-select");
+	if (genreselect == null) {
+		return;
+	}
 
-   var output = "<select id=\"genres\"";
-   output += " data-placeholder=\"All Genres\">\n";
-   output += "<option label=\"default\">All Genres</option>\n";
-   output += getGenreOptions();
-   genreselect.innerHTML = output;
-   updateEzMark();
+	var output = "<select id=\"genres\"";
+	output += " data-placeholder=\"All Genres\">\n";
+	output += "<option label=\"default\">All Genres</option>\n";
+	output += getGenreOptions();
+	genreselect.innerHTML = output;
+	updateEzMark();
 }
 
 

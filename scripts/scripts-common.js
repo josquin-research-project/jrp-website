@@ -5,6 +5,7 @@
 // Filename:      .../scripts/scripts-common.js
 // Web Address:   http://josquin.stanford.edu/scripts/scripts-common.js
 // Syntax:        JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
 //
 // Description:   JRP-specific JavaScript functions common to all pages.
 //
@@ -14,6 +15,10 @@ var WORKLIST;
 var WORKLISTrecent = [];
 var WORKLISTjrpid  = {};
 var BASEADDR       = window.location.host;
+var PDFTARGET      = "target=\"new\"";
+var AUDIO          = null;						// HTML5 audio interface ID
+var AUDIOjrpid     = "";  						// currently playing audio file
+var AUDIOid        = "";                  // currently playing audio button
 
 
 // State variables used for keeping track of keypresses:
@@ -30,6 +35,7 @@ const DKey            = 68;
 const EKey            = 69;
 const FKey            = 70;
 const IKey            = 73;
+const JKey            = 74;
 const LKey            = 76;
 const MKey            = 77;
 const NKey            = 78;
@@ -46,6 +52,11 @@ const OneKey          = 49;
 const TwoKey          = 50;
 const ThreeKey        = 51;
 const FourKey         = 52;
+const FiveKey         = 53;
+const SixKey          = 54;
+const SevenKey        = 55;
+const EightKey        = 56;
+const NineKey         = 57;
 const BackspaceKey    =  8; // Other
 const TabKey          =  9;
 const EnterKey        = 13;
@@ -100,7 +111,7 @@ function initializeWorklist() {
    // Eventually request a timestamp from the server, and compare
    // to WORKLIST store in localStorage, and only re-download if the
    // server has a newer WORKLIST.  For now, update once a day.
-   var refreshtime = 3600 * 24;  // update every three days.
+   var refreshtime = 3600 * 1;  // update once an hour
    var currenttime = parseInt(new Date() / 1000);  // convert from ms to sec.
 
    if ((typeof localStorage.WORKLISTrefreshtime !== 'undefined') && 
@@ -119,7 +130,6 @@ function initializeWorklist() {
       localStorage.WORKLISTrefreshtime = currenttime + refreshtime;
    } else {
       // already have the worklist in local storage, so read from there.
-      //console.log("Reading worklist from localStorage.");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
    }
 }
@@ -153,6 +163,7 @@ function initializeWorklistFlat() {
    var works;
    var jrpid;
 
+/* Don't extract from sessionStorage:
    if ((typeof sessionStorage.WORKLISTrecent !== 'undefined') &&
          (sessionStorage.WORKLISTrecent != "")) {
       WORKLISTrecent = JSON.parse(sessionStorage.WORKLISTrecent);
@@ -162,11 +173,14 @@ function initializeWorklistFlat() {
          return;
       }
    }
+*/
 
    for (i=0; i<WORKLIST.length; i++) {
       works = WORKLIST[i].works;
       for (j=0; j<works.length; j++) {
-         works[j].comshort = WORKLIST[i].comshort;
+         if (typeof works[j].comshort === 'undefined') {
+            works[j].comshort = WORKLIST[i].comshort;
+         }
          WORKLISTrecent.push(works[j]);
          jrpid = works[j].id;
          WORKLISTjrpid[jrpid] = works[j];
@@ -174,8 +188,8 @@ function initializeWorklistFlat() {
    }
 
    WORKLISTrecent.sort(byReverseAddDate);
-   sessionStorage.WORKLISTrecent = JSON.stringify(WORKLISTrecent);
-   sessionStorage.WORKLISTjrpid  = JSON.stringify(WORKLISTjrpid);
+//   sessionStorage.WORKLISTrecent = JSON.stringify(WORKLISTrecent);
+//   sessionStorage.WORKLISTjrpid  = JSON.stringify(WORKLISTjrpid);
 }
 
 
@@ -217,6 +231,9 @@ function getDataFile(jrpid, prefix, action) {
    var workid = pieces[1];
    var work = WORKLISTjrpid[workid];
    if (work == null) {
+      work = WORKLISTjrpid[workid + pieces[2]];
+   }
+   if (work == null) {
       console.log("Error: " + workid + " not in WORKLISTjrpid.");
       return;
    }
@@ -252,7 +269,10 @@ function getDataFileAsync(jrpid, prefix, action, callback) {
    var workid = pieces[1];
    var work = WORKLISTjrpid[workid];
    if (work == null) {
-      console.log("Error: " + workid + " not in WORKLISTjrpid.");
+      work = WORKLISTjrpid[workid + pieces[2]];
+   }
+   if (work == null) {
+      console.log("Error2: " + workid + " not in WORKLISTjrpid.");
       return;
    }
    var i;
@@ -264,36 +284,6 @@ function getDataFileAsync(jrpid, prefix, action, callback) {
    readFileAsync('http://' + BASEADDR + '/data?a=' + action + '&f=' + jrpid, callback);
    //localStorage[variable] = imagedata;
    // return imagedata;
-}
-
-
-function getIncipit(jrpid) {
-   return getDataFile(jrpid, "INCIPIT_", "incipit-mime");
-}
-
-
-function getIncipitAsync(jrpid, idtag, attributes) {
-   getDataFileAsync(jrpid, "INCIPIT_", "incipit-mime", function(responseText) {
-      var imagedata = responseText;
-      var output = "<img";
-      if (attributes != null) {
-         output += " " + attributes;
-      }
-      output += " src=\"";
-      output += imagedata;
-      output += "\">";
-console.log("OUTPUT = " + output);
-     
-      var location = document.getElementById(idtag);
-      if (location != null) {
-         location.innerHTML = output;
-      }
-   });
-}
-
-
-function getRange(jrpid) {
-   return getDataFile(jrpid, "RANGE_", "prange-svg");
 }
 
 
@@ -331,7 +321,6 @@ function readFile(url) {
 function readFileAsync(url, callback) {
    var request = new XMLHttpRequest();
 
-console.log("URL = " + url);
    request.open('GET', url, true);
    request.onload = function (e) {
       if (this.readyState == 4) {
@@ -391,7 +380,7 @@ function getComposerOptions() {
 
    for (i=0; i<WORKLIST.length; i++) {
       longname = WORKLIST[i].comlong;
-      abbr     = WORKLIST[i].comabbr;
+      abbr     = WORKLIST[i].repid;
       output += "<option value=\"" + abbr + "\">";
       output += longname + "</option>\n";
       if (abbr == "Jos") {
@@ -399,7 +388,7 @@ function getComposerOptions() {
          output += "<option value=\"Job\">";
          output += "Josquin&nbsp;des&nbsp;Prez&nbsp;";
          output += "(not&nbsp;secure)</option>\n";
-       }
+      }
    }
    return output;
 }
@@ -408,17 +397,159 @@ function getComposerOptions() {
 
 //////////////////////////////
 //
-// getGenreOptions -- Return an option list of genres.  This is used to
-//     fill in the Composer/Repertory section list in forms on various
-//     webpages.  Always will be three options: Mass, Motet, or Song.
+// getGenreOptions -- Return an option list of genres.  
+//     This is used to fill in the Composer/Repertory section list 
+//     in forms on various webpages.  If there is an input repe
+//     Mass, Motet, or Song.
 //
 
-function getGenreOptions() {
-   output = "";
-   output += "<option value=\"mass\">Masses</option>\n";
-   output += "<option value=\"motet\">Motets</option>\n";
-   output += "<option value=\"song\">Songs</option>\n";
+function getGenreOptions(repertory) {
+   if ((typeof repertory === 'undefined') || 
+			(repertory == null) || (repertory == "")) {
+	   // Avoiding displaying the genre list without a repertory.
+	   // This is because analyses mostly need to be limited to a single repertory
+	   // So that not too many images are shown on the same page.
+		var opts = "<option value=\"mass\">Masses</option>\n";
+		opts += "<option value=\"motet\">Motets</option>\n";
+		opts += "<option value=\"song\">Songs</option>\n";
+      return opts;
+   }
+
+   initializeWorklist();
+   var output = "";
+   var longname;
+   var abbr;
+   var i, j;
+   var rep;
+   var gen;
+
+   var genlist1 = {};
+
+   for (i=0; i<WORKLIST.length; i++) {
+		rep = WORKLIST[i].repid;
+		if (!repertory.match(/^\s*$/) && (!rep.match(repertory))) {
+			continue;
+		}
+      gen = WORKLIST[i].genres;
+      for (j=0; j<gen.length; j++) {
+			genlist1[gen[j].name] = gen[j].name;
+		}
+	}
+   var genlist2 = [];
+   for (entry in genlist1) genlist2.push(entry);
+	genlist2.sort();
+
+	var output = "";
+   for (i=0; i<genlist2.length; i++) {
+      output += "<option value=\"" + genlist2[i] + "\">";
+	   if (genlist2[i].match("mass")) {
+			output += "Masses";
+	   } else if (genlist2[i].match("motet")) {
+			output += "Motets";
+	   } else if (genlist2[i].match("song")) {
+			output += "Songs";
+		} else {
+			output += genlist2[i];
+		}
+		output += "</option>\n";
+   }
    return output;
+}
+
+
+
+//////////////////////////////
+//
+// getGenreBrowseOptions -- Return an option list of genres.  
+//     This is used to fill in the Composer/Repertory section list 
+//     in forms on various webpages.  If there is an input repe
+//     Mass, Motet, or Song.
+//
+
+function getGenreBrowseOptions() {
+   initializeWorklist();
+   var output = "";
+   var longname;
+   var abbr;
+   var i, j;
+   var rep;
+   var gen;
+
+   var genlist1 = {};
+
+   for (i=0; i<WORKLIST.length; i++) {
+		rep = WORKLIST[i].repid;
+      gen = WORKLIST[i].genres;
+      for (j=0; j<gen.length; j++) {
+			genlist1[gen[j].name] = gen[j].name;
+		}
+	}
+   var genlist2 = [];
+   for (entry in genlist1) genlist2.push(entry);
+	genlist2.sort();
+
+	var output = "";
+   for (i=0; i<genlist2.length; i++) {
+      output += "<option value=\"" + genlist2[i] + "\">";
+	   if (genlist2[i].match("mass")) {
+			output += "Masses";
+	   } else if (genlist2[i].match("motet")) {
+			output += "Motets";
+	   } else if (genlist2[i].match("song")) {
+			output += "Songs";
+		} else {
+			output += genlist2[i];
+		}
+		output += "</option>\n";
+   }
+   return output;
+}
+
+
+
+//////////////////////////////
+//
+// getWorkOptions -- Return an option list of works (for a specific
+//     repertory and genre.    The repertory is required, the genre
+//     is optional (show all works regardless of genre in that case).
+//     This is used to fill in the Work section list in forms on 
+//     various webpages.  
+//
+
+function getWorkOptions(repertory, genre) {
+   if ((typeof repertory === 'undefined') || (repertory == null)) {
+      return "";
+	}
+
+   if ((typeof genre === 'undefined') || (genre == null)) {
+      genre = "";
+   }
+   initializeWorklist();
+   var output = "";
+   var longname;
+   var abbr;
+   var i, j;
+   var works;
+
+   var output = "";
+   for (i=0; i<WORKLIST.length; i++) {
+		if (!repertory.match(WORKLIST[i].repid)) {
+			continue;
+		}
+		works = WORKLIST[i].works;
+      for (j=0; j<works.length; j++) {
+			if (!genre.match(/^\s*$/) && !genre.match(works[j].genre)) {
+				continue;
+			}
+      	output += "<option value=\"" + works[j].id + "\">";
+			output += works[j].title;
+			if (typeof works[j].variant !== 'undefined') {
+				output += " (" + works[j].variant + " )";
+			}
+			output += "</option>\n";
+		}
+	}
+	return output;
 }
 
 
@@ -451,6 +582,90 @@ function clearBrowseFields() {
    localStorage.BROWSEgenres    = "";
    localStorage.BROWSEvoices    = "";
    localStorage.BROWSEtitlebox  = "";
+}
+
+
+
+//////////////////////////////
+//
+// updateEzMark --
+//
+
+function updateEzMark() {
+   $("select").not('.tricky').select2({
+      width: "off"
+   });
+
+   $("select.tricky").select2({
+      width: "off",
+      containerCssClass: 'tricky-choice',
+      dropdownCssClass: 'tricky-dropdown',
+      dropdownAutoWidth: true
+   });
+
+//   $('input[type=checkbox]').ezMark();
+//   $('input[type=radio]').ezMark();
+}
+
+
+
+//////////////////////////////
+//
+// playAudioFile -- play/pause an audio file.
+//
+
+function playAudioFile(jrpid, element) {
+	// The JRPID is not the same as the currently playing file
+	// (or there is no file playing).  So start the new one.
+	if (!AUDIO) {
+	   AUDIO = document.getElementById("audio");
+   }
+	if (!AUDIO) {
+		document.body.innerHTML += '<audio id="audio"></audio>\n';
+	   AUDIO = document.getElementById("audio");
+	}
+   if (!AUDIO) {
+		console.log("Error: could not set up audio interface\n");
+		return false;
+   }
+
+	var audiobutton;
+
+   if (jrpid != AUDIOjrpid) {
+		if (!!AUDIOid) {
+			audiobutton = document.getElementById(AUDIOid);
+			if (!!audiobutton) {
+				audiobutton.className = "play";
+			}
+		}
+      AUDIO.pause();
+		
+      AUDIOid = element.id;
+		var source = "<source src=\"/data?a=mp3&id=" + jrpid + "\" ";
+		source += "type=\"audio/mpeg\">\n";
+		AUDIO.innerHTML = source;
+
+		AUDIOjrpid = jrpid;
+		var newelement = document.getElementById(AUDIOid);
+		AUDIO.load();
+		AUDIO.play();
+		newelement.className = "pause";
+		return;
+	}
+
+	// The audio file is the same, so start it or pause it depending
+	// on its current state:
+	if (AUDIO.paused) {
+		audiobutton = document.getElementById(AUDIOid);
+		audiobutton.className = "play";
+		element.className = "pause";
+		AUDIO.play();
+	} else {
+		audiobutton = document.getElementById(AUDIOid);
+		audiobutton.className = "pause";
+		element.className = "play";
+		AUDIO.pause();
+	}
 }
 
 
