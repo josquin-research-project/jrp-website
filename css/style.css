@@ -1969,8 +1969,13 @@ aside.search-filter #tools .form-group.border-dotted {
 #primary-content.work-content .title ul li > div.file-ed-orange:before, #primary-content.work-content .title ul li > a.file-ed-orange:before {
   background: url(../images/file-ed-orange.png) no-repeat 0 0;
 }
-#primary-content.work-content .title ul li > div.mp3:before, #primary-content.work-content .title ul li > a.mp3:before {
+
+#primary-content.work-content .title ul li > div.mp3play:before, #primary-content.work-content .title ul li > a.mp3play:before {
   background: url(../images/mp3-orange.png) no-repeat 0 0;
+}
+
+#primary-content.work-content .title ul li > div.mp3pause:before, #primary-content.work-content .title ul li > a.mp3pause:before {
+  background: url(../images/mp3-orange-pause.png) no-repeat 0 0;
 }
 
 #primary-content.work-content .title .fl {

@@ -54,7 +54,11 @@ window.onload = function() {
 	AUDIO.addEventListener('ended', function(e) {
 		AUDIO.pause();
 		var pauseelem = document.getElementById(AUDIOid);
-		pauseelem.className = "play";
+		if (pauseelem.className.match(/mp3/)) {
+			pauseelem.className = "mp3play";
+		} else {
+			pauseelem.className = "play";
+		}
 	}, false);
 
    sessionStorage.ERRORsubmitting  = "false";
@@ -158,8 +162,8 @@ function displayMultisectionWork(jrpid) {
    SECTIONID = sectionid;
 	localStorage.WORKjrpid = sectionid;
 	jrpid = sectionid;
-   var sectionindex = 0;
 
+   var sectionindex = 0;
 	var i;
    for (i=0; i<SECTIONS.length; i++) {
 		if (jrpid == SECTIONS[i].id) {
@@ -199,17 +203,30 @@ function displayMultisectionWork(jrpid) {
 
 //////////////////////////////
 //
-// getSectionHeader --
+// getSectionHeader -- For a multi-sectioned work.
 //
 
 function getSectionHeader(jrpid) {
 	var sectionid = jrpid;
    var workid    = jrpid.replace(/[a-z.]+$/, "");
 
+	var wc = "";
+	wc += "<ul style=\"padding-right:85px; margin-top:-4px;\">\n";
+	wc += "<li><a style=\"line-height:14px;\" ";
+	wc += "class=\"file-orange\" " + PDFTARGET + "href=\"";
+	wc += "/data?a=notationNoEditText&f=" + workid;
+	wc += "\">Full work<br>score</a></li>\n";
+	wc += "<li><a style=\"line-height:14px;\" class=\"file-ed-orange\" ";
+	wc += PDFTARGET + "href=\"";
+	wc += "/data?a=notationEditText&f=" + workid;
+	wc += "\">w/&nbsp;editorial accidentals</a></li>\n";
+	wc += "</ul>\n";
+
 	// list of sections underneath JRPID:
 	var tc = "";
-   tc += "<div class=\"fl\">\n";
-	tc += "<h2>JRP no.:&nbsp;&nbsp;<span id=\"sectionid\">" + sectionid + "</span></h2>\n";
+   tc += "<div style=\"padding-top:20px;\" class=\"fl\">\n";
+	tc += "<h2>JRP no.:&nbsp;&nbsp;<span id=\"sectionid\">";
+	tc += sectionid + "</span></h2>\n";
 	tc += "<div class=\"form-group\">\n";
 	tc += "<select id=\"select-section\"";
 	tc += " onchange=\"displaySection(this.value);\"";
@@ -219,8 +236,40 @@ function getSectionHeader(jrpid) {
 	tc += "</div>\n";
 	tc += "</div>\n";
 
-	var pc = "<ul style=\"padding-top:24px;\">\n";
+   var pc = "";
+	pc += "<ul style=\"margin-top:12px;\">\n";
+	pc += "<li><a style=\"line-height:14px;\" class=\"file-orange\" ";
+	pc += PDFTARGET + "href=\"";
+	pc += "/data?a=notationNoEditText&f=" + jrpid;
+	pc += "\">Section<br>score</a></li>\n";
 
+	pc += "<li><a style=\"line-height:14px;\" class=\"file-ed-orange\" ";
+	pc += PDFTARGET + "href=\"";
+	pc += "/data?a=notationEditText&f=" + jrpid;
+	pc += "\"><span style=\"margin-top:4px; display:block;\">";
+	pc += "w/&nbsp;ed.&nbsp;acc.</span></a></li>\n";
+
+	if (jrpid == AUDIOjrpid) {
+		pc += "<li><a id=\"audio_" + jrpid + "\"";
+		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
+		pc += "margin-top:6px;\" ";
+		pc += "class=\"mp3pause\" target=\"new\" ";
+		pc += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+		pc += "name=\"/data?a=mp3&f=";
+		pc += jrpid + "\">MP3</a></li>\n";
+	} else {
+		pc += "<li><a id=\"audio_" + jrpid + "\"";
+		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
+		pc += "margin-top:6px;\" ";
+		pc += "class=\"mp3play\" target=\"new\" ";
+		pc += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+		pc += "name=\"/data?a=mp3&f=";
+		pc += jrpid + "\">MP3</a></li>\n";
+	}
+
+	pc += "</ul>\n";
+
+/* Menu system:
  	// Score without accidentals
  	pc += "<li>\n";
  	pc += "<div class=\"file-orange\" >\n";
@@ -260,8 +309,9 @@ function getSectionHeader(jrpid) {
  	pc += "</li>\n";
 
 	pc += "</ul>\n";
+*/
 
-	return tc + pc;
+	return wc + tc + pc;
 }
 
 
@@ -565,7 +615,8 @@ function displayWork(jrpid) {
 	titleContent += "/data?a=notationText&f=" + jrpid;
 	titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
 
-	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" class=\"mp3\" target=\"new\" ";
+	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" ";
+	titleContent += "id=\"audio_" + jrpid + "\" class=\"mp3play\" ";
 	titleContent += "onclick=\"getMp3('" + jrpid + "', this);\" ";
 	titleContent += "name=\"/data?a=mp3&f=";
 	titleContent += jrpid + "\">MP3</a></li>\n";
@@ -1320,8 +1371,24 @@ function displayNextRepertoryPage() {
 //
 
 function displaySection(jrpid) {
+
+	var sectionid = jrpid;
+   var sectionindex = 0;
+	var i;
+   for (i=0; i<SECTIONS.length; i++) {
+		if (jrpid == SECTIONS[i].id) {
+			sectionid = jrpid;
+			sectionindex = i;
+			break;
+		}
+	}
+
+	document.getElementById("title").innerHTML = getSectionHeader(sectionid);
+	$('select#select-section').prop('selectedIndex', sectionindex);
+	updateEzMark();
+
 	localStorage.WORKjrpid = jrpid;
-	document.getElementById("sectionid").innerHTML = jrpid;
+	//document.getElementById("sectionid").innerHTML = jrpid;
    SECTIONID = jrpid;
 
 	if (!WORKallincipits) {
