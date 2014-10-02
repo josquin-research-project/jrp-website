@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>JRP Work List</title>
+		<!--#include virtual="/includes/usual-head-contents.html" -->
+
+		<style>
+		p { letter-spacing:-0.5px; }
+  dl {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+  }
+
+	p.dense { margin-top: 8px; margin-bottom:8px;}
+
+  dl.repertory > dt {
+  	color: #2b75b0;
+  }
+
+  dl.work > dt {
+  	color: #c96843;
+  }
+
+  dl.section > dt {
+  	color: #d7ab5b;
+  }
+
+  dl.genre > dt {
+  	color: #000000;
+  }
+
+	dl.repertory {
+		background-color: #e3edf5;
+    border: 1px solid #2b75b0;
+	}
+
+	dl.work {
+		background-color: #f8ebe6;
+    border: 1px solid #c96843;
+	}
+
+	dl.section {
+		background-color: #faf4ea;
+    border: 1px solid #d7ab5b;
+	}
+
+	dl.genre {
+		background-color: #eeeeee;
+    border: 1px solid #000000;
+	}
+
+  dt {
+    float: left;
+    clear: left;
+    width: 130px;
+		padding-right: 10px;
+    text-align: right;
+    font-weight: bold;
+		font-family: Leto,sans-serif;
+  	/* color: #875b0b; */
+  	color: #c86843;
+  }
+
+  .invalid { text-decoration: line-through; }
+
+  dt.array:before { content: "[" }
+  dt.array:after { content: "]:" }
+
+  dt.object:before { content: "{" }
+  dt.object:after { content: "}:" }
+
+  dt:after {
+    content: ":";
+  }
+
+  dd {
+    margin: 0 0 0 110px;
+    padding: 0 0 0.5em 0;
+		padding-left: 10px;
+  }
+		</style>
+
+	</head>
+
+	<body>
+		<div class="page container" id="home-page">
+			<!--#include virtual="/includes/header-generic.html" -->
+			<section id="content">
+				<!--#include virtual="contents.html" -->
+			</section>
+			<!--#include virtual="/includes/footer-generic.html" -->
+		</div>
+		<!--#include virtual="/includes/scripts.html" -->
+		<script src="/scripts/scripts-common.js"></script>
+	</body>
+
+</html>
+<!-- vim: set ts=2: -->

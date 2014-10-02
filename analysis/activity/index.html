@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">	           
+	<head>
+		<title>JRP Activity</title>
+		<!--#include virtual="/includes/usual-head-contents.html" -->
+	</head>
+<body>
+	<div style="width:1650px;" class="page full-container" id="search-page">
+		<!--#include virtual="/includes/header-generic.html" -->
+		<div id="content">
+			<article style="padding-left:10px;" class="about">
+				<h2 style="padding-top:10px;" class="brown-heading">Activity Plots</h2>
+					<table><tr><td>
+					<div style="display:inline; width:400px;" id="repertory-select" 
+							onchange="analyzeRepertory();"; class="form-group"></div> 
+					</td><td>
+					<div style="display:inline; width:200px;" id="genre-select" 
+						onchange="analyzeGenre();"; class="form-group"></div> 
+					</td><td>
+					<div style="display:inline; width:600px;" id="work-select" 
+						onchange="analyzeWork();"; class="form-group"></div> 
+					</td></tr></table>
+				<div id="analysis-content"></div>
+			</article>
+		</div>
+		<!--#include virtual="/includes/footer-generic.html" -->
+	</div> <!-- page -->
+	<!--#include virtual="/includes/scripts.html" -->
+	<!--#include virtual="scripts-local.html" -->
+</body>
+</html>
+<!-- vim: set ts=2: -->

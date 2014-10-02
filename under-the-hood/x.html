@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<title> TEST D3 Histogram </title>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<style>
+			.chart div {
+				font:	10px sans-serif;
+				background-color: steelblue;
+				text-align: right;
+				padding: 3px;
+				margin: 1px;
+				color: white;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="chart"></div>
+	</body>
+
+	<script>
+		var data = [9,9,15,56,23,12,67,42,46];
+		d3.select(".chart")
+			.selectAll("div")
+				.data(data)
+			.enter().append("div")
+				.style("width", function(d) { return d*10 + "px"; })
+				.text(function(d) { return d; });
+	</script>
+</html>

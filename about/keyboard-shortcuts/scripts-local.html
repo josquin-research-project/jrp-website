@@ -1,0 +1,64 @@
+<script type="text/javascript">
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Fri Sep 19 20:31:05 PDT 2014
+// Last Modified:	Fri Sep 19 20:31:07 PDT 2014
+// Filename:		.../about/keyboard-shortcuts/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/about/keyboard-shortcuts/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:   JavaScript management of the JRP homepage.
+//
+
+
+//////////////////////////////
+//
+// window.onload --
+//
+
+window.onload = function() {
+   drawKeys();
+}
+
+
+//////////////////////////////
+//
+// drawKeys --
+//
+
+function drawKeys() {
+	var KEY = document.registerElement("x-key");
+
+
+   var keys = document.getElementsByTagName("x-key");
+   var key;
+   var text;
+   var pieces;
+	var i;
+
+	for (i=keys.length-1; i>-1; i--) {
+		key = keys[i];
+		text = key.innerHTML;
+
+		text = text.replace(/left-arrow/i, "&larr;");
+		text = text.replace(/right-arrow/gi, "&rarr;");
+		text = text.replace(/up-arrow/gi, "&uarr;");
+		text = text.replace(/down-arrow/gi, "&darr;");
+		// text = text.replace("shift", "&#8679;");
+		text = text.replace("shift", "<span style='font-size:80%; letter-spacing:-1px;'>shft</span>");
+		text = text.replace("control", "<span style='font-size:80%; letter-spacing:-1px;'>ctrl</span>");
+		text = text.replace("home", "<span style='font-size:80%; letter-spacing:-1px;'>home</span>");
+		text = text.replace("end", "<span style='font-size:80%; letter-spacing:-1px;'>end</span>");
+		text = text.replace("minus",  "&nbsp;<span font-size:130%;'>&ndash;</span>");
+		text = text.replace("equals",  "&nbsp;<span font-family:Courier; font-size:130%;'>=</span>");
+
+		var newkey = document.createElement("div");
+		newkey.innerHTML = text;
+		newkey.className = "key";
+		key.parentNode.replaceChild(newkey, key);
+	}
+
+}
+
+</script>

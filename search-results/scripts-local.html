@@ -1,0 +1,1421 @@
+<script type="text/javascript">
+//
+// Programmer:    Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date: Wed Aug 27 17:13:25 PDT 2014
+// Last Modified: Wed Sep 10 23:28:27 PDT 2014
+// Filename:      .../search/scripts-local.html
+// Web Address:   http://josquin.stanford.edu/search/scripts-local.html
+// Syntax:        JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:   JavaScript management of JRP search results.
+//
+
+var SEARCHhome  = null;
+var SEARCHLIST  = null;
+var THEMAX      = null;
+var AUDIO       = null;
+var QUERY;
+var ASIDE;
+var CONTENT;
+
+// How many matches to display on a single page:
+var PAGESIZE = 20;
+if (localStorage.SEARCHpagesize > 0) {
+	PAGESIZE = localStorage.SEARCHpagesize;
+}
+localStorage.SEARCHpagesize = PAGESIZE;
+
+
+
+//////////////////////////////
+//
+// window.onload --
+//
+
+window.onload = function() {
+	AUDIO = document.getElementById("audio");
+	AUDIO.addEventListener('ended', function(e) {
+		AUDIO.pause();
+		var pauseelem = document.getElementById(AUDIOid);
+		pauseelem.className = "play";
+	}, false);
+
+	if ((sessionStorage.QUERY != null) &&
+			(sessionStorage.QUERY != "null") &&
+			(sessionStorage.QUERY != "")) {
+		createSearchResult();
+
+		initializePage();
+		tablecontent = document.getElementById("search-results-table");
+		if (tablecontent != null) {
+			tablecontent.innerHTML = "Searching...";
+		} else {
+			maincontent = document.getElementById("content");
+			maincontent.innerHTML = "Searching...";
+		}
+		return false;
+	} else if ((sessionStorage.SEARCHLIST == null) ||
+				(sessionStorage.SEARCHLIST == "null") ||
+				(sessionStorage.SEARCHLIST == "")) {
+		window.location = '/search';
+		return false;
+	}
+
+	initializePage();
+	if ((typeof sessionStorage.SEARCHLIST === 'undefined') ||
+			(sessionStorage.SEARCHLIST == "")) {
+		displayContents();
+		return;
+	} else {
+		SEARCHLIST = JSON.parse(sessionStorage.SEARCHLIST);
+		displaySearchResults(1);
+		return;
+	}
+
+}
+
+
+
+//////////////////////////////
+//
+// initializePage --
+//
+
+function initializePage() {
+	var maincontent = document.getElementById('content');
+	if (!maincontent) {
+		return;
+	}
+
+	if ((typeof ASIDE == 'undefined') || (ASIDE == "")) {
+		ASIDE = readFile("aside-search-results.html");
+	}
+
+	if ((typeof CONTENT == 'undefined') || (CONTENT == "")) {
+		CONTENT = readFile("content-results.html");
+	}
+
+	var output  = ASIDE + CONTENT;
+	maincontent.innerHTML = output;
+   setupSearchOnEnter();
+	updateEzMark();
+}
+
+
+
+//////////////////////////////
+//
+// createSearchResult --
+//
+
+function createSearchResult() {
+	QUERY = JSON.parse(sessionStorage.QUERY);
+
+	var pitch     = QUERY.pitch;
+	var interval  = QUERY.interval;
+	var rhythm    = QUERY.rhythm;
+	var composers = QUERY.composer;
+	var genres    = QUERY.genre;
+
+	var searchparam = "";
+	if (composers != "") {
+		searchparam += "&composer=" + encodeURIComponent(composers);
+	}
+	if (genres != "") {
+		searchparam += "&genre=" + encodeURIComponent(genres);
+	}
+	if (pitch.value != "") {
+		searchparam += "&pitch=" + encodeURIComponent(pitch);
+	}
+	if (rhythm.value != "") {
+		searchparam += "&rhythm=" + encodeURIComponent(rhythm);
+	}
+	if (interval.value != "") {
+		searchparam += "&interval=" + encodeURIComponent(interval);
+	}
+
+	$("body").css("cursor", "wait");
+	readFileAsync("/data?a=search" + searchparam, function(responseText) {
+		sessionStorage.SEARCHLIST = responseText;
+		SEARCHLIST = JSON.parse(sessionStorage.SEARCHLIST);
+		sessionStorage.QUERY = "";
+		displaySearchResults(1);
+		$("body").css("cursor", "default");
+	});
+
+}
+
+
+
+//////////////////////////////
+//
+// showPopupHelp --
+//
+
+function showPopupHelp(url, title) {
+	var newwindow = window.open(url, title, 
+		'left=20,top=20,width=620,height=830,resizable=no,scrollbars=no,directories=no,location=no,status=no,toolbar=no');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+
+
+/////////////////////////////
+//
+// Setup enter key to start search.
+//
+
+function setupSearchOnEnter() {
+	$("#pitch")   .focus(function() { $(this).data("hasfocus", true);});
+	$("#interval").focus(function() { $(this).data("hasfocus", true);});
+	$("#rhythm")  .focus(function() { $(this).data("hasfocus", true);});
+	$("#pitch")   .blur(function()  { $(this).data("hasfocus", false);});
+	$("#interval").blur(function()  { $(this).data("hasfocus", false);});
+	$("#rhythm")  .blur(function()  { $(this).data("hasfocus", false);});
+
+   $(document.body).keyup(function(ev) {
+      if (ev.which === EnterKey) {
+         if      ($("#pitch")   .data("hasfocus")) { doSearch(); }
+         else if ($("#interval").data("hasfocus")) { doSearch(); }
+         else if ($("#rhythm")  .data("hasfocus")) { doSearch(); }
+      }
+   });
+
+
+}
+
+
+
+//////////////////////////////
+//
+// doSearch --
+//
+
+function doSearch() {
+	var pitch     = document.getElementById("pitch");
+	var interval  = document.getElementById("interval");
+	var rhythm    = document.getElementById("rhythm");
+	var composers = document.getElementById("composers");
+	var genres    = document.getElementById("genres");
+
+	var empty = 0;
+	if (pitch.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (interval.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (rhythm.value.match(/^\s*$/)) {
+		empty += 1;
+	}
+
+	if (empty == 3) {
+		var empty2 = 0;
+		if (composers.value.match(/^\s*$/) || composers.value.match(/All/i)) {
+			empty2 += 1;
+		} 
+		if (genres.value.match(/^\s*$/) || genres.value.match(/All/i)) {
+			empty2 += 1;
+		} 
+
+		if (empty2 == 2) {
+			displayContents();
+			return;
+		} else {
+			localStorage.BROWSEcomposers = composers.value;
+			localStorage.BROWSEgenres    = genres.value;
+			localStorage.BROWSEvoices    = "";
+			localStorage.BROWSEtitlebox  = "";
+			localStorage.BROWSEhome      = "false";
+			window.location.href = "/browse";
+			return;
+		}
+	}
+
+	var c = composers.value;
+	if (c.match(/All/i)) {
+		c = "";
+	}
+	var g = genres.value;
+	if (g.match(/All/i)) {
+		g = "";
+	}
+
+	var searchparam = "";
+	if (c != "") {
+		searchparam += "&composer=" + encodeURIComponent(c);
+	}
+	if (g != "") {
+		searchparam += "&genre=" + encodeURIComponent(g);
+	}
+	if (pitch.value != "") {
+		searchparam += "&pitch=" + encodeURIComponent(pitch.value);
+	}
+	if (rhythm.value != "") {
+		searchparam += "&rhythm=" + encodeURIComponent(rhythm.value);
+	}
+	if (interval.value != "") {
+		searchparam += "&interval=" + encodeURIComponent(interval.value);
+	}
+
+   // The search-results page will look at sessionStorage.QUERY.  If it find
+   // that it has content, then it will run the query and display the results.
+	var QUERY = {};
+	QUERY.composer = c;
+	QUERY.genre    = g;
+	QUERY.pitch    = pitch.value;
+	QUERY.rhythm   = rhythm.value;
+	QUERY.interval = interval.value;
+	sessionStorage.QUERY = JSON.stringify(QUERY);
+
+	window.location.href = "/search-results";
+	return;
+}
+
+
+
+//////////////////////////////
+//
+// displayContents --
+//
+
+function displayContents() {
+	var maincontent = document.getElementById('content');
+	if (!maincontent) {
+		return;
+	}
+	if (SEARCHhome == null) {
+		if (typeof localStorage.SEARCHhome === 'undefined') {
+			SEARCHhome = readFile('content.html');
+//         localStorage.SEARCHhome = SEARCHhome;
+		} else {
+			SEARCHhome = localStorage.SEARCHhome;
+		}
+	}
+	maincontent.innerHTML = SEARCHhome;
+}
+
+
+
+//////////////////////////////
+//
+// buildComposerSelect
+//
+
+function buildComposerSelect() {
+	var composerselect = document.getElementById("composers-select");
+	if (composerselect == null) {
+		return;
+	}
+
+	var output = "<select id=\"composers\"";
+	output += " data-placeholder=\"All Composers\">\n";
+	output += "<option label=\"default\">All Composers</option>\n";
+	var clist = getComposerOptions();
+	output += clist;
+	output += "</select>\n";
+	composerselect.innerHTML = output;
+
+
+	var repsel = document.getElementById("repertory-select");
+	if (repsel == null) {
+		updateEzMark();
+		return;
+	}
+
+	output  = "<select style=\"width:220px;\" id=\"repertory\" ";
+	output += "data-placeholder=\"Josquin des Prez\">\n";
+	output += clist;
+	output += "</select>\n";
+	repsel.innerHTML = output;
+
+   if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
+			(localStorage.ANALYSISrepertory != "")) {
+		$('#repertory').val(localStorage.ANALYSISrepertory);
+	} else {
+		$('#repertory').val("Jos");
+	}
+
+	updateEzMark();
+}
+
+
+
+//////////////////////////////
+//
+// storeRepertory --
+//
+
+function storeRepertory() {
+   var repertory = document.getElementById("repertory").value;
+   localStorage.ANALYSISrepertory = repertory;
+}
+
+
+
+//////////////////////////////
+//
+// buildGenreSelect --
+//
+
+function buildGenreSelect() {
+	var genreselect = document.getElementById("genres-select");
+	if (genreselect == null) {
+		return;
+	}
+
+	var output = "<select id=\"genres\"";
+	output += " data-placeholder=\"All Genres\">\n";
+	output += "<option label=\"default\">All Genres</option>\n";
+	output += getGenreOptions();
+	genreselect.innerHTML = output;
+	updateEzMark();
+}
+
+
+
+//////////////////////////////
+//
+// displaySearchResults --
+//
+
+function displaySearchResults(page) {
+	var maincontent = document.getElementById('content');
+	if (!maincontent) {
+		return;
+	}
+
+   if (typeof page === 'undefined') {
+      page = sessionStorage.SEARCHcurrentpage;
+   }
+   sessionStorage.SEARCHcurrentpage = page;
+
+	if (SEARCHLIST == null) {
+		displayContents();
+		return;
+	}
+
+	if ((typeof ASIDE != 'undefined') || (ASIDE == "")) {
+		ASIDE = readFile("aside-search-results.html");
+	}
+	if ((typeof CONTENT != 'undefined') || (CONTENT == "")) {
+		CONTENT = readFile("content-results.html");
+	}
+
+	var output  = ASIDE + CONTENT;
+	maincontent.innerHTML = output;
+   setupSearchOnEnter();
+	buildComposerSelect();
+	buildGenreSelect();
+	// updateEzMark(); // already done in buildComposerSelect & buildGenreSelect
+
+	// Display the search query in the main content and in the aside.
+	var querystring = "Search Results for  ";
+	if (SEARCHLIST.query.pitch != "") {
+		querystring += "Pitch: \"" + SEARCHLIST.query.pitch + "\"";
+	}
+	if (SEARCHLIST.query.interval != "") {
+		querystring += " Interval: \"" + SEARCHLIST.query.interval + "\"";
+	}
+	if (SEARCHLIST.query.rhythm != "") {
+		querystring += " Rhythm: \"" + SEARCHLIST.query.rhythm + "\"";
+	}
+	var queryinfo = document.getElementById("query-info");
+	queryinfo.innerHTML = querystring;
+
+	pitchfield          = document.getElementById("pitch");
+	pitchfield.value    = SEARCHLIST.query.pitch;
+	intervalfield       = document.getElementById("interval");
+	intervalfield.value = SEARCHLIST.query.interval;
+	rhythmfield         = document.getElementById("rhythm");
+	rhythmfield.value   = SEARCHLIST.query.rhythm;
+
+   if (SEARCHLIST.query.repertory.length == 1) {
+		$('#composers').val(SEARCHLIST.query.repertory[0]);
+   }
+   if (SEARCHLIST.query.genre != "") {
+		$('#genres').val(SEARCHLIST.query.genre);
+   }
+
+	updateEzMark();
+
+	// Display the match counts.
+	var matchcounts = document.getElementById("match-counts");
+	output = printCount(SEARCHLIST.matchcount, "match", "matches");
+	output += " in ";
+	output += printCount(SEARCHLIST.workcount, "work", "works");
+	output += "/";
+   var mcount = SEARCHLIST.locations.length;
+   if (mcount == 1) {
+      // fix a current but of zero matches in search list which
+      // generate a single empty entry:
+      if (SEARCHLIST.locations[0].count == "") {
+         mcount = 0;
+      } else {
+			console.log("NON EMPTY: " + SEARCHLIST.locations[0].count);
+      }
+   }
+	output += printCount(mcount, "movement", "movements");
+
+   if ((typeof localStorage.SEARCHdensity !== 'undefined') && 
+       (localStorage.SEARCHdensity == "true")) {
+   	if (matchcounts != 0)  {
+      	var density = getDensity();
+      	output += ", density " + density + "&permil;";
+		} else {
+      	output += ", density 0&permil;";
+		}
+   }
+	matchcounts.innerHTML = output;
+
+	displaySearchResultsTable(page);
+
+}
+
+
+
+//////////////////////////////
+//
+// getDensity -- At the moment not considering genre filter.
+//
+
+function getDensity() {
+	initializeWorklist();
+   // index the repertories in the search list.
+   var composerQ = {};
+   var matches = SEARCHLIST.matchcount;
+   var notecount = 0;
+   var i;
+   for (i=0; i<SEARCHLIST.query.repertory.length; i++) {
+      composerQ[SEARCHLIST.query.repertory[i]] = 1;
+   }
+
+   for (i=0; i<WORKLIST.length; i++) {
+      if (composerQ[WORKLIST[i].repid] == 1) {
+      	notecount += parseInt(WORKLIST[i].notecount);
+		}
+   }
+   var output = matches / notecount * 1000.0;
+   var output = Math.round(output * 1000.0 + 0.49) / 1000.0;
+   
+   return output;
+}
+
+
+
+//////////////////////////////
+//
+// displaySearchResultsTable --
+//
+
+function displaySearchResultsTable(page) {
+	region = document.getElementById("search-results-table");
+
+   if (typeof page === 'undefined') {
+      page = sessionStorage.SEARCHcurrentpage;
+   }
+	sessionStorage.SEARCHcurrentpage = page;
+	var count = SEARCHLIST.locations.length;
+	var pagesize = localStorage.SEARCHpagesize;
+	var pagecount = count / pagesize;
+	if (pagecount - parseInt(pagecount) == 0.0) {
+		pagecount = parseInt(pagecount);
+	} else {
+		pagecount = parseInt(pagecount+1);
+	}
+
+	printPageList(page, pagecount);
+
+	var startindex = (page-1) * pagesize;
+	if (startindex < 0) {
+		startindex = 0;
+	}
+	if (startindex >= count) {
+		startindex = 0;
+	}
+	var stopindex  = parseInt(startindex) + parseInt(pagesize);
+	if (stopindex > count) {
+		stopindex = count;
+	}
+
+	if (stopindex - startindex < 1) {
+		return;
+	}
+	
+	if (localStorage.SEARCHpageview == "all") {
+		startindex = 0;
+		stopindex = SEARCHLIST.locations.length;
+		pagecount = 1;
+	}
+
+	var composerName = getComposerNameLookup();
+
+	var currwork = "";
+	var lastwork = "";
+	var nextwork = "";
+	var jrpid    = "";
+	var nextjrpid = "";
+	var nextpieces;
+	var matchentry;
+	var mcount;
+	var title;
+	var movement;
+	var subtitle;
+	var repid;
+	var multimovement = 0;
+	var printparent;
+
+	initializeWorklist();
+	initializeWorklistFlat();
+
+	THEMAX = createThemax();
+
+	var workinfo;
+	var output = printSearchTableHeader();
+	var i;
+	var pieces;
+	for (i=startindex; i<stopindex; i++) {
+		matchentry = SEARCHLIST.locations[i];
+		jrpid  = matchentry.id;
+		pieces = jrpid.match(/^([A-Z][a-z][a-z])(\d{4}[\.\d]*)(.*)/);
+      if (pieces == null) {
+         continue;
+      }
+		repid = pieces[1];
+		currwork = pieces[1] + pieces[2];
+		movement = pieces[3];
+		multimovement = 0;
+		printparent = 0;
+		if ((i < stopindex) &&( i < SEARCHLIST.locations.length-1)) {
+			nextjrpid = SEARCHLIST.locations[i+1].id;
+			nextpieces = nextjrpid.match(/^([A-Z][a-z][a-z])(\d{4}[\.\d]*)(.*)/);
+			nextwork = nextpieces[1] + nextpieces[2];
+			if ((nextwork == currwork) && (i < stopindex - 1)) {
+				multimovement = 1;
+			}
+			if (multimovement && (currwork != lastwork)) {
+				printparent = 1;
+			}
+			if (currwork == lastwork) {
+				multimovement = 1;
+				printparent = 0;
+			}
+		}
+
+		movementinfo = null;
+      if (repid.match("Tas")) {
+		   workinfo = WORKLISTjrpid[currwork + movement];
+      } else {
+		   workinfo = WORKLISTjrpid[currwork];
+      }
+		if (workinfo == null) {
+			console.log("Cannot find match entry in WORKLIST:");
+			console.log(matchentry);
+			continue;
+		}
+		if ((workinfo != null) && (typeof workinfo.sections !== 'undefined')) {
+			movementinfo = getMovementInfo(workinfo, jrpid);
+		}
+		
+		if (printparent) {
+			output += "<tr>";
+			output += "<td></td>";  // location
+			output += "<td>";
+			if (localStorage.SEARCHshowjrpid == "true") {
+				output += "";
+			} else {
+            if (typeof composerName[jrpid] !== 'undefined') {
+				   output += composerName[jrpid];
+            } else {
+				   output += composerName[repid];
+            }
+			}
+			output += "</td><td>";
+			output += "<a class=\"text-link\" href=\"/work?id=" + jrpid + "\">";
+			output += workinfo.title;
+			output += "</a>";
+			output += "</td>";
+			output += "<td>" + workinfo.voices + "</td>";  // voices
+			output += "<td></td>";  // print
+			output += "<td></td>";  // mp3
+			output += "</tr>\n";
+		}
+
+		mcount = matchentry.count;
+
+		output += "<tr>\n";
+		output += "<td><nobr>";
+      output += "<span style=\"margin-left:10px;";
+      if (mcount > 99) { 
+         output += "letter-spacing:-1px;";
+      }
+      output += " float:left; width:20px;\">";
+ 		output += mcount;
+      output += "</span>";
+		output += "<a title='Score with highlighted matches' ";
+		output += PDFTARGET;
+		output += " href='http://" + BASEADDR ;
+		output += "/data?a=notationWithEditWithText&f=" + jrpid;
+		output += "&themax=" + THEMAX;
+		output += "'>";
+		output +=  printLocationThumbnail(matchentry, workinfo, movementinfo);
+		output += "</a>";
+
+		// output += "(" + mcount + ")";
+		// output += "&nbsp" + mcount;
+		output += "</nobr></td>\n";
+		output += "<td>";
+
+		if (localStorage.SEARCHshowjrpid == "true") {
+			output += "<center>" + jrpid + "</center>";
+		} else {
+			if (!multimovement) {
+            if (typeof composerName[jrpid] !== 'undefined') {
+				   output += composerName[jrpid];
+            } else {
+				   output += composerName[repid];
+            }
+			}
+		}
+
+
+		output += "</td>\n";
+		output += "<td>";
+		if (multimovement) {
+			// output += "<span style=\"margin-left:20px;\"></span>";
+			output += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		}
+		output += "<a class=\"text-link\" href=\"/work?id=" + jrpid + "\">";
+		if (multimovement && movementinfo != null) {
+			output += movementinfo.stitle;
+		} else if (movementinfo != null) {
+			output += workinfo.title + " " + movementinfo.stitle;
+		} else {
+			output += workinfo.title;
+		}
+		output += "</a></td>\n";
+		output += "<td>";
+		if (currwork != jrpid) {
+			if (movementinfo != null) {
+			   output += movementinfo.v;
+         } else if  (typeof workinfo.voices !== 'undefined') {
+				output += workinfo.voices;
+			}
+		} else {
+			output += workinfo.voices;
+		}
+		output += "</td>\n";
+		output += "<td>\n";
+
+		var scorelink = "";
+		scorelink  = "<a class='file' ";
+		scorelink += PDFTARGET;
+		scorelink += " title='Score without editorial";
+		scorelink += " accidentals' href='http://" + BASEADDR;
+		scorelink += "/data?a=notationNoEditWithText&f=" + jrpid;
+		scorelink += "&themax=" + THEMAX + "'>file</a>";
+
+		scorelink += "<a title='Score with editorial accidentals'";
+		scorelink += PDFTARGET;
+		scorelink += " class='file-ed' href='http://" + BASEADDR ;
+		scorelink += "/data?a=notationWithEditWithText&f=" + jrpid;
+		scorelink += "&themax=" + THEMAX;
+		scorelink += "'>Ed.&nbsp;file</a>";
+		output += scorelink;
+
+		output += "</td>\n";
+		output += "<td>";
+
+      if (AUDIOjrpid == jrpid) {
+			output += "<a id=\"audio_" + jrpid;
+			output += "\" style=\"cursor:hand cursor:pointer;\" ";
+			output += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+			output += "name=\"\"";
+			output += " class=\"pause\">play</a>";
+		} else {
+			output += "<a id=\"audio_" + jrpid;
+			output += "\" style=\"cursor:hand cursor:pointer;\" ";
+			output += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+			output += "name=\"\"";
+			output += " class=\"play\">play</a>";
+		}
+
+		output += "</td>\n";
+		output += "</tr>\n";
+
+		lastwork = currwork;
+
+	}
+	output += printSearchTableFooter();
+	region.innerHTML = output;
+
+
+}
+
+
+
+//////////////////////////////
+//
+// getMp3 --
+//
+
+function getMp3(jrpid, element) {
+   if (!jrpid) {
+		$('#mp3').prop('selectedIndex', 0);
+		updateEzMark();
+   	playAudioFile(SECTIONID, element);
+	} else {
+   	playAudioFile(jrpid, element);
+	}
+}
+
+
+
+///////////////////////////////
+//
+// getMovementInfo --
+//
+
+function getMovementInfo(workinfo, jrpid) {
+	if (typeof workinfo.sections === 'undefined') {
+		return null;
+	}
+	var i;
+	for (i=0; i<workinfo.sections.length; i++) {
+		if (workinfo.sections[i].id == jrpid) {
+			return workinfo.sections[i];
+		}
+	}
+
+	return null;
+}
+
+
+
+//////////////////////////////
+//
+// printLocationThumbnail --
+//    <span class="location">
+//    <span class="point" style="top: 4px; left: 29px"></span>
+//    <span class="point point-blue" style="top: 2px; right: 22px"></span>
+//    </span>
+//  width of thumbnail: 100px;
+//  height of thumbnail: 13px;
+//  border: 2px solid #cbcbcb;
+//
+
+function printLocationThumbnail(match, work, movement) {
+
+	var width  = 100;
+	var height = 13;
+	var percent;
+	var top;
+	var left;
+
+	var vcount = 0;
+	if (movement != null) {
+		vcount = parseInt(movement.v);
+	} else {
+		vcount = parseInt(work.voices);
+	}
+	if (vcount === 0) {
+		vcount = 4;
+	}
+	
+	var voice = 0;
+	var pieces;
+	var loc;
+	var i;
+	var j;
+
+	var output = "<span class=\"location\">";
+	for (i=0; i<match.loc.length; i++) {
+		voice = match.loc[i].ipart;
+		if (voice > vcount) {
+			voice = vcount;
+		}
+		top = height * (1.0 - voice / (vcount));
+		top = (top / height * 0.8 + 0.05) * height;
+		for (j=0; j<match.loc[i].loc.length; j++) {
+			loc = match.loc[i].loc[j];
+			pieces   = loc.match(/P([\d.]+)/);
+			if (pieces != null) {
+				percent = parseInt(pieces[1] + 0.5);
+				if (percent > 100) {
+					percent = 100;
+				}
+			} else {
+				continue;
+			}
+			left = percent /* * width/100 */;
+			left = left * 0.95;
+			if (left < 0) { left = 0; }
+			if (left > 100) { left = 100; }
+
+			output += "<span class=\"point\" style=\"background:black; left: ";
+			output += left + "px; top: " + top + "px;\"></span>";
+		}
+	}
+
+	output += "</span>";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// getComposerNameLookup --
+//
+
+function getComposerNameLookup() {
+	initializeWorklist();
+	var output = {};
+   var jrpid = "";
+   var repertory;
+	var abrev;
+	var shortname;
+	var i;
+	for (i=0; i<WORKLIST.length; i++) {
+	   repertory = WORKLIST[i];
+		abrev = repertory.repid;
+      if (repertory.reprole.match("repertory")) {
+         for (j=0; j<repertory.works.length; j++) {
+            shortname = repertory.works[j].comshort;
+            if (shortname != null) {
+		         output[repertory.works[j].id] = shortname;
+            }
+         }
+      } else {
+		   shortname = repertory.comshort;
+		   output[abrev] = shortname;
+      }
+	}
+
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// printSearchTableFooter --
+//
+
+function printSearchTableFooter() {
+	var output = "</tbody>\n</table>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// printSearchTableHeader --
+//
+
+function printSearchTableHeader() {
+	var output = "";
+	output += "<table class=\"search-results-table\">\n";
+	output += "<thead>\n";
+	output += "<tr>\n";
+	output += "<th class=\"sortable\"><a href=\"#\">Match Locations </a></th>\n";
+   if (localStorage.SEARCHshowjrpid == "true") {
+		output += "<th class=\"sortable active\"><a href=\"#\">JRPID</a></th>\n";
+   } else {
+		output += "<th class=\"sortable active\"><a href=\"#\">Composer</a></th>\n";
+	}
+   
+	output += "<th class=\"sortable\"><a href=\"#\">Title</a></th>\n";
+	output += "<th>Voices</th>\n";
+	output += "<th>Scores</th>\n";
+	output += "<th>MP3</th>\n";
+	output += "</tr>\n";
+	output += "</thead>\n";
+	output += "<tbody>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// createThemax -- Create the themax option list for searching.
+//
+// Themax options:
+//    -D  : diatonic pitch query
+//    -I  : interval query
+//    -u  : duration query
+//
+
+function createThemax() {
+	var output   = "";
+   var pitch    = "";
+	var interval = "";
+	var rhythm   = "";
+
+	if ((typeof QUERY !== 'undefined') && (QUERY != "") && (QUERY != null)) {
+		pitch    = QUERY.pitch;
+		interval = QUERY.interval;
+		rhythm   = QUERY.rhythm;
+   } else  if ((SEARCHLIST != null) && (SEARCHLIST != "")) {
+		pitch    = SEARCHLIST.query.pitch;
+		interval = SEARCHLIST.query.interval;
+		rhythm   = SEARCHLIST.query.rhythm;
+   }
+  
+	pitch = pitch.replace(/[\\;\/\`\"\']/g, "");
+	if (!pitch.match(/^\s*$/)) {
+		if (!output.match(/^\s*$/)) {
+			output += " ";
+		}
+		output += "-D\"" + pitch + "\"";
+	}
+
+	interval = interval.replace(/[\\;\/\`\"\']/g, "");
+	if (!interval.match(/^\s*$/)) {
+		if (!output.match(/^\s*$/)) {
+			output += " ";
+		}
+      var newinterval = "";
+      var i;
+      var charlist = interval.split("");
+      newinterval = charlist[0];
+
+		// Javascript regexp does not support look-behind:
+      // $OPTIONS{'interval'} =~ s/(?<=[2-9])([1-9])/ \1/g;
+      for (i=1; i<charlist.length; i++) {
+			if (charlist[i].match(/[1-9]/)) {
+				if (charlist[i-1].match(/[2-9]/)) {
+ 					newinterval += " ";
+				}
+			}
+			newinterval += charlist[i];
+      }
+      newinterval = newinterval.replace(/\s+/g, " ");
+      newinterval = newinterval.replace(/^\s+/, "");
+      newinterval = newinterval.replace(/\s+$/, "");
+		output += "-I\"" + newinterval + "\"";
+	}
+
+	rhythm = rhythm.replace(/[\\;\/\`\"\']/g, "");
+	if (!rhythm.match(/^\s*$/)) {
+		rhythm = rhythm.replace(/(.)(?=.)/g, "$1 ");
+		rhythm = rhythm.replace(/\s\./g, "");
+		rhythm = rhythm.replace(/\s+/g, " ");
+		rhythm = rhythm.replace(/^\s+/, "");
+		rhythm = rhythm.replace(/\s+$/, "");
+		// $rhythm =~ tr/lbDdWwHhQqEe/LBBB11224488/;
+		rhythm = rhythm.replace(/e/i, "8");
+		rhythm = rhythm.replace(/q/i, "4");
+		rhythm = rhythm.replace(/h/i, "2");
+		rhythm = rhythm.replace(/w/i, "1");
+		rhythm = rhythm.replace(/[db]/i, "B");
+		rhythm = rhythm.replace(/l/, "L");
+		if (!rhythm.match(/^\s*$/)) {
+			if (!output.match(/^\s*$/)) {
+				output += " ";
+			}
+			output += "-u\"" + rhythm + "\"";
+		}
+	}
+
+	return encodeURIComponent(output);
+}
+
+
+//////////////////////////////
+//
+// printCount --
+//
+
+function printCount(number, singular, plural) {
+	if (number == 1) {
+		return number + " " + singular;
+	} else {
+		return number + " " + plural;
+	}
+}
+
+
+
+//////////////////////////////
+//
+// printPageList --
+//
+//  Could also make class instead of id for multiple page listings.
+//
+//  <span id="page-list">
+//   <ul>
+//    <li class="active"><a href="#">&lt;</a></li>
+//    <li class="active"><a href="#">1</a></li>
+//    <li><a href="#">2</a></li>
+//     <li><a href="#">...</a></li>
+//    <li><a href="#">10</a></li>
+//    <li><a href="#">20</a></li>
+//    <li><a href="#">&gt;</a></li>
+//    <li><a href="#">view all</a></li>
+//   </ul>
+//  </span>
+//
+
+function printPageList(currentpage, totalpages) {
+
+	var rightarrow = "&#10095;";
+	// var rightarrow = "&gt;";
+	var leftarrow = "&#10094;";
+	// var leftarrow = "&lt;";
+
+	if (localStorage.SEARCHpageview == "all") {
+		printPageListAll();
+		return;
+	}
+
+	var pagelist = document.getElementById("page-list");
+	if (totalpages == 1) {
+		pagelist.innerHTML = "";
+		return;
+	}
+
+	var output = "<ul>\n";
+
+	previouspage = currentpage - 1;
+	if (previouspage < 1) {
+		previouspage = totalpages;
+	}
+
+	// print left arrow
+	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += " onclick=\"displaySearchResultsTable(";
+	output += previouspage;
+	output += ");\">";
+	output += "&lt;</span></li>\n";
+
+	// print the number one:
+	if (currentpage == 1) {
+		output += "<li class=\"active\">1</li>\n";
+	} else {
+		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += " onclick=\"displaySearchResultsTable(1);\">";
+		output += "1</span></li>\n";
+	}
+
+	if (totalpages > 2) {
+
+		var elipsis = "&#8943;";
+		var needpredots = 0;
+		var needpostdots = 0;
+		if (totalpages > 3) {
+			if (currentpage > 2) {
+				needpredots = 1;
+			}
+			if (currentpage < totalpages - 1) {
+				needpostdots = 1;
+			}
+		} else if ((totalpages == 3) && (currentpage != 2)) {
+			if (currentpage == 1) {
+				needpostdots = 1;
+			} else {
+				needpredots = 1;
+			}
+		}
+	
+		if (needpredots) {
+			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += " onclick=\"displaySearchResultsTable(";
+			output += (currentpage - 1) + ");\">";
+			output += elipsis + "</span></li>\n";
+		}
+	
+		if ((currentpage > 1) && (currentpage < totalpages)) {
+			output += "<li class=\"active\">" + currentpage + "</li>\n";
+		}
+	
+		if (needpostdots) {
+			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += " onclick=\"displaySearchResultsTable(";
+			output += (currentpage + 1) + ");\">";
+			output += elipsis + "</span></li>\n";
+		}
+	}
+
+	// print the last page:
+	if (currentpage == totalpages) {
+		output += "<li class=\"active\">" + currentpage + "</li>\n";
+	} else {
+		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += " onclick=\"displaySearchResultsTable(";
+		output += totalpages;
+		output += ");\">";
+		output += totalpages + "</span></li>\n";
+	}
+
+	var nextpage = currentpage + 1;
+	if (nextpage > totalpages) {
+		nextpage = 1;
+	}
+
+	// print right arrow gray if on page one otherwise blue.
+	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += " onclick=\"displaySearchResultsTable(";
+	output += nextpage + ");\">";
+	output += "&gt;</span></li>\n";
+
+	output += "<li>";
+	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += " letter-spacing:=-0.5px;\"";
+	output += " onclick=\"localStorage.SEARCHpageview='all';";
+	output += " displaySearchResultsTable(1);\">view all</span>";
+	output += "</li>\n";
+
+	output += "</ul>\n";
+	pagelist.innerHTML = output;
+}
+
+
+
+/////////////////////////////
+//
+// printPageListAll --
+//
+
+function printPageListAll() {
+	var output = "";
+
+	output += "<ul><li>";
+	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += " letter-spacing:-0.5px;\"";
+	output += " onclick=\"localStorage.SEARCHpageview='paged';";
+	output += " displaySearchResultsTable(1);\">paged view</span>";
+	output += "</li></ul>\n";
+
+	document.getElementById("page-list").innerHTML = output;
+}
+
+
+
+//////////////////////////////
+//
+// displayNextPage --
+//
+
+function displayNextPage() {
+	var currentpage = sessionStorage.SEARCHcurrentpage;
+	var nextpage = parseInt(currentpage) + 1;
+	var pagecount = SEARCHLIST.locations.length / localStorage.SEARCHpagesize;
+	if (pagecount - parseInt(pagecount) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	if (nextpage > pagecount) {
+		nextpage = 1;
+	}
+	displaySearchResultsTable(nextpage);
+}
+
+
+
+//////////////////////////////
+//
+// displayPreviousPage --
+//
+
+function displayPreviousPage() {
+	var currentpage = sessionStorage.SEARCHcurrentpage;
+	var previouspage = parseInt(currentpage) - 1;
+	var pagecount = SEARCHLIST.locations.length / localStorage.SEARCHpagesize;
+	if ((pagecount - parseInt(pagecount)) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	if (previouspage < 1) {
+		previouspage = pagecount;
+	}
+	displaySearchResultsTable(previouspage);
+}
+
+
+
+//////////////////////////////
+//
+// displayFirstPage --
+//
+
+function displayFirstPage() {
+	displaySearchResultsTable(1);
+}
+
+
+
+//////////////////////////////
+//
+// displayLastPage --
+//
+
+function displayLastPage() {
+	var pagecount = SEARCHLIST.locations.length / localStorage.SEARCHpagesize;
+	if (pagecount - parseInt(pagecount) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	displaySearchResultsTable(pagecount);
+}
+
+
+
+//////////////////////////////
+//
+// process Window keys down:
+//
+
+window.addEventListener('keydown', function(e) {
+	var E	= window.event? event : e;
+	var keycode  = E.keyCode;
+	var unicode  = E.charCode ? E.charCode : E.keyCode;
+	var key      = String.fromCharCode(unicode);
+	var output   = '';
+
+	if (keycode == ControlKey) {
+		ControlKeyState = 1;
+	} else if (keycode == ShiftKey) {
+		ShiftKeyState = 1;
+	} else if (keycode == AltKey) {
+		AltKeyState = 1;
+	} else if (keycode == CommandLeftKey) {
+		CommandKeyState = 1;
+	} else if (keycode == CommandRightKey) {
+		CommandKeyState = 1;
+	}
+
+	// don't process any command- key combinations.
+	if (CommandKeyState == 1) {
+		return;
+	}
+
+	switch (keycode) {
+      case AKey:
+         if (ControlKeyState) {
+            if (localStorage.SEARCHpageview == "all") {
+               localStorage.SEARCHpageview = "paged";
+			      displayFirstPage();
+            } else {
+               localStorage.SEARCHpageview = "all";
+			      displayFirstPage();
+            }
+         }
+         break;
+
+		case DKey:
+			if (ControlKeyState) {
+				if (typeof localStorage.SEARCHdensity === 'undefined') {
+					localStorage.SEARCHdensity = "false";
+				}
+				if (localStorage.SEARCHdensity == "false") {
+					localStorage.SEARCHdensity = "true";
+				} else {
+					localStorage.SEARCHdensity = "false";
+				}
+				displaySearchResults();
+			}
+			break;
+
+      case JKey:
+         if (ControlKeyState) {
+            if (typeof localStorage.SEARCHshowjrpid === 'undefined') {
+               localStorage.SEARCHshowjrpid = "false";
+            }
+            if (localStorage.SEARCHshowjrpid == "false") {
+               localStorage.SEARCHshowjrpid = "true";
+            } else {
+               localStorage.SEARCHshowjrpid = "false";
+            }
+            displaySearchResults();
+         }
+         break;
+		
+//		case NineKey
+
+		case DownArrowKey:
+		case RightArrowKey:
+			if (ControlKeyState || ShiftKeyState) {
+				displayNextPage();
+			}
+			break;
+
+		case UpArrowKey:
+		case LeftArrowKey:
+			if (ControlKeyState || ShiftKeyState) {
+				displayPreviousPage();
+			}
+			break;
+
+		case PageUpKey:
+			displayPreviousPage();
+			break;
+		case PageDownKey:
+			displayNextPage();
+			break;
+		case HomeKey:
+			displayFirstPage();
+			break;
+		case EndKey:
+			displayLastPage();
+			break;
+
+		case EqualsKey:   // (include Plus key which is shift-EqualsKey):
+			if (ControlKeyState) {
+			   var value = parseInt(localStorage.SEARCHpagesize);
+			   localStorage.SEARCHpagesize = value + 1;
+			   displayFirstPage();
+         }
+			break;
+		case MinusKey:      // decrease search results table entries by one
+			if (ControlKeyState) {
+			   var value = parseInt(localStorage.SEARCHpagesize);
+			   if (value <= 1) {
+				   value = 1;
+			   } else {
+				   value = value - 1;
+			   }
+			   localStorage.SEARCHpagesize = value;
+			   sessionStorage.SEARCHcurrentpage = 1;
+			   displayFirstPage();
+         }
+			break;
+
+	}
+}
+);
+
+
+
+//////////////////////////////
+//
+// Process window key ups --
+//
+
+window.onkeyup = function(e) {
+	var E       = window.event? event : e;
+	var keycode = E.keyCode;
+
+	if (keycode == ControlKey) {
+		ControlKeyState = 0;
+	} else if (keycode == ShiftKey) {
+		ShiftKeyState = 0;
+	} else if (keycode == AltKey) {
+		AltKeyState = 0;
+	} else if (keycode == CommandLeftKey) {
+		CommandKeyState = 0;
+	} else if (keycode == CommandRightKey) {
+		CommandKeyState = 0;
+	}
+};
+
+
+
+</script>
