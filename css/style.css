@@ -6,6 +6,10 @@
   background-color: #faf5e7;
 }
 
+.pointer {
+  cursor: pointer;
+}
+	
 
 html {
   overflow-y: scroll;
@@ -252,13 +256,15 @@ body {
 
 .file {
   display: inline-block;
-  width: 15px;
-  height: 19px;
+  width: 16px;
+  height: 16px;
   background: url(../images/file.png) no-repeat 0 0;
   text-indent: -19999px;
   position: relative;
   margin-right: 10px;
+  font-size: 16px;
 }
+
 .file:after {
   content: "";
   display: inline-block;
@@ -273,6 +279,8 @@ body {
 .file-ed {
   display: inline-block;
   background: url(../images/file-ed.png) no-repeat 0 0;
+  width: 16px;
+  height: 16px;
   position: relative;
   text-indent: -19999px;
   padding-left: 20px;
@@ -1418,6 +1426,7 @@ header nav#primary-nav ul li.active a {
 header nav#primary-nav ul li.active a:hover {
   color: #d7ab5b;
 }
+
 header #banner {
   width: 100%;
   height: 228px;
@@ -1427,26 +1436,37 @@ header #banner {
   -o-background-size: cover;
   background-size: cover;
 }
-header #banner:after {
+
+header #bannernotitle {
+  width: 100%;
+  height: 228px;
+  background: url(../images/banner-original.jpg) no-repeat 0 0;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+header #banner:after, header #bannernotitle:after {
   content: "";
   display: block;
   width: 100%;
   height: 0px;
   clear: both;
 }
-header #banner a.logo {
+header #banner a.logo, header #bannernotitle a.logo {
   display: inline-block;
   margin-top: 0;
   margin-left: 0;
   float: left;
 }
-header #banner div.descr {
+header #banner div.descr, header #bannernotitle div.descr {
   float: left;
   padding-left: 3px;
   padding-top: 24px;
   width: 500px;
 }
-header #banner div.descr p {
+header #banner div.descr p, header #bannernotitle div.descr p {
   color: #634f29;
   font-family: "Lusitana", "serif";
   font-size: 24px;
@@ -1780,13 +1800,13 @@ aside.search-filter #tools .form-group.border-dotted {
   color: #cc6633;
   font-size: 16px;
 }
-#primary-content.search-results-content table.search-results-table {
+table.search-results-table {
   width: 100%;
   margin-top: 11px;
   border-left: 1px solid #e1e1e1;
   border-bottom: 1px solid #e1e1e1;
 }
-#primary-content.search-results-content table.search-results-table thead tr {
+table.search-results-table thead tr {
   background: #e6e6dd;
   height: 40px;
   vertical-align: middle;
@@ -1794,7 +1814,7 @@ aside.search-filter #tools .form-group.border-dotted {
   font-family: "Lato";
   font-size: 14px;
 }
-#primary-content.search-results-content table.search-results-table thead tr a {
+table.search-results-table thead tr a {
   display: block;
   color: #98897e;
   font-family: "Lato";
@@ -1803,40 +1823,40 @@ aside.search-filter #tools .form-group.border-dotted {
   line-height: 40px;
   text-decoration: none;
 }
-#primary-content.search-results-content table.search-results-table thead tr th.sortable:hover, #primary-content.search-results-content table.search-results-table thead tr th.sortable.active {
+table.search-results-table thead tr th.sortable:hover, table.search-results-table thead tr th.sortable.active {
 /*  background: #cecdc0; */ /* Disabled until sorting is allowed */
 }
-#primary-content.search-results-content table.search-results-table thead tr th.sortable:hover a, #primary-content.search-results-content table.search-results-table thead tr th.sortable.active a {
+table.search-results-table thead tr th.sortable:hover a, table.search-results-table thead tr th.sortable.active a {
   /* color: #6b6a5b; */ /* Disabled until sorting is allowed */
 }
-#primary-content.search-results-content table.search-results-table td, #primary-content.search-results-content table.search-results-table th {
+table.search-results-table td, table.search-results-table th {
   text-align: center;
 }
-#primary-content.search-results-content table.search-results-table td:first-child, #primary-content.search-results-content table.search-results-table th:first-child {
+table.search-results-table td:first-child, table.search-results-table th:first-child {
   width: 135px;
 }
-#primary-content.search-results-content table.search-results-table td:first-child + *, #primary-content.search-results-content table.search-results-table th:first-child + * {
+table.search-results-table td:first-child + *, table.search-results-table th:first-child + * {
   width: 115px;
 }
-#primary-content.search-results-content table.search-results-table td:first-child + * + *, #primary-content.search-results-content table.search-results-table th:first-child + * + * {
+table.search-results-table td:first-child + * + *, table.search-results-table th:first-child + * + * {
   text-align: left;
   width: 312px;
   text-indent: 10px;
 }
-#primary-content.search-results-content table.search-results-table td:first-child + * + * + * + *, #primary-content.search-results-content table.search-results-table th:first-child + * + * + * + * {
+table.search-results-table td:first-child + * + * + * + *, table.search-results-table th:first-child + * + * + * + * {
   width: 60px;
 }
-#primary-content.search-results-content table.search-results-table td {
+table.search-results-table td {
   color: #97897d;
   font-size: 16px;
   height: 32px;
 }
-#primary-content.search-results-content table.search-results-table td .text-link {
+table.search-results-table td .text-link {
   font-size: 16px;
   text-indent: 0;
 }
 
-#primary-content.search-results-content table.search-results-table td .play {
+table.search-results-table td .play {
   width: 29px;
   height: 28px;
   background: url(../images/square-play.png) no-repeat 0 0;
@@ -1844,7 +1864,7 @@ aside.search-filter #tools .form-group.border-dotted {
   top: 0;
 }
 
-#primary-content.search-results-content table.search-results-table td .pause {
+table.search-results-table td .pause {
   width: 29px;
   height: 28px;
   background: url(../images/square-pause.png) no-repeat 0 0;
@@ -1852,17 +1872,17 @@ aside.search-filter #tools .form-group.border-dotted {
   top: 0;
 }
 
-#primary-content.search-results-content table.search-results-table td:first-child + td {
+table.search-results-table td:first-child + td {
   text-align: left;
   text-indent: 10px;
 }
-#primary-content.search-results-content table.search-results-table tbody tr:hover {
+table.search-results-table tbody tr:hover {
   background: #f7f6f2;
 }
-#primary-content.search-results-content table.search-results-table .file-ed {
+table.search-results-table .file-ed {
   text-indent: -19999px;
 }
-#primary-content.search-results-content table.search-results-table span.location {
+table.search-results-table span.location {
   text-indent: -1999px;
   display: inline-block;
   width: 100px;
@@ -1878,17 +1898,17 @@ aside.search-filter #tools .form-group.border-dotted {
   top: 1px;
   /* margin-left: -5px; */
 }
-#primary-content.search-results-content table.search-results-table span.location span.point {
+table.search-results-table span.location span.point {
   width: 2px;
   height: 2px;
   display: block;
   position: absolute;
   background: #ff0700;
 }
-#primary-content.search-results-content table.search-results-table span.location span.point.point-blue {
+table.search-results-table span.location span.point.point-blue {
   background: #5e4fff;
 }
-#primary-content.search-results-content table.search-results-table span.location span.point.point-green {
+table.search-results-table span.location span.point.point-green {
   background: #00f700;
 }
 #primary-content.work-content {
@@ -1969,6 +1989,16 @@ aside.search-filter #tools .form-group.border-dotted {
 #primary-content.work-content .title ul li > div.file-ed-orange:before, #primary-content.work-content .title ul li > a.file-ed-orange:before {
   background: url(../images/file-ed-orange.png) no-repeat 0 0;
 }
+
+
+#breadcrumbs span > a.file-orange:before {
+  background: url(../images/file-orange.png) no-repeat 0 0;
+}
+#breadcrumbs span > a.file-ed-orange:before {
+  background: url(../images/file-ed-orange.png) no-repeat 0 0;
+}
+
+
 
 #primary-content.work-content .title ul li > div.mp3play:before, #primary-content.work-content .title ul li > a.mp3play:before {
   background: url(../images/mp3-orange.png) no-repeat 0 0;

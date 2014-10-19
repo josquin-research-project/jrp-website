@@ -1,0 +1,768 @@
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date: Mon Oct 13 15:56:47 PDT 2014
+// Last Modified: Mon Oct 13 15:56:50 PDT 2014
+// Filename:		.../recently-added/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/recently-added/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:	JavaScript management of the JRP recently added works page.
+// 					Adapted from browse/scripts-local.html.
+//
+
+var WORKLISTsections;
+
+//////////////////////////////
+//
+// DOMContentLoaded event handler --
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+	ClearWorklistCache();
+
+	AUDIO = document.getElementById("audio");
+	AUDIO.addEventListener('ended', function(e) {
+		AUDIO.pause();
+		var pauseelem = document.getElementById(AUDIOid);
+		pauseelem.className = "play";
+	}, false);
+
+	updateEzMark();
+	showRecentTable(1, "recenttable");
+}, false);
+
+
+
+//////////////////////////////
+//
+// createWorklistSections --
+//
+
+function createWorklistSections() {
+   WORKLISTsections = [];
+   var i, j;
+   for (i=0; i<WORKLISTrecent.length; i++) {
+      var work = WORKLISTrecent[i];
+		if (!work.sections) {
+			WORKLISTsections.push(work);
+			continue;
+		}
+		for (j=0; j<work.sections.length; j++) {
+			var section = work.sections[j];
+			section.comshort = work.comshort;
+			section.title    = work.title;
+			section.genre    = work.genre;
+			WORKLISTsections.push(section);
+		}
+	}
+   WORKLISTsections.sort(byReverseAddDate2);
+}
+
+
+
+//////////////////////////////
+//
+// byReverseAddDate2 -- sort a work by reverse add date.
+//
+
+function byReverseAddDate2(a, b) {
+   var date1 = a.ud;
+   var date2 = b.ud;
+
+	if (!date1) { date1 = a.ad; }
+	if (!date2) { date2 = b.ad; }
+	if (!date1) { date1 = 0; }
+	if (!date2) { date2 = 0; }
+
+   if (date1 > date2) { return -1; } 
+   if (date1 < date2) { return +1; }
+
+   if (a.id < b.id) { return -1; }
+   if (a.id > b.id) { return +1; }
+
+   return 0;
+}
+
+
+
+//////////////////////////////
+//
+// fillRecentTable -- 
+//
+
+function showRecentTable(page, tagid) {
+   var hostelement = document.getElementById(tagid);
+   if (!hostelement) {
+		return;
+	}
+
+	initializeWorklistFlat();
+   createWorklistSections();
+
+	var content = "";
+	content += printTableStart();
+
+	var tablerows = generateWorkEntries(WORKLISTsections);
+	if (typeof localStorage.RECENTLYADDEDpagesize === 'undefined') {
+		localStorage.RECENTLYADDEDpagesize = 20;
+	}
+	if (typeof localStorage.RECENTLYADDEDpagesize === 'undefined') {
+		localStorage.RECENTLYADDEDshowjrpid = "false";
+	}
+	var pagesize = localStorage.RECENTLYADDEDpagesize;
+console.log("PAGESIZE = ", pagesize);
+	sessionStorage.RECENTLYADDEDentries = tablerows.length;
+	var totalpages = tablerows.length / pagesize;
+	if (totalpages - parseInt(totalpages) > 0.0) {
+		totalpages = parseInt(totalpages) + 1;
+	} else {
+		totalpages = parseInt(totalpages);
+	}
+	if (page < 1) {
+		page = 1;
+	}
+	if (page > totalpages) {
+		page = totalpages;
+	}
+	sessionStorage.RECENTLYADDEDcurrentpage = page;
+
+	var startindex = (page - 1) * pagesize;
+	var stopindex  = parseInt(startindex) + parseInt(pagesize);
+	if (stopindex > tablerows.length) {
+		stopindex = tablerows.length;
+	}
+
+	if (localStorage.RECENTLYADDEDpageview == "all") {
+		startindex = 0;
+		stopindex = tablerows.length;
+	}
+
+	var tablebody = "";
+	var i;
+	if (tablerows.length > 0) {
+		for (i=startindex; i<stopindex; i++) {
+			tablebody += tablerows[i];
+		}
+	}
+	content += tablebody;
+	content += printTableEnd();
+	hostelement.innerHTML = content;
+
+	printPageList(page, totalpages);
+
+}
+
+
+
+//////////////////////////////
+//
+// printPageList --
+//
+//  <span id="page-list">
+//	<ul>
+//	 <li class="active"><a href="#">&lt;</a></li>
+//	 <li class="active"><a href="#">1</a></li>
+//	 <li><a href="#">2</a></li>
+//	  <li><a href="#">...</a></li>
+//	 <li><a href="#">10</a></li>
+//	 <li><a href="#">20</a></li>
+//	 <li><a href="#">&gt;</a></li>
+//	 <li><a href="#">view all</a></li>
+//	</ul>
+//  </span>
+//
+
+function printPageList(currentpage, totalpages) {
+
+	var rightarrow = "&#10095;";
+	// var rightarrow = "&gt;";
+	var leftarrow = "&#10094;";
+	// var leftarrow = "&lt;";
+
+	if (localStorage.RECENTLYADDEDpageview == "all") {
+		printPageListAll(totalpages);
+		return;
+	}
+ 
+	var pagelist = document.getElementById("page-list");
+	if (totalpages <= 1) {
+		pagelist.innerHTML = "<ul=\"margin-top:0;\"><li>&nbsp;</ul>";
+		return;
+	}
+
+	var output = "<ul style=\"margin-top:0;\">\n";
+
+	previouspage = currentpage - 1;
+	if (previouspage < 1) {
+		previouspage = totalpages;
+	}
+
+
+	// print left arrow 
+	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += " onclick=\"showRecentTable(";
+	output += previouspage;
+	output += ", 'recenttable');\">";
+	output += leftarrow + "</span></li>\n";
+
+	// print the number one:
+	if (currentpage == 1) {
+		output += "<li class=\"active\">1</li>\n";
+	} else {
+		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += " onclick=\"showRecentTable(1, 'recenttable');\">";
+		output += "1</span></li>\n";
+	}
+
+	if (totalpages > 2) {
+
+		var elipsis = "&#8943;";
+		var needpredots = 0;
+		var needpostdots = 0;
+		if (totalpages > 3) {
+			if (currentpage > 2) {
+				needpredots = 1;
+			}
+			if (currentpage < totalpages - 1) {
+				needpostdots = 1;
+			}
+		} else if ((totalpages == 3) && (currentpage != 2)) {
+			if (currentpage == 1) {
+				needpostdots = 1;
+			} else {
+				needpredots = 1;
+			}
+		}
+	
+		if (needpredots) {
+			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += " onclick=\"showRecentTable(";
+			output += (currentpage - 1) + ", \"recenttalbe\");\">";
+			output += elipsis + "</span></li>\n";
+		}
+	
+		if ((currentpage > 1) && (currentpage < totalpages)) {
+			output += "<li class=\"active\">" + currentpage + "</li>\n";
+		}
+	
+		if (needpostdots) {
+			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += " onclick=\"showRecentTable(";
+			output += (currentpage + 1) + ", 'recenttable');\">";
+			output += elipsis + "</span></li>\n";
+		}
+	}
+
+	// print the last page:
+	if (currentpage == totalpages) {
+		output += "<li class=\"active\">" + currentpage + "</li>\n";
+	} else {
+		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += " onclick=\"showRecentTable(";
+		output += totalpages;
+		output += ", 'recenttable');\">";
+		output += totalpages + "</span></li>\n";
+	}
+
+	var nextpage = currentpage + 1;
+	if (nextpage > totalpages) {
+		nextpage = 1;
+	}
+
+	// print right arrow gray if on page one otherwise blue.
+	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += " onclick=\"showRecentTable(";
+	output += nextpage + ", 'recenttable');\">";
+	output += rightarrow + "</span></li>\n";
+
+	output += "<li>";
+	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += " letter-spacing:=-0.5px;\"";
+	output += " onclick=\"localStorage.RECENTLYADDEDpageview='all';";
+	output += " showRecentTable(1, 'recenttable');\">view all</span>";
+	output += "</li>\n";
+
+	output += "</ul>\n";
+	pagelist.innerHTML = output;
+}
+
+
+
+//////////////////////////////
+//
+// printTableStart --
+//
+
+function printTableStart() {
+	var output = "";
+
+	output += "<span class='search-results-content'>\n";
+
+	output += "<div class=\"pagination\">\n";
+	output += "<span id=\"match-counts\" class=\"grey\"></span>\n";
+	output += "<span class=\"pagination\" id=\"page-list\"></span>\n";
+	output += "</div>\n";
+
+	output += "<table style='margin-bottom:48px; border-right: 1px solid #eee' ";
+	output += "class='search-results-table'>\n";
+	output += "<thead>\n";
+	output += "<tr style=\"margin-right:10px\">\n";
+
+	output += "<th class='sortable'><a name='date'>Date</a></th>\n";
+
+	if (localStorage.RECENTLYADDEDshowjrpid == "true") {
+		output += "<th style=\"padding-left:10px; text-align:left;\" class='sortable'><a name='jrdic''>JRPID</a></th>\n";
+	} else {
+		output += "<th style=\"padding-left:10px; text-align:left;\" class='sortable'><a name='composer'>Composer</a></th>\n";
+	}
+
+	output += "<th class='sortable'><a name='title'><span style='margin-left:-25px;'>Title</span></a></th>\n";
+	output += "<th>Voices</th>\n";
+	output += "<th>Scores</th>\n";
+	output += "<th style=\"width:60px;\">MP3</th>\n";
+	output += "</tr>\n";
+	output += "</thead>\n";
+	output += "<tbody>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// printTableEnd --
+//
+
+function printTableEnd() {
+	return "</tbody>\n</table>\n</span>\n";
+}
+
+
+
+//////////////////////////////
+//
+// generateWorkEntries --
+//
+
+function generateWorkEntries(worklist) {
+	var tout = [];
+	var i;
+	for (i=0; i<worklist.length; i++) {
+		tout = tout.concat(generateSectionEntry(worklist, i));
+	}
+
+	var output = [];
+	for (i=0; i<tout.length; i++) {
+		if (tout[i] == "") {
+			continue;
+		}
+		output.push(tout[i]);
+	}
+	
+	return output;
+}
+
+//////////////////////////////
+//
+// generateSectionEntry -- Do the main work of searching.
+//
+// Columns in table:
+// (1) Date
+// (2) Composer
+// (3) Title
+// (4) Voices
+// (5) Scores
+// (6) MP3
+//
+
+function generateSectionEntry(worklist, index) {
+	var output		  = [];
+	var tempout		  = "";
+	var genre		  = "";
+	var voices		  = "";
+	var repid		  = "";
+	var title		  = "";
+	var fragment     = "";
+	var searchtitle  = "";
+	var titlelink    = "";
+	var jrpid		  = worklist[index].id;
+	var composer     = "";
+	var comshort     = "";
+	var repid		  = "";
+
+	if (typeof worklist[index] !== 'undefined') {
+		if (typeof worklist[index].comshort !== 'undefined') {
+			composer = worklist[index].comshort;
+			composer = composer.replace(/Comp&egrave;re/, "Compere");
+			comshort = worklist[index].comshort;
+		}
+		if (typeof worklist[index].repid !== 'undefined') {
+			repid  = worklist[index].repid;
+		}
+	}
+
+	var entry = worklist[index];
+	var j;
+	var scorelink;
+	var mp3link;
+
+	var cyear = new Date().getFullYear();
+   var date = "";
+   var datenum = entry.ud;
+   if (!datenum) {
+		datenum = entry.ad;
+	}
+	if (!!datenum) {
+		var adstring = "" + datenum;
+		var matches = adstring.match(/^(\d\d\d\d)(\d\d)(\d\d)/);
+		if (!!matches) {
+			var year = matches[1];
+			var month = matches[2];
+			var day = matches[3];
+			date = parseInt(day) + " ";
+			switch (parseInt(month)) {
+				case 1:	 date += "Jan"; break;
+				case 2:	 date += "Feb"; break;
+				case 3:	 date += "Mar"; break;
+				case 4:	 date += "Apr"; break;
+				case 5:	 date += "May"; break;
+				case 6:	 date += "Jun"; break;
+				case 7:	 date += "Jul"; break;
+				case 8:	 date += "Aug"; break;
+				case 9:	 date += "Sep"; break;
+				case 10:	 date += "Oct"; break;
+				case 11:	 date += "Nov"; break;
+				case 12:	 date += "Dec"; break;
+				default:  date += "X" + month + "X";
+			}
+		}
+		if (parseInt(cyear) !== parseInt(year)) {
+			date += " " + year;
+		}
+	}
+if (date.match(/^\s*$/)) {
+console.log("DATE", datenum, worklist[index]);
+}
+
+	title = entry.title;
+   if (!!entry.stitle) {
+		title += " " + entry.stitle;
+   }
+
+	titlelink  = "<a style='word-spacing:1.5px; letter-spacing:-0.5px;' class='text-link' href=http://" + BASEADDR;
+	titlelink += "/work?id=" + jrpid + ">";
+	titlelink += title + "</a>";
+	if (fragment == true) {
+		titlelink += " <span style=\"font-size:90%; letter-spacing:-0.5px;\">[fragment]</span>";
+	}
+
+	scorelink  = "<a class='file' " + PDFTARGET + "title='Score without editorial";
+	scorelink += " accidentals' href='http://" + BASEADDR;
+	scorelink += "/data?a=notationNoEditWithText&f=" + jrpid + "'>file</a>";
+
+	scorelink += "<a title='Score with editorial accidentals'";
+	scorelink += " class='file-ed' " + PDFTARGET + "href='http://" + BASEADDR ;
+	scorelink += "/data?a=notationWithEditWithText&f=" + jrpid;
+	scorelink += "'>Ed.&nbsp;file</a>";
+
+	//mp3link	 = "<a class='play' target='new' href='http://" + BASEADDR;
+	//mp3link	+= "/data?a=mp3&f=" + jrpid + "'>play</a>";
+
+	if (AUDIOjrpid == jrpid) {
+		mp3link = "<a id=\"audio_" + jrpid + "\" ";
+		mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
+		mp3link += "onclick=\"playAudioFile('" + jrpid + "', this);\" ";
+		mp3link += "class=\"pause\">play</a>";
+	} else {
+		mp3link = "<a id=\"audio_" + jrpid + "\" ";
+		mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
+		mp3link += "onclick=\"playAudioFile('" + jrpid + "', this);\" ";
+		mp3link += "class=\"play\">play</a>";
+	}
+
+	tempout = "<tr>";
+	jrpid  = entry.id	  || "";
+
+	tempout    += "<td>" + date;
+	//tempout	 = "<tr valign=top><td>" + genre;
+	if (localStorage.RECENTLYADDEDshowjrpid == "true") {
+		tempout    += "<td>" + jrpid;
+	} else {
+		tempout	+= "</td><td>" + composer;
+	}
+
+	tempout	+= "</td><td style='text-indent:-12px;'>" + titlelink;
+	tempout	+= "</td><td>" + voices;
+	tempout	+= "</td><td>" + scorelink;
+	tempout	+= "</td><td>" + mp3link;
+	tempout	+= "</tr>\n";
+
+	output.push(tempout);
+
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// process Window keys down:
+//
+
+window.addEventListener('keydown', function(event) {
+	var keycode  = event.keyCode;
+	var output   = '';
+	var ControlKeyState = event.ctrlKey;
+	var ShiftKeyState   = event.shiftKey;
+	var AltKeyState     = event.altKey;
+	var CommandKeyState = event.metaKey;
+
+	// don't process any command- key combinations.
+	if (event.metaKey) {
+		return;
+	}
+
+	var titlebox = document.getElementById("titlebox");
+
+	switch (keycode) {
+		case AKey:
+			if (ControlKeyState) {
+				if (localStorage.RECENTLYADDEDpageview == "all") {
+					localStorage.RECENTLYADDEDpageview = "paged";
+					showRecentTable(1, "recenttable");
+				} else {
+					localStorage.RECENTLYADDEDpageview = "all";
+					showRecentTable(1, "recenttable");
+				}
+			}
+			break;
+
+		case JKey:
+			if (ControlKeyState) {
+				if (typeof localStorage.RECENTLYADDEDshowjrpid === 'undefined') {
+					localStorage.RECENTLYADDEDshowjrpid = "false";
+				}
+				if (localStorage.RECENTLYADDEDshowjrpid == "false") {
+					localStorage.RECENTLYADDEDshowjrpid = "true";
+				} else {
+					localStorage.RECENTLYADDEDshowjrpid = "false";
+				}
+				showRecentTable(1, "recenttable");
+			}
+			break;
+
+		case RightArrowKey:
+		case DownArrowKey:
+			if (ControlKeyState || ShiftKeyState) {
+				displayNextPage();
+			}
+			break;
+		case LeftArrowKey:
+		case UpArrowKey:
+			if (ControlKeyState || ShiftKeyState) {
+				displayPreviousPage();
+			}
+			break;
+		case PageUpKey:
+			displayPreviousPage();
+			break;
+		case PageDownKey:
+			displayNextPage();
+			break;
+		case HomeKey:
+			displayFirstPage();
+			break;
+		case EndKey:
+			displayLastPage();
+			break;
+
+		case EqualsKey:	// (include Plus key which is shift-EqualsKey):
+			if (ControlKeyState) {
+				var value = parseInt(localStorage.RECENTLYADDEDpagesize);
+				localStorage.RECENTLYADDEDpagesize = value + 1;
+				displayFirstPage();
+			}
+			break;
+		case MinusKey:	   // decrease search results table entries by one
+			if (ControlKeyState) {
+console.log("IPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
+				var value = parseInt(localStorage.RECENTLYADDEDpagesize);
+				if (value <= 1) {
+					value = 1;
+				} else {
+					value = value - 1;
+				}
+				localStorage.RECENTLYADDEDpagesize = value;
+console.log("OPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
+				sessionStorage.SEARCHcurrentpage = 1;
+				displayFirstPage();
+			}
+			break;
+
+		case BackspaceKey:
+		case DeleteKey:
+			if (ControlKeyState == 1) {
+				titlebox.value = '';
+				showRecentTable(1, "recenttable");
+			}
+			break;
+
+		case NKey:
+			if (ControlKeyState == 1) {
+				CountInfo = !CountInfo;
+				if (CountInfo && (WORKCOUNT > 0)) {
+					showCountInfo();
+				} else if (!CountInfo) {
+					hideCountInfo();
+				}
+			}
+			break;
+
+		case TKey:
+			if (ControlKeyState == 1) {
+				TextInfo = !TextInfo;
+				if (TextInfo) {
+					console.log("Text underlay markers turned on.");
+				} else {
+					console.log("Text underlay markers turned off.");
+				}
+				showRecentTable(1, "recenttable");
+			}
+			break;
+
+	}
+
+	// Maybe remove ShiftKeyState from list:
+	if (!(ControlKeyState || ShiftKeyState || AltKeyState || CommandKeyState)) {
+		if ((keycode >= AKey && keycode <= ZKey)) {
+			if (titlebox != document.activeElement) {
+				var character = String.fromCharCode(keycode);
+				if (!ShiftKeyState) {
+					character = character.toLowerCase();
+				}
+				titlebox.value += character;
+				showRecentTable(1, "recenttble");
+			}
+		} else if (titlebox != document.activeElement) {
+			// What to do out of titlebox focus
+			switch (keycode) {
+				case SpaceKey:
+					titlebox.value += String.fromCharCode(keycode);
+					break;
+				case DeleteKey:
+				case BackspaceKey:
+					var str = titlebox.value;
+					titlebox.value = str.slice(0, -1);
+					showRecentTable(1, "recenttble");
+				// add apostrophe here...
+			}
+		}
+	}
+
+}
+);
+
+
+
+//////////////////////////////
+//
+// displayNextPage --
+//
+
+function displayNextPage() {
+	var currentpage = sessionStorage.RECENTLYADDEDcurrentpage;
+	var nextpage = parseInt(currentpage) + 1;
+	var pagecount = sessionStorage.RECENTLYADDEDentries / localStorage.RECENTLYADDEDpagesize;
+	if (pagecount - parseInt(pagecount) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	if (nextpage > pagecount) {
+		nextpage = 1;
+	}
+	showRecentTable(nextpage, "recenttable");
+}
+
+
+
+//////////////////////////////
+//
+// displayPreviousPage --
+//
+
+function displayPreviousPage() {
+	var currentpage = sessionStorage.RECENTLYADDEDcurrentpage;
+	var previouspage = parseInt(currentpage) - 1;
+	var pagecount = sessionStorage.RECENTLYADDEDentries / localStorage.RECENTLYADDEDpagesize;
+	if ((pagecount - parseInt(pagecount)) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	if (previouspage < 1) {
+		previouspage = pagecount;
+	}
+	showRecentTable(previouspage, "recenttable");
+}
+
+
+
+//////////////////////////////
+//
+// displayFirstPage --
+//
+
+function displayFirstPage() {
+	showRecentTable(1, "recenttable");
+}
+
+
+
+//////////////////////////////
+//
+// displayLastPage --
+//
+
+function displayLastPage() {
+	var pagecount = sessionStorage.RECENTLYADDEDentries / localStorage.RECENTLYADDEDpagesize;
+	if (pagecount - parseInt(pagecount) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	showRecentTable(pagecount, "recenttable");
+}
+
+
+
+/////////////////////////////
+//
+// printPageListAll --
+//
+
+function printPageListAll(totalpages) {
+	var output = "";
+
+	if (totalpages == 1) {
+		// don't show "paged view" option if there would only be one page
+		// in paged view.
+		output += "<ul style='margin-top:0;'><li>&nbsp;</li></ul>";
+		document.getElementById("page-list").innerHTML = output;
+		return;
+	}
+
+	output += "<ul style='margin-top:0;'><li>";
+	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += " letter-spacing:-0.5px;\"";
+	output += " onclick=\"localStorage.RECENTLYADDEDpageview='paged';";
+	output += " showRecentTable(1, 'recenttable');\">paged view</span>";
+	output += "</li></ul>\n";
+
+	document.getElementById("page-list").innerHTML = output;
+}
+
+
+</script>

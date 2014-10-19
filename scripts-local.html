@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Thu Aug 21 12:59:01 PDT 2014
@@ -10,8 +10,6 @@
 //
 // Description:   JavaScript management of the JRP homepage.
 //
-
-
 
 //////////////////////////////
 //
@@ -181,7 +179,7 @@ function getIncipitAsync(jrpid) {
 function displayRecentAdditions() {
 
    var recentlyadded = document.getElementById("recently-added");
-	var ra = "<h2 class=\"blue-bar\">recently added</h2>\n";
+	var ra = "<h2 onclick=\"document.location='/recent';\" class=\"pointer blue-bar\">recently added</h2>\n";
 	ra += "<p class=\"text-brown\" style=\"letter-spacing:0.5px;\">";
 	ra += "Click the title of any piece for work-specific search ";
 	ra += "and analysis tools.</p>\n";
@@ -195,10 +193,10 @@ function displayRecentAdditions() {
 	var tablecontent = printRecentTableHeader();
 	var i;
 	for (i=0; (i<7) && (i<WORKLISTrecent.length); i++) {
-			tablecontent += printWorklistRecentEntry(WORKLISTrecent[i]);
+		tablecontent += printWorklistRecentEntry(WORKLISTrecent[i]);
 	}
-
 	tablecontent += printRecentTableFooter();
+
 	recent.innerHTML = tablecontent;
 	sessionStorage.RECENTLYADDEDHTML = tablecontent;
 }
@@ -403,6 +401,29 @@ function buildGenreSelect() {
 
 
 
+//////////////////////////////
+//
+// process Window keys down:
+//
+
+window.addEventListener('keydown', function(event) {
+   if (event.metaKey) {
+		return;
+	}
+
+	switch (event.keyCode) {
+		case CKey:
+   		localStorage.removeItem("WORKLIST");
+   		localStorage.removeItem("WORKLISTrefreshtime");
+   		localStorage.removeItem("WORKjrpid");
+   		localStorage.removeItem("RECENTLYADDEDHTML");
+			break;
+	}
+
+});
+
 
 
 </script>
+
+

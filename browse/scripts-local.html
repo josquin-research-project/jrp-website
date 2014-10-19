@@ -38,11 +38,11 @@ var HtmlAccentRemovalMap = [
 
 //////////////////////////////
 //
-// window.onload -- automatic setup of the page after everything 
-//		has been loaded.
+// DOMContentLoaded event listener -- automatic setup of the page 
+//    after everything has been loaded.
 //
 
-window.onload = function() {
+document.addEventListener("DOMContentLoaded", function() {
 
 	AUDIO = document.getElementById("audio");
 	AUDIO.addEventListener('ended', function(e) {
@@ -117,7 +117,8 @@ window.onload = function() {
 
 	updateEzMark();
 	browseDisplay(1);
-}
+
+}, false);
 
 
 
@@ -618,6 +619,12 @@ function generateComposerWorkEntries(worklist, index) {
 	}
 	var titleboxoption    = document.getElementById("titlebox").value;
 	titleboxoption = removeAccents(titleboxoption);
+	// removing trailing space:
+	titleboxoption = titleboxoption.replace(/\s+$/, "");
+	// remove incomplete or search:
+	titleboxoption = titleboxoption.replace(/\s*\bor?\b\s*$/, "");
+	// convert "or" to "|":
+	titleboxoption = titleboxoption.replace(/\s*\bor\b\s*/g, "|");
 	// backslash causes problem in RegExp below, so remove it.
 	titleboxoption = titleboxoption.replace(/\\/g, "");
 

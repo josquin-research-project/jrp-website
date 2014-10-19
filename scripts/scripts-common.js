@@ -96,7 +96,7 @@ const RightArrowKey   = 39;    // maybe also 29 & 57376
 //////////////////////////////
 //
 // initializeWorklist -- manages setup of the WORKLIST object which 
-//    contains a list of the works in the database catagorized by composer.
+//    contains a list of the works in the database categorized by composer.
 //    If the WORKLIST object is already generated, then do nothing (so call
 //    this function whenever the WORKLIST is needed).  Otherwise, the WORKLIST
 //    data will be downloaded from the server, typically from 
@@ -628,12 +628,18 @@ function playAudioFile(jrpid, element) {
 		console.log("Error: could not set up audio interface\n");
 		return false;
    }
+	AUDIO.setAttribute("controls", "controls");
+	AUDIO.style.position = "fixed";
+	AUDIO.style.bottom = "0";
+	AUDIO.style.right = "0";
+	AUDIO.style.zIndex = "1";
 
 	var audiobutton;
    if (jrpid != AUDIOjrpid) {
 		if (!!AUDIOid) {
+			// turn of previously playing audio file:
 			audiobutton = document.getElementById(AUDIOid);
-			if (!!audiobutton) {
+			if (!!audiobutton && !!audiobutton.className) {
 				if (audiobutton.className.match(/mp3/)) {
 					audiobutton.className = "mp3play";
 				} else {
@@ -641,16 +647,20 @@ function playAudioFile(jrpid, element) {
 				}
 			}
 		}
+		AUDIO.removeAttribute("controls");
       AUDIO.pause();
 		
       AUDIOid = element.id;
-		var source = "<source src=\"/data?a=mp3&id=" + jrpid + "\" ";
-		source += "type=\"audio/mpeg\">\n";
+		var source = "";
+		//source += "<source src=\"/data?a=mp3&id=" + jrpid + "\" ";
+		source += "<source src=\"/audio/mp3/" + jrpid + ".mp3\" ";
+		source += "type=\"audio/mpeg\"/>\n";
 		AUDIO.innerHTML = source;
 
 		AUDIOjrpid = jrpid;
 		AUDIO.load();
 		AUDIO.play();
+		AUDIO.setAttribute("controls", "controls");
 		var newelement = document.getElementById(AUDIOid);
 		
 		if (newelement.className.match(/mp3/)) {
@@ -665,7 +675,9 @@ function playAudioFile(jrpid, element) {
 	// on its current state:
 	if (AUDIO.paused) {
 		audiobutton = document.getElementById(AUDIOid);
-
+ 		if (!audiobutton) {
+			return;
+		}
 		if (audiobutton.className.match(/mp3/)) {
 			audiobutton.className = "mp3play";
 		} else {
@@ -677,8 +689,12 @@ function playAudioFile(jrpid, element) {
 			element.className = "pause";
 		}
 		AUDIO.play();
+		AUDIO.setAttribute("controls", "controls");
 	} else {
 		audiobutton = document.getElementById(AUDIOid);
+ 		if (!audiobutton) {
+			return;
+		}
 		if (audiobutton.className.match(/mp3/)) {
 			audiobutton.className = "mp3pause";
 		} else {
@@ -690,7 +706,22 @@ function playAudioFile(jrpid, element) {
 			element.className = "play";
 		}
 		AUDIO.pause();
+		AUDIO.removeAttribute("controls");
 	}
+}
+
+
+
+//////////////////////////////
+//
+// ClearWorklistCache --
+//
+
+function ClearWorklistCache() {
+   localStorage.removeItem("WORKLIST");
+   localStorage.removeItem("WORKLISTrefreshtime");
+   localStorage.removeItem("WORKjrpid");
+   localStorage.removeItem("RECENTLYADDEDHTML");
 }
 
 

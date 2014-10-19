@@ -28,6 +28,14 @@ var SECTIONINDEX        = 0;
 var MARGINRIGHT         = "margin-right: 50px";
 var WORKrangedur        = false;
 
+if (typeof sessionStorage.WORKslist === 'undefined') {
+   sessionStorage.WORKslist = "false";
+}
+var WORKslist = true;
+if (sessionStorage.WORKslist == "false") {
+   WORKslist = false;
+}
+
 var WORKallincipits;
 if (sessionStorage.WORKallincipits == "true") {
    WORKallincipits = true;
@@ -52,13 +60,18 @@ if (sessionStorage.WORKallranges == "true") {
 window.onload = function() {
 	AUDIO = document.getElementById("audio");
 	AUDIO.addEventListener('ended', function(e) {
+		AUDIO.setAttribute("controls", "");
+		AUDIO.currentTime = 0;
 		AUDIO.pause();
 		var pauseelem = document.getElementById(AUDIOid);
-		if (pauseelem.className.match(/mp3/)) {
-			pauseelem.className = "mp3play";
-		} else {
-			pauseelem.className = "play";
+      if (!!pauseelem) {
+			if (pauseelem.className.match(/mp3/)) {
+				pauseelem.className = "mp3play";
+			} else {
+				pauseelem.className = "play";
+			}
 		}
+		
 	}, false);
 
    sessionStorage.ERRORsubmitting  = "false";
@@ -96,7 +109,7 @@ window.onload = function() {
 // generateBreadcrumbs -- Set the breadcrumb area.
 //
 
-function generateBreadcrumbs(title, composer) {
+function generateBreadcrumbs(title, composer, workid) {
 	var bread = "<ul>\n";
 	bread += "<li>";
 
@@ -117,14 +130,49 @@ function generateBreadcrumbs(title, composer) {
 
 	bread += "</li>\n";
 
-	bread += "<li>" + title;
+	bread += "<li style=\"margin-top:5px; font-size:100%;\">" + title;
 	if (composer != "Anonymous") {
 		bread += " (" + composer + ")"
 	}
 	bread += "</li>\n";
 	bread += "<ul>\n";
-
+ 
    return bread;
+}
+
+
+
+//////////////////////////////
+//
+// generateWorkPdfs --
+//
+
+function generateWorkPdfs(workid) {
+   if (!SECTIONS || SECTIONS < 2) {
+		return "";
+	} 
+
+   var wc = "";
+
+/*
+	wc += "<a style=\"line-height:14px;\" ";
+	wc += "class=\"work-orange\" " + PDFTARGET + "href=\"";
+	wc += "/data?a=notationNoEditText&f=" + workid;
+	wc += "\">";
+	wc += "<img title=\"Score of complete work\" src=/images/file-orange.png>";
+	wc += "</a>";
+	wc += "&nbsp;&nbsp;";
+	wc += "&nbsp;&nbsp;";
+	wc += "<a title=\"with editorial accidentals\" style=\"line-height:14px;\" class=\"work-ed-orange\" ";
+	wc += PDFTARGET + "href=\"";
+	wc += "/data?a=notationEditText&f=" + workid;
+	wc += "\">"
+	wc += "<img src=/images/file-ed-orange.png>";
+	wc += "</a>";
+	wc += "&nbsp;&nbsp;";
+*/
+
+   return wc;
 }
 
 
@@ -153,37 +201,48 @@ function displayMultisectionWork(jrpid) {
 		work = WORKLISTjrpid[jrpid];
 	}
    if (typeof work === 'undefined') {
-		document.getElementById("title").innerHTML = "<p>Unknown work ID: " + jrpid + "</p>";
+		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
+				+ jrpid + "</p>";
 		return;
 	}
 
    SECTIONS = work.sections;
    var sectionid = SECTIONS[0].id;
    SECTIONID = sectionid;
-	localStorage.WORKjrpid = sectionid;
-	jrpid = sectionid;
 
    var sectionindex = 0;
 	var i;
    for (i=0; i<SECTIONS.length; i++) {
 		if (jrpid == SECTIONS[i].id) {
 			sectionid = jrpid;
-			sectionindex = i;
+			sectionindex = i+1;
 			break;
 		}
 	}
 
 	SECTIONINDEX = sectionindex;
 
+	localStorage.WORKjrpid = sectionid;
+	jrpid = sectionid;
+
 	var title	 = work.title;
 	var composer = work.comshort;
 
-   var bread = generateBreadcrumbs(title, composer);
+   var bread = generateBreadcrumbs(title, composer, jrpid);
 	document.getElementById("breadcrumbs").innerHTML = bread;
+
+   var workpdfs = generateWorkPdfs(workid);
+	document.getElementById("workpdfs").innerHTML = workpdfs;
 
 	// Set the title line //////////////////////////////////////////////////
 
-	document.getElementById("title").innerHTML = getSectionHeader(sectionid);
+   var titlelem = document.getElementById("title");
+   if (WORKslist) {
+	   //titlelem.innerHTML = getSectionHeaderTable(sectionid, sectionid);
+		displaySection(sectionid);
+   } else {
+	   titlelem.innerHTML = getSectionHeaderMenu(sectionid);
+   }
 	$('select#select-section').prop('selectedIndex', sectionindex);
 	updateEzMark();
 
@@ -203,68 +262,195 @@ function displayMultisectionWork(jrpid) {
 
 //////////////////////////////
 //
-// getSectionHeader -- For a multi-sectioned work.
+// getSectionHeaderTable -- For a multi-sectioned work.
 //
 
-function getSectionHeader(jrpid) {
-	var sectionid = jrpid;
-   var workid    = jrpid.replace(/[a-z.]+$/, "");
+function getSectionHeaderTable(workid, sectionid) {
+	if (!sectionid) {
+		sectionid = workid;
+	}
+	var tc = "";
+	tc += "<section style=\"margin-left:50px; padding-bottom:0; padding-top:0\" id=\"recently-added\">\n";
+//	tc += "<center>\n";
+	tc += "<div>\n";
+	tc += "<h2>XJRP no.:&nbsp;&nbsp;<span id=\"sectionid\">";
+	tc += sectionid + "</span></h2>\n";
+	tc += printSectionTableHeader();
+	var i;
+	for (i=0; i<SECTIONS.length; i++) {
+		tc += printSectionEntries(SECTIONS[i], sectionid);
+	}
+	tc += printSectionTableFooter();
+	tc += "</div>\n";
+//	tc += "</center>\n";
+	tc += "</section>\n";
+   return tc;
+}
 
-	var wc = "";
-	wc += "<ul style=\"padding-right:85px; margin-top:-4px;\">\n";
-	wc += "<li><a style=\"line-height:14px;\" ";
-	wc += "class=\"file-orange\" " + PDFTARGET + "href=\"";
-	wc += "/data?a=notationNoEditText&f=" + workid;
-	wc += "\">Full work<br>score</a></li>\n";
-	wc += "<li><a style=\"line-height:14px;\" class=\"file-ed-orange\" ";
-	wc += PDFTARGET + "href=\"";
-	wc += "/data?a=notationEditText&f=" + workid;
-	wc += "\">w/&nbsp;editorial accidentals</a></li>\n";
-	wc += "</ul>\n";
+
+
+///////////////////////////////
+//
+// printWorklistRecentEntry -- Create the recently added work list.
+//
+
+function printSectionEntries(entry, currentid) {
+	if (!entry) {
+		return "";
+	}
+
+	var stitle    = entry.stitle;
+	var sectionid = entry.id;
+
+   var out = "";
+
+	if (currentid == sectionid) {
+		out = "<tr style=\"background:#f7f7f7;\">\n";
+	} else {
+		out = "<tr>\n";
+	}
+
+	// Title:
+	out += "<td><a style=\"width:200px; cursor:hand; cursor:pointer;\" name=\"";
+	out += "/work?id=" + sectionid;
+	out += "\" onclick=\"displayWork('" + sectionid + "');\"";
+	out += " class=\"text-link\">";
+	out += stitle;
+	out += "</a></td>\n";
+
+	// Scores
+	out += "<td align=center>\n";
+	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" " + PDFTARGET + "href=\"";
+	out += "/data?a=notationNoEditText&f=" + sectionid;
+	out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
+	out += "</td>\n";
+
+	out += "<td>\n";
+	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" " + PDFTARGET + "href=\"";
+	out += "/data?a=notationEditText&f=" + sectionid;
+	out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
+	out += "</td>\n";
+
+	out += "<td style=\"padding-left:30px;\">";
+
+	if (sectionid == AUDIOjrpid) {
+		out += "<span id=\"audio_" + sectionid + "\"";
+		out += "style=\"cursor:hand; cursor:pointer;\" ";
+		out += "onclick=\"playAudioFile('" + sectionid + "', this);\" ";
+		out += "href=\"\" class=\"pause\">play</span>";
+	} else {
+		out += "<span id=\"audio_" + sectionid + "\"";
+		out += "style=\"cursor:hand; cursor:pointer;\" ";
+		out += "onclick=\"playAudioFile('" + sectionid + "', this);\" ";
+		out += "href=\"\" class=\"play\">play</span>";
+	}
+
+	out += "</td>\n";
+
+	out += "</tr>\n";
+
+	return out;
+}
+
+
+
+//////////////////////////////
+//
+// printSectionTableFooter -- Print the table footer for the recently added
+//       works.
+//
+
+function printSectionTableFooter() {
+	var out = "</tbody>\n";
+	out += "</table>\n";
+	return out;
+}
+
+
+
+//////////////////////////////
+//
+// printSectionTableHeader -- Print the table header for the recently added
+//      works.
+//
+
+function printSectionTableHeader(workid) {
+
+	var out = "<table style=\"margin-top:-10px; width:400px;\">\n";
+	out += "<thead>\n";
+	out += "<tr style=\"background:#eee; font-size:125%;\">\n";
+	out += "<td style=\"width:300px;\">Section title</td>\n";
+	out += "<td>Score</td>\n";
+	out += "<td>w/&nbsp;ed.&nbsp;acc.</td>\n";
+	out += "<td style=\"padding-left:30px; padding-right:10px;\">MP3</td>\n";
+	out += "</tr>\n";
+	out += "</thead>\n";
+	out += "</tbody>\n";
+	return out;
+}
+
+
+
+//////////////////////////////
+//
+// getSectionHeaderMenu -- For a multi-sectioned work.
+//
+
+function getSectionHeaderMenu(jrpid) {
+	var sectionid 	= jrpid;
+   var workid    	= jrpid.replace(/[a-z.]+$/, "");
+	var title 		= WORKLISTjrpid[workid].title;
+	var composer	= WORKLISTjrpid[workid].comshort;
 
 	// list of sections underneath JRPID:
 	var tc = "";
-   tc += "<div style=\"padding-top:20px;\" class=\"fl\">\n";
-	tc += "<h2>JRP no.:&nbsp;&nbsp;<span id=\"sectionid\">";
-	tc += sectionid + "</span></h2>\n";
+
+	tc += "<h2 class=\"worktitle\"> " + composer + ", ";
+	tc += title + " (<span id=\"sectionid\">";
+	tc += sectionid + "</span>)</h2>\n";
+
+   tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
+
 	tc += "<div class=\"form-group\">\n";
 	tc += "<select id=\"select-section\"";
 	tc += " onchange=\"displaySection(this.value);\"";
 	tc += ">\n";
+	tc += "<option value=\"" + workid + "\">Complete work</option>\n";
    tc += getOptionList(SECTIONS);
 	tc += "</select>\n";
 	tc += "</div>\n";
 	tc += "</div>\n";
 
    var pc = "";
-	pc += "<ul style=\"margin-top:12px;\">\n";
-	pc += "<li><a style=\"line-height:14px;\" class=\"file-orange\" ";
-	pc += PDFTARGET + "href=\"";
-	pc += "/data?a=notationNoEditText&f=" + jrpid;
-	pc += "\">Section<br>score</a></li>\n";
 
-	pc += "<li><a style=\"line-height:14px;\" class=\"file-ed-orange\" ";
+	pc += "<ul style=\"margin-top:0;\">\n";
+	pc += "<li><a class=\"file-orange WORKLINK\" ";
 	pc += PDFTARGET + "href=\"";
-	pc += "/data?a=notationEditText&f=" + jrpid;
-	pc += "\"><span style=\"margin-top:4px; display:block;\">";
-	pc += "w/&nbsp;ed.&nbsp;acc.</span></a></li>\n";
+	pc += "/data?a=notationNoEditText&f=" + sectionid;
+	pc += "\">Score</a></li>\n";
+
+	pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
+	pc += PDFTARGET + "href=\"";
+	pc += "/data?a=notationEditText&f=" + sectionid;
+	pc += "\"><span style=\"display:block;\">";
+	pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 
 	if (jrpid == AUDIOjrpid) {
-		pc += "<li><a id=\"audio_" + jrpid + "\"";
+		pc += "<li><a id=\"audio_" + sectionid + "\"";
 		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
-		pc += "margin-top:6px;\" ";
+		pc += "\" ";
 		pc += "class=\"mp3pause\" target=\"new\" ";
-		pc += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
 		pc += "name=\"/data?a=mp3&f=";
 		pc += jrpid + "\">MP3</a></li>\n";
 	} else {
-		pc += "<li><a id=\"audio_" + jrpid + "\"";
+		pc += "<li><a id=\"audio_" + sectionid + "\"";
 		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
-		pc += "margin-top:6px;\" ";
+		pc += "\" ";
 		pc += "class=\"mp3play\" target=\"new\" ";
-		pc += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
 		pc += "name=\"/data?a=mp3&f=";
-		pc += jrpid + "\">MP3</a></li>\n";
+		pc += sectionid + "\">MP3</a></li>\n";
 	}
 
 	pc += "</ul>\n";
@@ -311,7 +497,7 @@ function getSectionHeader(jrpid) {
 	pc += "</ul>\n";
 */
 
-	return wc + tc + pc;
+	return tc + pc;
 }
 
 
@@ -393,7 +579,7 @@ function showSectionDownloads(jrpid) {
 	download += "\">PDF score</a></li>\n";
 
 	download += "<li><a " + PDFTARGET + "class=\"icon-file-ed\" href=\"";
-	download += "/data?a=notationText&f=" + sectionid;
+	download += "/data?a=notationEditText&f=" + sectionid;
 	download += "\">PDF w/ ed. accidentals</a></li>\n";
 
 	download += "<li><a class=\"icon-midi\" href=\"";
@@ -471,20 +657,20 @@ function printErrorReportButton(jrpid) {
 //
 
 function getOptionList(sections) {
-   var output = "";
+   var out = "";
 
    var id;
 	for (i=0; i<sections.length; i++) {
 		id = sections[i].id;
-		output += "<option value=\"" + sections[i].id + "\"";
-		output += ">";
+		out += "<option value=\"" + sections[i].id + "\"";
+		out += ">";
 		// convert underscores to spaces in WORKLIST generator:
 		sections[i].stitle = sections[i].stitle.replace(/_/g, " ");
-		output += sections[i].stitle;
-		output += "</option>\n";
+		out += sections[i].stitle;
+		out += "</option>\n";
 	}
 
-	return output;
+	return out;
 }
 
 
@@ -572,6 +758,7 @@ function hasMultipleSections(jrpid) {
 //
 
 function displayWork(jrpid) {
+	SECTIONS = null;
 	initializeWorklistFlat();
    if (hasMultipleSections(jrpid)) {
 		displayMultisectionWork(jrpid);
@@ -592,7 +779,8 @@ function displayWork(jrpid) {
 	}
 
    if (typeof work === 'undefined') {
-		document.getElementById("title").innerHTML = "<p>Unknown work ID: " + jrpid + "</p>";
+		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
+				+ jrpid + "</p>";
 		return;
 	}
 
@@ -602,17 +790,20 @@ function displayWork(jrpid) {
    var bread = generateBreadcrumbs(title, composer);
 	document.getElementById("breadcrumbs").innerHTML = bread;
 
+   var workpdfs = generateWorkPdfs(workid);
+	document.getElementById("workpdfs").innerHTML = workpdfs;
+
 	// Set the title line //////////////////////////////////////////////////
 	var titleContent = "";
-	titleContent += "<h2>JRP no.:&nbsp;&nbsp;" + jrpid + "</h2>\n";
+	titleContent += "<h2 style=\"margin-bottom:0;\">" + composer + ", " + title + " (" + jrpid + ")</h2>\n";
 
-	titleContent += "<ul style=\"padding-top:12px;\">\n";
+	titleContent += "<ul style=\"padding-top:0;\">\n";
 	titleContent += "<li><a class=\"file-orange\" " + PDFTARGET + "href=\"";
 	titleContent += "/data?a=notationNoEditText&f=" + jrpid;
 	titleContent += "\">Score</a></li>\n";
 
 	titleContent += "<li><a class=\"file-ed-orange\" " + PDFTARGET + "href=\"";
-	titleContent += "/data?a=notationText&f=" + jrpid;
+	titleContent += "/data?a=notationEditText&f=" + jrpid;
 	titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
 
 	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" ";
@@ -643,7 +834,7 @@ function displayWork(jrpid) {
 	download += "\">PDF score</a></li>\n";
 
 	download += "<li><a class=\"icon-file-ed\" " + PDFTARGET + "href=\"";
-	download += "/data?a=notationText&f=" + jrpid;
+	download += "/data?a=notationEditText&f=" + jrpid;
 	download += "\">PDF w/ ed. accidentals</a></li>\n";
 
 	download += "<li><a class=\"icon-midi\" href=\"";
@@ -706,18 +897,19 @@ function displayWork(jrpid) {
 
 function prepareIncipitArea(jrpid, sections) {
 	var area = document.getElementById("music-area");
-	var output = "";
+	var out = "";
    if (!sections) {
 		// set up single incipit display
-		output += "<div id=\"incipit_" + jrpid + "\"></div>\n";
+		out += "<div id=\"incipit_" + jrpid + "\"></div>\n";
    } else {
 		// set up multiple incipit display
+		out += "<div style=\"height:0;\" id=\"incipit_" + jrpid + "\"></div>\n";
 		for (var i=0; i<sections.length; i++) {
-		   output += "<div style=\"height:0;\" id=\"incipit_" + sections[i].id + "\"></div>\n";
+		   out += "<div style=\"height:0;\" id=\"incipit_" + sections[i].id + "\"></div>\n";
 		}
-		output += "<div id=\"incipit-button\"></div>\n";
+		out += "<div id=\"incipit-button\"></div>\n";
    }
-   area.innerHTML = output;
+   area.innerHTML = out;
 	area.style.height = "200px";  // Give a dummy height until the next
 											// incipit is shown.  This prevents
 											// annoying jumping of text around on page.
@@ -735,7 +927,7 @@ function prepareIncipitArea(jrpid, sections) {
 
 function prepareRangeArea(jrpid, sections) {
 	var area = document.getElementById("vocal-ranges");
-   var output = "";
+   var out = "";
    var sindex = -1;
    if (!!sections && sections.length > 0) {
 		for (var i=0; i<sections.length; i++) {
@@ -746,31 +938,31 @@ function prepareRangeArea(jrpid, sections) {
 		}
    }
    if (sindex >= 0) {
-  		output += "<h3 class=\"brown-border\">Vocal Ranges";
-   	output += " (" + sections[sindex].stitle +")</h3>\n";
+  		out += "<h3 class=\"brown-border\">Vocal Ranges";
+   	out += " (" + sections[sindex].stitle +")</h3>\n";
 	} else {
-  		output += "<h3 class=\"brown-border\">Vocal Ranges</h3>";
+  		out += "<h3 class=\"brown-border\">Vocal Ranges</h3>";
 	}
-  	output += "<span class=\"orange-text\">mouse-over";
-	output += " to see note ";
+  	out += "<span class=\"orange-text\">mouse-over";
+	out += " to see note ";
 	if (WORKrangedur) {
-   	output += "durations";
+   	out += "durations";
 	} else {
-   	output += "counts";
+   	out += "counts";
 	}
-   output += "</span>\n";
+   out += "</span>\n";
    if (!sections || sections.length < 2) {
 		// set up single incipit display
-		output += "<div id=\"range_" + jrpid + "\"></div>\n";
+		out += "<div id=\"range_" + jrpid + "\"></div>\n";
    } else {
 		// set up multiple incipit display
 		for (var i=0; i<sections.length; i++) {
-		   output += "<div style=\"height:0;\" id=\"range_";
-			output += sections[i].id + "\"></div>\n";
+		   out += "<div style=\"height:0;\" id=\"range_";
+			out += sections[i].id + "\"></div>\n";
 		}
-		// output += "<div id=\"range-button\"></div>\n";
+		// out += "<div id=\"range-button\"></div>\n";
    }
-   area.innerHTML = output;
+   area.innerHTML = out;
 	area.style.height = "15px";  // Give a dummy height until the next
 											// incipit is shown.  This prevents
 											// annoying jumping of text around on page.
@@ -785,7 +977,7 @@ function prepareRangeArea(jrpid, sections) {
 //
 
 function showIncipitButton() {
-	if (!SECTIONS) {
+	if (!SECTIONS || SECTIONS.length < 2) {
 		return;
 	}
 
@@ -823,12 +1015,12 @@ function showRangeButtons() {
    ib += "<span ";
 	if (!WORKrangedur) {
    	ib += "style=\"cursor:hand; cursor:pointer; padding-right:10px;\" ";
-		ib += "onclick=\"toggleRangeType();\" ";
+		ib += "onclick=\"toggleRangeByDuration();\" ";
    	ib += "class=\"btn btn-brown\">";
 		ib += "Show&nbsp;by&nbsp;duration";
 	} else {
    	ib += "style=\"cursor:hand; cursor:pointer; margin-left:-10px; padding-right:10px;\" ";
-		ib += "onclick=\"toggleRangeType();\" ";
+		ib += "onclick=\"toggleRangeByDuration();\" ";
    	ib += "class=\"btn btn-brown\">";
 		ib += "Show&nbsp;by&nbsp;note&nbsp;counts";
 	}
@@ -858,10 +1050,45 @@ function showRangeButtons() {
 
 //////////////////////////////
 //
+// toggleTitleType --
+//
+
+function toggleTitleType() {
+   if (!SECTIONS || SECTIONS < 2) {
+		// don't toggle title display when looking at single-section works.
+		return;
+	}
+
+	WORKslist = !WORKslist;
+	sessionStorage.WORKslist = WORKslist;
+
+   var workid    = localStorage.WORKjrpid;
+   var sectionid = SECTIONID;
+	var sectionindex = SECTIONINDEX;
+
+   var titlelem = document.getElementById("title");
+   if (WORKslist) {
+	   titlelem.innerHTML = getSectionHeaderTable(workid, sectionid);
+   } else {
+	   titlelem.innerHTML = getSectionHeaderMenu(sectionid);
+		$('select#select-section').prop('selectedIndex', sectionindex);
+		updateEzMark();
+   }
+
+}
+
+
+
+//////////////////////////////
+//
 // toggleIncipitDisplay --
 //
 
 function toggleIncipitDisplay() {
+   if (!SECTIONS || SECTIONS < 2) {
+		// don't toggle title display when looking at single-section works.
+		return;
+	}
 	WORKallincipits = !WORKallincipits;
 	sessionStorage.WORKallincipits = WORKallincipits;
 	if (!WORKallincipits) {
@@ -876,7 +1103,6 @@ function toggleIncipitDisplay() {
 			scrollTop: $('body').offset().top
 		}, 300);
 	}
-
 }
 
 
@@ -887,6 +1113,10 @@ function toggleIncipitDisplay() {
 //
 
 function toggleRangeDisplay() {
+   if (!SECTIONS || SECTIONS < 2) {
+		// don't toggle title display when looking at single-section works.
+		return;
+	}
 	WORKallranges = !WORKallranges;
 	sessionStorage.WORKallranges = WORKallranges;
 	if (WORKallranges) {
@@ -919,10 +1149,10 @@ function toggleRangeDisplay() {
 
 //////////////////////////////
 //
-// toggleRangeType --
+// toggleRangeByDuration --
 //
 
-function toggleRangeType() {
+function toggleRangeByDuration() {
 	WORKrangedur = !WORKrangedur;
 	sessionStorage.WORKrangedur = WORKrangedur;
    prepareRangeArea(localStorage.WORKjrpid, SECTIONS);
@@ -1133,12 +1363,12 @@ function buildComposerSelect() {
 		return;
 	}
 
-	var output = "<select id=\"composers\">";
-	output += "<option label=\"default\">All Composers</option>\n";
+	var out = "<select id=\"composers\">";
+	out += "<option label=\"default\">All Composers</option>\n";
 	var clist = getComposerOptions();
-	output += clist;
-	output += "</select>\n";
-	composerselect.innerHTML = output;
+	out += clist;
+	out += "</select>\n";
+	composerselect.innerHTML = out;
 	updateEzMark();
 }
 
@@ -1156,11 +1386,11 @@ function buildRepertorySelect() {
 		return;
 	}
 
-	var output  = "<select style=\"width:220px;\" id=\"repertory\">\n";
+	var out  = "<select style=\"width:220px;\" id=\"repertory\">\n";
 	var clist = getComposerOptions();
-	output += clist;
-	output += "</select>\n";
-	repsel.innerHTML = output;
+	out += clist;
+	out += "</select>\n";
+	repsel.innerHTML = out;
 	var pieces = localStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/);
 	if (pieces != null) {
 		// $('#repertory').val(pieces[1]); // doesn't seem to work.
@@ -1188,11 +1418,11 @@ function buildGenreSelect() {
 		return;
 	}
 
-	var output = "<select id=\"genres\"";
-	output += " data-placeholder=\"All Genres\">\n";
-	output += "<option label=\"default\">All Genres</option>\n";
-	output += getGenreOptions();
-	genreselect.innerHTML = output;
+	var out = "<select id=\"genres\"";
+	out += " data-placeholder=\"All Genres\">\n";
+	out += "<option label=\"default\">All Genres</option>\n";
+	out += getGenreOptions();
+	genreselect.innerHTML = out;
 	updateEzMark();
 }
 
@@ -1314,6 +1544,7 @@ function displayPreviousWorkPage() {
 
 function displayPreviousRepertoryPage() {
 	var i;
+	SECTIONS = [];
 	if ((localStorage.WORKjrpid == null) || (localStorage.WORKjrpid == "")) {
 		localStorage.WORKjrpid = "Jos2721";
 	}
@@ -1347,6 +1578,7 @@ function displayPreviousRepertoryPage() {
 function displayNextRepertoryPage() {
 	var i;
 	initializeWorklist();
+	SECTIONS = [];
 	var pieces = localStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/);
 	var repertory = pieces[1];
 	
@@ -1370,84 +1602,44 @@ function displayNextRepertoryPage() {
 // displaySection --
 //
 
-function displaySection(jrpid) {
+function displaySection(workid) {
 
-	var sectionid = jrpid;
-   var sectionindex = 0;
+	var sectionid = workid;
+   var sectionindex = -1;
 	var i;
    for (i=0; i<SECTIONS.length; i++) {
-		if (jrpid == SECTIONS[i].id) {
-			sectionid = jrpid;
+		if (workid == SECTIONS[i].id) {
+			sectionid = workid;
 			sectionindex = i;
 			break;
 		}
 	}
 
-	document.getElementById("title").innerHTML = getSectionHeader(sectionid);
-	$('select#select-section').prop('selectedIndex', sectionindex);
-	updateEzMark();
+	var titlelem = document.getElementById("title");
+	if (WORKslist == true) {
+		titlelem.innerHTML = getSectionHeaderTable(sectionid);
+	} else {
+console.log("SEC", sectionid);
+		titlelem.innerHTML = getSectionHeaderMenu(sectionid);
+		$('select#select-section').prop('selectedIndex', sectionindex+1);
+		updateEzMark();
+	}
 
-	localStorage.WORKjrpid = jrpid;
-	//document.getElementById("sectionid").innerHTML = jrpid;
-   SECTIONID = jrpid;
+	localStorage.WORKjrpid = workid;
+	//document.getElementById("sectionid").innerHTML = workid;
+   SECTIONID = workid;
 
 	if (!WORKallincipits) {
-	   prepareIncipitArea(jrpid, SECTIONS);
-	   getIncipitAsync(jrpid);
+	   prepareIncipitArea(workid, SECTIONS);
+	   getIncipitAsync(workid);
    }
 
 	if (!WORKallranges) {
-	   prepareRangeArea(jrpid, SECTIONS);
-	   getRangeAsync(jrpid);
+	   prepareRangeArea(workid, SECTIONS);
+	   getRangeAsync(workid);
    }
 
-   showSectionDownloads(jrpid);
-}
-
-
-
-//////////////////////////////
-//
-// XgetRangeAsync --
-//
-
-function XgetRangeAsync(jrpid) {
-
-	if (!!RANGES[jrpid]) {
-	  	var output = "<h3 class=\"brown-border\">Vocal Ranges</h3>\n";
-	  	output += "<span class=\"orange-text\">mouse-over";
-		output += " to see note counts</span>\n";
-	  	output += "<span class=\"vocal-wrap\">";
-	  	output += RANGES[jrpid];
-	  	output += "</span>\n";
-	  	var rangearea = document.getElementById("vocal-ranges");
-	  	rangearea.innerHTML = output;
-		return;
-	}
-
-   var action = "";
-	readFileAsync("/data?a=" + action + "&id=" + jrpid, function(responseText) {
-		var rangedata = responseText;
-		var rangearea = document.getElementById("vocal-ranges");
-		if (rangedata.match(/^\s*Error/)) {
-			rangearea.innerHTML = "";	
-			return;
-		}
-		if (allranges) {
-			RANGESnotelabeled[jrpid] = rangedata;
-		} else {
-			RANGESnoteunlabeled[jrpid] = rangedata;
-		}
-		if (rangedata != "") {
-			var output = "<h3 class=\"brown-border\">Vocal Ranges</h3>\n";
-			output += "<span class=\"orange-text\">";
-			output += "mouse-over to see note counts</span>\n";
-			output += "<span class=\"vocal-wrap\">";
-			output += rangedata;
-			output += "</span>\n";
-			rangearea.innerHTML = output;
-		}
-	});
+   showSectionDownloads(workid);
 }
 
 
@@ -1468,8 +1660,10 @@ function getRangeAsync(jrpid) {
 
 	if (!!RANGES[jrpid]) {
  		var area = document.getElementById("range_" + jrpid);
-		if (!!area) { area.style.height = ""; }
-	  	area.innerHTML = RANGES[jrpid];
+		if (!!area) { 
+			area.style.height = ""; 
+	  		area.innerHTML = RANGES[jrpid];
+		}
       document.getElementById("vocal-ranges").style.height = "";
 		return;
 	}
@@ -1522,6 +1716,11 @@ function getIncipitAsync(jrpid) {
 		imgtext += "\" alt=\"music placeholder\">";
 	  	area.innerHTML = imgtext;
 		return;
+	}
+
+	var incipit = document.getElementById("incipit_" + jrpid);
+	if (!incipit) {
+		incipit = document.getElementById("incipit_" + jrpid + "a");
 	}
 
 	document.getElementById("incipit_" + jrpid).style.height = "200px";
@@ -1586,8 +1785,7 @@ window.addEventListener('keydown', function(e) {
 	var E	= window.event? event : e;
 	var keycode  = E.keyCode;
 	var unicode  = E.charCode ? E.charCode : E.keyCode;
-	var key		= String.fromCharCode(unicode);
-	var output	= '';
+	var key		 = String.fromCharCode(unicode);
 
 	if (keycode == ControlKey) {
 		ControlKeyState = 1;
@@ -1601,23 +1799,59 @@ window.addEventListener('keydown', function(e) {
 		CommandKeyState = 1;
 	}
 
+   if (CommandKeyState) {
+		// Don't mess with meta key (command key in OS X)
+      return;
+   }
+
 	switch (keycode) {
-		case IKey:
-			if (ControlKeyState) {
-				toggleIncipitDisplay();
+
+		case CKey:
+			ClearWorklistCache();
+			break;
+
+		case DKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
 			}
+			e.preventDefault();
+			e.stopPropagation();
+			toggleRangeByDuration();
+			break;
+
+		case IKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			toggleIncipitDisplay();
 			break;
 
 		case RKey:
-			if (ControlKeyState) {
-				toggleRangeDisplay();
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
 			}
+			e.preventDefault();
+			e.stopPropagation();
+			toggleRangeDisplay();
 			break;
 
-		case TKey:
-			if (ControlKeyState) {
-				toggleRangeType();
+		case SKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
 			}
+			e.preventDefault();
+			e.stopPropagation();
+			toggleTitleType();
 			break;
 
 		case RightArrowKey:
@@ -1642,12 +1876,27 @@ window.addEventListener('keydown', function(e) {
 
 		case UpArrowKey:
 			if (ShiftKeyState) {
-				if (SECTIONS.length < 2) {
+				if (!SECTIONS || SECTIONS.length < 2) {
 					break;
 				}
+
+				var i;
+				var si = -1;
+				for (i=0; i<SECTIONS.length; i++) {
+					if (SECTIONS[i].id == localStorage.WORKjrpid) {
+						si = i;
+						break;
+					}
+				}
+
+				var ocount = SECTIONS.length;
+				var current = si;
+
 				// display previous section of multisection work
-				var ocount = $('select#select-section option').length;
-				var current = $('select#select-section option:selected').index();
+				if (si < 0) {
+					var ocount = $('select#select-section option').length;
+					var current = $('select#select-section option:selected').index();
+				}
 				current--;
 				if (current < 0) {
 					current = ocount - 1;
@@ -1662,21 +1911,156 @@ window.addEventListener('keydown', function(e) {
 
 		case DownArrowKey:
 			if (ShiftKeyState) {
-				if (SECTIONS.length < 2) {
-					break;
-				}
-				// display next section of multisection work
-				var ocount = $('select#select-section option').length;
-				var current = $('select#select-section option:selected').index();
-				current++;
-				if (current > ocount-1) {
-					current = 0;
-				}
-				var sectionid = SECTIONS[current].id;
-				$('select#select-section').prop('selectedIndex', current);
-				displaySection(sectionid);
-				updateEzMark();
+				displayNextSection();
 			}
+			break;
+
+		case OneKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(1);
+			break;
+
+		case TwoKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(2);
+			break;
+
+		case ThreeKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(3);
+			break;
+
+		case FourKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(4);
+			break;
+
+		case FiveKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(5);
+			break;
+
+		case SixKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(6);
+			break;
+
+		case SevenKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(7);
+			break;
+
+		case EightKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(6);
+			break;
+
+		case NineKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			displaySectionNumber(9);
+			break;
+
+		case PKey:
+			if ($(e.target).is('input') && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			playAudioFile(localStorage.WORKjrpid, document.getElementById("audio_" + localStorage.WORKjrpid));
+			break;
+
+		case SpaceKey:
+			if ($(e.target).is('input') && (!ShiftKeyState) && (!ControlKeyState)) {
+				// Ignore space command if typing input
+				// Use shift-space in that case to stop.
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			if (!AUDIO) {
+				break;
+			}
+			if (!AUDIOid) {
+				break;
+			}
+			if (AUDIO.paused) {
+				var audiobutton = document.getElementById(AUDIOid);
+				if (!!audiobutton) {
+					if (audiobutton.className.match(/mp3/)) {
+						audiobutton.className = "mp3pause";
+					} else {
+						audiobutton.className = "pause";
+					}
+				}
+				AUDIO.play();
+			} else {
+				var audiobutton = document.getElementById(AUDIOid);
+				if (!!audiobutton) {
+					if (audiobutton.className.match(/mp3/)) {
+						audiobutton.className = "mp3play";
+					} else {
+						audiobutton.className = "play";
+					}
+				}
+				AUDIO.pause();
+			}
+			return false;
 			break;
 
 		case HomeKey:
@@ -1700,6 +2084,80 @@ window.addEventListener('keydown', function(e) {
 
 	}
 });
+
+
+
+//////////////////////////////
+//
+// displayNextSection --
+//
+
+function displayNextSection() {
+
+	if (!SECTIONS || SECTIONS.length < 2) {
+		return;
+	}
+
+	var i;
+	var si = -1;
+	for (i=0; i<SECTIONS.length; i++) {
+		if (SECTIONS[i].id == localStorage.WORKjrpid) {
+			si = i;
+			break;
+		}
+	}
+
+	var ocount = SECTIONS.length;
+	var current = si;
+	
+	if (si < 0) {
+		// display next section of multisection work
+		ocount = $('select#select-section option').length;
+		current = $('select#select-section option:selected').index();
+	}
+	current++;
+	if (current > ocount-1) {
+		current = 0;
+	}
+	var sectionid = SECTIONS[current].id;
+	$('select#select-section').prop('selectedIndex', current);
+	displaySection(sectionid);
+	updateEzMark();
+}
+
+
+
+//////////////////////////////
+//
+// displaySectionNumber --
+//
+
+function displaySectionNumber(sectionnum) {
+	if (SECTIONS.length < 2) {
+		// not a multi-sectiond work
+		return;
+	}
+	var ocount = SECTIONS.length;
+	var si     = sectionnum - 1;
+
+   if ((si < 0) || (si >= SECTIONS.length)) {
+		// not a valid section
+		return;
+	}
+
+	if (si < 0) {
+		// display next section of multisection work
+		ocount = $('select#select-section option').length;
+		si = $('select#select-section option:selected').index();
+	}
+	if (si > ocount-1) {
+		si = 0;
+	}
+	var sectionid = SECTIONS[si].id;
+	$('select#select-section').prop('selectedIndex', si);
+	displaySection(sectionid);
+	updateEzMark();
+}
 
 
 
