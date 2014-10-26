@@ -1,0 +1,87 @@
+<style>
+/* 
+ * CSS styling for error reports.  These are found on the pages:
+ *  	/error 
+ * and 
+ * 	/error-reports
+ */
+
+table.error {
+	margin-right:100px;
+/*	border-top: 1px solid #ccc; */
+}
+
+.error td {
+/*	border-bottom: 1px solid #ccc; */
+}
+
+
+.error p { 
+	color: black;
+	padding: 0;
+}
+
+
+.error dd pre {
+	margin: 0;
+	padding: 0;
+}
+
+.error dl {
+	border: 1px solid #ccc;
+	padding: 0.25em;
+}
+
+p.dense { 
+	margin-top: 8px; 
+	margin-bottom: 8px;
+}
+
+.error dl > dt {
+	color: #d7ab5b;
+}
+
+.error dl {
+	background-color: #fcf6ec;
+	border: 1px solid #d7ab5b;
+}
+
+.error dt {
+	float: left;
+	clear: left;
+	width: 130px;
+	padding-right: 10px;
+	text-align: right;
+	font-weight: bold;
+	font-family: Leto,sans-serif;
+	color: #c86843;
+}
+
+
+.error dt:after {
+	content: ":";
+}
+
+.error dd {
+	margin: 0;
+	padding: 0;
+	margin-left: 130px;
+}
+
+dl.error > dd > ul {
+	margin-top: 0;
+	margin-left: 0;
+	padding-left: 1em;
+	list-style-type: none;
+}
+
+dl.error > dd > ul > li {
+	padding: 0;
+	margin: 0;
+	color: #228;
+	line-height: 1em;
+	text-indent: -20px;
+	padding-left: 1em;
+}
+
+</style>
