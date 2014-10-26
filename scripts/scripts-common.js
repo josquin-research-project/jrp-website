@@ -11,21 +11,15 @@
 //
 
 // GLOBAL VARIABLES:
-var WORKLIST;
-var WORKLISTrecent = [];
-var WORKLISTjrpid  = {};
-var BASEADDR       = window.location.host;
-var PDFTARGET      = "target=\"new\"";
-var AUDIO          = null;						// HTML5 audio interface ID
-var AUDIOjrpid     = "";  						// currently playing audio file
-var AUDIOid        = "";                  // currently playing audio button
+var WORKLIST;										 // Master index of works in JRP database.
+var WORKLISTrecent = [];						 // List of works reverse sorted by add date.
+var WORKLISTjrpid  = {};						 // Hash of works by JRP ID.
+var BASEADDR       = window.location.host; // Base address of URL.
+var PDFTARGET      = 'target="new"';		 // Display PDF files in separate tab/window.
+var AUDIO          = null;						 // HTML5 audio interface ID.
+var AUDIOjrpid     = '';  						 // currently playing audio file.
+var AUDIOid        = '';                   // currently playing audio button.
 
-
-// State variables used for keeping track of keypresses:
-var ControlKeyState = 0;
-var ShiftKeyState   = 0;
-var AltKeyState     = 0;
-var CommandKeyState = 0;
 
 // List of Key Codes.  More can be extracted from this page:
 // http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
@@ -95,7 +89,7 @@ const RightArrowKey   = 39;    // maybe also 29 & 57376
 
 //////////////////////////////
 //
-// initializeWorklist -- manages setup of the WORKLIST object which 
+// InitializeWorklist -- manages setup of the WORKLIST object which 
 //    contains a list of the works in the database categorized by composer.
 //    If the WORKLIST object is already generated, then do nothing (so call
 //    this function whenever the WORKLIST is needed).  Otherwise, the WORKLIST
@@ -103,7 +97,7 @@ const RightArrowKey   = 39;    // maybe also 29 & 57376
 //    /include/worklist.json.
 //
 
-function initializeWorklist() {
+function InitializeWorklist() {
    if (WORKLIST != null) {
       return;
    }
@@ -120,11 +114,11 @@ function initializeWorklist() {
    }
 
    if ((typeof localStorage.WORKLIST === 'undefined') ||
-         (localStorage.WORKLIST == "null") || (localStorage.WORKLIST == "")) {
+         (localStorage.WORKLIST == 'null') || (localStorage.WORKLIST == '')) {
       // need to download the WORKLIST data from the server.
-      localStorage.WORKLIST = readFile('/includes/worklist.json');
+      localStorage.WORKLIST = ReadFile('/includes/worklist.json');
       if (localStorage.WORKLIST.match(/^\s*$/)) {
-         localStorage.WORKLIST = readFile('/data?a=worklist-json'); 
+         localStorage.WORKLIST = ReadFile('/data?a=worklist-json'); 
       }
       WORKLIST = JSON.parse(localStorage.WORKLIST);
       localStorage.WORKLISTrefreshtime = currenttime + refreshtime;
@@ -138,7 +132,7 @@ function initializeWorklist() {
 
 //////////////////////////////
 //
-// initializeWorklistFlat -- Create a flattened list of works.  Two 
+// InitializeWorklistFlat -- Create a flattened list of works.  Two 
 //    (global) objects will be created from the WORKLIST object: 
 //    (1) WORKLISTrecent -- an array which is a list of works 
 //        reverse-sorted by date added.   Also stored in 
@@ -147,14 +141,14 @@ function initializeWorklist() {
 //    JRP ID.  Also stored in sessionStorage.WORKLISTjrpid.
 //
 
-function initializeWorklistFlat() {
+function InitializeWorklistFlat() {
 
    if ((WORKLISTrecent != null) && (WORKLISTrecent.length != 0)) {
       // WORILISTjrpid is presumed to be in a similar state.
       return;
    }
 
-   initializeWorklist();
+   InitializeWorklist();
 
    WORKLISTrecent = [];
    WORKLISTjrpid  = {};
@@ -162,18 +156,6 @@ function initializeWorklistFlat() {
    var i;
    var works;
    var jrpid;
-
-/* Don't extract from sessionStorage:
-   if ((typeof sessionStorage.WORKLISTrecent !== 'undefined') &&
-         (sessionStorage.WORKLISTrecent != "")) {
-      WORKLISTrecent = JSON.parse(sessionStorage.WORKLISTrecent);
-      if ((typeof sessionStorage.WORKLISTjrpid !== 'undefined') && 
-         (sessionStorage.WORKLISTjrpid != "")) {
-         WORKLISTjrpid  = JSON.parse(sessionStorage.WORKLISTjrpid);
-         return;
-      }
-   }
-*/
 
    for (i=0; i<WORKLIST.length; i++) {
       works = WORKLIST[i].works;
@@ -188,8 +170,6 @@ function initializeWorklistFlat() {
    }
 
    WORKLISTrecent.sort(byReverseAddDate);
-//   sessionStorage.WORKLISTrecent = JSON.stringify(WORKLISTrecent);
-//   sessionStorage.WORKLISTjrpid  = JSON.stringify(WORKLISTjrpid);
 }
 
 
@@ -199,13 +179,20 @@ function initializeWorklistFlat() {
 // byReverseAddDate -- sort a work by reverse add date.
 //
 
+
 function byReverseAddDate(a, b) {
-   if (a.ad > b.ad) {
-      return -1; 
-   } 
-   if (a.ad < b.ad) {
-      return 1;
-   }
+   var date1 = a.ud;
+   var date2 = b.ud;
+
+	if (!date1) { date1 = a.ad; }
+	if (!date2) { date2 = b.ad; }
+	if (!date1) { date1 = 0; }
+	if (!date2) { date2 = 0; }
+   if (date1 > date2) { return -1; } 
+   if (date1 < date2) { return +1; }
+   if (a.id  < b.id)  { return -1; }
+   if (a.id  > b.id)  { return +1; }
+
    return 0;
 }
 
@@ -213,18 +200,18 @@ function byReverseAddDate(a, b) {
 
 //////////////////////////////
 //
-// getDataFile -- download a data file from the server and keep it for
+// GetDataFile -- download a data file from the server and keep it for
 //    use later.
 //
 
-function getDataFile(jrpid, prefix, action) {
+function GetDataFile(jrpid, prefix, action) {
    var variable = prefix + jrpid;
 
    if (typeof localStorage[variable] != 'undefined') {
       return localStorage[variable];
    }
    
-   initializeWorklistFlat();
+   InitializeWorklistFlat();
 
    // Get the first section's incipit if a multi-section work:
    var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
@@ -234,7 +221,7 @@ function getDataFile(jrpid, prefix, action) {
       work = WORKLISTjrpid[workid + pieces[2]];
    }
    if (work == null) {
-      console.log("Error: " + workid + " not in WORKLISTjrpid.");
+      console.log('Error: ' + workid + ' not in WORKLISTjrpid.');
       return;
    }
    var i;
@@ -243,7 +230,7 @@ function getDataFile(jrpid, prefix, action) {
    }
 
    // content is not in localStorage, so download, store, and return.
-   var imagedata = readFile('http://' + BASEADDR + '/data?a=' + action + '&f=' + jrpid);
+   var imagedata = ReadFile('http://' + BASEADDR + '/data?a=' + action + '&f=' + jrpid);
    localStorage[variable] = imagedata;
    return imagedata;
 }
@@ -252,17 +239,17 @@ function getDataFile(jrpid, prefix, action) {
 
 //////////////////////////////
 //
-// getDataFileAsync -- get a data file asynchronously.
+// GetDataFileAsync -- get a data file asynchronously.
 //
 
-function getDataFileAsync(jrpid, prefix, action, callback) {
+function GetDataFileAsync(jrpid, prefix, action, callback) {
    var variable = prefix + jrpid;
 
    if (typeof localStorage[variable] != 'undefined') {
       return localStorage[variable];
    }
    
-   initializeWorklistFlat();
+   InitializeWorklistFlat();
 
    // Get the first section's incipit if a multi-section work:
    var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
@@ -272,7 +259,7 @@ function getDataFileAsync(jrpid, prefix, action, callback) {
       work = WORKLISTjrpid[workid + pieces[2]];
    }
    if (work == null) {
-      console.log("Error2: " + workid + " not in WORKLISTjrpid.");
+      console.log('Error2: ' + workid + ' not in WORKLISTjrpid.');
       return;
    }
    var i;
@@ -281,7 +268,7 @@ function getDataFileAsync(jrpid, prefix, action, callback) {
    }
 
    // content is not in localStorage, so download, store, and return.
-   readFileAsync('http://' + BASEADDR + '/data?a=' + action + '&f=' + jrpid, callback);
+   ReadFileAsync('http://' + BASEADDR + '/data?a=' + action + '&f=' + jrpid, callback);
    //localStorage[variable] = imagedata;
    // return imagedata;
 }
@@ -290,7 +277,7 @@ function getDataFileAsync(jrpid, prefix, action, callback) {
 
 //////////////////////////////
 //
-// readFile -- Download URL content which is returned as a string.
+// ReadFile -- Download URL content which is returned as a string.
 //      The URL must be on the same domain as index.html due to
 //      JavaScript Same-Origin policy:
 //         http://en.wikipedia.org/wiki/Same-origin_policy
@@ -302,7 +289,7 @@ function getDataFileAsync(jrpid, prefix, action, callback) {
 //  http://codingforums.com/ajax-design/123705-make-script-wait-until-request-comes-back.html
 //
 
-function readFile(url) {
+function ReadFile(url) {
    var request = new XMLHttpRequest();
 
    request.open('GET', url, false);
@@ -318,7 +305,7 @@ function readFile(url) {
 
 
 
-function readFileAsync(url, callback) {
+function ReadFileAsync(url, callback) {
    var request = new XMLHttpRequest();
 
    request.open('GET', url, true);
@@ -337,11 +324,11 @@ function readFileAsync(url, callback) {
 
 //////////////////////////////
 //
-// getCgiParameters -- Returns an associative array containing the
+// GetCgiParameters -- Returns an associative array containing the
 //     page's URL's CGI parameters
 //
 
-function getCgiParameters() {
+function GetCgiParameters() {
    var url = window.location.search.substring(1);
    var output = {};
    var settings = url.split('&');
@@ -366,14 +353,14 @@ function getCgiParameters() {
 
 //////////////////////////////
 //
-// getComposerOptions -- Return an option list of composers in the worklist.
+// GetComposerOptions -- Return an option list of composers in the worklist.
 //    This is used to fill in the Composer/Repertory section list in forms
 //    on various webpages.
 //
 
-function getComposerOptions() {
-   initializeWorklist();
-   var output = "";
+function GetComposerOptions() {
+   InitializeWorklist();
+   var output = '';
    var longname;
    var abbr;
    var i;
@@ -381,13 +368,13 @@ function getComposerOptions() {
    for (i=0; i<WORKLIST.length; i++) {
       longname = WORKLIST[i].comlong;
       abbr     = WORKLIST[i].repid;
-      output += "<option value=\"" + abbr + "\">";
-      output += longname + "</option>\n";
-      if (abbr == "Jos") {
-         output += "<option value=\"Joa\">Josquin des Prez (secure)</option>\n";
-         output += "<option value=\"Job\">";
-         output += "Josquin&nbsp;des&nbsp;Prez&nbsp;";
-         output += "(not&nbsp;secure)</option>\n";
+      output += '<option value="' + abbr + '">';
+      output += longname + '</option>\n';
+      if (abbr == 'Jos') {
+         output += '<option value="Joa">Josquin des Prez (secure)</option>\n';
+         output += '<option value="Job">';
+         output += 'Josquin&nbsp;des&nbsp;Prez&nbsp;';
+         output += '(not&nbsp;secure)</option>\n';
       }
    }
    return output;
@@ -397,26 +384,26 @@ function getComposerOptions() {
 
 //////////////////////////////
 //
-// getGenreOptions -- Return an option list of genres.  
+// GetGenreOptions -- Return an option list of genres.  
 //     This is used to fill in the Composer/Repertory section list 
 //     in forms on various webpages.  If there is an input repe
 //     Mass, Motet, or Song.
 //
 
-function getGenreOptions(repertory) {
+function GetGenreOptions(repertory) {
    if ((typeof repertory === 'undefined') || 
-			(repertory == null) || (repertory == "")) {
+			(repertory == null) || (repertory == '')) {
 	   // Avoiding displaying the genre list without a repertory.
 	   // This is because analyses mostly need to be limited to a single repertory
 	   // So that not too many images are shown on the same page.
-		var opts = "<option value=\"mass\">Masses</option>\n";
-		opts += "<option value=\"motet\">Motets</option>\n";
-		opts += "<option value=\"song\">Songs</option>\n";
+		var opts = '<option value="mass">Masses</option>\n';
+		opts += '<option value="motet">Motets</option>\n';
+		opts += '<option value="song">Songs</option>\n';
       return opts;
    }
 
-   initializeWorklist();
-   var output = "";
+   InitializeWorklist();
+   var output = '';
    var longname;
    var abbr;
    var i, j;
@@ -439,19 +426,19 @@ function getGenreOptions(repertory) {
    for (entry in genlist1) genlist2.push(entry);
 	genlist2.sort();
 
-	var output = "";
+	var output = '';
    for (i=0; i<genlist2.length; i++) {
-      output += "<option value=\"" + genlist2[i] + "\">";
-	   if (genlist2[i].match("mass")) {
-			output += "Masses";
-	   } else if (genlist2[i].match("motet")) {
-			output += "Motets";
-	   } else if (genlist2[i].match("song")) {
-			output += "Songs";
+      output += '<option value="' + genlist2[i] + '">';
+	   if (genlist2[i].match('mass')) {
+			output += 'Masses';
+	   } else if (genlist2[i].match('motet')) {
+			output += 'Motets';
+	   } else if (genlist2[i].match('song')) {
+			output += 'Songs';
 		} else {
 			output += genlist2[i];
 		}
-		output += "</option>\n";
+		output += '</option>\n';
    }
    return output;
 }
@@ -460,15 +447,15 @@ function getGenreOptions(repertory) {
 
 //////////////////////////////
 //
-// getGenreBrowseOptions -- Return an option list of genres.  
+// GetGenreBrowseOptions -- Return an option list of genres.  
 //     This is used to fill in the Composer/Repertory section list 
 //     in forms on various webpages.  If there is an input repe
 //     Mass, Motet, or Song.
 //
 
-function getGenreBrowseOptions() {
-   initializeWorklist();
-   var output = "";
+function GetGenreBrowseOptions() {
+   InitializeWorklist();
+   var output = '';
    var longname;
    var abbr;
    var i, j;
@@ -488,19 +475,19 @@ function getGenreBrowseOptions() {
    for (entry in genlist1) genlist2.push(entry);
 	genlist2.sort();
 
-	var output = "";
+	var output = '';
    for (i=0; i<genlist2.length; i++) {
-      output += "<option value=\"" + genlist2[i] + "\">";
-	   if (genlist2[i].match("mass")) {
-			output += "Masses";
-	   } else if (genlist2[i].match("motet")) {
-			output += "Motets";
-	   } else if (genlist2[i].match("song")) {
-			output += "Songs";
+      output += '<option value="' + genlist2[i] + '">';
+	   if (genlist2[i].match('mass')) {
+			output += 'Masses';
+	   } else if (genlist2[i].match('motet')) {
+			output += 'Motets';
+	   } else if (genlist2[i].match('song')) {
+			output += 'Songs';
 		} else {
 			output += genlist2[i];
 		}
-		output += "</option>\n";
+		output += '</option>\n';
    }
    return output;
 }
@@ -509,29 +496,29 @@ function getGenreBrowseOptions() {
 
 //////////////////////////////
 //
-// getWorkOptions -- Return an option list of works (for a specific
+// GetWorkOptions -- Return an option list of works (for a specific
 //     repertory and genre.    The repertory is required, the genre
 //     is optional (show all works regardless of genre in that case).
 //     This is used to fill in the Work section list in forms on 
 //     various webpages.  
 //
 
-function getWorkOptions(repertory, genre) {
+function GetWorkOptions(repertory, genre) {
    if ((typeof repertory === 'undefined') || (repertory == null)) {
-      return "";
+      return '';
 	}
 
    if ((typeof genre === 'undefined') || (genre == null)) {
-      genre = "";
+      genre = '';
    }
-   initializeWorklist();
-   var output = "";
+   InitializeWorklist();
+   var output = '';
    var longname;
    var abbr;
    var i, j;
    var works;
 
-   var output = "";
+   var output = '';
    for (i=0; i<WORKLIST.length; i++) {
 		if (!repertory.match(WORKLIST[i].repid)) {
 			continue;
@@ -541,12 +528,12 @@ function getWorkOptions(repertory, genre) {
 			if (!genre.match(/^\s*$/) && !genre.match(works[j].genre)) {
 				continue;
 			}
-      	output += "<option value=\"" + works[j].id + "\">";
+      	output += '<option value="' + works[j].id + '">';
 			output += works[j].title;
 			if (typeof works[j].variant !== 'undefined') {
-				output += " (" + works[j].variant + " )";
+				output += ' (' + works[j].variant + ' )';
 			}
-			output += "</option>\n";
+			output += '</option>\n';
 		}
 	}
 	return output;
@@ -556,16 +543,16 @@ function getWorkOptions(repertory, genre) {
 
 //////////////////////////////
 //
-// getVoiceOptions -- Return an option list of voices.  This is used to
+// GetVoiceOptions -- Return an option list of voices.  This is used to
 //     fill in the Composer/Repertory section list in forms on various
 //     webpages.
 //
 
-function getVoiceOptions() {
-   output = "";
-   output += "<option value=\"3\">3 voices</option>\n";
-   output += "<option value=\"4\">4 voices</option>\n";
-   output += "<option value=\"5+\">more voices</option>\n";
+function GetVoiceOptions() {
+   output = '';
+   output += '<option value="3">3 voices</option>\n';
+   output += '<option value="4">4 voices</option>\n';
+   output += '<option value="5+">more voices</option>\n';
    return output;
 }
 
@@ -573,31 +560,45 @@ function getVoiceOptions() {
 
 //////////////////////////////
 //
-// clearBrowseFields -- Erase the browse filter options (useful to force
+// ClearBrowseFields -- Erase the browse filter options (useful to force
 //     display of the Browse home page).
 //
 
-function clearBrowseFields() {
-   localStorage.BROWSEcomposers = "";
-   localStorage.BROWSEgenres    = "";
-   localStorage.BROWSEvoices    = "";
-   localStorage.BROWSEtitlebox  = "";
+function ClearBrowseFields() {
+   localStorage.BROWSEcomposers = '';
+   localStorage.BROWSEgenres    = '';
+   localStorage.BROWSEvoices    = '';
+   localStorage.BROWSEtitlebox  = '';
 }
 
 
 
 //////////////////////////////
 //
-// updateEzMark --
+// ClearWorklist --
 //
 
-function updateEzMark() {
-   $("select").not('.tricky').select2({
-      width: "off"
+function ClearWorklist() {
+	localStorage.removeItem('WORKLIST');
+	localStorage.removeItem('WORKLISTrefreshtime');
+  	localStorage.removeItem('WORKjrpid');
+  	localStorage.removeItem('RECENTLYADDEDHTML');
+}
+
+
+
+//////////////////////////////
+//
+// UpdateEzMark --
+//
+
+function UpdateEzMark() {
+   $('select').not('.tricky').select2({
+      width: 'off'
    });
 
-   $("select.tricky").select2({
-      width: "off",
+   $('select.tricky').select2({
+      width: 'off',
       containerCssClass: 'tricky-choice',
       dropdownCssClass: 'tricky-dropdown',
       dropdownAutoWidth: true
@@ -611,28 +612,28 @@ function updateEzMark() {
 
 //////////////////////////////
 //
-// playAudioFile -- play/pause an audio file.
+// PlayAudioFile -- play/pause an audio file.
 //
 
-function playAudioFile(jrpid, element) {
+function PlayAudioFile(jrpid, element) {
 	// The JRPID is not the same as the currently playing file
 	// (or there is no file playing).  So start the new one.
 	if (!AUDIO) {
-	   AUDIO = document.getElementById("audio");
+	   AUDIO = document.getElementById('audio');
    }
 	if (!AUDIO) {
 		document.body.innerHTML += '<audio id="audio"></audio>\n';
-	   AUDIO = document.getElementById("audio");
+	   AUDIO = document.getElementById('audio');
 	}
    if (!AUDIO) {
-		console.log("Error: could not set up audio interface\n");
+		console.log('Error: could not set up audio interface\n');
 		return false;
    }
-	AUDIO.setAttribute("controls", "controls");
-	AUDIO.style.position = "fixed";
-	AUDIO.style.bottom = "0";
-	AUDIO.style.right = "0";
-	AUDIO.style.zIndex = "1";
+	AUDIO.setAttribute('controls', 'controls');
+	AUDIO.style.position = 'fixed';
+	AUDIO.style.bottom = '0';
+	AUDIO.style.right = '0';
+	AUDIO.style.zIndex = '1';
 
 	var audiobutton;
    if (jrpid != AUDIOjrpid) {
@@ -641,32 +642,37 @@ function playAudioFile(jrpid, element) {
 			audiobutton = document.getElementById(AUDIOid);
 			if (!!audiobutton && !!audiobutton.className) {
 				if (audiobutton.className.match(/mp3/)) {
-					audiobutton.className = "mp3play";
+					audiobutton.className = 'mp3play';
 				} else {
-					audiobutton.className = "play";
+					audiobutton.className = 'play';
 				}
 			}
 		}
-		AUDIO.removeAttribute("controls");
+		AUDIO.removeAttribute('controls');
       AUDIO.pause();
 		
       AUDIOid = element.id;
-		var source = "";
-		//source += "<source src=\"/data?a=mp3&id=" + jrpid + "\" ";
-		source += "<source src=\"/audio/mp3/" + jrpid + ".mp3\" ";
-		source += "type=\"audio/mpeg\"/>\n";
+		var source = '';
+		// Can't have seekable dynamic content in audio element:
+		//source += '<source src="/data?a=mp3&id=' + jrpid + '" ';
+		if (window.location.href.match(/tasso/i)) {
+			source += '<source src="http://data.tassomusic.org/audio/mp3/' + jrpid + '.mp3" ';
+		} else {
+			source += '<source src="/audio/mp3/' + jrpid + '.mp3" ';
+		}
+		source += 'type="audio/mpeg"/>\n';
 		AUDIO.innerHTML = source;
 
 		AUDIOjrpid = jrpid;
 		AUDIO.load();
 		AUDIO.play();
-		AUDIO.setAttribute("controls", "controls");
+		AUDIO.setAttribute('controls', 'controls');
 		var newelement = document.getElementById(AUDIOid);
 		
 		if (newelement.className.match(/mp3/)) {
-			newelement.className = "mp3pause";
+			newelement.className = 'mp3pause';
 		} else {
-			newelement.className = "pause";
+			newelement.className = 'pause';
 		}
 		return;
 	}
@@ -679,34 +685,34 @@ function playAudioFile(jrpid, element) {
 			return;
 		}
 		if (audiobutton.className.match(/mp3/)) {
-			audiobutton.className = "mp3play";
+			audiobutton.className = 'mp3play';
 		} else {
-			audiobutton.className = "play";
+			audiobutton.className = 'play';
 		}
 		if (element.className.match(/mp3/)) {
-			element.className = "mp3pause";
+			element.className = 'mp3pause';
 		} else {
-			element.className = "pause";
+			element.className = 'pause';
 		}
 		AUDIO.play();
-		AUDIO.setAttribute("controls", "controls");
+		AUDIO.setAttribute('controls', 'controls');
 	} else {
 		audiobutton = document.getElementById(AUDIOid);
  		if (!audiobutton) {
 			return;
 		}
 		if (audiobutton.className.match(/mp3/)) {
-			audiobutton.className = "mp3pause";
+			audiobutton.className = 'mp3pause';
 		} else {
-			audiobutton.className = "pause";
+			audiobutton.className = 'pause';
 		}
 		if (element.className.match(/mp3/)) {
-			element.className = "mp3play";
+			element.className = 'mp3play';
 		} else {
-			element.className = "play";
+			element.className = 'play';
 		}
 		AUDIO.pause();
-		AUDIO.removeAttribute("controls");
+		AUDIO.removeAttribute('controls');
 	}
 }
 
@@ -718,10 +724,10 @@ function playAudioFile(jrpid, element) {
 //
 
 function ClearWorklistCache() {
-   localStorage.removeItem("WORKLIST");
-   localStorage.removeItem("WORKLISTrefreshtime");
-   localStorage.removeItem("WORKjrpid");
-   localStorage.removeItem("RECENTLYADDEDHTML");
+   localStorage.removeItem('WORKLIST');
+   localStorage.removeItem('WORKLISTrefreshtime');
+   localStorage.removeItem('WORKjrpid');
+   sessionStorage.removeItem('RECENTLYADDEDHTML');
 }
 
 

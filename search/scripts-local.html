@@ -64,7 +64,7 @@ function displayContents() {
 	}
 	if (SEARCHhome == null) {
 //      if (typeof localStorage.SEARCHhome === 'undefined') {
-			SEARCHhome = readFile('content.html');
+			SEARCHhome = ReadFile('content.html');
 //         localStorage.SEARCHhome = SEARCHhome;
 //      } else {
 //         SEARCHhome = localStorage.SEARCHhome;
@@ -74,7 +74,7 @@ function displayContents() {
 	buildComposerSelect();
 	buildGenreSelect();
    setupSearchOnEnter();
-	// updateEzMark(); // already done in buildComposerSelect & buildGenreSelect
+	// UpdateEzMark(); // already done in buildComposerSelect & buildGenreSelect
 }
 
 
@@ -204,7 +204,7 @@ function buildComposerSelect() {
 	var output = "<select id=\"composers\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option label=\"default\">All Composers</option>\n";
-	var clist = getComposerOptions();
+	var clist = GetComposerOptions();
 	output += clist;
 	output += "</select>\n";
 	composerselect.innerHTML = output;
@@ -212,7 +212,7 @@ function buildComposerSelect() {
 
 	var cs2 = document.getElementById("repertory-select");
 	if (cs2 == null) {
-		updateEzMark();
+		UpdateEzMark();
 		return;
 	}
 
@@ -225,11 +225,11 @@ function buildComposerSelect() {
    if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
 			(localStorage.ANALYSISrepertory != "")) {
 		$('#repertory').val(localStorage.ANALYSISrepertory);
-	   updateEzMark();
+	   UpdateEzMark();
 	} else {
 		$('#repertory').val("Jos");
 	}
-	updateEzMark();
+	UpdateEzMark();
 
 }
 
@@ -249,9 +249,9 @@ function buildGenreSelect() {
 	var output = "<select id=\"genres\"";
 	output += " data-placeholder=\"All Genres\">\n";
 	output += "<option label=\"default\">All Genres</option>\n";
-	output += getGenreOptions();
+	output += GetGenreOptions();
 	genreselect.innerHTML = output;
-	updateEzMark();
+	UpdateEzMark();
 }
 
 

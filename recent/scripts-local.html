@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		pauseelem.className = "play";
 	}, false);
 
-	updateEzMark();
+	UpdateEzMark();
 	showRecentTable(1, "recenttable");
 }, false);
 
@@ -98,7 +98,7 @@ function showRecentTable(page, tagid) {
 		return;
 	}
 
-	initializeWorklistFlat();
+	InitializeWorklistFlat();
    createWorklistSections();
 
 	var content = "";
@@ -473,12 +473,12 @@ console.log("DATE", datenum, worklist[index]);
 	if (AUDIOjrpid == jrpid) {
 		mp3link = "<a id=\"audio_" + jrpid + "\" ";
 		mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
-		mp3link += "onclick=\"playAudioFile('" + jrpid + "', this);\" ";
+		mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 		mp3link += "class=\"pause\">play</a>";
 	} else {
 		mp3link = "<a id=\"audio_" + jrpid + "\" ";
 		mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
-		mp3link += "onclick=\"playAudioFile('" + jrpid + "', this);\" ";
+		mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 		mp3link += "class=\"play\">play</a>";
 	}
 
@@ -512,12 +512,6 @@ console.log("DATE", datenum, worklist[index]);
 //
 
 window.addEventListener('keydown', function(event) {
-	var keycode  = event.keyCode;
-	var output   = '';
-	var ControlKeyState = event.ctrlKey;
-	var ShiftKeyState   = event.shiftKey;
-	var AltKeyState     = event.altKey;
-	var CommandKeyState = event.metaKey;
 
 	// don't process any command- key combinations.
 	if (event.metaKey) {
@@ -526,9 +520,9 @@ window.addEventListener('keydown', function(event) {
 
 	var titlebox = document.getElementById("titlebox");
 
-	switch (keycode) {
+	switch (event.keyCode) {
 		case AKey:
-			if (ControlKeyState) {
+			if (event.ctrlKey) {
 				if (localStorage.RECENTLYADDEDpageview == "all") {
 					localStorage.RECENTLYADDEDpageview = "paged";
 					showRecentTable(1, "recenttable");
@@ -540,7 +534,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case JKey:
-			if (ControlKeyState) {
+			if (event.ctrlKey) {
 				if (typeof localStorage.RECENTLYADDEDshowjrpid === 'undefined') {
 					localStorage.RECENTLYADDEDshowjrpid = "false";
 				}
@@ -555,13 +549,13 @@ window.addEventListener('keydown', function(event) {
 
 		case RightArrowKey:
 		case DownArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
+			if (event.ctrlKey || event.shiftKey) {
 				displayNextPage();
 			}
 			break;
 		case LeftArrowKey:
 		case UpArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
+			if (event.ctrlKey || event.shiftKey) {
 				displayPreviousPage();
 			}
 			break;
@@ -579,14 +573,14 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case EqualsKey:	// (include Plus key which is shift-EqualsKey):
-			if (ControlKeyState) {
+			if (event.ctrlKey) {
 				var value = parseInt(localStorage.RECENTLYADDEDpagesize);
 				localStorage.RECENTLYADDEDpagesize = value + 1;
 				displayFirstPage();
 			}
 			break;
 		case MinusKey:	   // decrease search results table entries by one
-			if (ControlKeyState) {
+			if (event.ctrlKey) {
 console.log("IPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
 				var value = parseInt(localStorage.RECENTLYADDEDpagesize);
 				if (value <= 1) {
@@ -603,14 +597,14 @@ console.log("OPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
 
 		case BackspaceKey:
 		case DeleteKey:
-			if (ControlKeyState == 1) {
+			if (event.ctrlKey == 1) {
 				titlebox.value = '';
 				showRecentTable(1, "recenttable");
 			}
 			break;
 
 		case NKey:
-			if (ControlKeyState == 1) {
+			if (event.ctrlKey == 1) {
 				CountInfo = !CountInfo;
 				if (CountInfo && (WORKCOUNT > 0)) {
 					showCountInfo();
@@ -621,7 +615,7 @@ console.log("OPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
 			break;
 
 		case TKey:
-			if (ControlKeyState == 1) {
+			if (event.ctrlKey == 1) {
 				TextInfo = !TextInfo;
 				if (TextInfo) {
 					console.log("Text underlay markers turned on.");
@@ -634,12 +628,12 @@ console.log("OPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
 
 	}
 
-	// Maybe remove ShiftKeyState from list:
-	if (!(ControlKeyState || ShiftKeyState || AltKeyState || CommandKeyState)) {
-		if ((keycode >= AKey && keycode <= ZKey)) {
+	// Maybe remove event.shiftKey from list:
+	if (!(event.ctrlKey || event.shiftKey || event.altKey || event.metaKey)) {
+		if ((event.keyCode >= AKey && event.keyCode <= ZKey)) {
 			if (titlebox != document.activeElement) {
-				var character = String.fromCharCode(keycode);
-				if (!ShiftKeyState) {
+				var character = String.fromCharCode(event.keyCode);
+				if (!event.shiftKey) {
 					character = character.toLowerCase();
 				}
 				titlebox.value += character;
@@ -647,9 +641,9 @@ console.log("OPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
 			}
 		} else if (titlebox != document.activeElement) {
 			// What to do out of titlebox focus
-			switch (keycode) {
+			switch (event.keyCode) {
 				case SpaceKey:
-					titlebox.value += String.fromCharCode(keycode);
+					titlebox.value += String.fromCharCode(event.keyCode);
 					break;
 				case DeleteKey:
 				case BackspaceKey:

@@ -40,7 +40,7 @@ if (typeof localStorage.ANALYSISwork === 'undefined') {
 function loadCgiParameters() {
 	var CgiParameters = null;
 	if (CgiParameters === null) {
-		CgiParameters = getCgiParameters();
+		CgiParameters = GetCgiParameters();
 	}
 	if (typeof CgiParameters['repertory'] !== "undefined") {
 		localStorage.ANALYSISrepertory = CgiParameters['repertory'];
@@ -123,7 +123,7 @@ function displayContents(repertory) {
       work.value = "default";
    }
 
-	updateEzMark();
+	UpdateEzMark();
 
 	if (work != "") {
 		analyzeWork();
@@ -153,7 +153,7 @@ function buildRepertorySelect() {
 	output += " class=\"text\">Choose&nbsp;repertory&nbsp;&nbsp;</td><td>";
 	output += "<select style=\"width:230px;\" id=\"repertory\">\n";
 	output += "<option label=\"default\">Select a repertory</option>\n";
-	var clist = getComposerOptions();
+	var clist = GetComposerOptions();
 	output += clist;
 	output += "</select></td></tr></table>\n";
 	repertoryselect.innerHTML = output;
@@ -162,7 +162,7 @@ function buildRepertorySelect() {
 		$('#genre option[value=\"" + localStorage.ANALYSISrepertory + "\"]')
 				.attr('selected', 'selected');
 	}
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -184,7 +184,7 @@ function buildGenreSelect() {
 	output += " class=\"text\">&nbsp;genre&nbsp;&nbsp;</td><td>";
 	output += "<select style=\"width:120px;\" id=\"genre\">\n";
 	output += "<option label=\"default\">All genres</option>\n";
-	var glist = getGenreOptions(localStorage.ANALYSISrepertory);
+	var glist = GetGenreOptions(localStorage.ANALYSISrepertory);
 	output += glist;
 	output += "</select></td></tr></table>\n";
 	repertoryselect.innerHTML = output;
@@ -193,7 +193,7 @@ function buildGenreSelect() {
 		$('#genre option[value=\"" + localStorage.ANALYSISgenre + "\"]')
 				.attr('selected', 'selected');
 	}
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -215,7 +215,7 @@ function buildWorkSelect(repertory, genre) {
 	output += " class=\"text\">&nbsp;work&nbsp;&nbsp;</td><td>";
 	output += "<select style=\"width:430px;\" id=\"work\">\n";
 	output += "<option label=\"default\">All works</option>\n";
-	var clist = getWorkOptions(repertory, genre);
+	var clist = GetWorkOptions(repertory, genre);
 	output += clist;
 	output += "</select></td></tr></table>\n";
 	workselect.innerHTML = output;
@@ -224,7 +224,7 @@ function buildWorkSelect(repertory, genre) {
 		$('#work option[value=\"" + localStorage.ANALYSISwork + "\"]')
 				.attr('selected', 'selected');
 	}
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -300,34 +300,16 @@ function analyzeWork(genre) {
 // process Window keys down:
 //
 
-function analysisKeyDownFunction(e) {
-	var E			= window.event? event : e;
-	var keycode = E.keyCode;
-	var unicode	= E.charCode ? E.charCode : E.keyCode;
-	var key		= String.fromCharCode(unicode);
-	var output	= '';
-
-	if (keycode == ControlKey) {
-		ControlKeyState = 1;
-	} else if (keycode == ShiftKey) {
-		ShiftKeyState = 1;
-	} else if (keycode == AltKey) {
-		AltKeyState = 1;
-	} else if (keycode == CommandLeftKey) {
-		CommandKeyState = 1;
-	} else if (keycode == CommandRightKey) {
-		CommandKeyState = 1;
-	}
-
+function analysisKeyDownFunction(event) {
 	// don't process any command- key combinations.
-	if (CommandKeyState == 1) {
+	if (event.metaKey == 1) {
 		return;
 	}
 
-	switch (keycode) {
+	switch (event.keyCode) {
 		case DownArrowKey:
 		case RightArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
+			if (event.ctrlKey || event.shiftKey) {
 				$('#repertory option:selected').next().attr('selected', 'selected');
 						localStorage.ANALYSISrepertory = $('#repertory').val();
 				displayContents(localStorage.ANALYSISrepertory);
@@ -336,7 +318,7 @@ function analysisKeyDownFunction(e) {
 
 		case UpArrowKey:
 		case LeftArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
+			if (event.ctrlKey || event.shiftKey) {
 				$('#repertory option:selected').prev().attr('selected', 'selected');
 						localStorage.ANALYSISrepertory = $('#repertory').val();
 				displayContents(localStorage.ANALYSISrepertory);
@@ -345,28 +327,5 @@ function analysisKeyDownFunction(e) {
 	}
 }
 
-
-
-//////////////////////////////
-//
-// Process window key ups --
-//
-
-function analysisKeyUpFunction(e) {
-	var E		 = window.event? event : e;
-	var keycode = E.keyCode;
-
-	if (keycode == ControlKey) {
-		ControlKeyState = 0;
-	} else if (keycode == ShiftKey) {
-		ShiftKeyState = 0;
-	} else if (keycode == AltKey) {
-		AltKeyState = 0;
-	} else if (keycode == CommandLeftKey) {
-		CommandKeyState = 0;
-	} else if (keycode == CommandRightKey) {
-		CommandKeyState = 0;
-	}
-}
 
 

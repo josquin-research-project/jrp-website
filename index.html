@@ -19,7 +19,7 @@
 				<!-- form action="browse.html" class="quick-browse"-->
 				<!form method="get" action="/browse" class="quick-browse">
 				<form class="quick-browse">
-					<a style="text-decoration:none;" onclick="clearBrowseFields(); localStorage.BROWSEhome='false';" href="/browse"><h2 style="width:316px;" class="blue-bar">quick browse</h2></a>
+					<a style="text-decoration:none;" onclick="ClearBrowseFields(); localStorage.BROWSEhome='false';" href="/browse"><h2 style="width:316px;" class="blue-bar">quick browse</h2></a>
 					<div class="form-body">
 
 						<div id="composers-select" class="form-group">
@@ -32,35 +32,22 @@
 							<input id="titlebox" name="t" value="" type="text" class="form-control" placeholder="Enter Title">
 						</div>
 						<div class="form-group text-center">
-							<button style="width:110px;" onclick="return storeBrowseParameters();" type="" class="btn btn-brown">Browse</button>
-						</div> <!-- form-group -->
+							<button style="width:110px;" onclick="return storeBrowseParameters();" type="" 
+									class="btn btn-brown">Browse</button>
+						</div>
 
-					</div> <!-- form-body -->
-				</form> <!-- quick browse form -->
+					</div>
+				</form>
 
 				<section id="news">
 					<h3 class="grey-title">
 						JRP NEWS <small><span style="letter-spacing: 3.5px;"> and updates</span></small>
 					</h3>
 					<article class="news">
-
+						<!--#include virtual="/includes/news.html" -->
 						<p>
-JRP editions were used by 
-<a style="display:inline" target="new" href=http://cutcircle.org>Cut Circle</a> 
-in a 
-<a style="display:inline;" target="new" href="http://www.radio4.nl/luister-concerten/concerten/4696/avondconcert-musica-sacra-2014-" title="NPO Radio 4">recent performance</a>
-of Brumel’s twelve-voice 
-<a href="http://josquin.stanford.edu/work/?id=Bru1008" class="text-link">Earthquake Mass</a> (<a style="display:inline" href=http://www.musicasacramaastricht.nl target="new">Musica Sacra</a> festival, Maastricht, the Netherlands)
-						</p>
-
-						<p>
-Now available with complete text: all 
-<a class="text-link" style="display:inline" href="/browse?c=Duf&g=mass&t=">four late cyclic masses</a> 
-of Guillaume Du Fay.
-						</p>
-
-						<p>
-							<a href="https://www.facebook.com/JosquinResearchProject" target="new" style="display:inline" class="text-link">more on Facebook&gt;</a>
+						<a href="https://www.facebook.com/JosquinResearchProject" target="new" 
+								style="display:inline" class="text-link">more on Facebook&gt;</a>
 						</p>
 					</article>
 				</section>

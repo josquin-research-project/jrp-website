@@ -52,7 +52,7 @@ function storeParameters() {
 	url += "&feedback_description=" + encodeURIComponent(description);
 	url += "&feedback_referer="     + encodeURIComponent(referer);
 
-   var returnvalue = readFile(url);
+   var returnvalue = ReadFile(url);
 
 	var status = document.getElementById("status");
 	var message = "<p>\n";

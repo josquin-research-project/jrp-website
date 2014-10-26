@@ -2,7 +2,7 @@
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Thu Aug 21 12:59:01 PDT 2014
-// Last Modified: Tue Sep  2 13:01:00 PDT 2014
+// Last Modified: Tue Oct 21 12:11:41 PDT 2014
 // Filename:		.../browse/scripts-local.html
 // Web Address:	http://josquin.stanford.edu/browse/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5
@@ -12,16 +12,22 @@
 //
 
 // Used to display extra info:
-var CountInfo		  = 0;
+var CountInfo			= 0;
 var TextInfo			= 0;
-var WORKCOUNT		  = 0;
+var WORKCOUNT			= 0;
 var WORKCOUNTBYCOMPOSER = {};
-var COMPOSERALLWORKS = {};
-var JoaShortName = "&nbsp;&nbsp;&nbsp;(secure)";
-var JobShortName = "&nbsp;&nbsp;&nbsp;(not&nbsp;secure)";
-var ComposerList	 = null;
-var BROWSEHOMEHTML  = null;
+var COMPOSERALLWORKS	 = {};
+var JoaShortName		= "&nbsp;&nbsp;&nbsp;(secure)";
+var JobShortName		= "&nbsp;&nbsp;&nbsp;(not&nbsp;secure)";
+var ComposerList		= null;
+var BROWSEHOMEHTML	= null;
 var WORKLISTjos = [];
+
+// State variables used for keeping track of keypresses:
+var ControlKeyState = 0;
+var ShiftKeyState   = 0;
+var AltKeyState     = 0;
+var CommandKeyState = 0;
 
 var HtmlAccentRemovalMap = [
 	{'base':'ae','letters':/&aelig;/g},
@@ -60,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
 		localStorage.BROWSEshowjrpid = "false";
 	}
 
-	var CgiParameters = getCgiParameters();
+	var CgiParameters = GetCgiParameters();
 
 	var home = CgiParameters['home'];
 	if (typeof home === 'undefined') {
@@ -68,15 +74,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	}
 	if (typeof home === 'undefined') {
 		home = "false";
-	}
-
-	if (home == "true") {
-		var composers = document.getElementById("composers");
-		composers.value = "All Composers";
-		displayAboutBrowse();
-		updateEzMark();
-
-		return;
 	}
 
 	var composers = document.getElementById("composers");
@@ -115,7 +112,21 @@ document.addEventListener("DOMContentLoaded", function() {
 		titlebox.value = localStorage.BROWSEtitlebox;
 	}
 
-	updateEzMark();
+	if (home == "true") {
+		var composers = document.getElementById("composers");
+		composers.value = "All Composers";
+		displayAboutBrowse();
+		UpdateEzMark();
+		return;
+	}
+
+	if (home == "census") {
+		showCensusInfo();
+		UpdateEzMark();
+		return;
+	}
+
+	UpdateEzMark();
 	browseDisplay(1);
 
 }, false);
@@ -282,7 +293,7 @@ function resetFormValues() {
 	localStorage.BROWSEvoices    = "";
 	localStorage.BROWSEtitlebox  = "";
 
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -307,7 +318,7 @@ function showComposer(repid) {
 	titlebox.label = "";
 	browseDisplay(1);
 	$('html,body').scrollTop(0);
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -328,7 +339,7 @@ function showGenre(genre) {
 	titlebox.value = "";
 	browseDisplay(1);
 	$('html,body').scrollTop(0);
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -344,7 +355,7 @@ function displayAboutBrowse() {
 		return;
 	}
 //	if (BROWSEHOMEHTML == null) {
-		BROWSEHOMEHTML = readFile("content.html");
+		BROWSEHOMEHTML = ReadFile("content.html");
 //	}
 
 //			localStorage.BROWSEHOMEHTML = BROWSEHOMEHTML;
@@ -378,7 +389,7 @@ function fillInAboutComposerList() {
 //		list.innerHTML = ComposerList;
 //		return;
 //	}
-	initializeWorklist();
+	InitializeWorklist();
 
 	var comlong;
 	var comdates     = "";
@@ -475,7 +486,7 @@ function fillInAboutComposerList() {
 //
 
 function createJoaJobLists() {
-	initializeWorklist();
+	InitializeWorklist();
 
 	if (WORKLIST == null) {
 		return;
@@ -580,19 +591,19 @@ function clearCountInfo() {
 //
 
 function generateComposerWorkEntries(worklist, index) {
-	var output		 = [];
-	var tempout		= "";
-	var genre		  = "";
-	var voices		 = "";
-	var repid		  = "";
-	var title		  = "";
-	var fragment     = "";
-	var searchtitle  = "";
-	var titlelink    = "";
-	var jrpid		  = "";
-	var composer     = "";
-	var comshort     = "";
-	var repid		  = "";
+	var output			= [];
+	var tempout			= "";
+	var genre			= "";
+	var voices			= "";
+	var repid			= "";
+	var title			= "";
+	var fragment		= "";
+	var searchtitle	= "";
+	var titlelink		= "";
+	var jrpid			= "";
+	var composer		= "";
+	var comshort		= "";
+	var repid			= "";
 
 	if (typeof worklist[index] !== 'undefined') {
 		if (typeof worklist[index].comshort !== 'undefined') {
@@ -774,15 +785,15 @@ function generateComposerWorkEntries(worklist, index) {
 		//mp3link	 = "<a class='play' target='new' href='http://" + BASEADDR;
 		//mp3link	+= "/data?a=mp3&f=" + jrpid + "'>play</a>";
 
-      if (AUDIOjrpid == jrpid) {
+	   if (AUDIOjrpid == jrpid) {
 			mp3link = "<a id=\"audio_" + jrpid + "\" ";
 			mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
-			mp3link += "onclick=\"playAudioFile('" + jrpid + "', this);\" ";
+			mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 			mp3link += "class=\"pause\">play</a>";
 		} else {
 			mp3link = "<a id=\"audio_" + jrpid + "\" ";
 			mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
-			mp3link += "onclick=\"playAudioFile('" + jrpid + "', this);\" ";
+			mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 			mp3link += "class=\"play\">play</a>";
 		}
 
@@ -843,15 +854,12 @@ function browseDisplay(page) {
 		page = sessionStorage.BROWSEcurrentpage;
 	}
 	storeBrowseFilters();
-
-	document.getElementById('about-button').innerHTML = 
-	'<span style="cursor:hand; cursor:pointer;" ' + 
-	'onclick="displayAboutBrowse();" class="btn btn-brown">Browse Home</span>\n';
+   showBrowseHomeButton();
 	
 	var maincontent = document.getElementById('secondary-content');
 	var content = "";
 	content += printTableStart();
-	initializeWorklist();
+	InitializeWorklist();
 
 	var tablerows = generateWorkEntries(WORKLIST);
 	if (typeof localStorage.BROWSEpagesize === 'undefined') {
@@ -1254,7 +1262,7 @@ function hideCountInfo() {
 //
 
 function browseDisplayAll() {
-	clearBrowseFilters();
+	ClearBrowseFilters();
 	browseDisplay(1);
 }
 
@@ -1262,7 +1270,7 @@ function browseDisplayAll() {
 
 //////////////////////////////
 //
-// clearBrowseFilters -- Set browse filters to defaults or empty.
+// ClearBrowseFilters -- Set browse filters to defaults or empty.
 //
 
 function clearBrowseFilters() {
@@ -1277,7 +1285,7 @@ function clearBrowseFilters() {
 	localStorage.BROWSEtitlebox  = "";
 	localStorage.BROWSEhome		= "false";
 
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -1320,12 +1328,12 @@ function buildComposerSelect() {
 	output += " onchange=\"browseDisplay();\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"All Composers\">All Composers</option>\n";
-	var clist = getComposerOptions();
+	var clist = GetComposerOptions();
 	output += clist;
 	output += "</select>\n";
 	composerselect.innerHTML = output;
 
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -1345,12 +1353,12 @@ function buildGenreSelect() {
 	output += " onchange=\"browseDisplay();\"";
 	output += " data-placeholder=\"All Genres\">\n";
 	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
-	var clist = getGenreBrowseOptions();
+	var clist = GetGenreBrowseOptions();
 	output += clist;
 	output += "</select>\n";
 	genreselect.innerHTML = output;
 
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -1370,12 +1378,92 @@ function buildVoiceSelect() {
 	output += " onchange=\"browseDisplay();\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"default\">All Voices</option>\n";
-	var clist = getVoiceOptions();
+	var clist = GetVoiceOptions();
 	output += clist;
 	output += "</select>\n";
 	genreselect.innerHTML = output;
 
-	updateEzMark();
+	UpdateEzMark();
+}
+
+
+
+/////////////////////////////
+//
+// showCensusInfo --
+//
+
+function showCensusInfo() {
+	var content = '';
+	content += '<section style="font-size:100%; padding-left:8px; ';
+	content += 'padding-right:8px; padding-bottom:100px;" ';
+	content += 'id="primary-content" class="browse-content">\n';
+	content += '<article style="padding-left:10px;" class="about first">\n';
+	content += '<h2 class="brown-heading">Census of work and note ';
+	content += 'counts by composer/genre</h2>\n';
+	content += '<div id="notetable"></div>\n';
+	content += '</article>\n';
+	content += '\n';
+	content += '<article style="padding-left:10px;" class="about first">\n';
+	content += '<h2 class="brown-heading">Nominal performance durations ';
+	content += 'by composer/genre</h2>\n';
+	content += '<div id="timetable"></div>\n';
+	content += '</article>\n';
+	content += '\n';
+	content += '<article style="padding-left:10px;" ';
+	content += 'style="margin-bottom:90px;" class="about first">\n';
+	content += '<h2 class="brown-heading">PDF page counts ';
+	content += 'by composer/genre</h2>\n';
+	content += '<div id="pagetable"></div>\n';
+	content += '</article>\n';
+	content += '</section>\n';
+	var element = document.getElementById("secondary-content");
+	element.innerHTML = content;
+	showNoteTable("notetable");
+	showTimeTable("timetable");
+	showPageTable("pagetable");
+	var tables = document.querySelectorAll("table.census");
+	var i;
+	var width = $('#primary-content').width();
+	for (i=0; i<tables.length; i++) {
+		tables[i].style.width = width + 'px';
+	}
+
+	// Convert composer anchor tags pointing pointing to an external page into
+	// events which move within the page:
+   var composerlinks = document.querySelectorAll("table.census td a");
+	var newlink;
+	var matches;
+	var title;
+   var dummy = document.createElement("div");
+	for (i=0; i<composerlinks.length; i++) {
+		dummy.innerHTML = "";
+		dummy.appendChild(composerlinks[i].cloneNode(true));
+		matches = dummy.innerHTML.match(/c=([A-Z][a-z][a-z])/);
+		if (!matches) {
+			continue;
+		}
+		title = composerlinks[i].getAttribute("title");
+		newlink  = '<span class="text-link" title="' + title + '"';
+      newlink += ' onclick="showComposer(\'' + matches[1] + '\');"';
+		newlink += '>' + composerlinks[i].textContent + '</span>';
+		composerlinks[i].outerHTML = newlink;
+	}
+
+	showBrowseHomeButton();
+}
+
+
+
+//////////////////////////////
+//
+// showBrowseHomeButton --
+//
+
+function showBrowseHomeButton() {
+	document.getElementById('about-button').innerHTML = 
+	'<span style="cursor:hand; cursor:pointer;" ' + 
+	'onclick="displayAboutBrowse();" class="btn btn-brown">Browse Home</span>\n';
 }
 
 
@@ -1385,23 +1473,17 @@ function buildVoiceSelect() {
 // process Window keys down:
 //
 
-window.addEventListener('keydown', function(e) {
-	var E	= window.event? event : e;
-	var keycode  = E.keyCode;
-	var unicode  = E.charCode ? E.charCode : E.keyCode;
-	var key		= String.fromCharCode(unicode);
-	var output   = '';
+window.addEventListener('keydown', function(event) {
 
-
-	if (keycode == ControlKey) {
+	if (event.keyCode == ControlKey) {
 		ControlKeyState = 1;
-	} else if (keycode == ShiftKey) {
+	} else if (event.keyCode == ShiftKey) {
 		ShiftKeyState = 1;
-	} else if (keycode == AltKey) {
+	} else if (event.keyCode == AltKey) {
 		AltKeyState = 1;
-	} else if (keycode == CommandLeftKey) {
+	} else if (event.keyCode == CommandLeftKey) {
 		CommandKeyState = 1;
-	} else if (keycode == CommandRightKey) {
+	} else if (event.keyCode == CommandRightKey) {
 		CommandKeyState = 1;
 	}
   
@@ -1412,7 +1494,7 @@ window.addEventListener('keydown', function(e) {
 
 	var titlebox = document.getElementById("titlebox");
 
-	switch (keycode) {
+	switch (event.keyCode) {
 		case AKey:
 			if (ControlKeyState) {
 				if (localStorage.BROWSEpageview == "all") {
@@ -1520,9 +1602,9 @@ window.addEventListener('keydown', function(e) {
 
 	// Maybe remove ShiftKeyState from list:
 	if (!(ControlKeyState || ShiftKeyState || AltKeyState || CommandKeyState)) {
-		if ((keycode >= AKey && keycode <= ZKey)) {
+		if ((event.keyCode >= AKey && event.keyCode <= ZKey)) {
 			if (titlebox != document.activeElement) {
-				var character = String.fromCharCode(keycode);
+				var character = String.fromCharCode(event.keyCode);
 				if (!ShiftKeyState) {
 					character = character.toLowerCase();
 				}
@@ -1531,9 +1613,9 @@ window.addEventListener('keydown', function(e) {
 			}
 		} else if (titlebox != document.activeElement) {
 			// What to do out of titlebox focus
-			switch (keycode) {
+			switch (event.keyCode) {
 				case SpaceKey:
-					titlebox.value += String.fromCharCode(keycode);
+					titlebox.value += String.fromCharCode(event.keyCode);
 					break;
 				case DeleteKey:
 				case BackspaceKey:
@@ -1555,19 +1637,17 @@ window.addEventListener('keydown', function(e) {
 // Process window key ups --
 //
 
-window.onkeyup = function(e) {
-	var E		 = window.event? event : e;
-	var keycode = E.keyCode;
+window.onkeyup = function(event) {
 
-	if (keycode == ControlKey) {
+	if (event.keyCode == ControlKey) {
 		ControlKeyState = 0;
-	} else if (keycode == ShiftKey) {
+	} else if (event.keyCode == ShiftKey) {
 		ShiftKeyState = 0;
-	} else if (keycode == AltKey) {
+	} else if (event.keyCode == AltKey) {
 		AltKeyState = 0;
-	} else if (keycode == CommandLeftKey) {
+	} else if (event.keyCode == CommandLeftKey) {
 		CommandKeyState = 0;
-	} else if (keycode == CommandRightKey) {
+	} else if (event.keyCode == CommandRightKey) {
 		CommandKeyState = 0;
 	}
 }
@@ -1583,9 +1663,7 @@ window.onkeyup = function(e) {
 //
 
 trapfunction = function(event) {
-	var E	= window.event? event : e;
-	var keycode  = E.keyCode;
-	if (keycode == BackspaceKey) {
+	if (event.keyCode == BackspaceKey) {
 		var titlebox = document.getElementById("titlebox");
 		var str = titlebox.value;
 		titlebox.value = str.slice(0, -1);

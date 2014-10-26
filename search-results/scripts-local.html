@@ -89,17 +89,17 @@ function initializePage() {
 	}
 
 	if ((typeof ASIDE == 'undefined') || (ASIDE == "")) {
-		ASIDE = readFile("aside-search-results.html");
+		ASIDE = ReadFile("aside-search-results.html");
 	}
 
 	if ((typeof CONTENT == 'undefined') || (CONTENT == "")) {
-		CONTENT = readFile("content-results.html");
+		CONTENT = ReadFile("content-results.html");
 	}
 
 	var output  = ASIDE + CONTENT;
 	maincontent.innerHTML = output;
    setupSearchOnEnter();
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -136,7 +136,13 @@ function createSearchResult() {
 	}
 
 	$("body").css("cursor", "wait");
-	readFileAsync("/data?a=search" + searchparam, function(responseText) {
+
+	var dataloc = "/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
+
+	ReadFileAsync(dataloc + "?a=search" + searchparam, function(responseText) {
 		sessionStorage.SEARCHLIST = responseText;
 		SEARCHLIST = JSON.parse(sessionStorage.SEARCHLIST);
 		sessionStorage.QUERY = "";
@@ -288,7 +294,7 @@ function displayContents() {
 	}
 	if (SEARCHhome == null) {
 		if (typeof localStorage.SEARCHhome === 'undefined') {
-			SEARCHhome = readFile('content.html');
+			SEARCHhome = ReadFile('content.html');
 //         localStorage.SEARCHhome = SEARCHhome;
 		} else {
 			SEARCHhome = localStorage.SEARCHhome;
@@ -313,7 +319,7 @@ function buildComposerSelect() {
 	var output = "<select id=\"composers\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option label=\"default\">All Composers</option>\n";
-	var clist = getComposerOptions();
+	var clist = GetComposerOptions();
 	output += clist;
 	output += "</select>\n";
 	composerselect.innerHTML = output;
@@ -321,7 +327,7 @@ function buildComposerSelect() {
 
 	var repsel = document.getElementById("repertory-select");
 	if (repsel == null) {
-		updateEzMark();
+		UpdateEzMark();
 		return;
 	}
 
@@ -338,7 +344,7 @@ function buildComposerSelect() {
 		$('#repertory').val("Jos");
 	}
 
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -369,9 +375,9 @@ function buildGenreSelect() {
 	var output = "<select id=\"genres\"";
 	output += " data-placeholder=\"All Genres\">\n";
 	output += "<option label=\"default\">All Genres</option>\n";
-	output += getGenreOptions();
+	output += GetGenreOptions();
 	genreselect.innerHTML = output;
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -398,10 +404,10 @@ function displaySearchResults(page) {
 	}
 
 	if ((typeof ASIDE != 'undefined') || (ASIDE == "")) {
-		ASIDE = readFile("aside-search-results.html");
+		ASIDE = ReadFile("aside-search-results.html");
 	}
 	if ((typeof CONTENT != 'undefined') || (CONTENT == "")) {
-		CONTENT = readFile("content-results.html");
+		CONTENT = ReadFile("content-results.html");
 	}
 
 	var output  = ASIDE + CONTENT;
@@ -409,7 +415,7 @@ function displaySearchResults(page) {
    setupSearchOnEnter();
 	buildComposerSelect();
 	buildGenreSelect();
-	// updateEzMark(); // already done in buildComposerSelect & buildGenreSelect
+	// UpdateEzMark(); // already done in buildComposerSelect & buildGenreSelect
 
 	// Display the search query in the main content and in the aside.
 	var querystring = "Search Results for  ";
@@ -439,7 +445,7 @@ function displaySearchResults(page) {
 		$('#genres').val(SEARCHLIST.query.genre);
    }
 
-	updateEzMark();
+	UpdateEzMark();
 
 	// Display the match counts.
 	var matchcounts = document.getElementById("match-counts");
@@ -482,7 +488,7 @@ function displaySearchResults(page) {
 //
 
 function getDensity() {
-	initializeWorklist();
+	InitializeWorklist();
    // index the repertories in the search list.
    var composerQ = {};
    var matches = SEARCHLIST.matchcount;
@@ -567,8 +573,8 @@ function displaySearchResultsTable(page) {
 	var multimovement = 0;
 	var printparent;
 
-	initializeWorklist();
-	initializeWorklistFlat();
+	InitializeWorklist();
+	InitializeWorklistFlat();
 
 	THEMAX = createThemax();
 
@@ -645,6 +651,11 @@ function displaySearchResultsTable(page) {
 
 		mcount = matchentry.count;
 
+		var dataloc = "/data";
+		if (window.location.href.match(/tasso/i)) {
+			dataloc = "http://data.tassomusic.org/data";
+		}
+
 		output += "<tr>\n";
 		output += "<td><nobr>";
       output += "<span style=\"margin-left:10px;";
@@ -657,7 +668,7 @@ function displaySearchResultsTable(page) {
 		output += "<a title='Score with highlighted matches' ";
 		output += PDFTARGET;
 		output += " href='http://" + BASEADDR ;
-		output += "/data?a=notationWithEditWithText&f=" + jrpid;
+		output += dataloc + "?a=notationWithEditWithText&f=" + jrpid;
 		output += "&themax=" + THEMAX;
 		output += "'>";
 		output +=  printLocationThumbnail(matchentry, workinfo, movementinfo);
@@ -709,18 +720,23 @@ function displaySearchResultsTable(page) {
 		output += "</td>\n";
 		output += "<td>\n";
 
+		var dataloc = "/data";
+		if (window.location.href.match(/tasso/i)) {
+			dataloc = "http://data.tassomusic.org/data";
+		}
+
 		var scorelink = "";
 		scorelink  = "<a class='file' ";
 		scorelink += PDFTARGET;
 		scorelink += " title='Score without editorial";
 		scorelink += " accidentals' href='http://" + BASEADDR;
-		scorelink += "/data?a=notationNoEditWithText&f=" + jrpid;
+		scorelink += dataloc + "?a=notationNoEditWithText&f=" + jrpid;
 		scorelink += "&themax=" + THEMAX + "'>file</a>";
 
 		scorelink += "<a title='Score with editorial accidentals'";
 		scorelink += PDFTARGET;
 		scorelink += " class='file-ed' href='http://" + BASEADDR ;
-		scorelink += "/data?a=notationWithEditWithText&f=" + jrpid;
+		scorelink += dataloc + "?a=notationWithEditWithText&f=" + jrpid;
 		scorelink += "&themax=" + THEMAX;
 		scorelink += "'>Ed.&nbsp;file</a>";
 		output += scorelink;
@@ -764,10 +780,10 @@ function displaySearchResultsTable(page) {
 function getMp3(jrpid, element) {
    if (!jrpid) {
 		$('#mp3').prop('selectedIndex', 0);
-		updateEzMark();
-   	playAudioFile(SECTIONID, element);
+		UpdateEzMark();
+   	PlayAudioFile(SECTIONID, element);
 	} else {
-   	playAudioFile(jrpid, element);
+   	PlayAudioFile(jrpid, element);
 	}
 }
 
@@ -871,7 +887,7 @@ function printLocationThumbnail(match, work, movement) {
 //
 
 function getComposerNameLookup() {
-	initializeWorklist();
+	InitializeWorklist();
 	var output = {};
    var jrpid = "";
    var repertory;
@@ -1273,33 +1289,16 @@ function displayLastPage() {
 // process Window keys down:
 //
 
-window.addEventListener('keydown', function(e) {
-	var E	= window.event? event : e;
-	var keycode  = E.keyCode;
-	var unicode  = E.charCode ? E.charCode : E.keyCode;
-	var key      = String.fromCharCode(unicode);
-	var output   = '';
+window.addEventListener('keydown', function(event) {
 
-	if (keycode == ControlKey) {
-		ControlKeyState = 1;
-	} else if (keycode == ShiftKey) {
-		ShiftKeyState = 1;
-	} else if (keycode == AltKey) {
-		AltKeyState = 1;
-	} else if (keycode == CommandLeftKey) {
-		CommandKeyState = 1;
-	} else if (keycode == CommandRightKey) {
-		CommandKeyState = 1;
-	}
-
-	// don't process any command- key combinations.
-	if (CommandKeyState == 1) {
+	// don't process any command-key combinations.
+	if (event.metaKey == 1) {
 		return;
 	}
 
-	switch (keycode) {
+	switch (event.keyCode) {
       case AKey:
-         if (ControlKeyState) {
+         if (event.ctrlKey) {
             if (localStorage.SEARCHpageview == "all") {
                localStorage.SEARCHpageview = "paged";
 			      displayFirstPage();
@@ -1311,7 +1310,7 @@ window.addEventListener('keydown', function(e) {
          break;
 
 		case DKey:
-			if (ControlKeyState) {
+			if (event.ctrlKey) {
 				if (typeof localStorage.SEARCHdensity === 'undefined') {
 					localStorage.SEARCHdensity = "false";
 				}
@@ -1325,7 +1324,7 @@ window.addEventListener('keydown', function(e) {
 			break;
 
       case JKey:
-         if (ControlKeyState) {
+         if (event.ctrlKey) {
             if (typeof localStorage.SEARCHshowjrpid === 'undefined') {
                localStorage.SEARCHshowjrpid = "false";
             }
@@ -1338,18 +1337,16 @@ window.addEventListener('keydown', function(e) {
          }
          break;
 		
-//		case NineKey
-
 		case DownArrowKey:
 		case RightArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
+			if (event.ctrlKey || event.shiftKey) {
 				displayNextPage();
 			}
 			break;
 
 		case UpArrowKey:
 		case LeftArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
+			if (event.ctrlKey || event.shiftKey) {
 				displayPreviousPage();
 			}
 			break;
@@ -1368,14 +1365,14 @@ window.addEventListener('keydown', function(e) {
 			break;
 
 		case EqualsKey:   // (include Plus key which is shift-EqualsKey):
-			if (ControlKeyState) {
+			if (event.ctrlKey) {
 			   var value = parseInt(localStorage.SEARCHpagesize);
 			   localStorage.SEARCHpagesize = value + 1;
 			   displayFirstPage();
          }
 			break;
 		case MinusKey:      // decrease search results table entries by one
-			if (ControlKeyState) {
+			if (event.ctrlKey) {
 			   var value = parseInt(localStorage.SEARCHpagesize);
 			   if (value <= 1) {
 				   value = 1;
@@ -1391,30 +1388,6 @@ window.addEventListener('keydown', function(e) {
 	}
 }
 );
-
-
-
-//////////////////////////////
-//
-// Process window key ups --
-//
-
-window.onkeyup = function(e) {
-	var E       = window.event? event : e;
-	var keycode = E.keyCode;
-
-	if (keycode == ControlKey) {
-		ControlKeyState = 0;
-	} else if (keycode == ShiftKey) {
-		ShiftKeyState = 0;
-	} else if (keycode == AltKey) {
-		AltKeyState = 0;
-	} else if (keycode == CommandLeftKey) {
-		CommandKeyState = 0;
-	} else if (keycode == CommandRightKey) {
-		CommandKeyState = 0;
-	}
-};
 
 
 

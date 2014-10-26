@@ -783,7 +783,7 @@
 "liststyle"	:	"alphabetical",
 "notecount"	:	31253,
 "sec"		:	7583,
-"pg"		:	167,
+"pg"		:	168,
 "works"		:	
 	[
 	{
@@ -793,12 +793,12 @@
 	"voices"	:	"4",
 	"notecount"	:	7377,
 	"sec"		:	1694,
-	"pg"		:	33,
+	"pg"		:	34,
 	"ad"		:	20140724,
 	"ud"		:	20140726,
 	"sections"	:
 		[
-		{"id":"Duf1002a", "stitle":"Kyrie", "v":"4", "nc":1477, "sec":325, "pg":6, "vnc":[386, 196, 372, 523], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140717},
+		{"id":"Duf1002a", "stitle":"Kyrie", "v":"4", "nc":1477, "sec":325, "pg":7, "vnc":[386, 196, 372, 523], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140717},
 		{"id":"Duf1002b", "stitle":"Gloria", "v":"4", "nc":1385, "sec":319, "pg":6, "vnc":[244, 275, 399, 467], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140719, "ud":20140723},
 		{"id":"Duf1002c", "stitle":"Credo", "v":"4", "nc":2004, "sec":459, "pg":7, "vnc":[404, 255, 648, 697], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140724, "ud":20140725},
 		{"id":"Duf1002d", "stitle":"Sanctus", "v":"4", "nc":1455, "sec":335, "pg":8, "vnc":[226, 216, 464, 549], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140719, "ud":20140726},
@@ -840,7 +840,7 @@
 		{"id":"Duf1004b", "stitle":"Gloria", "v":"4", "nc":1661, "sec":384, "pg":9, "vnc":[309, 171, 541, 640], "ih":198, "vname":["Cantus","Contra","Tenor","Bassus"], "vabbr":["Cn","C","T","B"], "text":"true", "ad":20131207, "ud":20131209},
 		{"id":"Duf1004c", "stitle":"Credo", "v":"4", "nc":2486, "sec":639, "pg":13, "vnc":[412, 263, 859, 952], "ih":198, "vname":["Cantus","Contratenor","Tenor1","Tenor2"], "vabbr":["Cn","Ct","T1","T2"], "text":"true", "ad":20131208, "ud":20131209},
 		{"id":"Duf1004d", "stitle":"Sanctus", "v":"4", "nc":1669, "sec":426, "pg":10, "vnc":[277, 130, 603, 659], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131207, "ud":20131209},
-		{"id":"Duf1004e", "stitle":"Agnus Dei", "v":"4", "nc":1277, "sec":287, "pg":8, "vnc":[251, 173, 403, 450], "ih":377, "vname":["Cantus","Contra","Tenor","Bassus"], "vabbr":["Cn","C","T","B"], "text":"true", "ad":20131207, "ud":20131209}
+		{"id":"Duf1004e", "stitle":"Agnus Dei", "v":"4", "nc":1277, "sec":287, "pg":8, "vnc":[251, 173, 403, 450], "ih":198, "vname":["Cantus","Contra","Tenor","Bassus"], "vabbr":["Cn","C","T","B"], "text":"true", "ad":20131207, "ud":20131209}
 		]
 	},
 	{
@@ -1422,7 +1422,7 @@
 	],
 "liststyle"	:	"genre",
 "notecount"	:	451949,
-"sec"		:	98340,
+"sec"		:	100569,
 "pg"		:	2366,
 "works"		:	
 	[
@@ -2182,7 +2182,7 @@
 	"text"		:	"true",
 	"ih"		:	119,
 	"notecount"	:	151,
-	"sec"		:	0,
+	"sec"		:	44,
 	"pg"		:	1,
 	"vnotecount"	:	[71,80],
 	"ad"		:	20130817,
@@ -2215,7 +2215,7 @@
 	"text"		:	"true",
 	"ih"		:	119,
 	"notecount"	:	140,
-	"sec"		:	0,
+	"sec"		:	42,
 	"pg"		:	1,
 	"vnotecount"	:	[70,70],
 	"ad"		:	20130817,
@@ -2573,7 +2573,7 @@
 	"vabbr"		:	["D","A","T","B"],
 	"ih"		:	198,
 	"notecount"	:	1789,
-	"sec"		:	0,
+	"sec"		:	366,
 	"pg"		:	10,
 	"vnotecount"	:	[490,500,387,412],
 	"ad"		:	20130819,
@@ -2814,7 +2814,7 @@
 	"vabbr"		:	["D","A","T","B"],
 	"ih"		:	198,
 	"notecount"	:	1716,
-	"sec"		:	0,
+	"sec"		:	377,
 	"pg"		:	7,
 	"vnotecount"	:	[429,477,421,389],
 	"ad"		:	20130824,
@@ -2830,7 +2830,7 @@
 	"vabbr"		:	["D","A","T","B"],
 	"ih"		:	198,
 	"notecount"	:	1622,
-	"sec"		:	0,
+	"sec"		:	347,
 	"pg"		:	6,
 	"vnotecount"	:	[418,386,416,402],
 	"ad"		:	20130824,
@@ -2959,7 +2959,7 @@
 	"vabbr"		:	["D","A","T","B"],
 	"ih"		:	198,
 	"notecount"	:	1489,
-	"sec"		:	0,
+	"sec"		:	305,
 	"pg"		:	7,
 	"vnotecount"	:	[344,394,392,359],
 	"ad"		:	20130818,
@@ -3773,7 +3773,7 @@
 	"vabbr"		:	["S","A","T","B"],
 	"ih"		:	198,
 	"notecount"	:	855,
-	"sec"		:	0,
+	"sec"		:	209,
 	"pg"		:	4,
 	"vnotecount"	:	[251,231,180,193],
 	"ad"		:	20130518,
@@ -4350,7 +4350,7 @@
 	"vabbr"		:	["S","A","T","B"],
 	"ih"		:	198,
 	"notecount"	:	2339,
-	"sec"		:	0,
+	"sec"		:	539,
 	"pg"		:	11,
 	"vnotecount"	:	[437,793,574,535],
 	"ad"		:	20140222,
@@ -6401,17 +6401,17 @@
 "comlong"	:	"Pierre de la Rue",
 "comshort"	:	"La Rue",
 "comdates"	:	"d. 1518",
-"repwork"	:	82,
+"repwork"	:	78,
 "genres"	:
 	[
 	{"name":"mass", "count":35},
-	{"name":"motet", "count":29},
+	{"name":"motet", "count":25},
 	{"name":"song", "count":18}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	238976,
-"sec"		:	55202,
-"pg"		:	1152,
+"notecount"	:	233792,
+"sec"		:	53936,
+"pg"		:	1130,
 "works"		:	
 	[
 	{
@@ -7313,21 +7313,6 @@
 	},
 	{
 	"id"		:	"Rue2021",
-	"title"		:	"Salve Regina I",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Discantus","Contra","Tenor","Bassus"],
-	"vabbr"		:	["D","C","T","B"],
-	"ih"		:	198,
-	"notecount"	:	993,
-	"sec"		:	229,
-	"pg"		:	5,
-	"vnotecount"	:	[273,276,221,223,993,273,276,221,223],
-	"ad"		:	20130212,
-	"ud"		:	20130720
-	},
-	{
-	"id"		:	"Rue2021",
 	"title"		:	"Salve regina I",
 	"genre"		:	"motet",
 	"voices"	:	"4",
@@ -7337,23 +7322,8 @@
 	"notecount"	:	993,
 	"sec"		:	229,
 	"pg"		:	5,
-	"vnotecount"	:	[273,276,221,223,993,273,276,221,223],
+	"vnotecount"	:	[273,276,221,223],
 	"ad"		:	20130212,
-	"ud"		:	20130720
-	},
-	{
-	"id"		:	"Rue2022",
-	"title"		:	"Salve Regina II",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Discantus","Contra","Tenor","Bassus"],
-	"vabbr"		:	["D","C","T","B"],
-	"ih"		:	198,
-	"notecount"	:	1800,
-	"sec"		:	409,
-	"pg"		:	6,
-	"vnotecount"	:	[577,360,390,473,1800,577,360,390,473],
-	"ad"		:	20130214,
 	"ud"		:	20130720
 	},
 	{
@@ -7367,23 +7337,8 @@
 	"notecount"	:	1800,
 	"sec"		:	409,
 	"pg"		:	6,
-	"vnotecount"	:	[577,360,390,473,1800,577,360,390,473],
+	"vnotecount"	:	[577,360,390,473],
 	"ad"		:	20130214,
-	"ud"		:	20130720
-	},
-	{
-	"id"		:	"Rue2023",
-	"title"		:	"Salve Regina III",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Discantus","Contra","Tenor","Bassus"],
-	"vabbr"		:	["D","C","T","B"],
-	"ih"		:	198,
-	"notecount"	:	1156,
-	"sec"		:	354,
-	"pg"		:	5,
-	"vnotecount"	:	[342,302,254,258,1156,342,302,254,258],
-	"ad"		:	20130219,
 	"ud"		:	20130720
 	},
 	{
@@ -7397,23 +7352,8 @@
 	"notecount"	:	1156,
 	"sec"		:	354,
 	"pg"		:	5,
-	"vnotecount"	:	[342,302,254,258,1156,342,302,254,258],
+	"vnotecount"	:	[342,302,254,258],
 	"ad"		:	20130219,
-	"ud"		:	20130720
-	},
-	{
-	"id"		:	"Rue2024",
-	"title"		:	"Salve Regina IV",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Discantus","Contra","Tenor","Bassus"],
-	"vabbr"		:	["D","C","T","B"],
-	"ih"		:	198,
-	"notecount"	:	1235,
-	"sec"		:	274,
-	"pg"		:	6,
-	"vnotecount"	:	[267,259,397,312,1235,267,259,397,312],
-	"ad"		:	20130504,
 	"ud"		:	20130720
 	},
 	{
@@ -7427,7 +7367,7 @@
 	"notecount"	:	1235,
 	"sec"		:	274,
 	"pg"		:	6,
-	"vnotecount"	:	[267,259,397,312,1235,267,259,397,312],
+	"vnotecount"	:	[267,259,397,312],
 	"ad"		:	20130504,
 	"ud"		:	20130720
 	},
@@ -7760,16 +7700,16 @@
 "comlong"	:	"Johannes Martini",
 "comshort"	:	"Martini",
 "comdates"	:	"ca. 1430/40&ndash;1497",
-"repwork"	:	54,
+"repwork"	:	63,
 "genres"	:
 	[
 	{"name":"mass", "count":1},
-	{"name":"motet", "count":53}
+	{"name":"motet", "count":62}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	39620,
-"sec"		:	15802,
-"pg"		:	172,
+"notecount"	:	46242,
+"sec"		:	18022,
+"pg"		:	201,
 "works"		:	
 	[
 	{
@@ -8570,6 +8510,96 @@
 	"ud"		:	20141018
 	},
 	{
+	"id"		:	"Mar2080",
+	"title"		:	"O intemerata",
+	"genre"		:	"motet",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contratenor"],
+	"vabbr"		:	["S","T","Ct"],
+	"ih"		:	156,
+	"notecount"	:	315,
+	"sec"		:	127,
+	"pg"		:	2,
+	"vnotecount"	:	[111,99,105],
+	"ad"		:	20141005,
+	"ud"		:	20141023
+	},
+	{
+	"id"		:	"Mar2082",
+	"title"		:	"Quare fremuerunt gentes",
+	"genre"		:	"motet",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Bassus"],
+	"vabbr"		:	["S","T","B"],
+	"ih"		:	161,
+	"notecount"	:	1099,
+	"sec"		:	367,
+	"pg"		:	3,
+	"vnotecount"	:	[361,361,377],
+	"ad"		:	20141009,
+	"ud"		:	20141023
+	},
+	{
+	"id"		:	"Mar2083",
+	"title"		:	"Qui confidunt",
+	"genre"		:	"motet",
+	"voices"	:	"2",
+	"vname"		:	["Superius","Tenor"],
+	"vabbr"		:	["S","T"],
+	"ih"		:	119,
+	"notecount"	:	387,
+	"sec"		:	188,
+	"pg"		:	2,
+	"vnotecount"	:	[192,195],
+	"ad"		:	20141005,
+	"ud"		:	20141023
+	},
+	{
+	"id"		:	"Mar2084",
+	"title"		:	"Sepe expugnaverunt me",
+	"genre"		:	"motet",
+	"voices"	:	"2",
+	"vname"		:	["Superius","Tenor"],
+	"vabbr"		:	["S","T"],
+	"ih"		:	118,
+	"notecount"	:	531,
+	"sec"		:	245,
+	"pg"		:	2,
+	"vnotecount"	:	[267,264],
+	"ad"		:	20141006,
+	"ud"		:	20141023
+	},
+	{
+	"id"		:	"Mar2085",
+	"title"		:	"Salve regina",
+	"genre"		:	"motet",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	198,
+	"notecount"	:	2496,
+	"sec"		:	868,
+	"pg"		:	12,
+	"vnotecount"	:	[729,770,449,548],
+	"ad"		:	20141007,
+	"ud"		:	20141023
+	},
+	{
+	"id"		:	"Mar2087",
+	"title"		:	"Sanctorum meritis",
+	"genre"		:	"motet",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Contra","Tenor"],
+	"vabbr"		:	["S","C","T"],
+	"ih"		:	156,
+	"notecount"	:	495,
+	"sec"		:	113,
+	"pg"		:	2,
+	"vnotecount"	:	[164,177,154],
+	"ad"		:	20141005,
+	"ud"		:	20141023
+	},
+	{
 	"id"		:	"Mar2088",
 	"title"		:	"Super flumina Babilonis",
 	"genre"		:	"motet",
@@ -8583,6 +8613,51 @@
 	"vnotecount"	:	[339,342],
 	"ad"		:	20140222,
 	"ud"		:	20140223
+	},
+	{
+	"id"		:	"Mar2091",
+	"title"		:	"Vexilla regis",
+	"genre"		:	"motet",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Contra","Tenor"],
+	"vabbr"		:	["S","C","T"],
+	"ih"		:	156,
+	"notecount"	:	482,
+	"sec"		:	116,
+	"pg"		:	2,
+	"vnotecount"	:	[140,184,158],
+	"ad"		:	20141005,
+	"ud"		:	20141023
+	},
+	{
+	"id"		:	"Mar2096",
+	"title"		:	"Tibi Christe",
+	"genre"		:	"motet",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	198,
+	"notecount"	:	365,
+	"sec"		:	89,
+	"pg"		:	2,
+	"vnotecount"	:	[110,115,59,81],
+	"ad"		:	20141005,
+	"ud"		:	20141023
+	},
+	{
+	"id"		:	"Mar2097",
+	"title"		:	"Deus tuorum militum II",
+	"genre"		:	"motet",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	198,
+	"notecount"	:	452,
+	"sec"		:	107,
+	"pg"		:	2,
+	"vnotecount"	:	[110,145,72,125],
+	"ad"		:	20141005,
+	"ud"		:	20141023
 	}
 	]
 },
@@ -8925,7 +9000,7 @@
 	{"name":"song", "count":26}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	87911,
+"notecount"	:	87910,
 "sec"		:	25290,
 "pg"		:	466,
 "works"		:	
@@ -8935,15 +9010,15 @@
 	"title"		:	"Kyrie-Gloria-Credo Sine nomine",
 	"genre"		:	"mass",
 	"voices"	:	"5",
-	"notecount"	:	2162,
+	"notecount"	:	2161,
 	"sec"		:	347,
 	"pg"		:	13,
 	"ad"		:	20120817,
 	"sections"	:
 		[
-		{"id":"Ock1001a", "stitle":"Kyrie", "v":"5", "nc":295, "sec":37, "pg":1, "vnc":[44, 60, 55, 70, 66], "ih":262, "vname":["Superius","Altus","Tenor","Tenor2","Bassus"], "vabbr":["S","A","T","T2","B"], "ad":20120817},
+		{"id":"Ock1001a", "stitle":"Kyrie", "v":"5", "nc":295, "sec":37, "pg":1, "vnc":[44, 60, 55, 70, 66], "ih":514, "vname":["Superius","Altus","Tenor","Tenor2","Bassus"], "vabbr":["S","A","T","T2","B"], "ad":20120817},
 		{"id":"Ock1001b", "stitle":"Gloria", "v":"5", "nc":748, "sec":111, "pg":3, "vnc":[122, 167, 147, 169, 143], "ih":244, "vname":["Superius","Altus","Tenor","Tenor2","Bassus"], "vabbr":["S","A","T","T","B"], "ad":20120817},
-		{"id":"Ock1001c", "stitle":"Credo", "v":"5", "nc":1119, "sec":199, "pg":9, "vnc":[163, 206, 370, 190, 190], "ih":241, "vname":["Discantus","Tenor2","Tenor","Vagans","Bassus"], "vabbr":["D","T","T","V","B"], "text":"true", "ad":20120817}
+		{"id":"Ock1001c", "stitle":"Credo", "v":"5", "nc":1118, "sec":199, "pg":9, "vnc":[162, 206, 370, 190, 190], "ih":241, "vname":["Discantus","Tenor2","Tenor","Vagans","Bassus"], "vabbr":["D","T","T","V","B"], "text":"true", "ad":20120817}
 		]
 	},
 	{
@@ -9251,13 +9326,13 @@
 	},
 	{
 	"id"		:	"Ock2003",
-	"title"		:	"Intermerata Dei mater",
+	"title"		:	"Intemerata Dei mater",
 	"genre"		:	"motet",
 	"voices"	:	"5",
 	"vname"		:	["Discantus","Contratenor","Tenor","Vagans","Bassus"],
 	"vabbr"		:	["D","Ct","T","V","B"],
 	"text"		:	"true",
-	"ih"		:	247,
+	"ih"		:	268,
 	"notecount"	:	1785,
 	"sec"		:	290,
 	"pg"		:	10,
@@ -9681,7 +9756,7 @@
 	],
 "liststyle"	:	"genre",
 "notecount"	:	45433,
-"sec"		:	10838,
+"sec"		:	10815,
 "pg"		:	220,
 "works"		:	
 	[
@@ -9845,7 +9920,7 @@
 	"vabbr"		:	["S","A","T","B"],
 	"ih"		:	198,
 	"notecount"	:	1547,
-	"sec"		:	432,
+	"sec"		:	409,
 	"pg"		:	8,
 	"vnotecount"	:	[413,402,343,389],
 	"ad"		:	20130506,

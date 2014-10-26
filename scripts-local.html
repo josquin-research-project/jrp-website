@@ -11,23 +11,28 @@
 // Description:   JavaScript management of the JRP homepage.
 //
 
+
 //////////////////////////////
 //
-// window.onload --
+// Function called when document has finished loading:
 //
 
-window.onload = function() {
+document.addEventListener("DOMContentLoaded", function() {
+
 	AUDIO = document.getElementById("audio");
 	AUDIO.addEventListener('ended', function(e) {
 		AUDIO.pause();
 		var pauseelem = document.getElementById(AUDIOid);
 		pauseelem.className = "play";
 	}, false);
+
+   sessionStorage.removeItem('RECENTLYADDEDHTML');
+
 	buildComposerSelect();
 	buildGenreSelect();
 	displayRandomExample();
 	displayRecentAdditions();
-}
+}, false);
 
 
 
@@ -85,12 +90,9 @@ function storeBrowseParameters() {
 //
 
 function displayRandomExample() {
-	initializeWorklistFlat();
+	InitializeWorklistFlat();
 
-	var randomindex = Math.round(Math.random() * WORKLISTrecent.length);
-   if (randomindex >= WORKLISTrecent.length) {
-		randomindex = WORKLISTrecent.length - 1;
-	}
+	var randomindex = Math.floor(Math.random() * WORKLISTrecent.length);
 	var randomwork  = WORKLISTrecent[randomindex];
 	
 	var composer = randomwork.comshort;
@@ -121,12 +123,12 @@ function displayRandomExample() {
 	output += "<span style='float:right; margin-right:10px;'>";
 
    // output += "<a target=\"new\" href=\"";
-	// output += "/data?a=mp3&f=" + jrpid;
+	// output += "http://data.tassomusic.org/data?a=mp3&f=" + jrpid;
 	// output += "\" class=\"play\">mp3</a>";
 
 	output += "<span id=\"audio2_" + jrpid + "\"";
 	output += "style=\"cursor:hand; cursor:pointer;\" ";
-	output += "onclick=\"playAudioFile('" + jrpid + "', this);\" ";
+	output += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 	output += "href=\"\" class=\"play\">play</span>";
 
 	output += "</span>\n";
@@ -158,8 +160,13 @@ function displayRandomExample() {
 //
 
 function getIncipitAsync(jrpid) {
+	var dataloc = "/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
+
    var action = "incipit-mime";
-	readFileAsync("/data?a=" + action + "&id=" + jrpid, function(responseText) {
+	ReadFileAsync(dataloc + "?a=" + action + "&id=" + jrpid, function(responseText) {
    	var data = responseText;
    	if (data != "") {
      		var area = document.getElementById("sample-incipit");
@@ -188,7 +195,7 @@ function displayRecentAdditions() {
 
 	var recent = document.getElementById("recently-added-table");
 
-	initializeWorklistFlat();
+	InitializeWorklistFlat();
 
 	var tablecontent = printRecentTableHeader();
 	var i;
@@ -322,25 +329,29 @@ function printWorklistRecentEntry(entry) {
 	}
 	output += "</td>\n";
 */
+	var dataloc = "/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
 
 	// Scores
 	output += "<td>\n";
 	output += "<a " + PDFTARGET + "href=\"";
-	output += "/data?a=notationnoeditwithtext&f=" + jrpid;
+	output += dataloc + "?a=notationnoeditwithtext&f=" + jrpid;
 	output += "\" class=\"file\">file</a>\n";
 	output += "<a " + PDFTARGET + "href=\"";
-	output += "/data?a=notationwitheditwithtext&f=" + jrpid;
+	output += dataloc + "?a=notationwitheditwithtext&f=" + jrpid;
 	output += "\" class=\"file-ed\">Ed.</a>\n";
 	output += "</td>\n";
 
 	// MP3 playback button
-	//output += "<td style=\"padding-left:30px;\"><a target=new href=\"/data?a=mp3&f=";
+	//output += "<td style=\"padding-left:30px;\"><a target=new href=\"http://data.tassomusic.org/data?a=mp3&f=";
 	//output += mjrpid + "\" class=\"play\">play</a></td>\n";
 	output += "<td style=\"padding-left:30px;\">";
 
 	output += "<span id=\"audio_" + mjrpid + "\"";
 	output += "style=\"cursor:hand; cursor:pointer;\" ";
-	output += "onclick=\"playAudioFile('" + mjrpid + "', this);\" ";
+	output += "onclick=\"PlayAudioFile('" + mjrpid + "', this);\" ";
 	output += "href=\"\" class=\"play\">play</span>";
 
 	output += "</td>\n";
@@ -366,12 +377,12 @@ function buildComposerSelect() {
 	var output = "<select name=\"c\" id=\"composers\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option label=\"default\">All Composers</option>\n";
-	var clist = getComposerOptions();
+	var clist = GetComposerOptions();
 	output += clist;
 	output += "</select>\n";
 	composerselect.innerHTML = output;
 
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -391,12 +402,12 @@ function buildGenreSelect() {
 	output += " onchange=\"browseDisplay();\"";
 	output += " data-placeholder=\"All Genres\">\n";
 	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
-	var clist = getGenreOptions();
+	var clist = GetGenreOptions();
 	output += clist;
 	output += "</select>\n";
 	genreselect.innerHTML = output;
 
-	updateEzMark();
+	UpdateEzMark();
 }
 
 
@@ -413,10 +424,7 @@ window.addEventListener('keydown', function(event) {
 
 	switch (event.keyCode) {
 		case CKey:
-   		localStorage.removeItem("WORKLIST");
-   		localStorage.removeItem("WORKLISTrefreshtime");
-   		localStorage.removeItem("WORKjrpid");
-   		localStorage.removeItem("RECENTLYADDEDHTML");
+			ClearWorklistCache();
 			break;
 	}
 

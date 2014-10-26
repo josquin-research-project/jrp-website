@@ -20,8 +20,7 @@
 
 window.onload = function() {
    loadCgiParameters();
-   window.onkeydown = analysisKeyDownFunction;
-   window.onkeyup   = analysisKeyUpFunction;
+	window.addEventListener('keydown', analysisKeyDownFunction, false);
 	displayContents();
 };
 
@@ -68,7 +67,7 @@ function runAnalysis() {
 
 console.log("DOWNLOADING " + file);
 
-	readFileAsync(file, function(responseText) {
+	ReadFileAsync(file, function(responseText) {
 		var maincontent = document.getElementById('analysis-content');
 		if (!maincontent) {
 			return;
@@ -90,7 +89,7 @@ console.log("DOWNLOADING " + file);
    
 
    //buildSelectionMenus();
-   //updateEzMark();
+   //UpdateEzMark();
 
 
 }

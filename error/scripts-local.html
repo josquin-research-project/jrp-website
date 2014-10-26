@@ -1,8 +1,9 @@
+<script src="/scripts/handlebars-v2.0.0.js"></script>
 <script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Mon Sep 22 14:36:22 PDT 2014
-// Last Modified:	Mon Sep 22 14:36:29 PDT 2014
+// Last Modified:	Fri Oct 24 23:55:09 PDT 2014
 // Filename:		.../error/scripts-local.html
 // Web Address:	http://josquin.stanford.edu/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5
@@ -13,13 +14,16 @@
 
 var JRPID = localStorage.ERRORjrpid;
 var INCIPITS = {};
+var FORCE = "false";
+var ERRORLIST = [];
+
 
 //////////////////////////////
 //
 // window.onload --
 //
 
-window.onload = function() {
+document.addEventListener("DOMContentLoaded", function() {
 	var referrer = document.referrer;
    if (sessionStorage.ERRORsubmitting == "true") {
       JRPID = sessionStorage.ERRORjrpid; // should be same as localStorage vers.
@@ -29,7 +33,7 @@ window.onload = function() {
 	} else {
 		feedbackFormDisplay();
 	}
-}
+}, false);
 
 
 
@@ -39,10 +43,10 @@ window.onload = function() {
 //
 
 function feedbackFormDisplay() {
-   var content = document.getElementById("content");
+   var content = document.getElementById("error-form");
    var message = "";
 	message += "<article class=\"about\">\n";
-	message += "<h2 class=\"brown-heading\">Error Report</h2>\n";
+	message += "<h2 class=\"brown-heading\">Error report</h2>\n";
 	message += "<p> \n";
 	message += "The error report page is only active when coming from a work page.\n";
 	message += "</p>\n";
@@ -58,7 +62,7 @@ function feedbackFormDisplay() {
 //
 
 function errorFormDisplay(jrpid) {
-   initializeWorklistFlat();
+   InitializeWorklistFlat();
 
 	var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
 	var workid = pieces[1];
@@ -72,9 +76,9 @@ function errorFormDisplay(jrpid) {
 
    var errorform = getErrorForm(jrpid, work);
 
-   var maincontent = document.getElementById('content');
+   var maincontent = document.getElementById('error-form');
    var output  = "<article class=\"about\">\n";
-	output += "<h2 class=\"brown-heading\">Error Report Form</h2>\n";
+	output += "<h2 class=\"brown-heading\">Error report form</h2>\n";
 	output += "<p>\n"
    output += errorform;
 	output += "</p>\n"
@@ -85,9 +89,9 @@ function errorFormDisplay(jrpid) {
    //sessionStorage.ERRORjrpid       = jrpid;  // already setup in window.onload
 
 	if (sessionStorage.ERRORsubmitting == "true") {
-		document.getElementById("voice").value      = sessionStorage.ERRORvoice;
-		document.getElementById("measure").value    = sessionStorage.ERRORmeasure;
-		document.getElementById("submitter").value  = sessionStorage.ERRORsubmitter;
+		document.getElementById("voice").value       = sessionStorage.ERRORvoice;
+		document.getElementById("measure").value     = sessionStorage.ERRORmeasure;
+		document.getElementById("submitter").value   = sessionStorage.ERRORsubmitter;
 		document.getElementById("description").value = sessionStorage.ERRORdescription;
 		document.getElementById("referer").value     = sessionStorage.ERRORreferer;
 	}
@@ -102,10 +106,15 @@ function errorFormDisplay(jrpid) {
 			}
 		}
 	}
-	if (si >= 0) {
-		$("#select-section :nth-child(" + (parseInt(si)+1) + ")").prop('selected', true);
-	}
-	updateEzMark();
+	//if (si >= 0) {
+   //		$("#select-section :nth-child(" + (parseInt(si)+1) + ")").prop('selected', true);
+	//}
+	UpdateEzMark();
+	var menuitem = document.querySelector("a > span.select2-chosen");
+   if (menuitem) {
+		menuitem.textContent = work.sections[si].stitle;
+	} 
+   getErrorReports(jrpid);
    
 }
 
@@ -118,9 +127,6 @@ function errorFormDisplay(jrpid) {
 
 function getErrorForm(jrpid, workinfo) {
    var title = workinfo.title;
-	if (typeof workinfo.variant !== 'undefined') {
-		title += " (" + workinfo.variant + ")";
-	}
    var sectionindex = -1;
 	var i;
 
@@ -136,10 +142,10 @@ function getErrorForm(jrpid, workinfo) {
    var stitle = "";
    if (sectionindex >= 0) {
 		stitle = workinfo.sections[sectionindex].stitle;
-		if (typeof workinfo.sections[sectionindex].variant !== 'undefined') {
-			stitle += " (" + workinfo.sections[sectionindex].variant + ")";
-		}
    }
+	if (stitle) {
+		title += " " + stitle;
+	}
 
 	var output = "";
 	output += "<div style=\"padding-left:100px;\" id=\"music-area\">\n";
@@ -152,9 +158,6 @@ function getErrorForm(jrpid, workinfo) {
 	output += "<input type=hidden name=error_catalog value=\"" + jrpid + "\">\n";
 	output += "<input type=hidden name=a value=errorformsubmit>\n";
 	output += "<input type=hidden name=error_title value=\"" + title;
-   if (stitle != "") {
-		output += " " + stitle;
-	}
 	output += "\">\n";
    output += "<input type=hidden name=error_dateshort value=\"";
    output += getDateShort();
@@ -228,7 +231,7 @@ function getErrorForm(jrpid, workinfo) {
   	output += "<p style=\"margin-top:0px;\">Description:</p>";
    output += "</td>\n";
    output += "<td>\n";
-	output += "<textarea id=\"description\" name=error_description style=\"font-family:Leto,sans-serif;\" rows=10 cols=60 placeholder=\"\"></textarea>\n";
+	output += "<textarea id=\"description\" name=error_description style=\"font-family:Leto,sans-serif;\" rows=5 cols=60 placeholder=\"\"></textarea>\n";
    output += "</td>\n";
    output += "</tr>\n";
 
@@ -408,7 +411,7 @@ function getIncipitAsync(jrpid) {
 	}
 
 	var action = "incipit-mime";
-	readFileAsync("/data?a=" + action + "&id=" + jrpid, function(responseText) {
+	ReadFileAsync("/data?a=" + action + "&id=" + jrpid, function(responseText) {
 		var data = responseText;
 		INCIPITS[jrpid] = responseText;
 		if (data != "") {
@@ -417,6 +420,83 @@ function getIncipitAsync(jrpid) {
 			area.innerHTML = imgtext;
 		}
 	});
+}
+
+
+
+////////////////////////////
+//
+// getErrorReports --
+//
+
+function getErrorReports(jrpid) {
+   if (ERRORLIST && (ERRORLIST.length > 0)) {
+		displayErrorList(jrpid);
+		return;
+	}
+
+	var request = new XMLHttpRequest();
+	request.open('GET', '/data?a=errors-json&force=' + FORCE, true);
+	request.addEventListener('load', function() {
+		if (request.status = 200) {
+			ERRORLIST = JSON.parse(request.responseText);
+   		ERRORLIST.sort(byReverseDate);
+			displayErrorList(jrpid);
+			return;
+		}
+	});
+	request.send();
+}
+
+
+
+//////////////////////////////
+//
+// byReverseDate -- sort a work by reverse date.
+//
+
+
+function byReverseDate(a, b) {
+   var date1 = a.date;
+   var date2 = b.date;
+
+	if (!date1) { date1 = 0; }
+	if (!date2) { date2 = 0; }
+   if (date1 > date2) { return -1; } 
+   if (date1 < date2) { return +1; }
+
+   return 0;
+}
+
+
+
+//////////////////////////////
+//
+// displayErrorList --
+//
+
+function displayErrorList(jrpid) {
+   var container = document.getElementById("error-content");
+	var source = document.getElementById("error-table");
+	var template = Handlebars.compile(source.textContent);
+ 	var list = [];
+	var i;
+   for (i=0; i<ERRORLIST.length; i++) {
+		if (jrpid === ERRORLIST[i].jrpid) {
+			list.push(ERRORLIST[i]);
+		}
+	}
+   var title = document.getElementById("error-title");
+   if (list.length == 0) {
+		title.textContent = "";
+		container.textContent = "";
+		return;
+	}
+   var value = template(list);
+   var titletext = '<h2 style="text-align:left; padding-top:30px; margin:0;" class="brown-heading">';
+	titletext += 'Previous reports for ' + jrpid + '</h2>\n';
+	title.innerHTML = titletext;
+	container.innerHTML = value;
 }
 
 

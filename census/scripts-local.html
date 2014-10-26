@@ -22,7 +22,7 @@ var WORKLISTsections;
 //
 
 document.addEventListener("DOMContentLoaded", function() {
-	updateEzMark();
+	UpdateEzMark();
 	showNoteTable("notetable");
 	showTimeTable("timetable");
 	showPageTable("pagetable");
@@ -40,7 +40,7 @@ function showNoteTable(tagid) {
 	if (!parentelement) {
 		return;
 	}
-	initializeWorklist();
+	InitializeWorklist();
 	var source = document.getElementById("note-table");
 	var template = Handlebars.compile(source.textContent);
 	parentelement.innerHTML = template(WORKLIST);
@@ -59,7 +59,7 @@ function showPageTable(tagid) {
 	if (!parentelement) {
 		return;
 	}
-	initializeWorklist();
+	InitializeWorklist();
 	var source = document.getElementById("page-table");
 	var template = Handlebars.compile(source.textContent);
 	parentelement.innerHTML = template(WORKLIST);
@@ -78,7 +78,7 @@ function showTimeTable(tagid) {
 	if (!parentelement) {
 		return;
 	}
-	initializeWorklist();
+	InitializeWorklist();
 	var source = document.getElementById("time-table");
 	var template = Handlebars.compile(source.textContent);
 	parentelement.innerHTML = template(WORKLIST);
