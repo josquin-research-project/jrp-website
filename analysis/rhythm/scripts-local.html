@@ -1,4 +1,5 @@
-<script type="text/javascript">
+<script src="/scripts/scripts-common.js"></script>
+<script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Sat Sep 13 16:45:49 PDT 2014
@@ -47,7 +48,7 @@ function displayContents(repertory) {
 	}
 	buildRepertorySelect();
 	$('#repertory').val(repertory);
-	UpdateEzMark();
+	StylizeFormElements();
 	if (repertory != "") {
 		showRepertory(repertory);
 	} else {
@@ -76,9 +77,9 @@ function buildRepertorySelect() {
 	output += clist;
 	output += "</select></td></tr></table>\n";
 	repertoryselect.innerHTML = output;
-	$('#repertory option[value=\"" + localStorage.ANALYSISrepertory + "\"]')
+	$('#repertory option[value="' + localStorage.ANALYSISrepertory + '"]')
 			.attr('selected', 'selected');
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 

@@ -1,4 +1,5 @@
-<script type="text/javascript">
+<script src="/scripts/scripts-common.js"></script>
+<script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Wed Aug 27 17:13:25 PDT 2014
@@ -74,7 +75,7 @@ function displayContents() {
 	buildComposerSelect();
 	buildGenreSelect();
    setupSearchOnEnter();
-	// UpdateEzMark(); // already done in buildComposerSelect & buildGenreSelect
+	// StylizeFormElements(); // already done in buildComposerSelect & buildGenreSelect
 }
 
 
@@ -212,7 +213,7 @@ function buildComposerSelect() {
 
 	var cs2 = document.getElementById("repertory-select");
 	if (cs2 == null) {
-		UpdateEzMark();
+		StylizeFormElements();
 		return;
 	}
 
@@ -225,11 +226,11 @@ function buildComposerSelect() {
    if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
 			(localStorage.ANALYSISrepertory != "")) {
 		$('#repertory').val(localStorage.ANALYSISrepertory);
-	   UpdateEzMark();
+		StylizeFormElements();
 	} else {
 		$('#repertory').val("Jos");
 	}
-	UpdateEzMark();
+	StylizeFormElements();
 
 }
 
@@ -251,12 +252,9 @@ function buildGenreSelect() {
 	output += "<option label=\"default\">All Genres</option>\n";
 	output += GetGenreOptions();
 	genreselect.innerHTML = output;
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
+
 </script>
-
-
-
-

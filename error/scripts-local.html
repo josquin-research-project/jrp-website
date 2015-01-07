@@ -1,4 +1,5 @@
-<script src="/scripts/handlebars-v2.0.0.js"></script>
+<script src="/scripts/external/handlebars-v2.0.0.js"></script>
+<script src="/scripts/scripts-common.js"></script>
 <script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
@@ -109,7 +110,7 @@ function errorFormDisplay(jrpid) {
 	//if (si >= 0) {
    //		$("#select-section :nth-child(" + (parseInt(si)+1) + ")").prop('selected', true);
 	//}
-	UpdateEzMark();
+	StylizeFormElements();
 	var menuitem = document.querySelector("a > span.select2-chosen");
    if (menuitem) {
 		menuitem.textContent = work.sections[si].stitle;

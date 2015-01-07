@@ -1,4 +1,7 @@
-<script type="text/javascript">
+<script src="/scripts/external/handlebars-v2.0.0.js"></script>
+<script src="/scripts/scripts-common.js"></script>
+<script src="/scripts/references.js"></script>
+<script>
 //
 // Programmer:	 Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Mon Aug 25 15:06:38 PDT 2014
@@ -12,8 +15,9 @@
 //
 
 // Global variables:
-var INCIPITS            = {};
+var INCIPITS            = {};  // local Incipit image cache
 
+// Display style for Vocal Ranges section
 var RANGESnotelabeled   = {};
 var RANGESnoteunlabeled	= {};
 var RANGESdurlabeled    = {};
@@ -21,84 +25,40 @@ var RANGESdurunlabeled	= {};
 var RANGES				   = RANGESnoteunlabeled;
 var RANGENULLHEIGHT     = "110px";
 
-
 var SECTIONS            = [];
 var SECTIONID				= "";
 var SECTIONINDEX        = 0;
+var MENUINDEX           = -1;
 var MARGINRIGHT         = "margin-right: 50px";
 var WORKrangedur        = false;
+var JRPID               = localStorage.WORKjrpid;
+var QUERY					= "";
 
 if (typeof sessionStorage.WORKslist === 'undefined') {
-   sessionStorage.WORKslist = "false";
+	sessionStorage.WORKslist = "false";
 }
 var WORKslist = true;
 if (sessionStorage.WORKslist == "false") {
-   WORKslist = false;
+	WORKslist = false;
 }
 
 var WORKallincipits;
 if (sessionStorage.WORKallincipits == "true") {
-   WORKallincipits = true;
+	WORKallincipits = true;
 } else {
 	WORKallincipits = false;
 }
 
 var WORKallranges;
 if (sessionStorage.WORKallranges == "true") {
-   WORKallranges = true;
+	WORKallranges = true;
 } else {
 	WORKallranges = false;
 }
 
 
 
-//////////////////////////////
-//
-// window.onload --
-//
-
-window.onload = function() {
-	AUDIO = document.getElementById("audio");
-	AUDIO.addEventListener('ended', function(e) {
-		AUDIO.setAttribute("controls", "");
-		AUDIO.currentTime = 0;
-		AUDIO.pause();
-		var pauseelem = document.getElementById(AUDIOid);
-      if (!!pauseelem) {
-			if (pauseelem.className.match(/mp3/)) {
-				pauseelem.className = "mp3play";
-			} else {
-				pauseelem.className = "play";
-			}
-		}
-		
-	}, false);
-
-   sessionStorage.ERRORsubmitting  = "false";
-
-	var CgiParameters = GetCgiParameters();
-
-	if (typeof CgiParameters['id'] !== "undefined") {
-		localStorage.WORKjrpid = CgiParameters['id'];
-	} else {
-		if (typeof localStorage.WORKjrpid === 'undefined') {
-			localStorage.WORKjrpid = "Jos2721";
-		}
-	}
-
-	var pieces = localStorage.WORKjrpid.match(/^([^\-]+)-.*/);
-	if (pieces != null) {
-		localStorage.WORKjrpid = pieces[1];
-	}
-
-	buildComposerSelect();
-	buildRepertorySelect();
-	buildGenreSelect();
-
-	displayWork(localStorage.WORKjrpid);
-	setupSearchOnEnter();
-}
-
+///////////////////////////////////////////////////////////////////////////
 
 
 //////////////////////////////
@@ -116,9 +76,10 @@ function generateBreadcrumbs(title, composer, workid) {
 	if (referrer.match(/\/browse/)) {
 		referrer = referrer.replace(/\/?\??home=true$/, "");
 		rtitle = "Browse";
-	}
-	if (referrer.match(/\/search/)) {
+	} else if (referrer.match(/\/search/)) {
 		rtitle = "Search Results";
+	} else if (referrer.match(/https?:\/\/[^\/]+\/?$/)) {
+		rtitle = "Home";
 	}
 
 	bread += "<a href=\"";
@@ -134,7 +95,7 @@ function generateBreadcrumbs(title, composer, workid) {
 	bread += "</li>\n";
 	bread += "<ul>\n";
  
-   return bread;
+	return bread;
 }
 
 
@@ -145,11 +106,11 @@ function generateBreadcrumbs(title, composer, workid) {
 //
 
 function generateWorkPdfs(workid) {
-   if (!SECTIONS || SECTIONS < 2) {
+	if (!SECTIONS || SECTIONS < 2) {
 		return "";
 	} 
 
-   var wc = "";
+	var wc = "";
 
 /*
 	wc += "<a style=\"line-height:14px;\" ";
@@ -169,7 +130,7 @@ function generateWorkPdfs(workid) {
 	wc += "&nbsp;&nbsp;";
 */
 
-   return wc;
+	return wc;
 }
 
 
@@ -185,8 +146,8 @@ function displayMultisectionWork(jrpid) {
 
 	localStorage.WORKjrpid = jrpid;
 
-   var pricon = document.getElementById("primary-content");
-   pricon.className = "work-content multiwork";
+	var pricon = document.getElementById("primary-content");
+	pricon.className = "work-content multiwork";
 
 	var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
 	var workid = pieces[1];
@@ -197,19 +158,19 @@ function displayMultisectionWork(jrpid) {
 		// Tas repertory uses a letter for work
 		work = WORKLISTjrpid[jrpid];
 	}
-   if (typeof work === 'undefined') {
+	if (typeof work === 'undefined') {
 		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
 				+ jrpid + "</p>";
 		return;
 	}
 
-   SECTIONS = work.sections;
-   var sectionid = SECTIONS[0].id;
-   SECTIONID = sectionid;
+	SECTIONS = work.sections;
+	var sectionid = SECTIONS[0].id;
+	SECTIONID = sectionid;
 
-   var sectionindex = 0;
+	var sectionindex = -1;
 	var i;
-   for (i=0; i<SECTIONS.length; i++) {
+	for (i=0; i<SECTIONS.length; i++) {
 		if (jrpid == SECTIONS[i].id) {
 			sectionid = jrpid;
 			sectionindex = i+1;
@@ -218,30 +179,40 @@ function displayMultisectionWork(jrpid) {
 	}
 
 	SECTIONINDEX = sectionindex;
-
-	localStorage.WORKjrpid = sectionid;
-	jrpid = sectionid;
+	if (SECTIONINDEX < 0) {
+		sectionid = workid;
+		if (SECTIONS && SECTIONS.length > 0) {
+			SECTIONINDEX = 1;
+		}
+		MENUINDEX = 0;
+	} else {
+		MENUINDEX = SECTIONINDEX;
+	}
 
 	var title	 = work.title;
 	var composer = work.comshort;
 
-   var bread = generateBreadcrumbs(title, composer, jrpid);
+	var bread = generateBreadcrumbs(title, composer, jrpid);
 	document.getElementById("breadcrumbs").innerHTML = bread;
 
-   var workpdfs = generateWorkPdfs(workid);
+	var workpdfs = generateWorkPdfs(workid);
 	document.getElementById("workpdfs").innerHTML = workpdfs;
+
 
 	// Set the title line //////////////////////////////////////////////////
 
-   var titlelem = document.getElementById("title");
-   if (WORKslist) {
-	   //titlelem.innerHTML = getSectionHeaderTable(sectionid, sectionid);
+	var titlelem = document.getElementById("title");
+	if (WORKslist) {
+		//titlelem.innerHTML = getSectionHeaderTable(sectionid, sectionid);
 		displaySection(sectionid);
-   } else {
-	   titlelem.innerHTML = getSectionHeaderMenu(sectionid);
-   }
-	$('select#select-section').prop('selectedIndex', sectionindex);
-	UpdateEzMark();
+	} else {
+		titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
+	}
+	$('select#select-section').prop('selectedIndex', MENUINDEX);
+	StylizeFormElements();
+
+	localStorage.WORKjrpid = sectionid;
+	jrpid = sectionid;
 
 	// Set the incipit image ///////////////////////////////////////////////
 	prepareIncipitArea(jrpid, SECTIONS);
@@ -251,8 +222,16 @@ function displayMultisectionWork(jrpid) {
 	prepareRangeArea(jrpid, SECTIONS);
 	getRangeAsyncMultiple(jrpid, SECTIONS);
 
+
+	var downloads = document.getElementById("downloads");
+	if (downloads) {
+		downloads.textContent = "";
+	}
+
 	// Set the Downloads area //////////////////////////////////////////////
-   showSectionDownloads(jrpid);
+	if (jrpid.match(/[a-z]$/)) {
+		showSectionDownloads(jrpid);
+	}
 }
 
 
@@ -267,10 +246,11 @@ function getSectionHeaderTable(workid, sectionid) {
 		sectionid = workid;
 	}
 	var tc = "";
-	tc += "<section style=\"margin-left:50px; padding-bottom:0; padding-top:0\" id=\"recently-added\">\n";
-//	tc += "<center>\n";
+	tc += "<section style=\"margin-left:50px; padding-bottom:0; ";
+	tc += "padding-top:0\" id=\"recently-added\">\n";
 	tc += "<div>\n";
-	tc += "<h2>XJRP no.:&nbsp;&nbsp;<span id=\"sectionid\">";
+	tc += "<h2>";
+	tc += "<span id=\"sectionid\">";
 	tc += sectionid + "</span></h2>\n";
 	tc += printSectionTableHeader();
 	var i;
@@ -279,9 +259,8 @@ function getSectionHeaderTable(workid, sectionid) {
 	}
 	tc += printSectionTableFooter();
 	tc += "</div>\n";
-//	tc += "</center>\n";
 	tc += "</section>\n";
-   return tc;
+	return tc;
 }
 
 
@@ -299,7 +278,7 @@ function printSectionEntries(entry, currentid) {
 	var stitle    = entry.stitle;
 	var sectionid = entry.id;
 
-   var out = "";
+	var out = "";
 
 	if (currentid == sectionid) {
 		out = "<tr style=\"background:#f7f7f7;\">\n";
@@ -354,7 +333,7 @@ function printSectionEntries(entry, currentid) {
 //////////////////////////////
 //
 // printSectionTableFooter -- Print the table footer for the recently added
-//       works.
+//		works.
 //
 
 function printSectionTableFooter() {
@@ -368,7 +347,7 @@ function printSectionTableFooter() {
 //////////////////////////////
 //
 // printSectionTableHeader -- Print the table header for the recently added
-//      works.
+//		works.
 //
 
 function printSectionTableHeader(workid) {
@@ -393,11 +372,13 @@ function printSectionTableHeader(workid) {
 // getSectionHeaderMenu -- For a multi-sectioned work.
 //
 
-function getSectionHeaderMenu(jrpid) {
-	var sectionid 	= jrpid;
-   var workid    	= jrpid.replace(/[a-z.]+$/, "");
-	var title 		= WORKLISTjrpid[workid].title;
-	var composer	= WORKLISTjrpid[workid].comshort;
+function getSectionHeaderMenu(jrpid, menuindex) {
+	var sectionid  = jrpid;
+	var workid     = jrpid.replace(/[a-z.]+$/, "");
+	var title      = WORKLISTjrpid[workid].title;
+	var composer   = WORKLISTjrpid[workid].comshort;
+
+	var workQ = (workid === jrpid);
 
 	// list of sections underneath JRPID:
 	var tc = "";
@@ -406,31 +387,45 @@ function getSectionHeaderMenu(jrpid) {
 	tc += title + " (<span id=\"sectionid\">";
 	tc += sectionid + "</span>)</h2>\n";
 
-   tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
+	tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
 
 	tc += "<div class=\"form-group\">\n";
 	tc += "<select id=\"select-section\"";
 	tc += " onchange=\"displaySection(this.value);\"";
 	tc += ">\n";
 	tc += "<option value=\"" + workid + "\">Complete work</option>\n";
-   tc += getOptionList(SECTIONS);
+	tc += getOptionList(SECTIONS);
 	tc += "</select>\n";
 	tc += "</div>\n";
 	tc += "</div>\n";
 
-   var pc = "";
+	var pc = "";
 
-	pc += "<ul style=\"margin-top:0;\">\n";
-	pc += "<li><a class=\"file-orange WORKLINK\" ";
-	pc += PDFTARGET + "href=\"";
-	pc += "/data?a=notationNoEditText&f=" + sectionid;
-	pc += "\">Score</a></li>\n";
+	if (workQ) {
+		pc += "<ul style=\"margin-top:0;\">\n";
+		pc += "<li><a class=\"file-orange WORKLINK\" ";
+		pc += PDFTARGET + "href=\"";
+		pc += "/data?a=notationNoEditText&f=" + workid;
+		pc += "\">Score</a></li>\n";
 
-	pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
-	pc += PDFTARGET + "href=\"";
-	pc += "/data?a=notationEditText&f=" + sectionid;
-	pc += "\"><span style=\"display:block;\">";
-	pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
+		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
+		pc += PDFTARGET + "href=\"";
+		pc += "/data?a=notationEditText&f=" + workid;
+		pc += "\"><span style=\"display:block;\">";
+		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
+	} else {
+		pc += "<ul style=\"margin-top:0;\">\n";
+		pc += "<li><a class=\"file-orange WORKLINK\" ";
+		pc += PDFTARGET + "href=\"";
+		pc += "/data?a=notationNoEditText&f=" + sectionid;
+		pc += "\">Score</a></li>\n";
+
+		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
+		pc += PDFTARGET + "href=\"";
+		pc += "/data?a=notationEditText&f=" + sectionid;
+		pc += "\"><span style=\"display:block;\">";
+		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
+	}
 
 	if (jrpid == AUDIOjrpid) {
 		pc += "<li><a id=\"audio_" + sectionid + "\"";
@@ -505,12 +500,12 @@ function getSectionHeaderMenu(jrpid) {
 //
 
 function getMp3(jrpid, element) {
-   if (!jrpid) {
+	if (!jrpid) {
 		$('#mp3').prop('selectedIndex', 0);
-   	PlayAudioFile(SECTIONID, element);
-		UpdateEzMark();
+		PlayAudioFile(SECTIONID, element);
+		StylizeFormElements();
 	} else {
-   	PlayAudioFile(jrpid, element);
+		PlayAudioFile(jrpid, element);
 	}
 }
 
@@ -523,8 +518,8 @@ function getMp3(jrpid, element) {
 
 function getScoreNoEditText(jrpid) {
 	$('#score').prop('selectedIndex', 0);
-	UpdateEzMark();
-   window.open("/data?a=notationNoEditText&id=" + jrpid, "new");
+	StylizeFormElements();
+	window.open("/data?a=notationNoEditText&id=" + jrpid, "new");
 }
 
 
@@ -536,8 +531,8 @@ function getScoreNoEditText(jrpid) {
 
 function getScoreEditText(jrpid) {
 	$('#accidentals').prop('selectedIndex', 0);
-	UpdateEzMark();
-   window.open("/data?a=notationEditText&id=" + jrpid, "new");
+	StylizeFormElements();
+	window.open("/data?a=notationEditText&id=" + jrpid, "new");
 }
 
 
@@ -548,22 +543,22 @@ function getScoreEditText(jrpid) {
 //
 
 function showSectionDownloads(jrpid) {
-   var sectionindex = -1;
-   var i;
-   for (i=0; i<SECTIONS.length; i++) {
-      if (jrpid == SECTIONS[i].id) {
+	var sectionindex = -1;
+	var i;
+	for (i=0; i<SECTIONS.length; i++) {
+		if (jrpid == SECTIONS[i].id) {
 			sectionindex = i;
 			break;
 		}
-   }
-   if (sectionindex < 0) {
+	}
+	if (sectionindex < 0) {
 		sectionindex = 0;
 	}
 
 	SECTIONINDEX = sectionindex;
 
-   var sectionid = SECTIONS[sectionindex].id;
-   var stitle = SECTIONS[sectionindex].stitle;
+	var sectionid = SECTIONS[sectionindex].id;
+	var stitle = SECTIONS[sectionindex].stitle;
 
 	var download = "<h3 class=\"brown-border\">Downloads (";
 	download += stitle + ")</h3>\n";
@@ -627,7 +622,7 @@ function showSectionDownloads(jrpid) {
 	var downloads = document.getElementById("downloads");
 	downloads.innerHTML = download;
 
-   printErrorReportButton(sectionid);
+	printErrorReportButton(sectionid);
 }
 
 
@@ -638,12 +633,12 @@ function showSectionDownloads(jrpid) {
 //
 
 function printErrorReportButton(jrpid) {
-   var error   = document.getElementById("error");
-   var message = "<a onclick=\"localStorage.ERRORjrpid = '" + jrpid + "';\"";
-   message += " style=\"" + MARGINRIGHT + "\"";
-   message += " href=\"/error\" class=\"btn btn-brown\">";
-   message += "Report an error for this work</a>";
-   error.innerHTML = message;
+	var error   = document.getElementById("error");
+	var message = "<a onclick=\"localStorage.ERRORjrpid = '" + jrpid + "';\"";
+	message += " style=\"" + MARGINRIGHT + "\"";
+	message += " href=\"/error\" class=\"btn btn-brown\">";
+	message += "Report an error for this work</a>";
+	error.innerHTML = message;
 }
 
 
@@ -654,9 +649,9 @@ function printErrorReportButton(jrpid) {
 //
 
 function getOptionList(sections) {
-   var out = "";
+	var out = "";
 
-   var id;
+	var id;
 	for (i=0; i<sections.length; i++) {
 		id = sections[i].id;
 		out += "<option value=\"" + sections[i].id + "\"";
@@ -679,17 +674,17 @@ function getOptionList(sections) {
 
 function setupSearchOnEnter() {
 
-	$("#pitch")	.focus(function() { $(this).data("hasfocus", true);});
+	$("#pitch")   .focus(function() { $(this).data("hasfocus", true);});
 	$("#interval").focus(function() { $(this).data("hasfocus", true);});
 	$("#rhythm")  .focus(function() { $(this).data("hasfocus", true);});
 
-	$("#pitch")	.blur(function()  { $(this).data("hasfocus", false);});
+	$("#pitch")   .blur(function()  { $(this).data("hasfocus", false);});
 	$("#interval").blur(function()  { $(this).data("hasfocus", false);});
 	$("#rhythm")  .blur(function()  { $(this).data("hasfocus", false);});
 
 	$(document.body).keyup(function(ev) {
 		if (ev.which === EnterKey) {
-			if		($("#pitch")	.data("hasfocus")) { doSearch(); }
+			if      ($("#pitch")   .data("hasfocus")) { doSearch(); }
 			else if ($("#interval").data("hasfocus")) { doSearch(); }
 			else if ($("#rhythm")  .data("hasfocus")) { doSearch(); }
 		}
@@ -705,10 +700,10 @@ function setupSearchOnEnter() {
 //
 
 function hasMultipleSections(jrpid) {
-   InitializeWorklist();
-   var i, j, k;
+	InitializeWorklist();
+	var i, j, k;
 	var works;
-   for (i=0; i<WORKLIST.length; i++) {
+	for (i=0; i<WORKLIST.length; i++) {
 		if (!jrpid.match(WORKLIST[i].repid)) {
 			continue;
 		}
@@ -744,7 +739,7 @@ function hasMultipleSections(jrpid) {
 		break;
 	}
 
-   return false;
+	return false;
 }
 
 
@@ -755,9 +750,18 @@ function hasMultipleSections(jrpid) {
 //
 
 function displayWork(jrpid) {
+	var search = document.getElementById("work-search-results");
+	if (search) {
+		search.textContent = "";
+	}
+   if (!jrpid.match(/^Tas/)) {
+   	DisplayReferences(jrpid, "references");
+	}
+	DisplayCriticalNotes(jrpid, "critical");
+
 	SECTIONS = null;
 	InitializeWorklistFlat();
-   if (hasMultipleSections(jrpid)) {
+	if (hasMultipleSections(jrpid)) {
 		displayMultisectionWork(jrpid);
 		return;
 	}
@@ -775,7 +779,7 @@ function displayWork(jrpid) {
 	work = WORKLISTjrpid[jrpid];
 	}
 
-   if (typeof work === 'undefined') {
+	if (typeof work === 'undefined') {
 		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
 				+ jrpid + "</p>";
 		return;
@@ -784,24 +788,31 @@ function displayWork(jrpid) {
 	var title	 = work.title;
 	var composer = work.comshort;
 
-   var bread = generateBreadcrumbs(title, composer);
+	var bread = generateBreadcrumbs(title, composer);
 	document.getElementById("breadcrumbs").innerHTML = bread;
 
-   var workpdfs = generateWorkPdfs(workid);
+	var workpdfs = generateWorkPdfs(workid);
 	document.getElementById("workpdfs").innerHTML = workpdfs;
 
 	// Set the title line //////////////////////////////////////////////////
 	var titleContent = "";
 	titleContent += "<h2 style=\"margin-bottom:0;\">" + composer + ", " + title + " (" + jrpid + ")</h2>\n";
 
-	titleContent += "<ul style=\"padding-top:0;\">\n";
-	titleContent += "<li><a class=\"file-orange\" " + PDFTARGET + "href=\"";
-	titleContent += "/data?a=notationNoEditText&f=" + jrpid;
-	titleContent += "\">Score</a></li>\n";
+	if (!jrpid.match(/^Tas/)) {
+		titleContent += "<ul style=\"padding-top:0;\">\n";
+		titleContent += "<li><a class=\"file-orange\" " + PDFTARGET + "href=\"";
+		titleContent += "/data?a=notationNoEditText&f=" + jrpid;
+		titleContent += "\">Score</a></li>\n";
 
-	titleContent += "<li><a class=\"file-ed-orange\" " + PDFTARGET + "href=\"";
-	titleContent += "/data?a=notationEditText&f=" + jrpid;
-	titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
+		titleContent += "<li><a class=\"file-ed-orange\" " + PDFTARGET + "href=\"";
+		titleContent += "/data?a=notationEditText&f=" + jrpid;
+		titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
+	} else {
+		titleContent += "<ul style=\"padding-top:0;\">\n";
+		titleContent += "<li><a class=\"file-orange\" " + PDFTARGET + "href=\"";
+		titleContent += "/data?a=notationEditText&f=" + jrpid;
+		titleContent += "\">Score</a></li>\n";
+	}
 
 	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" ";
 	titleContent += "id=\"audio_" + jrpid + "\" class=\"mp3play\" ";
@@ -882,7 +893,9 @@ function displayWork(jrpid) {
 	var downloads = document.getElementById("downloads");
 	downloads.innerHTML = download;
 
-   printErrorReportButton(jrpid);
+
+	printErrorReportButton(jrpid);
+
 }
 
 
@@ -895,23 +908,24 @@ function displayWork(jrpid) {
 function prepareIncipitArea(jrpid, sections) {
 	var area = document.getElementById("music-area");
 	var out = "";
-   if (!sections) {
+	if (!sections) {
 		// set up single incipit display
 		out += "<div id=\"incipit_" + jrpid + "\"></div>\n";
-   } else {
+	} else {
 		// set up multiple incipit display
 		out += "<div style=\"height:0;\" id=\"incipit_" + jrpid + "\"></div>\n";
 		for (var i=0; i<sections.length; i++) {
-		   out += "<div style=\"height:0;\" id=\"incipit_" + sections[i].id + "\"></div>\n";
+			out += "<div style=\"height:0;\" id=\"incipit_";
+			out += sections[i].id + "\"></div>\n";
 		}
 		out += "<div id=\"incipit-button\"></div>\n";
-   }
-   area.innerHTML = out;
+	}
+	area.innerHTML = out;
 	area.style.height = "200px";  // Give a dummy height until the next
 											// incipit is shown.  This prevents
 											// annoying jumping of text around on page.
 	if (!!sections) {
-   	showIncipitButton();
+		showIncipitButton();
 	}
 }
 
@@ -924,42 +938,44 @@ function prepareIncipitArea(jrpid, sections) {
 
 function prepareRangeArea(jrpid, sections) {
 	var area = document.getElementById("vocal-ranges");
-   var out = "";
-   var sindex = -1;
-   if (!!sections && sections.length > 0) {
+	var out = "";
+	var sindex = -1;
+	if (!!sections && sections.length > 0) {
 		for (var i=0; i<sections.length; i++) {
- 	   	if (jrpid == sections[i].id) {
+ 			if (jrpid == sections[i].id) {
 				sindex = i;
 				break;
 			}
 		}
-   }
-   if (sindex >= 0) {
+	}
+	var workid  = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	if (sindex >= 0) {
   		out += "<h3 class=\"brown-border\">Vocal Ranges";
-   	out += " (" + sections[sindex].stitle +")</h3>\n";
+		out += " (" + sections[sindex].stitle +")</h3>\n";
 	} else {
   		out += "<h3 class=\"brown-border\">Vocal Ranges</h3>";
 	}
   	out += "<span class=\"orange-text\">mouse-over";
 	out += " to see note ";
 	if (WORKrangedur) {
-   	out += "durations";
+		out += "durations";
 	} else {
-   	out += "counts";
+		out += "counts";
 	}
-   out += "</span>\n";
-   if (!sections || sections.length < 2) {
+	out += "</span>\n";
+	if (!sections || sections.length < 2) {
 		// set up single incipit display
 		out += "<div id=\"range_" + jrpid + "\"></div>\n";
-   } else {
+	} else {
+		out += "<div style=\"height:0'\" id=\"range_" + workid + "\"></div>\n";
 		// set up multiple incipit display
 		for (var i=0; i<sections.length; i++) {
-		   out += "<div style=\"height:0;\" id=\"range_";
+			out += "<div style=\"height:0;\" id=\"range_";
 			out += sections[i].id + "\"></div>\n";
 		}
 		// out += "<div id=\"range-button\"></div>\n";
-   }
-   area.innerHTML = out;
+	}
+	area.innerHTML = out;
 	area.style.height = "15px";  // Give a dummy height until the next
 											// incipit is shown.  This prevents
 											// annoying jumping of text around on page.
@@ -978,12 +994,12 @@ function showIncipitButton() {
 		return;
 	}
 
-   var ib = "<div ";
+	var ib = "<div ";
 	ib += "style=\"margin-top:0px; " + MARGINRIGHT + "\" ";
 	ib += "class=\"text-right\"><span ";
-   ib += "style=\"cursor:hand; cursor:pointer;\" ";
+	ib += "style=\"cursor:hand; cursor:pointer;\" ";
 	ib += "onclick=\"toggleIncipitDisplay();\" ";
-   ib += "class=\"btn btn-brown btn-small\">";
+	ib += "class=\"btn btn-brown btn-small\">";
 	if (!WORKallincipits) {
 		ib += "Show&nbsp;all&nbsp;incipits";
 	} else {
@@ -1005,30 +1021,30 @@ function showIncipitButton() {
 
 function showRangeButtons() {
 
-   var ib = "<div ";
+	var ib = "<div ";
 	ib += "style=\"margin-top:0px; " + MARGINRIGHT + "\" ";
 	ib += "class=\"text-right\">";
 
-   ib += "<span ";
+	ib += "<span ";
 	if (!WORKrangedur) {
-   	ib += "style=\"cursor:hand; cursor:pointer; padding-right:10px;\" ";
+		ib += "style=\"cursor:hand; cursor:pointer; padding-right:10px;\" ";
 		ib += "onclick=\"toggleRangeByDuration();\" ";
-   	ib += "class=\"btn btn-brown\">";
+		ib += "class=\"btn btn-brown\">";
 		ib += "Show&nbsp;by&nbsp;duration";
 	} else {
-   	ib += "style=\"cursor:hand; cursor:pointer; margin-left:-10px; padding-right:10px;\" ";
+		ib += "style=\"cursor:hand; cursor:pointer; margin-left:-10px; padding-right:10px;\" ";
 		ib += "onclick=\"toggleRangeByDuration();\" ";
-   	ib += "class=\"btn btn-brown\">";
+		ib += "class=\"btn btn-brown\">";
 		ib += "Show&nbsp;by&nbsp;note&nbsp;counts";
 	}
 	ib += "</span>";
-   ib += "<span>&nbsp;</span>\n";
+	ib += "<span>&nbsp;</span>\n";
 
 	if (!!SECTIONS && SECTIONS.length > 1) {
-   	ib += "<span ";
-   	ib += "style=\"cursor:hand; cursor:pointer;\" ";
+		ib += "<span ";
+		ib += "style=\"cursor:hand; cursor:pointer;\" ";
 		ib += "onclick=\"toggleRangeDisplay();\" ";
-   	ib += "class=\"btn btn-brown\">";
+		ib += "class=\"btn btn-brown\">";
 		if (!WORKallranges) {
 			ib += "Show&nbsp;all&nbsp;ranges";
 		} else {
@@ -1037,7 +1053,7 @@ function showRangeButtons() {
 		ib += "</span>";
 	}
 
-   ib += "</div>\n";
+	ib += "</div>\n";
 
 	var buttonarea = document.getElementById("range-button");
 	buttonarea.innerHTML = ib;
@@ -1051,7 +1067,7 @@ function showRangeButtons() {
 //
 
 function toggleTitleType() {
-   if (!SECTIONS || SECTIONS < 2) {
+	if (!SECTIONS || SECTIONS < 2) {
 		// don't toggle title display when looking at single-section works.
 		return;
 	}
@@ -1059,18 +1075,24 @@ function toggleTitleType() {
 	WORKslist = !WORKslist;
 	sessionStorage.WORKslist = WORKslist;
 
-   var workid    = localStorage.WORKjrpid;
-   var sectionid = SECTIONID;
-	var sectionindex = SECTIONINDEX;
+	var workid    = localStorage.WORKjrpid;
+	var sectionid = SECTIONID;
+	var sectionindex = MENUINDEX;
 
-   var titlelem = document.getElementById("title");
-   if (WORKslist) {
-	   titlelem.innerHTML = getSectionHeaderTable(workid, sectionid);
-   } else {
-	   titlelem.innerHTML = getSectionHeaderMenu(sectionid);
-		$('select#select-section').prop('selectedIndex', sectionindex);
-		UpdateEzMark();
-   }
+	var titlelem = document.getElementById("title");
+	if (WORKslist) {
+		titlelem.innerHTML = getSectionHeaderTable(workid, sectionid);
+	} else {
+		titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
+		$('select#select-section').prop('selectedIndex', MENUINDEX);
+		if (SECTIONS && (MENUINDEX == 0)) {
+			var downloads = document.getElementById("downloads");
+			if (downloads) {
+				downloads.textContent = "";
+			}
+		}
+		StylizeFormElements();
+	}
 
 }
 
@@ -1082,7 +1104,7 @@ function toggleTitleType() {
 //
 
 function toggleIncipitDisplay() {
-   if (!SECTIONS || SECTIONS < 2) {
+	if (!SECTIONS || SECTIONS < 2) {
 		// don't toggle title display when looking at single-section works.
 		return;
 	}
@@ -1090,12 +1112,14 @@ function toggleIncipitDisplay() {
 	sessionStorage.WORKallincipits = WORKallincipits;
 	if (!WORKallincipits) {
 		clearAllIncipits();
+	  	getIncipitAsync(localStorage.WORKjrpid);
 	} else {
+		clearAllIncipits();
 		showAllIncipits();
 	}
-   showIncipitButton();
+	showIncipitButton();
 	if (!WORKallincipits) {
-	   $('html, body').animate({
+		$('html, body').animate({
 //			scrollTop: $('#music-area').offset().top-200
 			scrollTop: $('body').offset().top
 		}, 300);
@@ -1110,7 +1134,7 @@ function toggleIncipitDisplay() {
 //
 
 function toggleRangeDisplay() {
-   if (!SECTIONS || SECTIONS < 2) {
+	if (!SECTIONS || SECTIONS < 2) {
 		// don't toggle title display when looking at single-section works.
 		return;
 	}
@@ -1122,6 +1146,7 @@ function toggleRangeDisplay() {
 		} else {
 			RANGES = RANGESnotelabeled;
 		}
+		clearAllRanges();
 		showAllRanges();
 	} else {
 		if (WORKrangedur) {
@@ -1130,14 +1155,15 @@ function toggleRangeDisplay() {
 			RANGES = RANGESnoteunlabeled;
 		}
 		clearAllRanges();
+	  	getRangeAsync(localStorage.WORKjrpid);
 	}
-   showRangeButtons();
+	showRangeButtons();
 	if (!WORKallranges) {
 		if (WORKallincipits && !SECTIONS) {
-	   	$('html, body').animate({scrollTop: $('body').offset().top}, 300);
+			$('html, body').animate({scrollTop: $('body').offset().top}, 300);
 		} else {
-	   	$('html, body').animate({
-					scrollTop: $('#vocal-ranges').offset().top-200}, 300);
+			$('html, body')
+				.animate({scrollTop: $('#vocal-ranges').offset().top-200}, 300);
 		}
 	}
 }
@@ -1152,7 +1178,7 @@ function toggleRangeDisplay() {
 function toggleRangeByDuration() {
 	WORKrangedur = !WORKrangedur;
 	sessionStorage.WORKrangedur = WORKrangedur;
-   prepareRangeArea(localStorage.WORKjrpid, SECTIONS);
+	prepareRangeArea(localStorage.WORKjrpid, SECTIONS);
 	if (WORKallranges) {
 		if (WORKrangedur) {
 			RANGES = RANGESdurlabeled;
@@ -1167,8 +1193,9 @@ function toggleRangeByDuration() {
 			RANGES = RANGESnoteunlabeled;
 		}
 		clearAllRanges();
+	  	getRangeAsync(localStorage.WORKjrpid);
 	}
-   showRangeButtons();
+	showRangeButtons();
 }
 
 
@@ -1179,7 +1206,7 @@ function toggleRangeByDuration() {
 //
 
 function showAllIncipits() {
-   getIncipitAsyncMultiple(localStorage.WORKjrpid, SECTIONS);
+	getIncipitAsyncMultiple(localStorage.WORKjrpid, SECTIONS);
 }
 
 
@@ -1190,7 +1217,7 @@ function showAllIncipits() {
 //
 
 function showAllRanges() {
-   getRangeAsyncMultiple(localStorage.WORKjrpid, SECTIONS);
+	getRangeAsyncMultiple(localStorage.WORKjrpid, SECTIONS);
 }
 
 
@@ -1201,16 +1228,19 @@ function showAllRanges() {
 //
 
 function clearAllIncipits() {
-   if (!SECTIONS || SECTIONS.length < 2) {
+	if (!SECTIONS || SECTIONS.length < 2) {
   		getIncipitAsync(localStorage.WORKjrpid);
 	}
-   for (var i=0; i<SECTIONS.length; i++) {
+	var jrpid = localStorage.WORKjrpid;
+	for (var i=0; i<SECTIONS.length; i++) {
 		if (SECTIONS[i].id != localStorage.WORKjrpid) {
 			document.getElementById("incipit_" + SECTIONS[i].id).innerHTML = "";
 		} else {
 	  		getIncipitAsync(SECTIONS[i].id);
 		}
 	}
+	// clear work-level incipit if multi-sectioned work.
+	document.getElementById("incipit_" + jrpid).innerHTML = "";
 }
 
 
@@ -1221,43 +1251,20 @@ function clearAllIncipits() {
 //
 
 function clearAllRanges() {
-   if (!SECTIONS || SECTIONS.length < 2) {
-  		getRangeAsync(localStorage.WORKjrpid);
+	var jrpid = localStorage.WORKjrpid;
+	if (!SECTIONS || SECTIONS.length < 2) {
+  		getRangeAsync(jrpid);
 		return;
 	}
-   for (var i=0; i<SECTIONS.length; i++) {
-		if (SECTIONS[i].id != localStorage.WORKjrpid) {
+	for (var i=0; i<SECTIONS.length; i++) {
+		if (SECTIONS[i].id != jrpid) {
 			document.getElementById("range_" + SECTIONS[i].id).innerHTML = "";
 		} else {
 	  		getRangeAsync(SECTIONS[i].id);
 		}
 	}
-}
-
-
-
-/////////////////////////////
-//
-// Setup enter key to start search.
-//
-
-function setupSearchOnEnter() {
-
-	$("#pitch")	.focus(function() { $(this).data("hasfocus", true);});
-	$("#interval").focus(function() { $(this).data("hasfocus", true);});
-	$("#rhythm")  .focus(function() { $(this).data("hasfocus", true);});
-
-	$("#pitch")	.blur(function()  { $(this).data("hasfocus", false);});
-	$("#interval").blur(function()  { $(this).data("hasfocus", false);});
-	$("#rhythm")  .blur(function()  { $(this).data("hasfocus", false);});
-
-	$(document.body).keyup(function(ev) {
-		if (ev.which === EnterKey) {
-			if		($("#pitch")	.data("hasfocus")) { doSearch(); }
-			else if ($("#interval").data("hasfocus")) { doSearch(); }
-			else if ($("#rhythm")  .data("hasfocus")) { doSearch(); }
-		}
-	});
+	// clear work-level incipit if multi-sectioned work.
+	document.getElementById("range_" + jrpid).innerHTML = "";
 }
 
 
@@ -1270,9 +1277,9 @@ function setupSearchOnEnter() {
 function doSearch() {
 	var pitch	  = document.getElementById("pitch");
 	var interval  = document.getElementById("interval");
-	var rhythm	 = document.getElementById("rhythm");
+	var rhythm	  = document.getElementById("rhythm");
 	var composers = document.getElementById("composers");
-	var genres	 = document.getElementById("genres");
+	var genres	  = document.getElementById("genres");
 
 	var empty = 0;
 	if (pitch.value.match(/^\s*$/)) {
@@ -1295,7 +1302,7 @@ function doSearch() {
 		} 
 
 		if (empty2 == 2) {
-			displayContents();
+			// displayContents();
 			return;
 		} else {
 			localStorage.BROWSEcomposers = composers.value;
@@ -1333,18 +1340,146 @@ function doSearch() {
 		searchparam += "&interval=" + encodeURIComponent(interval.value);
 	}
 
+	scope = 'repertory';
+	var inputs = document.querySelectorAll('input[name="searchscope"]');
+	var i;
+	for (i=0; i<inputs.length; i++) {
+		if (inputs[i].getAttribute('value') !== "work") {
+			continue;
+		}
+		var paren = inputs[i].parentNode;
+		if (paren.className.match("ez-selected")) {
+			scope = 'work';
+		}
+	}
+
 	// The search-results page will look at sessionStorage.QUERY.  If it find
 	// that it has content, then it will run the query and display the results.
-	var QUERY = {};
-	QUERY.composer = c;
-	QUERY.genre	 = g;
-	QUERY.pitch	 = pitch.value;
-	QUERY.rhythm	= rhythm.value;
-	QUERY.interval = interval.value;
-	sessionStorage.QUERY = JSON.stringify(QUERY);
+	var query = {};
+	query.composer = c;
+	query.genre	 = g;
+	query.pitch	 = pitch.value;
+	query.rhythm	= rhythm.value;
+	query.interval = interval.value;
+	query.scope    = scope;
+	if (scope === 'work') {
+		if (JRPID.match(/^Tas/)) {
+			// Tasso works include a letter in the work id.
+			query.jrpid = JRPID.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*[a-z]+)/)[1];
+		} else {
+			query.jrpid = JRPID.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+		}
+	}
+	sessionStorage.QUERY = JSON.stringify(query);
+	QUERY = query;
 
-	window.location.href = "/search-results";
-	return;
+	if (scope === 'repertory') {
+		window.location.href = "/search-results";
+		return;
+	} else {
+		doWorkSearch(QUERY);
+	}
+}
+
+
+//////////////////////////////
+//
+// doWorkSearch -- Do a search on a single work, and display the
+// 	results on the current page.
+//
+
+function doWorkSearch(query) {
+	var pitch     = query.pitch;
+	var interval  = query.interval;
+	var rhythm    = query.rhythm;
+	var composers = query.composer;
+	var genres    = query.genre;
+	var work      = query.jrpid;
+
+	var searchparam = "";
+	if (composers != "") {
+		searchparam += "&composer=" + encodeURIComponent(composers);
+	}
+	if (genres != "") {
+		searchparam += "&genre=" + encodeURIComponent(genres);
+	}
+	if (pitch.value != "") {
+		searchparam += "&pitch=" + encodeURIComponent(pitch);
+	}
+	if (rhythm.value != "") {
+		searchparam += "&rhythm=" + encodeURIComponent(rhythm);
+	}
+	if (interval.value != "") {
+		searchparam += "&interval=" + encodeURIComponent(interval);
+	}
+	if (interval.value != "") {
+		searchparam += "&work=" + encodeURIComponent(work);
+	}
+
+	$("body").css("cursor", "wait");
+
+	var dataloc = "/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
+
+	var request = new XMLHttpRequest();
+	request.open('GET', dataloc + "?a=searchwork" + searchparam, true);
+	request.addEventListener('load', function(event) {
+		if (this.status !== 200) {
+			return;
+		}
+		displayWorkSearch(this.responseText);
+	}, false);
+	request.send();
+}
+
+
+
+//////////////////////////////
+//
+// displayWorkSearch --
+//
+
+function displayWorkSearch(searchresults) {
+	$("body").css("cursor", "default");
+	var SR = JSON.parse(searchresults);
+
+   var resultsarea = document.getElementById("work-search-results");
+   var debug = "<textarea rows=1 cols=1 style='font-size:75%;'>" 
+	debug += searchresults + "</textarea>";
+
+ 	var content = "";
+
+   var heading = "";
+   heading = "<h3 class='search-header'>";
+	if (SR.matchcount == 0) {
+		heading += "No matches";
+	} else {
+		heading += SR.matchcount + " match";
+		if (parseInt(SR.matchcount) != 1) {
+			heading += "es";
+		}
+	}
+	heading += "</h3>";
+
+	var template;
+	var content = "";
+	var source = "";
+	if (SR.matchcount > 0) {
+		if (SECTIONS && SECTIONS.length > 0) {
+			source = document.getElementById("multi-search-results-table");
+		} else {
+			source = document.getElementById("single-search-results-table");
+		}
+		template = Handlebars.compile(source.textContent);
+		content = template(SR);
+	}
+
+	// resultsarea.innerHTML = heading + content + debug;
+	resultsarea.innerHTML = heading + content;
+
+
 }
 
 
@@ -1366,7 +1501,7 @@ function buildComposerSelect() {
 	out += clist;
 	out += "</select>\n";
 	composerselect.innerHTML = out;
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -1379,7 +1514,7 @@ function buildComposerSelect() {
 function buildRepertorySelect() {
 	var repsel = document.getElementById("repertory-select");
 	if (repsel == null) {
-		UpdateEzMark();
+		StylizeFormElements();
 		return;
 	}
 
@@ -1399,7 +1534,7 @@ function buildRepertorySelect() {
 		$('#repertory').val("Jos");
 	}
 
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -1420,7 +1555,7 @@ function buildGenreSelect() {
 	out += "<option label=\"default\">All Genres</option>\n";
 	out += GetGenreOptions();
 	genreselect.innerHTML = out;
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -1441,10 +1576,10 @@ function showPopupHelp(url, title) {
 
 //////////////////////////////
 //
-// showAnalysis --
+// showRepertoryAnalysis --
 //
 
-function showAnalysis(analysistype) {
+function showRepertoryAnalysis(analysistype) {
 	var scope = $('input[name="analysisscope"]:checked').val();
 	var repertory = localStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/)[1];
 	localStorage.ANALYSISrepertory = repertory;
@@ -1463,16 +1598,53 @@ function showAnalysis(analysistype) {
 
 //////////////////////////////
 //
+// showWorkAnalysis --
+//
+
+function showWorkAnalysis(analysistype) {
+	var sectionid = localStorage.WORKjrpid;
+	var workid  = sectionid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	var repertory = sectionid.match(/^([A-Z][a-z][a-z])/)[1];
+
+	if ((workid === sectionid) && SECTIONS && (SECTIONS.length > 0)) {
+		sectionid = SECTIONS[0].id;
+	}
+
+	var url = "";
+	if (analysistype === "dissonant") {
+		url = "/data?a=dissonantpdf&id=" + sectionid;
+	} else if (analysistype === "parallel") {
+		url = "/data?a=parallelnofictapdf&id=" + sectionid;
+	} else if (analysistype === "activity") {
+		localStorage.ANALYSISrepertory = repertory;
+		localStorage.ANALYSISgenre		 = "";
+		localStorage.ANALYSISwork		 = localStorage.WORKjrpid;
+		url = "/analysis/activity";
+	} else if (analysistype === "proll") {
+		url = "/data?a=proll&id=" + sectionid;
+	} else if (analysistype === "suspension") {
+		url = "/data?a=suspensionpdf&id=" + sectionid;
+	}
+
+	if (!url.match(/^\s*$/)) {
+		window.open(url, "new");
+	}
+}
+
+
+
+//////////////////////////////
+//
 // displayNextWorkPage --
 //
 
 function displayNextWorkPage() {
 	InitializeWorklistFlat();
-   SECTIONS = [];
+	SECTIONS = [];
 	var entry;
 	var nextone = 0;
 	var first;
-   var base = localStorage.WORKjrpid.match(/^([A-Z][a-z][a-z][\d.]+)/)[1];
+	var base = localStorage.WORKjrpid.match(/^([A-Z][a-z][a-z][\d.]+)/)[1];
 
 	for (entry in WORKLISTjrpid) {
 		if (!WORKLISTjrpid.hasOwnProperty(entry)) {
@@ -1509,10 +1681,10 @@ function displayNextWorkPage() {
 
 function displayPreviousWorkPage() {
 	InitializeWorklistFlat();
-   SECTIONS = [];
+	SECTIONS = [];
 	var entry;
 	var lastentry;
-   var base = localStorage.WORKjrpid.match(/^([A-Z][a-z][a-z][\d.]+)/)[1];
+	var base = localStorage.WORKjrpid.match(/^([A-Z][a-z][a-z][\d.]+)/)[1];
 
 	for (entry in WORKLISTjrpid) {
 		if (!WORKLISTjrpid.hasOwnProperty(entry)) {
@@ -1600,11 +1772,10 @@ function displayNextRepertoryPage() {
 //
 
 function displaySection(workid) {
-
 	var sectionid = workid;
-   var sectionindex = -1;
+	var sectionindex = -1;
 	var i;
-   for (i=0; i<SECTIONS.length; i++) {
+	for (i=0; i<SECTIONS.length; i++) {
 		if (workid == SECTIONS[i].id) {
 			sectionid = workid;
 			sectionindex = i;
@@ -1612,31 +1783,40 @@ function displaySection(workid) {
 		}
 	}
 
+	var menuindex = sectionindex + 1;
+
 	var titlelem = document.getElementById("title");
 	if (WORKslist == true) {
 		titlelem.innerHTML = getSectionHeaderTable(sectionid);
 	} else {
-console.log("SEC", sectionid);
-		titlelem.innerHTML = getSectionHeaderMenu(sectionid);
-		$('select#select-section').prop('selectedIndex', sectionindex+1);
-		UpdateEzMark();
+		titlelem.innerHTML = getSectionHeaderMenu(sectionid, menuindex);
+		$('select#select-section').prop('selectedIndex', menuindex);
+		if (SECTIONS && (menuindex == 0)) {
+			var downloads = document.getElementById("downloads");
+			if (downloads) {
+				downloads.textContent = "";
+			}
+		}
+		StylizeFormElements();
 	}
 
 	localStorage.WORKjrpid = workid;
 	//document.getElementById("sectionid").innerHTML = workid;
-   SECTIONID = workid;
+	SECTIONID = workid;
 
 	if (!WORKallincipits) {
-	   prepareIncipitArea(workid, SECTIONS);
-	   getIncipitAsync(workid);
-   }
+		prepareIncipitArea(workid, SECTIONS);
+		getIncipitAsync(workid);
+	}
 
 	if (!WORKallranges) {
-	   prepareRangeArea(workid, SECTIONS);
-	   getRangeAsync(workid);
-   }
+		prepareRangeArea(workid, SECTIONS);
+		getRangeAsync(workid);
+	}
 
-   showSectionDownloads(workid);
+	if ((!SECTIONS) || (sectionindex >= 0)) {
+		showSectionDownloads(workid);
+	}
 }
 
 
@@ -1647,13 +1827,15 @@ console.log("SEC", sectionid);
 //
 
 function getRangeAsync(jrpid) {
+	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 	if (!WORKallranges) {
 		// if not showing all ranges
-      if (jrpid != localStorage.WORKjrpid) {
+		if ((jrpid != localStorage.WORKjrpid) &&
+				(workid != localStorage.WORKjrpid)) {
 			// not the range to show, so don't do anything
 			return;
 		}
-   }
+	}
 
 	if (!!RANGES[jrpid]) {
  		var area = document.getElementById("range_" + jrpid);
@@ -1661,15 +1843,15 @@ function getRangeAsync(jrpid) {
 			area.style.height = ""; 
 	  		area.innerHTML = RANGES[jrpid];
 		}
-      document.getElementById("vocal-ranges").style.height = "";
+		document.getElementById("vocal-ranges").style.height = "";
 		return;
 	}
 
 	document.getElementById("range_" + jrpid).style.height = RANGENULLHEIGHT;
-   document.getElementById("vocal-ranges").style.height = "";
+	document.getElementById("vocal-ranges").style.height = "";
 
-   var allranges = WORKallranges;
-   if (allranges) {
+	var allranges = WORKallranges;
+	if (allranges) {
 		if (WORKrangedur) {
 			action = "prange-dur-labeled-svg";
 		} else {
@@ -1685,7 +1867,7 @@ function getRangeAsync(jrpid) {
 	ReadFileAsync("/data?a=" + action + "&id=" + jrpid, function(responseText) {
 		var data = responseText;
 		RANGES[jrpid] = responseText;
-     	getRangeAsync(jrpid);
+	  	getRangeAsync(jrpid);
 	});
 }
 
@@ -1697,18 +1879,20 @@ function getRangeAsync(jrpid) {
 //
 
 function getIncipitAsync(jrpid) {
+	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 	if (!WORKallincipits) {
 		// if not showing all incipits
-      if (jrpid != localStorage.WORKjrpid) {
+		if ((jrpid != localStorage.WORKjrpid) &&
+				(workid != localStorage.WORKjrpid)) {
 			// not the incipit to show, so don't do anything
 			return;
 		}
-   }
+	}
 
 	if (!!INCIPITS[jrpid]) {
  		var area = document.getElementById("incipit_" + jrpid);
 		area.style.height = "";
-      document.getElementById("music-area").style.height = "";
+		document.getElementById("music-area").style.height = "";
 	  	var imgtext = "<img src=\"" + INCIPITS[jrpid] 
 		imgtext += "\" alt=\"music placeholder\">";
 	  	area.innerHTML = imgtext;
@@ -1721,13 +1905,13 @@ function getIncipitAsync(jrpid) {
 	}
 
 	document.getElementById("incipit_" + jrpid).style.height = "200px";
-   document.getElementById("music-area").style.height = "";
+	document.getElementById("music-area").style.height = "";
 	var action = "incipit-mime";
 	ReadFileAsync("/data?a=" + action + "&id=" + jrpid, function(responseText) {
 		var data = responseText;
 		INCIPITS[jrpid] = responseText;
 
-     	getIncipitAsync(jrpid);
+	  	getIncipitAsync(jrpid);
 	});
 }
 
@@ -1739,15 +1923,22 @@ function getIncipitAsync(jrpid) {
 //
 
 function getIncipitAsyncMultiple(jrpid, sections) {
-   if (!sections) {
+	if (!sections) {
 		getIncipitAsync(jrpid);
+		return;
 	}
-   for (var i=0; i<sections.length; i++) {
+	var counter = 0;
+	for (var i=0; i<sections.length; i++) {
 		if (WORKallincipits) {
-		   getIncipitAsync(sections[i].id);
-      } else if (jrpid == sections[i].id) {
-		   getIncipitAsync(sections[i].id);
+			getIncipitAsync(sections[i].id);
+			counter++;
+		} else if (jrpid == sections[i].id) {
+			getIncipitAsync(sections[i].id);
+			counter++;
 		}
+	}
+	if (sections && (sections.length > 0) && (counter == 0)) {
+		getIncipitAsync(sections[0].id);
 	}
 }
 
@@ -1759,312 +1950,23 @@ function getIncipitAsyncMultiple(jrpid, sections) {
 //
 
 function getRangeAsyncMultiple(jrpid, sections) {
-   if (!sections || sections.length < 2) {
+	if (!sections || sections.length < 2) {
 		getRangeAsync(jrpid);
 	}
-   for (var i=0; i<sections.length; i++) {
+	var counter = 0;
+	for (var i=0; i<sections.length; i++) {
 		if (WORKallranges) {
-		   getRangeAsync(sections[i].id);
-      } else if (jrpid == sections[i].id) {
-		   getRangeAsync(sections[i].id);
+			getRangeAsync(sections[i].id);
+			counter++;
+		} else if (jrpid == sections[i].id) {
+			getRangeAsync(sections[i].id);
+			counter++;
 		}
 	}
-}
-
-
-
-//////////////////////////////
-//
-// process Window keys down:
-//
-
-window.addEventListener('keydown', function(event) {
-
-   if (event.metaKey) {
-		// Don't mess with meta key (command key in OS X)
-      return;
-   }
-
-	switch (event.keyCode) {
-
-		case CKey:
-			ClearWorklistCache();
-			break;
-
-		case DKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			toggleRangeByDuration();
-			break;
-
-		case IKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			toggleIncipitDisplay();
-			break;
-
-		case RKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			toggleRangeDisplay();
-			break;
-
-		case SKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			toggleTitleType();
-			break;
-
-		case RightArrowKey:
-			if (event.shiftKey) {
-				if (event.ctrlKey) {
-					displayNextRepertoryPage();
-				} else {
-					displayNextWorkPage();
-				}
-			}
-			break;
-
-		case LeftArrowKey:
-			if (event.shiftKey) {
-				if (event.ctrlKey) {
-					displayPreviousRepertoryPage();
-				} else {
-					displayPreviousWorkPage();
-				}
-			}
-			break;
-
-		case UpArrowKey:
-			if (event.shiftKey) {
-				if (!SECTIONS || SECTIONS.length < 2) {
-					break;
-				}
-
-				var i;
-				var si = -1;
-				for (i=0; i<SECTIONS.length; i++) {
-					if (SECTIONS[i].id == localStorage.WORKjrpid) {
-						si = i;
-						break;
-					}
-				}
-
-				var ocount = SECTIONS.length;
-				var current = si;
-
-				// display previous section of multisection work
-				if (si < 0) {
-					var ocount = $('select#select-section option').length;
-					var current = $('select#select-section option:selected').index();
-				}
-				current--;
-				if (current < 0) {
-					current = ocount - 1;
-				}
-				var sectionid = SECTIONS[current].id;
-				$('select#select-section').prop('selectedIndex', current);
-				displaySection(sectionid);
-				UpdateEzMark();
-
-			}
-			break;
-
-		case DownArrowKey:
-			if (event.shiftKey) {
-				displayNextSection();
-			}
-			break;
-
-		case OneKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(1);
-			break;
-
-		case TwoKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(2);
-			break;
-
-		case ThreeKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(3);
-			break;
-
-		case FourKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(4);
-			break;
-
-		case FiveKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(5);
-			break;
-
-		case SixKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(6);
-			break;
-
-		case SevenKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(7);
-			break;
-
-		case EightKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(6);
-			break;
-
-		case NineKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			displaySectionNumber(9);
-			break;
-
-		case PKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			PlayAudioFile(localStorage.WORKjrpid, document.getElementById("audio_" + localStorage.WORKjrpid));
-			break;
-
-		case SpaceKey:
-			if ($(event.target).is('input') && (!event.shiftKey) && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			if (!AUDIO) {
-				break;
-			}
-			if (!AUDIOid) {
-				break;
-			}
-			if (AUDIO.paused) {
-				var audiobutton = document.getElementById(AUDIOid);
-				if (!!audiobutton) {
-					if (audiobutton.className.match(/mp3/)) {
-						audiobutton.className = "mp3pause";
-					} else {
-						audiobutton.className = "pause";
-					}
-				}
-				AUDIO.play();
-			} else {
-				var audiobutton = document.getElementById(AUDIOid);
-				if (!!audiobutton) {
-					if (audiobutton.className.match(/mp3/)) {
-						audiobutton.className = "mp3play";
-					} else {
-						audiobutton.className = "play";
-					}
-				}
-				AUDIO.pause();
-			}
-			return false;
-			break;
-
-		case HomeKey:
-			if (event.shiftKey) {
-				InitializeWorklist();
-				localStorage.WORKjrpid = WORKLIST[0].works[0].id;
-				displayWork(localStorage.WORKjrpid);
-				return false;
-			}
-			break;
-
-		case EndKey:
-			if (event.shiftKey) {
-				InitializeWorklist();
-				localStorage.WORKjrpid = WORKLIST[WORKLIST.length-1]
-					.works[WORKLIST[WORKLIST.length-1].works.length-1].id;
-				displayWork(localStorage.WORKjrpid);
-				return false;
-			}
-			break;
-
+	if (sections && (sections.length > 0) && (counter == 0)) {
+		getRangeAsync(sections[0].id);
 	}
-});
+}
 
 
 
@@ -2102,8 +2004,14 @@ function displayNextSection() {
 	}
 	var sectionid = SECTIONS[current].id;
 	$('select#select-section').prop('selectedIndex', current);
+	if (SECTIONS && (MENUINDEX == 0)) {
+		var downloads = document.getElementById("downloads");
+		if (downloads) {
+			downloads.textContent = "";
+		}
+	}
 	displaySection(sectionid);
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -2115,13 +2023,13 @@ function displayNextSection() {
 
 function displaySectionNumber(sectionnum) {
 	if (SECTIONS.length < 2) {
-		// not a multi-sectiond work
+		// not a multi-sectioned work
 		return;
 	}
 	var ocount = SECTIONS.length;
 	var si     = sectionnum - 1;
 
-   if ((si < 0) || (si >= SECTIONS.length)) {
+	if ((si < 0) || (si >= SECTIONS.length)) {
 		// not a valid section
 		return;
 	}
@@ -2136,11 +2044,99 @@ function displaySectionNumber(sectionnum) {
 	}
 	var sectionid = SECTIONS[si].id;
 	$('select#select-section').prop('selectedIndex', si);
+	if (SECTIONS && (MENUINDEX == 0)) {
+		var downloads = document.getElementById("downloads");
+		if (downloads) {
+			downloads.textContent = "";
+		}
+	}
 	displaySection(sectionid);
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
 
-</script>
+//////////////////////////////
+//
+// displayAllWorksRepertoryAnalyses --
+//
 
+function displayAllWorksRepertoryAnalyses() {
+	var content = "";
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'activity\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Activity</span> ';
+	content += '<small>attacks per measure</small></span></li>\n';
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'parallel\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Parallel</span> ';
+	content += '<small>parallel perfect intervals</small></span></a></li>\n';
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'rhythm\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Rhythm</span> ';
+	content += '<small>measure-long patterns</small></span></a></li>\n';
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'range\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Range</span> ';
+	content += '<small>vocal ranges</small></span></a></li>\n';
+
+	var ul = document.getElementById("analysis-list");
+	ul.innerHTML = content;
+}
+
+
+
+//////////////////////////////
+//
+// displayThisWorkRepertoryAnalyses --
+//
+
+function displayThisWorkRepertoryAnalyses() {
+	var content = "";
+
+	content += '<li><span onclick="showWorkAnalysis(\'activity\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Activity</span> ';
+	content += '<small>attacks per measure</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'dissonant\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Dissonant</span> ';
+	content += '<small>all dissonances marked</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'suspension\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Suspension ';
+	content += '<small>all suspensions marked</small></span></a></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'parallel\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Parallel</span> ';
+	content += '<small>parallel perfect intervals</span></a></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'proll\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Piano Roll</span> ';
+	content += '</span></a></li>\n';
+
+	var ul = document.getElementById("analysis-list");
+	ul.innerHTML = content;
+}
+
+
+</script>
+<script src="listeners.js"></script>
+<!--#include virtual="templates.html" -->

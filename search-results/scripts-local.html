@@ -1,4 +1,5 @@
-<script type="text/javascript">
+<script src="/scripts/scripts-common.js"></script>
+<script>
 //
 // Programmer:    Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Wed Aug 27 17:13:25 PDT 2014
@@ -30,10 +31,11 @@ localStorage.SEARCHpagesize = PAGESIZE;
 
 //////////////////////////////
 //
-// window.onload --
+// DOMContentLoaded event listener --
 //
 
-window.onload = function() {
+document.addEventListener("DOMContentLoaded", function() {
+
 	AUDIO = document.getElementById("audio");
 	AUDIO.addEventListener('ended', function(e) {
 		AUDIO.pause();
@@ -73,7 +75,7 @@ window.onload = function() {
 		return;
 	}
 
-}
+}, false);
 
 
 
@@ -99,7 +101,7 @@ function initializePage() {
 	var output  = ASIDE + CONTENT;
 	maincontent.innerHTML = output;
    setupSearchOnEnter();
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -327,7 +329,7 @@ function buildComposerSelect() {
 
 	var repsel = document.getElementById("repertory-select");
 	if (repsel == null) {
-		UpdateEzMark();
+		StylizeFormElements();
 		return;
 	}
 
@@ -344,7 +346,7 @@ function buildComposerSelect() {
 		$('#repertory').val("Jos");
 	}
 
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -377,7 +379,7 @@ function buildGenreSelect() {
 	output += "<option label=\"default\">All Genres</option>\n";
 	output += GetGenreOptions();
 	genreselect.innerHTML = output;
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -415,7 +417,7 @@ function displaySearchResults(page) {
    setupSearchOnEnter();
 	buildComposerSelect();
 	buildGenreSelect();
-	// UpdateEzMark(); // already done in buildComposerSelect & buildGenreSelect
+	// StylizeFormElement(); // already done in buildComposerSelect & buildGenreSelect
 
 	// Display the search query in the main content and in the aside.
 	var querystring = "Search Results for  ";
@@ -445,7 +447,7 @@ function displaySearchResults(page) {
 		$('#genres').val(SEARCHLIST.query.genre);
    }
 
-	UpdateEzMark();
+	StylizeFormElements();
 
 	// Display the match counts.
 	var matchcounts = document.getElementById("match-counts");
@@ -780,7 +782,7 @@ function displaySearchResultsTable(page) {
 function getMp3(jrpid, element) {
    if (!jrpid) {
 		$('#mp3').prop('selectedIndex', 0);
-		UpdateEzMark();
+		StylizeFormElements();
    	PlayAudioFile(SECTIONID, element);
 	} else {
    	PlayAudioFile(jrpid, element);
@@ -1018,6 +1020,7 @@ function createThemax() {
 
 	rhythm = rhythm.replace(/[\\;\/\`\"\']/g, "");
 	if (!rhythm.match(/^\s*$/)) {
+		rhythm = rhythm.replace(/\./g, " z ");
 		rhythm = rhythm.replace(/(.)(?=.)/g, "$1 ");
 		rhythm = rhythm.replace(/\s\./g, "");
 		rhythm = rhythm.replace(/\s+/g, " ");
@@ -1030,6 +1033,7 @@ function createThemax() {
 		rhythm = rhythm.replace(/w/i, "1");
 		rhythm = rhythm.replace(/[db]/i, "B");
 		rhythm = rhythm.replace(/l/, "L");
+		rhythm = rhythm.replace(/ z/g, "d");
 		if (!rhythm.match(/^\s*$/)) {
 			if (!output.match(/^\s*$/)) {
 				output += " ";
@@ -1388,7 +1392,6 @@ window.addEventListener('keydown', function(event) {
 	}
 }
 );
-
 
 
 </script>

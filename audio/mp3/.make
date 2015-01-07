@@ -22,6 +22,8 @@ exit(0);
 
 ###########################################################################
 
+
+
 ##############################
 ##
 ## processData --
@@ -73,7 +75,7 @@ sub makeLinks {
 
 ##############################
 ##
-## makeLinks --
+## makeWorkLinks --
 ##
 
 sub makeWorkLinks {
@@ -88,7 +90,7 @@ sub makeWorkLinks {
    closedir(DIR);
 
    my $base;
-   foreach my $key (keys %ids) {
+   foreach my $key (sort keys %ids) {
       next if $key =~ /^[A-Z][a-z][a-z]\d{4}$/;
       if ($key !~ /^([A-Z][a-z][a-z]\d{4}[\.\d]*)/) {
          next;
@@ -100,7 +102,6 @@ sub makeWorkLinks {
       `ln -s $key.mp3 $base.mp3`;
    }
 }
-
 
 
 

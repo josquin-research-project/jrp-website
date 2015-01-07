@@ -587,6 +587,7 @@ function ClearWorklist() {
 
 
 
+/*
 //////////////////////////////
 //
 // UpdateEzMark --
@@ -607,6 +608,7 @@ function UpdateEzMark() {
 //   $('input[type=checkbox]').ezMark();
 //   $('input[type=radio]').ezMark();
 }
+*/
 
 
 
@@ -729,6 +731,58 @@ function ClearWorklistCache() {
    localStorage.removeItem('WORKjrpid');
    sessionStorage.removeItem('RECENTLYADDEDHTML');
 }
+
+
+
+//////////////////////////////
+//
+// audioStoppedAction -- 
+//
+
+function audioStoppedAction(event) {
+
+
+
+}
+
+
+
+//////////////////////////////
+//
+// DisplayCriticalNotes --
+//
+
+function DisplayCriticalNotes(jrpid, target) {
+   ReadFileAsync("/data?id=" + jrpid + "&a=critical", function(responseText) {
+		if (responseText.match(/^\s*$/)) {
+			return;
+		}
+	   var element = document.getElementById(target);
+		if (!element) {
+			return;
+		}
+
+		element.innerHTML = responseText;
+
+		var i;
+		var content;
+
+		var h4s = element.querySelectorAll("h2");
+		for (i=0; i<h4s.length; i++) {
+			content = h4s[i].innerHTML;
+		 	h4s[i].outerHTML = '<h4>' + content + '</h4>';
+		}
+
+		var h3s = element.querySelectorAll("h1");
+		for (i=0; i<h3s.length; i++) {
+			content = h3s[i].innerHTML;
+		 	h3s[i].outerHTML = '<h3 class="brown-border">' + content + '</h3>';
+		}
+
+	});
+}
+
+
 
 
 

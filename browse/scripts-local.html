@@ -1,8 +1,9 @@
-<script type="text/javascript">
+<script src="/scripts/scripts-common.js"></script>
+<script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Thu Aug 21 12:59:01 PDT 2014
-// Last Modified: Tue Oct 21 12:11:41 PDT 2014
+// Last Modified: Mon Oct 27 14:14:44 PDT 2014
 // Filename:		.../browse/scripts-local.html
 // Web Address:	http://josquin.stanford.edu/browse/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5
@@ -39,97 +40,6 @@ var HtmlAccentRemovalMap = [
 	{'base':'o','letters':/&o[^;]+;/g},
 	{'base':'u','letters':/&u[^;]+;/g},
 ];
-
-
-
-//////////////////////////////
-//
-// DOMContentLoaded event listener -- automatic setup of the page 
-//    after everything has been loaded.
-//
-
-document.addEventListener("DOMContentLoaded", function() {
-
-	AUDIO = document.getElementById("audio");
-	AUDIO.addEventListener('ended', function(e) {
-		AUDIO.pause();
-		var pauseelem = document.getElementById(AUDIOid);
-		pauseelem.className = "play";
-	}, false);
-
-	buildComposerSelect();
-	buildGenreSelect();
-	buildVoiceSelect();
-	createJoaJobLists();
-
-	if (typeof localStorage.BROWSEshowjrpid === 'undefined') {
-		localStorage.BROWSEshowjrpid = "false";
-	}
-
-	var CgiParameters = GetCgiParameters();
-
-	var home = CgiParameters['home'];
-	if (typeof home === 'undefined') {
-		home = localStorage.BROWSEhome;
-	}
-	if (typeof home === 'undefined') {
-		home = "false";
-	}
-
-	var composers = document.getElementById("composers");
-	if (home == "true") {
-		composers.value = "default";
-	} else if (CgiParameters['c'] != null) {
-		composers.value = CgiParameters['c'];
-	} else if (localStorage.BROWSEcomposers != "") {
-		composers.value = localStorage.BROWSEcomposers;
-	}
-
-	var genres = document.getElementById("genres");
-	if (home == "true") {
-		genres.value = "default";
-	} else if (CgiParameters['g'] != null) {
-		genres.value = CgiParameters['g'];
-	} else if (localStorage.BROWSEgenres != "") {
-		genres.value = localStorage.BROWSEgenres;
-	}
-
-	var voices = document.getElementById("voices");
-	if (home == "true") {
-		voices.value = "default";
-	} else if (CgiParameters['v'] != null) {
-		voices.value = CgiParameters['v'];
-	} else if (localStorage.BROWSEvoices != "") {
-		voices.value = localStorage.BROWSEvoices;
-	}
-
-	var titlebox = document.getElementById("titlebox");
-	if (home == "true") {
-		titlebox.value = "";
-	} else if (typeof CgiParameters['t'] !== 'undefined') {
-		titlebox.value = CgiParameters['t'];
-	} else if (typeof localStorage.BROWSEtitlebox !== 'undefined') {
-		titlebox.value = localStorage.BROWSEtitlebox;
-	}
-
-	if (home == "true") {
-		var composers = document.getElementById("composers");
-		composers.value = "All Composers";
-		displayAboutBrowse();
-		UpdateEzMark();
-		return;
-	}
-
-	if (home == "census") {
-		showCensusInfo();
-		UpdateEzMark();
-		return;
-	}
-
-	UpdateEzMark();
-	browseDisplay(1);
-
-}, false);
 
 
 
@@ -293,7 +203,7 @@ function resetFormValues() {
 	localStorage.BROWSEvoices    = "";
 	localStorage.BROWSEtitlebox  = "";
 
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -316,9 +226,14 @@ function showComposer(repid) {
 	var titlebox = document.getElementById("titlebox");
 	titlebox.value = "";
 	titlebox.label = "";
-	browseDisplay(1);
-	$('html,body').scrollTop(0);
-	UpdateEzMark();
+	/// ggg
+	// browseDisplay(1);
+	// $('html,body').scrollTop(0);
+	// StylizeFormElements();
+	localStorage.BROWSEhome = "false";
+	var target  = "http://" + BASEADDR + "/browse-filter?c=" + repid;
+	window.location = target;
+	return false;
 }
 
 
@@ -339,7 +254,7 @@ function showGenre(genre) {
 	titlebox.value = "";
 	browseDisplay(1);
 	$('html,body').scrollTop(0);
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -400,9 +315,9 @@ function fillInAboutComposerList() {
 	var count;
 	var columns = ["", ""]; 
 	for (i=0; i<WORKLIST.length; i++) {
-		comlong = WORKLIST[i].comlong;
-		count = WORKLIST[i].repwork;
-		repid	 = WORKLIST[i].repid;
+		comlong  = WORKLIST[i].comlong;
+		count    = WORKLIST[i].repwork;
+		repid	   = WORKLIST[i].repid;
 		comdates	= WORKLIST[i].comdates;
 		if (!comdates.match(/^\s*$/)) {
 			comdates = ", " 
@@ -698,6 +613,7 @@ function generateComposerWorkEntries(worklist, index) {
 				entry.searchtitle = removeHtmlAccents(entry.title);
 			}
 		}
+		title = title.replace(/\(a\&/g, "(&agrave;&");
 		jrpid  = entry.id	  || "";
 		searchtitle  = jrpid + " " + (entry.searchtitle  || "");
 
@@ -1262,7 +1178,7 @@ function hideCountInfo() {
 //
 
 function browseDisplayAll() {
-	ClearBrowseFilters();
+	clearBrowseFilters();
 	browseDisplay(1);
 }
 
@@ -1270,7 +1186,7 @@ function browseDisplayAll() {
 
 //////////////////////////////
 //
-// ClearBrowseFilters -- Set browse filters to defaults or empty.
+// clearBrowseFilters -- Set browse filters to defaults or empty.
 //
 
 function clearBrowseFilters() {
@@ -1285,7 +1201,7 @@ function clearBrowseFilters() {
 	localStorage.BROWSEtitlebox  = "";
 	localStorage.BROWSEhome		= "false";
 
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -1333,7 +1249,7 @@ function buildComposerSelect() {
 	output += "</select>\n";
 	composerselect.innerHTML = output;
 
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -1358,7 +1274,7 @@ function buildGenreSelect() {
 	output += "</select>\n";
 	genreselect.innerHTML = output;
 
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -1383,7 +1299,7 @@ function buildVoiceSelect() {
 	output += "</select>\n";
 	genreselect.innerHTML = output;
 
-	UpdateEzMark();
+	StylizeFormElements();
 }
 
 
@@ -1396,15 +1312,15 @@ function buildVoiceSelect() {
 function showCensusInfo() {
 	var content = '';
 	content += '<section style="font-size:100%; padding-left:8px; ';
-	content += 'padding-right:8px; padding-bottom:100px;" ';
+	content += 'padding-right:0px; padding-bottom:100px;" ';
 	content += 'id="primary-content" class="browse-content">\n';
-	content += '<article style="padding-left:10px;" class="about first">\n';
+	content += '<article style="padding-left:10px; padding-right:0px;" class="about first">\n';
 	content += '<h2 class="brown-heading">Census of work and note ';
 	content += 'counts by composer/genre</h2>\n';
 	content += '<div id="notetable"></div>\n';
 	content += '</article>\n';
 	content += '\n';
-	content += '<article style="padding-left:10px;" class="about first">\n';
+	content += '<article style="padding-left:10px; padding-right:0;" class="about first">\n';
 	content += '<h2 class="brown-heading">Nominal performance durations ';
 	content += 'by composer/genre</h2>\n';
 	content += '<div id="timetable"></div>\n';
@@ -1422,12 +1338,7 @@ function showCensusInfo() {
 	showNoteTable("notetable");
 	showTimeTable("timetable");
 	showPageTable("pagetable");
-	var tables = document.querySelectorAll("table.census");
 	var i;
-	var width = $('#primary-content').width();
-	for (i=0; i<tables.length; i++) {
-		tables[i].style.width = width + 'px';
-	}
 
 	// Convert composer anchor tags pointing pointing to an external page into
 	// events which move within the page:
@@ -1450,7 +1361,14 @@ function showCensusInfo() {
 		composerlinks[i].outerHTML = newlink;
 	}
 
+	var tables = document.querySelectorAll("table.census");
+	var width = $('#primary-content').width();
+	for (i=0; i<tables.length; i++) {
+		tables[i].style.width = width + 'px';
+	}
+
 	showBrowseHomeButton();
+
 }
 
 
@@ -1468,212 +1386,5 @@ function showBrowseHomeButton() {
 
 
 
-//////////////////////////////
-//
-// process Window keys down:
-//
-
-window.addEventListener('keydown', function(event) {
-
-	if (event.keyCode == ControlKey) {
-		ControlKeyState = 1;
-	} else if (event.keyCode == ShiftKey) {
-		ShiftKeyState = 1;
-	} else if (event.keyCode == AltKey) {
-		AltKeyState = 1;
-	} else if (event.keyCode == CommandLeftKey) {
-		CommandKeyState = 1;
-	} else if (event.keyCode == CommandRightKey) {
-		CommandKeyState = 1;
-	}
-  
-	// don't process any command- key combinations.
-	if (CommandKeyState == 1) {
-		return;
-	}
-
-	var titlebox = document.getElementById("titlebox");
-
-	switch (event.keyCode) {
-		case AKey:
-			if (ControlKeyState) {
-				if (localStorage.BROWSEpageview == "all") {
-					localStorage.BROWSEpageview = "paged";
-					browseDisplay(1);
-				} else {
-					localStorage.BROWSEpageview = "all";
-					browseDisplay(1);
-				}
-			}
-			break;
-
-		case JKey:
-			if (ControlKeyState) {
-				if (typeof localStorage.BROWSEshowjrpid === 'undefined') {
-					localStorage.BROWSEshowjrpid = "false";
-				}
-				if (localStorage.BROWSEshowjrpid == "false") {
-					localStorage.BROWSEshowjrpid = "true";
-				} else {
-					localStorage.BROWSEshowjrpid = "false";
-				}
-				browseDisplay();
-			}
-			break;
-
-		case RightArrowKey:
-		case DownArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
-				displayNextPage();
-			}
-			break;
-		case LeftArrowKey:
-		case UpArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
-				displayPreviousPage();
-			}
-			break;
-		case PageUpKey:
-			displayPreviousPage();
-			break;
-		case PageDownKey:
-			displayNextPage();
-			break;
-		case HomeKey:
-			displayFirstPage();
-			break;
-		case EndKey:
-			displayLastPage();
-			break;
-
-		case EqualsKey:	// (include Plus key which is shift-EqualsKey):
-			if (ControlKeyState) {
-				var value = parseInt(localStorage.BROWSEpagesize);
-				localStorage.BROWSEpagesize = value + 1;
-				displayFirstPage();
-			}
-			break;
-		case MinusKey:	   // decrease search results table entries by one
-			if (ControlKeyState) {
-				var value = parseInt(localStorage.BROWSEpagesize);
-				if (value <= 1) {
-					value = 1;
-				} else {
-					value = value - 1;
-				}
-				localStorage.BROWSEpagesize = value;
-				sessionStorage.SEARCHcurrentpage = 1;
-				displayFirstPage();
-			}
-			break;
-
-		case BackspaceKey:
-		case DeleteKey:
-			if (ControlKeyState == 1) {
-				titlebox.value = '';
-				browseDisplay(1);
-			}
-			break;
-
-		case NKey:
-			if (ControlKeyState == 1) {
-				CountInfo = !CountInfo;
-				if (CountInfo && (WORKCOUNT > 0)) {
-					showCountInfo();
-				} else if (!CountInfo) {
-					hideCountInfo();
-				}
-			}
-			break;
-
-		case TKey:
-			if (ControlKeyState == 1) {
-				TextInfo = !TextInfo;
-				if (TextInfo) {
-					console.log("Text underlay markers turned on.");
-				} else {
-					console.log("Text underlay markers turned off.");
-				}
-				browseDisplay();
-			}
-			break;
-
-	}
-
-	// Maybe remove ShiftKeyState from list:
-	if (!(ControlKeyState || ShiftKeyState || AltKeyState || CommandKeyState)) {
-		if ((event.keyCode >= AKey && event.keyCode <= ZKey)) {
-			if (titlebox != document.activeElement) {
-				var character = String.fromCharCode(event.keyCode);
-				if (!ShiftKeyState) {
-					character = character.toLowerCase();
-				}
-				titlebox.value += character;
-				browseDisplay(1);
-			}
-		} else if (titlebox != document.activeElement) {
-			// What to do out of titlebox focus
-			switch (event.keyCode) {
-				case SpaceKey:
-					titlebox.value += String.fromCharCode(event.keyCode);
-					break;
-				case DeleteKey:
-				case BackspaceKey:
-					var str = titlebox.value;
-					titlebox.value = str.slice(0, -1);
-					browseDisplay(1);
-				// add apostrophe here...
-			}
-		}
-	}
-
-}
-);
-
-
-
-//////////////////////////////
-//
-// Process window key ups --
-//
-
-window.onkeyup = function(event) {
-
-	if (event.keyCode == ControlKey) {
-		ControlKeyState = 0;
-	} else if (event.keyCode == ShiftKey) {
-		ShiftKeyState = 0;
-	} else if (event.keyCode == AltKey) {
-		AltKeyState = 0;
-	} else if (event.keyCode == CommandLeftKey) {
-		CommandKeyState = 0;
-	} else if (event.keyCode == CommandRightKey) {
-		CommandKeyState = 0;
-	}
-}
-
-
-
-//////////////////////////////
-//
-// Prevent backspace from being interpreted by the web browser:
-//
-// Maybe deal with by using: event.preventDefault() in window
-//	  key processing code.
-//
-
-trapfunction = function(event) {
-	if (event.keyCode == BackspaceKey) {
-		var titlebox = document.getElementById("titlebox");
-		var str = titlebox.value;
-		titlebox.value = str.slice(0, -1);
-		return false;
-	}
-
-	return event;
-}
-document.onkeydown  = trapfunction; // Most browsers
-document.onkeypress = trapfunction; // Opera
-
-
 </script>
+<script src="listeners.js"></script>

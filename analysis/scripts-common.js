@@ -123,7 +123,7 @@ function displayContents(repertory) {
       work.value = "default";
    }
 
-	UpdateEzMark();
+	StylizeFormElements();
 
 	if (work != "") {
 		analyzeWork();
@@ -159,10 +159,10 @@ function buildRepertorySelect() {
 	repertoryselect.innerHTML = output;
 	if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
 			!localStorage.ANALYSISrepertory.match(/^\s*$/)) {
-		$('#genre option[value=\"" + localStorage.ANALYSISrepertory + "\"]')
+		$('#genre option[value="' + localStorage.ANALYSISrepertory + '"]')
 				.attr('selected', 'selected');
 	}
-	UpdateEzMark();
+	MakeNewLinkTargets();
 }
 
 
@@ -190,10 +190,10 @@ function buildGenreSelect() {
 	repertoryselect.innerHTML = output;
 	if ((typeof localStorage.ANALYSISgenre !== 'undefined') &&
 			!localStorage.ANALYSISgenre.match(/^\s*$/)) {
-		$('#genre option[value=\"" + localStorage.ANALYSISgenre + "\"]')
+		$('#genre option[value="' + localStorage.ANALYSISgenre + '"]')
 				.attr('selected', 'selected');
 	}
-	UpdateEzMark();
+	MakeNewLinkTargets();
 }
 
 
@@ -221,10 +221,10 @@ function buildWorkSelect(repertory, genre) {
 	workselect.innerHTML = output;
 	if ((typeof localStorage.ANALYSISwork !== 'undefined') &&
 			!localStorage.ANALYSISwork.match(/^\s*$/)) {
-		$('#work option[value=\"" + localStorage.ANALYSISwork + "\"]')
+		$('#work option[value="' + localStorage.ANALYSISwork + '"]')
 				.attr('selected', 'selected');
 	}
-	UpdateEzMark();
+	MakeNewLinkTargets();
 }
 
 
