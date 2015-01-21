@@ -111,7 +111,10 @@ function showRepertory(repertory) {
 
 	maincontent.innerHTML = "Processing...";
 	$("body").css("cursor", "wait");
+console.log("FILE = /data?repertory=rhythm&composer=" + repertory);
 	ReadFileAsync("/data?repertory=rhythm&composer=" + repertory, function(responseText) {
+console.log("FINISHED FILE = /data?repertory=rhythm&composer=" + repertory);
+console.log("RESPONSE TEXT");
 		var maincontent = document.getElementById('analysis-content');
 		if (!maincontent) {
 			return;
@@ -130,8 +133,9 @@ function showRepertory(repertory) {
 
 function showPopupInfo(url) {
    var title = "Rhythm pattern info";
-	var newwindow = window.open(url, title,
-		'left=20,top=20,width=700,height=400,directories=no,location=no,status=no,toolbar=no');
+	//var newwindow = window.open(url, title,
+	//	'left=20,top=20,width=700,height=400,directories=no,location=no,status=no,toolbar=no');
+	var newwindow = window.open(url);
 	if (window.focus) {newwindow.focus()}
 	return false;
 }

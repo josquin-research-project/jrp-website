@@ -307,17 +307,20 @@ function ReadFile(url) {
 
 function ReadFileAsync(url, callback) {
    var request = new XMLHttpRequest();
-
+console.log("READINFILEASYNC 1", new Date());
    request.open('GET', url, true);
    request.onload = function (e) {
       if (this.readyState == 4) {
+console.log("READINFILEASYNC 3", new Date());
          callback(this.responseText);
+console.log("READINFILEASYNC 4", new Date());
       }
    };
    request.onerror = function(e) {
       console.error(request.statusText);
    };
    request.send(null);
+console.log("READINFILEASYNC 2", new Date());
 }
 
 

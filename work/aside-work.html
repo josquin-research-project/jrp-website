@@ -1,12 +1,12 @@
 <aside class="search-filter">
 	<section id="search">
-		<h2 class='blue-bar'>Search <span onclick="return showPopupHelp('search-help.html', 'Search Help');" class='info'>info</span></h2>
+		<h2 class='blue-bar'>Search <span id="search-help" onclick="return showPopupHelp('search-help.html', 'Search Help');" class='info'>info</span></h2>
 		<form action="#">
 			<div class="form-group radio-wrap">
 				<label><input type="radio" value="work" checked 
 						name="searchscope">This Work</label>
-				<label><input type="radio" value="repertory" 
-						name="searchscope">All Works</label>
+				<label style="margin-left:-20px;"><input type="radio" value="repertory" 
+						name="searchscope">Choose Repertory</label>
 			</div>
 			<div class="form-group">
 				<input id="pitch" type="text" class="form-control" 
@@ -48,12 +48,12 @@
 
 	<section id="tools">
 		<h2 class='blue-bar'>ANALYSIS TOOLS
-					<span onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class='info'>info</span></h2>
+					<span id="analysis-help" onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class='info'>info</span></h2>
 			<div class="form-group radio-wrap">
 				<label><input id="this-work-analysis-button" type="radio" 
 						value="work" checked name="analysis-scope">This Work</label>
-				<label><input id="all-works-analysis-button" type="radio" 
-						value="repertory" name="analysis-scope">All Works</label>
+				<label style="margin-left:-20px;"><input id="all-works-analysis-button" type="radio" 
+						value="repertory" name="analysis-scope">Choose Repertory</label>
 			</div>
 		<div style="margin-left:5px;" 
 				id="repertory-select" 

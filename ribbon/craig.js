@@ -211,6 +211,11 @@ function displayWorkInfo(tagid, jrpid) {
 	if (!infoelement) { return; }
    InitializeWorklistFlat();
 	var entry = WORKLISTjrpid[jrpid];
+   if (!entry) {
+		var realworkid = jrpid.replace(/[.a-z]+$/, "");
+		realworkid.replace(/\.?[a-z]$/, "");
+		entry = WORKLISTjrpid[jrpid.match(realworkid)];
+	}
 	if (!entry) { return; }
 	var composer = entry.comshort;
 	var title = entry.title;

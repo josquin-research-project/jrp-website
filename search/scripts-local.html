@@ -1,4 +1,10 @@
 <script src="/scripts/scripts-common.js"></script>
+
+<!-- qTip resource files -->
+<link type="text/css" rel="stylesheet" href="/scripts/external/qtip/jquery.qtip.min.css"/>
+<script src="/scripts/external/qtip/jquery.qtip.min.js"></script>
+<script src="/scripts/external/qtip/imagesloaded.pkg.min.js"></script>
+
 <script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
@@ -76,6 +82,30 @@ function displayContents() {
 	buildGenreSelect();
    setupSearchOnEnter();
 	// StylizeFormElements(); // already done in buildComposerSelect & buildGenreSelect
+	setupTooltips();
+}
+
+
+
+//////////////////////////////
+//
+// setupTooltips --
+//
+
+function setupTooltips() {
+
+	$('#analysis-help').qtip({
+		content: {
+			text: 'Click for a short description of the analysis tools.'
+		}
+	});
+
+	$('#search-help').qtip({
+		content: {
+			text: 'Click for help on expressing search queries.'
+		}
+	});
+
 }
 
 

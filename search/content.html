@@ -1,7 +1,7 @@
 
 
 <section id="search">
-	<h2 class='blue-bar'>Search <span onclick="return showPopupHelp('search-help.html', 'Search Help');" class='info'>info</span></h2>
+	<h2 class='blue-bar'>Search <span id="search-help" onclick="return showPopupHelp('search-help.html', 'Search Help');" class='info'>info</span></h2>
 	<form action="#">
 
 		<div class="form-group">
@@ -45,7 +45,7 @@
 
 
 <section id="tools">
-	<h2 class="blue-bar">ANALYSIS TOOLS <span onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class='info'>info</span></h2>
+	<h2 class="blue-bar">ANALYSIS TOOLS <span id="analysis-help" onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class='info'>info</span></h2>
 
 <table><tr><td>
 <p align="left" class="grey" style="margin-top:-36px; margin-left:55px;" class="text">Choose repertory</p>
@@ -62,8 +62,8 @@
 
 			<li><a href="/analysis/parallel" onclick="storeRepertory();" 
 			class="btn btn-brown btn-medium">
-			<span style="height=0 class="anatitle">Parallel</span>
-			<small>parallel perfect intervals</small></a></li>
+			<span class="anatitle">Parallel</span>
+			<small>parallel perfect intervals</small></span></a></li>
 
 			<li><a href="/analysis/rhythm" onclick="storeRepertory();" 
 			class="btn btn-brown btn-medium">

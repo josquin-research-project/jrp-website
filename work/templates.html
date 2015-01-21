@@ -42,19 +42,17 @@
 	--		allow multiple rows).
 	--}}
 
-<table class="search-results-table">
-<thead>
+<table style="border-left: 0;" class="search-results-table">
+<tbody>
 <tr>
-	<th>Match&nbsp;Locations&nbsp;&nbsp;</th>
-	<th></th>
-	<th style="text-align:left;" class="sortable">Measures</th>
-	<th>Scores</th>
+	<td style="width:100px; padding-right:30px;">Match&nbsp;Locations&nbsp;&nbsp;</td>
+	<td style="width:500px; text-align:left;" class="sortable">Measures</td>
+	<td>Scores</td>
 </tr>
-</thead>
 {{#each this.locations}}
 <tr valign="top">
-	<td style="text-align:left;">{{{matchlocations this}}}</td>
-	<td style="text-align:left;"colspan=2>{{{listmeasures this}}}</td>
+	<td style="width:100px; text-align:left;">{{{matchlocations this}}}</td>
+	<td style="width:500px; text-align:left;">{{{listmeasures this}}}</td>
 	<td style="text-align:left;">{{{matchscore id}}}</td>
 </tr>
 {{/each}}

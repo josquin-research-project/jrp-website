@@ -1,6 +1,12 @@
 <script src="/scripts/external/handlebars-v2.0.0.js"></script>
 <script src="/scripts/scripts-common.js"></script>
 <script src="/scripts/references.js"></script>
+
+<!-- qTip resource files -->
+<link type="text/css" rel="stylesheet" href="/scripts/external/qtip/jquery.qtip.min.css"/>
+<script src="/scripts/external/qtip/jquery.qtip.min.js"></script>
+<script src="/scripts/external/qtip/imagesloaded.pkg.min.js"></script>
+
 <script>
 //
 // Programmer:	 Craig Stuart Sapp <craig@ccrma.stanford.edu>
@@ -2102,6 +2108,13 @@ function displayAllWorksRepertoryAnalyses() {
 function displayThisWorkRepertoryAnalyses() {
 	var content = "";
 
+	content += '<li><span onclick="localStorage.RIBBONjrpid=';
+	content += 'localStorage.WORKjrpid; window.location=\'/ribbon\';" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Ribbon</span> ';
+	content += '<small>formal analysis</small></span></li>\n';
+
 	content += '<li><span onclick="showWorkAnalysis(\'activity\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
@@ -2117,8 +2130,8 @@ function displayThisWorkRepertoryAnalyses() {
 	content += '<li><span onclick="showWorkAnalysis(\'suspension\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
-	content += '<span class="anatitle">Suspension ';
-	content += '<small>all suspensions marked</small></span></a></li>\n';
+	content += '<span class="anatitle">Suspension</span> ';
+	content += '<small>all suspensions marked</small></span></li>\n';
 
 	content += '<li><span onclick="showWorkAnalysis(\'parallel\');" ';
 	content += 'style="cursor:pointer;" ';
@@ -2139,4 +2152,3 @@ function displayThisWorkRepertoryAnalyses() {
 
 </script>
 <script src="listeners.js"></script>
-<!--#include virtual="templates.html" -->

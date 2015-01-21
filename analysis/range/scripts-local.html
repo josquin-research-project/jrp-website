@@ -77,7 +77,7 @@ function buildRepertorySelect() {
 	output += clist;
 	output += "</select></td></tr></table>\n";
 	repertoryselect.innerHTML = output;
-	$('#repertory option[value=\"" + localStorage.ANALYSISrepertory + "\"]')
+	$('#repertory option[value="' + localStorage.ANALYSISrepertory + '"]')
 			.attr('selected', 'selected');
 	StylizeFormElements();
 }
@@ -111,8 +111,20 @@ function showRepertory(repertory) {
 
 	maincontent.innerHTML = "Processing...";
 	$("body").css("cursor", "wait");
+	var currentdate = new Date();
+	console.log("Start of analysis request:", currentdate);
 	ReadFileAsync("/data?repertory=range&composer=" + repertory, function(responseText) {
 		var maincontent = document.getElementById('analysis-content');
+		var currentdate = new Date();
+		console.log("End of analysis request:", currentdate);
+		var matches = responseText.match(/@start_date:\s*([^>]+)-->/m);
+		if (matches) {
+			console.log("Start time for analysis:", matches[1]);
+		}
+		var matches = responseText.match(/@end_date:\s*([^>]+)-->/m);
+		if (matches) {
+			console.log("End time for analysis:", matches[1]);
+		}
 		if (!maincontent) {
 			return;
 		}
@@ -154,7 +166,7 @@ window.addEventListener("keydown", function(event) {
 			}
 			break;
 	}
-}
+});
 
 
 

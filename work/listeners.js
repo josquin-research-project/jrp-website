@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		}
 	}, false);
 
-
 	sessionStorage.ERRORsubmitting  = "false";
 
 	var CgiParameters = GetCgiParameters();
@@ -85,23 +84,64 @@ document.addEventListener("DOMContentLoaded", function() {
 	// radio button has been clicked.
 	HideAnalysisRepertory();
 
+   setupTooltips();
+
 }, false);
 
 
+
+//////////////////////////////
+//
+// setupTooltips --
+//
+
+function setupTooltips() {
+
+	$('#analysis-help').qtip({
+		content: {
+			text: 'Click for a short description of the analysis tools.'
+		}
+	});
+
+	$('#search-help').qtip({
+		content: {
+			text: 'Click for help on expressing search queries.'
+		}
+	});
+
+}
+
+
+
+//////////////////////////////
+//
+// HideAnalysisRepertory --
+//
 
 function HideAnalysisRepertory() {
 	var hiddens = document.querySelectorAll(".analysis-hide");
 	var i;
 	for (i=0; i<hiddens.length; i++) {
 	   hiddens[i].style.visibility = 'hidden';
+		hiddens[i].style.height = 0;
+		hiddens[i].style.marginTop = '-40px';
 	}
 }
+
+
+
+//////////////////////////////
+//
+// ShowAnalysisRepertory --
+//
 
 function ShowAnalysisRepertory() {
 	var hiddens = document.querySelectorAll(".analysis-hide");
 	var i;
 	for (i=0; i<hiddens.length; i++) {
 	   hiddens[i].style.visibility = '';
+		hiddens[i].style.height = '';
+		hiddens[i].style.marginTop = '-10px';
 	}
 }
 

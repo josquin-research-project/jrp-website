@@ -1,5 +1,11 @@
 <script src="/scripts/scripts-common.js"></script>
 <script src="../scripts-common.js"></script>
+
+<!-- qTip resource files -->
+<link type="text/css" rel="stylesheet" href="/scripts/external/qtip/jquery.qtip.min.css"/>
+<script src="/scripts/external/qtip/jquery.qtip.min.js"></script>
+<script src="/scripts/external/qtip/imagesloaded.pkg.min.js"></script>
+
 <script type="text/javascript">
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
@@ -31,6 +37,7 @@ window.onload = function() {
 	} else {
 		displayContents();
 	}
+
 }
 
 
@@ -75,7 +82,7 @@ function buildRepertorySelect() {
 	output += clist;
 	output += "</select></td></tr></table>\n";
 	repertoryselect.innerHTML = output;
-	$('#repertory option[value=\"" + localStorage.ANALYSISrepertory + "\"]')
+	$('#repertory option[value=\"' + localStorage.ANALYSISrepertory + '\"]')
 			.attr('selected', 'selected');
 	StylizeFormElements();
 }
@@ -109,14 +116,35 @@ function showRepertory(repertory) {
 
 	maincontent.innerHTML = "Processing...";
 	$("body").css("cursor", "wait");
-	ReadFileAsync("/data?repertory=parallel&composer=" + repertory, function(responseText) {
-		var maincontent = document.getElementById('analysis-content');
-		if (!maincontent) {
-			return;
+	ReadFileAsync("/data?repertory=parallel&composer=" + repertory, 
+		function(responseText) {
+			var maincontent = document.getElementById('analysis-content');
+			if (!maincontent) {
+				return;
+			}
+			maincontent.innerHTML = responseText;
+			$("body").css("cursor", "default");
+
+			$('.d5p5').qtip({
+				content: {
+					text: 'diminished fifth\nfollowed by a\nperfect fifth'
+				}
+			});
+
+			$('.p5d5').qtip({
+				content: {
+					text: 'perfect fifth\nfollowed by a\ndiminished fifth'
+				}
+			});
+
+			$('.d5d5').qtip({
+				content: {
+					text: 'diminished fifth\nfollowed by a\ndiminished fifth'
+				}
+			});
+
 		}
-		maincontent.innerHTML = responseText;
-		$("body").css("cursor", "default");
-	});
+	);
 }
 
 
