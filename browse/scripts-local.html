@@ -419,10 +419,8 @@ function createJoaJobLists() {
 	}
 	var WORKLISTjoa = JSON.parse(JSON.stringify(WORKLIST[josindex]));
 	var WORKLISTjob = JSON.parse(JSON.stringify(WORKLIST[josindex]));
-	WORKLISTjoa.comshort  = "Josquin<span style=\"font-size:80%;";
-	WORKLISTjoa.comshort += " letter-spacing:-1px;\">&nbsp;(sec.)</span>";
-	WORKLISTjob.comshort  = "Josquin<span style=\"font-size:80%;";
-	WORKLISTjob.comshort += " letter-spacing:-1px;\">&nbsp;(n.&nbsp;s.)</span>";
+	WORKLISTjoa.comshort  = "Josquin";
+	WORKLISTjob.comshort  = "Josquin";  // "?" added later.
 	WORKLISTjoa.repid = "Joa";
 	WORKLISTjob.repid = "Job";
 	WORKLISTjoa.works = [];
@@ -574,18 +572,22 @@ function generateComposerWorkEntries(worklist, index) {
 	var voicemax;
 	var temparr;
 	var text;
-	var xcomshort = "";
+	var xcomposer = "";
 
 	for (j=0; j<worklist[index].works.length; j++) {
-		entry	 = worklist[index].works[j];
-		attr	  = entry.attr     || "0";
-		fragment = entry.fragment || "false";
-		genre	 = entry.genre    || "";
-		voices	= entry.voices   || "?";
-		text	  = entry.text     || "false";
+		entry	   = worklist[index].works[j];
+		attr	   = entry.attr     || '0';
+		fragment = entry.fragment || 'false';
+		genre	   = entry.genre    || '';
+		voices	= entry.voices   || '?';
+		text	   = entry.text     || 'false';
 		if (typeof entry.comshort !== 'undefined') {
 			composer = entry.comshort;
 		}
+      xcomposer = composer;
+      if ((composer == 'Josquin') && (entry.attr == '3')) {
+         xcomposer += "?";
+      }
 		
 		temparr = voices.match(/(\d+)[^\d]+(\d+)/);
 		if ((temparr != null) && (temparr.length > 2)) {
@@ -732,7 +734,7 @@ function generateComposerWorkEntries(worklist, index) {
 			}
 		}
 
-		tempout	+= "</td><td>" + composer;
+		tempout	+= "</td><td>" + xcomposer;
 		tempout	+= "</td><td style='text-indent:-12px;'>" + titlelink;
 		tempout	+= "</td><td>" + voices;
 		tempout	+= "</td><td>" + scorelink;

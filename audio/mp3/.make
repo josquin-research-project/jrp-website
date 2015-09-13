@@ -2,7 +2,7 @@
 #
 # Programmer:    Craig Stuart Sapp <craig.stanford.edu>
 # Creation Date: Tue Oct 14 14:56:43 PDT 2014
-# Last Modified: Tue Oct 14 14:56:43 PDT 2014
+# Last Modified: Fri Mar  6 14:06:13 PST 2015 Added variant fallback
 # Filename:      /disk/data2/craig-project/josquin/web/website-jrp2/audio/mp3/x
 # Syntax:        perl 5
 #
@@ -75,7 +75,8 @@ sub makeLinks {
 
 ##############################
 ##
-## makeWorkLinks --
+## makeWorkLinks -- If there is not a base work recording, use the
+##      first one in a list of movements or variants.
 ##
 
 sub makeWorkLinks {
@@ -92,7 +93,7 @@ sub makeWorkLinks {
    my $base;
    foreach my $key (sort keys %ids) {
       next if $key =~ /^[A-Z][a-z][a-z]\d{4}$/;
-      if ($key !~ /^([A-Z][a-z][a-z]\d{4}[\.\d]*)/) {
+      if ($key !~ /^([A-Z][a-z][a-z]\d{4})([\.\d]*)/) {
          next;
       }
       $base = $1;

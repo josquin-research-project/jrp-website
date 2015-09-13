@@ -307,20 +307,16 @@ function ReadFile(url) {
 
 function ReadFileAsync(url, callback) {
    var request = new XMLHttpRequest();
-console.log("READINFILEASYNC 1", new Date());
    request.open('GET', url, true);
    request.onload = function (e) {
       if (this.readyState == 4) {
-console.log("READINFILEASYNC 3", new Date());
          callback(this.responseText);
-console.log("READINFILEASYNC 4", new Date());
       }
    };
    request.onerror = function(e) {
       console.error(request.statusText);
    };
    request.send(null);
-console.log("READINFILEASYNC 2", new Date());
 }
 
 
@@ -369,14 +365,16 @@ function GetComposerOptions() {
    var i;
 
    for (i=0; i<WORKLIST.length; i++) {
-      longname = WORKLIST[i].comlong;
-      abbr     = WORKLIST[i].repid;
+      longname  = WORKLIST[i].comlong;
+      shortname = WORKLIST[i].comshort;
+      abbr      = WORKLIST[i].repid;
       output += '<option value="' + abbr + '">';
-      output += longname + '</option>\n';
+      // output += longname + '</option>\n';
+      output += shortname + '</option>\n';
       if (abbr == 'Jos') {
-         output += '<option value="Joa">Josquin des Prez (secure)</option>\n';
+         output += '<option value="Joa">Josquin (secure)</option>\n';
          output += '<option value="Job">';
-         output += 'Josquin&nbsp;des&nbsp;Prez&nbsp;';
+         output += 'Josquin&nbsp;';
          output += '(not&nbsp;secure)</option>\n';
       }
    }

@@ -237,7 +237,11 @@ function displayMultisectionWork(jrpid) {
 	// Set the Downloads area //////////////////////////////////////////////
 	if (jrpid.match(/[a-z]$/)) {
 		showSectionDownloads(jrpid);
-	}
+	} else {
+      // force the first section to display if the full work is being 
+      // displayed.
+      showSectionDownloads(SECTIONS[0].id);
+   }
 }
 
 
@@ -566,69 +570,10 @@ function showSectionDownloads(jrpid) {
 	var sectionid = SECTIONS[sectionindex].id;
 	var stitle = SECTIONS[sectionindex].stitle;
 
-	var download = "<h3 class=\"brown-border\">Downloads (";
-	download += stitle + ")</h3>\n";
 
-	download += "<div class=\"col first-col\">\n";
-	download += "<ul>\n";
-
-	download += "<li><a " + PDFTARGET + "class=\"icon-file\" href=\"";
-	download += "/data?a=notationNoEditText&f=" + sectionid;
-	download += "\">PDF score</a></li>\n";
-
-	download += "<li><a " + PDFTARGET + "class=\"icon-file-ed\" href=\"";
-	download += "/data?a=notationEditText&f=" + sectionid;
-	download += "\">PDF w/ ed. accidentals</a></li>\n";
-
-	download += "<li><a class=\"icon-midi\" href=\"";
-	download += "/data?a=midi&f=" + sectionid;
-	download += "\">MIDI</a></li>\n";
-
-	download += "</ul>\n";
-	download += "</div>\n";
-	download += "<div class=\"col\">\n";
-	download += "<ul>\n";
-
-	download += "<li><a target=\"new\" class=\"icon-file-list\" href=\"";
-	download += "/data?a=humdrum&f=" + sectionid;
-	download += "\">Humdrum</a></li>\n";
-
-	download += "<li><a target=new class=\"icon-list\" href=\"";
-	download += "/data?a=musedata&f=" + sectionid;
-	download += "\">MuseData</a></li>\n";
-
-	download += "<li><a target=new class=\"icon-list\" href=\"";
-	download += "/data?a=notearrayraw&f=" + sectionid;
-	download += "\">NoteArray</a></li>\n";
-
-	download += "<li><a target=new class=\"icon-list\" href=\"";
-	download += "/data?a=proll-json&f=" + sectionid;
-	download += "\">JSON Piano Roll</a></li>\n";
-
-	download += "</ul>\n";
-	download += "</div>\n";
-	download += "<div class=\"col\">\n";
-	download += "<ul>\n";
-
-	download += "<li><a target=\"new\" class=\"icon-list\" href=\"";
-	download += "/data?a=musicxml&f=" + sectionid;
-	download += "\">MusicXML</a></li>\n";
-
-	download += "<li><a target=\"new\" class=\"icon-list\" href=\"";
-	download += "/data?a=mei&f=" + sectionid;
-	download += "\">MEI</a></li>\n";
-
-	download += "<li><a target=\"new\" class=\"icon-list\" href=\"";
-	download += "/data?a=mp3&f=" + sectionid;
-	download += "\">MP3</a></li>\n";
-
-	download += "</ul>\n";
-	download += "</div>\n";
-
-	var downloads = document.getElementById("downloads");
-	downloads.innerHTML = download;
-
+   showDownloadArea(jrpid, stitle);
 	printErrorReportButton(sectionid);
+
 }
 
 
@@ -837,8 +782,26 @@ function displayWork(jrpid) {
 	prepareRangeArea(jrpid);
 	getRangeAsync(jrpid);
 
+   showDownloadArea(jrpid);
+
+	printErrorReportButton(jrpid);
+}
+
+
+
+//////////////////////////////
+//
+// showDownloadArea --
+//
+
+function showDownloadArea(jrpid, stitle) {
+
 	// Set the Downloads area //////////////////////////////////////////////
-	var download = "<h3 class=\"brown-border\">Downloads</h3>\n";
+	var download = "<h3 class=\"brown-border\">Downloads";
+   if ((typeof stitle !== 'undefined') &&(stitle.length > 0)) {
+      download += " (" + stitle + ")";
+   }
+   download += "</h3>\n";
 
 	download += "<div class=\"col first-col\">\n";
 	download += "<ul>\n";
@@ -896,13 +859,12 @@ function displayWork(jrpid) {
 	download += "</ul>\n";
 	download += "</div>\n";
 
+
 	var downloads = document.getElementById("downloads");
 	downloads.innerHTML = download;
 
-
-	printErrorReportButton(jrpid);
-
 }
+
 
 
 
@@ -1094,7 +1056,8 @@ function toggleTitleType() {
 		if (SECTIONS && (MENUINDEX == 0)) {
 			var downloads = document.getElementById("downloads");
 			if (downloads) {
-				downloads.textContent = "";
+           	// now keeping the downloads section all of the time [20150428]:
+				// downloads.textContent = "";
 			}
 		}
 		StylizeFormElements();
@@ -1800,7 +1763,8 @@ function displaySection(workid) {
 		if (SECTIONS && (menuindex == 0)) {
 			var downloads = document.getElementById("downloads");
 			if (downloads) {
-				downloads.textContent = "";
+           	// now keeping the downloads section all of the time [20150428]:
+				// downloads.textContent = "";
 			}
 		}
 		StylizeFormElements();
@@ -1822,7 +1786,10 @@ function displaySection(workid) {
 
 	if ((!SECTIONS) || (sectionindex >= 0)) {
 		showSectionDownloads(workid);
-	}
+	} else if (sectionindex == 0) {
+      // show the first section download 
+      console.log(SECTIONS);
+   }
 }
 
 
