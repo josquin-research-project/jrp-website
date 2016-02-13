@@ -15,6 +15,12 @@ through the link
 </span> 
 More information about the format of the worklist can be found <a href=worklist>here</a>.
 </p>
+<p>
+A flat list of all catalog numbers can be viewed from this URL:
+<span style="display:block; margin-left:60px;"><a class="text-link" href=http://josquin.stanford.edu/data?a=list>http://josquin.stanford.edu/data?a=list</a>
+
+
+</p>
 
 </article>
 
@@ -23,23 +29,27 @@ More information about the format of the worklist can be found <a href=worklist>
 <h3 class="brown-heading">Digital scores</h3>
 
 <p>
-Digital scores in the JRP database are stored in <a href=http://www.humdrum.org/guide/ch02/>Humdrum syntax</a>.  This is
-a two-dimensional text layout of the notes in the score.  Columns (spines)
-in the data represent voices, and rows indicate simultaneous events in the
-score.
+Digital scores in the JRP database are encoded in <a href=http://www.humdrum.org/guide/ch02/>Humdrum syntax</a>.  
+The scores can be accessed in multiple ways, such as viewing directly on the website:
+<span style="display:block; margin-left:60px;"><a href=http://josquin.stanford.edu/data?id=Ano3001&a=humdrum>http://josquin.stanford.edu/data?id=Ano3001&a=humdrum</a></span>
+where <tt>Ano3001</tt> is the JRP catalog number of the desired work.  Similarly a matching PDF version of the graphical score generated from the Humdrum digital score is also available for each work:
+<span style="display:block; margin-left:60px;"><a href=http://josquin.stanford.edu/data?id=Ano3001&a=notation>http://josquin.stanford.edu/data?id=Ano3001&a=notation</a></span>
 </p>
 
-
-<p> 
-The digital scores can be accessed in multiple ways.  The files can be viewed 
-directly from the website by using a URL in this form:
-<span style="display:block; margin-left:60px;"><a href=http://josquin.stanford.edu/data?id=Ano3001&a=humdrum>http://josquin.stanford.edu/data?id=Ano3001&a=humdrum</a></span>
-where <tt>Ano3001</tt> is the JRP catalog number of the desired work.
-An archive of all digital scores in the JRP database can also be downloaded/browsed from
+<p>
+Also an archive of all digital scores in the JRP database can also be downloaded/browsed from
 <a href=https://github.com>Github</a>:
 <span style="display:block; margin-left:60px;"><a href=https://github.com/josquin-research-project/jrp-scores>https://github.com/josquin-research-project/jrp-scores</a></span>
 by using this git command:
 <span style="font-family:Courier,monospace; font-size:85%; display:block; margin-left:60px;">git clone --recursive <a style="color:#555; font-size:85%;" href=https://github.com/josquin-research-project/jrp-scores>https://github.com/josquin-research-project/jrp-scores</a></span>
+Also run these commands to update to the latest versions of the scores:
+<span style="font-family:Courier,monospace; font-size:85%; display:block; margin-left:60px;">cd jrp-scores</span>
+<span style="font-family:Courier,monospace; font-size:85%; display:block; margin-left:60px;">make update</span>
+Special groupings of the scores can also be made:
+<span style="font-family:Courier,monospace; font-size:85%; display:block; margin-left:60px;">make genres</span>
+This will create the directories "Zma" containing mass sections of all composers, and likewise "Zmo" for motets and "Zso" for songs.  
+<span style="font-family:Courier,monospace; font-size:85%; display:block; margin-left:60px;">make joab</span>
+This will create the directory "Joa" containing securely attributed works by Josquin, and "Job" for other Josquin works.
 
 </p>
 
@@ -92,7 +102,7 @@ the <a href=http://httpd.apache.org>Apache webserver</a>, using <a
 href=http://httpd.apache.org/docs/2.2/howto/ssi.html>server-side
 includes</a> and Google's <a 
 href=https://developers.google.com/speed/pagespeed/>Pagespeed</a> module for Apache which
-automates caching of files and automatic minimizing of JavaScript code for up to 50% fast
+automates caching of files and automatic minimizing of JavaScript code for up to 50% faster
 webpage viewing.  The following JavasScript libraries are used on the website:
 
 <style>

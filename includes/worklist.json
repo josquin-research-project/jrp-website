@@ -293,17 +293,17 @@
 "comlong"	:	"Antoine Busnoys",
 "comshort"	:	"Busnoys",
 "comdates"	:	"ca. 1430&ndash;1492",
-"repwork"	:	34,
+"repwork"	:	60,
 "genres"	:
 	[
 	{"name":"mass", "count":1},
-	{"name":"motet", "count":2},
-	{"name":"song", "count":31}
+	{"name":"motet", "count":3},
+	{"name":"song", "count":56}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	20259,
-"sec"		:	5721,
-"pg"		:	102,
+"notecount"	:	31875,
+"sec"		:	8425,
+"pg"		:	167,
 "works"		:	
 	[
 	{
@@ -356,6 +356,22 @@
 	"ud"		:	20140103
 	},
 	{
+	"id"		:	"Bus2007",
+	"title"		:	"In hydraulis",
+	"genre"		:	"motet",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"text"		:	"true",
+	"ih"		:	198,
+	"notecount"	:	1699,
+	"sec"		:	511,
+	"pg"		:	11,
+	"vnotecount"	:	[597,603,72,427],
+	"ad"		:	20151206,
+	"ud"		:	20151207
+	},
+	{
 	"id"		:	"Bus3001",
 	"title"		:	"Acordes moy",
 	"genre"		:	"song",
@@ -375,15 +391,15 @@
 	"title"		:	"Advegne que venir pourra",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["Superius","Tenor","Contra"],
-	"vabbr"		:	["S","T","C"],
+	"vname"		:	["Discantus","Tenor","Contra"],
+	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	166,
-	"notecount"	:	348,
+	"notecount"	:	350,
 	"sec"		:	101,
-	"pg"		:	2,
-	"vnotecount"	:	[136,97,115],
-	"ad"		:	20150501,
-	"ud"		:	20150510
+	"pg"		:	3,
+	"vnotecount"	:	[136,98,116],
+	"ad"		:	20151029
 	},
 	{
 	"id"		:	"Bus3003",
@@ -405,30 +421,31 @@
 	"title"		:	"A qui vens tu tes coquilles",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["Superius","Tenor","Contra"],
-	"vabbr"		:	["S","T","C"],
+	"vname"		:	["Discantus","Tenor","Contra"],
+	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	166,
 	"notecount"	:	272,
 	"sec"		:	71,
-	"pg"		:	1,
+	"pg"		:	2,
 	"vnotecount"	:	[94,92,86],
-	"ad"		:	20150220,
-	"ud"		:	20150610
+	"ad"		:	20151029,
+	"ud"		:	20151030
 	},
 	{
 	"id"		:	"Bus3005",
 	"title"		:	"Au gre de mes ieulx",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["Superius","Tenor","Contra"],
-	"vabbr"		:	["S","T","C"],
+	"vname"		:	["Discantus","Tenor","Contra"],
+	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	166,
 	"notecount"	:	265,
-	"sec"		:	101,
+	"sec"		:	94,
 	"pg"		:	2,
 	"vnotecount"	:	[101,104,60],
-	"ad"		:	20150501,
-	"ud"		:	20150510
+	"ad"		:	20151105
 	},
 	{
 	"id"		:	"Bus3006",
@@ -465,15 +482,16 @@
 	"title"		:	"A vous sans aultre",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["Cantus","Tenor","Contratenor"],
-	"vabbr"		:	["Cn","T","Ct"],
+	"vname"		:	["Discantus","Tenor","Contratenor"],
+	"vabbr"		:	["D","T","Ct"],
+	"text"		:	"true",
 	"ih"		:	166,
-	"notecount"	:	358,
+	"notecount"	:	356,
 	"sec"		:	86,
 	"pg"		:	2,
-	"vnotecount"	:	[112,133,113],
-	"ad"		:	20150220,
-	"ud"		:	20150510
+	"vnotecount"	:	[112,133,111],
+	"ad"		:	20151029,
+	"ud"		:	20151105
 	},
 	{
 	"id"		:	"Bus3009",
@@ -657,6 +675,66 @@
 	"ud"		:	20150510
 	},
 	{
+	"id"		:	"Bus3022",
+	"title"		:	"Faulx mesdisans",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contratenor"],
+	"vabbr"		:	["S","T","Ct"],
+	"ih"		:	166,
+	"notecount"	:	551,
+	"sec"		:	104,
+	"pg"		:	2,
+	"vnotecount"	:	[180,189,182],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3023",
+	"title"		:	"Ha que ville I",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contratenor"],
+	"vabbr"		:	["S","T","Ct"],
+	"ih"		:	337,
+	"notecount"	:	272,
+	"sec"		:	55,
+	"pg"		:	1,
+	"vnotecount"	:	[94,97,81],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3024",
+	"title"		:	"Ha que ville II",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	340,
+	"notecount"	:	258,
+	"sec"		:	55,
+	"pg"		:	2,
+	"vnotecount"	:	[80,85,93],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3025",
+	"title"		:	"In myne zynn",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	402,
+	"notecount"	:	541,
+	"sec"		:	102,
+	"pg"		:	1,
+	"vnotecount"	:	[140,127,154,120],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
 	"id"		:	"Bus3026",
 	"title"		:	"Ja que li ne s'i attende",
 	"genre"		:	"song",
@@ -670,6 +748,51 @@
 	"vnotecount"	:	[137,126,102],
 	"ad"		:	20150220,
 	"ud"		:	20150510
+	},
+	{
+	"id"		:	"Bus3027",
+	"title"		:	"J'ay mains de biens",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contratenor"],
+	"vabbr"		:	["S","T","Ct"],
+	"ih"		:	166,
+	"notecount"	:	448,
+	"sec"		:	113,
+	"pg"		:	2,
+	"vnotecount"	:	[159,130,159],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3028",
+	"title"		:	"Je m'esbais de vous",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Discantus","Tenor","Contra"],
+	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
+	"ih"		:	171,
+	"notecount"	:	310,
+	"sec"		:	74,
+	"pg"		:	2,
+	"vnotecount"	:	[108,105,97],
+	"ad"		:	20151029
+	},
+	{
+	"id"		:	"Bus3029",
+	"title"		:	"Je ne demande aultre degre",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Tenor","Contratenor","Bassus"],
+	"vabbr"		:	["S","T","Ct","B"],
+	"ih"		:	198,
+	"notecount"	:	550,
+	"sec"		:	104,
+	"pg"		:	3,
+	"vnotecount"	:	[138,154,119,139],
+	"ad"		:	20150505,
+	"ud"		:	20150921
 	},
 	{
 	"id"		:	"Bus3032",
@@ -687,6 +810,36 @@
 	"ud"		:	20150510
 	},
 	{
+	"id"		:	"Bus3034",
+	"title"		:	"L'autrier la pieca",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	204,
+	"notecount"	:	419,
+	"sec"		:	95,
+	"pg"		:	3,
+	"vnotecount"	:	[116,106,84,113],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3035",
+	"title"		:	"L'autrier que passa",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Tenor","Altus","Bassus"],
+	"vabbr"		:	["S","T","A","B"],
+	"ih"		:	198,
+	"notecount"	:	506,
+	"sec"		:	109,
+	"pg"		:	3,
+	"vnotecount"	:	[158,103,140,105],
+	"ad"		:	20150607,
+	"ud"		:	20150921
+	},
+	{
 	"id"		:	"Bus3036",
 	"title"		:	"Le corps s'en va",
 	"genre"		:	"song",
@@ -700,6 +853,52 @@
 	"vnotecount"	:	[114,115,118],
 	"ad"		:	20150220,
 	"ud"		:	20150510
+	},
+	{
+	"id"		:	"Bus3037",
+	"title"		:	"Le monde est tel",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	171,
+	"notecount"	:	387,
+	"sec"		:	95,
+	"pg"		:	2,
+	"vnotecount"	:	[119,130,138],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3038",
+	"title"		:	"Ma demoiselle m'a maistresse",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	342,
+	"notecount"	:	317,
+	"sec"		:	77,
+	"pg"		:	2,
+	"vnotecount"	:	[105,112,100],
+	"ad"		:	20150505,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3039",
+	"title"		:	"Maintes femmes",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Discantus","Contra","Tenor","Bassus"],
+	"vabbr"		:	["D","C","T","B"],
+	"text"		:	"true",
+	"ih"		:	402,
+	"notecount"	:	485,
+	"sec"		:	91,
+	"pg"		:	0,
+	"vnotecount"	:	[153,139,69,124],
+	"ad"		:	20151029,
+	"ud"		:	20151030
 	},
 	{
 	"id"		:	"Bus3040",
@@ -717,6 +916,21 @@
 	"ud"		:	20150510
 	},
 	{
+	"id"		:	"Bus3041",
+	"title"		:	"Ma tres souveraine princesse",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	166,
+	"notecount"	:	362,
+	"sec"		:	81,
+	"pg"		:	2,
+	"vnotecount"	:	[126,114,122],
+	"ad"		:	20150506,
+	"ud"		:	20150921
+	},
+	{
 	"id"		:	"Bus3042",
 	"title"		:	"M'a vostre cueur",
 	"genre"		:	"song",
@@ -730,6 +944,36 @@
 	"vnotecount"	:	[207,189,179],
 	"ad"		:	20150413,
 	"ud"		:	20150510
+	},
+	{
+	"id"		:	"Bus3043",
+	"title"		:	"Mon mignault/Gracieuse plaisante muniere",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	403,
+	"notecount"	:	342,
+	"sec"		:	73,
+	"pg"		:	2,
+	"vnotecount"	:	[107,78,76,81],
+	"ad"		:	20150512,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3044",
+	"title"		:	"Mon seul et cel&eacute; souvenir",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contratenor"],
+	"vabbr"		:	["S","T","Ct"],
+	"ih"		:	166,
+	"notecount"	:	344,
+	"sec"		:	96,
+	"pg"		:	2,
+	"vnotecount"	:	[123,105,116],
+	"ad"		:	20150607,
+	"ud"		:	20150921
 	},
 	{
 	"id"		:	"Bus3045",
@@ -747,6 +991,21 @@
 	"ud"		:	20150510
 	},
 	{
+	"id"		:	"Bus3046",
+	"title"		:	"On a grant mal/On est bien malade",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Tenor I","Tenor II","Contratenor"],
+	"vabbr"		:	["S","T","T","Ct"],
+	"ih"		:	423,
+	"notecount"	:	359,
+	"sec"		:	76,
+	"pg"		:	2,
+	"vnotecount"	:	[115,101,75,68],
+	"ad"		:	20150512,
+	"ud"		:	20150921
+	},
+	{
 	"id"		:	"Bus3047",
 	"title"		:	"Pour entretenir mes amours",
 	"genre"		:	"song",
@@ -762,19 +1021,109 @@
 	"ud"		:	20150510
 	},
 	{
+	"id"		:	"Bus3048",
+	"title"		:	"Pucellotte que dieu vous gart",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	337,
+	"notecount"	:	255,
+	"sec"		:	58,
+	"pg"		:	2,
+	"vnotecount"	:	[93,80,82],
+	"ad"		:	20150512,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3049",
+	"title"		:	"Quant j'ay au cueur",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	337,
+	"notecount"	:	360,
+	"sec"		:	94,
+	"pg"		:	2,
+	"vnotecount"	:	[141,114,105],
+	"ad"		:	20150512,
+	"ud"		:	20150921
+	},
+	{
 	"id"		:	"Bus3050",
 	"title"		:	"Quant vous me ferez",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["Superius","Tenor","Contratenor"],
-	"vabbr"		:	["S","T","Ct"],
+	"vname"		:	["Discantus","Tenor","Contra"],
+	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	166,
-	"notecount"	:	227,
+	"notecount"	:	225,
 	"sec"		:	60,
-	"pg"		:	1,
-	"vnotecount"	:	[85,73,69],
-	"ad"		:	20150413,
-	"ud"		:	20150510
+	"pg"		:	2,
+	"vnotecount"	:	[83,73,69],
+	"ad"		:	20151029,
+	"ud"		:	20151030
+	},
+	{
+	"id"		:	"Bus3051",
+	"title"		:	"Quelque pauvre homme I",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	337,
+	"notecount"	:	353,
+	"sec"		:	85,
+	"pg"		:	2,
+	"vnotecount"	:	[112,124,117],
+	"ad"		:	20150512,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3052",
+	"title"		:	"Quelque pauvre homme II",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	171,
+	"notecount"	:	386,
+	"sec"		:	102,
+	"pg"		:	2,
+	"vnotecount"	:	[138,117,131],
+	"ad"		:	20150513,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3053",
+	"title"		:	"Resjois toy terre de France/Rex pacificus",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Contra","Tenor","Contra"],
+	"vabbr"		:	["S","C","T","C"],
+	"ih"		:	409,
+	"notecount"	:	452,
+	"sec"		:	117,
+	"pg"		:	3,
+	"vnotecount"	:	[145,129,112,66],
+	"ad"		:	20160208
+	},
+	{
+	"id"		:	"Bus3056",
+	"title"		:	"Terrible dame",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Discantus","Altus","Tenor","Bassus"],
+	"vabbr"		:	["D","A","T","B"],
+	"text"		:	"true",
+	"ih"		:	206,
+	"notecount"	:	542,
+	"sec"		:	93,
+	"pg"		:	3,
+	"vnotecount"	:	[154,162,108,118],
+	"ad"		:	20151101
 	},
 	{
 	"id"		:	"Bus3060",
@@ -792,6 +1141,36 @@
 	"ud"		:	20150510
 	},
 	{
+	"id"		:	"Bus3061",
+	"title"		:	"Vous marchez/Marionnette",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Tenor I","Tenor II","Contratenor"],
+	"vabbr"		:	["S","T","T","Ct"],
+	"ih"		:	215,
+	"notecount"	:	375,
+	"sec"		:	85,
+	"pg"		:	2,
+	"vnotecount"	:	[134,84,63,94],
+	"ad"		:	20150513,
+	"ud"		:	20150921
+	},
+	{
+	"id"		:	"Bus3062",
+	"title"		:	"Vostre gracieuse acointance",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	337,
+	"notecount"	:	287,
+	"sec"		:	77,
+	"pg"		:	2,
+	"vnotecount"	:	[102,100,85],
+	"ad"		:	20150513,
+	"ud"		:	20150921
+	},
+	{
 	"id"		:	"Bus3064",
 	"title"		:	"Armours fait moult tant/Il est de bonne heure n&eacute;/Tant que nostre argent dura",
 	"genre"		:	"song",
@@ -805,6 +1184,21 @@
 	"vnotecount"	:	[122,98,77,52],
 	"ad"		:	20131018,
 	"ud"		:	20131219
+	},
+	{
+	"id"		:	"Bus3069",
+	"title"		:	"J'ay pris amours",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	198,
+	"notecount"	:	458,
+	"sec"		:	93,
+	"pg"		:	2,
+	"vnotecount"	:	[133,120,82,123],
+	"ad"		:	20150607,
+	"ud"		:	20150921
 	},
 	{
 	"id"		:	"Bus3073",
@@ -1244,17 +1638,17 @@
 "comlong"	:	"Guillaume Du Fay",
 "comshort"	:	"Du Fay",
 "comdates"	:	"ca. 1397&ndash;1474",
-"repwork"	:	10,
+"repwork"	:	9,
 "genres"	:
 	[
-	{"name":"mass", "count":7},
+	{"name":"mass", "count":4},
 	{"name":"motet", "count":2},
 	{"name":"song", "count":3}
 	],
-"liststyle"	:	"genre",
+"liststyle"	:	"alphabetical",
 "notecount"	:	31253,
 "sec"		:	7583,
-"pg"		:	161,
+"pg"		:	162,
 "works"		:	
 	[
 	{
@@ -1375,7 +1769,7 @@
 	"ih"		:	161,
 	"notecount"	:	269,
 	"sec"		:	67,
-	"pg"		:	0,
+	"pg"		:	1,
 	"vnotecount"	:	[95,92,82],
 	"ad"		:	20121220
 	},
@@ -5290,7 +5684,7 @@
 	"voices"	:	"3",
 	"vname"		:	["Superius","Tenor","Contra"],
 	"vabbr"		:	["S","T","C"],
-	"ih"		:	0,
+	"ih"		:	161,
 	"notecount"	:	493,
 	"sec"		:	101,
 	"pg"		:	2,
@@ -9999,7 +10393,7 @@
 	{"name":"song", "count":26}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	87910,
+"notecount"	:	87890,
 "sec"		:	23855,
 "pg"		:	453,
 "works"		:	
@@ -10140,17 +10534,18 @@
 	"title"		:	"Missa Ecce ancilla Domini",
 	"genre"		:	"mass",
 	"voices"	:	"4",
-	"notecount"	:	6466,
+	"notecount"	:	6447,
 	"sec"		:	1661,
 	"pg"		:	31,
-	"ad"		:	20120929,
+	"ad"		:	20151206,
+	"ud"		:	20151207,
 	"sections"	:
 		[
-		{"id":"Ock1006a", "stitle":"Kyrie", "v":"4", "nc":930, "sec":244, "pg":4, "vnc":[107, 150, 312, 361], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "ad":20120917},
-		{"id":"Ock1006b", "stitle":"Gloria", "v":"4", "nc":1524, "sec":382, "pg":8, "vnc":[355, 211, 490, 468], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "ad":20120917},
-		{"id":"Ock1006c", "stitle":"Credo", "v":"4", "nc":2136, "sec":505, "pg":10, "vnc":[531, 284, 719, 602], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "ad":20120917},
-		{"id":"Ock1006d", "stitle":"Sanctus", "v":"4", "nc":1056, "sec":298, "pg":5, "vnc":[204, 88, 399, 365], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "ad":20120929},
-		{"id":"Ock1006e", "stitle":"Agnus Dei", "v":"4", "nc":820, "sec":232, "pg":4, "vnc":[124, 92, 292, 312], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "ad":20120929}
+		{"id":"Ock1006a", "stitle":"Kyrie", "v":"4", "nc":931, "sec":244, "pg":4, "vnc":[108, 150, 312, 361], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "text":"true", "ad":20151206, "ud":20151207},
+		{"id":"Ock1006b", "stitle":"Gloria", "v":"4", "nc":1526, "sec":382, "pg":8, "vnc":[356, 212, 490, 468], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "text":"true", "ad":20151206, "ud":20151207},
+		{"id":"Ock1006c", "stitle":"Credo", "v":"4", "nc":2110, "sec":505, "pg":10, "vnc":[526, 284, 709, 591], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "text":"true", "ad":20151205, "ud":20151207},
+		{"id":"Ock1006d", "stitle":"Sanctus", "v":"4", "nc":1060, "sec":298, "pg":5, "vnc":[207, 88, 399, 366], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "text":"true", "ad":20151206, "ud":20151207},
+		{"id":"Ock1006e", "stitle":"Agnus Dei", "v":"4", "nc":820, "sec":232, "pg":4, "vnc":[124, 92, 292, 312], "ih":198, "vname":["Discantus","Contratenor","Tenor","Bassus"], "vabbr":["D","Ct","T","B"], "text":"true", "ad":20151206, "ud":20151207}
 		]
 	},
 	{
@@ -10360,13 +10755,14 @@
 	"voices"	:	"3",
 	"vname"		:	["Discantus","Tenor","Contra"],
 	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	161,
 	"notecount"	:	277,
 	"sec"		:	56,
 	"pg"		:	0,
 	"vnotecount"	:	[97,85,95],
-	"ad"		:	20120629,
-	"ud"		:	20120716
+	"ad"		:	20151029,
+	"ud"		:	20151031
 	},
 	{
 	"id"		:	"Ock3002",
@@ -10417,15 +10813,15 @@
 	"title"		:	"Fors seulement l'attente",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["Superius","Tenor","Contra"],
-	"vabbr"		:	["S","T","C"],
+	"vname"		:	["Tenor","Discantus","Contra"],
+	"vabbr"		:	["T","D","C"],
+	"text"		:	"true",
 	"ih"		:	156,
 	"notecount"	:	329,
 	"sec"		:	110,
 	"pg"		:	2,
-	"vnotecount"	:	[143,96,90],
-	"ad"		:	20120625,
-	"ud"		:	20120627
+	"vnotecount"	:	[95,144,90],
+	"ad"		:	20151101
 	},
 	{
 	"id"		:	"Ock3006",
@@ -10463,13 +10859,14 @@
 	"voices"	:	"3",
 	"vname"		:	["Discantus","Tenor","Contra"],
 	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	161,
 	"notecount"	:	303,
 	"sec"		:	92,
 	"pg"		:	2,
 	"vnotecount"	:	[114,82,107],
-	"ad"		:	20120629,
-	"ud"		:	20120716
+	"ad"		:	20151029,
+	"ud"		:	20151031
 	},
 	{
 	"id"		:	"Ock3009",
@@ -10522,13 +10919,14 @@
 	"voices"	:	"3",
 	"vname"		:	["Discantus","Tenor","Contra"],
 	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	161,
-	"notecount"	:	540,
+	"notecount"	:	539,
 	"sec"		:	152,
 	"pg"		:	3,
-	"vnotecount"	:	[193,178,169],
-	"ad"		:	20120629,
-	"ud"		:	20120716
+	"vnotecount"	:	[192,178,169],
+	"ad"		:	20151029,
+	"ud"		:	20151031
 	},
 	{
 	"id"		:	"Ock3013",
@@ -10580,15 +10978,15 @@
 	"title"		:	"Presque transi",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["D","C","T"],
-	"vabbr"		:	["P1","P2","P3"],
+	"vname"		:	["Discantus","Contra","Tenor"],
+	"vabbr"		:	["D","C","T"],
 	"text"		:	"true",
 	"ih"		:	166,
 	"notecount"	:	515,
 	"sec"		:	293,
 	"pg"		:	3,
 	"vnotecount"	:	[176,167,172],
-	"ad"		:	20120816
+	"ad"		:	20151105
 	},
 	{
 	"id"		:	"Ock3017",
@@ -10747,19 +11145,38 @@
 "comlong"	:	"Marbrianus de Orto",
 "comshort"	:	"de Orto",
 "comdates"	:	"ca. 1460&ndash;1529",
-"repwork"	:	22,
+"repwork"	:	23,
 "genres"	:
 	[
-	{"name":"mass", "count":7},
+	{"name":"mass", "count":8},
 	{"name":"motet", "count":8},
 	{"name":"song", "count":7}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	45434,
-"sec"		:	10789,
-"pg"		:	215,
+"notecount"	:	52862,
+"sec"		:	12340,
+"pg"		:	241,
 "works"		:	
 	[
+	{
+	"id"		:	"Ort1001",
+	"title"		:	"Missa Dominicalis",
+	"genre"		:	"mass",
+	"voices"	:	"4",
+	"notecount"	:	7428,
+	"sec"		:	1551,
+	"pg"		:	30,
+	"ad"		:	20130812,
+	"ud"		:	20160208,
+	"sections"	:
+		[
+		{"id":"Ort1001a", "stitle":"Kyrie", "v":"4", "nc":801, "sec":173, "pg":3, "vnc":[208, 136, 237, 220], "ih":198, "vname":["Discantus","Altus","Tenor","Bassus"], "vabbr":["D","A","T","B"], "ad":20130811, "ud":20160208},
+		{"id":"Ort1001b", "stitle":"Gloria", "v":"4", "nc":1558, "sec":328, "pg":6, "vnc":[428, 290, 433, 407], "ih":198, "vname":["Discantus","Altus","Tenor","Bassus"], "vabbr":["D","A","T","B"], "ad":20130811, "ud":20160208},
+		{"id":"Ort1001c", "stitle":"Credo", "v":"4", "nc":2300, "sec":389, "pg":8, "vnc":[599, 500, 693, 508], "ih":198, "vname":["Discantus","Altus","Tenor","Bassus"], "vabbr":["D","A","T","B"], "ad":20130812, "ud":20160208},
+		{"id":"Ort1001d", "stitle":"Sanctus", "v":"4", "nc":1455, "sec":362, "pg":7, "vnc":[364, 143, 500, 448], "ih":198, "vname":["Discantus","Altus","Tenor","Bassus"], "vabbr":["D","A","T","B"], "ad":20130812, "ud":20160208},
+		{"id":"Ort1001e", "stitle":"Agnus Dei", "v":"4", "nc":1314, "sec":300, "pg":6, "vnc":[311, 226, 411, 366], "ih":198, "vname":["Discantus","Altus","Tenor","Bassus"], "vabbr":["D","A","T","B"], "ad":20130812, "ud":20160208}
+		]
+	},
 	{
 	"id"		:	"Ort1002",
 	"title"		:	"Missa J'ay pris amours",
@@ -11081,7 +11498,7 @@
 	"ih"		:	198,
 	"notecount"	:	608,
 	"sec"		:	122,
-	"pg"		:	4,
+	"pg"		:	0,
 	"vnotecount"	:	[115,164,153,176],
 	"ad"		:	20130806
 	},
