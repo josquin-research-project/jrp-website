@@ -24,22 +24,30 @@ var AUDIOid        = '';                   // currently playing audio button.
 // List of Key Codes.  More can be extracted from this page:
 // http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
 const AKey            = 65; // Letters
+const BKey            = 66;
 const CKey            = 67;
 const DKey            = 68;
 const EKey            = 69;
 const FKey            = 70;
+const GKey            = 71;
+const HKey            = 72;
 const IKey            = 73;
 const JKey            = 74;
+const KKey            = 75;
 const LKey            = 76;
 const MKey            = 77;
 const NKey            = 78;
 const OKey            = 79;
 const PKey            = 80;
+const QKey            = 81;
 const RKey            = 82;
 const SKey            = 83;
 const TKey            = 84;
 const UKey            = 85;
 const VKey            = 86;
+const WKey            = 87;
+const XKey            = 88;
+const YKey            = 89;
 const ZKey            = 90;
 const ZeroKey         = 48; // Numbers
 const OneKey          = 49;
@@ -78,6 +86,9 @@ const F7Key           = 118;
 const F8Key           = 119;
 const F9Key           = 120;
 const F10Key          = 121;
+const SlashKey        = 191;
+const SquareLeftKey   = 219;
+const SquareRightKey  = 221;
 
 // Arrows:
 const UpArrowKey      = 38;    // maybe also 30 & 57373

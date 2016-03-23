@@ -213,6 +213,7 @@ function doSearch() {
 	QUERY.pitch    = pitch.value;
 	QUERY.rhythm   = rhythm.value;
 	QUERY.interval = interval.value;
+   QUERY.requestTime = new Date().getTime() / 1000;
 	sessionStorage.QUERY = JSON.stringify(QUERY);
 
 	window.location.href = "/search-results";

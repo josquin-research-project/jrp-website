@@ -796,6 +796,8 @@ function displayWork(jrpid) {
 
 function showDownloadArea(jrpid, stitle) {
 
+	var cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
+
 	// Set the Downloads area //////////////////////////////////////////////
 	var download = "<h3 class=\"brown-border\">Downloads";
    if ((typeof stitle !== 'undefined') &&(stitle.length > 0)) {
@@ -818,14 +820,20 @@ function showDownloadArea(jrpid, stitle) {
 	download += "/data?a=midi&f=" + jrpid;
 	download += "\">MIDI</a></li>\n";
 
+	download += "<li><div class=\"icon-file-list\"><nobr>";
+	download += "<a class=\"xlink\" target=\"new\" href=\"";
+	download += "/data?a=humdrum&f=" + jrpid;
+	download += "\">Humdrum</a> ";
+	download += "(<a class=\"xlink\" target=new ";
+	download += "href=\"https://github.com/josquin-research-project/";
+	download += cshort;
+	download += "\">";
+	download += "on Github</a>)</nobr></div></li>\n";
+
 	download += "</ul>\n";
 	download += "</div>\n";
 	download += "<div class=\"col\">\n";
 	download += "<ul>\n";
-
-	download += "<li><a target=\"new\" class=\"icon-file-list\" href=\"";
-	download += "/data?a=humdrum&f=" + jrpid;
-	download += "\">Humdrum</a></li>\n";
 
 	download += "<li><a target=new class=\"icon-list\" href=\"";
 	download += "/data?a=musedata&f=" + jrpid;
@@ -836,7 +844,8 @@ function showDownloadArea(jrpid, stitle) {
 	download += "\">NoteArray</a></li>\n";
 
 	download += "<li><a target=new class=\"icon-list\" href=\"";
-	download += "/data?a=proll-json&f=" + jrpid;
+	// download += "/data?a=proll-json&f=" + jrpid;
+	download += "/proll/?id=" + jrpid;
 	download += "\">JSON Piano Roll</a></li>\n";
 
 	download += "</ul>\n";
@@ -1590,7 +1599,8 @@ function showWorkAnalysis(analysistype) {
 		localStorage.ANALYSISwork		 = localStorage.WORKjrpid;
 		url = "/analysis/activity";
 	} else if (analysistype === "proll") {
-		url = "/data?a=proll&id=" + sectionid;
+		// url = "/data?a=proll&id=" + sectionid;
+		url = "/proll?id=" + sectionid;
 	} else if (analysistype === "suspension") {
 		url = "/data?a=suspensionpdf&id=" + sectionid;
 	}

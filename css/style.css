@@ -2088,7 +2088,8 @@ table.search-results-table span.location span.point.point-green {
 	display: block;
 }
 #primary-content.work-content .downloads .col ul li > div, 
-#primary-content.work-content .downloads .col ul li > a {
+#primary-content.work-content .downloads .col ul li > a,
+.xlink {
 	color: #97897d;
 	font-family: "Lato";
 	font-size: 16px;
@@ -2098,6 +2099,13 @@ table.search-results-table span.location span.point.point-green {
 	display: block;
 	margin-bottom: 15px;
 }
+
+.xlink {
+   display: inline !important;
+	padding: 0;
+}
+
+
 #primary-content.work-content .downloads .col ul li > div:before, 
 #primary-content.work-content .downloads .col ul li > a:before {
 	content: "";

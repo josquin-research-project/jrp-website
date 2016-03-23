@@ -119,6 +119,7 @@ function createSearchResult() {
 	var rhythm    = QUERY.rhythm;
 	var composers = QUERY.composer;
 	var genres    = QUERY.genre;
+   var requestTime = QUERY.requestTime;
 
 	var searchparam = "";
 	if (composers != "") {
@@ -276,6 +277,7 @@ function doSearch() {
 	QUERY.pitch    = pitch.value;
 	QUERY.rhythm   = rhythm.value;
 	QUERY.interval = interval.value;
+   QUERY.requestTime = new Date().getTime() / 1000;
 	sessionStorage.QUERY = JSON.stringify(QUERY);
 
 	window.location.href = "/search-results";
@@ -973,15 +975,18 @@ function createThemax() {
    var pitch    = "";
 	var interval = "";
 	var rhythm   = "";
+   var requesttime = 0;
 
 	if ((typeof QUERY !== 'undefined') && (QUERY != "") && (QUERY != null)) {
 		pitch    = QUERY.pitch;
 		interval = QUERY.interval;
 		rhythm   = QUERY.rhythm;
+      requestTime = QUERY.requestTime;
    } else  if ((SEARCHLIST != null) && (SEARCHLIST != "")) {
 		pitch    = SEARCHLIST.query.pitch;
 		interval = SEARCHLIST.query.interval;
 		rhythm   = SEARCHLIST.query.rhythm;
+      requestTime = SEARCHLIST.requestTime;
    }
   
 	pitch = pitch.replace(/[\\;\/\`\"\']/g, "");
