@@ -153,7 +153,7 @@ function getErrorForm(jrpid, workinfo) {
 	output += "<div style=\"height:200px;\"></div>\n";
 	output += "</div>\n";
    output += "<form name=\"jrp\"";
-	output += " action=\"/data\" method=\"get\">\n";
+	output += " action=\"/cgi-bin/josquin\" method=\"get\">\n";
 	output += "<input id=\"referer\" type=hidden name=error_referer value=\"" 
    output += document.referrer + "\">\n";
 	output += "<input type=hidden name=error_catalog value=\"" + jrpid + "\">\n";

@@ -12,7 +12,7 @@
 
 use strict;
 my $datadir = "/project/josquin/data";
-my $subdir  = "midi-rendered/default";
+my $subdir  = "midi-mp3/default";
 
 processData($datadir, $subdir);
 makeWorkLinks();

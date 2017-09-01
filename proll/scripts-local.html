@@ -3,6 +3,7 @@
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Sat Mar  5 07:13:29 PST 2016
 // Last Modified:	Tue Mar  8 08:09:38 PST 2016
+// Last Modified:	Sat May 28 05:51:36 PDT 2016 Revese order of voices
 // Filename:		testroll/scripts-local.js
 // Web Address:	http://josquin.stanford.edu/testroll/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5; jQuery 2.0
@@ -38,9 +39,9 @@ function getJrpid() {
 	var CgiParameters;
 	cgiinit++;
 	CgiParameters = GetCgiParameters();
-   if (cgiinit > 0) {
+	if (cgiinit > 0) {
 		return localStorage.PIANOROLLjrpid;
-   }
+	}
 
 	if (localStorage.PIANOROLLjrpid === "undefined") {
 		localStorage.removeItem("PIANOROLLjrpid");
@@ -136,9 +137,9 @@ function prepareTimemap() {
 //
 
 function PlayAudioFile2(jrpid, element, time) {
-   if (!element) {
-      element = document.querySelector("#audio2");
-   }
+	if (!element) {
+		element = document.querySelector("#audio2");
+	}
 
 	// The JRPID is not the same as the currently playing file
 	// (or there is no file playing).  So start the new one.
@@ -159,12 +160,12 @@ function PlayAudioFile2(jrpid, element, time) {
 	AUDIO.style.right    = '0';
 	AUDIO.style.zIndex   = '1';
 
-   if (time) {
-      AUDIO.currentTime(time);
-   }
+	if (time) {
+		AUDIO.currentTime(time);
+	}
 
-   AUDIO.addEventListener('pause', pauseCallback);
-   AUDIO.addEventListener('play', playCallback);
+	AUDIO.addEventListener('pause', pauseCallback);
+	AUDIO.addEventListener('play', playCallback);
 
 	var audiobutton;
 	if (jrpid != AUDIOjrpid) {
@@ -256,8 +257,8 @@ function PlayAudioFile2(jrpid, element, time) {
 //
 
 function pauseCallback() {
-   PLAY_STATE = 0;
-   unhighlightAll(NOTE_ON_TIMES);
+	PLAY_STATE = 0;
+	unhighlightAll(NOTE_ON_TIMES);
 }
 
 
@@ -269,11 +270,11 @@ function pauseCallback() {
 //
 
 function unhighlightAll(list) {
-   var cn;
-   var matches;
-   for (var i=0; i<list.length; i++) {
-      turnOffNote(list[i].index);
-   }
+	var cn;
+	var matches;
+	for (var i=0; i<list.length; i++) {
+		turnOffNote(list[i].index);
+	}
 }
 
 
@@ -284,14 +285,14 @@ function unhighlightAll(list) {
 //
 
 function turnOnNote(index) {
-   var rects = document.querySelectorAll("svg rect");
-   // var note = RECTS[index];
-   var note = rects[index];
-   var cn = note.className.baseVal;
-   if (!cn.match(/highlight/)) {
-      cn += " highlight";
-      note.className.baseVal = cn;
-   }
+	var rects = document.querySelectorAll("svg rect");
+	// var note = RECTS[index];
+	var note = rects[index];
+	var cn = note.className.baseVal;
+	if (!cn.match(/highlight/)) {
+		cn += " highlight";
+		note.className.baseVal = cn;
+	}
 }
 
 
@@ -302,13 +303,13 @@ function turnOnNote(index) {
 //
 
 function turnOffNote(index) {
-   var rects = document.querySelectorAll("svg rect");
-   var note = rects[index];
-   var cn = note.getAttribute('class');
-   if (cn.match(/highlight/)) {
-      cn = cn.replace(/highlight/, '');
-      note.setAttribute('class', cn);
-   }
+	var rects = document.querySelectorAll("svg rect");
+	var note = rects[index];
+	var cn = note.getAttribute('class');
+	if (cn.match(/highlight/)) {
+		cn = cn.replace(/highlight/, '');
+		note.setAttribute('class', cn);
+	}
 }
 
 
@@ -320,10 +321,10 @@ function turnOffNote(index) {
 
 function playCallback(event) {
 	var iface = document.querySelector("audio");
-   if (STARTTIME > 0) {
-      iface.currentTime = STARTTIME;
-      STARTTIME = -1;
-   }
+	if (STARTTIME > 0) {
+		iface.currentTime = STARTTIME;
+		STARTTIME = -1;
+	}
 	LAST_TIME = iface.currentTime;
 	PLAY_STATE = 1;
 	var that = this;
@@ -332,11 +333,11 @@ function playCallback(event) {
 			clearInterval(REFRESH);
 			return;
 		}
-      var duration = iface.duration;
-      if (duration > 0) {
-         var fraction = iface.currentTime / duration;
-         centerSvg(fraction);
-      }
+		var duration = iface.duration;
+		if (duration > 0) {
+			var fraction = iface.currentTime / duration;
+			centerSvg(fraction);
+		}
 		var delta = iface.currentTime - LAST_TIME;
 		if (delta == 0.0) {
 			return;
@@ -355,37 +356,37 @@ function playCallback(event) {
 //
 
 function centerSvg(fraction) {
-   var svg = document.querySelector("#svg-container svg");
-   var box = svg.getBoundingClientRect();
+	var svg = document.querySelector("#svg-container svg");
+	var box = svg.getBoundingClientRect();
 
-   var sw = box.width;
-   var ww = window.innerWidth;
-   var newx = sw * fraction - ww / 2.0;
-   if (newx < 0) {
-      newx = 0;
-   }
-   var oldx = window.scrollX;
+	var sw = box.width;
+	var ww = window.innerWidth;
+	var newx = sw * fraction - ww / 2.0;
+	if (newx < 0) {
+		newx = 0;
+	}
+	var oldx = window.scrollX;
 
 
-   var diff = Math.abs(newx - oldx);
+	var diff = Math.abs(newx - oldx);
 
-   var factor = 0.9999;
-   if ((newx < oldx)) {
-      if (newx > oldx - ww/2.0) {
-         // don't scroll if catching up to center of window.
-         return;
-      } else {
-         factor = 0.99;
-      }
-   }
-   if (diff > 3) {
-      if (newx < oldx) {
-         newx = newx + diff * factor;
-      } else {
-         newx = oldx + diff * factor;
-      }
-   }
-   window.scroll(newx, window.scrollY);
+	var factor = 0.9999;
+	if ((newx < oldx)) {
+		if (newx > oldx - ww/2.0) {
+			// don't scroll if catching up to center of window.
+			return;
+		} else {
+			factor = 0.99;
+		}
+	}
+	if (diff > 3) {
+		if (newx < oldx) {
+			newx = newx + diff * factor;
+		} else {
+			newx = oldx + diff * factor;
+		}
+	}
+	window.scroll(newx, window.scrollY);
 }
 
 
@@ -402,23 +403,23 @@ function checkTimeMaps(nowtime) {
 	if (!tmon)  { return; }
 	if (!tmoff) { return; }
 
-   var i;
+	var i;
 	var ttime;
 	var lasttime = LAST_TIME;
 
 	for (i=0; i<tmon.length; i++) {
 		ttime = tmon[i].time;
-      if ((ttime >= lasttime) && (ttime <= nowtime + 0.015)) {
-         turnOnNote(tmon[i].index);
-      }
-   }
+		if ((ttime >= lasttime) && (ttime <= nowtime + 0.015)) {
+			turnOnNote(tmon[i].index);
+		}
+	}
 
 	for (i=0; i<tmoff.length; i++) {
 		ttime = tmoff[i].time;
-      if ((ttime >= lasttime) && (ttime <= nowtime + 0.015)) {
-         turnOffNote(tmon[i].index);
-      }
-   }
+		if ((ttime >= lasttime) && (ttime <= nowtime + 0.015)) {
+			turnOffNote(tmon[i].index);
+		}
+	}
 }
 
 
@@ -430,19 +431,19 @@ function checkTimeMaps(nowtime) {
 //
 
 function loadSvgImage(selector) {
-   var request = new XMLHttpRequest();
-   // request.open("GET", "piano-roll.svg");
-   var jrpid = getJrpid();
-   localStorage.PROLLjrpid = jrpid;
-   var url = "/data?a=prollsvg&id=" + jrpid;
-   request.open("GET", url);
-   request.addEventListener("load", function() {
-      var element = document.querySelector(selector);
-      if (!element) {
-         console.log("Cannot find selector", selector);
-         return;
-      }
-      element.innerHTML = request.responseText;
+	var request = new XMLHttpRequest();
+	// request.open("GET", "piano-roll.svg");
+	var jrpid = getJrpid();
+	localStorage.PROLLjrpid = jrpid;
+	var url = "/data?a=prollsvg&id=" + jrpid;
+	request.open("GET", url);
+	request.addEventListener("load", function() {
+		var element = document.querySelector(selector);
+		if (!element) {
+			console.log("Cannot find selector", selector);
+			return;
+		}
+		element.innerHTML = request.responseText;
 	   prepareTimemap();
 
 	   var grandstaff = document.querySelector("#grand-staff");
@@ -458,12 +459,11 @@ function loadSvgImage(selector) {
 	   var svg = document.querySelector("svg");
 	   svg.style.display = 'block';
 
-
-      setVoiceLabelColors();
+		setVoiceLabelColors();
 		displayFullHeight();
 
-   });
-   request.send();
+	});
+	request.send();
 }
 
 
@@ -478,24 +478,24 @@ function loadSvgImage(selector) {
 //
 
 function svgCenterVertically() {
-   var svgholder = document.querySelector("#svg-container");
-   var svg       = document.querySelector("#svg-container svg");
-   var box       = svg.getBoundingClientRect();
-   if (svgholder) {
-      var face = document.querySelector('#title-header');
-      var windowheight = window.innerHeight;
-      var consoleheight = 0;
-      if (face.style.display !== 'none') {
-         var fbox = face.getBoundingClientRect();
-         var tweak = window.innerHeight / 2
-         consoleheight = fbox.height;
-      }
-      var center = (windowheight - consoleheight) / 2
-      var toppos = center - box.height/2;
-      toppos += consoleheight;
+	var svgholder = document.querySelector("#svg-container");
+	var svg       = document.querySelector("#svg-container svg");
+	var box       = svg.getBoundingClientRect();
+	if (svgholder) {
+		var face = document.querySelector('#title-header');
+		var windowheight = window.innerHeight;
+		var consoleheight = 0;
+		if (face.style.display !== 'none') {
+			var fbox = face.getBoundingClientRect();
+			var tweak = window.innerHeight / 2
+			consoleheight = fbox.height;
+		}
+		var center = (windowheight - consoleheight) / 2
+		var toppos = center - box.height/2;
+		toppos += consoleheight;
 
-      svgholder.style.top = toppos + "px";
-   }
+		svgholder.style.top = toppos + "px";
+	}
 }
 
 
@@ -529,11 +529,11 @@ function displayStafflines(state) {
 	var svg = document.querySelector("svg");
 	var list = svg.querySelectorAll(".staff-lines");
 	for (var i=0; i<list.length; i++) {
-			if (state) {
-				list[i].style.visibility = 'visible';
-			} else {
-				list[i].style.visibility = 'hidden';
-			}
+		if (state) {
+			list[i].style.visibility = 'visible';
+		} else {
+			list[i].style.visibility = 'hidden';
+		}
 	}
 }
 
@@ -548,11 +548,11 @@ function displayLines(state) {
 	var svg = document.querySelector("svg");
 	var list = svg.querySelectorAll(".note-lines");
 	for (var i=0; i<list.length; i++) {
-			if (state) {
-				list[i].style.visibility = 'visible';
-			} else {
-				list[i].style.visibility = 'hidden';
-			}
+		if (state) {
+			list[i].style.visibility = 'visible';
+		} else {
+			list[i].style.visibility = 'hidden';
+		}
 	}
 }
 
@@ -568,11 +568,11 @@ function displayMaxima(state) {
 	var i;
 	var list = svg.querySelectorAll(".maxima");
 	for (i=0; i<list.length; i++) {
-			if (state) {
-				list[i].setAttribute("fill", "red");
-			} else {
-				list[i].setAttribute("fill", "");
-			}
+		if (state) {
+			list[i].setAttribute("fill", "red");
+		} else {
+			list[i].setAttribute("fill", "");
+		}
 	}
 }
 
@@ -588,11 +588,11 @@ function displayMinima(state) {
 	var i;
 	var list = svg.querySelectorAll(".minima");
 	for (i=0; i<list.length; i++) {
-			if (state) {
-				list[i].setAttribute("fill", "red");
-			} else {
-				list[i].setAttribute("fill", "");
-			}
+		if (state) {
+			list[i].setAttribute("fill", "red");
+		} else {
+			list[i].setAttribute("fill", "");
+		}
 	}
 }
 
@@ -607,13 +607,13 @@ function displayRound(state) {
 	var svg = document.querySelector("svg");
 	var list = svg.querySelectorAll("rect[rx]");
 	for (var i=0; i<list.length; i++) {
-			if (state) {
-				list[i].setAttribute('rx', 1);
-				list[i].setAttribute('ry', 1);
-			} else {
-				list[i].setAttribute('rx', 0);
-				list[i].setAttribute('ry', 0);
-			}
+		if (state) {
+			list[i].setAttribute('rx', 1);
+			list[i].setAttribute('ry', 1);
+		} else {
+			list[i].setAttribute('rx', 0);
+			list[i].setAttribute('ry', 0);
+		}
 	}
 }
 
@@ -648,8 +648,8 @@ function displayWidth(width) {
 function displayFullHeight() {
 	var svg        = document.querySelector("svg");
 	var fullheight = window.innerHeight;
-   var titlebox   = document.querySelector("#title-header");
-   if (titlebox && (titlebox.style.display !== 'none')) {
+	var titlebox   = document.querySelector("#title-header");
+	if (titlebox && (titlebox.style.display !== 'none')) {
 		fullheight -= titlebox.getBoundingClientRect().height;
 	}
 
@@ -675,7 +675,7 @@ function displayFullHeight() {
 		svg.setAttribute("height", imageheight);
 	}
 
-   svgCenterVertically();
+	svgCenterVertically();
 }
 
 
@@ -714,7 +714,7 @@ function displayFullWidth() {
 		svg.setAttribute("height", fullwidth * ratio);
 		width.value = 100.0;
 	}
-   svgCenterVertically();
+	svgCenterVertically();
 }
 
 
@@ -729,12 +729,12 @@ function displayFullWidth() {
 //
 
 function prepareHelpMenu(selector) {
-   var request = new XMLHttpRequest();
-   request.open("GET", "help.txt");
-   request.addEventListener("load", function() {
-      fillInHelpContainer(selector, request.responseText);
-   });
-   request.send();
+	var request = new XMLHttpRequest();
+	request.open("GET", "help.txt");
+	request.addEventListener("load", function() {
+		fillInHelpContainer(selector, request.responseText);
+	});
+	request.send();
 }
 
 
@@ -746,43 +746,43 @@ function prepareHelpMenu(selector) {
 //
 
 function fillInHelpContainer(selector, data) {
-   var lines = data.match(/[^\r\n]+/g);
-   var help = document.querySelector(selector);
-   if (!help) {
-      return;
-   }
-   var output = "";
+	var lines = data.match(/[^\r\n]+/g);
+	var help = document.querySelector(selector);
+	if (!help) {
+		return;
+	}
+	var output = "";
 
-   output += '<table id="help-table">\n';
+	output += '<table id="help-table">\n';
 
 // output += '<tr><td colspan="2">\n';
 // output += ' <b style="font-size:110%;">Keyboard commands</b>';
 // output += '</td></tr>\n';
 
-   var line;
-   for (var i=0; i<lines.length; i++) {
-      line = lines[i];
-      var matches = line.match(/^\s*(.*)\s*\t\s*(.*)\s*$/);
-      if (matches) {
-         var key  = matches[1];
-         var desc = matches[2];
-         output += '<tr><td><b>'
-         output += '<span style="color:#d8ab5c; cursor:pointer;"';
-         output += " onclick='processKeyCommand(";
-         output += '{keyCode: "' + key + '".charCodeAt(0)}' + ");'";
-         output += '>';
-         output += key
-         output += '</span>';
-         output += '</b></td>';
-         output += '<td>' + desc + '</td></tr>';
-      } else if (!line.match(/^\s*$/)) {
-         output += '<tr><td colspan="2">';
-         output += line;
+	var line;
+	for (var i=0; i<lines.length; i++) {
+		line = lines[i];
+		var matches = line.match(/^\s*(.*)\s*\t\s*(.*)\s*$/);
+		if (matches) {
+			var key  = matches[1];
+			var desc = matches[2];
+			output += '<tr><td><b>'
+			output += '<span style="color:#d8ab5c; cursor:pointer;"';
+			output += " onclick='processKeyCommand(";
+			output += '{keyCode: "' + key + '".charCodeAt(0)}' + ");'";
+			output += '>';
+			output += key
+			output += '</span>';
+			output += '</b></td>';
+			output += '<td>' + desc + '</td></tr>';
+		} else if (!line.match(/^\s*$/)) {
+			output += '<tr><td colspan="2">';
+			output += line;
 			output += '</td></tr>\n';
-      }
-   }
-   output += '</table>\n';
-   help.innerHTML = output;
+		}
+	}
+	output += '</table>\n';
+	help.innerHTML = output;
 }
 
 
@@ -793,44 +793,44 @@ function fillInHelpContainer(selector, data) {
 //
 
 function fillInTitle(selector) {
-   var element = document.querySelector(selector);
-   if (!element) {
-      return;
-   }
-   var jrpid = getJrpid();
-   var matches;
-   matches = jrpid.match(/^([A-Z][a-z][a-z])/);
-   if (!matches) {
-      console.log("Invalid jrpid");
-      return;
-   }
+	var element = document.querySelector(selector);
+	if (!element) {
+		return;
+	}
+	var jrpid = getJrpid();
+	var matches;
+	matches = jrpid.match(/^([A-Z][a-z][a-z])/);
+	if (!matches) {
+		console.log("Invalid jrpid");
+		return;
+	}
 
-   var composer = matches[1];
-   var composername = "";
-   for (var i=0; i<WORKLIST.length; i++) {
-      if (WORKLIST[i].repid === composer) {
-         var rep = WORKLIST[i];
-         var works = rep.works;
-         composername = rep.comshort;
-         for (var j=0; j<works.length; j++) {
-            if (jrpid.match(works[j].id)) {
-               var title = works[j].title;
-               if (works[j].sections) {
-                  for (var k=0; k<works[j].sections.length; k++) {
-                     if ((works[j].sections[k].id === jrpid) ||
-                        (works[j].sections[k].id === (jrpid + 'a'))) {
-                        title += " <i>" + works[j].sections[k].stitle + "</i>";
-                  		fillInVoices(works[j].sections[k].vname);
-                     }
-                  }
-               } else {
-                  fillInVoices(works[j].vname);
-               }
-            }
-         }
-      }
-   }
-   element.innerHTML = title + ", " + composername;
+	var composer = matches[1];
+	var composername = "";
+	for (var i=0; i<WORKLIST.length; i++) {
+		if (WORKLIST[i].repid === composer) {
+			var rep = WORKLIST[i];
+			var works = rep.works;
+			composername = rep.comshort;
+			for (var j=0; j<works.length; j++) {
+				if (jrpid.match(works[j].id)) {
+				   var title = works[j].title;
+				   if (works[j].sections) {
+				      for (var k=0; k<works[j].sections.length; k++) {
+				         if ((works[j].sections[k].id === jrpid) ||
+				            (works[j].sections[k].id === (jrpid + 'a'))) {
+				            title += " <i>" + works[j].sections[k].stitle + "</i>";
+				      		fillInVoices(works[j].sections[k].vname);
+				         }
+				      }
+				   } else {
+				      fillInVoices(works[j].vname);
+				   }
+				}
+			}
+		}
+	}
+	element.innerHTML = title + ", " + composername;
 }
 
 
@@ -842,25 +842,25 @@ function fillInTitle(selector) {
 //
 
 function fillInVoices(vlist) {
-   var element = document.querySelector("#voice-container");
-   if (!element) {
-      return;
-   }
-   var output = "";
-   output += "<table><tr>";
-   var i;
-   var name;
-   for (i=0; i<vlist.length; i++) {
-      output += "<td>";
+	var element = document.querySelector("#voice-container");
+	if (!element) {
+		return;
+	}
+	var output = "";
+	output += "<table><tr>";
+	var i;
+	var name;
+	for (i=0; i<vlist.length; i++) {
+		output += "<td>";
 
-      output += '<input onchange="displayVoice(this.checked, ';
-      output += vlist.length - i;
-      output += ');" id="v';
-      output += (i+1);
-      output += '" type=checkbox checked>\n';
-      output += "&nbsp;";
+		output += '<input onchange="displayVoice(this.checked, ';
+		output += i+1;
+		output += ');" id="v';
+		output += (i+1);
+		output += '" type=checkbox checked>\n';
+		output += "&nbsp;";
 
-      name = vlist[i]
+		name = vlist[i]
 					.replace(/1/, "&nbsp;I")
 					.replace(/2/, "&nbsp;II")
 					.replace(/3/, "&nbsp;III")
@@ -871,22 +871,22 @@ function fillInVoices(vlist) {
 					.replace(/8/, "&nbsp;VIII")
 					.replace(/9/, "&nbsp;IX");
 		output += '<label for="v' + (i+1) + '">';
-      output += '<span>';
-      output += name;
-      output += '</span>';
+		output += '<span>';
+		output += name;
+		output += '</span>';
 		output += '</label>';
 
-      output += "</td>";
-   }
-   output += "</tr></table>";
-   element.innerHTML = output;
+		output += "</td>";
+	}
+	output += "</tr></table>";
+	element.innerHTML = output;
 
-   VOICES = [];
-   var velem;
-   for (i=0; i<vlist.length; i++) {
-      velem = document.querySelector("#v" + (i+1));
-      VOICES.push(velem);
-   }
+	VOICES = [];
+	var velem;
+	for (i=0; i<vlist.length; i++) {
+		velem = document.querySelector("#v" + (i+1));
+		VOICES.push(velem);
+	}
 }
 
 
@@ -905,8 +905,8 @@ function toggleTitleDisplay() {
 		tcon.style.visibility = 'hidden';
 		tcon.style.display = 'none';
 	}
-   // The reason to hide the title would be to maximize
-   // the display, so do it automatically:
+	// The reason to hide the title would be to maximize
+	// the display, so do it automatically:
 	displayFullHeight();
 }
 
@@ -919,19 +919,19 @@ function toggleTitleDisplay() {
 
 function toggleHelpMenu(state) {
 	var help = document.querySelector("#help-container");
-   if (!help) {
-      return;
-   }
-   if (typeof state === 'undefined') {
-      state = help.style.display === 'none' ? 0 : 1;
-   	state = !state;
-   }
+	if (!help) {
+		return;
+	}
+	if (typeof state === 'undefined') {
+		state = help.style.display === 'none' ? 0 : 1;
+		state = !state;
+	}
 
-   if (state) {
+	if (state) {
 		help.style.display = 'block';
-   } else {
+	} else {
 		help.style.display = 'none';
-   }
+	}
 }
 
 
@@ -1075,7 +1075,7 @@ function displayNextRepertoryPage() {
 //
 
 function displayWork(jrpid) {
-   window.location = "/proll/?id=" + jrpid;
+	window.location = "/proll/?id=" + jrpid;
 }
 
 
@@ -1086,17 +1086,16 @@ function displayWork(jrpid) {
 //
 
 function setVoiceLabelColors() {
-   var svg = document.querySelector("svg");
-   var tracks = svg.querySelectorAll('g[class^="track-"]');
+	var svg = document.querySelector("svg");
+	var tracks = svg.querySelectorAll('g[class^="track-"]');
 	console.log(tracks);
-   var i;
-   for (i=0; i<tracks.length; i++) {
-      color = tracks[i].style.fill;
-		var box = document.querySelector("#v" + (i+1) + " + label");
-      box.style.color = color;
-   }
-
-
+	var i, ii;
+	for (i=0; i<tracks.length; i++) {
+      ii = tracks.length - i - 1;
+		color = tracks[i].style.fill;
+		var box = document.querySelector("#v" + (ii+1) + " + label");
+		box.style.color = color;
+	}
 }
 
 

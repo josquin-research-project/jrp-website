@@ -89,12 +89,12 @@ Handlebars.registerHelper('matchscore', function(jrpid) {
 	var themax = createThemax(QUERY);
    var out = '';
 
-   out  = '<a class="file" target="new" ';
+   out  = '<a class="file" target="_blank" ';
 	out += 'title="Score without editorial accidentals" ';
 	out += 'href="' + dataloc + '?a=notationNoEditText&id=' + jrpid;
 	out += '&themax=' + themax + '">file</a>';
 
-   out += '<a class="file-ed" target="new" ';
+   out += '<a class="file-ed" target="_blank" ';
 	out += 'title="Score with editorial accidentals" ';
 	out += 'href="' + dataloc + '?a=notationEditText&id=' + jrpid;
 	out += '&themax=' + themax + '">Ed.&nbsp;file</a>';

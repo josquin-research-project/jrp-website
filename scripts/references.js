@@ -23,7 +23,7 @@ function DisplayReferences(jrpid, target) {
 			return;
 		}
 	   var element = document.getElementById(target);
-		element.innerHTML = '<h3 class="brown-border">Reference Edition</h3>' + edition;
+		element.innerHTML = '<h3 class="brown-border">Modern Edition</h3>' + edition;
 	});
 }
 
@@ -56,7 +56,7 @@ function GetReferenceEdition(jrpid, referenceinfo) {
 
 	var output = text;
 	if (!link.match(/^\s*$/)) {
-		output = '<a href="' + link + '" target=new>' + text + '</a>';
+		output = '<a href="' + link + '" target="' + TARGET + '">' + text + '</a>';
 	}
    return output;
 }

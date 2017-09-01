@@ -125,7 +125,7 @@ function displayRandomExample() {
 
 	output += "<span style='float:right; margin-right:10px;'>";
 
-   // output += "<a target=\"new\" href=\"";
+   // output += "<a target=\"_blank\" href=\"";
 	// output += "http://data.tassomusic.org/data?a=mp3&f=" + jrpid;
 	// output += "\" class=\"play\">mp3</a>";
 
@@ -169,7 +169,8 @@ function getIncipitAsync(jrpid) {
 	}
 
    var action = "incipit-mime";
-	ReadFileAsync(dataloc + "?a=" + action + "&id=" + jrpid, function(responseText) {
+	ReadFileAsync(dataloc + "?a=" + action + "&id=" + jrpid, 
+			function(responseText) {
    	var data = responseText;
    	if (data != "") {
      		var area = document.getElementById("sample-incipit");
@@ -339,16 +340,16 @@ function printWorklistRecentEntry(entry) {
 
 	// Scores
 	output += "<td>\n";
-	output += "<a " + PDFTARGET + "href=\"";
+	output += "<a target=\"" + PDFTARGET + "\" href=\"";
 	output += dataloc + "?a=notationnoeditwithtext&f=" + jrpid;
 	output += "\" class=\"file\">file</a>\n";
-	output += "<a " + PDFTARGET + "href=\"";
+	output += "<a target=\"" + PDFTARGET + "\" href=\"";
 	output += dataloc + "?a=notationwitheditwithtext&f=" + jrpid;
 	output += "\" class=\"file-ed\">Ed.</a>\n";
 	output += "</td>\n";
 
 	// MP3 playback button
-	//output += "<td style=\"padding-left:30px;\"><a target=new href=\"http://data.tassomusic.org/data?a=mp3&f=";
+	//output += "<td style=\"padding-left:30px;\"><a target="_blank" href=\"http://data.tassomusic.org/data?a=mp3&f=";
 	//output += mjrpid + "\" class=\"play\">play</a></td>\n";
 	output += "<td style=\"padding-left:30px;\">";
 

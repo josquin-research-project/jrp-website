@@ -120,7 +120,7 @@ function generateWorkPdfs(workid) {
 
 /*
 	wc += "<a style=\"line-height:14px;\" ";
-	wc += "class=\"work-orange\" " + PDFTARGET + "href=\"";
+	wc += "class=\"work-orange\" target=\"" + PDFTARGET + "\" href=\"";
 	wc += "/data?a=notationNoEditText&f=" + workid;
 	wc += "\">";
 	wc += "<img title=\"Score of complete work\" src=/images/file-orange.png>";
@@ -128,7 +128,7 @@ function generateWorkPdfs(workid) {
 	wc += "&nbsp;&nbsp;";
 	wc += "&nbsp;&nbsp;";
 	wc += "<a title=\"with editorial accidentals\" style=\"line-height:14px;\" class=\"work-ed-orange\" ";
-	wc += PDFTARGET + "href=\"";
+	wc += " target=\"" + PDFTARGET + "\" href=\"";
 	wc += "/data?a=notationEditText&f=" + workid;
 	wc += "\">"
 	wc += "<img src=/images/file-ed-orange.png>";
@@ -306,13 +306,13 @@ function printSectionEntries(entry, currentid) {
 
 	// Scores
 	out += "<td align=center>\n";
-	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" " + PDFTARGET + "href=\"";
+	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
 	out += "/data?a=notationNoEditText&f=" + sectionid;
 	out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
 	out += "</td>\n";
 
 	out += "<td>\n";
-	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" " + PDFTARGET + "href=\"";
+	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
 	out += "/data?a=notationEditText&f=" + sectionid;
 	out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
 	out += "</td>\n";
@@ -414,24 +414,24 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	if (workQ) {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
-		pc += PDFTARGET + "href=\"";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
 		pc += "/data?a=notationNoEditText&f=" + workid;
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
-		pc += PDFTARGET + "href=\"";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
 		pc += "/data?a=notationEditText&f=" + workid;
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	} else {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
-		pc += PDFTARGET + "href=\"";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
 		pc += "/data?a=notationNoEditText&f=" + sectionid;
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
-		pc += PDFTARGET + "href=\"";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
 		pc += "/data?a=notationEditText&f=" + sectionid;
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
@@ -441,7 +441,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "<li><a id=\"audio_" + sectionid + "\"";
 		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
 		pc += "\" ";
-		pc += "class=\"mp3pause\" target=\"new\" ";
+		pc += "class=\"mp3pause\" target=\"_blank\" ";
 		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
 		pc += "name=\"/data?a=mp3&f=";
 		pc += jrpid + "\">MP3</a></li>\n";
@@ -449,7 +449,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "<li><a id=\"audio_" + sectionid + "\"";
 		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
 		pc += "\" ";
-		pc += "class=\"mp3play\" target=\"new\" ";
+		pc += "class=\"mp3play\" target=\"_blank\" ";
 		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
 		pc += "name=\"/data?a=mp3&f=";
 		pc += sectionid + "\">MP3</a></li>\n";
@@ -751,16 +751,16 @@ function displayWork(jrpid) {
 
 	if (!jrpid.match(/^Tas/)) {
 		titleContent += "<ul style=\"padding-top:0;\">\n";
-		titleContent += "<li><a class=\"file-orange\" " + PDFTARGET + "href=\"";
+		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
 		titleContent += "/data?a=notationNoEditText&f=" + jrpid;
 		titleContent += "\">Score</a></li>\n";
 
-		titleContent += "<li><a class=\"file-ed-orange\" " + PDFTARGET + "href=\"";
+		titleContent += "<li><a class=\"file-ed-orange\" target=\"" + PDFTARGET + "\" href=\"";
 		titleContent += "/data?a=notationEditText&f=" + jrpid;
 		titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
 	} else {
 		titleContent += "<ul style=\"padding-top:0;\">\n";
-		titleContent += "<li><a class=\"file-orange\" " + PDFTARGET + "href=\"";
+		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
 		titleContent += "/data?a=notationEditText&f=" + jrpid;
 		titleContent += "\">Score</a></li>\n";
 	}
@@ -808,11 +808,11 @@ function showDownloadArea(jrpid, stitle) {
 	download += "<div class=\"col first-col\">\n";
 	download += "<ul>\n";
 
-	download += "<li><a class=\"icon-file\" " + PDFTARGET + "href=\"";
+	download += "<li><a class=\"icon-file\" target=\"" + PDFTARGET + "\" href=\"";
 	download += "/data?a=notationNoEditText&f=" + jrpid;
 	download += "\">PDF score</a></li>\n";
 
-	download += "<li><a class=\"icon-file-ed\" " + PDFTARGET + "href=\"";
+	download += "<li><a class=\"icon-file-ed\" target=\"" + PDFTARGET + "\" href=\"";
 	download += "/data?a=notationEditText&f=" + jrpid;
 	download += "\">PDF w/ ed. accidentals</a></li>\n";
 
@@ -821,10 +821,10 @@ function showDownloadArea(jrpid, stitle) {
 	download += "\">MIDI</a></li>\n";
 
 	download += "<li><div class=\"icon-file-list\"><nobr>";
-	download += "<a class=\"xlink\" target=\"new\" href=\"";
+	download += "<a class=\"xlink\" target=\"_blank\" href=\"";
 	download += "/data?a=humdrum&f=" + jrpid;
 	download += "\">Humdrum</a> ";
-	download += "(<a class=\"xlink\" target=new ";
+	download += "(<a class=\"xlink\" target=\"_blank\" ";
 	download += "href=\"https://github.com/josquin-research-project/";
 	download += cshort;
 	download += "\">";
@@ -835,15 +835,15 @@ function showDownloadArea(jrpid, stitle) {
 	download += "<div class=\"col\">\n";
 	download += "<ul>\n";
 
-	download += "<li><a target=new class=\"icon-list\" href=\"";
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
 	download += "/data?a=musedata&f=" + jrpid;
 	download += "\">MuseData</a></li>\n";
 
-	download += "<li><a target=new class=\"icon-list\" href=\"";
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
 	download += "/data?a=notearrayraw&f=" + jrpid;
 	download += "\">NoteArray</a></li>\n";
 
-	download += "<li><a target=new class=\"icon-list\" href=\"";
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
 	// download += "/data?a=proll-json&f=" + jrpid;
 	download += "/proll/?id=" + jrpid;
 	download += "\">JSON Piano Roll</a></li>\n";
@@ -853,15 +853,15 @@ function showDownloadArea(jrpid, stitle) {
 	download += "<div class=\"col\">\n";
 	download += "<ul>\n";
 
-	download += "<li><a target=\"new\" class=\"icon-list\" href=\"";
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
 	download += "/data?a=musicxml&f=" + jrpid;
 	download += "\">MusicXML</a></li>\n";
 
-	download += "<li><a target=\"new\" class=\"icon-list\" href=\"";
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
 	download += "/data?a=mei&f=" + jrpid;
 	download += "\">MEI</a></li>\n";
 
-	download += "<li><a target=\"new\" class=\"icon-list\" href=\"";
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
 	download += "/data?a=mp3&f=" + jrpid;
 	download += "\">MP3</a></li>\n";
 
@@ -1590,7 +1590,10 @@ function showWorkAnalysis(analysistype) {
 
 	var url = "";
 	if (analysistype === "dissonant") {
-		url = "/data?a=dissonantpdf&id=" + sectionid;
+		// url = "/data?a=dissonantpdf&id=" + sectionid;
+		url = "http://verovio.humdrum.org/?k=ey&filter=dissonant&file=jrp:" + sectionid;
+	} else if (analysistype === "imitation") {
+		url = "http://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
 	} else if (analysistype === "parallel") {
 		url = "/data?a=parallelnofictapdf&id=" + sectionid;
 	} else if (analysistype === "activity") {
@@ -1601,12 +1604,14 @@ function showWorkAnalysis(analysistype) {
 	} else if (analysistype === "proll") {
 		// url = "/data?a=proll&id=" + sectionid;
 		url = "/proll?id=" + sectionid;
-	} else if (analysistype === "suspension") {
-		url = "/data?a=suspensionpdf&id=" + sectionid;
+//	} else if (analysistype === "suspension") {
+//		url = "/data?a=suspensionpdf&id=" + sectionid;
+   } else if (analysistype === "cadence") {
+		url = "http://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cdissonant%20-V&file=jrp:" + sectionid;
 	}
 
 	if (!url.match(/^\s*$/)) {
-		window.open(url, "new");
+		window.open(url, "_blank");
 	}
 }
 
@@ -2084,9 +2089,8 @@ function displayAllWorksRepertoryAnalyses() {
 
 function displayThisWorkRepertoryAnalyses() {
 	var content = "";
-
 	content += '<li><span onclick="localStorage.RIBBONjrpid=';
-	content += 'localStorage.WORKjrpid; window.location=\'/ribbon\';" ';
+	content += 'localStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Ribbon</span> ';
@@ -2102,13 +2106,19 @@ function displayThisWorkRepertoryAnalyses() {
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Dissonant</span> ';
-	content += '<small>all dissonances marked</small></span></li>\n';
+	content += '<small>all dissonances labeled</small></span></li>\n';
 
-	content += '<li><span onclick="showWorkAnalysis(\'suspension\');" ';
+	content += '<li><span onclick="showWorkAnalysis(\'cadence\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
-	content += '<span class="anatitle">Suspension</span> ';
-	content += '<small>all suspensions marked</small></span></li>\n';
+	content += '<span class="anatitle">Cadences</span> ';
+	content += '<small>all cadences marked</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'imitation\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Imitation</span> ';
+	content += '<small>all imitations marked</small></span></li>\n';
 
 	content += '<li><span onclick="showWorkAnalysis(\'parallel\');" ';
 	content += 'style="cursor:pointer;" ';

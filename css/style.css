@@ -2139,6 +2139,14 @@ table.search-results-table span.location span.point.point-green {
 #primary-content.work-content.multiwork .vocal-ranges, #primary-content.work-content.multiwork .downloads, #primary-content.work-content.multiwork .title {
 	margin-right: 150px;
 }
+#primary-content.work-content.multiwork .downloads .col {
+	margin-left: 30px;
+}
+#primary-content.work-content.multiwork .downloads .col.first-col {
+	margin-left: 0;
+}
+
+
 #primary-content.work-content.multiwork .title ul {
 	margin-top: 20px;
 }
@@ -2178,12 +2186,7 @@ table.search-results-table span.location span.point.point-green {
 	right: -16px;
 	top: 7px;
 }
-#primary-content.work-content.multiwork .downloads .col {
-	margin-left: 30px;
-}
-#primary-content.work-content.multiwork .downloads .col.first-col {
-	margin-left: 0;
-}
+
 #primary-content.work-content.multiwork .music-area .text-right {
 	margin-right: 147px;
 	margin-top: 0;

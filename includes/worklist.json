@@ -5,17 +5,17 @@
 "comlong"	:	"Anonymous",
 "comshort"	:	"Anonymous",
 "comdates"	:	"",
-"repwork"	:	30,
+"repwork"	:	31,
 "genres"	:
 	[
 	{"name":"mass", "count":2},
 	{"name":"motet", "count":2},
-	{"name":"song", "count":26}
+	{"name":"song", "count":27}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	16736,
-"sec"		:	4766,
-"pg"		:	91,
+"notecount"	:	17161,
+"sec"		:	4904,
+"pg"		:	100,
 "works"		:	
 	[
 	{
@@ -107,7 +107,7 @@
 	"ih"		:	205,
 	"notecount"	:	763,
 	"sec"		:	151,
-	"pg"		:	1,
+	"pg"		:	4,
 	"vnotecount"	:	[200,223,167,173],
 	"ad"		:	20130814
 	},
@@ -173,7 +173,7 @@
 	},
 	{
 	"id"		:	"Ano3019",
-	"title"		:	"De m'a-griefve maladie/Se je ne suis mari&eacute;e (Dijon&nbsp;Chansonnier)",
+	"title"		:	"De m'a griefve maladie/Se je ne suis mari&eacute;e (Dijon&nbsp;Chansonnier)",
 	"genre"		:	"song",
 	"voices"	:	"4",
 	"vname"		:	["Superius","Contratenor1","Tenor","Contratenor2"],
@@ -226,7 +226,7 @@
 	"ih"		:	202,
 	"notecount"	:	410,
 	"sec"		:	141,
-	"pg"		:	1,
+	"pg"		:	3,
 	"vnotecount"	:	[140,85,90,95],
 	"ad"		:	20150314,
 	"ud"		:	20160223
@@ -451,7 +451,7 @@
 	"ih"		:	205,
 	"notecount"	:	342,
 	"sec"		:	97,
-	"pg"		:	1,
+	"pg"		:	2,
 	"vnotecount"	:	[83,101,76,82],
 	"ad"		:	20160215,
 	"ud"		:	20160223
@@ -467,9 +467,24 @@
 	"ih"		:	198,
 	"notecount"	:	406,
 	"sec"		:	80,
-	"pg"		:	3,
+	"pg"		:	4,
 	"vnotecount"	:	[92,101,110,103],
-	"ad"		:	20160318
+	"ad"		:	20160322
+	},
+	{
+	"id"		:	"Ano3093",
+	"title"		:	"Sil vous plaist bien que je vous tiegne",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	171,
+	"notecount"	:	425,
+	"sec"		:	139,
+	"pg"		:	2,
+	"vnotecount"	:	[155,136,134],
+	"ad"		:	20160416,
+	"ud"		:	20160601
 	}
 	]
 },
@@ -562,7 +577,7 @@
 "liststyle"	:	"alphabetical",
 "notecount"	:	25336,
 "sec"		:	2986,
-"pg"		:	173,
+"pg"		:	172,
 "works"		:	
 	[
 	{
@@ -572,7 +587,7 @@
 	"voices"	:	"12",
 	"notecount"	:	21131,
 	"sec"		:	2014,
-	"pg"		:	151,
+	"pg"		:	150,
 	"ad"		:	20140807,
 	"ud"		:	20140816,
 	"sections"	:
@@ -580,7 +595,7 @@
 		{"id":"Bru1008a", "stitle":"Kyrie", "v":"12", "nc":3515, "sec":288, "pg":25, "vnc":[236, 199, 276, 348, 226, 139, 335, 329, 367, 355, 354, 351], "ih":615, "vname":["Discantus1","Discantus2","Discantus3","Contratenor1","Contratenor2","Contratenor3","Tenor1","Tenor2","Tenor3","Bassus1","Bassus2","Bassus3"], "vabbr":["D1","D2","D3","Ct1","Ct2","Ct3","T1","T2","T3","B1","B2","B3"], "text":"true", "ad":20140620, "ud":20140816},
 		{"id":"Bru1008b", "stitle":"Gloria", "v":"12", "nc":4927, "sec":454, "pg":33, "vnc":[283, 312, 383, 540, 275, 304, 478, 451, 550, 403, 465, 483], "ih":615, "vname":["Discantus1","Discantus2","Discantus3","Contratenor1","Contratenor2","Contratenor3","Tenor1","Tenor2","Tenor3","Bassus1","Bassus2","Bassus3"], "vabbr":["D1","D2","D3","Ct1","Ct2","Ct3","T1","T2","T3","B1","B2","B3"], "text":"true", "ad":20140807, "ud":20140816},
 		{"id":"Bru1008c", "stitle":"Credo", "v":"12", "nc":5130, "sec":542, "pg":39, "vnc":[180, 424, 499, 525, 186, 188, 519, 519, 550, 509, 498, 533], "ih":615, "vname":["Discantus1","Discantus2","Discantus3","Contratenor1","Contratenor2","Contratenor3","Tenor1","Tenor2","Tenor3","Bassus1","Bassus2","Bassus3"], "vabbr":["D1","D2","D3","Ct1","Ct2","Ct3","T1","T2","T3","B1","B2","B3"], "text":"true", "ad":20140807, "ud":20140816},
-		{"id":"Bru1008d", "stitle":"Sanctus", "v":"12", "nc":6294, "sec":627, "pg":46, "vnc":[146, 289, 522, 731, 133, 177, 716, 626, 846, 673, 798, 637], "ih":615, "vname":["Discantus1","Discantus2","Discantus3","Contratenor1","Contratenor2","Contratenor3","Tenor1","Tenor2","Tenor3","Bassus1","Bassus2","Bassus3"], "vabbr":["D1","D2","D3","Ct1","Ct2","Ct3","T1","T2","T3","B1","B2","B3"], "text":"true", "ad":20140807, "ud":20140816},
+		{"id":"Bru1008d", "stitle":"Sanctus", "v":"12", "nc":6294, "sec":627, "pg":45, "vnc":[146, 289, 522, 731, 133, 177, 716, 626, 846, 673, 798, 637], "ih":615, "vname":["Discantus1","Discantus2","Discantus3","Contratenor1","Contratenor2","Contratenor3","Tenor1","Tenor2","Tenor3","Bassus1","Bassus2","Bassus3"], "vabbr":["D1","D2","D3","Ct1","Ct2","Ct3","T1","T2","T3","B1","B2","B3"], "text":"true", "ad":20140807, "ud":20140816},
 		{"id":"Bru1008e", "stitle":"Agnus Dei", "v":"12", "nc":1265, "sec":102, "pg":8, "vnc":[35, 59, 107, 139, 37, 130, 119, 146, 162, 30, 155, 146], "ih":615, "vname":["Discantus1","Discantus2","Discantus3","Contratenor1","Contratenor2","Contratenor3","Tenor1","Tenor2","Tenor3","Bassus1","Bassus2","Bassus3"], "vabbr":["D1","D2","D3","Ct1","Ct2","Ct3","T1","T2","T3","B1","B2","B3"], "text":"true", "ad":20140807, "ud":20140816}
 		]
 	},
@@ -624,17 +639,17 @@
 "comlong"	:	"Antoine Busnoys",
 "comshort"	:	"Busnoys",
 "comdates"	:	"ca. 1430&ndash;1492",
-"repwork"	:	65,
+"repwork"	:	66,
 "genres"	:
 	[
 	{"name":"mass", "count":1},
 	{"name":"motet", "count":3},
-	{"name":"song", "count":61}
+	{"name":"song", "count":62}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	33491,
-"sec"		:	8381,
-"pg"		:	176,
+"notecount"	:	34233,
+"sec"		:	8509,
+"pg"		:	181,
 "works"		:	
 	[
 	{
@@ -642,7 +657,7 @@
 	"title"		:	"Missa L'homme arm&eacute;",
 	"genre"		:	"mass",
 	"voices"	:	"4",
-	"notecount"	:	6081,
+	"notecount"	:	6398,
 	"sec"		:	1519,
 	"pg"		:	29,
 	"ad"		:	20140222,
@@ -651,7 +666,7 @@
 		[
 		{"id":"Bus1001a", "stitle":"Kyrie", "v":"4", "nc":636, "sec":141, "pg":3, "vnc":[173, 59, 186, 218], "ih":198, "vname":["Superius","Contratenor   Altus","Tenor","Contratenor Bassus"], "vabbr":["S","CtA","T","CtB"], "ad":20121029},
 		{"id":"Bus1001b", "stitle":"Gloria", "v":"4", "nc":1531, "sec":319, "pg":5, "vnc":[432, 116, 490, 493], "ih":198, "vname":["Superius","Contratenor Altus","Tenor","Contratenor Bassus"], "vabbr":["S","Ct","T","Ct"], "ad":20121119, "ud":20121221},
-		{"id":"Bus1001c", "stitle":"Credo", "v":"4", "nc":1351, "sec":295, "pg":8, "vnc":[379, 49, 466, 457, 0], "ih":198, "vname":["Superius","Contratenor1","Tenor","Contratenor2"], "vabbr":["S","Ct1","T","Ct2"], "ad":20131219, "ud":20140309},
+		{"id":"Bus1001c", "stitle":"Credo", "v":"4", "nc":1668, "sec":295, "pg":8, "vnc":[463, 87, 559, 559], "ih":198, "vname":["Superius","Contratenor1","Tenor","Contratenor2"], "vabbr":["S","Ct1","T","Ct2"], "ad":20131219, "ud":20140309},
 		{"id":"Bus1001d", "stitle":"Sanctus", "v":"4", "nc":1416, "sec":354, "pg":7, "vnc":[347, 59, 539, 471], "ih":198, "vname":["Superius","Contratenor Altus","Tenor","Contratenor Bassus"], "vabbr":["S","Ct","T","Ct"], "ad":20121120, "ud":20121221},
 		{"id":"Bus1001e", "stitle":"Agnus Dei", "v":"4", "nc":1147, "sec":411, "pg":6, "vnc":[58, 310, 412, 367], "ih":198, "vname":["Superius","Contratenor1","Contratenor","Tenor"], "vabbr":["S","Ct1","Ct","T"], "ad":20140222, "ud":20140309}
 		]
@@ -977,7 +992,7 @@
 	},
 	{
 	"id"		:	"Bus3020",
-	"title"		:	"Est",
+	"title"		:	"Est&#45;il merchy",
 	"genre"		:	"song",
 	"voices"	:	"3",
 	"vname"		:	["Cantus","Tenor","Contratenor"],
@@ -1072,7 +1087,7 @@
 	"voices"	:	"3",
 	"vname"		:	["Cantus","Tenor","Contratenor"],
 	"vabbr"		:	["Cn","T","Ct"],
-	"ih"		:	166,
+	"ih"		:	165,
 	"notecount"	:	365,
 	"sec"		:	139,
 	"pg"		:	2,
@@ -1226,7 +1241,7 @@
 	"ih"		:	402,
 	"notecount"	:	485,
 	"sec"		:	91,
-	"pg"		:	0,
+	"pg"		:	3,
 	"vnotecount"	:	[153,139,69,124],
 	"ad"		:	20151029,
 	"ud"		:	20151030
@@ -1328,7 +1343,7 @@
 	"voices"	:	"4",
 	"vname"		:	["Superius","Tenor I","Tenor II","Contratenor"],
 	"vabbr"		:	["S","T","T","Ct"],
-	"ih"		:	423,
+	"ih"		:	201,
 	"notecount"	:	359,
 	"sec"		:	76,
 	"pg"		:	2,
@@ -1616,6 +1631,22 @@
 	"vnotecount"	:	[107,117,105,103],
 	"ad"		:	20150220,
 	"ud"		:	20150510
+	},
+	{
+	"id"		:	"Bus3078",
+	"title"		:	"Sil vous plaist bien que je vous tiegne",
+	"attr"		:	"4",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Superius","Tenor","Contra"],
+	"vabbr"		:	["S","T","C"],
+	"ih"		:	171,
+	"notecount"	:	425,
+	"sec"		:	128,
+	"pg"		:	2,
+	"vnotecount"	:	[155,136,134],
+	"ad"		:	20160416,
+	"ud"		:	20160601
 	}
 	]
 },
@@ -1626,16 +1657,17 @@
 "comlong"	:	"Loyset Compere",
 "comshort"	:	"Compere",
 "comdates"	:	"ca. 1445&ndash;1518",
-"repwork"	:	26,
+"repwork"	:	28,
 "genres"	:
 	[
 	{"name":"mass", "count":1},
-	{"name":"song", "count":25}
+	{"name":"motet", "count":1},
+	{"name":"song", "count":26}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	15695,
-"sec"		:	3597,
-"pg"		:	75,
+"notecount"	:	16616,
+"sec"		:	3782,
+"pg"		:	81,
 "works"		:	
 	[
 	{
@@ -1658,6 +1690,36 @@
 		]
 	},
 	{
+	"id"		:	"Com2002",
+	"title"		:	"Hodie nobis cycle",
+	"genre"		:	"motet",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"text"		:	"true",
+	"ih"		:	0,
+	"notecount"	:	526,
+	"sec"		:	102,
+	"pg"		:	1,
+	"vnotecount"	:	[114,131,151,130],
+	"ad"		:	20160406
+	},
+	{
+	"id"		:	"Com3001",
+	"title"		:	"Alons fere nos barbes",
+	"genre"		:	"song",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"text"		:	"true",
+	"ih"		:	198,
+	"notecount"	:	395,
+	"sec"		:	82,
+	"pg"		:	3,
+	"vnotecount"	:	[99,111,96,89],
+	"ad"		:	20160524
+	},
+	{
 	"id"		:	"Com3005",
 	"title"		:	"Chanter ne puis chieux la mynonne",
 	"genre"		:	"song",
@@ -1667,7 +1729,7 @@
 	"ih"		:	156,
 	"notecount"	:	385,
 	"sec"		:	82,
-	"pg"		:	0,
+	"pg"		:	2,
 	"vnotecount"	:	[125,107,153],
 	"ad"		:	20131201,
 	"ud"		:	20140223
@@ -2035,22 +2097,61 @@
 },
 
 {
+"repid"		:	"Das",
+"reprole"	:	"composer",
+"comlong"	:	"Ludwig Daser",
+"comshort"	:	"Daser",
+"comdates"	:	"",
+"repwork"	:	1,
+"genres"	:
+	[
+	{"name":"mass", "count":1}
+	],
+"liststyle"	:	"alphabetical",
+"notecount"	:	7608,
+"sec"		:	1301,
+"pg"		:	60,
+"works"		:	
+	[
+	{
+	"id"		:	"Das1002",
+	"title"		:	"Missa Preter rerum",
+	"genre"		:	"mass",
+	"voices"	:	"6",
+	"notecount"	:	7608,
+	"sec"		:	1301,
+	"pg"		:	60,
+	"ad"		:	20160523,
+	"ud"		:	20160530,
+	"sections"	:
+		[
+		{"id":"Das1002a", "stitle":"Kyrie", "v":"6", "nc":960, "sec":177, "pg":9, "vnc":[146, 220, 181, 91, 208, 114], "ih":283, "vname":["Discantus","Contratenor","Tenor1","Tenor2","Bassus1","Bassus2"], "vabbr":["D","Ct","T1","T2","B1","B2"], "text":"true", "ad":20160522, "ud":20160530},
+		{"id":"Das1002b", "stitle":"Gloria", "v":"6", "nc":1882, "sec":315, "pg":14, "vnc":[314, 305, 255, 251, 402, 355], "ih":283, "vname":["Discantus","Contratenor","Tenor1","Tenor2","Bassus1","Bassus2"], "vabbr":["D","Ct","T1","T2","B1","B2"], "text":"true", "ad":20160522, "ud":20160530},
+		{"id":"Das1002c", "stitle":"Credo", "v":"6", "nc":2590, "sec":447, "pg":18, "vnc":[400, 557, 317, 266, 503, 547], "ih":283, "vname":["Discantus","Contratenor","Tenor1","Tenor2","Bassus1","Bassus2"], "vabbr":["D","Ct","T1","T2","B1","B2"], "text":"true", "ad":20160523, "ud":20160530},
+		{"id":"Das1002d", "stitle":"Sanctus", "v":"6", "nc":1645, "sec":277, "pg":15, "vnc":[155, 353, 120, 290, 391, 336], "ih":283, "vname":["Discantus","Contratenor","Tenor1","Tenor2","Bassus1","Bassus2"], "vabbr":["D","Ct","T1","T2","B1","B2"], "text":"true", "ad":20160523, "ud":20160530},
+		{"id":"Das1002e", "stitle":"Agnus Dei", "v":"6", "nc":531, "sec":86, "pg":4, "vnc":[116, 118, 43, 98, 75, 81], "ih":283, "vname":["Discantus","Contratenor","Tenor1","Tenor2","Bassus1","Bassus2"], "vabbr":["D","Ct","T1","T2","B1","B2"], "text":"true", "ad":20160523, "ud":20160530}
+		]
+	}
+	]
+},
+
+{
 "repid"		:	"Duf",
 "reprole"	:	"composer",
 "comlong"	:	"Guillaume Du Fay",
 "comshort"	:	"Du Fay",
 "comdates"	:	"ca. 1397&ndash;1474",
-"repwork"	:	11,
+"repwork"	:	19,
 "genres"	:
 	[
 	{"name":"mass", "count":4},
-	{"name":"motet", "count":2},
-	{"name":"song", "count":5}
+	{"name":"motet", "count":4},
+	{"name":"song", "count":12}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	31652,
-"sec"		:	7664,
-"pg"		:	179,
+"notecount"	:	34104,
+"sec"		:	8280,
+"pg"		:	215,
 "works"		:	
 	[
 	{
@@ -2060,7 +2161,7 @@
 	"voices"	:	"4",
 	"notecount"	:	7377,
 	"sec"		:	1694,
-	"pg"		:	33,
+	"pg"		:	37,
 	"ad"		:	20140724,
 	"ud"		:	20140726,
 	"sections"	:
@@ -2068,7 +2169,7 @@
 		{"id":"Duf1002a", "stitle":"Kyrie", "v":"4", "nc":1477, "sec":325, "pg":7, "vnc":[386, 196, 372, 523], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140717},
 		{"id":"Duf1002b", "stitle":"Gloria", "v":"4", "nc":1385, "sec":319, "pg":6, "vnc":[244, 275, 399, 467], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140719, "ud":20140723},
 		{"id":"Duf1002c", "stitle":"Credo", "v":"4", "nc":2004, "sec":459, "pg":8, "vnc":[404, 255, 648, 697], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140724, "ud":20140725},
-		{"id":"Duf1002d", "stitle":"Sanctus", "v":"4", "nc":1455, "sec":335, "pg":7, "vnc":[226, 216, 464, 549], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140719, "ud":20140726},
+		{"id":"Duf1002d", "stitle":"Sanctus", "v":"4", "nc":1455, "sec":335, "pg":11, "vnc":[226, 216, 464, 549], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140719, "ud":20140726},
 		{"id":"Duf1002e", "stitle":"Agnus Dei", "v":"4", "nc":1056, "sec":256, "pg":5, "vnc":[259, 128, 341, 328], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20140719, "ud":20140726}
 		]
 	},
@@ -2117,15 +2218,15 @@
 	"voices"	:	"4",
 	"notecount"	:	6593,
 	"sec"		:	1530,
-	"pg"		:	33,
+	"pg"		:	47,
 	"ad"		:	20131121,
 	"sections"	:
 		[
-		{"id":"Duf1005a", "stitle":"Kyrie", "v":"4", "nc":741, "sec":164, "pg":4, "vnc":[177, 95, 209, 260], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
-		{"id":"Duf1005b", "stitle":"Gloria", "v":"4", "nc":1791, "sec":433, "pg":8, "vnc":[332, 276, 588, 595], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
-		{"id":"Duf1005c", "stitle":"Credo", "v":"4", "nc":1915, "sec":433, "pg":9, "vnc":[353, 276, 616, 670], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
-		{"id":"Duf1005d", "stitle":"Sanctus", "v":"4", "nc":1212, "sec":293, "pg":8, "vnc":[217, 95, 421, 479], "ih":209, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
-		{"id":"Duf1005e", "stitle":"Agnus Dei", "v":"4", "nc":934, "sec":206, "pg":4, "vnc":[207, 95, 288, 344], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121}
+		{"id":"Duf1005a", "stitle":"Kyrie", "v":"4", "nc":741, "sec":164, "pg":5, "vnc":[177, 95, 209, 260], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
+		{"id":"Duf1005b", "stitle":"Gloria", "v":"4", "nc":1791, "sec":433, "pg":12, "vnc":[332, 276, 588, 595], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
+		{"id":"Duf1005c", "stitle":"Credo", "v":"4", "nc":1915, "sec":433, "pg":14, "vnc":[353, 276, 616, 670], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
+		{"id":"Duf1005d", "stitle":"Sanctus", "v":"4", "nc":1212, "sec":293, "pg":9, "vnc":[217, 95, 421, 479], "ih":209, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121},
+		{"id":"Duf1005e", "stitle":"Agnus Dei", "v":"4", "nc":934, "sec":206, "pg":7, "vnc":[207, 95, 288, 344], "ih":198, "vname":["Cantus","Contratenor","Tenor","Bassus"], "vabbr":["Cn","Ct","T","B"], "text":"true", "ad":20131121}
 		]
 	},
 	{
@@ -2145,6 +2246,22 @@
 	"ud"		:	20140728
 	},
 	{
+	"id"		:	"Duf2027",
+	"title"		:	"Ave maris stella verse 2: Sumens illud ave (hymn)",
+	"genre"		:	"motet",
+	"voices"	:	"?",
+	"notecount"	:	239,
+	"sec"		:	72,
+	"pg"		:	3,
+	"ad"		:	20160316,
+	"ud"		:	20160402,
+	"sections"	:
+		[
+		{"id":"Duf2027a", "stitle":"chant", "v":"1", "nc":37, "sec":20, "pg":1, "vnc":[37], "ih":127, "vname":["Tenor"], "vabbr":["T"], "text":"true", "ad":20160316, "ud":20160402},
+		{"id":"Duf2027b", "stitle":"hymn", "v":"3", "nc":202, "sec":52, "pg":2, "vnc":[71, 63, 68], "ih":204, "vname":["Superius","Contratenor","Tenor"], "vabbr":["S","Ct","T"], "text":"true", "ad":20160316, "ud":20160402}
+		]
+	},
+	{
 	"id"		:	"Duf2054",
 	"title"		:	"Nuper rosarum flores/Terribilis est locus iste",
 	"genre"		:	"motet",
@@ -2161,6 +2278,22 @@
 	"ud"		:	20140816
 	},
 	{
+	"id"		:	"Duf3007.2",
+	"title"		:	"Craindre vous vueil doulce dame de pris",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Cantus","Contratenor","Tenor"],
+	"vabbr"		:	["Cn","Ct","T"],
+	"text"		:	"true",
+	"ih"		:	173,
+	"notecount"	:	277,
+	"sec"		:	73,
+	"pg"		:	2,
+	"vnotecount"	:	[106,93,78],
+	"ad"		:	20130000,
+	"ud"		:	20160415
+	},
+	{
 	"id"		:	"Duf3015",
 	"title"		:	"Se la face ay pale",
 	"genre"		:	"song",
@@ -2171,7 +2304,7 @@
 	"ih"		:	161,
 	"notecount"	:	269,
 	"sec"		:	67,
-	"pg"		:	1,
+	"pg"		:	2,
 	"vnotecount"	:	[95,92,82],
 	"ad"		:	20121220
 	},
@@ -2189,6 +2322,68 @@
 	"pg"		:	2,
 	"vnotecount"	:	[98,84,62],
 	"ad"		:	20160318
+	},
+	{
+	"id"		:	"Duf3017",
+	"title"		:	"Adieu mamour adieu ma joye",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Cantus","Contratenor","Tenor"],
+	"vabbr"		:	["Cn","Ct","T"],
+	"text"		:	"true",
+	"ih"		:	171,
+	"notecount"	:	283,
+	"sec"		:	69,
+	"pg"		:	2,
+	"vnotecount"	:	[104,91,88],
+	"ad"		:	20160401,
+	"ud"		:	20160415
+	},
+	{
+	"id"		:	"Duf3018",
+	"title"		:	"Adyeu quitte le demeurant",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Cantus","Contratenor","Tenor"],
+	"vabbr"		:	["Cn","Ct","T"],
+	"text"		:	"true",
+	"ih"		:	171,
+	"notecount"	:	209,
+	"sec"		:	49,
+	"pg"		:	1,
+	"vnotecount"	:	[75,76,58],
+	"ad"		:	20160415
+	},
+	{
+	"id"		:	"Duf3022",
+	"title"		:	"Belle vuill&eacute;z moy vengier",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Cantus","Contratenor","Tenor"],
+	"vabbr"		:	["Cn","Ct","T"],
+	"text"		:	"true",
+	"ih"		:	342,
+	"notecount"	:	319,
+	"sec"		:	60,
+	"pg"		:	1,
+	"vnotecount"	:	[116,98,105],
+	"ad"		:	20160415
+	},
+	{
+	"id"		:	"Duf3025",
+	"title"		:	"Bon jour bon mois bon an et bonne estraine",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Cantus","Contratenor","Tenor"],
+	"vabbr"		:	["Cn","Ct","T"],
+	"text"		:	"true",
+	"ih"		:	171,
+	"notecount"	:	278,
+	"sec"		:	74,
+	"pg"		:	3,
+	"vnotecount"	:	[118,78,82],
+	"ad"		:	20160328,
+	"ud"		:	20160329
 	},
 	{
 	"id"		:	"Duf3067",
@@ -2213,13 +2408,45 @@
 	"vname"		:	["Cantus","Contratenor","Tenor"],
 	"vabbr"		:	["Cn","Ct","T"],
 	"text"		:	"true",
-	"ih"		:	0,
+	"ih"		:	229,
 	"notecount"	:	129,
 	"sec"		:	33,
 	"pg"		:	1,
 	"vnotecount"	:	[67,31,31],
 	"ad"		:	20160317,
 	"ud"		:	20160318
+	},
+	{
+	"id"		:	"Duf3077",
+	"title"		:	"H&eacute;las mon dueil a ce cop sui je mort",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Cantus","Contratenor","Tenor"],
+	"vabbr"		:	["Cn","Ct","T"],
+	"text"		:	"true",
+	"ih"		:	171,
+	"notecount"	:	358,
+	"sec"		:	88,
+	"pg"		:	3,
+	"vnotecount"	:	[139,99,120],
+	"ad"		:	20130000,
+	"ud"		:	20160328
+	},
+	{
+	"id"		:	"Duf3078",
+	"title"		:	"Malheureulx cueur que vieulx tu faire",
+	"genre"		:	"song",
+	"voices"	:	"3",
+	"vname"		:	["Cantus","Tenor","Contratenor"],
+	"vabbr"		:	["Cn","T","Ct"],
+	"text"		:	"true",
+	"ih"		:	176,
+	"notecount"	:	489,
+	"sec"		:	130,
+	"pg"		:	2,
+	"vnotecount"	:	[179,141,169],
+	"ad"		:	20160328,
+	"ud"		:	20160330
 	},
 	{
 	"id"		:	"Duf3080",
@@ -2239,22 +2466,82 @@
 },
 
 {
+"repid"		:	"Fva",
+"reprole"	:	"composer",
+"comlong"	:	"Antoine de F&eacute;vin",
+"comshort"	:	"F&eacute;vin",
+"comdates"	:	"ca. 1470&ndash;1511 or 1512",
+"repwork"	:	1,
+"genres"	:
+	[
+	{"name":"mass", "count":1}
+	],
+"liststyle"	:	"alphabetical",
+"notecount"	:	5895,
+"sec"		:	1307,
+"pg"		:	38,
+"works"		:	
+	[
+	{
+	"id"		:	"Fva1001",
+	"title"		:	"Missa Ave Maria",
+	"genre"		:	"mass",
+	"voices"	:	"4",
+	"notecount"	:	5895,
+	"sec"		:	1307,
+	"pg"		:	38,
+	"ad"		:	20160329,
+	"ud"		:	20160330,
+	"sections"	:
+		[
+		{"id":"Fva1001a", "stitle":"Kyrie", "v":"4", "nc":716, "sec":162, "pg":5, "vnc":[185, 152, 214, 165], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Fva1001b", "stitle":"Gloria", "v":"4", "nc":1275, "sec":274, "pg":8, "vnc":[344, 278, 368, 285], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Fva1001c", "stitle":"Credo", "v":"4", "nc":2172, "sec":474, "pg":14, "vnc":[521, 541, 615, 495], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Fva1001d", "stitle":"Sanctus", "v":"4", "nc":1113, "sec":247, "pg":7, "vnc":[337, 212, 303, 261], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Fva1001e", "stitle":"Agnus Dei", "v":"4", "nc":619, "sec":151, "pg":4, "vnc":[103, 89, 212, 215], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330}
+		]
+	}
+	]
+},
+
+{
 "repid"		:	"Gas",
 "reprole"	:	"composer",
 "comlong"	:	"Gaspar van Weerbeke",
 "comshort"	:	"Gaspar",
 "comdates"	:	"ca. 1446&ndash;ca. 1516",
-"repwork"	:	2,
+"repwork"	:	3,
 "genres"	:
 	[
-	{"name":"motet", "count":2}
+	{"name":"motet", "count":10}
 	],
 "liststyle"	:	"alphabetical",
-"notecount"	:	3236,
-"sec"		:	844,
-"pg"		:	19,
+"notecount"	:	8000,
+"sec"		:	1992,
+"pg"		:	45,
 "works"		:	
 	[
+	{
+	"id"		:	"Gas2017",
+	"title"		:	"Quam pulchra es Cycle",
+	"genre"		:	"motet",
+	"voices"	:	"4",
+	"notecount"	:	4764,
+	"sec"		:	1148,
+	"pg"		:	26,
+	"ad"		:	20160330,
+	"sections"	:
+		[
+		{"id":"Gas2017a", "stitle":"Quam pulchra es", "v":"4", "nc":611, "sec":134, "pg":3, "vnc":[151, 145, 152, 163], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20130722, "ud":20160330},
+		{"id":"Gas2017b", "stitle":"Alma redemptoris mater", "v":"4", "nc":589, "sec":110, "pg":3, "vnc":[146, 130, 153, 160], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20121205, "ud":20160330},
+		{"id":"Gas2017c", "stitle":"Salve virgo salutata", "v":"4", "nc":397, "sec":97, "pg":2, "vnc":[99, 107, 95, 96], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Gas2017d", "stitle":"O pulcherrima mulierum", "v":"4", "nc":673, "sec":145, "pg":3, "vnc":[154, 161, 187, 171], "ih":199, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Gas2017e", "stitle":"Ave regina caelorum mater", "v":"4", "nc":650, "sec":189, "pg":4, "vnc":[171, 149, 167, 163], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Gas2017f", "stitle":"O maria clausus hortus", "v":"4", "nc":455, "sec":118, "pg":2, "vnc":[109, 113, 116, 117], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Gas2017g", "stitle":"Mater patris filia", "v":"4", "nc":650, "sec":168, "pg":4, "vnc":[157, 145, 161, 187], "ih":228, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160329, "ud":20160330},
+		{"id":"Gas2017h", "stitle":"Tota pulchra es", "v":"4", "nc":739, "sec":187, "pg":5, "vnc":[191, 175, 187, 186], "ih":228, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "text":"true", "ad":20160330}
+		]
+	},
 	{
 	"id"		:	"Gas2029",
 	"title"		:	"Ave regina celorum",
@@ -2279,7 +2566,7 @@
 	"vname"		:	["Superius","Altus","Tenor1","Tenor2","Bassus"],
 	"vabbr"		:	["S","A","T1","T2","B"],
 	"text"		:	"true",
-	"ih"		:	242,
+	"ih"		:	241,
 	"notecount"	:	1803,
 	"sec"		:	449,
 	"pg"		:	10,
@@ -2726,17 +3013,17 @@
 "comlong"	:	"Josquin des Prez",
 "comshort"	:	"Josquin",
 "comdates"	:	"ca. 1450–&ndash;521",
-"repwork"	:	302,
+"repwork"	:	300,
 "genres"	:
 	[
 	{"name":"mass", "count":45},
-	{"name":"motet", "count":149},
+	{"name":"motet", "count":148},
 	{"name":"song", "count":111}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	454304,
-"sec"		:	100529,
-"pg"		:	2320,
+"notecount"	:	451403,
+"sec"		:	99818,
+"pg"		:	2293,
 "works"		:	
 	[
 	{
@@ -2789,12 +3076,12 @@
 	"sec"		:	1642,
 	"pg"		:	34,
 	"ad"		:	20120605,
-	"ud"		:	20120622,
+	"ud"		:	20160530,
 	"sections"	:
 		[
 		{"id":"Jos0303a", "stitle":"Kyrie", "v":"4", "nc":704, "sec":182, "pg":4, "vnc":[151, 183, 177, 193], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120605, "ud":20120607},
-		{"id":"Jos0303b", "stitle":"Gloria", "v":"4", "nc":2003, "sec":434, "pg":9, "vnc":[472, 544, 538, 449], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120604, "ud":20120622},
-		{"id":"Jos0303c", "stitle":"Credo", "v":"4", "nc":2416, "sec":413, "pg":10, "vnc":[485, 422, 542, 422, 545], "ih":254, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120604, "ud":20120302},
+		{"id":"Jos0303b", "stitle":"Gloria", "v":"4", "nc":2003, "sec":434, "pg":9, "vnc":[472, 544, 538, 449], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120604, "ud":20160530},
+		{"id":"Jos0303c", "stitle":"Credo", "v":"4", "nc":2416, "sec":413, "pg":10, "vnc":[485, 422, 542, 422, 545], "ih":254, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120604, "ud":20160530},
 		{"id":"Jos0303d", "stitle":"Sanctus", "v":"5", "nc":1482, "sec":363, "pg":6, "vnc":[275, 217, 394, 218, 378], "ih":241, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120605, "ud":20120607},
 		{"id":"Jos0303e", "stitle":"Agnus Dei", "v":"4", "nc":1048, "sec":250, "pg":5, "vnc":[345, 96, 374, 94, 139], "ih":241, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120605, "ud":20120607}
 		]
@@ -3173,7 +3460,7 @@
 	"sections"	:
 		[
 		{"id":"Jos0903a", "stitle":"Kyrie", "v":"4", "nc":495, "sec":127, "pg":3, "vnc":[129, 42, 151, 173], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120127, "ud":20120424},
-		{"id":"Jos0903b", "stitle":"Gloria", "v":"4", "nc":1344, "sec":381, "pg":5, "vnc":[424, 42, 455, 423], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120124, "ud":20131025},
+		{"id":"Jos0903b", "stitle":"Gloria", "v":"4", "nc":1344, "sec":381, "pg":5, "vnc":[424, 42, 455, 423], "ih":377, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120124, "ud":20131025},
 		{"id":"Jos0903c", "stitle":"Credo", "v":"4", "nc":1398, "sec":455, "pg":5, "vnc":[337, 42, 540, 479], "ih":201, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120127, "ud":20120323},
 		{"id":"Jos0903d", "stitle":"Sanctus", "v":"4", "nc":1319, "sec":426, "pg":4, "vnc":[459, 268, 332, 260], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120128, "ud":20120424},
 		{"id":"Jos0903e", "stitle":"Agnus Dei", "v":"4", "nc":1537, "sec":334, "pg":7, "vnc":[380, 250, 552, 355], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120128, "ud":20131025}
@@ -4609,23 +4896,7 @@
 	"notecount"	:	1385,
 	"sec"		:	333,
 	"pg"		:	6,
-	"vnotecount"	:	[475,323,290,297,1385,475,323,290,297],
-	"ad"		:	20120117,
-	"ud"		:	20131025
-	},
-	{
-	"id"		:	"Jos2002",
-	"title"		:	"Magnificat tertii toni",
-	"attr"		:	"3",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Superius","Altus","Tenor","Bassus"],
-	"vabbr"		:	["S","A","T","B"],
-	"ih"		:	213,
-	"notecount"	:	1385,
-	"sec"		:	333,
-	"pg"		:	6,
-	"vnotecount"	:	[475,323,290,297,1385,475,323,290,297],
+	"vnotecount"	:	[475,323,290,297],
 	"ad"		:	20120117,
 	"ud"		:	20131025
 	},
@@ -4641,23 +4912,7 @@
 	"notecount"	:	2197,
 	"sec"		:	497,
 	"pg"		:	17,
-	"vnotecount"	:	[650,674,512,361,2197,650,674,512,361],
-	"ad"		:	20120119,
-	"ud"		:	20120202
-	},
-	{
-	"id"		:	"Jos2003",
-	"title"		:	"Magnificat quarti toni",
-	"attr"		:	"5",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Superius","Altus","Tenor","Bassus"],
-	"vabbr"		:	["S","A","T","B"],
-	"ih"		:	213,
-	"notecount"	:	2197,
-	"sec"		:	497,
-	"pg"		:	17,
-	"vnotecount"	:	[650,674,512,361,2197,650,674,512,361],
+	"vnotecount"	:	[650,674,512,361],
 	"ad"		:	20120119,
 	"ud"		:	20120202
 	},
@@ -4673,23 +4928,7 @@
 	"notecount"	:	235,
 	"sec"		:	151,
 	"pg"		:	2,
-	"vnotecount"	:	[108,0,127,0,235,108,0,127,0],
-	"ad"		:	20110808,
-	"ud"		:	20120424
-	},
-	{
-	"id"		:	"Jos2004",
-	"title"		:	"Magnificat quarti toni",
-	"attr"		:	"3",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Superius","Altus","Tenor","Bassus"],
-	"vabbr"		:	["S","A","T","B"],
-	"ih"		:	206,
-	"notecount"	:	235,
-	"sec"		:	151,
-	"pg"		:	2,
-	"vnotecount"	:	[108,0,127,0,235,108,0,127,0],
+	"vnotecount"	:	[108,0,127,0],
 	"ad"		:	20110808,
 	"ud"		:	20120424
 	},
@@ -5174,18 +5413,20 @@
 	},
 	{
 	"id"		:	"Jos2309",
-	"title"		:	"Monstra te esse matrem",
+	"title"		:	"Ave maris stella verse 4/Monstra te esse matrem",
 	"attr"		:	"1",
 	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Superius","Altus","Tenor","Bassus"],
-	"vabbr"		:	["S","A","T","B"],
-	"ih"		:	206,
-	"notecount"	:	346,
-	"sec"		:	96,
-	"pg"		:	2,
-	"vnotecount"	:	[62,137,67,80],
-	"ad"		:	20110805
+	"voices"	:	"?",
+	"notecount"	:	382,
+	"sec"		:	116,
+	"pg"		:	0,
+	"ad"		:	20160316,
+	"ud"		:	20160404,
+	"sections"	:
+		[
+		{"id":"Jos2309a", "stitle":"chant", "v":"1", "nc":37, "sec":20, "pg":"", "vnc":[37], "ih":109, "vname":["Tenor"], "vabbr":["T"], "text":"true", "ad":20130000, "ud":20160404},
+		{"id":"Jos2309b", "stitle":"hymn", "v":"4", "nc":345, "sec":96, "pg":"", "vnc":[80, 67, 136, 62], "ih":230, "vname":["Superius","Contratenor","Tenor","Bassus"], "vabbr":["S","Ct","T","B"], "text":"true", "ad":20160316, "ud":20160404}
+		]
 	},
 	{
 	"id"		:	"Jos2310",
@@ -5355,7 +5596,7 @@
 	"voices"	:	"5",
 	"vname"		:	["Superius","Altus","Tenor","Quintus","Bassus"],
 	"vabbr"		:	["S","A","T","Q","B"],
-	"ih"		:	241,
+	"ih"		:	477,
 	"notecount"	:	951,
 	"sec"		:	199,
 	"pg"		:	6,
@@ -5555,6 +5796,22 @@
 	"vnotecount"	:	[381,472,100,424,361],
 	"ad"		:	20110517,
 	"ud"		:	20110810
+	},
+	{
+	"id"		:	"Jos2510",
+	"title"		:	"Ut Phebi radiis/Ut re mi fa sol la",
+	"attr"		:	"2",
+	"genre"		:	"motet",
+	"voices"	:	"4",
+	"vname"		:	["Superius","Altus","Tenor","Bassus"],
+	"vabbr"		:	["S","A","T","B"],
+	"ih"		:	0,
+	"notecount"	:	880,
+	"sec"		:	251,
+	"pg"		:	0,
+	"vnotecount"	:	[334,399,80,67],
+	"ad"		:	20111204,
+	"ud"		:	20170330
 	},
 	{
 	"id"		:	"Jos2511",
@@ -6294,7 +6551,7 @@
 	"voices"	:	"3",
 	"vname"		:	["Superius","Tenor","Contra"],
 	"vabbr"		:	["S","T","C"],
-	"ih"		:	162,
+	"ih"		:	161,
 	"notecount"	:	375,
 	"sec"		:	79,
 	"pg"		:	2,
@@ -7749,17 +8006,17 @@
 "comlong"	:	"Pierre de la Rue",
 "comshort"	:	"La Rue",
 "comdates"	:	"d. 1518",
-"repwork"	:	79,
+"repwork"	:	78,
 "genres"	:
 	[
 	{"name":"mass", "count":35},
-	{"name":"motet", "count":26},
+	{"name":"motet", "count":25},
 	{"name":"song", "count":18}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	234716,
-"sec"		:	51779,
-"pg"		:	1024,
+"notecount"	:	230322,
+"sec"		:	51281,
+"pg"		:	1080,
 "works"		:	
 	[
 	{
@@ -7803,15 +8060,15 @@
 	"voices"	:	"4",
 	"notecount"	:	6289,
 	"sec"		:	1752,
-	"pg"		:	8,
+	"pg"		:	30,
 	"ad"		:	20130519,
 	"ud"		:	20130716,
 	"sections"	:
 		[
-		{"id":"Rue1003a", "stitle":"Kyrie", "v":"4", "nc":598, "sec":156, "pg":"", "vnc":[138, 111, 168, 181], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121119, "ud":20121215},
-		{"id":"Rue1003b", "stitle":"Gloria", "v":"4", "nc":1297, "sec":316, "pg":"", "vnc":[378, 224, 343, 352], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121119, "ud":20121215},
-		{"id":"Rue1003c", "stitle":"Credo", "v":"4", "nc":1612, "sec":385, "pg":"", "vnc":[442, 291, 425, 454], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130519, "ud":20130716},
-		{"id":"Rue1003d", "stitle":"Sanctus", "v":"4", "nc":1130, "sec":325, "pg":"", "vnc":[289, 227, 305, 309], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130519, "ud":20130716},
+		{"id":"Rue1003a", "stitle":"Kyrie", "v":"4", "nc":598, "sec":156, "pg":3, "vnc":[138, 111, 168, 181], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121119, "ud":20121215},
+		{"id":"Rue1003b", "stitle":"Gloria", "v":"4", "nc":1297, "sec":316, "pg":6, "vnc":[378, 224, 343, 352], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121119, "ud":20121215},
+		{"id":"Rue1003c", "stitle":"Credo", "v":"4", "nc":1612, "sec":385, "pg":8, "vnc":[442, 291, 425, 454], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130519, "ud":20130716},
+		{"id":"Rue1003d", "stitle":"Sanctus", "v":"4", "nc":1130, "sec":325, "pg":5, "vnc":[289, 227, 305, 309], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130519, "ud":20130716},
 		{"id":"Rue1003e", "stitle":"Agnus Dei", "v":"", "nc":826, "sec":285, "pg":4, "vnc":[209, 143, 228, 246, 826, 209, 143, 228, 246], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130519, "ud":20130716},
 		{"id":"Rue1003e", "stitle":"Agnus Dei", "v":"", "nc":826, "sec":285, "pg":4, "vnc":[209, 143, 228, 246, 826, 209, 143, 228, 246], "ih":201, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130519, "ud":20130716}
 		]
@@ -7995,16 +8252,16 @@
 	"voices"	:	"5",
 	"notecount"	:	7794,
 	"sec"		:	1586,
-	"pg"		:	0,
+	"pg"		:	38,
 	"ad"		:	20130804,
 	"ud"		:	20131230,
 	"sections"	:
 		[
-		{"id":"Rue1014a", "stitle":"Kyrie", "v":"5", "nc":1032, "sec":242, "pg":"", "vnc":[203, 233, 152, 221, 223], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130803, "ud":20131230},
-		{"id":"Rue1014b", "stitle":"Gloria", "v":"5", "nc":1803, "sec":343, "pg":"", "vnc":[369, 372, 275, 396, 391], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130803, "ud":20131230},
-		{"id":"Rue1014c", "stitle":"Credo", "v":"5", "nc":2344, "sec":421, "pg":"", "vnc":[480, 521, 263, 516, 564], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130803, "ud":20131230},
-		{"id":"Rue1014d", "stitle":"Sanctus", "v":"5", "nc":1550, "sec":353, "pg":"", "vnc":[263, 302, 138, 428, 419], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130804, "ud":20131230},
-		{"id":"Rue1014e", "stitle":"Agnus Dei", "v":"5", "nc":1065, "sec":227, "pg":"", "vnc":[195, 209, 133, 244, 284], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130804, "ud":20131230}
+		{"id":"Rue1014a", "stitle":"Kyrie", "v":"5", "nc":1032, "sec":242, "pg":5, "vnc":[203, 233, 152, 221, 223], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130803, "ud":20131230},
+		{"id":"Rue1014b", "stitle":"Gloria", "v":"5", "nc":1803, "sec":343, "pg":9, "vnc":[369, 372, 275, 396, 391], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130803, "ud":20131230},
+		{"id":"Rue1014c", "stitle":"Credo", "v":"5", "nc":2344, "sec":421, "pg":11, "vnc":[480, 521, 263, 516, 564], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130803, "ud":20131230},
+		{"id":"Rue1014d", "stitle":"Sanctus", "v":"5", "nc":1550, "sec":353, "pg":7, "vnc":[263, 302, 138, 428, 419], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130804, "ud":20131230},
+		{"id":"Rue1014e", "stitle":"Agnus Dei", "v":"5", "nc":1065, "sec":227, "pg":6, "vnc":[195, 209, 133, 244, 284], "ih":241, "vname":["Discantus","Contra","Tenor","Tenor","Bassus"], "vabbr":["D","C","T","T","B"], "ad":20130804, "ud":20131230}
 		]
 	},
 	{
@@ -8166,7 +8423,7 @@
 	"voices"	:	"4",
 	"notecount"	:	3976,
 	"sec"		:	1318,
-	"pg"		:	25,
+	"pg"		:	26,
 	"ad"		:	20130801,
 	"ud"		:	20130802,
 	"sections"	:
@@ -8179,7 +8436,7 @@
 		{"id":"Rue1024f", "stitle":"Agnus Dei", "v":"5", "nc":536, "sec":112, "pg":2, "vnc":[92, 122, 63, 128, 131], "ih":251, "vname":["Discantus","Contra","Tenor","Tenor2","Bassus"], "vabbr":["D","C","T","T2","B"], "ad":20130801, "ud":20130802},
 		{"id":"Rue1024g", "stitle":"Communio I", "v":"", "nc":227, "sec":72, "pg":2, "vnc":[47, 49, 59, 72, 227, 47, 49, 59, 72, 206, 45, 41, 58, 62], "ih":213, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130801, "ud":20130802},
 		{"id":"Rue1024g.a", "stitle":"Communio I", "v":"4", "nc":227, "sec":49, "pg":2, "vnc":[47, 49, 59, 72], "ih":213, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130801, "ud":20130802},
-		{"id":"Rue1024g.b", "stitle":"Communio II", "v":"4", "nc":206, "sec":59, "pg":1, "vnc":[45, 41, 58, 62], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130801, "ud":20130802}
+		{"id":"Rue1024g.b", "stitle":"Communio II", "v":"4", "nc":206, "sec":59, "pg":2, "vnc":[45, 41, 58, 62], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130801, "ud":20130802}
 		]
 	},
 	{
@@ -8208,16 +8465,16 @@
 	"voices"	:	"4",
 	"notecount"	:	4683,
 	"sec"		:	1008,
-	"pg"		:	0,
+	"pg"		:	19,
 	"ad"		:	20121112,
 	"ud"		:	20121215,
 	"sections"	:
 		[
-		{"id":"Rue1026a", "stitle":"Kyrie", "v":"4", "nc":494, "sec":118, "pg":"", "vnc":[126, 48, 160, 160], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
-		{"id":"Rue1026b", "stitle":"Gloria", "v":"4", "nc":956, "sec":204, "pg":"", "vnc":[314, 88, 303, 251], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
-		{"id":"Rue1026c", "stitle":"Credo", "v":"4", "nc":1683, "sec":348, "pg":"", "vnc":[457, 168, 558, 500], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
-		{"id":"Rue1026d", "stitle":"Sanctus", "v":"4", "nc":976, "sec":211, "pg":"", "vnc":[231, 63, 357, 325], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
-		{"id":"Rue1026e", "stitle":"Agnus Dei", "v":"4", "nc":574, "sec":126, "pg":"", "vnc":[158, 105, 172, 139], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215}
+		{"id":"Rue1026a", "stitle":"Kyrie", "v":"4", "nc":494, "sec":118, "pg":2, "vnc":[126, 48, 160, 160], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
+		{"id":"Rue1026b", "stitle":"Gloria", "v":"4", "nc":956, "sec":204, "pg":4, "vnc":[314, 88, 303, 251], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
+		{"id":"Rue1026c", "stitle":"Credo", "v":"4", "nc":1683, "sec":348, "pg":6, "vnc":[457, 168, 558, 500], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
+		{"id":"Rue1026d", "stitle":"Sanctus", "v":"4", "nc":976, "sec":211, "pg":4, "vnc":[231, 63, 357, 325], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215},
+		{"id":"Rue1026e", "stitle":"Agnus Dei", "v":"4", "nc":574, "sec":126, "pg":3, "vnc":[158, 105, 172, 139], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20121112, "ud":20121215}
 		]
 	},
 	{
@@ -8283,14 +8540,14 @@
 	"voices"	:	"4",
 	"notecount"	:	6235,
 	"sec"		:	1346,
-	"pg"		:	28,
+	"pg"		:	21,
 	"ad"		:	20130805,
 	"ud"		:	20130806,
 	"sections"	:
 		[
 		{"id":"Rue1031a", "stitle":"Kyrie", "v":"4", "nc":835, "sec":163, "pg":4, "vnc":[183, 154, 258, 240], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130805},
 		{"id":"Rue1031b", "stitle":"Gloria", "v":"4", "nc":1124, "sec":219, "pg":5, "vnc":[266, 198, 334, 326], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130805},
-		{"id":"Rue1031c", "stitle":"Credo", "v":"4", "nc":1719, "sec":355, "pg":8, "vnc":[424, 338, 491, 466], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130805},
+		{"id":"Rue1031c", "stitle":"Credo", "v":"4", "nc":1719, "sec":355, "pg":1, "vnc":[424, 338, 491, 466], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130805},
 		{"id":"Rue1031d", "stitle":"Sanctus", "v":"4", "nc":1684, "sec":407, "pg":8, "vnc":[486, 172, 518, 508], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130805, "ud":20130806},
 		{"id":"Rue1031e", "stitle":"Agnus Dei", "v":"4", "nc":873, "sec":203, "pg":3, "vnc":[190, 160, 269, 254], "ih":198, "vname":["Discantus","Contra","Tenor","Bassus"], "vabbr":["D","C","T","B"], "ad":20130805, "ud":20130806}
 		]
@@ -8364,12 +8621,12 @@
 	"sec"		:	1642,
 	"pg"		:	34,
 	"ad"		:	20120605,
-	"ud"		:	20120622,
+	"ud"		:	20160530,
 	"sections"	:
 		[
 		{"id":"Rue1035a", "stitle":"Kyrie", "v":"4", "nc":704, "sec":182, "pg":4, "vnc":[151, 183, 177, 193], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120605, "ud":20120607},
-		{"id":"Rue1035b", "stitle":"Gloria", "v":"4", "nc":2003, "sec":434, "pg":9, "vnc":[472, 544, 538, 449], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120604, "ud":20120622},
-		{"id":"Rue1035c", "stitle":"Credo", "v":"4", "nc":2416, "sec":413, "pg":10, "vnc":[485, 422, 542, 422, 545], "ih":254, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120604, "ud":20120302},
+		{"id":"Rue1035b", "stitle":"Gloria", "v":"4", "nc":2003, "sec":434, "pg":9, "vnc":[472, 544, 538, 449], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120604, "ud":20160530},
+		{"id":"Rue1035c", "stitle":"Credo", "v":"4", "nc":2416, "sec":413, "pg":10, "vnc":[485, 422, 542, 422, 545], "ih":254, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120604, "ud":20160530},
 		{"id":"Rue1035d", "stitle":"Sanctus", "v":"5", "nc":1482, "sec":363, "pg":6, "vnc":[275, 217, 394, 218, 378], "ih":241, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120605, "ud":20120607},
 		{"id":"Rue1035e", "stitle":"Agnus Dei", "v":"4", "nc":1048, "sec":250, "pg":5, "vnc":[345, 96, 374, 94, 139], "ih":241, "vname":["Superius","Tenor1","Altus","Tenor2","Bassus"], "vabbr":["S","T1","A","T2","B"], "ad":20120605, "ud":20120607}
 		]
@@ -8772,28 +9029,13 @@
 	"title"		:	"Magnificat Quarti toni",
 	"genre"		:	"motet",
 	"voices"	:	"4",
-	"vname"		:	["Superius","Altus","Tenor","Bassus"],
-	"vabbr"		:	["S","A","T","B"],
+	"vname"		:	[],
+	"vabbr"		:	[],
 	"ih"		:	213,
-	"notecount"	:	2197,
+	"notecount"	:	0,
 	"sec"		:	497,
 	"pg"		:	19,
-	"vnotecount"	:	[650,674,512,361,2197,650,674,512,361],
-	"ad"		:	20120119,
-	"ud"		:	20120202
-	},
-	{
-	"id"		:	"Rue2032",
-	"title"		:	"Magnificat quarti toni",
-	"genre"		:	"motet",
-	"voices"	:	"4",
-	"vname"		:	["Superius","Altus","Tenor","Bassus"],
-	"vabbr"		:	["S","A","T","B"],
-	"ih"		:	213,
-	"notecount"	:	2197,
-	"sec"		:	497,
-	"pg"		:	19,
-	"vnotecount"	:	[650,674,512,361,2197,650,674,512,361],
+	"vnotecount"	:	[""],
 	"ad"		:	20120119,
 	"ud"		:	20120202
 	},
@@ -8920,7 +9162,7 @@
 	"ih"		:	198,
 	"notecount"	:	505,
 	"sec"		:	84,
-	"pg"		:	0,
+	"pg"		:	2,
 	"vnotecount"	:	[125,141,113,126],
 	"ad"		:	20130806
 	},
@@ -9076,7 +9318,7 @@
 "liststyle"	:	"genre",
 "notecount"	:	96100,
 "sec"		:	27632,
-"pg"		:	420,
+"pg"		:	439,
 "works"		:	
 	[
 	{
@@ -9162,14 +9404,14 @@
 	"voices"	:	"4",
 	"notecount"	:	2596,
 	"sec"		:	658,
-	"pg"		:	0,
+	"pg"		:	15,
 	"ad"		:	20141025,
 	"ud"		:	20150309,
 	"sections"	:
 		[
-		{"id":"Mar1006a", "stitle":"Kyrie", "v":"4", "nc":352, "sec":107, "pg":"", "vnc":[77, 59, 92, 124], "ih":198, "vname":["Superius","Contra","Tenor","Bassus"], "vabbr":["S","C","T","B"], "ad":20141025, "ud":20150309},
-		{"id":"Mar1006b", "stitle":"Sanctus", "v":"4", "nc":1127, "sec":274, "pg":"", "vnc":[298, 141, 393, 295], "ih":198, "vname":["Superius","Contra","Tenor","Bassus"], "vabbr":["S","C","T","B"], "ad":20141025, "ud":20150309},
-		{"id":"Mar1006c", "stitle":"Agnus Dei", "v":"4", "nc":1117, "sec":277, "pg":"", "vnc":[316, 171, 313, 317], "ih":198, "vname":["Superius","Contra","Tenor","Bassus"], "vabbr":["S","C","T","B"], "ad":20141025, "ud":20150309}
+		{"id":"Mar1006a", "stitle":"Kyrie", "v":"4", "nc":352, "sec":107, "pg":3, "vnc":[77, 59, 92, 124], "ih":198, "vname":["Superius","Contra","Tenor","Bassus"], "vabbr":["S","C","T","B"], "ad":20141025, "ud":20150309},
+		{"id":"Mar1006b", "stitle":"Sanctus", "v":"4", "nc":1127, "sec":274, "pg":6, "vnc":[298, 141, 393, 295], "ih":198, "vname":["Superius","Contra","Tenor","Bassus"], "vabbr":["S","C","T","B"], "ad":20141025, "ud":20150309},
+		{"id":"Mar1006c", "stitle":"Agnus Dei", "v":"4", "nc":1117, "sec":277, "pg":6, "vnc":[316, 171, 313, 317], "ih":198, "vname":["Superius","Contra","Tenor","Bassus"], "vabbr":["S","C","T","B"], "ad":20141025, "ud":20150309}
 		]
 	},
 	{
@@ -9854,7 +10096,7 @@
 	"ih"		:	119,
 	"notecount"	:	550,
 	"sec"		:	215,
-	"pg"		:	0,
+	"pg"		:	2,
 	"vnotecount"	:	[275,275],
 	"ad"		:	20141006,
 	"ud"		:	20141018
@@ -9899,7 +10141,7 @@
 	"ih"		:	119,
 	"notecount"	:	522,
 	"sec"		:	203,
-	"pg"		:	0,
+	"pg"		:	2,
 	"vnotecount"	:	[263,259],
 	"ad"		:	20141006,
 	"ud"		:	20141018
@@ -10522,7 +10764,7 @@
 "liststyle"	:	"genre",
 "notecount"	:	18704,
 "sec"		:	3830,
-"pg"		:	87,
+"pg"		:	92,
 "works"		:	
 	[
 	{
@@ -10599,7 +10841,7 @@
 	"ih"		:	206,
 	"notecount"	:	1077,
 	"sec"		:	227,
-	"pg"		:	0,
+	"pg"		:	5,
 	"vnotecount"	:	[294,292,259,232],
 	"ad"		:	20110720,
 	"ud"		:	20111103
@@ -10712,7 +10954,7 @@
 "liststyle"	:	"alphabetical",
 "notecount"	:	23604,
 "sec"		:	5869,
-"pg"		:	110,
+"pg"		:	96,
 "works"		:	
 	[
 	{
@@ -10722,12 +10964,12 @@
 	"voices"	:	"4",
 	"notecount"	:	5723,
 	"sec"		:	1500,
-	"pg"		:	28,
+	"pg"		:	27,
 	"ad"		:	20130507,
 	"ud"		:	20140103,
 	"sections"	:
 		[
-		{"id":"Obr1001a", "stitle":"Kyrie", "v":"4", "nc":685, "sec":186, "pg":5, "vnc":[237, 151, 144, 153], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120918},
+		{"id":"Obr1001a", "stitle":"Kyrie", "v":"4", "nc":685, "sec":186, "pg":4, "vnc":[237, 151, 144, 153], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20120918},
 		{"id":"Obr1001b", "stitle":"Gloria", "v":"4", "nc":1470, "sec":379, "pg":7, "vnc":[380, 97, 488, 505], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20130507, "ud":20140103},
 		{"id":"Obr1001c", "stitle":"Credo", "v":"4", "nc":1590, "sec":404, "pg":8, "vnc":[439, 141, 524, 486], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20130507, "ud":20140103},
 		{"id":"Obr1001d", "stitle":"Sanctus", "v":"4", "nc":1297, "sec":370, "pg":5, "vnc":[434, 89, 406, 368], "ih":198, "vname":["Superius","Altus","Tenor","Bassus"], "vabbr":["S","A","T","B"], "ad":20130507, "ud":20140103},
@@ -10823,7 +11065,7 @@
 	"ih"		:	241,
 	"notecount"	:	2694,
 	"sec"		:	585,
-	"pg"		:	14,
+	"pg"		:	1,
 	"vnotecount"	:	[649,739,247,534,525],
 	"ad"		:	20121006,
 	"ud"		:	20121105
@@ -10845,9 +11087,9 @@
 	{"name":"song", "count":26}
 	],
 "liststyle"	:	"genre",
-"notecount"	:	87890,
-"sec"		:	23855,
-"pg"		:	453,
+"notecount"	:	87640,
+"sec"		:	23765,
+"pg"		:	457,
 "works"		:	
 	[
 	{
@@ -10983,9 +11225,9 @@
 	},
 	{
 	"id"		:	"Ock1006",
-	"title"		:	"Missa Ecce ancilla Domini",
+	"title"		:	"Missa Ecce ancilla domini",
 	"genre"		:	"mass",
-	"voices"	:	"4",
+	"voices"	:	"?",
 	"notecount"	:	6447,
 	"sec"		:	1661,
 	"pg"		:	31,
@@ -11211,7 +11453,7 @@
 	"ih"		:	161,
 	"notecount"	:	277,
 	"sec"		:	56,
-	"pg"		:	0,
+	"pg"		:	2,
 	"vnotecount"	:	[97,85,95],
 	"ad"		:	20151029,
 	"ud"		:	20151031
@@ -11221,29 +11463,15 @@
 	"title"		:	"Baisi&eacute;s moy",
 	"genre"		:	"song",
 	"voices"	:	"3",
-	"vname"		:	["Discantus","Tenor","Bassus"],
-	"vabbr"		:	["D","T","B"],
-	"ih"		:	156,
 	"notecount"	:	364,
 	"sec"		:	91,
 	"pg"		:	2,
-	"vnotecount"	:	[128,121,115],
-	"ad"		:	20120816
-	},
-	{
-	"id"		:	"Ock3003",
-	"title"		:	"D'ung aultre amer",
-	"genre"		:	"song",
-	"voices"	:	"3",
-	"vname"		:	["Discantus","Tenor","Contra"],
-	"vabbr"		:	["D","T","C"],
-	"text"		:	"true",
-	"ih"		:	156,
-	"notecount"	:	250,
-	"sec"		:	71,
-	"pg"		:	2,
-	"vnotecount"	:	[86,75,89],
-	"ad"		:	20120816
+	"ad"		:	20120816,
+	"sections"	:
+		[
+		{"id":"Ock3002", "stitle":"", "v":"3", "nc":364, "sec":91, "pg":2, "vnc":[115, 121, 128], "ih":156, "vname":["Discantus","Tenor","Bassus"], "vabbr":["D","T","B"], "ad":20120816},
+		{"id":"Ock&nbsp;", "stitle":"", "v":"", "nc":"", "sec":"", "pg":"", "vnc":[""], "ih":0, "vname":[], "vabbr":[], "ad":20110000}
+		]
 	},
 	{
 	"id"		:	"Ock3004",
@@ -11271,7 +11499,7 @@
 	"ih"		:	156,
 	"notecount"	:	329,
 	"sec"		:	110,
-	"pg"		:	2,
+	"pg"		:	3,
 	"vnotecount"	:	[95,144,90],
 	"ad"		:	20151101
 	},
@@ -11375,7 +11603,7 @@
 	"ih"		:	161,
 	"notecount"	:	539,
 	"sec"		:	152,
-	"pg"		:	3,
+	"pg"		:	4,
 	"vnotecount"	:	[192,178,169],
 	"ad"		:	20151029,
 	"ud"		:	20151031
@@ -11436,7 +11664,7 @@
 	"ih"		:	166,
 	"notecount"	:	515,
 	"sec"		:	293,
-	"pg"		:	3,
+	"pg"		:	4,
 	"vnotecount"	:	[176,167,172],
 	"ad"		:	20151105
 	},
@@ -11505,13 +11733,13 @@
 	"voices"	:	"3",
 	"vname"		:	["Discantus","Tenor","Contra"],
 	"vabbr"		:	["D","T","C"],
+	"text"		:	"true",
 	"ih"		:	161,
 	"notecount"	:	305,
-	"sec"		:	117,
-	"pg"		:	2,
+	"sec"		:	99,
+	"pg"		:	3,
 	"vnotecount"	:	[113,90,102],
-	"ad"		:	20120625,
-	"ud"		:	20120816
+	"ad"		:	20170316
 	},
 	{
 	"id"		:	"Ock3022",
@@ -11607,7 +11835,7 @@
 "liststyle"	:	"genre",
 "notecount"	:	52862,
 "sec"		:	12340,
-"pg"		:	241,
+"pg"		:	245,
 "works"		:	
 	[
 	{
@@ -11950,7 +12178,7 @@
 	"ih"		:	198,
 	"notecount"	:	608,
 	"sec"		:	122,
-	"pg"		:	0,
+	"pg"		:	4,
 	"vnotecount"	:	[115,164,153,176],
 	"ad"		:	20130806
 	},
@@ -12108,7 +12336,7 @@
 "liststyle"	:	"genre",
 "notecount"	:	19127,
 "sec"		:	4081,
-"pg"		:	82,
+"pg"		:	83,
 "works"		:	
 	[
 	{
@@ -12235,7 +12463,7 @@
 	"ih"		:	113,
 	"notecount"	:	310,
 	"sec"		:	86,
-	"pg"		:	1,
+	"pg"		:	2,
 	"vnotecount"	:	[245,65],
 	"ad"		:	20150222,
 	"ud"		:	20150309
@@ -12284,6 +12512,138 @@
 	"vnotecount"	:	[110,84,92],
 	"ad"		:	20150307,
 	"ud"		:	20150321
+	}
+	]
+},
+
+{
+"repid"		:	"Zen",
+"reprole"	:	"composer",
+"comlong"	:	"Giulio Zenaro",
+"comshort"	:	"Zenaro",
+"comdates"	:	"fl. 1590",
+"repwork"	:	7,
+"genres"	:
+	[
+	{"name":"madrigal", "count":7}
+	],
+"liststyle"	:	"alphabetical",
+"notecount"	:	3128,
+"sec"		:	403,
+"pg"		:	27,
+"works"		:	
+	[
+	{
+	"id"		:	"Zen0242",
+	"title"		:	"Sovra lherbette e i fiori (1589)",
+	"genre"		:	"madrigal",
+	"voices"	:	"?",
+	"vname"		:	["Canto","Tenore","Basso"],
+	"vabbr"		:	["C","T","B"],
+	"text"		:	"true",
+	"ih"		:	358,
+	"notecount"	:	477,
+	"sec"		:	64,
+	"pg"		:	4,
+	"vnotecount"	:	[166,184,127],
+	"ad"		:	20130000,
+	"ud"		:	20160213
+	},
+	{
+	"id"		:	"Zen0267",
+	"title"		:	"Bella non e costei (1589)",
+	"genre"		:	"madrigal",
+	"voices"	:	"?",
+	"vname"		:	["Canto","Tenore","Basso"],
+	"vabbr"		:	["C","T","B"],
+	"text"		:	"true",
+	"ih"		:	373,
+	"notecount"	:	504,
+	"sec"		:	62,
+	"pg"		:	4,
+	"vnotecount"	:	[175,172,157],
+	"ad"		:	20130000,
+	"ud"		:	20170208
+	},
+	{
+	"id"		:	"Zen0307",
+	"title"		:	"Non sono in queste rive (1589)",
+	"genre"		:	"madrigal",
+	"voices"	:	"?",
+	"vname"		:	["Canto","Tenore","Basso"],
+	"vabbr"		:	["C","T","B"],
+	"text"		:	"true",
+	"ih"		:	373,
+	"notecount"	:	397,
+	"sec"		:	58,
+	"pg"		:	3,
+	"vnotecount"	:	[137,147,113],
+	"ad"		:	20130000,
+	"ud"		:	20160328
+	},
+	{
+	"id"		:	"Zen0318",
+	"title"		:	"Sovra un lucido rio (1589)",
+	"genre"		:	"madrigal",
+	"voices"	:	"?",
+	"vname"		:	["Canto","Tenore","Basso"],
+	"vabbr"		:	["C","T","B"],
+	"text"		:	"true",
+	"ih"		:	373,
+	"notecount"	:	448,
+	"sec"		:	54,
+	"pg"		:	4,
+	"vnotecount"	:	[149,160,139],
+	"ad"		:	20130000,
+	"ud"		:	20170208
+	},
+	{
+	"id"		:	"Zen0335",
+	"title"		:	"Voi bramate ben mio (1589)",
+	"genre"		:	"madrigal",
+	"voices"	:	"?",
+	"vname"		:	["Canto","Tenore","Basso"],
+	"vabbr"		:	["C","T","B"],
+	"text"		:	"true",
+	"ih"		:	373,
+	"notecount"	:	420,
+	"sec"		:	56,
+	"pg"		:	4,
+	"vnotecount"	:	[131,149,140],
+	"ad"		:	20130000,
+	"ud"		:	20160108
+	},
+	{
+	"id"		:	"Zen0903",
+	"title"		:	"O fuggitiva e timidetta fiera (1589)",
+	"genre"		:	"madrigal",
+	"voices"	:	"?",
+	"vname"		:	["Canto","Tenore","Basso"],
+	"vabbr"		:	["C","T","B"],
+	"text"		:	"true",
+	"ih"		:	373,
+	"notecount"	:	518,
+	"sec"		:	64,
+	"pg"		:	5,
+	"vnotecount"	:	[170,177,171],
+	"ad"		:	20120000,
+	"ud"		:	20170213
+	},
+	{
+	"id"		:	"Zen1049",
+	"title"		:	"Queste note son nove e queste Amore (1589)",
+	"genre"		:	"madrigal",
+	"voices"	:	"?",
+	"vname"		:	["Canto","Tenore","Basso"],
+	"vabbr"		:	["C","T","B"],
+	"text"		:	"true",
+	"ih"		:	373,
+	"notecount"	:	364,
+	"sec"		:	43,
+	"pg"		:	3,
+	"vnotecount"	:	[118,130,116],
+	"ad"		:	20130000,
+	"ud"		:	20160108
 	}
 	]
 }
