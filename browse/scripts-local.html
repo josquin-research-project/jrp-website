@@ -15,6 +15,7 @@
 // Used to display extra info:
 var CountInfo			= 0;
 var TextInfo			= 0;
+var OnlyText         = 0;
 var WORKCOUNT			= 0;
 var WORKCOUNTBYCOMPOSER = {};
 var COMPOSERALLWORKS	 = {};
@@ -326,7 +327,7 @@ function fillInAboutComposerList() {
 					+ "</span>";
 		}
 		ii = 0;
-		if (repid.localeCompare("M") >= 0) {
+		if (repid.localeCompare("J") >= 0) {
 		  ii = 1;
 		}
 		columns[ii] += "<li";
@@ -373,7 +374,7 @@ function fillInAboutComposerList() {
 	var output = "";
 	output += '<div class="col">\n';
 	output += '<ul>\n';
-	output += '<li class="title">A&ndash;M</li>\n';
+	output += '<li class="title">A&ndash;I</li>\n';
 
 	output += columns[0];
 
@@ -381,7 +382,7 @@ function fillInAboutComposerList() {
 	output += '</div>\n';
 	output += '<div class="col">\n';
 	output += '<ul>\n';
-	output += '<li class="title">N&ndash;Z</li>\n';
+	output += '<li class="title">J&ndash;Z</li>\n';
 
 	output += columns[1];
 
@@ -580,7 +581,11 @@ function generateComposerWorkEntries(worklist, index) {
 		fragment = entry.fragment || 'false';
 		genre	   = entry.genre    || '';
 		voices	= entry.voices   || '?';
-		text	   = entry.text     || 'false';
+		text	   = getTextState(entry);
+		if (OnlyText && (text !== "true")) {
+			continue;
+		}
+console.log("TEXT IS ", text, "FOR ENTRY", entry);
 		if (typeof entry.comshort !== 'undefined') {
 			composer = entry.comshort;
 		}
@@ -754,6 +759,29 @@ function generateComposerWorkEntries(worklist, index) {
 	}
 
 	return output;
+}
+
+
+
+//////////////////////////////
+//
+// getTextState --
+//
+
+function getTextState(entry) {
+	if (entry.text && entry.text === "true") {
+		return "true";
+	}
+	if (entry.sections) {
+		var list = entry.sections;
+		for (var i=0; i<list.length; i++) {
+			if (list[i].text && list[i].text === "true") {
+				return "true";
+			}
+		}
+	}
+
+	return false;
 }
 
 
@@ -1390,9 +1418,15 @@ function showCensusInfo() {
 //
 
 function showBrowseHomeButton() {
-	document.getElementById('about-button').innerHTML = 
-	'<span style="cursor:hand; cursor:pointer;" ' + 
-	'onclick="displayAboutBrowse();" class="btn btn-brown">Browse Home</span>\n';
+	var text = '<span style="cursor:hand; cursor:pointer;" ';
+	text += 'onclick="displayAboutBrowse();" class="btn btn-brown">';
+	if (window.location.pathname.match(/performance/i)) {
+		text += 'Performance Home';
+	} else {
+		text += 'Browse Home';
+	}
+	text += '</span>\n';
+	document.getElementById('about-button').innerHTML = text;
 }
 
 

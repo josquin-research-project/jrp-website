@@ -1,3 +1,7 @@
+<script src="https://verovio-script.humdrum.org/scripts/verovio-toolkit.js"></script>
+<script src="https://plugin.humdrum.org/scripts/humdrum-notation-plugin.js"></script>
+<script>var vrvToolkit = new verovio.toolkit()</script>
+
 <script src="/scripts/scripts-common.js"></script>
 <script>
 //
@@ -97,10 +101,17 @@ function displayRandomExample() {
 
 	var randomindex = Math.floor(Math.random() * WORKLISTrecent.length);
 	var randomwork  = WORKLISTrecent[randomindex];
+console.log("CHOSE RANDOM WORK", randomwork);
 	
 	var composer = randomwork.comshort;
 	var title    = randomwork.title;
 	var jrpid    = randomwork.id;
+
+	var filename = randomwork.filename;
+	if (randomwork.sections) {
+		filename = randomwork.sections[0].filename;
+	}
+console.log("FILENAME ===============================", filename);
    var height   = 0;
 
    if (!!randomwork.ih) {
@@ -140,19 +151,66 @@ function displayRandomExample() {
 
 	output += "</h2>\n";
 
-	output += "<div class=\"music-area\">\n";
-	output += "<a id=\"sample-incipit\" href=\"/work?id=" + jrpid + "\">";
-	output += "<div style=\"height:"  + height + "px;\"></div>\n";
-	//output += "<img src=\"";
-	//output += incipit;
-	//output += "\" alt=\"music placeholder\">";
-	output += "</a>";
-	output += "</div> <!-- music area -->\n";
+	//output += "<div class=\"music-area\">\n";
+	//output += "<a id=\"sample-incipit\" href=\"/work?id=" + jrpid + "\">";
+	//output += "<div style=\"height:"  + height + "px;\"></div>\n";
+	////output += "<img src=\"";
+	////output += incipit;
+	////output += "\" alt=\"music placeholder\">";
+	//output += "</a>";
+	//output += "</div> <!-- music area -->\n";
 
 
 	var samplemusic = document.getElementById("sample-music");
 	samplemusic.innerHTML = output;
-	getIncipitAsync(jrpid);
+	samplemusic.style.minHeight = "300px";
+
+	if (!samplemusic) {
+		console.log("CANNOT FIND #sample-music");
+		return;
+	}
+	samplemusic.innerHTML = output;
+	var script = document.createElement("script");
+	script.type = "text/x-humdrum";
+	script.id = "random";
+	samplemusic.appendChild(script);
+	// getIncipitAsync(jrpid);
+
+	var comcode = "";
+	if (!filename) {
+		console.log("NO FILENAME for random match", randomwork);
+		return;
+	}
+	var matches = filename.match(/^([A-Z][a-z][a-z])/);
+	if (matches) {
+		comcode = matches[1];
+	}
+	var url = "https://raw.githubusercontent.com/josquin-research-project/";
+	url += comcode;
+	url += "/master/";
+	url += filename;
+
+	displayHumdrum({
+		incipit: true,
+		source: "random",
+		scale: 35,
+		spacingLinear: 0.18,
+		spacingNonLinear: 0.45,
+		postFunction: resetHeight,
+		url: url
+	});
+}
+
+
+
+//////////////////////////////
+//
+// resetHeight --
+//
+
+function resetHeight(id) {
+	var samplemusic = document.getElementById("sample-music");
+	samplemusic.style.height = "";
 }
 
 
@@ -163,6 +221,8 @@ function displayRandomExample() {
 //
 
 function getIncipitAsync(jrpid) {
+	return;
+/*
 	var dataloc = "/data";
 	if (window.location.href.match(/tasso/i)) {
 		dataloc = "http://data.tassomusic.org/data";
@@ -174,10 +234,11 @@ function getIncipitAsync(jrpid) {
    	var data = responseText;
    	if (data != "") {
      		var area = document.getElementById("sample-incipit");
-      	var imgtext = "<img src=\"" + data + "\" alt=\"music placeholder\">";
       	area.innerHTML = imgtext;
+      	// var imgtext = "ImG src=\"" + data + "\" alt=\"music placeholder\">";
    	}
 	});
+*/
 }
 
 
@@ -189,6 +250,7 @@ function getIncipitAsync(jrpid) {
 
 function displayRecentAdditions() {
 
+console.log("CREATING RECENTLY ADDED");
    var recentlyadded = document.getElementById("recently-added");
 	var ra = "<h2 onclick=\"document.location='/recent';\" class=\"pointer blue-bar\">recently added</h2>\n";
 	ra += "<p class=\"text-brown\" style=\"letter-spacing:0.5px;\">";
@@ -210,6 +272,7 @@ function displayRecentAdditions() {
 
 	recent.innerHTML = tablecontent;
 	sessionStorage.RECENTLYADDEDHTML = tablecontent;
+console.log("DONE CREATING RECENTLY ADDED");
 }
 
 

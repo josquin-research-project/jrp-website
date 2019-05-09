@@ -45,6 +45,16 @@ document.addEventListener("DOMContentLoaded", function() {
 		home = "false";
 	}
 
+	var text = CgiParameters['text'];
+	if (text) {
+		home = "true";
+		OnlyText = 1;
+	}
+	if (window.location.pathname.match(/performance/)) {
+		home = "true";
+		OnlyText = 1;
+	}
+
 	var composers = document.getElementById("composers");
 	if (home == "true") {
 		composers.value = "default";

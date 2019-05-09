@@ -1399,7 +1399,7 @@ header nav#primary-nav {
 header nav#primary-nav ul {
 	margin: 0;
 	padding: 0;
-	padding-left: 52px;
+	padding-right: 0px;
 	display: block;
 	list-style: none;
 	text-align: left;
@@ -1408,7 +1408,7 @@ header nav#primary-nav ul li {
 	display: inline-block;
 }
 header nav#primary-nav ul li a {
-	padding: 18px 15px;
+	padding: 0px 0px;
 	text-transform: uppercase;
 	color: #838281;
 	font-family: "Lato", "sans-serif";
@@ -1476,6 +1476,7 @@ header #banner div.descr p, header #bannernotitle div.descr p {
 }
 header.simple nav#primary-nav ul {
 	padding: 0;
+	padding-right: 32px;
 	margin: 0;
 }
 header.simple nav#primary-nav ul:after {
@@ -1490,12 +1491,22 @@ header.simple nav#primary-nav ul li {
 	float: left;
 }
 header.simple nav#primary-nav ul li a {
-	padding: 17px 15px;
+	padding: 10px 5px;
+	padding-top: 15px;
 	height: 57px;
 }
 header.simple nav#primary-nav ul li.logo a {
 	padding: 0;
 	margin-right: 20px;
+}
+
+nav.main-page {
+	min-height: 57px;
+}
+
+nav.main-page ul li {
+	padding-top: 15px;
+	padding-left: 30px;
 }
 
 /* aside styles */

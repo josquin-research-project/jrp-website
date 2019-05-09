@@ -110,34 +110,45 @@ const RightArrowKey   = 39;    // maybe also 29 & 57376
 //
 
 function InitializeWorklist() {
+console.log("GOT HERE IN INITIALIZEWORKLIST");
    if (WORKLIST != null) {
       return;
    }
+console.log("GOT HERE ZZZ");
 
    // Eventually request a timestamp from the server, and compare
    // to WORKLIST store in localStorage, and only re-download if the
    // server has a newer WORKLIST.  For now, update once a day.
    var refreshtime = 3600 * 1;  // update once an hour
    var currenttime = parseInt(new Date() / 1000);  // convert from ms to sec.
+console.log("GOT HERE YYY");
 
    if ((typeof localStorage.WORKLISTrefreshtime !== 'undefined') && 
        (localStorage.WORKLISTrefreshtime < currenttime)) {
       localStorage.WORKLIST = null;
    }
+console.log("GOT HERE PPP");
 
    if ((typeof localStorage.WORKLIST === 'undefined') ||
          (localStorage.WORKLIST == 'null') || (localStorage.WORKLIST == '')) {
       // need to download the WORKLIST data from the server.
+console.log("GOT HERE AAA");
       localStorage.WORKLIST = ReadFile('/includes/worklist.json');
       if (localStorage.WORKLIST.match(/^\s*$/)) {
+console.log("GOT HERE BBB");
          localStorage.WORKLIST = ReadFile('/data?a=worklist-json'); 
       }
+console.log("GOT HERE CCC");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
+console.log("GOT HERE DDD");
       localStorage.WORKLISTrefreshtime = currenttime + refreshtime;
+console.log("GOT HERE EEE");
    } else {
       // already have the worklist in local storage, so read from there.
+console.log("GOT HERE FFF");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
    }
+console.log("GOT HERE GGG");
 }
 
 
@@ -155,6 +166,7 @@ function InitializeWorklist() {
 
 function InitializeWorklistFlat() {
 
+console.log("IN INITIALIZEWORKLISTFLAT");
    if ((WORKLISTrecent != null) && (WORKLISTrecent.length != 0)) {
       // WORILISTjrpid is presumed to be in a similar state.
       return;

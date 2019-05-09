@@ -221,8 +221,9 @@ function displayMultisectionWork(jrpid) {
 	jrpid = sectionid;
 
 	// Set the incipit image ///////////////////////////////////////////////
-	prepareIncipitArea(jrpid, SECTIONS);
-	getIncipitAsyncMultiple(jrpid, SECTIONS);
+	// prepareIncipitArea(jrpid, SECTIONS);
+	// getIncipitAsyncMultiple(jrpid, SECTIONS);
+	displayHumdrumIncipit(jrpid, SECTIONS)
 
 	// Set the vocal range  image //////////////////////////////////////////
 	prepareRangeArea(jrpid, SECTIONS);
@@ -775,8 +776,9 @@ function displayWork(jrpid) {
 	document.getElementById("title").innerHTML = titleContent;
 
 	// Set the incipit image ///////////////////////////////////////////////
-	prepareIncipitArea(jrpid);
-	getIncipitAsync(jrpid);
+	// prepareIncipitArea(jrpid);
+	// getIncipitAsync(jrpid);
+	displayHumdrumIncipit(jrpid, SECTIONS)
 
 	// Set the vocal range  image //////////////////////////////////////////
 	prepareRangeArea(jrpid);
@@ -795,6 +797,22 @@ function displayWork(jrpid) {
 //
 
 function showDownloadArea(jrpid, stitle) {
+console.log("PRINTING DOWNLOAD FOR JRPID", jrpid);
+	var work = WORKLISTjrpid[jrpid];
+	if (!work) {
+		var jrpidparent = jrpid.replace(/[a-z]+$/, "");
+		work = WORKLISTjrpid[jrpidparent];
+	}
+	if (!work) {
+		console.log("PROBLEM FINDING WORK", jrpid);
+	}
+console.log("WORK IS ", work);
+	var filename = work.filename;
+	if (work.sections) {
+		filename = work.sections[0].filename;
+	}
+console.log("FILENAME FOR WORK IS ", filename);
+	
 
 	var cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
 
@@ -820,13 +838,23 @@ function showDownloadArea(jrpid, stitle) {
 	download += "/data?a=midi&f=" + jrpid;
 	download += "\">MIDI</a></li>\n";
 
-	download += "<li><div class=\"icon-file-list\"><nobr>";
+	download += "<li style='max-width:181px;  white-space:nowrap;'><div class=\"icon-file-list\"><nobr>";
 	download += "<a class=\"xlink\" target=\"_blank\" href=\"";
 	download += "/data?a=humdrum&f=" + jrpid;
 	download += "\">Humdrum</a> ";
+
 	download += "(<a class=\"xlink\" target=\"_blank\" ";
+	download += "href=\"https://verovio.humdrum.org?file=https://";
+	download += "raw.githubusercontent.com/josquin-research-project/";
+	download += cshort;
+	download += "/master/" + filename;
+	download += "\">";
+	download += "in VHV</a>)\n";
+
+	download += " (<a class=\"xlink\" target=\"_blank\" ";
 	download += "href=\"https://github.com/josquin-research-project/";
 	download += cshort;
+	download += "/blob/master/" + filename;
 	download += "\">";
 	download += "on Github</a>)</nobr></div></li>\n";
 
@@ -874,6 +902,93 @@ function showDownloadArea(jrpid, stitle) {
 
 }
 
+
+
+//////////////////////////////
+//
+// displayHumdrumIncipit --
+//
+
+function displayHumdrumIncipit(jrpid, sections) {
+	var area = document.getElementById("music-area");
+	if (!area) {
+		return;
+	}
+	var work = WORKLISTjrpid[jrpid];
+	if (!work) {
+		var tjrpid = jrpid.replace(/[a-z]+$/, "");
+		work = WORKLISTjrpid[tjrpid];
+	}
+	if (!work) {
+		console.log("CANNOT FIND WORK FOR", jrpid);
+		return;
+	}
+	var filename = "";
+	if (work.filename) {
+		filename = work.filename;
+	}
+	if (work.sections) {
+		for (var x=0; x<work.sections.length; x++) {
+			if (jrpid == work.sections[x].id) {
+				filename = work.sections[x].filename;
+				break;
+			}
+		}
+	}
+	if (!filename && work.sections) {
+		filename = work.sections[0].filename;
+	}
+
+	var script = document.createElement("script");
+	script.type = "text/x-humdrum";
+	script.id = jrpid;
+	area.innerHTML = "";
+	area.appendChild(script);
+
+	var comcode = "";
+	if (!filename) {
+		console.log("NO FILENAME for random match", randomwork);
+		return;
+	}
+	var matches = filename.match(/^([A-Z][a-z][a-z])/);
+	if (matches) {
+		comcode = matches[1];
+	}
+	var url = "https://raw.githubusercontent.com/josquin-research-project/";
+	url += comcode;
+	url += "/master/";
+	url += filename;
+	area.style.height = "";
+	area.style.marginRight = "70px";
+	area.style.marginTop = "-50px";
+	area.style.marginBottom = "-20px";
+
+	displayHumdrum({
+		incipit: true,
+		source: jrpid,
+		scale: 35,
+		spacingLinear: 0.18,
+		spacingNonLinear: 0.45,
+		postFunction: resetHeight,
+		url: url
+	});
+}
+
+
+
+///////////////////////////
+//
+// resetHeight --
+//
+
+function resetHeight(id) {
+console.log("GOT HERE IN RESET HEIGHT ========================================= ", id);
+	var samplemusic = document.getElementById("music-area");
+	if (samplemusic) {
+console.log("CLEARING HEIGHT FOR", samplemusic);
+		samplemusic.style.height = "";
+	}
+}
 
 
 
@@ -1090,7 +1205,8 @@ function toggleIncipitDisplay() {
 	sessionStorage.WORKallincipits = WORKallincipits;
 	if (!WORKallincipits) {
 		clearAllIncipits();
-	  	getIncipitAsync(localStorage.WORKjrpid);
+	  	// getIncipitAsync(localStorage.WORKjrpid);
+		displayHumdrumIncipit(localStorage.WORKjrpid)
 	} else {
 		clearAllIncipits();
 		showAllIncipits();
@@ -1184,7 +1300,8 @@ function toggleRangeByDuration() {
 //
 
 function showAllIncipits() {
-	getIncipitAsyncMultiple(localStorage.WORKjrpid, SECTIONS);
+	// getIncipitAsyncMultiple(localStorage.WORKjrpid, SECTIONS);
+	displayHumdrumIncipit(localStorage.WORKjrpid, SECTIONS)
 }
 
 
@@ -1207,14 +1324,16 @@ function showAllRanges() {
 
 function clearAllIncipits() {
 	if (!SECTIONS || SECTIONS.length < 2) {
-  		getIncipitAsync(localStorage.WORKjrpid);
+  		// getIncipitAsync(localStorage.WORKjrpid);
+		displayHumdrumIncipit(localStorage.WORKjrpid);
 	}
 	var jrpid = localStorage.WORKjrpid;
 	for (var i=0; i<SECTIONS.length; i++) {
 		if (SECTIONS[i].id != localStorage.WORKjrpid) {
 			document.getElementById("incipit_" + SECTIONS[i].id).innerHTML = "";
 		} else {
-	  		getIncipitAsync(SECTIONS[i].id);
+	  		// getIncipitAsync(SECTIONS[i].id);
+			displayHumdrumIncipit(SECTIONS[i].id);
 		}
 	}
 	// clear work-level incipit if multi-sectioned work.
@@ -1790,8 +1909,9 @@ function displaySection(workid) {
 	SECTIONID = workid;
 
 	if (!WORKallincipits) {
-		prepareIncipitArea(workid, SECTIONS);
-		getIncipitAsync(workid);
+		// prepareIncipitArea(workid, SECTIONS);
+		// getIncipitAsync(workid);
+		displayHumdrumIncipit(workid, SECTIONS)
 	}
 
 	if (!WORKallranges) {
@@ -1825,11 +1945,27 @@ function getRangeAsync(jrpid) {
 		}
 	}
 
+	if (RANGES[jrpid] && RANGES[jrpid].match(/Error: no image found for/)) {
+		var vrange = document.querySelector("#vocal-ranges");
+		if (vrange) {
+			vrange.style["display"] = "none";
+		}
+		var rangebutton = document.querySelector("#range-button");
+		if (rangebutton) {
+			rangebutton.style["display"] = "none";
+		}
+		// return;
+		var bad = 1;
+		console.log(RANGES[jrpid]);
+	}
+
 	if (!!RANGES[jrpid]) {
  		var area = document.getElementById("range_" + jrpid);
 		if (!!area) { 
 			area.style.height = ""; 
-	  		area.innerHTML = RANGES[jrpid];
+			if (!bad) {
+	  			area.innerHTML = RANGES[jrpid];
+			}
 		}
 		document.getElementById("vocal-ranges").style.height = "";
 		return;
@@ -1867,6 +2003,7 @@ function getRangeAsync(jrpid) {
 //
 
 function getIncipitAsync(jrpid) {
+return;
 	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 	if (!WORKallincipits) {
 		// if not showing all incipits
@@ -1911,6 +2048,7 @@ function getIncipitAsync(jrpid) {
 //
 
 function getIncipitAsyncMultiple(jrpid, sections) {
+return;
 	if (!sections) {
 		getIncipitAsync(jrpid);
 		return;
@@ -2089,10 +2227,14 @@ function displayAllWorksRepertoryAnalyses() {
 
 function displayThisWorkRepertoryAnalyses() {
 	var content = "";
-	content += '<li><span onclick="localStorage.RIBBONjrpid=';
-	content += 'localStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
+	// content += '<li><span onclick="localStorage.RIBBONjrpid=';
+	// content += 'localStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
+	// content += 'style="cursor:pointer;" ';
+	// content += 'class="btn btn-brown btn-medium">';
+	content += '<li><span onclick="var url = \'http://ribbon.humdrum.org/?id=\' + localStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
+
 	content += '<span class="anatitle">Ribbon</span> ';
 	content += '<small>formal analysis</small></span></li>\n';
 
@@ -2112,7 +2254,7 @@ function displayThisWorkRepertoryAnalyses() {
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Cadences</span> ';
-	content += '<small>all cadences marked</small></span></li>\n';
+	content += '<small>cadential voice functions marked</small></span></li>\n';
 
 	content += '<li><span onclick="showWorkAnalysis(\'imitation\');" ';
 	content += 'style="cursor:pointer;" ';
