@@ -1,8 +1,11 @@
+---
+---
+
 <!doctype html>
 <html lang="en">	
 <head>
 	<title>The Josquin Research Project</title>
-	<!--#include virtual="/includes/usual-head-contents.html" -->
+	{% include usual-head-contents.html %}
 
 </head>
 
@@ -10,7 +13,7 @@
 <body>
 	<audio id="audio"></audio>
 	<div class="page container" id="home-page">
-		<!--#include virtual="/includes/header-main.html" -->
+		{% include header-main.html %}
 		<section id="content">
 
 			<aside>
@@ -45,7 +48,7 @@
 					</h3>
 -->
 					<article class="news">
-						<!--#include virtual="/includes/news.html" -->
+						{% include news.html %}
 					</article>
 				</section>
 
@@ -59,9 +62,13 @@
 			</section>
 		</section>
 
-	<!--#include virtual="/includes/footer-main.html" -->
+	{% include footer-main.html %}
 	</div> <!-- page -->
-	<!--#include virtual="scripts-local.html" -->
+	{% include_relative scripts-local.html %}
+
+</body>
+</html>
+<!-- vim: set ts=2: -->
 
 </body>
 </html>

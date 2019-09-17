@@ -1,3 +1,6 @@
+---
+---
+
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Mon Nov 17 23:25:21 PST 2014
@@ -17,7 +20,7 @@
 //
 
 function DisplayReferences(jrpid, target) {
-   ReadFileAsync("/includes/references.json", function(responseText) {
+   ReadFileAsync("http://{{site.dataurl}}/includes/references.json", function(responseText) {
 		var edition = GetReferenceEdition(jrpid, responseText);
 		if (edition.match(/^\s*$/)) {
 			return;

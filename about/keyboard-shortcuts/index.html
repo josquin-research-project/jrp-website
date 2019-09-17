@@ -1,10 +1,12 @@
+---
+---
 <!doctype html>
 <html lang="en">
 
 	<head>
 		<!-- vim: set ts=3: -->
 		<title>JRP keyboard commands</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+    <!--% include usual-head-contents.html %-->
 
 		<style>
 		p { letter-spacing:-0.5px; }
@@ -90,14 +92,19 @@
 
 	<body>
 		<div class="page container" id="home-page">
-			<!--#include virtual="/includes/header-generic.html" -->
+      <!--% include header-generic.html %-->
 			<section id="content">
-				<!--#include virtual="content.html" -->
+        <!--% include_relative content.html %-->
 			</section> <!-- content -->
-			<!--#include virtual="/includes/footer-generic.html" -->
-		</div> <!-- page -->
-		<!--#include virtual="/includes/scripts.html" -->
-		<!--#include virtual="scripts-local.html" -->
+      <!--% include footer-generic.html %-->
+		</div> <!-- page -->]
+    <!--% include scripts.html %-->
+    <!--% include_relative scripts-local.html %-->
+	</body>
+
+</html>
+<!--% include scripts.html %-->
+    <!--% include_relative scripts-local.html %-->
 	</body>
 
 </html>

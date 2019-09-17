@@ -1,3 +1,5 @@
+---
+---
 <script src="/scripts/external/handlebars-v2.0.0.js"></script>
 <script src="/scripts/scripts-common.js"></script>
 <script>
@@ -412,7 +414,7 @@ function getIncipitAsync(jrpid) {
 	}
 
 	var action = "incipit-mime";
-	ReadFileAsync("/data?a=" + action + "&id=" + jrpid, function(responseText) {
+	ReadFileAsync("{{site.dataurl}}/data?a=" + action + "&id=" + jrpid, function(responseText) {
 		var data = responseText;
 		INCIPITS[jrpid] = responseText;
 		if (data != "") {
@@ -437,7 +439,7 @@ function getErrorReports(jrpid) {
 	}
 
 	var request = new XMLHttpRequest();
-	request.open('GET', '/data?a=errors-json&force=' + FORCE, true);
+	request.open('GET', '{{site.dataurl}}/data?a=errors-json&force=' + FORCE, true);
 	request.addEventListener('load', function() {
 		if (request.status = 200) {
 			ERRORLIST = JSON.parse(request.responseText);

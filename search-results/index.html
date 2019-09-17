@@ -1,19 +1,21 @@
+---
+---
 <!doctype html>
 <html lang="en">	           
 	<head>
 		<title>JRP Search</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 <body>
 	<audio id="audio"></audio>
 	<div class="page container" id="search-page">
-		<!--#include virtual="/includes/header-search.html" -->
+		{% include header-search.html %}
 		<div id="content">
-		<!-- #include virtual="content.html" -->
+		{% include_relative content.html %}
 		</div>
-		<!--#include virtual="/includes/footer-generic.html" -->
+		{% include footer-generic.html %}
 	</div> <!-- page -->
-	<!--#include virtual="scripts-local.html" -->
+	{% include_relative scripts-local.html %}
 </body>
 </html>
 <!-- vim: set ts=2: -->

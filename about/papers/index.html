@@ -1,21 +1,24 @@
+---
+---
 <!doctype html>
 <html lang="en">	           
 	<head>
 		<title>Papers</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 
 	<body>
 		<div class="page container" id="home-page">
-			<!--#include virtual="/includes/header-generic.html" -->
+			{% include header-generic.html %}
 
 			<section id="content">
-			<!--#include virtual="contents.html" -->
+			{% include_relative contents.html %}
 			</section>
 
-			<!--#include virtual="/includes/footer-generic.html" -->
+			{% include footer-generic.html %}
 		</div>
-		<!--#include virtual="scripts-local.html" -->
+		{% include_relative scripts-local.html %}
 	</body>
 </html>
 <!-- vim: set ts=2: -->
+t ts=2: -->

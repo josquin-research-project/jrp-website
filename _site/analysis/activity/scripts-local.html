@@ -1,0 +1,99 @@
+<script src="/scripts/scripts-common.js"></script>
+<script src="../scripts-common.js"></script>
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Fri Sep 12 13:44:35 PDT 2014
+// Last Modified:	Thu Sep 18 15:30:15 PDT 2014
+// Filename:		.../analysis/activity/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/analysis/activity/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:	JavaScript management of the JRP activity analysis.
+//
+
+
+//////////////////////////////
+//
+// window.onload == what to do after the page has been loaded.
+//
+
+window.onload = function() {
+   loadCgiParameters();
+	window.addEventListener('keydown', analysisKeyDownFunction, false);
+	displayContents();
+};
+
+
+
+//////////////////////////////
+//
+// runAnalysis --
+//
+
+function runAnalysis() {
+	var maincontent = document.getElementById('analysis-content');
+	if (!maincontent) {
+		return;
+	}
+
+   localStorage.ANALYSISrepertory = document.getElementById("repertory").value;
+
+	if ((localStorage.ANALYSISrepertory == "") 
+	  || (localStorage.ANALYSISrepertory == "Select a repertory")) {
+		maincontent.innerHTML = 
+			"<p>Choose a repertory from the above menu to view its activity plots.</p>";
+		return;
+	}
+
+	maincontent.innerHTML = "<p>Processing...</p>";
+	$("body").css("cursor", "wait");
+   var file = "http://josquin.stanford.edu/data?repertory=activity&composer=" + 
+		localStorage.ANALYSISrepertory;
+
+   localStorage.ANALYSISgenre = document.getElementById("genre").value;
+   if ((typeof localStorage.ANALYSISgenre !== 'undefined') 
+			&& !localStorage.ANALYSISgenre.match(/^\s*$/)
+			&& !localStorage.ANALYSISgenre.match(/All genres/)) {
+		file += "&genre=" + localStorage.ANALYSISgenre;
+	} 
+
+   localStorage.ANALYSISwork = document.getElementById("work").value;
+   if ((typeof localStorage.ANALYSISwork !== 'undefined') 
+			&& !localStorage.ANALYSISwork.match(/^\s*$/)
+			&& !localStorage.ANALYSISwork.match(/All works/)) {
+		file += "&work=" + localStorage.ANALYSISwork;
+	}
+
+console.log("DOWNLOADING " + file);
+
+	ReadFileAsync(file, function(responseText) {
+		var maincontent = document.getElementById('analysis-content');
+		if (!maincontent) {
+			return;
+		}
+		maincontent.innerHTML = responseText;
+		$("body").css("cursor", "default");
+	});
+
+   var genre  = document.getElementById("genre");
+   var work = document.getElementById("work");
+
+   if ((genre.value == "") || (genre.value == "All genres")) {
+      genre.value = "default";
+   }
+   if ((work.value == "") || (work.value == "All works")) {
+      work.value = "default";
+   }
+
+   
+
+   // buildSelectionMenus();
+	// StylizeFormElements();
+
+
+}
+
+
+</script>

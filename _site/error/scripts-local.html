@@ -1,0 +1,506 @@
+<script src="/scripts/external/handlebars-v2.0.0.js"></script>
+<script src="/scripts/scripts-common.js"></script>
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Mon Sep 22 14:36:22 PDT 2014
+// Last Modified:	Fri Oct 24 23:55:09 PDT 2014
+// Filename:		.../error/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:   JavaScript management of the JRP Error submittion page.
+//
+
+var JRPID = localStorage.ERRORjrpid;
+var INCIPITS = {};
+var FORCE = "false";
+var ERRORLIST = [];
+
+
+//////////////////////////////
+//
+// window.onload --
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+	var referrer = document.referrer;
+   if (sessionStorage.ERRORsubmitting == "true") {
+      JRPID = sessionStorage.ERRORjrpid; // should be same as localStorage vers.
+		errorFormDisplay(JRPID);
+   } else if (referrer.match(/work/)) {
+		errorFormDisplay(JRPID);
+	} else {
+		feedbackFormDisplay();
+	}
+}, false);
+
+
+
+//////////////////////////////
+//
+// feedbackFormDisplay --
+//
+
+function feedbackFormDisplay() {
+   var content = document.getElementById("error-form");
+   var message = "";
+	message += "<article class=\"about\">\n";
+	message += "<h2 class=\"brown-heading\">Error report</h2>\n";
+	message += "<p> \n";
+	message += "The error report page is only active when coming from a work page.\n";
+	message += "</p>\n";
+	message += "</article>\n";
+	content.innerHTML = message;
+}
+
+
+
+//////////////////////////////
+//
+// errorFormDisplay -- display works of one or more composer.
+//
+
+function errorFormDisplay(jrpid) {
+   InitializeWorklistFlat();
+
+	var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
+	var workid = pieces[1];
+	var movment = pieces[2];
+
+	var work = WORKLISTjrpid[workid];
+	if (typeof work === 'undefined') {
+		// Tas repertory uses a letter for work
+		work = WORKLISTjrpid[jrpid];
+	}
+
+   var errorform = getErrorForm(jrpid, work);
+
+   var maincontent = document.getElementById('error-form');
+   var output  = "<article class=\"about\">\n";
+	output += "<h2 class=\"brown-heading\">Error report form</h2>\n";
+	output += "<p>\n"
+   output += errorform;
+	output += "</p>\n"
+   output  += "</article>\n";
+   maincontent.innerHTML = output;
+	getIncipitAsync(jrpid);
+
+   //sessionStorage.ERRORjrpid       = jrpid;  // already setup in window.onload
+
+	if (sessionStorage.ERRORsubmitting == "true") {
+		document.getElementById("voice").value       = sessionStorage.ERRORvoice;
+		document.getElementById("measure").value     = sessionStorage.ERRORmeasure;
+		document.getElementById("submitter").value   = sessionStorage.ERRORsubmitter;
+		document.getElementById("description").value = sessionStorage.ERRORdescription;
+		document.getElementById("referer").value     = sessionStorage.ERRORreferer;
+	}
+
+   var si = -1;
+   if (typeof work.sections !== 'undefined') {
+		var i;
+		for (i=0; i<work.sections.length; i++) {
+			if (jrpid == work.sections[i].id) {
+				si = i;
+				break;
+			}
+		}
+	}
+	//if (si >= 0) {
+   //		$("#select-section :nth-child(" + (parseInt(si)+1) + ")").prop('selected', true);
+	//}
+	StylizeFormElements();
+	var menuitem = document.querySelector("a > span.select2-chosen");
+   if (menuitem) {
+		menuitem.textContent = work.sections[si].stitle;
+	} 
+   getErrorReports(jrpid);
+   
+}
+
+
+
+//////////////////////////////
+//
+// getErrorForm --
+//
+
+function getErrorForm(jrpid, workinfo) {
+   var title = workinfo.title;
+   var sectionindex = -1;
+	var i;
+
+	if (typeof workinfo.sections !== 'undefined') {
+		for (i=0; i<workinfo.sections.length; i++) {
+			if (workinfo.sections[i].id == jrpid) {
+				sectionindex = i;
+				break;
+			}
+		}
+	}
+
+   var stitle = "";
+   if (sectionindex >= 0) {
+		stitle = workinfo.sections[sectionindex].stitle;
+   }
+	if (stitle) {
+		title += " " + stitle;
+	}
+
+	var output = "";
+	output += "<div style=\"padding-left:100px;\" id=\"music-area\">\n";
+	output += "<div style=\"height:200px;\"></div>\n";
+	output += "</div>\n";
+   output += "<form name=\"jrp\"";
+	output += " action=\"/cgi-bin/josquin\" method=\"get\">\n";
+	output += "<input id=\"referer\" type=hidden name=error_referer value=\"" 
+   output += document.referrer + "\">\n";
+	output += "<input type=hidden name=error_catalog value=\"" + jrpid + "\">\n";
+	output += "<input type=hidden name=a value=errorformsubmit>\n";
+	output += "<input type=hidden name=error_title value=\"" + title;
+	output += "\">\n";
+   output += "<input type=hidden name=error_dateshort value=\"";
+   output += getDateShort();
+	output += "\">\n";
+   output += "<input type=hidden name=error_datelong value=\"";
+	output += getDateLong();
+   output += "\">\n";
+   output += "<table>\n";
+
+   output += "<tr valign=baseline>\n";
+   output += "<td style=\"padding-right:10px;\" align=\"right\">\n";
+   output += "<p style=\"align:right; padding-bottom:10px; margin:0;\">Catalog&nbsp;#:</p>";
+   output += "</td>\n";
+   output += "<td>\n";
+	output += "<b>" + jrpid + "</b>";
+   output += "</td>\n";
+   output += "</tr>\n";
+
+   output += "<tr valign=baseline>\n";
+   output += "<td>\n";
+   output += "<p style=\"padding-bottom:10px; margin:0;\">Title:</p>";
+   output += "</td>\n";
+   output += "<td>\n";
+	output += title;
+   output += "</td>\n";
+   output += "</tr>\n";
+
+	if (sectionindex >= 0) {
+   	output += "<tr valign=baseline>\n";
+   	output += "<td style=\"padding-right:10px;\" align=\"right\">\n";
+   	output += "<p style=\"padding-bottom:10px; margin:0;\">Section:</p>";
+   	output += "</td>\n";
+   	output += "<td>\n";
+		// output += workinfo.sections[sectionindex].stitle;
+
+		var tc = "";
+		//tc += "<div class=\"form-group\">\n";
+		tc += "<select id=\"section\" style=\"width:215px;\" id=\"select-section\"";
+		tc += " onchange=\"errorFormDisplay(this.value);\"";
+		tc += ">\n";
+   	tc += getOptionList(workinfo.sections);
+		tc += "</select>\n";
+		tc += "</div>\n";
+		//tc += "</div>\n";
+		output += tc;
+
+   	output += "</td>\n";
+   	output += "</tr>\n";
+   }
+
+   output += "<tr valign=baseline>\n";
+   output += "<td style=\"padding-right:10px;\" align=\"right\">\n";
+  	output += "<p style=\"padding-bottom:10px; margin:0;\">Measure(s):</p>";
+   output += "</td>\n";
+   output += "<td>\n";
+	output += "<input id=\"measure\" name=error_measure style=\"font-family:Leto,sans-serif;\" type=text placeholder=\"(if applicable)\">\n";
+   output += "</td>\n";
+   output += "</tr>\n";
+
+   output += "<tr valign=baseline>\n";
+   output += "<td style=\"padding-right:10px;\" align=\"right\">\n";
+  	output += "<p style=\"padding-bottom:10px; margin:0;\">Voice(s):</p>";
+   output += "</td>\n";
+   output += "<td>\n";
+	output += "<input id=\"voice\" name=error_voice style=\"font-family:Leto,sans-serif;\" type=text placeholder=\"(if applicable)\">\n";
+   output += "</td>\n";
+   output += "</tr>\n";
+
+   output += "<tr valign=baseline>\n";
+   output += "<td style=\"padding-right:10px;\" valign=top align=\"right\">\n";
+  	output += "<p style=\"margin-top:0px;\">Description:</p>";
+   output += "</td>\n";
+   output += "<td>\n";
+	output += "<textarea id=\"description\" name=error_description style=\"font-family:Leto,sans-serif;\" rows=5 cols=60 placeholder=\"\"></textarea>\n";
+   output += "</td>\n";
+   output += "</tr>\n";
+
+   output += "<tr valign=baseline>\n";
+   output += "<td style=\"padding-right:10px;\" align=\"right\">\n";
+  	output += "<p style=\"padding-bottom:10px; margin:0;\">Submitter:</p>";
+   output += "</td>\n";
+   output += "<td>\n";
+	output += "<input id=\"submitter\" size=58 name=error_submitter style=\"font-family:Leto,sans-serif;\" type=text placeholder=\"(your name, initials, and/or contact info which will not be displayed publicly)\">\n";
+   output += "</td>\n";
+   output += "</tr>\n";
+
+   output += "<tr valign=baseline>\n";
+   output += "<td colspan=2>\n";
+   output += "<input onclick=\"storeParameters();\" class=\"btn btn-brown\" type=submit value=Submit>\n";
+   output += "</td>\n";
+   output += "</tr>\n";
+
+   output += "</table>\n";
+   output += "</form>\n";
+
+   return output;
+}
+
+
+
+///////////////////////////////
+//
+// storeParameters --
+//
+
+function storeParameters() {
+   var voiceinfo     = document.getElementById("voice").value;
+   var measureinfo   = document.getElementById("measure").value;
+   var submitterinfo = document.getElementById("submitter").value;
+   var description   = document.getElementById("description").value;
+   var referer       = document.referrer;
+   var jrpid         = JRPID;
+
+   sessionStorage.ERRORvoice       = voiceinfo;
+   sessionStorage.ERRORmeasure     = measureinfo;
+   sessionStorage.ERRORsubmitter   = submitterinfo;
+   sessionStorage.ERRORdescription = description;
+   sessionStorage.ERRORreferer     = referer;
+   sessionStorage.ERRORjrpid       = jrpid;
+   sessionStorage.ERRORsubmitting  = "true";
+
+   return true;
+}
+
+
+
+//////////////////////////////
+//
+// getDateShort --
+//
+
+function getDateShort() {
+   var d = new Date();
+	var year    = d.getUTCFullYear();
+	var month   = d.getUTCMonth();
+	var day     = d.getUTCDate();
+	var hours   = d.getUTCHours();
+	var minutes = d.getUTCMinutes();
+	var seconds = d.getUTCSeconds();
+   var output = "";
+   output += year;
+
+   if (month < 10) { output += "0"; }
+	output += month;
+   if (day < 10) { output += "0"; }
+	output += day;
+   if (hours < 10) { output += "0"; }
+	output += hours;
+   if (minutes < 10) { output += "0"; }
+	output += minutes;
+   if (seconds < 10) { output += "0"; }
+	output += seconds;
+   return output;
+}
+
+
+
+//////////////////////////////
+//
+// getDateLong --
+//
+
+function getDateLong() {
+   var d = new Date();
+	var year    = d.getUTCFullYear();
+	var month   = d.getUTCMonth();
+	var day     = d.getUTCDate();
+	var hours   = d.getUTCHours();
+	var minutes = d.getUTCMinutes();
+	var seconds = d.getUTCSeconds();
+   var output = "";
+   output += year;
+	output += "/";
+
+   if (month < 10) { output += "0"; }
+	output += month;
+	output += "/";
+   if (day < 10) { output += "0"; }
+	output += day;
+	output += " ";
+   if (hours < 10) { output += "0"; }
+	output += hours;
+	output += ":";
+   if (minutes < 10) { output += "0"; }
+	output += minutes;
+	output += ":";
+   if (seconds < 10) { output += "0"; }
+	output += seconds;
+   return output;
+}
+
+
+
+//////////////////////////////
+//
+// getOptionList --
+//
+
+function getOptionList(sections) {
+   var output = "";
+
+   var variant = sections[0].variant;
+	var i;
+   for (i=1; i<sections.length; i++) {
+		if (typeof variant === 'undefined') {
+			variant = null;
+			break;
+		}
+		if (sections[i].variant != variant) {
+			variant = null;
+		}
+	}
+	if (typeof variant === 'undefined') {
+		variant = null;
+	}
+
+   var id;
+	for (i=0; i<sections.length; i++) {
+		id = sections[i].id;
+		output += "<option value=\"" + sections[i].id + "\"";
+		output += ">";
+		// convert underscores to spaces in WORKLIST generator:
+		sections[i].stitle = sections[i].stitle.replace(/_/g, " ");
+		output += sections[i].stitle;
+		if ((typeof sections[i].variant !== 'undefined')
+		   	&& (sections[i].variant != variant)) {
+			// convert underscores to spaces in WORKLIST generator:
+			sections[i].variant = sections[i].variant.replace(/_/g, " ");
+			output += " (" + sections[i].variant + ")";
+		}
+		output += "</option>\n";
+	}
+
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// getIncipitAsync --
+//
+
+function getIncipitAsync(jrpid) {
+	if (typeof INCIPITS[jrpid] !== 'undefined') {
+ 		var area = document.getElementById("music-area");
+	  	var imgtext = "<img src=\"" + INCIPITS[jrpid] 
+		imgtext += "\" alt=\"music placeholder\">";
+	  	area.innerHTML = imgtext;
+		return;
+	}
+
+	var action = "incipit-mime";
+	ReadFileAsync("josquin.stanford.edu/data?a=" + action + "&id=" + jrpid, function(responseText) {
+		var data = responseText;
+		INCIPITS[jrpid] = responseText;
+		if (data != "") {
+	  		var area = document.getElementById("music-area");
+			var imgtext = "<img src=\"" + data + "\" alt=\"music placeholder\">";
+			area.innerHTML = imgtext;
+		}
+	});
+}
+
+
+
+////////////////////////////
+//
+// getErrorReports --
+//
+
+function getErrorReports(jrpid) {
+   if (ERRORLIST && (ERRORLIST.length > 0)) {
+		displayErrorList(jrpid);
+		return;
+	}
+
+	var request = new XMLHttpRequest();
+	request.open('GET', 'josquin.stanford.edu/data?a=errors-json&force=' + FORCE, true);
+	request.addEventListener('load', function() {
+		if (request.status = 200) {
+			ERRORLIST = JSON.parse(request.responseText);
+   		ERRORLIST.sort(byReverseDate);
+			displayErrorList(jrpid);
+			return;
+		}
+	});
+	request.send();
+}
+
+
+
+//////////////////////////////
+//
+// byReverseDate -- sort a work by reverse date.
+//
+
+
+function byReverseDate(a, b) {
+   var date1 = a.date;
+   var date2 = b.date;
+
+	if (!date1) { date1 = 0; }
+	if (!date2) { date2 = 0; }
+   if (date1 > date2) { return -1; } 
+   if (date1 < date2) { return +1; }
+
+   return 0;
+}
+
+
+
+//////////////////////////////
+//
+// displayErrorList --
+//
+
+function displayErrorList(jrpid) {
+   var container = document.getElementById("error-content");
+	var source = document.getElementById("error-table");
+	var template = Handlebars.compile(source.textContent);
+ 	var list = [];
+	var i;
+   for (i=0; i<ERRORLIST.length; i++) {
+		if (jrpid === ERRORLIST[i].jrpid) {
+			list.push(ERRORLIST[i]);
+		}
+	}
+   var title = document.getElementById("error-title");
+   if (list.length == 0) {
+		title.textContent = "";
+		container.textContent = "";
+		return;
+	}
+   var value = template(list);
+   var titletext = '<h2 style="text-align:left; padding-top:30px; margin:0;" class="brown-heading">';
+	titletext += 'Previous reports for ' + jrpid + '</h2>\n';
+	title.innerHTML = titletext;
+	container.innerHTML = value;
+}
+
+
+</script>
+
+

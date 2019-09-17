@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">	           
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>JRP Error Reports</title>
+		<meta charset="utf-8"/>
+<meta name="viewport" content="width=1010"/>
+<link rel="SHORTCUT ICON" href="/images/favicon.png"/>
+
+<!-- styles -->
+<link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Lusitana:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/scripts/external/select2.js"></script>
+<script src="/scripts/external/jquery.ezmark.min.js"></script>
+<script src="/scripts/external/placeholders.min.js"></script>
+<script src="/scripts/scripts-basic.js"></script>
+
+<script>
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-38223992-1']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); 
+		ga.type = 'text/javascript'; 
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+<!--[if lte IE 9]>
+	<link rel="stylesheet" type="text/css" href="/css/ie9.css" />
+<![endif]-->
+<!-- vim: set ts=3: -->
+
+
+	</head>
+
+	<body>
+		<div class="page container" id="home-page">
+			<header class="simple">
+	<nav id="primary-nav">
+		<ul class="perf">
+			<li class="logo"><a href="/"><img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAeAAD/4QNxaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMThGRDBCODhFMkEzMDEyMjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzY5MkE5ODFDRkE0MTFFM0JCNUFCNzI0MDZFNTA5RkQiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzY5MkE5ODBDRkE0MTFFM0JCNUFCNzI0MDZFNTA5RkQiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjE5QjJBN0M0MjgyMDY4MTFBQUYyRTQxNEMwOEI5ODhEIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY3N0YxMTc0MDcyMDY4MTE4RkQwQjg4RTJBMzAxMjI4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQAEAsLCwwLEAwMEBcPDQ8XGxQQEBQbHxcXFxcXHx4XGhoaGhceHiMlJyUjHi8vMzMvL0BAQEBAQEBAQEBAQEBAQAERDw8RExEVEhIVFBEUERQaFBYWFBomGhocGhomMCMeHh4eIzArLicnJy4rNTUwMDU1QEA/QEBAQEBAQEBAQEBA/8AAEQgAOgA+AwEiAAIRAQMRAf/EAG8AAQEBAQEAAAAAAAAAAAAAAAECAAMFAQEBAQEBAAAAAAAAAAAAAAAAAQIEBRAAAQMEAQMCBQUAAAAAAAAAAQARAiExQRIDUWFxoSKBkcEyYvCx8UJSEQEBAQADAQAAAAAAAAAAAAAAEQEhMUFh/9oADAMBAAIRAxEAPwD1jWqCHSfCJSEQZGgXkO9mU7RBqQFJkTSVCbRH1KKtEiLDIZI1HUalmPyWIemFyp/aLflb1THkYOTtA5Nx5ViRbMqfCHqyX9ERiei4mW3KAT7Y4/IrqRVcTEvI67e76UTFx2hAbEmrWJwiXJxA1kFMw2srBw4FmNFGx4xywEdgC/ZiFYSukph9ADLNGspcagQA0N3p5UxIiOIxOCCfVdJRAiM1evUqL0YW1NSM9lTUUxd7YDqnNkZ9Z60uucovI/l8KhdMrGIkGSmIFYnjLPanZOkxymYbUhj1RKJF6S64VRMyWIoB93UooHEIy2iTF7jBRM7EAR2jYnosTMxO/s6Vb5pjESBEBrA37+Fcw+6eMODLBt4CrPfqsLsnojN5a6CKrZKDdQUwPxUnj4/8t4orCwwmHKRxcYP2171/dIoslDb6Ch/5SbYU4/TKj//Z"></a></li>
+			<li><a href="/">Home</a></li>
+			<li><a href="/browse?home=true">Browse</a></li>
+			<li><a onclick="sessionStorage.SEARCHLIST='';" href="/search">Search/Analysis</a></li>
+			<li><a href="/about">About</a></li>
+			<li><a href="/performance">Performance</a></li>
+		</ul>
+	</nav> <!-- primary-nav -->
+</header>
+<!-- vim: set ts=2: -->
+
+
+			<section id="content">
+			---
+---
+
+<article class="about">
+<h2 style="margin-bottom:0;" class="brown-heading">Error Reports</h2>
+
+<span id="display-button" style="position:fixed; float:right; right:0; margin-top:-60px;" class="btn btn-brown">Show unprocessed first</span>
+
+
+<div id="error-content"></div>
+
+</article>
+
+
+			</section>
+
+			<footer>
+	<nav class="secondary-nav">
+		<ul>
+			<li class="logo"><a href="/">Josquin Research Project</a></li>
+			<li><a href="/feedback">Feedback</a></li>
+			<li><a href="/under-the-hood">Under the Hood</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+	</nav> <!-- secondary-nav -->
+</footer>
+<!-- vim: set ts=2: -->
+
+		</div>
+		<!--#include virtual="scripts-local.html" -->
+		<!--#include virtual="style-local.html" -->
+		<!--#include virtual="templates.html" -->
+		---
+---
+<script src="/scripts/external/handlebars-v2.0.0.js"></script>
+<script src="/scripts/scripts-common.js"></script>
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Fri Oct 24 00:39:15 PDT 2014
+// Last Modified:	Fri Oct 24 00:39:18 PDT 2014
+// Filename:		...error-reports/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/error-reports/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:   JavaScript management of the JRP error reports.
+//
+
+var ERRORLIST = [];
+var FORCE = "false";
+
+// get display style from localStorage:
+if (!localStorage.ERRORdisplaystyle) {
+   localStorage.ERRORdisplaystyle = '0';
+}
+if (localStorage.ERRORdisplaystyle == 'true') {
+   localStorage.ERRORdisplaystyle = '1';
+}
+if (localStorage.ERRORdisplaystyle == 'false') {
+   localStorage.ERRORdisplaystyle = '0';
+}
+if (!localStorage.ERRORdisplaystyle.match(/^\d$/)) {
+   localStorage.ERRORdisplaystyle = "0";
+}
+var DISPLAY_STYLE = parseInt(localStorage.ERRORdisplaystyle);
+
+
+//////////////////////////////
+//
+// DOMContentLoaded event listener --
+//
+
+document.addEventListener('DOMContentLoaded', function() {
+	var CgiParameters = GetCgiParameters();
+	if (typeof CgiParameters['force'] !== "undefined") {
+		FORCE = "true";
+	}
+   getErrorReports();
+
+
+   ///////////////////////////
+   //
+   // #display-button event handler --
+   //
+
+	var displaybutton = document.getElementById("display-button");
+	if (displaybutton) {
+		displaybutton.addEventListener("click", function() {
+			DISPLAY_STYLE = !DISPLAY_STYLE;
+			localStorage.ERRORdisplaystyle = DISPLAY_STYLE;
+			displayErrorList();
+		}, false);
+	}
+
+
+}, false);
+
+
+
+
+//////////////////////////////
+//
+// getErrorReports --
+//
+
+function getErrorReports() {
+	var request = new XMLHttpRequest();
+	request.open('GET', '/data?a=errors-json&force=' + FORCE, true);
+	request.addEventListener('load', function() {
+		if (request.status = 200) {
+			ERRORLIST = JSON.parse(request.responseText);
+   		ERRORLIST.sort(byReverseDate);
+			displayErrorList();
+			return;
+		}
+	});
+	request.send();
+}
+
+
+
+//////////////////////////////
+//
+// byReverseDate -- sort a work by reverse date.
+//
+
+
+function byReverseDate(a, b) {
+   var date1 = a.date;
+   var date2 = b.date;
+
+	if (!date1) { date1 = 0; }
+	if (!date2) { date2 = 0; }
+   if (date1 > date2) { return -1; } 
+   if (date1 < date2) { return +1; }
+
+   return 0;
+}
+
+
+
+//////////////////////////////
+//
+// displayErrorList --
+//
+
+function displayErrorList() {
+   var container = document.getElementById("error-content");
+	var source = document.getElementById("error-table");
+	var template = Handlebars.compile(source.textContent);
+	var i;
+	var button;
+
+	if (DISPLAY_STYLE) {
+		// show unprocess reports first
+		var errorlist1 = [];
+		var errorlist2 = [];
+		for (i=0; i<ERRORLIST.length; i++) {
+			if (!ERRORLIST[i].action) {
+				errorlist1.push(ERRORLIST[i]);
+			} else if (ERRORLIST[i].action.match(/^\s*$/)) {
+				errorlist1.push(ERRORLIST[i]);
+			} else if (ERRORLIST[i].action.match(/Not yet processed/)) {
+				errorlist1.push(ERRORLIST[i]);
+			} else {
+				errorlist2.push(ERRORLIST[i]);
+			}
+		}
+		var table1 = template(errorlist1);
+		var table2 = template(errorlist2);
+		container.innerHTML = table1 + table2;
+		var tables = document.querySelectorAll("table.error");
+		for (i=0; i<tables.length; i++) {
+			tables[i].style.marginRight = 0;
+		}
+		button = document.getElementById("display-button");
+		if (button) {
+			button.textContent = "Show unprocessed entries merged";
+		}
+	} else {
+		container.innerHTML = template(ERRORLIST);
+		var table = document.querySelector("table.error");
+		if (table) {
+			table.style.marginRight = 0;
+		}
+		button = document.getElementById("display-button");
+		if (button) {
+			button.textContent = "Show unprocessed entries first";
+		} else {
+		}
+	}
+}
+
+
+
+</script>
+
+		---
+---
+---
+---
+<style>
+/* 
+ * CSS styling for error reports.  These are found on the pages:
+ *  	/error 
+ * and 
+ * 	/error-reports
+ */
+
+table.error {
+	margin-right:100px;
+/*	border-top: 1px solid #ccc; */
+}
+
+.error td {
+/*	border-bottom: 1px solid #ccc; */
+}
+
+
+.error p { 
+	color: black;
+	padding: 0;
+}
+
+
+.error dd pre {
+	margin: 0;
+	padding: 0;
+}
+
+.error dl {
+	border: 1px solid #ccc;
+	padding: 0.25em;
+}
+
+p.dense { 
+	margin-top: 8px; 
+	margin-bottom: 8px;
+}
+
+.error dl > dt {
+	color: #d7ab5b;
+}
+
+.error dl {
+	background-color: #fcf6ec;
+	border: 1px solid #d7ab5b;
+}
+
+.error dt {
+	float: left;
+	clear: left;
+	width: 130px;
+	padding-right: 10px;
+	text-align: right;
+	font-weight: bold;
+	font-family: Leto,sans-serif;
+	color: #c86843;
+}
+
+
+.error dt:after {
+	content: ":";
+}
+
+.error dd {
+	margin: 0;
+	padding: 0;
+	margin-left: 130px;
+}
+
+dl.error > dd > ul {
+	margin-top: 0;
+	margin-left: 0;
+	padding-left: 1em;
+	list-style-type: none;
+}
+
+dl.error > dd > ul > li {
+	padding: 0;
+	margin: 0;
+	color: #228;
+	line-height: 1em;
+	text-indent: -20px;
+	padding-left: 1em;
+}
+
+</style>
+
+		---
+---
+<script id="error-table" type="text/x-handlebars-template">
+
+<table class="error">
+
+{{#each this}}
+<tr>
+<td>
+
+<dl class="error">
+<dt>  Work		</dt>
+<dd>  {{jrpid}}  <a target="_blank" href="/work?id={{jrpid}}">{{{work}}}</a>	</dd>
+
+<dt>  Date		</dt>
+<dd>  {{{showdate this}}}	</dd>
+
+{{#if voices}}
+	{{{showvoices this}}}
+{{/if}}
+
+{{#if measure}}
+	{{{showmeasures this}}}
+{{/if}}
+
+<dt>  Description	</dt>
+<dd>  
+{{#unless action}}<span style="color:#c00;">{{/unless}}
+	{{{description}}} 
+{{#unless action}}</span>{{/unless}}
+</dd>
+
+{{#if action}}
+<dt>  Action		</dt>
+<dd>  {{{action}}}	</dd>
+{{/if}}
+
+</dl>
+
+</td>
+</tr>
+{{/each}}
+
+</table>
+
+</script>
+
+
+<script>
+// Handlerbars helper functions for use with the #error-table table
+
+
+//////////////////////////////
+//
+// Handlebars showvoices helper function --
+//
+
+Handlebars.registerHelper('showvoices', function(entry) {
+	var action = entry.action;
+   if (!action) {
+		return "";
+	}
+	var voices = entry.voice;
+	var heading = "";
+	if (voices.match(/^\s*\d+\s*$/)) {
+		heading = "Voice";
+	} else if (voices.match(/\d+\s*-\s*\d*/)) {
+		heading = "Voices";
+		voices.replace(/\s*-+\s*/, "&ndash;");
+	} else {
+		heading = "Voice(s)";
+	}
+	var output = "<dt>" + heading + "</dt>";
+	output += "<dd>" + voices + "</dd>";
+	return output;
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars showmeasures helper function --
+//
+
+Handlebars.registerHelper('showmeasures', function(entry) {
+	var action = entry.action;
+   if (!action) {
+		return "";
+	}
+	var measures = entry.measure;
+	var heading = "";
+	if (measures.match(/^\s*\d+\s*$/)) {
+		heading = "Measure";
+	} else if (measures.match(/\d+\s*-\s*\d*/)) {
+		heading = "Measures";
+		measures.replace(/\s*-+\s*/, "&ndash;");
+	} else {
+		heading = "Measure(s)";
+	}
+	var output = "<dt>" + heading + "</dt>";
+	output += "<dd>" + measures + "</dd>";
+	return output;
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars showdate helper function --
+//
+
+Handlebars.registerHelper('showdate', function(entry) {
+   var datestring = entry.date;
+   var matches = datestring.match(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)/);
+	if (!matches) {
+		return "";
+	}
+
+	var m = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+					'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+	var year	 	= matches[1];
+	var month	= m[parseInt(matches[2])];
+	var day	 	= parseInt(matches[3]);
+	var hour	 	= parseInt(matches[4]);
+	var min	 	= matches[5];
+	var sec	  	= matches[6];
+	var text = day + " " + month + " " + year;
+	text += ' <span style="color:#ccc">';
+	text += hour + ':' + min + ':' + sec + '</span>';
+	return text;
+});
+
+
+</script>
+<!-- vim: set ts=3: -->
+
+	</body>
+</html>
+<!-- vim: set ts=2: -->
+im: set ts=2: -->

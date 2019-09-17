@@ -1,20 +1,23 @@
+---
+---
 <!doctype html>
 <html lang="en">
 
 	<head>
 		<title>JRP Technicals</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 
 	<body>
 		<div class="page container" id="home-page">
-			<!--#include virtual="/includes/header-generic.html" -->
+			{% include header-generic.html %}
 			<section id="content">
-				<!--#include virtual="contents.html" -->
+				{% include_relative contents.html %}
 			</section> <!-- content -->
-			<!--#include virtual="/includes/footer-under-the-hood.html" -->
+			{% include footer-under-the-hood.html %}
 		</div> <!-- page -->
 	</body>
 
 </html>
 <!-- vim: set ts=2: -->
+ ts=2: -->

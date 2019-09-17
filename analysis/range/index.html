@@ -1,12 +1,14 @@
+---
+---
 <!doctype html>
 <html lang="en">	           
 	<head>
 		<title>JRP Range</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 <body>
 	<div style="width:1450px;" class="page full-container" id="search-page">
-		<!--#include virtual="/includes/header-generic.html" -->
+		{% include header-generic.html %}
 		<div id="content">
 			<article style="padding-left:10px;" class="about">
 				<h2 style="padding-top:10px;" class="brown-heading">Vocal Ranges</h2>
@@ -14,9 +16,9 @@
 				<div id="analysis-content"></div>
 			</article>
 		</div>
-		<!--#include virtual="/includes/footer-generic.html" -->
+		{% include footer-generic.html %}
 	</div> <!-- page -->
-	<!--#include virtual="scripts-local.html" -->
+	{% include_relative scripts-local.html %}
 </body>
 </html>
 <!-- vim: set ts=2: -->

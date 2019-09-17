@@ -1,22 +1,25 @@
+---
+---
 <!doctype html>
 <html lang="en">
 
 	<head>
 		<title>JRP Recently Added</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 
 	<body>
 		<audio id="audio"></audio>
 		<div class="page container" id="home-page">
-			<!--#include virtual="/includes/header-generic.html" -->
+			{% include header-generic.html %}
 			<section id="content">
-				<!--#include virtual="contents.html" -->
+				{% include_relative contents.html %}
 			</section> <!-- content -->
-			<!--#include virtual="/includes/footer-generic.html" -->
+			{% include footer-generic.html %}
 		</div> <!-- page -->
-		<!--#include virtual="scripts-local.html" -->
+		{% include_relative scripts-local.html %}
 	</body>
 
 </html>
 <!-- vim: set ts=2: -->
+et ts=2: -->

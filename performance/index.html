@@ -1,27 +1,29 @@
+---
+---
 <!doctype html>
 <html lang="en">	           
 	<head>
 		<title>JRP Performance</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 
 	<body>
 		<audio id="audio"></audio>
 		<div class="page container" id="home-page">
-			<!--#include virtual="/includes/header-performance.html" -->
+			{% include header-performance.html %}
 
 			<section id="content">
-				<!--#include virtual="aside-browse.html" -->
+				{% include_relative aside-browse.html %}
 	 			<section id="secondary-content" class="browse-content">
 					<div style="height:1110px;"></div>
 				</section>
 			</section>
 
-			<!--#include virtual="/includes/footer-generic.html" -->
+			{% include footer-generic.html %}
 		</div>
-		<!--#include virtual="scripts-local.html" -->
-		<!--#include virtual="../census/scripts-local.html" -->
-		<!--#include virtual="../census/templates.html" -->
+		{% include_relative scripts-local.html %}
+		{% include census-scripts-local.html %}
+		{% include census-templates.html %}
 <script>
 OnlyText = 1;
 </script>

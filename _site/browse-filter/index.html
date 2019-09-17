@@ -1,0 +1,67 @@
+<html>
+	<head>
+		<title>Browse CGI</title>
+		<script src="/scripts/scripts-common.js"></script>
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Wed Oct  8 10:17:45 PDT 2014
+// Last Modified:	Wed Oct  8 10:17:48 PDT 2014
+// Filename:		.../browse-home/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/browse-home/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:   JavaScript management for searches via CGI.
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+	var CgiParameters = GetCgiParameters();
+
+	var home = CgiParameters['home'];
+	if (home && !home.match(/false/i)) {
+		localStorage.BROWSEhome = "true";
+	} else {
+		localStorage.BROWSEhome = "false";
+	}
+
+   var composers = CgiParameters['c'];
+	if (composers && !composers.match(/^\s*$/)) {
+		localStorage.BROWSEcomposers = composers;
+	} else {
+		localStorage.BROWSEcomposers = "";
+   }
+
+   var genres = CgiParameters['g'];
+	if (genres && !genres.match(/^\s*$/)) {
+		localStorage.BROWSEgenres = genres;
+	} else {
+		localStorage.BROWSEgenres = "";
+   }
+
+   var voices = CgiParameters['v'];
+	if (voices && !voices.match(/^\s*$/)) {
+		localStorage.BROWSEvoices = voices;
+	} else {
+		localStorage.BROWSEvoices = "";
+   }
+
+   var titlebox = CgiParameters['t'];
+	if (titlebox && !titlebox.match(/^\s*$/)) {
+		localStorage.BROWSEtitlebox = titlebox;
+	} else {
+		localStorage.BROWSEtitlebox = "";
+   }
+
+	window.location = "/browse";
+
+	return false;
+}, false);
+
+</script>
+
+	</head>
+	<body>
+	</body>
+</html>
+<!-- vim: set ts=2: -->

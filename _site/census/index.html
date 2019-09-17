@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<title>JRP Census</title>
+		<meta charset="utf-8"/>
+<meta name="viewport" content="width=1010"/>
+<link rel="SHORTCUT ICON" href="/images/favicon.png"/>
+
+<!-- styles -->
+<link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Lusitana:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/scripts/external/select2.js"></script>
+<script src="/scripts/external/jquery.ezmark.min.js"></script>
+<script src="/scripts/external/placeholders.min.js"></script>
+<script src="/scripts/scripts-basic.js"></script>
+
+<script>
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-38223992-1']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); 
+		ga.type = 'text/javascript'; 
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+<!--[if lte IE 9]>
+	<link rel="stylesheet" type="text/css" href="/css/ie9.css" />
+<![endif]-->
+<!-- vim: set ts=3: -->
+
+
+	</head>
+
+	<body>
+		<audio id="audio"></audio>
+		<div class="page container" id="home-page">
+			<header class="simple">
+	<nav id="primary-nav">
+		<ul class="perf">
+			<li class="logo"><a href="/"><img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAeAAD/4QNxaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMThGRDBCODhFMkEzMDEyMjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzY5MkE5ODFDRkE0MTFFM0JCNUFCNzI0MDZFNTA5RkQiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzY5MkE5ODBDRkE0MTFFM0JCNUFCNzI0MDZFNTA5RkQiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjE5QjJBN0M0MjgyMDY4MTFBQUYyRTQxNEMwOEI5ODhEIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY3N0YxMTc0MDcyMDY4MTE4RkQwQjg4RTJBMzAxMjI4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQAEAsLCwwLEAwMEBcPDQ8XGxQQEBQbHxcXFxcXHx4XGhoaGhceHiMlJyUjHi8vMzMvL0BAQEBAQEBAQEBAQEBAQAERDw8RExEVEhIVFBEUERQaFBYWFBomGhocGhomMCMeHh4eIzArLicnJy4rNTUwMDU1QEA/QEBAQEBAQEBAQEBA/8AAEQgAOgA+AwEiAAIRAQMRAf/EAG8AAQEBAQEAAAAAAAAAAAAAAAECAAMFAQEBAQEBAAAAAAAAAAAAAAAAAQIEBRAAAQMEAQMCBQUAAAAAAAAAAQARAiExQRIDUWFxoSKBkcEyYvCx8UJSEQEBAQADAQAAAAAAAAAAAAAAEQEhMUFh/9oADAMBAAIRAxEAPwD1jWqCHSfCJSEQZGgXkO9mU7RBqQFJkTSVCbRH1KKtEiLDIZI1HUalmPyWIemFyp/aLflb1THkYOTtA5Nx5ViRbMqfCHqyX9ERiei4mW3KAT7Y4/IrqRVcTEvI67e76UTFx2hAbEmrWJwiXJxA1kFMw2srBw4FmNFGx4xywEdgC/ZiFYSukph9ADLNGspcagQA0N3p5UxIiOIxOCCfVdJRAiM1evUqL0YW1NSM9lTUUxd7YDqnNkZ9Z60uucovI/l8KhdMrGIkGSmIFYnjLPanZOkxymYbUhj1RKJF6S64VRMyWIoB93UooHEIy2iTF7jBRM7EAR2jYnosTMxO/s6Vb5pjESBEBrA37+Fcw+6eMODLBt4CrPfqsLsnojN5a6CKrZKDdQUwPxUnj4/8t4orCwwmHKRxcYP2171/dIoslDb6Ch/5SbYU4/TKj//Z"></a></li>
+			<li><a href="/">Home</a></li>
+			<li><a href="/browse?home=true">Browse</a></li>
+			<li><a onclick="sessionStorage.SEARCHLIST='';" href="/search">Search/Analysis</a></li>
+			<li><a href="/about">About</a></li>
+			<li><a href="/performance">Performance</a></li>
+		</ul>
+	</nav> <!-- primary-nav -->
+</header>
+<!-- vim: set ts=2: -->
+
+			<section id="content">
+				---
+---
+
+<article class="about first">
+<h2 class="brown-heading">Census of work and note counts by composer/genre</h2>
+<div id="notetable">
+	<div style="height:679px;"></div>
+</div>
+</article>
+
+<article class="about first">
+<h2 class="brown-heading">Nominal performance durations by composer/genre</h2>
+<div id="timetable">
+	<div style="height:679px;"></div>
+</div>
+</article>
+
+<article style="margin-bottom:90px;" class="about first">
+<h2 class="brown-heading">PDF page counts by composer/genre</h2>
+<div id="pagetable">
+	<div style="height:679px;"></div>
+</div>
+</article>
+
+<!-- vim: set ts=2: -->
+
+			</section> <!-- content -->
+			<footer>
+	<nav class="secondary-nav">
+		<ul>
+			<li class="logo"><a href="/">Josquin Research Project</a></li>
+			<li><a href="/feedback">Feedback</a></li>
+			<li><a href="/under-the-hood">Under the Hood</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+	</nav> <!-- secondary-nav -->
+</footer>
+<!-- vim: set ts=2: -->
+
+		</div> <!-- page -->
+		<script src="/scripts/scripts-common.js"></script>
+		---
+---
+<script src="/scripts/external/handlebars-v2.0.0.js"></script>
+<!-- script src="/scripts/scripts-common.js"></script --!>
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date: Mon Oct 13 15:56:47 PDT 2014
+// Last Modified: Mon Oct 13 15:56:50 PDT 2014
+// Filename:		.../recently-added/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/recently-added/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:	JavaScript management of the JRP recently added works page.
+// 					Adapted from browse/scripts-local.html.
+//
+
+var WORKLISTsections;
+
+
+//////////////////////////////
+//
+// DOMContentLoaded event listener --
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+	StylizeFormElements();
+	showNoteTable("notetable");
+	showTimeTable("timetable");
+	showPageTable("pagetable");
+}, false);
+
+
+
+//////////////////////////////
+//
+// showNoteTable --
+//
+
+function showNoteTable(tagid) {
+	var parentelement = document.getElementById(tagid);
+	if (!parentelement) {
+		return;
+	}
+	InitializeWorklist();
+	var source = document.getElementById("note-table");
+	var template = Handlebars.compile(source.textContent);
+	parentelement.innerHTML = template(WORKLIST);
+   sumColums(parentelement.querySelector("table"));
+}
+
+
+
+//////////////////////////////
+//
+// showPageTable --
+//
+
+function showPageTable(tagid) {
+	var parentelement = document.getElementById(tagid);
+	if (!parentelement) {
+		return;
+	}
+	InitializeWorklist();
+	var source = document.getElementById("page-table");
+	var template = Handlebars.compile(source.textContent);
+	parentelement.innerHTML = template(WORKLIST);
+   sumColums(parentelement.querySelector("table"));
+}
+
+
+
+//////////////////////////////
+//
+// showTimeTable --
+//
+
+function showTimeTable(tagid) {
+	var parentelement = document.getElementById(tagid);
+	if (!parentelement) {
+		return;
+	}
+	InitializeWorklist();
+	var source = document.getElementById("time-table");
+	var template = Handlebars.compile(source.textContent);
+	parentelement.innerHTML = template(WORKLIST);
+   sumTimeColumns(parentelement.querySelector("table"));
+}
+
+
+
+//////////////////////////////
+//
+// Handlebars genrenotecount function --
+//
+
+Handlebars.registerHelper('genrenotecount', function(entry, genre) {
+	var i;
+	var sum = 0;
+	for (i=0; i<entry.works.length; i++) {
+		if (entry.works[i].genre === genre) {
+			var num = entry.works[i].notecount;
+			if (!num) { continue; }
+			sum += num;
+		}
+	}
+	if (!sum) {
+		return '';
+	} else {
+		return sum;
+	}
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars genrepagecount function --
+//
+
+Handlebars.registerHelper('genrepagecount', function(entry, genre) {
+	var i;
+	var sum = 0;
+	for (i=0; i<entry.works.length; i++) {
+		if (entry.works[i].genre === genre) {
+			var num = entry.works[i].pg;
+			if (!num) { continue; }
+			sum += num;
+		}
+	}
+	if (!sum) {
+		return '';
+	} else {
+		return sum;
+	}
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars genretimecount function --
+//
+
+Handlebars.registerHelper('genretimecount', function(entry, genre) {
+	var i;
+	var sum = 0;
+	for (i=0; i<entry.works.length; i++) {
+		if (entry.works[i].genre === genre) {
+			var num = entry.works[i].sec;
+			if (!num) { continue; }
+			sum += num;
+		}
+	}
+	if (!sum) {
+		return '';
+	} else {
+		return timevalue(sum);
+	}
+});
+
+
+
+//////////////////////////////
+//
+// timevalue --
+//
+
+function timevalue(number) {
+   var time = parseInt(number);
+   var hours = 0;
+   var min   = 0;
+   var sec   = 0;
+	if (time / 3600 >= 1) {
+		hours = parseInt(time / 3600);
+		time = time - 3600 * hours;
+   }
+	if (time / 60 >= 1) {
+		min = parseInt(time / 60);
+		time = time - 60 * min;
+   }
+   sec = time;
+   var output = "";
+
+   if (hours > 0) {
+		output += hours;
+		output += ":";
+   }
+
+   if (min > 0 || hours > 0) {
+		if (min < 10 && hours > 0) { output += "0"; }
+		output += min;
+		output += ":";
+   }
+
+	if (sec < 10) { output += "0"; }
+	output += sec;
+
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// Handlebars timevalue function --
+//
+
+Handlebars.registerHelper('timevalue', function(seconds) {
+   return timevalue(seconds);
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars genreworkcount function --
+//
+
+Handlebars.registerHelper('genreworkcount', function(entry, genre) {
+	var i;
+	var counter;
+	if (genre === "mass") {
+		counter = 0;
+		scounter = 0;
+		for (i=0; i<entry.works.length; i++) {
+			if (entry.works[i].genre !== "mass") {
+				continue;
+			}
+			if (entry.works[i].sections && entry.works[i].sections.length > 1) {
+				counter++;
+				scounter += entry.works[i].sections.length;
+			}
+		}
+		if (counter) {
+			return counter + "(" + scounter + ")";
+		} else {
+			return "";
+		}
+	}
+	else if (genre === "mass-section") {
+		counter = 0;
+		for (i=0; i<entry.works.length; i++) {
+			if (entry.works[i].genre !== "mass") {
+				continue;
+			}
+			if (!entry.works[i].sections) {
+				counter++;
+			} else if (entry.works[i].sections.length == 1) {
+				counter++;
+			}
+		}
+		if (counter) {
+			return counter;
+		} else {
+			return "";
+		}
+		var counter = 0;
+		return 0;
+	}
+	for (i=0; i<entry.genres.length; i++) {
+		if (entry.genres[i].name === genre) {
+			return entry.genres[i].count;
+		}
+	}
+	return "";
+});
+
+
+
+//////////////////////////////
+//
+// sumColumns --
+//
+
+function sumColums(tableelement) {
+	var i, j;
+	var col;
+   var scounter;
+	var matches;
+   var lastrow = document.createElement("tr");
+	lastrow.style.borderTop = "1px solid #eee";
+	lastrow.style.color = "#333";
+	tableelement.appendChild(lastrow);
+   var colcount = tableelement.querySelectorAll("tr:first-of-type td").length;
+	var cell = document.createElement("td");
+	cell.style.fontStyle = "italic";
+	cell.innerHTML = "All&nbsp;repertories";
+	lastrow.appendChild(cell);
+	for (i=1; i<colcount; i++) {
+		cell = document.createElement("td");
+		lastrow.appendChild(cell);
+	}
+	var rows = tableelement.querySelectorAll("tr");
+   var len = rows[0].querySelectorAll("td,th").length;
+	for (i=2; i<=len; i++) {
+		col = tableelement.querySelectorAll("td:nth-of-type(" + i + ")");
+		var sum = 0;
+		var scounter = 0;
+		for (j=0; j<col.length-1; j++) {
+			var num = parseInt(col[j].textContent);
+			if (!num) { continue; }
+			sum += num;
+			matches = col[j].textContent.match(/\((\d+)\)/);
+			if (matches) {
+				scounter += parseInt(matches[1]);
+			}
+		}
+		if (scounter) {
+			col[col.length-1].textContent = sum + "(" + scounter + ")";
+		} else {
+			col[col.length-1].textContent = sum;
+		}
+	}
+}
+
+
+
+//////////////////////////////
+//
+// sumTimeColumns --
+//
+
+function sumTimeColumns(tableelement) {
+	var i, j;
+	var col;
+   var scounter;
+	var matches;
+   var lastrow = document.createElement("tr");
+	lastrow.style.borderTop = "1px solid #eee";
+	lastrow.style.color = "#333";
+	tableelement.appendChild(lastrow);
+   var colcount = tableelement.querySelectorAll("tr:first-of-type td").length;
+	var cell = document.createElement("td");
+	cell.style.fontStyle = "italic";
+	cell.innerHTML = "All&nbsp;repertories";
+	lastrow.appendChild(cell);
+	for (i=1; i<colcount; i++) {
+		cell = document.createElement("td");
+		lastrow.appendChild(cell);
+	}
+	var rows = tableelement.querySelectorAll("tr");
+   var len = rows[0].querySelectorAll("td,th").length;
+	var ctype = "";
+   var sum;
+	var num;
+	var time;
+   var sec;
+   var scounter;
+	for (i=2; i<=len; i++) {
+		col = tableelement.querySelectorAll("td:nth-of-type(" + i + ")");
+		ctype = tableelement.querySelector("th:nth-of-type("+i+")").textContent;
+
+		if (ctype === "Duration") {
+			sum = 0;
+			scounter = 0;
+			for (j=0; j<col.length-1; j++) {
+				time = col[j].textContent;
+				if (!time) { continue; }
+				sec = 0;
+
+				matches = time.match(/(\d+):0?(\d+):0?(\d+)/);
+				if (matches) {
+					sec  = parseInt(matches[1])*3600;
+					sec += parseInt(matches[2])*60;
+					sec += parseInt(matches[3]);
+					sum += sec;
+					continue;
+				}
+				matches = time.match(/(\d+):0?(\d+)/);
+				if (matches) {
+					sec  = parseInt(matches[1])*60;
+					sec += parseInt(matches[2]);
+					sum += sec;
+					continue;
+				}
+				matches = time.match(/(\d+)/);
+				if (matches) {
+					sec  = parseInt(matches[1]);
+					sum += sec;
+					continue;
+				}
+
+			}
+			col[col.length-1].textContent = timevalue(sum);
+		} else {
+			sum = 0;
+			scounter = 0;
+			for (j=0; j<col.length-1; j++) {
+				num = parseInt(col[j].textContent);
+				if (!num) { continue; }
+				sum += num;
+				matches = col[j].textContent.match(/\((\d+)\)/);
+				if (matches) {
+					scounter += parseInt(matches[1]);
+				}
+			}
+			if (scounter) {
+				col[col.length-1].textContent = sum + "(" + scounter + ")";
+			} else {
+				col[col.length-1].textContent = sum;
+			}
+		}
+
+	}
+}
+
+</script>
+
+
+		---
+---
+
+<script id="note-table" type="text/x-handlebars-template">
+
+<table class="census">
+<thead>
+<tr>
+	<th>Repertory</th>
+	<th>Works</th>
+	<th>Notes</th>
+	<th>Masses</th>
+	<th>Sections</th>
+	<th>Notes</th>
+	<th>Motets</th>
+	<th>Notes</th>
+	<th>Songs</th>
+	<th>Notes</th>
+</tr>
+</thead>
+{{#each this}}
+<tr>
+	<td><a title="{{{comlong}}} {{#if comdates}}({{{comdates}}}){{/if}}" href="/browse-filter?c={{repid}}">{{{comshort}}}</a></td>
+	<td>{{repwork}}</td>
+	<td>{{notecount}}</td>
+	<td>{{genreworkcount this "mass"}}</td>
+	<td>{{genreworkcount this "mass-section"}}</td>
+	<td>{{genrenotecount this "mass"}}</td>
+	<td>{{genreworkcount this "motet"}}</td>
+	<td>{{genrenotecount this "motet"}}</td>
+	<td>{{genreworkcount this "song"}}</td>
+	<td>{{genrenotecount this "song"}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</script>
+
+<script id="time-table" type="text/x-handlebars-template">
+<table class="census">
+<thead>
+<tr>
+	<th>Repertory</th>
+	<th>Works</th>
+	<th>Duration</th>
+	<th>Masses</th>
+	<th>Sections</th>
+	<th>Duration</th>
+	<th>Motets</th>
+	<th>Duration</th>
+	<th>Songs</th>
+	<th>Duration</th>
+</tr>
+</thead>
+{{#each this}}
+<tr>
+	<td><a title="{{{comlong}}} {{#if comdates}}({{{comdates}}}){{/if}}" href="/browse-filter?c={{repid}}">{{{comshort}}}</a></td>
+	<td>{{repwork}}</td>
+	<td>{{timevalue sec}}</td>
+	<td>{{genreworkcount this "mass"}}</td>
+	<td>{{genreworkcount this "mass-section"}}</td>
+	<td>{{genretimecount this "mass"}}</td>
+	<td>{{genreworkcount this "motet"}}</td>
+	<td>{{genretimecount this "motet"}}</td>
+	<td>{{genreworkcount this "song"}}</td>
+	<td>{{genretimecount this "song"}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</script>
+
+<script id="page-table" type="text/x-handlebars-template">
+<table class="census">
+<thead>
+<tr>
+	<th>Repertory</th>
+	<th>Works</th>
+	<th>Pages</th>
+	<th>Masses</th>
+	<th>Sections</th>
+	<th>Pages</th>
+	<th>Motets</th>
+	<th>Pages</th>
+	<th>Songs</th>
+	<th>Pages</th>
+</tr>
+</thead>
+{{#each this}}
+<tr>
+	<td><a title="{{{comlong}}} {{#if comdates}}({{{comdates}}}){{/if}}" href="/browse-filter?c={{repid}}">{{{comshort}}}</a></td>
+	<td>{{repwork}}</td>
+	<td>{{pg}}</td>
+	<td>{{genreworkcount this "mass"}}</td>
+	<td>{{genreworkcount this "mass-section"}}</td>
+	<td>{{genrepagecount this "mass"}}</td>
+	<td>{{genreworkcount this "motet"}}</td>
+	<td>{{genrepagecount this "motet"}}</td>
+	<td>{{genreworkcount this "song"}}</td>
+	<td>{{genrepagecount this "song"}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+
+</script>
+
+
+
+		---
+---
+<script>
+
+//////////////////////////////
+//
+// DOMContentLoaded event handler --
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+	StylizeFormElements();
+	showNoteTable("notetable");
+	showTimeTable("timetable");
+	showPageTable("pagetable");
+}, false);
+
+</script>
+
+<!-- vim: set ts=2: -->
+
+	</body>
+
+</html>
+<!-- vim: set ts=2: -->
+: set ts=2: -->

@@ -1,3 +1,5 @@
+---
+---
 <!doctype html>
 <html lang="en">	
 	<head id="newhead">
@@ -11,10 +13,10 @@
 	<body id="white">
 		<div id="home-page" class="page container">
 			<section id="content">
-			<!--#include virtual="contents.html" -->
+			{% include_relative contents.html %}
 			</section>
 		</div>
-		<!--#include virtual="scripts-local.html" -->
+		{% include_relative scripts-local.html %}
 		<script>
 			<!--#include virtual="../scripts/scripts-common.js" -->
 		</script>

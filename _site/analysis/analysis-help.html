@@ -1,0 +1,122 @@
+<html lang="en">
+<head>
+<style>
+.qaz {
+   color:#2b75af;
+   font-weight: 700;
+   font-family: Courier,monospace;
+   font-size:90%;
+}
+.xtra {
+   margin-top:10px;
+}
+p {
+   letter-spacing:-0.5px;
+}
+
+.entry {
+  color: #d7ab5b;
+  font-family: "Lusitana", "serif";
+  font-size: 110%;
+  font-weight: 700;
+  padding-top: 52px;
+  margin-bottom: 31px;
+}
+</style>
+<title>Analysis Help</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=1010"/>
+<link rel="SHORTCUT ICON" href="/images/favicon.png"/>
+
+<!-- styles -->
+<link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Lusitana:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/scripts/external/select2.js"></script>
+<script src="/scripts/external/jquery.ezmark.min.js"></script>
+<script src="/scripts/external/placeholders.min.js"></script>
+<script src="/scripts/scripts-basic.js"></script>
+
+<script>
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-38223992-1']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); 
+		ga.type = 'text/javascript'; 
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+<!--[if lte IE 9]>
+	<link rel="stylesheet" type="text/css" href="/css/ie9.css" />
+<![endif]-->
+<!-- vim: set ts=3: -->
+
+
+
+<body style="font-size:90%;">
+
+<div class="page container" id="search-page">
+<div style="width:700px;" id="content">
+
+<article style="margin-left:-140px; margin-top:-50px;" class="about">
+<h2 style="margin-top:8px;" class="brown-heading">JRP Analysis Tools</h2>
+
+<p style="margin-top:-18px;">
+<span class=entry>Activity.</span> These plots show:
+<ol style="margin-top:-18px;">
+<li> the total number of note attacks per measure, taking all voices into account
+<li> the relative activity of each voice (black=very active; white=rest)
+</ol>
+</p>
+
+<p>
+<span class=entry>Parallel.</span> Displays all parallel unisons, octaves,
+and fifths (diatonic) in a given repertory.  The JRP distinguishes
+between "hard" parallel motion, where the initial notes are attached
+simultaneously, and "soft" parallel motion, where they are staggered.
+</p>
+
+<p>
+<span class=entry>Rhythm.</span> Inspired by Sean
+Gallagher's important <a class="text-link" target="_blank" 
+href="http://www.worldcat.org/title/syntax-and-style-rhythmic-patterns-in-the-music-of-ockeghem/oclc/610935839">article</a>
+on style and syntax in the music of Johannes Ockeghem, this tool displays
+every measure-long rhythmic pattern—that is, every pattern that starts
+at the beginning of a measure and lasts exactly one breve (or, under some
+mensuration signs, one long). Patterns are listed in order of frequency;
+click any gesture for the passages in which it appears.
+</p>
+
+<p>
+<span class=entry>Range.</span> Displays the total range of each
+voice. Also shows the relative frequency of each pitch: (1) based on
+note attacks; (2) based on duration.
+</p>
+
+<p style="margin-top:-12px;">
+An additional feature is available on all Work pages: mouse-over the range
+graph to see the precise number of times a given note is sung.
+</p>
+
+
+<table class="xtra" width=500 cellpadding=0 cellspacing=0>
+<tr valign=baseline><td width=100%>
+</td><td>
+<button onclick="javascript:window.close();" class="btn btn-brown btn-medium">Close</button>
+</td></tr></table>
+
+</article>
+
+</div>
+</div>
+
+</body>
+</html>

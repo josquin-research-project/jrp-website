@@ -1,0 +1,103 @@
+<script id="note-table" type="text/x-handlebars-template">
+<table class="census">
+<thead>
+<tr>
+	<th>Repertory</th>
+	<th>Works</th>
+	<th>Notes</th>
+	<th>Masses</th>
+	<th>Sections</th>
+	<th>Notes</th>
+	<th>Motets</th>
+	<th>Notes</th>
+	<th>Songs</th>
+	<th>Notes</th>
+</tr>
+</thead>
+{{#each this}}
+<tr>
+	<td><a title="{{{comlong}}} {{#if comdates}}({{{comdates}}}){{/if}}" href="/browse-filter?c={{repid}}">{{{comshort}}}</a></td>
+	<td>{{repwork}}</td>
+	<td>{{notecount}}</td>
+	<td>{{genreworkcount this "mass"}}</td>
+	<td>{{genreworkcount this "mass-section"}}</td>
+	<td>{{genrenotecount this "mass"}}</td>
+	<td>{{genreworkcount this "motet"}}</td>
+	<td>{{genrenotecount this "motet"}}</td>
+	<td>{{genreworkcount this "song"}}</td>
+	<td>{{genrenotecount this "song"}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</script>
+
+<script id="time-table" type="text/x-handlebars-template">
+<table class="census">
+<thead>
+<tr>
+	<th>Repertory</th>
+	<th>Works</th>
+	<th>Duration</th>
+	<th>Masses</th>
+	<th>Sections</th>
+	<th>Duration</th>
+	<th>Motets</th>
+	<th>Duration</th>
+	<th>Songs</th>
+	<th>Duration</th>
+</tr>
+</thead>
+{{#each this}}
+<tr>
+	<td><a title="{{{comlong}}} {{#if comdates}}({{{comdates}}}){{/if}}" href="/browse-filter?c={{repid}}">{{{comshort}}}</a></td>
+	<td>{{repwork}}</td>
+	<td>{{timevalue sec}}</td>
+	<td>{{genreworkcount this "mass"}}</td>
+	<td>{{genreworkcount this "mass-section"}}</td>
+	<td>{{genretimecount this "mass"}}</td>
+	<td>{{genreworkcount this "motet"}}</td>
+	<td>{{genretimecount this "motet"}}</td>
+	<td>{{genreworkcount this "song"}}</td>
+	<td>{{genretimecount this "song"}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</script>
+
+<script id="page-table" type="text/x-handlebars-template">
+<table class="census">
+<thead>
+<tr>
+	<th>Repertory</th>
+	<th>Works</th>
+	<th>Pages</th>
+	<th>Masses</th>
+	<th>Sections</th>
+	<th>Pages</th>
+	<th>Motets</th>
+	<th>Pages</th>
+	<th>Songs</th>
+	<th>Pages</th>
+</tr>
+</thead>
+{{#each this}}
+<tr>
+	<td><a title="{{{comlong}}} {{#if comdates}}({{{comdates}}}){{/if}}" href="/browse-filter?c={{repid}}">{{{comshort}}}</a></td>
+	<td>{{repwork}}</td>
+	<td>{{pg}}</td>
+	<td>{{genreworkcount this "mass"}}</td>
+	<td>{{genreworkcount this "mass-section"}}</td>
+	<td>{{genrepagecount this "mass"}}</td>
+	<td>{{genreworkcount this "motet"}}</td>
+	<td>{{genrepagecount this "motet"}}</td>
+	<td>{{genreworkcount this "song"}}</td>
+	<td>{{genrepagecount this "song"}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</script>
+
+

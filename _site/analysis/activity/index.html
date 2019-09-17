@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">	           
+	<head>
+		<title>JRP Activity</title>
+		<meta charset="utf-8"/>
+<meta name="viewport" content="width=1010"/>
+<link rel="SHORTCUT ICON" href="/images/favicon.png"/>
+
+<!-- styles -->
+<link href="http://fonts.googleapis.com/css?family=Lato:400,700,400italic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Lusitana:400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/normalize.css"/>
+<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+
+<!-- scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/scripts/external/select2.js"></script>
+<script src="/scripts/external/jquery.ezmark.min.js"></script>
+<script src="/scripts/external/placeholders.min.js"></script>
+<script src="/scripts/scripts-basic.js"></script>
+
+<script>
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-38223992-1']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); 
+		ga.type = 'text/javascript'; 
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+<!--[if lte IE 9]>
+	<link rel="stylesheet" type="text/css" href="/css/ie9.css" />
+<![endif]-->
+<!-- vim: set ts=3: -->
+
+
+	</head>
+<body>
+	<div style="width:1650px;" class="page full-container" id="search-page">
+		<header class="simple">
+	<nav id="primary-nav">
+		<ul class="perf">
+			<li class="logo"><a href="/"><img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAeAAD/4QNxaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6Rjc3RjExNzQwNzIwNjgxMThGRDBCODhFMkEzMDEyMjgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QzY5MkE5ODFDRkE0MTFFM0JCNUFCNzI0MDZFNTA5RkQiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QzY5MkE5ODBDRkE0MTFFM0JCNUFCNzI0MDZFNTA5RkQiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNS4xIE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjE5QjJBN0M0MjgyMDY4MTFBQUYyRTQxNEMwOEI5ODhEIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY3N0YxMTc0MDcyMDY4MTE4RkQwQjg4RTJBMzAxMjI4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQAEAsLCwwLEAwMEBcPDQ8XGxQQEBQbHxcXFxcXHx4XGhoaGhceHiMlJyUjHi8vMzMvL0BAQEBAQEBAQEBAQEBAQAERDw8RExEVEhIVFBEUERQaFBYWFBomGhocGhomMCMeHh4eIzArLicnJy4rNTUwMDU1QEA/QEBAQEBAQEBAQEBA/8AAEQgAOgA+AwEiAAIRAQMRAf/EAG8AAQEBAQEAAAAAAAAAAAAAAAECAAMFAQEBAQEBAAAAAAAAAAAAAAAAAQIEBRAAAQMEAQMCBQUAAAAAAAAAAQARAiExQRIDUWFxoSKBkcEyYvCx8UJSEQEBAQADAQAAAAAAAAAAAAAAEQEhMUFh/9oADAMBAAIRAxEAPwD1jWqCHSfCJSEQZGgXkO9mU7RBqQFJkTSVCbRH1KKtEiLDIZI1HUalmPyWIemFyp/aLflb1THkYOTtA5Nx5ViRbMqfCHqyX9ERiei4mW3KAT7Y4/IrqRVcTEvI67e76UTFx2hAbEmrWJwiXJxA1kFMw2srBw4FmNFGx4xywEdgC/ZiFYSukph9ADLNGspcagQA0N3p5UxIiOIxOCCfVdJRAiM1evUqL0YW1NSM9lTUUxd7YDqnNkZ9Z60uucovI/l8KhdMrGIkGSmIFYnjLPanZOkxymYbUhj1RKJF6S64VRMyWIoB93UooHEIy2iTF7jBRM7EAR2jYnosTMxO/s6Vb5pjESBEBrA37+Fcw+6eMODLBt4CrPfqsLsnojN5a6CKrZKDdQUwPxUnj4/8t4orCwwmHKRxcYP2171/dIoslDb6Ch/5SbYU4/TKj//Z"></a></li>
+			<li><a href="/">Home</a></li>
+			<li><a href="/browse?home=true">Browse</a></li>
+			<li><a onclick="sessionStorage.SEARCHLIST='';" href="/search">Search/Analysis</a></li>
+			<li><a href="/about">About</a></li>
+			<li><a href="/performance">Performance</a></li>
+		</ul>
+	</nav> <!-- primary-nav -->
+</header>
+<!-- vim: set ts=2: -->
+
+		<div id="content">
+			<article style="padding-left:10px;" class="about">
+				<h2 style="padding-top:10px;" class="brown-heading">Activity Plots</h2>
+					<table><tr><td>
+					<div style="display:inline; width:400px;" id="repertory-select" 
+							onchange="analyzeRepertory();"; class="form-group"></div> 
+					</td><td>
+					<div style="display:inline; width:200px;" id="genre-select" 
+						onchange="analyzeGenre();"; class="form-group"></div> 
+					</td><td>
+					<div style="display:inline; width:600px;" id="work-select" 
+						onchange="analyzeWork();"; class="form-group"></div> 
+					</td></tr></table>
+				<div id="analysis-content"></div>
+			</article>
+		</div>
+		<footer>
+	<nav class="secondary-nav">
+		<ul>
+			<li class="logo"><a href="/">Josquin Research Project</a></li>
+			<li><a href="/feedback">Feedback</a></li>
+			<li><a href="/under-the-hood">Under the Hood</a></li>
+			<li><a href="/contact">Contact</a></li>
+		</ul>
+	</nav> <!-- secondary-nav -->
+</footer>
+<!-- vim: set ts=2: -->
+
+	</div> <!-- page -->
+	---
+---
+<script src="/scripts/scripts-common.js"></script>
+<script src="../scripts-common.js"></script>
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Fri Sep 12 13:44:35 PDT 2014
+// Last Modified:	Thu Sep 18 15:30:15 PDT 2014
+// Filename:		.../analysis/activity/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/analysis/activity/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:	JavaScript management of the JRP activity analysis.
+//
+
+
+//////////////////////////////
+//
+// window.onload == what to do after the page has been loaded.
+//
+
+window.onload = function() {
+   loadCgiParameters();
+	window.addEventListener('keydown', analysisKeyDownFunction, false);
+	displayContents();
+};
+
+
+
+//////////////////////////////
+//
+// runAnalysis --
+//
+
+function runAnalysis() {
+	var maincontent = document.getElementById('analysis-content');
+	if (!maincontent) {
+		return;
+	}
+
+   localStorage.ANALYSISrepertory = document.getElementById("repertory").value;
+
+	if ((localStorage.ANALYSISrepertory == "") 
+	  || (localStorage.ANALYSISrepertory == "Select a repertory")) {
+		maincontent.innerHTML = 
+			"<p>Choose a repertory from the above menu to view its activity plots.</p>";
+		return;
+	}
+
+	maincontent.innerHTML = "<p>Processing...</p>";
+	$("body").css("cursor", "wait");
+   var file = "http://josquin.stanford.edu/data?repertory=activity&composer=" + 
+		localStorage.ANALYSISrepertory;
+
+   localStorage.ANALYSISgenre = document.getElementById("genre").value;
+   if ((typeof localStorage.ANALYSISgenre !== 'undefined') 
+			&& !localStorage.ANALYSISgenre.match(/^\s*$/)
+			&& !localStorage.ANALYSISgenre.match(/All genres/)) {
+		file += "&genre=" + localStorage.ANALYSISgenre;
+	} 
+
+   localStorage.ANALYSISwork = document.getElementById("work").value;
+   if ((typeof localStorage.ANALYSISwork !== 'undefined') 
+			&& !localStorage.ANALYSISwork.match(/^\s*$/)
+			&& !localStorage.ANALYSISwork.match(/All works/)) {
+		file += "&work=" + localStorage.ANALYSISwork;
+	}
+
+console.log("DOWNLOADING " + file);
+
+	ReadFileAsync(file, function(responseText) {
+		var maincontent = document.getElementById('analysis-content');
+		if (!maincontent) {
+			return;
+		}
+		maincontent.innerHTML = responseText;
+		$("body").css("cursor", "default");
+	});
+
+   var genre  = document.getElementById("genre");
+   var work = document.getElementById("work");
+
+   if ((genre.value == "") || (genre.value == "All genres")) {
+      genre.value = "default";
+   }
+   if ((work.value == "") || (work.value == "All works")) {
+      work.value = "default";
+   }
+
+   
+
+   // buildSelectionMenus();
+	// StylizeFormElements();
+
+
+}
+
+
+</script>
+
+</body>
+</html>
+<!-- vim: set ts=2: -->
+-- vim: set ts=2: -->

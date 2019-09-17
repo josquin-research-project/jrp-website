@@ -1,0 +1,291 @@
+<script src="/scripts/scripts-common.js"></script>
+
+<!-- qTip resource files -->
+<link type="text/css" rel="stylesheet" href="/scripts/external/qtip/jquery.qtip.min.css"/>
+<script src="/scripts/external/qtip/jquery.qtip.min.js"></script>
+<script src="/scripts/external/qtip/imagesloaded.pkg.min.js"></script>
+
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Wed Aug 27 17:13:25 PDT 2014
+// Last Modified:	Thu Sep  4 00:41:17 PDT 2014
+// Filename:		.../search/scripts-local.html
+// Web Address:	http://josquin.stanford.edu/search/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:   JavaScript management of the JRP data searches.
+//
+
+var SEARCHhome  = null;
+var SEARCHLIST  = null;
+
+
+//////////////////////////////
+//
+// window.onload == what to do after the page has been loaded.
+//
+
+window.onload = function() {
+	localStorage.removeItem(SEARCHLIST);
+	displayContents();
+}
+
+
+//////////////////////////////
+//
+// storeRepertory --
+//
+
+function storeRepertory() {
+   var repertory = document.getElementById("repertory").value;
+   localStorage.ANALYSISrepertory = repertory;
+}
+
+
+
+//////////////////////////////
+//
+// showPopupHelp --
+//
+
+function showPopupHelp(url, title) {
+	var newwindow = window.open(url, title,
+		'left=20,top=20,width=620,height=830,resizable=no,scrollbars=no,directories=no,location=no,status=no,toolbar=no');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// displayContents --
+//
+
+function displayContents() {
+	var maincontent = document.getElementById('content');
+	if (!maincontent) {
+		return;
+	}
+	if (SEARCHhome == null) {
+//      if (typeof localStorage.SEARCHhome === 'undefined') {
+			SEARCHhome = ReadFile('content.html');
+//         localStorage.SEARCHhome = SEARCHhome;
+//      } else {
+//         SEARCHhome = localStorage.SEARCHhome;
+//      }
+	}
+	maincontent.innerHTML = SEARCHhome;
+	buildComposerSelect();
+	buildGenreSelect();
+   setupSearchOnEnter();
+	// StylizeFormElements(); // already done in buildComposerSelect & buildGenreSelect
+	setupTooltips();
+}
+
+
+
+//////////////////////////////
+//
+// setupTooltips --
+//
+
+function setupTooltips() {
+
+	$('#analysis-help').qtip({
+		content: {
+			text: 'Click for a short description of the analysis tools.'
+		}
+	});
+
+	$('#search-help').qtip({
+		content: {
+			text: 'Click for help on expressing search queries.'
+		}
+	});
+
+}
+
+
+
+/////////////////////////////
+//
+// Setup enter key to start search.
+//
+
+function setupSearchOnEnter() {
+	$("#pitch")   .focus(function() { $(this).data("hasfocus", true);});
+	$("#interval").focus(function() { $(this).data("hasfocus", true);});
+	$("#rhythm")  .focus(function() { $(this).data("hasfocus", true);});
+	$("#pitch")   .blur(function()  { $(this).data("hasfocus", false);});
+	$("#interval").blur(function()  { $(this).data("hasfocus", false);});
+	$("#rhythm")  .blur(function()  { $(this).data("hasfocus", false);});
+   $(document.body).keyup(function(ev) {
+      if (ev.which === EnterKey) {
+         if      ($("#pitch")   .data("hasfocus")) { doSearch(); }
+         else if ($("#interval").data("hasfocus")) { doSearch(); }
+         else if ($("#rhythm")  .data("hasfocus")) { doSearch(); }
+      }
+   });
+}
+
+
+
+//////////////////////////////
+//
+// doSearch --
+//
+
+function doSearch() {
+	var pitch     = document.getElementById("pitch");
+	var interval  = document.getElementById("interval");
+	var rhythm    = document.getElementById("rhythm");
+	var composers = document.getElementById("composers");
+	var genres    = document.getElementById("genres");
+
+	var empty = 0;
+	if (pitch.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (interval.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (rhythm.value.match(/^\s*$/)) {
+		empty += 1;
+	}
+
+	if (empty == 3) {
+		var empty2 = 0;
+		if (composers.value.match(/^\s*$/) || composers.value.match(/All/i)) {
+			empty2 += 1;
+		} 
+		if (genres.value.match(/^\s*$/) || genres.value.match(/All/i)) {
+			empty2 += 1;
+		} 
+
+		if (empty2 == 2) {
+			displayContents();
+			return;
+		} else {
+			localStorage.BROWSEcomposers = composers.value;
+			localStorage.BROWSEgenres    = genres.value;
+			localStorage.BROWSEvoices    = "";
+			localStorage.BROWSEtitlebox  = "";
+			localStorage.BROWSEhome      = "false";
+			window.location.href = "/browse";
+			return;
+		}
+	}
+
+	var c = composers.value;
+	if (c.match(/All/i)) {
+		c = "";
+	}
+	var g = genres.value;
+	if (g.match(/All/i)) {
+		g = "";
+	}
+
+	var searchparam = "";
+	if (c != "") {
+		searchparam += "&composer=" + encodeURIComponent(c);
+	}
+	if (g != "") {
+		searchparam += "&genre=" + encodeURIComponent(g);
+	}
+	if (pitch.value != "") {
+		searchparam += "&pitch=" + encodeURIComponent(pitch.value);
+	}
+	if (rhythm.value != "") {
+		searchparam += "&rhythm=" + encodeURIComponent(rhythm.value);
+	}
+	if (interval.value != "") {
+		searchparam += "&interval=" + encodeURIComponent(interval.value);
+	}
+
+   // The search-results page will look at sessionStorage.QUERY.  If it find
+   // that it has content, then it will run the query and display the results.
+	var QUERY = {};
+	QUERY.composer = c;
+	QUERY.genre    = g;
+	QUERY.pitch    = pitch.value;
+	QUERY.rhythm   = rhythm.value;
+	QUERY.interval = interval.value;
+   QUERY.requestTime = new Date().getTime() / 1000;
+	sessionStorage.QUERY = JSON.stringify(QUERY);
+
+	window.location.href = "/search-results";
+	return;
+}
+
+
+
+//////////////////////////////
+//
+// buildComposerSelect
+//
+
+function buildComposerSelect() {
+	var composerselect = document.getElementById("composers-select");
+	if (composerselect == null) {
+		return;
+	}
+
+	var output = "<select id=\"composers\"";
+	output += " data-placeholder=\"All Composers\">\n";
+	output += "<option label=\"default\">All Composers</option>\n";
+	var clist = GetComposerOptions();
+	output += clist;
+	output += "</select>\n";
+	composerselect.innerHTML = output;
+
+
+	var cs2 = document.getElementById("repertory-select");
+	if (cs2 == null) {
+		StylizeFormElements();
+		return;
+	}
+
+	output  = "<select style=\"width:230px;\" id=\"repertory\" ";
+	output += ">\n";
+	output += clist;
+	output += "</select>\n";
+	cs2.innerHTML = output;
+
+   if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
+			(localStorage.ANALYSISrepertory != "")) {
+		$('#repertory').val(localStorage.ANALYSISrepertory);
+		StylizeFormElements();
+	} else {
+		$('#repertory').val("Jos");
+	}
+	StylizeFormElements();
+
+}
+
+
+
+//////////////////////////////
+//
+// buildGenreSelect --
+//
+
+function buildGenreSelect() {
+	var genreselect = document.getElementById("genres-select");
+	if (genreselect == null) {
+		return;
+	}
+
+	var output = "<select id=\"genres\"";
+	output += " data-placeholder=\"All Genres\">\n";
+	output += "<option label=\"default\">All Genres</option>\n";
+	output += GetGenreOptions();
+	genreselect.innerHTML = output;
+	StylizeFormElements();
+}
+
+
+
+</script>

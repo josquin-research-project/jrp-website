@@ -1,8 +1,10 @@
+---
+---
 <!doctype html>
 <html lang="en">	           
 	<head>
 		<title>JRP Browse</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 
 	<body>
@@ -15,16 +17,16 @@ div#home-page.page.container {
 		<div class="page container" id="home-page">
 
 			<section id="content">
-				<!--#include virtual="aside-browse.html" -->
+				{% include_relative aside-browse.html %}
 	 			<section id="secondary-content" class="browse-content">
 					<div style="height:1110px;"></div>
 				</section>
 			</section>
 
 		</div>
-		<!--#include virtual="scripts-local.html" -->
-		<!--#include virtual="../census/scripts-local.html" -->
-		<!--#include virtual="../census/templates.html" -->
+		{% include_relative scripts-local.html %}
+		{% include census-scripts-local.html %}
+		{% include census-templates.html %}
 	</body>
 </html>
 <!-- vim: set ts=2: -->

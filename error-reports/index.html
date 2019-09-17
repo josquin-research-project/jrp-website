@@ -1,24 +1,30 @@
+---
+---
 <!doctype html>
 <html lang="en">	           
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<title>JRP Error Reports</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 
 	<body>
 		<div class="page container" id="home-page">
-			<!--#include virtual="/includes/header-generic.html" -->
+			{% include header-generic.html %}
 
 			<section id="content">
-			<!--#include virtual="contents.html" -->
+			{% include_relative contents.html %}
 			</section>
 
-			<!--#include virtual="/includes/footer-generic.html" -->
+			{% include footer-generic.html %}
 		</div>
 		<!--#include virtual="scripts-local.html" -->
 		<!--#include virtual="style-local.html" -->
 		<!--#include virtual="templates.html" -->
+		{% include_relative scripts-local.html %}
+		{% include_relative style-local.html %}
+		{% include_relative templates.html %}
 	</body>
 </html>
 <!-- vim: set ts=2: -->
+im: set ts=2: -->

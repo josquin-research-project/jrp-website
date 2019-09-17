@@ -1,0 +1,134 @@
+<script id="error-table" type="text/x-handlebars-template">
+
+<table class="error">
+
+{{#each this}}
+<tr>
+<td>
+
+<dl class="error">
+<dt>  Work		</dt>
+<dd>  {{jrpid}}  <a target="_blank" href="/work?id={{jrpid}}">{{{work}}}</a>	</dd>
+
+<dt>  Date		</dt>
+<dd>  {{{showdate this}}}	</dd>
+
+{{#if voices}}
+	{{{showvoices this}}}
+{{/if}}
+
+{{#if measure}}
+	{{{showmeasures this}}}
+{{/if}}
+
+<dt>  Description	</dt>
+<dd>  
+{{#unless action}}<span style="color:#c00;">{{/unless}}
+	{{{description}}} 
+{{#unless action}}</span>{{/unless}}
+</dd>
+
+{{#if action}}
+<dt>  Action		</dt>
+<dd>  {{{action}}}	</dd>
+{{/if}}
+
+</dl>
+
+</td>
+</tr>
+{{/each}}
+
+</table>
+
+</script>
+
+
+<script>
+// Handlerbars helper functions for use with the #error-table table
+
+
+//////////////////////////////
+//
+// Handlebars showvoices helper function --
+//
+
+Handlebars.registerHelper('showvoices', function(entry) {
+	var action = entry.action;
+   if (!action) {
+		return "";
+	}
+	var voices = entry.voice;
+	var heading = "";
+	if (voices.match(/^\s*\d+\s*$/)) {
+		heading = "Voice";
+	} else if (voices.match(/\d+\s*-\s*\d*/)) {
+		heading = "Voices";
+		voices.replace(/\s*-+\s*/, "&ndash;");
+	} else {
+		heading = "Voice(s)";
+	}
+	var output = "<dt>" + heading + "</dt>";
+	output += "<dd>" + voices + "</dd>";
+	return output;
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars showmeasures helper function --
+//
+
+Handlebars.registerHelper('showmeasures', function(entry) {
+	var action = entry.action;
+   if (!action) {
+		return "";
+	}
+	var measures = entry.measure;
+	var heading = "";
+	if (measures.match(/^\s*\d+\s*$/)) {
+		heading = "Measure";
+	} else if (measures.match(/\d+\s*-\s*\d*/)) {
+		heading = "Measures";
+		measures.replace(/\s*-+\s*/, "&ndash;");
+	} else {
+		heading = "Measure(s)";
+	}
+	var output = "<dt>" + heading + "</dt>";
+	output += "<dd>" + measures + "</dd>";
+	return output;
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars showdate helper function --
+//
+
+Handlebars.registerHelper('showdate', function(entry) {
+   var datestring = entry.date;
+   var matches = datestring.match(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)/);
+	if (!matches) {
+		return "";
+	}
+
+	var m = ['','Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+					'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+	var year	 	= matches[1];
+	var month	= m[parseInt(matches[2])];
+	var day	 	= parseInt(matches[3]);
+	var hour	 	= parseInt(matches[4]);
+	var min	 	= matches[5];
+	var sec	  	= matches[6];
+	var text = day + " " + month + " " + year;
+	text += ' <span style="color:#ccc">';
+	text += hour + ':' + min + ':' + sec + '</span>';
+	return text;
+});
+
+
+</script>
+<!-- vim: set ts=3: -->

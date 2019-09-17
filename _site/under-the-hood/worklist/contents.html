@@ -1,0 +1,352 @@
+<article style="margin-top:0; padding-left:100px; padding-right:100px;" class="about">
+<h2 class="brown-heading">JRP Work List</h2>
+
+<p>
+A structured list of works in the JRP database can be accessed through the link
+<span style="display:block; margin-left:60px;"><a class="text-link" href=http://josquin.stanford.edu/data?a=worklist-json>http://josquin.stanford.edu/data?a=worklist-json</a>
+</span> 
+</p>
+
+<p class="dense">
+This list is in the <a target="_blank" href="http://json.org/example">JSON format</a>
+and is used to communicate the index of works between the JRP server and the user's 
+web browser.  The list is used to generate the contents of 
+the <a href=/browse>Browse page</a>, as well as provide information about works
+to other pages on the website, such as <a href=/work?id=Jos2721>Work pages</a> and
+the <a href="/census">Census page</a>.
+</p>
+
+<p class="dense">
+The top level of the worklist is an array of repertory objects, sorted
+alphabetically, but with anonymous works listed first.  Each Repertory will posses a 
+list of works, which in turn may contain a list of work-sections:
+<center style="padding-top:10px;"><img width=500 src=worklistchart.png></center>
+</p>
+
+</article>
+
+<article style="margin-top:0; padding-left:100px; padding-right:100px;" class="about">
+<h3 style="color:#2b75b0;" "class="brown-heading">Repertory object parameters</h3>
+
+<p style="margin-top:0">
+Each repertory entry in the base array of the worklist is represented
+by an object which contains the following parameters.  </p>
+
+<dl class="repertory">
+
+<dt> repid
+<dd> Abbreviated name of the repertory.  This is always a three-letter 
+code starting with a capital letter, and it forms the first component of a JRP ID.
+
+<dt> reprole
+<dd> The role of the repertory: either "composer" if the repertory represents
+the works of a single composer, or "repertory" if the repertory contains the
+works of multiple composers (who are named in each work object).
+
+<dt> replong
+<dd> The full name of the repertory, if the reprole is "repertory".
+
+<dt> repshort
+<dd> The short name of the repertory, if the reprole is "repertory".
+
+<dt> comlong
+<dd> The full name of the default composer for the repertory.  Used if
+reprole is "composer".
+
+<dt> comshort
+<dd> The short name for the default composer of the repertory.  Used if
+repreole is "composer".  Typically the name under which the composer will
+be alphabetized, such as "Josquin" for the full name "Josquin des Prez"
+or "Brumel" for "Antoine Brumel".
+
+<dt> comdates
+<dd> The birth and death dates (if known) for the composer.
+
+<dt> repwork
+<dd> The number of works in the data base for the repertory.
+
+<dt class="array"> genres
+<dd> An array of the work genres for the given repertory.
+
+<dt> liststyle
+<dd> Sorting method for the works entry; either "alphabetical" or "genre".  
+Short repertory worklists are given alphabetically by title, while longer lists
+are sorted first by genre and then alphabetically within each genre.
+
+<dt> notecount
+<dd> The total number of notes in all works for the given repertory.
+
+<dt> sec
+<dd> The nominal performance time in seconds of all works in the repertory.
+
+<dt> pg
+<dd> The number of PDF pages for all works in the repertory.
+
+<dt class="array"> works
+<dd> An array of works for the repertory which are available in the JRP database.
+
+</dl>
+
+
+<p>
+The <i>genres</i> parameter of a repertory object is an array of genres present
+in the given repertory worklist.  The parameters of a genre object are:
+</p>
+
+<dl class="genre">
+
+<dt> name
+<dd> The name of a genre present in the worklist for the given repertory: 
+mass, motet or song.
+
+<dt> count
+<dd> The number of the repertory's works which have this genre label.
+
+<dt> notecount
+<dd> The number notes in works of this genre in the repertory.
+
+<dt> sec
+<dd> The nominal performance time in seconds of all works in the given genre for the repertory.
+
+<dt> pg
+<dd> The number of PDF pages for all works in the given genre for the repertory.
+
+</dl>
+
+</article>
+
+
+
+<article style="margin-top:0; padding-left:100px; padding-right:100px;" class="about">
+<h3 style="color:#c96843;" class="brown-heading">Repertory&nbsp;&rarr;&nbsp;<i>work</i> object parameters (single section works)</h3>
+
+<p>
+A work object can occur in two formats: one for single-section works, 
+and another for multi-section works (masses).  Here are the parameters for a
+single section work object:
+</p>
+
+<dl class="work">
+
+<dt> id
+<dd> The JRP ID for the work.
+
+<dt> title
+<dd> The title of the work.
+
+<dt> variant
+<dd> Textual information about a work variant.  Anonymous works use this
+parameter to indicate the manuscript source.
+
+<dt> fragment
+<dd> If the work is incomplete, this parameter is set to <i>true</i>.
+
+<dt> attr
+<dd> An attribution level, only given for works by/attributed to Josquin
+des Prez.  Currently the levels are 1=securely attributed, 2=less securely
+attributed, 3=not securely attributed to Josquin.  These levels are based
+on manuscript sources for the works, with secure attributions requiring
+at least two independent manuscripts indicating Josquin as the composer.
+Less securely attributed works generally have one early manuscript
+source citing Josquin as the composer. Not securely attributed works are
+typically given for works with no manuscript attributions to Josquin,
+or attributions to Josquin are only found in printed editions.
+
+<dt> comlong
+<dd> The full name of the composer of the work if it is different
+from the default composer in the parent repertory object.
+
+<dt> comshort
+<dd> The short name for the default composer of the work if it is different
+from the default composer in the parent repertory object. Typically it is the 
+name under which the composer will be alphabetized, such as "Josquin" for 
+the full name "Josquin des Prez" or "Brumel" for "Antoine Brumel".
+
+<dt> comdates
+<dd> The birth and death dates (if known) for the composer.
+
+<dt> genre
+<dd>  The genre of the work.
+
+<dt> notecount
+<dd> The number of notes in the work.
+
+<dt> sec
+<dd> The nominal performance time in seconds of the work.
+
+<dt> pg
+<dd> The number of PDF pages for the work.
+
+<dt> voices
+<dd> The number of voices in the work.  May not be an integer, such as "?" if the
+work is a fragment, and the original number of voices is unknown.
+
+<dt class=array> vname
+<dd> Array of names for the voices in the work, listed from highest to lowest on the system.
+Example: Superius, Altus, Tenor, Bassus.
+
+<dt class=array> vabbr
+<dd> Array of voice name abbreviations. Example: S, A, T, B.
+
+<dt class=array> vnotecount
+<dd>  Array of the number of notes occurring within each voice in the work.
+
+<dt> ih
+<dd> Incipit height; the pixel height of the incipit image.  This parameter
+is used to calculate page layout before an image arrives from the server.
+
+<dt> ad
+<dd> The Add Date for the work: the date on which the work was added to the
+JRP database.  Date is an integer in the format YYYYMMDD.
+
+<dt> ud
+<dd> The Update Date for the work: the date that the work was last (substantially) edited.
+
+</dl>
+
+</article>
+
+<article style="margin-top:0; padding-left:100px; padding-right:100px;" class="about">
+<h3 style="color:#c96843;" class="brown-heading">Repertory&nbsp;&rarr;&nbsp;<i>work</i> object parameters (multi-section works)</h3>
+
+If a work has more than one section (movement), then additional information is given
+about each section in a parameter called <i>sections</i> which is an array of section objects,
+and several parameters are moved from the work level to the section level:
+
+
+<dl class="work">
+
+<dt> id
+<dd> The JRP ID for the work.  Does not map to a specific data file.
+
+<dt> title
+<dd> The title of the work.
+
+<dt> variant
+<dd> Textual information about a work variant.  Anonymous works use this
+parameter to indicate the manuscript source.  Variant information may also
+be found at the section level.
+
+<dt> fragment
+<dd> Set to <i>true</i> if the work is incomplete.
+
+<dt> attr
+<dd> Work attribution level (Josquin works only)
+
+<dt> genre
+<dd> The genre of the work.
+
+<dt> notecount
+<dd> The number of notes in the work (all sections).
+
+<dt> sec
+<dd> The nominal performance time in seconds of the work, summing the performance
+	duration of all sections.
+
+<dt> pg
+<dd> The number of PDF pages for the section.
+
+<dt> voices
+<dd> The number of voices in the work.  May be a range of numbers if the sections contain
+a variable number of voices.
+
+<dt class="array invalid"> vname
+<dd> Not used at the work level for multi-sectioned works.
+
+<dt class="array invalid"> vabbr
+<dd> Not used at the work level for multi-sectioned works.
+
+<dt class="array invalid"> vnotecount
+<dd> Not used at the work level for multi-sectioned works.
+
+<dt class="invalid"> ih
+<dd> Not used at the work level for multi-sectioned works.
+
+<dt> ad
+<dd> The Add Date for the work.  This is the most recent add date of any individual
+section in the work.
+
+<dt> ud
+<dd> The Update Date for the work.  This is the most recent update date of any individual
+section in the work.
+
+<dt class="array"> sections
+<dd> An array of work section (movement) objects.
+
+</dl>
+
+</article>
+
+<article style="margin-top:0; padding-left:100px; padding-right:100px;" class="about">
+<h3 class="brown-heading">Repertory&nbsp;&rarr;&nbsp;work&nbsp;&rarr;&nbsp;<i>section</i> object parameters (multi-section works only)</h3>
+
+If a work contains multiple sections, there will be a <i>sections</i> parameter for the
+work object which contains an array of section objects which contain the following
+parameters:
+
+<dl class="section">
+
+<dt> id
+<dd> The JRP ID for the section.  The initial portion of the ID will
+match the work-level ID, and then add a lower-case letter indicating the
+section sequence, typically "a" for Kyrie, "b" for Gloria, "c" for Credo,
+"d" for Sanctus, and "e" for Agnus Dei.
+
+<dt> stitle
+<dd> The title of the section, such as "Kyrie".
+
+<dt> variant
+<dd> Textual information about a section variant.  Anonymous works use this
+parameter to indicate the manuscript source.
+
+<dt> nc
+<dd> The number of notes (note count) in the section.  Similar to the work-level
+<i>notecount</i> parameter.
+
+<dt> sec
+<dd> The nominal performance time in seconds of the section.
+
+<dt> v
+<dd> The number of voices in the section. Similar to the work-level <i>voices</i> parameter.
+
+<dt class="array"> vname
+<dd> Array of notes for the voices in the section, listed from highest to lowest on the system.
+Similar to the work-level <i>vname</i> parameter.
+
+<dt class="array"> vabbr
+<dd> Array of voice name abbreviations in the section.  Similar to the work-level
+<i>vabbr</i> parameter.
+
+<dt class="array"> vnc
+<dd> Array of the number of notes occurring within each voice in the section.
+Similar to the work-level <i>vnotecount</i> parameter.
+
+<dt> ih
+<dd> Incipit height; the pixel height of the incipit image.  This parameter
+is used to calculate page layout before the image arrives from the server.
+
+<dt> ad
+<dd> The date on which the section was added to the JRP database.  Similar to the
+work-level <i>ad</i> parameter.
+
+<dt> ud
+<dd> The date on which the section was last (substantially) changed.   Similar to the
+work-level <i>ud</i> parameter.
+
+
+
+</dl>
+
+
+
+
+
+</article>
+
+<div style="padding:100px;"></div>
+
+
+
+
+
+

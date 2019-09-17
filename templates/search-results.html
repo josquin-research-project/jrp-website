@@ -1,14 +1,16 @@
+---
+---
 <!doctype html>
 <html lang="en">	           
 <head>
 	<title>JRP Search Results</title>
-	<!--#include virtual="/includes/usual-head-contents.html" -->
+	<!--% include usual-head-contents.html %-->
 </head>
 
 
 <body>
 	<div class="page container">
-		<!--#include virtual="/includes/header-generic.html" -->
+		<!--% include header-generic.html %-->
 		<section id="content">
 			<aside class="search-filter">
 				<section id="search">
@@ -30,13 +32,13 @@
 						<div class="form-group">
 							<select id="composers" data-placeholder="All Composers">
 								<option label="default">All Composers</option>
-								<!--#include virtual="/includes/select-repertories.html" -->
+								<!--% include select-repertories.html %-->
 							</select>
 						</div> <!-- form-group -->
 						<div class="form-group">
 							<select id="generes" data-placeholder="All Genres">
 								<option label="default">All Genres</option>
-								<!--#include virtual="/includes/select-repertories.html" -->
+								<!--% include select-repertories.html %-->
 							</select>
 						</div> <!-- form-group -->
 						<div class="form-group">
@@ -456,7 +458,25 @@
 			</nav> <!-- secondary-nav -->
 		</footer>
 	</div> <!-- page -->
-	<!--#include virtual="/includes/scripts.html" -->
+	<!--% include scripts.html %-->
+</body>
+</html>
+<!-- vim: set ts=2 nowrap: -->
+		</div>
+			
+		</section> <!-- content -->
+		<footer>
+			<nav class="secondary-nav">
+				<ul>
+					<li class="logo"><a href="#">Josquin Research Project</a></li>
+					<li><a href="#">Feedback</a></li>
+					<li><a href="#">Under the Hood</a></li>
+					<li><a href="#">Contact</a></li>
+				</ul>
+			</nav> <!-- secondary-nav -->
+		</footer>
+	</div> <!-- page -->
+	<!--% include scripts.html %-->
 </body>
 </html>
 <!-- vim: set ts=2 nowrap: -->

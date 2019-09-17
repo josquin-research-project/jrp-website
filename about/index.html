@@ -1,20 +1,26 @@
+---
+---
 <!doctype html>
 <html lang="en">
 
 	<head>
 		<!-- vim: set ts=3: -->
 		<title>The Josquin Research Project</title>
-		<!--#include virtual="/includes/usual-head-contents.html" -->
+		{% include usual-head-contents.html %}
 	</head>
 
 	<body>
 		<div class="page container" id="home-page">
-			<!--#include virtual="/includes/header-about.html" -->
+			{% include header-about.html %}
 			<section id="content">
-				<!--#include virtual="content.html" -->
+				{% include_relative content.html %}
 			</section> <!-- content -->
-			<!--#include virtual="/includes/footer-generic.html" -->
+			{% include footer-generic.html %}
 		</div> <!-- page -->
 	</body>
+
+
+</html>
+
 
 </html>

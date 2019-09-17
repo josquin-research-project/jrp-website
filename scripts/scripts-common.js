@@ -1,3 +1,5 @@
+---
+---
 //
 // Programmer:    Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Thu Aug 21 12:59:01 PDT 2014
@@ -14,7 +16,8 @@
 var WORKLIST;										 // Master index of works in JRP database.
 var WORKLISTrecent = [];						 // List of works reverse sorted by add date.
 var WORKLISTjrpid  = {};						 // Hash of works by JRP ID.
-var BASEADDR       = window.location.host; // Base address of URL.
+var BASEADDR       = "{{site.dataurl}}" ; // Base address of URL.
+var NON_DATA_BASEADDR = window.location.host;
 var TARGET         = "_blank";             // target for new things
 var PDFTARGET      = TARGET;					 // Display PDF files in separate tab/window.
 var AUDIO          = null;						 // HTML5 audio interface ID.
@@ -133,10 +136,10 @@ console.log("GOT HERE PPP");
          (localStorage.WORKLIST == 'null') || (localStorage.WORKLIST == '')) {
       // need to download the WORKLIST data from the server.
 console.log("GOT HERE AAA");
-      localStorage.WORKLIST = ReadFile('/includes/worklist.json');
+      localStorage.WORKLIST = ReadFile('http://{{site.dataurl}}/includes/worklist.json');
       if (localStorage.WORKLIST.match(/^\s*$/)) {
 console.log("GOT HERE BBB");
-         localStorage.WORKLIST = ReadFile('/data?a=worklist-json'); 
+         localStorage.WORKLIST = ReadFile('http://{{site.dataurl}}/data?a=worklist-json'); 
       }
 console.log("GOT HERE CCC");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
@@ -778,7 +781,7 @@ function audioStoppedAction(event) {
 //
 
 function DisplayCriticalNotes(jrpid, target) {
-   ReadFileAsync("/data?id=" + jrpid + "&a=critical", function(responseText) {
+   ReadFileAsync("http://{{site.dataurl}}/data?id=" + jrpid + "&a=critical", function(responseText) {
 		if (responseText.match(/^\s*$/)) {
 			return;
 		}
