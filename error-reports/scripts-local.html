@@ -18,20 +18,20 @@
 var ERRORLIST = [];
 var FORCE = "false";
 
-// get display style from localStorage:
-if (!localStorage.ERRORdisplaystyle) {
-   localStorage.ERRORdisplaystyle = '0';
+// get display style from sessionStorage:
+if (!sessionStorage.ERRORdisplaystyle) {
+   sessionStorage.ERRORdisplaystyle = '0';
 }
-if (localStorage.ERRORdisplaystyle == 'true') {
-   localStorage.ERRORdisplaystyle = '1';
+if (sessionStorage.ERRORdisplaystyle == 'true') {
+   sessionStorage.ERRORdisplaystyle = '1';
 }
-if (localStorage.ERRORdisplaystyle == 'false') {
-   localStorage.ERRORdisplaystyle = '0';
+if (sessionStorage.ERRORdisplaystyle == 'false') {
+   sessionStorage.ERRORdisplaystyle = '0';
 }
-if (!localStorage.ERRORdisplaystyle.match(/^\d$/)) {
-   localStorage.ERRORdisplaystyle = "0";
+if (!sessionStorage.ERRORdisplaystyle.match(/^\d$/)) {
+   sessionStorage.ERRORdisplaystyle = "0";
 }
-var DISPLAY_STYLE = parseInt(localStorage.ERRORdisplaystyle);
+var DISPLAY_STYLE = parseInt(sessionStorage.ERRORdisplaystyle);
 
 
 //////////////////////////////
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	if (displaybutton) {
 		displaybutton.addEventListener("click", function() {
 			DISPLAY_STYLE = !DISPLAY_STYLE;
-			localStorage.ERRORdisplaystyle = DISPLAY_STYLE;
+			sessionStorage.ERRORdisplaystyle = DISPLAY_STYLE;
 			displayErrorList();
 		}, false);
 	}

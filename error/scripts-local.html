@@ -15,7 +15,7 @@
 // Description:   JavaScript management of the JRP Error submittion page.
 //
 
-var JRPID = localStorage.ERRORjrpid;
+var JRPID = sessionStorage.ERRORjrpid;
 var INCIPITS = {};
 var FORCE = "false";
 var ERRORLIST = [];
@@ -29,7 +29,7 @@ var ERRORLIST = [];
 document.addEventListener("DOMContentLoaded", function() {
 	var referrer = document.referrer;
    if (sessionStorage.ERRORsubmitting == "true") {
-      JRPID = sessionStorage.ERRORjrpid; // should be same as localStorage vers.
+      JRPID = sessionStorage.ERRORjrpid;
 		errorFormDisplay(JRPID);
    } else if (referrer.match(/work/)) {
 		errorFormDisplay(JRPID);

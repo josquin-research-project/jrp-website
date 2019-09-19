@@ -7,7 +7,7 @@
 // Filename:      .../scripts/scripts-common.js
 // Web Address:   https://josquin.stanford.edu/scripts/scripts-common.js
 // Syntax:        JavaScript 1.8/ECMAScript 5
-// vim:           ts=3: ft=javascript
+// vim:           ts=3: ft=javascript: nowrap
 //
 // Description:   JRP-specific JavaScript functions common to all pages.
 //
@@ -117,28 +117,28 @@ function InitializeWorklist() {
    }
 
    // Eventually request a timestamp from the server, and compare
-   // to WORKLIST store in localStorage, and only re-download if the
+   // to WORKLIST store in sessionStorage, and only re-download if the
    // server has a newer WORKLIST.  For now, update once a day.
    var refreshtime = 3600 * 1;  // update once an hour
    var currenttime = parseInt(new Date() / 1000);  // convert from ms to sec.
 
-   if ((typeof localStorage.WORKLISTrefreshtime !== 'undefined') && 
-       (localStorage.WORKLISTrefreshtime < currenttime)) {
-      localStorage.WORKLIST = null;
+   if ((typeof sessionStorage.WORKLISTrefreshtime !== 'undefined') && 
+       (sessionStorage.WORKLISTrefreshtime < currenttime)) {
+      sessionStorage.WORKLIST = null;
    }
 
-   if ((typeof localStorage.WORKLIST === 'undefined') ||
-         (localStorage.WORKLIST == 'null') || (localStorage.WORKLIST == '')) {
+   if ((typeof sessionStorage.WORKLIST === 'undefined') ||
+         (sessionStorage.WORKLIST == 'null') || (sessionStorage.WORKLIST == '')) {
       // need to download the WORKLIST data from the server.
-      localStorage.WORKLIST = ReadFile('{{site.jrp-worklist-url}}');
-      if (localStorage.WORKLIST.match(/^\s*$/)) {
-         localStorage.WORKLIST = ReadFile('{{site.jrp-data-url}}?a=worklist-json'); 
+      sessionStorage.WORKLIST = ReadFile('{{site.jrp-worklist-url}}');
+      if (sessionStorage.WORKLIST.match(/^\s*$/)) {
+         sessionStorage.WORKLIST = ReadFile('{{site.jrp-data-url}}?a=worklist-json'); 
       }
-      WORKLIST = JSON.parse(localStorage.WORKLIST);
-      localStorage.WORKLISTrefreshtime = currenttime + refreshtime;
+      WORKLIST = JSON.parse(sessionStorage.WORKLIST);
+      sessionStorage.WORKLISTrefreshtime = currenttime + refreshtime;
    } else {
       // already have the worklist in local storage, so read from there.
-      WORKLIST = JSON.parse(localStorage.WORKLIST);
+      WORKLIST = JSON.parse(sessionStorage.WORKLIST);
    }
 }
 
@@ -299,8 +299,8 @@ function GetDataFileAsync(jrpid, prefix, action, callback) {
 //         http://www.w3.org/TR/2007/WD-XMLHttpRequest-20070618
 //         http://xhr.spec.whatwg.org
 //         
-//         See:
-//  http://codingforums.com/ajax-design/123705-make-script-wait-until-request-comes-back.html
+//  See:
+//       http://codingforums.com/ajax-design/123705-make-script-wait-until-request-comes-back.html
 //
 
 function ReadFile(url) {
@@ -580,10 +580,10 @@ function GetVoiceOptions() {
 //
 
 function ClearBrowseFields() {
-   localStorage.BROWSEcomposers = '';
-   localStorage.BROWSEgenres    = '';
-   localStorage.BROWSEvoices    = '';
-   localStorage.BROWSEtitlebox  = '';
+   sessionStorage.BROWSEcomposers = '';
+   sessionStorage.BROWSEgenres    = '';
+   sessionStorage.BROWSEvoices    = '';
+   sessionStorage.BROWSEtitlebox  = '';
 }
 
 
@@ -594,10 +594,10 @@ function ClearBrowseFields() {
 //
 
 function ClearWorklist() {
-	localStorage.removeItem('WORKLIST');
-	localStorage.removeItem('WORKLISTrefreshtime');
-  	localStorage.removeItem('WORKjrpid');
-  	localStorage.removeItem('RECENTLYADDEDHTML');
+	sessionStorage.removeItem('WORKLIST');
+	sessionStorage.removeItem('WORKLISTrefreshtime');
+  	sessionStorage.removeItem('WORKjrpid');
+  	sessionStorage.removeItem('RECENTLYADDEDHTML');
 }
 
 
@@ -741,9 +741,9 @@ function PlayAudioFile(jrpid, element) {
 //
 
 function ClearWorklistCache() {
-   localStorage.removeItem('WORKLIST');
-   localStorage.removeItem('WORKLISTrefreshtime');
-   localStorage.removeItem('WORKjrpid');
+   sessionStorage.removeItem('WORKLIST');
+   sessionStorage.removeItem('WORKLISTrefreshtime');
+   sessionStorage.removeItem('WORKjrpid');
    sessionStorage.removeItem('RECENTLYADDEDHTML');
 }
 

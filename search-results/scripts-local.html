@@ -22,10 +22,10 @@ var CONTENT;
 
 // How many matches to display on a single page:
 var PAGESIZE = 20;
-if (localStorage.SEARCHpagesize > 0) {
-	PAGESIZE = localStorage.SEARCHpagesize;
+if (sessionStorage.SEARCHpagesize > 0) {
+	PAGESIZE = sessionStorage.SEARCHpagesize;
 }
-localStorage.SEARCHpagesize = PAGESIZE;
+sessionStorage.SEARCHpagesize = PAGESIZE;
 
 
 
@@ -233,11 +233,11 @@ function doSearch() {
 			displayContents();
 			return;
 		} else {
-			localStorage.BROWSEcomposers = composers.value;
-			localStorage.BROWSEgenres    = genres.value;
-			localStorage.BROWSEvoices    = "";
-			localStorage.BROWSEtitlebox  = "";
-			localStorage.BROWSEhome      = "false";
+			sessionStorage.BROWSEcomposers = composers.value;
+			sessionStorage.BROWSEgenres    = genres.value;
+			sessionStorage.BROWSEvoices    = "";
+			sessionStorage.BROWSEtitlebox  = "";
+			sessionStorage.BROWSEhome      = "false";
 			window.location.href = "/browse";
 			return;
 		}
@@ -297,11 +297,11 @@ function displayContents() {
 		return;
 	}
 	if (SEARCHhome == null) {
-		if (typeof localStorage.SEARCHhome === 'undefined') {
+		if (typeof sessionStorage.SEARCHhome === 'undefined') {
 			SEARCHhome = ReadFile('content.html');
-//         localStorage.SEARCHhome = SEARCHhome;
+//         sessionStorage.SEARCHhome = SEARCHhome;
 		} else {
-			SEARCHhome = localStorage.SEARCHhome;
+			SEARCHhome = sessionStorage.SEARCHhome;
 		}
 	}
 	maincontent.innerHTML = SEARCHhome;
@@ -469,8 +469,8 @@ function displaySearchResults(page) {
    }
 	output += printCount(mcount, "movement", "movements");
 
-   if ((typeof localStorage.SEARCHdensity !== 'undefined') && 
-       (localStorage.SEARCHdensity == "true")) {
+   if ((typeof sessionStorage.SEARCHdensity !== 'undefined') && 
+       (sessionStorage.SEARCHdensity == "true")) {
    	if (matchcounts != 0)  {
       	var density = getDensity();
       	output += ", density " + density + "&permil;";
@@ -528,7 +528,7 @@ function displaySearchResultsTable(page) {
    }
 	sessionStorage.SEARCHcurrentpage = page;
 	var count = SEARCHLIST.locations.length;
-	var pagesize = localStorage.SEARCHpagesize;
+	var pagesize = sessionStorage.SEARCHpagesize;
 	var pagecount = count / pagesize;
 	if (pagecount - parseInt(pagecount) == 0.0) {
 		pagecount = parseInt(pagecount);
@@ -554,7 +554,7 @@ function displaySearchResultsTable(page) {
 		return;
 	}
 	
-	if (localStorage.SEARCHpageview == "all") {
+	if (sessionStorage.SEARCHpageview == "all") {
 		startindex = 0;
 		stopindex = SEARCHLIST.locations.length;
 		pagecount = 1;
@@ -633,7 +633,7 @@ function displaySearchResultsTable(page) {
 			output += "<tr>";
 			output += "<td></td>";  // location
 			output += "<td>";
-			if (localStorage.SEARCHshowjrpid == "true") {
+			if (sessionStorage.SEARCHshowjrpid == "true") {
 				output += "";
 			} else {
             if (typeof composerName[jrpid] !== 'undefined') {
@@ -683,7 +683,7 @@ function displaySearchResultsTable(page) {
 		output += "</nobr></td>\n";
 		output += "<td>";
 
-		if (localStorage.SEARCHshowjrpid == "true") {
+		if (sessionStorage.SEARCHshowjrpid == "true") {
 			output += "<center>" + jrpid + "</center>";
 		} else {
 			if (!multimovement) {
@@ -940,7 +940,7 @@ function printSearchTableHeader() {
 	output += "<thead>\n";
 	output += "<tr>\n";
 	output += "<th class=\"sortable\"><a href=\"#\">Match Locations </a></th>\n";
-   if (localStorage.SEARCHshowjrpid == "true") {
+   if (sessionStorage.SEARCHshowjrpid == "true") {
 		output += "<th class=\"sortable active\"><a href=\"#\">JRPID</a></th>\n";
    } else {
 		output += "<th class=\"sortable active\"><a href=\"#\">Composer</a></th>\n";
@@ -1091,7 +1091,7 @@ function printPageList(currentpage, totalpages) {
 	var leftarrow = "&#10094;";
 	// var leftarrow = "&lt;";
 
-	if (localStorage.SEARCHpageview == "all") {
+	if (sessionStorage.SEARCHpageview == "all") {
 		printPageListAll();
 		return;
 	}
@@ -1189,7 +1189,7 @@ function printPageList(currentpage, totalpages) {
 	output += "<li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:=-0.5px;\"";
-	output += " onclick=\"localStorage.SEARCHpageview='all';";
+	output += " onclick=\"sessionStorage.SEARCHpageview='all';";
 	output += " displaySearchResultsTable(1);\">view all</span>";
 	output += "</li>\n";
 
@@ -1210,7 +1210,7 @@ function printPageListAll() {
 	output += "<ul><li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:-0.5px;\"";
-	output += " onclick=\"localStorage.SEARCHpageview='paged';";
+	output += " onclick=\"sessionStorage.SEARCHpageview='paged';";
 	output += " displaySearchResultsTable(1);\">paged view</span>";
 	output += "</li></ul>\n";
 
@@ -1227,7 +1227,7 @@ function printPageListAll() {
 function displayNextPage() {
 	var currentpage = sessionStorage.SEARCHcurrentpage;
 	var nextpage = parseInt(currentpage) + 1;
-	var pagecount = SEARCHLIST.locations.length / localStorage.SEARCHpagesize;
+	var pagecount = SEARCHLIST.locations.length / sessionStorage.SEARCHpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1249,7 +1249,7 @@ function displayNextPage() {
 function displayPreviousPage() {
 	var currentpage = sessionStorage.SEARCHcurrentpage;
 	var previouspage = parseInt(currentpage) - 1;
-	var pagecount = SEARCHLIST.locations.length / localStorage.SEARCHpagesize;
+	var pagecount = SEARCHLIST.locations.length / sessionStorage.SEARCHpagesize;
 	if ((pagecount - parseInt(pagecount)) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1280,7 +1280,7 @@ function displayFirstPage() {
 //
 
 function displayLastPage() {
-	var pagecount = SEARCHLIST.locations.length / localStorage.SEARCHpagesize;
+	var pagecount = SEARCHLIST.locations.length / sessionStorage.SEARCHpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1306,11 +1306,11 @@ window.addEventListener('keydown', function(event) {
 	switch (event.keyCode) {
       case AKey:
          if (event.ctrlKey) {
-            if (localStorage.SEARCHpageview == "all") {
-               localStorage.SEARCHpageview = "paged";
+            if (sessionStorage.SEARCHpageview == "all") {
+               sessionStorage.SEARCHpageview = "paged";
 			      displayFirstPage();
             } else {
-               localStorage.SEARCHpageview = "all";
+               sessionStorage.SEARCHpageview = "all";
 			      displayFirstPage();
             }
          }
@@ -1318,13 +1318,13 @@ window.addEventListener('keydown', function(event) {
 
 		case DKey:
 			if (event.ctrlKey) {
-				if (typeof localStorage.SEARCHdensity === 'undefined') {
-					localStorage.SEARCHdensity = "false";
+				if (typeof sessionStorage.SEARCHdensity === 'undefined') {
+					sessionStorage.SEARCHdensity = "false";
 				}
-				if (localStorage.SEARCHdensity == "false") {
-					localStorage.SEARCHdensity = "true";
+				if (sessionStorage.SEARCHdensity == "false") {
+					sessionStorage.SEARCHdensity = "true";
 				} else {
-					localStorage.SEARCHdensity = "false";
+					sessionStorage.SEARCHdensity = "false";
 				}
 				displaySearchResults();
 			}
@@ -1332,13 +1332,13 @@ window.addEventListener('keydown', function(event) {
 
       case JKey:
          if (event.ctrlKey) {
-            if (typeof localStorage.SEARCHshowjrpid === 'undefined') {
-               localStorage.SEARCHshowjrpid = "false";
+            if (typeof sessionStorage.SEARCHshowjrpid === 'undefined') {
+               sessionStorage.SEARCHshowjrpid = "false";
             }
-            if (localStorage.SEARCHshowjrpid == "false") {
-               localStorage.SEARCHshowjrpid = "true";
+            if (sessionStorage.SEARCHshowjrpid == "false") {
+               sessionStorage.SEARCHshowjrpid = "true";
             } else {
-               localStorage.SEARCHshowjrpid = "false";
+               sessionStorage.SEARCHshowjrpid = "false";
             }
             displaySearchResults();
          }
@@ -1373,20 +1373,20 @@ window.addEventListener('keydown', function(event) {
 
 		case EqualsKey:   // (include Plus key which is shift-EqualsKey):
 			if (event.ctrlKey) {
-			   var value = parseInt(localStorage.SEARCHpagesize);
-			   localStorage.SEARCHpagesize = value + 1;
+			   var value = parseInt(sessionStorage.SEARCHpagesize);
+			   sessionStorage.SEARCHpagesize = value + 1;
 			   displayFirstPage();
          }
 			break;
 		case MinusKey:      // decrease search results table entries by one
 			if (event.ctrlKey) {
-			   var value = parseInt(localStorage.SEARCHpagesize);
+			   var value = parseInt(sessionStorage.SEARCHpagesize);
 			   if (value <= 1) {
 				   value = 1;
 			   } else {
 				   value = value - 1;
 			   }
-			   localStorage.SEARCHpagesize = value;
+			   sessionStorage.SEARCHpagesize = value;
 			   sessionStorage.SEARCHcurrentpage = 1;
 			   displayFirstPage();
          }

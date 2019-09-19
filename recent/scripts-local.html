@@ -108,14 +108,13 @@ function showRecentTable(page, tagid) {
 	content += printTableStart();
 
 	var tablerows = generateWorkEntries(WORKLISTsections);
-	if (typeof localStorage.RECENTLYADDEDpagesize === 'undefined') {
-		localStorage.RECENTLYADDEDpagesize = 20;
+	if (typeof sessionStorage.RECENTLYADDEDpagesize === 'undefined') {
+		sessionStorage.RECENTLYADDEDpagesize = 20;
 	}
-	if (typeof localStorage.RECENTLYADDEDpagesize === 'undefined') {
-		localStorage.RECENTLYADDEDshowjrpid = "false";
+	if (typeof sessionStorage.RECENTLYADDEDpagesize === 'undefined') {
+		sessionStorage.RECENTLYADDEDshowjrpid = "false";
 	}
-	var pagesize = localStorage.RECENTLYADDEDpagesize;
-console.log("PAGESIZE = ", pagesize);
+	var pagesize = sessionStorage.RECENTLYADDEDpagesize;
 	sessionStorage.RECENTLYADDEDentries = tablerows.length;
 	var totalpages = tablerows.length / pagesize;
 	if (totalpages - parseInt(totalpages) > 0.0) {
@@ -137,7 +136,7 @@ console.log("PAGESIZE = ", pagesize);
 		stopindex = tablerows.length;
 	}
 
-	if (localStorage.RECENTLYADDEDpageview == "all") {
+	if (sessionStorage.RECENTLYADDEDpageview == "all") {
 		startindex = 0;
 		stopindex = tablerows.length;
 	}
@@ -184,7 +183,7 @@ function printPageList(currentpage, totalpages) {
 	var leftarrow = "&#10094;";
 	// var leftarrow = "&lt;";
 
-	if (localStorage.RECENTLYADDEDpageview == "all") {
+	if (sessionStorage.RECENTLYADDEDpageview == "all") {
 		printPageListAll(totalpages);
 		return;
 	}
@@ -283,7 +282,7 @@ function printPageList(currentpage, totalpages) {
 	output += "<li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:=-0.5px;\"";
-	output += " onclick=\"localStorage.RECENTLYADDEDpageview='all';";
+	output += " onclick=\"sessionStorage.RECENTLYADDEDpageview='all';";
 	output += " showRecentTable(1, 'recenttable');\">view all</span>";
 	output += "</li>\n";
 
@@ -315,7 +314,7 @@ function printTableStart() {
 
 	output += "<th class='sortable'><a name='date'>Date</a></th>\n";
 
-	if (localStorage.RECENTLYADDEDshowjrpid == "true") {
+	if (sessionStorage.RECENTLYADDEDshowjrpid == "true") {
 		output += "<th style=\"padding-left:10px; text-align:left;\" class='sortable'><a name='jrdic''>JRPID</a></th>\n";
 	} else {
 		output += "<th style=\"padding-left:10px; text-align:left;\" class='sortable'><a name='composer'>Composer</a></th>\n";
@@ -490,7 +489,7 @@ console.log("DATE", datenum, worklist[index]);
 
 	tempout    += "<td>" + date;
 	//tempout	 = "<tr valign=top><td>" + genre;
-	if (localStorage.RECENTLYADDEDshowjrpid == "true") {
+	if (sessionStorage.RECENTLYADDEDshowjrpid == "true") {
 		tempout    += "<td>" + jrpid;
 	} else {
 		tempout	+= "</td><td>" + composer;
@@ -526,11 +525,11 @@ window.addEventListener('keydown', function(event) {
 	switch (event.keyCode) {
 		case AKey:
 			if (event.ctrlKey) {
-				if (localStorage.RECENTLYADDEDpageview == "all") {
-					localStorage.RECENTLYADDEDpageview = "paged";
+				if (sessionStorage.RECENTLYADDEDpageview == "all") {
+					sessionStorage.RECENTLYADDEDpageview = "paged";
 					showRecentTable(1, "recenttable");
 				} else {
-					localStorage.RECENTLYADDEDpageview = "all";
+					sessionStorage.RECENTLYADDEDpageview = "all";
 					showRecentTable(1, "recenttable");
 				}
 			}
@@ -538,13 +537,13 @@ window.addEventListener('keydown', function(event) {
 
 		case JKey:
 			if (event.ctrlKey) {
-				if (typeof localStorage.RECENTLYADDEDshowjrpid === 'undefined') {
-					localStorage.RECENTLYADDEDshowjrpid = "false";
+				if (typeof sessionStorage.RECENTLYADDEDshowjrpid === 'undefined') {
+					sessionStorage.RECENTLYADDEDshowjrpid = "false";
 				}
-				if (localStorage.RECENTLYADDEDshowjrpid == "false") {
-					localStorage.RECENTLYADDEDshowjrpid = "true";
+				if (sessionStorage.RECENTLYADDEDshowjrpid == "false") {
+					sessionStorage.RECENTLYADDEDshowjrpid = "true";
 				} else {
-					localStorage.RECENTLYADDEDshowjrpid = "false";
+					sessionStorage.RECENTLYADDEDshowjrpid = "false";
 				}
 				showRecentTable(1, "recenttable");
 			}
@@ -577,22 +576,20 @@ window.addEventListener('keydown', function(event) {
 
 		case EqualsKey:	// (include Plus key which is shift-EqualsKey):
 			if (event.ctrlKey) {
-				var value = parseInt(localStorage.RECENTLYADDEDpagesize);
-				localStorage.RECENTLYADDEDpagesize = value + 1;
+				var value = parseInt(sessionStorage.RECENTLYADDEDpagesize);
+				sessionStorage.RECENTLYADDEDpagesize = value + 1;
 				displayFirstPage();
 			}
 			break;
 		case MinusKey:	   // decrease search results table entries by one
 			if (event.ctrlKey) {
-console.log("IPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
-				var value = parseInt(localStorage.RECENTLYADDEDpagesize);
+				var value = parseInt(sessionStorage.RECENTLYADDEDpagesize);
 				if (value <= 1) {
 					value = 1;
 				} else {
 					value = value - 1;
 				}
-				localStorage.RECENTLYADDEDpagesize = value;
-console.log("OPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
+				sessionStorage.RECENTLYADDEDpagesize = value;
 				sessionStorage.SEARCHcurrentpage = 1;
 				displayFirstPage();
 			}
@@ -671,7 +668,7 @@ console.log("OPAGE SIZE = ", localStorage.RECENTLYADDEDpagesize);
 function displayNextPage() {
 	var currentpage = sessionStorage.RECENTLYADDEDcurrentpage;
 	var nextpage = parseInt(currentpage) + 1;
-	var pagecount = sessionStorage.RECENTLYADDEDentries / localStorage.RECENTLYADDEDpagesize;
+	var pagecount = sessionStorage.RECENTLYADDEDentries / sessionStorage.RECENTLYADDEDpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -693,7 +690,7 @@ function displayNextPage() {
 function displayPreviousPage() {
 	var currentpage = sessionStorage.RECENTLYADDEDcurrentpage;
 	var previouspage = parseInt(currentpage) - 1;
-	var pagecount = sessionStorage.RECENTLYADDEDentries / localStorage.RECENTLYADDEDpagesize;
+	var pagecount = sessionStorage.RECENTLYADDEDentries / sessionStorage.RECENTLYADDEDpagesize;
 	if ((pagecount - parseInt(pagecount)) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -724,7 +721,7 @@ function displayFirstPage() {
 //
 
 function displayLastPage() {
-	var pagecount = sessionStorage.RECENTLYADDEDentries / localStorage.RECENTLYADDEDpagesize;
+	var pagecount = sessionStorage.RECENTLYADDEDentries / sessionStorage.RECENTLYADDEDpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -754,7 +751,7 @@ function printPageListAll(totalpages) {
 	output += "<ul style='margin-top:0;'><li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:-0.5px;\"";
-	output += " onclick=\"localStorage.RECENTLYADDEDpageview='paged';";
+	output += " onclick=\"sessionStorage.RECENTLYADDEDpageview='paged';";
 	output += " showRecentTable(1, 'recenttable');\">paged view</span>";
 	output += "</li></ul>\n";
 

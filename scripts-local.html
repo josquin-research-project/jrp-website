@@ -11,7 +11,7 @@
 // Filename:		.../scripts-local.html
 // Web Address:	https://josquin.stanford.edu/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5
-// vim:				ts=3: ft=javascript
+// vim:				ts=3: ft=javascript: nowrap
 //
 // Description:   JavaScript management for the JRP homepage.
 //
@@ -71,17 +71,17 @@ function storeBrowseParameters() {
 			composers = "";
 	}
 
-	localStorage.BROWSEcomposers  = composers;
-	localStorage.BROWSEgenres     = genres;
-	localStorage.BROWSEtitlebox   = titlebox;
+	sessionStorage.BROWSEcomposers  = composers;
+	sessionStorage.BROWSEgenres     = genres;
+	sessionStorage.BROWSEtitlebox   = titlebox;
 
 	if ((composers == "") && (genres == "") 
 			&& (titlebox == "")) {
-			// localStorage.BROWSEhome       = "true";
+			// sessionStorage.BROWSEhome       = "true";
 			window.location.pathname = "/browse-home";
 			return false;
 	} else {
-			localStorage.BROWSEhome       = "false";
+			sessionStorage.BROWSEhome       = "false";
 	}
 
 	window.location.pathname = "/browse";
@@ -172,7 +172,6 @@ function displayRandomExample() {
 	script.type = "text/x-humdrum";
 	script.id = "random";
 	samplemusic.appendChild(script);
-	// getIncipitAsync(jrpid);
 
 	var comcode = "";
 	if (!filename) {
@@ -209,34 +208,6 @@ function displayRandomExample() {
 function resetHeight(id) {
 	var samplemusic = document.getElementById("sample-music");
 	samplemusic.style.height = "";
-}
-
-
-
-//////////////////////////////
-//
-// getIncipitAsync --
-//
-
-function getIncipitAsync(jrpid) {
-	return;
-/*
-	var dataloc = "/data";
-	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
-	}
-
-   var action = "incipit-mime";
-	ReadFileAsync(dataloc + "?a=" + action + "&id=" + jrpid, 
-			function(responseText) {
-   	var data = responseText;
-   	if (data != "") {
-     		var area = document.getElementById("sample-incipit");
-      	area.innerHTML = imgtext;
-      	// var imgtext = "ImG src=\"" + data + "\" alt=\"music placeholder\">";
-   	}
-	});
-*/
 }
 
 

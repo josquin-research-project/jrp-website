@@ -17,37 +17,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	var home = CgiParameters['home'];
 	if (home && !home.match(/false/i)) {
-		localStorage.BROWSEhome = "true";
+		sessionStorage.BROWSEhome = "true";
 	} else {
-		localStorage.BROWSEhome = "false";
+		sessionStorage.BROWSEhome = "false";
 	}
 
    var composers = CgiParameters['c'];
 	if (composers && !composers.match(/^\s*$/)) {
-		localStorage.BROWSEcomposers = composers;
+		sessionStorage.BROWSEcomposers = composers;
 	} else {
-		localStorage.BROWSEcomposers = "";
+		sessionStorage.BROWSEcomposers = "";
    }
 
    var genres = CgiParameters['g'];
 	if (genres && !genres.match(/^\s*$/)) {
-		localStorage.BROWSEgenres = genres;
+		sessionStorage.BROWSEgenres = genres;
 	} else {
-		localStorage.BROWSEgenres = "";
+		sessionStorage.BROWSEgenres = "";
    }
 
    var voices = CgiParameters['v'];
 	if (voices && !voices.match(/^\s*$/)) {
-		localStorage.BROWSEvoices = voices;
+		sessionStorage.BROWSEvoices = voices;
 	} else {
-		localStorage.BROWSEvoices = "";
+		sessionStorage.BROWSEvoices = "";
    }
 
    var titlebox = CgiParameters['t'];
 	if (titlebox && !titlebox.match(/^\s*$/)) {
-		localStorage.BROWSEtitlebox = titlebox;
+		sessionStorage.BROWSEtitlebox = titlebox;
 	} else {
-		localStorage.BROWSEtitlebox = "";
+		sessionStorage.BROWSEtitlebox = "";
    }
 
 	window.location = "/browse";

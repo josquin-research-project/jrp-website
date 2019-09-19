@@ -28,7 +28,7 @@ var SEARCHLIST  = null;
 //
 
 window.onload = function() {
-	localStorage.removeItem(SEARCHLIST);
+	sessionStorage.removeItem(SEARCHLIST);
 	displayContents();
 }
 
@@ -70,11 +70,11 @@ function displayContents() {
 		return;
 	}
 	if (SEARCHhome == null) {
-//      if (typeof localStorage.SEARCHhome === 'undefined') {
+//      if (typeof sessionStorage.SEARCHhome === 'undefined') {
 			SEARCHhome = ReadFile('content.html');
-//         localStorage.SEARCHhome = SEARCHhome;
+//         sessionStorage.SEARCHhome = SEARCHhome;
 //      } else {
-//         SEARCHhome = localStorage.SEARCHhome;
+//         SEARCHhome = sessionStorage.SEARCHhome;
 //      }
 	}
 	maincontent.innerHTML = SEARCHhome;
@@ -169,11 +169,11 @@ function doSearch() {
 			displayContents();
 			return;
 		} else {
-			localStorage.BROWSEcomposers = composers.value;
-			localStorage.BROWSEgenres    = genres.value;
-			localStorage.BROWSEvoices    = "";
-			localStorage.BROWSEtitlebox  = "";
-			localStorage.BROWSEhome      = "false";
+			sessionStorage.BROWSEcomposers = composers.value;
+			sessionStorage.BROWSEgenres    = genres.value;
+			sessionStorage.BROWSEvoices    = "";
+			sessionStorage.BROWSEtitlebox  = "";
+			sessionStorage.BROWSEhome      = "false";
 			window.location.href = "/browse";
 			return;
 		}

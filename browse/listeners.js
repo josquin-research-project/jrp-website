@@ -31,15 +31,15 @@ document.addEventListener("DOMContentLoaded", function() {
 	buildVoiceSelect();
 	createJoaJobLists();
 
-	if (typeof localStorage.BROWSEshowjrpid === 'undefined') {
-		localStorage.BROWSEshowjrpid = "false";
+	if (typeof sessionStorage.BROWSEshowjrpid === 'undefined') {
+		sessionStorage.BROWSEshowjrpid = "false";
 	}
 
 	var CgiParameters = GetCgiParameters();
 
 	var home = CgiParameters['home'];
 	if (typeof home === 'undefined') {
-		home = localStorage.BROWSEhome;
+		home = sessionStorage.BROWSEhome;
 	}
 	if (typeof home === 'undefined') {
 		home = "false";
@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		composers.value = "default";
 	} else if (CgiParameters['c'] != null) {
 		composers.value = CgiParameters['c'];
-	} else if (localStorage.BROWSEcomposers != "") {
-		composers.value = localStorage.BROWSEcomposers;
+	} else if (sessionStorage.BROWSEcomposers != "") {
+		composers.value = sessionStorage.BROWSEcomposers;
 	}
 
 	var genres = document.getElementById("genres");
@@ -69,8 +69,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		genres.value = "default";
 	} else if (CgiParameters['g'] != null) {
 		genres.value = CgiParameters['g'];
-	} else if (localStorage.BROWSEgenres != "") {
-		genres.value = localStorage.BROWSEgenres;
+	} else if (sessionStorage.BROWSEgenres != "") {
+		genres.value = sessionStorage.BROWSEgenres;
 	}
 
 	var voices = document.getElementById("voices");
@@ -78,8 +78,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		voices.value = "default";
 	} else if (CgiParameters['v'] != null) {
 		voices.value = CgiParameters['v'];
-	} else if (localStorage.BROWSEvoices != "") {
-		voices.value = localStorage.BROWSEvoices;
+	} else if (sessionStorage.BROWSEvoices != "") {
+		voices.value = sessionStorage.BROWSEvoices;
 	}
 
 	var titlebox = document.getElementById("titlebox");
@@ -87,8 +87,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		titlebox.value = "";
 	} else if (typeof CgiParameters['t'] !== 'undefined') {
 		titlebox.value = CgiParameters['t'];
-	} else if (typeof localStorage.BROWSEtitlebox !== 'undefined') {
-		titlebox.value = localStorage.BROWSEtitlebox;
+	} else if (typeof sessionStorage.BROWSEtitlebox !== 'undefined') {
+		titlebox.value = sessionStorage.BROWSEtitlebox;
 	}
 
 	if (home == "true") {
@@ -141,11 +141,11 @@ window.addEventListener('keydown', function(event) {
 	switch (event.keyCode) {
 		case AKey:
 			if (ControlKeyState) {
-				if (localStorage.BROWSEpageview == "all") {
-					localStorage.BROWSEpageview = "paged";
+				if (sessionStorage.BROWSEpageview == "all") {
+					sessionStorage.BROWSEpageview = "paged";
 					browseDisplay(1);
 				} else {
-					localStorage.BROWSEpageview = "all";
+					sessionStorage.BROWSEpageview = "all";
 					browseDisplay(1);
 				}
 			}
@@ -153,13 +153,13 @@ window.addEventListener('keydown', function(event) {
 
 		case JKey:
 			if (ControlKeyState) {
-				if (typeof localStorage.BROWSEshowjrpid === 'undefined') {
-					localStorage.BROWSEshowjrpid = "false";
+				if (typeof sessionStorage.BROWSEshowjrpid === 'undefined') {
+					sessionStorage.BROWSEshowjrpid = "false";
 				}
-				if (localStorage.BROWSEshowjrpid == "false") {
-					localStorage.BROWSEshowjrpid = "true";
+				if (sessionStorage.BROWSEshowjrpid == "false") {
+					sessionStorage.BROWSEshowjrpid = "true";
 				} else {
-					localStorage.BROWSEshowjrpid = "false";
+					sessionStorage.BROWSEshowjrpid = "false";
 				}
 				browseDisplay();
 			}
@@ -192,20 +192,20 @@ window.addEventListener('keydown', function(event) {
 
 		case EqualsKey:	// (include Plus key which is shift-EqualsKey):
 			if (ControlKeyState) {
-				var value = parseInt(localStorage.BROWSEpagesize);
-				localStorage.BROWSEpagesize = value + 1;
+				var value = parseInt(sessionStorage.BROWSEpagesize);
+				sessionStorage.BROWSEpagesize = value + 1;
 				displayFirstPage();
 			}
 			break;
 		case MinusKey:	   // decrease search results table entries by one
 			if (ControlKeyState) {
-				var value = parseInt(localStorage.BROWSEpagesize);
+				var value = parseInt(sessionStorage.BROWSEpagesize);
 				if (value <= 1) {
 					value = 1;
 				} else {
 					value = value - 1;
 				}
-				localStorage.BROWSEpagesize = value;
+				sessionStorage.BROWSEpagesize = value;
 				sessionStorage.SEARCHcurrentpage = 1;
 				displayFirstPage();
 			}

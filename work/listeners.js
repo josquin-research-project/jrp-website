@@ -39,24 +39,24 @@ document.addEventListener("DOMContentLoaded", function() {
 	var CgiParameters = GetCgiParameters();
 
 	if (typeof CgiParameters['id'] !== "undefined") {
-		localStorage.WORKjrpid = CgiParameters['id'];
+		sessionStorage.WORKjrpid = CgiParameters['id'];
 	} else {
-		if (typeof localStorage.WORKjrpid === 'undefined') {
-			localStorage.WORKjrpid = "Jos2721";
+		if (typeof sessionStorage.WORKjrpid === 'undefined') {
+			sessionStorage.WORKjrpid = "Jos2721";
 		}
 	}
-   JRPID = localStorage.WORKjrpid;
+   JRPID = sessionStorage.WORKjrpid;
 
-	var pieces = localStorage.WORKjrpid.match(/^([^\-]+)-.*/);
+	var pieces = sessionStorage.WORKjrpid.match(/^([^\-]+)-.*/);
 	if (pieces != null) {
-		localStorage.WORKjrpid = pieces[1];
+		sessionStorage.WORKjrpid = pieces[1];
 	}
 
 	buildComposerSelect();
 	buildRepertorySelect();
 	buildGenreSelect();
 
-	displayWork(localStorage.WORKjrpid);
+	displayWork(sessionStorage.WORKjrpid);
 	setupSearchOnEnter();
 
 	var analysisbutton1 = document.getElementById("this-work-analysis-button");
@@ -241,7 +241,7 @@ window.addEventListener('keydown', function(event) {
 				var i;
 				var si = -1;
 				for (i=0; i<SECTIONS.length; i++) {
-					if (SECTIONS[i].id == localStorage.WORKjrpid) {
+					if (SECTIONS[i].id == sessionStorage.WORKjrpid) {
 						si = i;
 						break;
 					}
@@ -386,7 +386,7 @@ window.addEventListener('keydown', function(event) {
 			}
 			event.preventDefault();
 			event.stopPropagation();
-			PlayAudioFile(localStorage.WORKjrpid, document.getElementById("audio_" + localStorage.WORKjrpid));
+			PlayAudioFile(sessionStorage.WORKjrpid, document.getElementById("audio_" + sessionStorage.WORKjrpid));
 			break;
 
 		case SpaceKey:
@@ -430,8 +430,8 @@ window.addEventListener('keydown', function(event) {
 		case HomeKey:
 			if (event.shiftKey) {
 				InitializeWorklist();
-				localStorage.WORKjrpid = WORKLIST[0].works[0].id;
-				displayWork(localStorage.WORKjrpid);
+				sessionStorage.WORKjrpid = WORKLIST[0].works[0].id;
+				displayWork(sessionStorage.WORKjrpid);
 				return false;
 			}
 			break;
@@ -439,9 +439,9 @@ window.addEventListener('keydown', function(event) {
 		case EndKey:
 			if (event.shiftKey) {
 				InitializeWorklist();
-				localStorage.WORKjrpid = WORKLIST[WORKLIST.length-1]
+				sessionStorage.WORKjrpid = WORKLIST[WORKLIST.length-1]
 					.works[WORKLIST[WORKLIST.length-1].works.length-1].id;
-				displayWork(localStorage.WORKjrpid);
+				displayWork(sessionStorage.WORKjrpid);
 				return false;
 			}
 			break;

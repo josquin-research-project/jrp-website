@@ -199,10 +199,10 @@ function resetFormValues() {
 	titlebox.value  = "";
 	titlebox.label  = "";
 
-	localStorage.BROWSEcomposers = "";
-	localStorage.BROWSEgenres    = "";
-	localStorage.BROWSEvoices    = "";
-	localStorage.BROWSEtitlebox  = "";
+	sessionStorage.BROWSEcomposers = "";
+	sessionStorage.BROWSEgenres    = "";
+	sessionStorage.BROWSEvoices    = "";
+	sessionStorage.BROWSEtitlebox  = "";
 
 	StylizeFormElements();
 }
@@ -231,7 +231,7 @@ function showComposer(repid) {
 	// browseDisplay(1);
 	// $('html,body').scrollTop(0);
 	// StylizeFormElements();
-	localStorage.BROWSEhome = "false";
+	sessionStorage.BROWSEhome = "false";
 	var target  = "/browse-filter?c=" + repid;
 	window.location = target;
 	return false;
@@ -274,9 +274,9 @@ function displayAboutBrowse() {
 		BROWSEHOMEHTML = ReadFile("content.html");
 //	}
 
-//			localStorage.BROWSEHOMEHTML = BROWSEHOMEHTML;
+//			sessionStorage.BROWSEHOMEHTML = BROWSEHOMEHTML;
 //		} else {
-//			BROWSEHOMEHTML = localStorage.BROWSEHOMEHTML;
+//			BROWSEHOMEHTML = sessionStorage.BROWSEHOMEHTML;
 //		}
 //	}
 
@@ -733,14 +733,14 @@ function generateComposerWorkEntries(worklist, index) {
 
 		if (TextInfo && (text == "true")) {
 			//tempout	 = "<tr valign=top><td style=\"background-color:#eeeeee;\">" + genre;
-			if (localStorage.BROWSEshowjrpid == "true") {
+			if (sessionStorage.BROWSEshowjrpid == "true") {
 				tempout    += "<td style=\"background-color:#eeeeee;\">" + jrpid;
 			} else {
 				tempout    += "<td style=\"background-color:#eeeeee;\">" + genre;
 			}
 		} else {
 			//tempout	 = "<tr valign=top><td>" + genre;
-			if (localStorage.BROWSEshowjrpid == "true") {
+			if (sessionStorage.BROWSEshowjrpid == "true") {
 				tempout    += "<td>" + jrpid;
 			} else {
 				tempout    += "<td>" + genre;
@@ -816,13 +816,13 @@ function browseDisplay(page) {
 	InitializeWorklist();
 
 	var tablerows = generateWorkEntries(WORKLIST);
-	if (typeof localStorage.BROWSEpagesize === 'undefined') {
-		localStorage.BROWSEpagesize = 20;
+	if (typeof sessionStorage.BROWSEpagesize === 'undefined') {
+		sessionStorage.BROWSEpagesize = 20;
 	}
-	if (typeof localStorage.BROWSEpagesize === 'undefined') {
-		localStorage.BROWSEshowjrpid = "false";
+	if (typeof sessionStorage.BROWSEpagesize === 'undefined') {
+		sessionStorage.BROWSEshowjrpid = "false";
 	}
-	var pagesize = localStorage.BROWSEpagesize;
+	var pagesize = sessionStorage.BROWSEpagesize;
 	sessionStorage.BROWSEentries = tablerows.length;
 	var totalpages = tablerows.length / pagesize;
 	if (totalpages - parseInt(totalpages) > 0.0) {
@@ -844,7 +844,7 @@ function browseDisplay(page) {
 		stopindex = tablerows.length;
 	}
 
-	if (localStorage.BROWSEpageview == "all") {
+	if (sessionStorage.BROWSEpageview == "all") {
 		startindex = 0;
 		stopindex = tablerows.length;
 	}
@@ -905,7 +905,7 @@ function printPageList(currentpage, totalpages) {
 	var leftarrow = "&#10094;";
 	// var leftarrow = "&lt;";
 
-	if (localStorage.BROWSEpageview == "all") {
+	if (sessionStorage.BROWSEpageview == "all") {
 		printPageListAll(totalpages);
 		return;
 	}
@@ -1003,7 +1003,7 @@ function printPageList(currentpage, totalpages) {
 	output += "<li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:=-0.5px;\"";
-	output += " onclick=\"localStorage.BROWSEpageview='all';";
+	output += " onclick=\"sessionStorage.BROWSEpageview='all';";
 	output += " browseDisplay(1);\">view all</span>";
 	output += "</li>\n";
 
@@ -1032,7 +1032,7 @@ function printPageListAll(totalpages) {
 	output += "<ul><li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:-0.5px;\"";
-	output += " onclick=\"localStorage.BROWSEpageview='paged';";
+	output += " onclick=\"sessionStorage.BROWSEpageview='paged';";
 	output += " browseDisplay(1);\">paged view</span>";
 	output += "</li></ul>\n";
 
@@ -1061,7 +1061,7 @@ function printTableStart() {
 	output += "<thead>\n";
 	output += "<tr>\n";
 
-	if (localStorage.BROWSEshowjrpid == "true") {
+	if (sessionStorage.BROWSEshowjrpid == "true") {
 		output += "<th class='sortable'><a href='#'>JRPID</a></th>\n";
 	} else {
 		output += "<th class='sortable'><a href='#'>Genre</a></th>\n";
@@ -1088,7 +1088,7 @@ function printTableStart() {
 function displayNextPage() {
 	var currentpage = sessionStorage.BROWSEcurrentpage;
 	var nextpage = parseInt(currentpage) + 1;
-	var pagecount = sessionStorage.BROWSEentries / localStorage.BROWSEpagesize;
+	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1110,7 +1110,7 @@ function displayNextPage() {
 function displayPreviousPage() {
 	var currentpage = sessionStorage.BROWSEcurrentpage;
 	var previouspage = parseInt(currentpage) - 1;
-	var pagecount = sessionStorage.BROWSEentries / localStorage.BROWSEpagesize;
+	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
 	if ((pagecount - parseInt(pagecount)) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1141,7 +1141,7 @@ function displayFirstPage() {
 //
 
 function displayLastPage() {
-	var pagecount = sessionStorage.BROWSEentries / localStorage.BROWSEpagesize;
+	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1233,11 +1233,11 @@ function clearBrowseFilters() {
 	document.getElementById("composers").value = "";
 	document.getElementById("titlebox").value = "";
 
-	localStorage.BROWSEcomposers = "";
-	localStorage.BROWSEgenres    = "";
-	localStorage.BROWSEvoices    = "";
-	localStorage.BROWSEtitlebox  = "";
-	localStorage.BROWSEhome		= "false";
+	sessionStorage.BROWSEcomposers = "";
+	sessionStorage.BROWSEgenres    = "";
+	sessionStorage.BROWSEvoices    = "";
+	sessionStorage.BROWSEtitlebox  = "";
+	sessionStorage.BROWSEhome		= "false";
 
 	StylizeFormElements();
 }
@@ -1250,17 +1250,17 @@ function clearBrowseFilters() {
 //
 
 function storeBrowseFilters() {
-	localStorage.BROWSEcomposers = document.getElementById("composers").value;
-	localStorage.BROWSEgenres    = document.getElementById("genres").value;
-	localStorage.BROWSEvoices    = document.getElementById("voices").value;
-	localStorage.BROWSEtitlebox  = document.getElementById("titlebox").value;
-	localStorage.BROWSEhome		= "false";
+	sessionStorage.BROWSEcomposers = document.getElementById("composers").value;
+	sessionStorage.BROWSEgenres    = document.getElementById("genres").value;
+	sessionStorage.BROWSEvoices    = document.getElementById("voices").value;
+	sessionStorage.BROWSEtitlebox  = document.getElementById("titlebox").value;
+	sessionStorage.BROWSEhome		= "false";
 
-	if (localStorage.BROWSEcomposers.match(/All/i)) {
-		localStorage.BROWSEcomposers = "";
+	if (sessionStorage.BROWSEcomposers.match(/All/i)) {
+		sessionStorage.BROWSEcomposers = "";
 	}
-	if (localStorage.BROWSEgenres.match(/All/i)) {
-		localStorage.BROWSEgenres = "";
+	if (sessionStorage.BROWSEgenres.match(/All/i)) {
+		sessionStorage.BROWSEgenres = "";
 	}
 
 }
