@@ -5,24 +5,23 @@
 // Creation Date: Thu Aug 21 12:59:01 PDT 2014
 // Last Modified: Mon Sep  1 22:01:13 PDT 2014
 // Filename:      .../scripts/scripts-common.js
-// Web Address:   http://josquin.stanford.edu/scripts/scripts-common.js
+// Web Address:   https://josquin.stanford.edu/scripts/scripts-common.js
 // Syntax:        JavaScript 1.8/ECMAScript 5
-// vim:				ts=3: ft=javascript
+// vim:           ts=3: ft=javascript
 //
 // Description:   JRP-specific JavaScript functions common to all pages.
 //
 
 // GLOBAL VARIABLES:
-var WORKLIST;										 // Master index of works in JRP database.
-var WORKLISTrecent = [];						 // List of works reverse sorted by add date.
-var WORKLISTjrpid  = {};						 // Hash of works by JRP ID.
-var BASEADDR       = "{{site.dataurl}}" ; // Base address of URL.
-var NON_DATA_BASEADDR = window.location.host;
-var TARGET         = "_blank";             // target for new things
-var PDFTARGET      = TARGET;					 // Display PDF files in separate tab/window.
-var AUDIO          = null;						 // HTML5 audio interface ID.
-var AUDIOjrpid     = '';  						 // currently playing audio file.
-var AUDIOid        = '';                   // currently playing audio button.
+var WORKLIST;                                    // Master index of works in JRP database.
+var WORKLISTrecent    = [];                      // List of works reverse sorted by add date.
+var WORKLISTjrpid     = {};                      // Hash of works by JRP ID.
+var DATA_BASEADDR     = "{{site.jrp-data-url}}"; // Base address of URL for data (via cgi interface).
+var TARGET            = "_blank";                // target for new things
+var PDFTARGET         = TARGET;                  // Display PDF files in separate tab/window.
+var AUDIO             = null;                    // HTML5 audio interface ID.
+var AUDIOjrpid        = '';                      // currently playing audio file.
+var AUDIOid           = '';                      // currently playing audio button.
 
 
 // List of Key Codes.  More can be extracted from this page:
@@ -113,45 +112,34 @@ const RightArrowKey   = 39;    // maybe also 29 & 57376
 //
 
 function InitializeWorklist() {
-console.log("GOT HERE IN INITIALIZEWORKLIST");
    if (WORKLIST != null) {
       return;
    }
-console.log("GOT HERE ZZZ");
 
    // Eventually request a timestamp from the server, and compare
    // to WORKLIST store in localStorage, and only re-download if the
    // server has a newer WORKLIST.  For now, update once a day.
    var refreshtime = 3600 * 1;  // update once an hour
    var currenttime = parseInt(new Date() / 1000);  // convert from ms to sec.
-console.log("GOT HERE YYY");
 
    if ((typeof localStorage.WORKLISTrefreshtime !== 'undefined') && 
        (localStorage.WORKLISTrefreshtime < currenttime)) {
       localStorage.WORKLIST = null;
    }
-console.log("GOT HERE PPP");
 
    if ((typeof localStorage.WORKLIST === 'undefined') ||
          (localStorage.WORKLIST == 'null') || (localStorage.WORKLIST == '')) {
       // need to download the WORKLIST data from the server.
-console.log("GOT HERE AAA");
-      localStorage.WORKLIST = ReadFile('http://{{site.dataurl}}/includes/worklist.json');
+      localStorage.WORKLIST = ReadFile('{{site.jrp-worklist-url}}');
       if (localStorage.WORKLIST.match(/^\s*$/)) {
-console.log("GOT HERE BBB");
-         localStorage.WORKLIST = ReadFile('http://{{site.dataurl}}/data?a=worklist-json'); 
+         localStorage.WORKLIST = ReadFile('{{site.jrp-data-url}}?a=worklist-json'); 
       }
-console.log("GOT HERE CCC");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
-console.log("GOT HERE DDD");
       localStorage.WORKLISTrefreshtime = currenttime + refreshtime;
-console.log("GOT HERE EEE");
    } else {
       // already have the worklist in local storage, so read from there.
-console.log("GOT HERE FFF");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
    }
-console.log("GOT HERE GGG");
 }
 
 
@@ -169,7 +157,6 @@ console.log("GOT HERE GGG");
 
 function InitializeWorklistFlat() {
 
-console.log("IN INITIALIZEWORKLISTFLAT");
    if ((WORKLISTrecent != null) && (WORKLISTrecent.length != 0)) {
       // WORILISTjrpid is presumed to be in a similar state.
       return;
@@ -257,7 +244,7 @@ function GetDataFile(jrpid, prefix, action) {
    }
 
    // content is not in localStorage, so download, store, and return.
-   var imagedata = ReadFile('http://' + BASEADDR + '/data?a=' + action + '&f=' + jrpid);
+   var imagedata = ReadFile(DATA_BASEADDR + '?a=' + action + '&f=' + jrpid);
    localStorage[variable] = imagedata;
    return imagedata;
 }
@@ -295,7 +282,7 @@ function GetDataFileAsync(jrpid, prefix, action, callback) {
    }
 
    // content is not in localStorage, so download, store, and return.
-   ReadFileAsync('http://' + BASEADDR + '/data?a=' + action + '&f=' + jrpid, callback);
+   ReadFileAsync(DATA_BASEADDR + '?a=' + action + '&f=' + jrpid, callback);
    //localStorage[variable] = imagedata;
    // return imagedata;
 }
@@ -307,7 +294,7 @@ function GetDataFileAsync(jrpid, prefix, action, callback) {
 // ReadFile -- Download URL content which is returned as a string.
 //      The URL must be on the same domain as index.html due to
 //      JavaScript Same-Origin policy:
-//         http://en.wikipedia.org/wiki/Same-origin_policy
+//         https://en.wikipedia.org/wiki/Same-origin_policy
 // XMLHttpRequest object:
 //         http://www.w3.org/TR/2007/WD-XMLHttpRequest-20070618
 //         http://xhr.spec.whatwg.org
@@ -684,11 +671,11 @@ function PlayAudioFile(jrpid, element) {
       AUDIOid = element.id;
 		var source = '';
 		// Can't have seekable dynamic content in audio element:
-		//source += '<source src="/data?a=mp3&id=' + jrpid + '" ';
+		//source += '<source src="{jrp/data?a=mp3&id=' + jrpid + '" ';
 		if (window.location.href.match(/tasso/i)) {
-			source += '<source src="http://data.tassomusic.org/audio/mp3/' + jrpid + '.mp3" ';
+			source += '<source src="{{tasso-mp3-url}}' + jrpid + '.mp3" ';
 		} else {
-			source += '<source src="/audio/mp3/' + jrpid + '.mp3" ';
+			source += '<source src="{{site.jrp-mp3-url}}' + jrpid + '.mp3" ';
 		}
 		source += 'type="audio/mpeg"/>\n';
 		AUDIO.innerHTML = source;
@@ -781,7 +768,7 @@ function audioStoppedAction(event) {
 //
 
 function DisplayCriticalNotes(jrpid, target) {
-   ReadFileAsync("http://{{site.dataurl}}/data?id=" + jrpid + "&a=critical", function(responseText) {
+   ReadFileAsync("{{site.jrp-data-url}}?id=" + jrpid + "&a=critical", function(responseText) {
 		if (responseText.match(/^\s*$/)) {
 			return;
 		}

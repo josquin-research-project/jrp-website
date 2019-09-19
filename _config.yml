@@ -1,13 +1,17 @@
-# Welcome to Jekyll!
+# Jekyll configuration file for the Josquin Research Project website.
 #
 # This config file is meant for settings that affect your whole blog, values
 # which you are expected to set up once and rarely edit after that. If you find
 # yourself editing this file very often, consider using Jekyll's data files
 # feature for the data you need to update frequently.
 #
+# Variables on this page are referenced in liquid tags like this:
+#     {{site.title}} 
+# for the lines in this file with the structure:
+#      title: your title goes here.
+#
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-
 
 # the preview server used. Leave as is.
 host: 127.0.0.1
@@ -17,29 +21,67 @@ host: 127.0.0.1
 # cause conflicts. in that case, use another port such as 2001.
 port: 4444
 
-# Site settings
+#Site settings
 # These are used to personalize your new site. If you look in the HTML files,
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Your awesome title
 email: your-email@example.com
+
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
+
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+
+##############################
+##
+## URLs for using on webpages for this site.  jrp-url should not be
+## used in most cases (just give a relative or absolute path without the
+## computer name).  The jrp-data-url is for URLs to the data, which will
+## remain on the server.  MP3 files are relatively large and will also
+## remain on the server.
+
+# Templte to use on a webpage:   {{site.jrp-url}}
+jrp-url:      "https://www.josqu.in"
+jrp-data-url: "https://josquin.stanford.edu/data"
+
+# Where the MP3 files are located (slash at end of URL is required):
+jrp-mp3-url:  "https://josquin.stanford.edu/audio/mp3/"
+
+# JRP worklist index:
+jrp-worklist-url: "https://josquin.stanford.edu/includes/worklist.json"
+
+# Where the MP3 files are located (slash at end of URL is required):
+tasso-mp3-url:  "https://data.tassomusic.org/audio/mp3/"
+
+# Tasso in Music Project links (don't know why it is used):
+tasso-data-url: "https://data.tassomusic.org/data"
+
+# Ribbon plot URL:
+ribbon-url: "https://ribbon.humdrum.org/"
+
+# Verovio Humdrum View URL
+vhv-url: "https://verovio.humdrum.org/"
+
+# Base JRP github URL (below repository level)
+repository-url: "https://www.github.com/josquin-research-project/"
+
+# Base JRP data on github (below repository level, for digital score data access)
+raw-repository-url: "https://raw.gitusercontent.com/josquin-research-project/"
+
+##
+##
+##############################
+
 
 # Build settings
 markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
-mp3url: josquin.stanford.edu/mp3
-dataurl: josquin.stanford.edu
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -52,3 +94,7 @@ dataurl: josquin.stanford.edu
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+
+
+

@@ -9,7 +9,7 @@
 // Creation Date:	Thu Aug 21 12:59:01 PDT 2014
 // Last Modified:	Tue Sep  2 12:48:02 PDT 2014
 // Filename:		.../scripts-local.html
-// Web Address:	http://josquin.stanford.edu/scripts-local.html
+// Web Address:	https://josquin.stanford.edu/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5
 // vim:				ts=3: ft=javascript
 //
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function quickBrowse() {
 	localStorage.BROWSEhome = "false";
-	window.location.replace = "http://" + BASEADDR + "/browse";
+	window.location.replace = "/browse";
 }
 
 
@@ -101,7 +101,6 @@ function displayRandomExample() {
 
 	var randomindex = Math.floor(Math.random() * WORKLISTrecent.length);
 	var randomwork  = WORKLISTrecent[randomindex];
-console.log("CHOSE RANDOM WORK", randomwork);
 	
 	var composer = randomwork.comshort;
 	var title    = randomwork.title;
@@ -111,7 +110,6 @@ console.log("CHOSE RANDOM WORK", randomwork);
 	if (randomwork.sections) {
 		filename = randomwork.sections[0].filename;
 	}
-console.log("FILENAME ===============================", filename);
    var height   = 0;
 
    if (!!randomwork.ih) {
@@ -249,8 +247,6 @@ function getIncipitAsync(jrpid) {
 //
 
 function displayRecentAdditions() {
-
-console.log("CREATING RECENTLY ADDED");
    var recentlyadded = document.getElementById("recently-added");
 	var ra = "<h2 onclick=\"document.location='/recent';\" class=\"pointer blue-bar\">recently added</h2>\n";
 	ra += "<p class=\"text-brown\" style=\"letter-spacing:0.5px;\">";
@@ -272,7 +268,6 @@ console.log("CREATING RECENTLY ADDED");
 
 	recent.innerHTML = tablecontent;
 	sessionStorage.RECENTLYADDEDHTML = tablecontent;
-console.log("DONE CREATING RECENTLY ADDED");
 }
 
 
@@ -396,10 +391,9 @@ function printWorklistRecentEntry(entry) {
 	}
 	output += "</td>\n";
 */
-	var dataloc = "{{site.dataurl}}/data";
-	console.log("dataloc is "+dataloc);
+	var dataloc = "{{site.jrp-data-url}}";
 	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
+		dataloc = "{{site.tasso-data-url}}";
 	}
 
 	// Scores
@@ -413,7 +407,7 @@ function printWorklistRecentEntry(entry) {
 	output += "</td>\n";
 
 	// MP3 playback button
-	//output += "<td style=\"padding-left:30px;\"><a target="_blank" href=\"http://data.tassomusic.org/data?a=mp3&f=";
+	//output += "<td style=\"padding-left:30px;\"><a target="_blank" href=\"{{site.tasso-data-url}}?a=mp3&f=";
 	//output += mjrpid + "\" class=\"play\">play</a></td>\n";
 	output += "<td style=\"padding-left:30px;\">";
 

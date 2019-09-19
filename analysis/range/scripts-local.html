@@ -113,7 +113,7 @@ function showRepertory(repertory) {
 	$("body").css("cursor", "wait");
 	var currentdate = new Date();
 	console.log("Start of analysis request:", currentdate);
-	ReadFileAsync("http://{{site.dataurl}}/data?repertory=range&composer=" + repertory, function(responseText) {
+	ReadFileAsync("{{site.jrp-data-url}}?repertory=range&composer=" + repertory, function(responseText) {
 		var maincontent = document.getElementById('analysis-content');
 		var currentdate = new Date();
 		console.log("End of analysis request:", currentdate);

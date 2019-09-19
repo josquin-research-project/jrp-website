@@ -13,7 +13,7 @@
 // Creation Date: Mon Aug 25 15:06:38 PDT 2014
 // Last Modified: Wed Sep 24 12:36:01 PDT 2014 Added multi-incipit/range display
 // Filename:		.../work/scripts-local.html
-// Web Address:	http://josquin.stanford.edu/work/scripts-local.html
+// Web Address:	https://josquin.stanford.edu/work/scripts-local.html
 // Syntax:		  JavaScript 1.8/ECMAScript 5
 // vim:				ts=3: ft=javascript
 //
@@ -308,13 +308,13 @@ function printSectionEntries(entry, currentid) {
 	// Scores
 	out += "<td align=center>\n";
 	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += "http://{{site.dataurl}}/data?a=notationNoEditText&f=" + sectionid;
+	out += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + sectionid;
 	out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
 	out += "</td>\n";
 
 	out += "<td>\n";
 	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += "http://{{site.dataurl}}/data?a=notationEditText&f=" + sectionid;
+	out += "{{site.jrp-data-url}}?a=notationEditText&f=" + sectionid;
 	out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
 	out += "</td>\n";
 
@@ -416,24 +416,24 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "http://{{site.dataurl}}/data?a=notationNoEditText&f=" + workid;
+		pc += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + workid;
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "http://{{site.dataurl}}/data?a=notationEditText&f=" + workid;
+		pc += "{{site.jrp-data-url}}/data?a=notationEditText&f=" + workid;
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	} else {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "http://{{site.dataurl}}/data?a=notationNoEditText&f=" + sectionid;
+		pc += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + sectionid;
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "http://{{site.dataurl}}/data?a=notationEditText&f=" + sectionid;
+		pc += "{{site.jrp-data-url}}?a=notationEditText&f=" + sectionid;
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	}
@@ -444,7 +444,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "\" ";
 		pc += "class=\"mp3pause\" target=\"_blank\" ";
 		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
-		pc += "name=\"http://{{site.dataurl}}/data?a=mp3&f=";
+		pc += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
 		pc += jrpid + "\">MP3</a></li>\n";
 	} else {
 		pc += "<li><a id=\"audio_" + sectionid + "\"";
@@ -452,7 +452,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "\" ";
 		pc += "class=\"mp3play\" target=\"_blank\" ";
 		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
-		pc += "name=\"http://{{site.dataurl}}/data?a=mp3&f=";
+		pc += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
 		pc += sectionid + "\">MP3</a></li>\n";
 	}
 
@@ -530,7 +530,7 @@ function getMp3(jrpid, element) {
 function getScoreNoEditText(jrpid) {
 	$('#score').prop('selectedIndex', 0);
 	StylizeFormElements();
-	window.open("http://{{site.dataurl}}/data?a=notationNoEditText&id=" + jrpid, "new");
+	window.open("{{site.jrp-data-url}}?a=notationNoEditText&id=" + jrpid, "new");
 }
 
 
@@ -543,7 +543,7 @@ function getScoreNoEditText(jrpid) {
 function getScoreEditText(jrpid) {
 	$('#accidentals').prop('selectedIndex', 0);
 	StylizeFormElements();
-	window.open("http://{{site.dataurl}}/data?a=notationEditText&id=" + jrpid, "new");
+	window.open("{{site.jrp-data-url}}?a=notationEditText&id=" + jrpid, "new");
 }
 
 
@@ -753,23 +753,23 @@ function displayWork(jrpid) {
 	if (!jrpid.match(/^Tas/)) {
 		titleContent += "<ul style=\"padding-top:0;\">\n";
 		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
-		titleContent += "http://{{site.dataurl}}/data?a=notationNoEditText&f=" + jrpid;
+		titleContent += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + jrpid;
 		titleContent += "\">Score</a></li>\n";
 
 		titleContent += "<li><a class=\"file-ed-orange\" target=\"" + PDFTARGET + "\" href=\"";
-		titleContent += "http://{{site.dataurl}}/data?a=notationEditText&f=" + jrpid;
+		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
 		titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
 	} else {
 		titleContent += "<ul style=\"padding-top:0;\">\n";
 		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
-		titleContent += "http://{{site.dataurl}}/data?a=notationEditText&f=" + jrpid;
+		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
 		titleContent += "\">Score</a></li>\n";
 	}
 
 	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" ";
 	titleContent += "id=\"audio_" + jrpid + "\" class=\"mp3play\" ";
 	titleContent += "onclick=\"getMp3('" + jrpid + "', this);\" ";
-	titleContent += "name=\"http://{{site.dataurl}}/data?a=mp3&f=";
+	titleContent += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
 	titleContent += jrpid + "\">MP3</a></li>\n";
 	titleContent += "</ul>\n";
 
@@ -827,32 +827,32 @@ console.log("FILENAME FOR WORK IS ", filename);
 	download += "<ul>\n";
 
 	download += "<li><a class=\"icon-file\" target=\"" + PDFTARGET + "\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=notationNoEditText&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + jrpid;
 	download += "\">PDF score</a></li>\n";
 
 	download += "<li><a class=\"icon-file-ed\" target=\"" + PDFTARGET + "\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=notationEditText&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
 	download += "\">PDF w/ ed. accidentals</a></li>\n";
 
 	download += "<li><a class=\"icon-midi\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=midi&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=midi&f=" + jrpid;
 	download += "\">MIDI</a></li>\n";
 
 	download += "<li style='max-width:181px;  white-space:nowrap;'><div class=\"icon-file-list\"><nobr>";
 	download += "<a class=\"xlink\" target=\"_blank\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=humdrum&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=humdrum&f=" + jrpid;
 	download += "\">Humdrum</a> ";
 
 	download += "(<a class=\"xlink\" target=\"_blank\" ";
-	download += "href=\"https://verovio.humdrum.org?file=https://";
-	download += "raw.githubusercontent.com/josquin-research-project/";
+	download += "href=\"{{site.vhv-url}}?file=";
+	download += "{{site.raw-repository-url}}";
 	download += cshort;
 	download += "/master/" + filename;
 	download += "\">";
 	download += "in VHV</a>)\n";
 
 	download += " (<a class=\"xlink\" target=\"_blank\" ";
-	download += "href=\"https://github.com/josquin-research-project/";
+	download += "href=\"{{site.repository-url}}";
 	download += cshort;
 	download += "/blob/master/" + filename;
 	download += "\">";
@@ -864,11 +864,11 @@ console.log("FILENAME FOR WORK IS ", filename);
 	download += "<ul>\n";
 
 	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=musedata&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=musedata&f=" + jrpid;
 	download += "\">MuseData</a></li>\n";
 
 	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=notearrayraw&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=notearrayraw&f=" + jrpid;
 	download += "\">NoteArray</a></li>\n";
 
 	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
@@ -882,15 +882,15 @@ console.log("FILENAME FOR WORK IS ", filename);
 	download += "<ul>\n";
 
 	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=musicxml&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=musicxml&f=" + jrpid;
 	download += "\">MusicXML</a></li>\n";
 
 	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=mei&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=mei&f=" + jrpid;
 	download += "\">MEI</a></li>\n";
 
 	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "http://{{site.dataurl}}/data?a=mp3&f=" + jrpid;
+	download += "{{site.jrp-data-url}}?a=mp3&f=" + jrpid;
 	download += "\">MP3</a></li>\n";
 
 	download += "</ul>\n";
@@ -1515,9 +1515,9 @@ function doWorkSearch(query) {
 
 	$("body").css("cursor", "wait");
 
-	var dataloc = "http://{{site.dataurl}}/data";
+	var dataloc = "{{site.jrp-data-url}}";
 	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
+		dataloc = "{{site.tasso-data-url}}";
 	}
 
 	var request = new XMLHttpRequest();
@@ -1710,11 +1710,11 @@ function showWorkAnalysis(analysistype) {
 	var url = "";
 	if (analysistype === "dissonant") {
 		// url = "/data?a=dissonantpdf&id=" + sectionid;
-		url = "http://verovio.humdrum.org/?k=ey&filter=dissonant&file=jrp:" + sectionid;
+		url = "{{vhv-url}}?k=ey&filter=dissonant&file=jrp:" + sectionid;
 	} else if (analysistype === "imitation") {
-		url = "http://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
+		url = "{{site.vhv-url}}?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
 	} else if (analysistype === "parallel") {
-		url = "http://{{site.dataurl}}/data?a=parallelnofictapdf&id=" + sectionid;
+		url = "{{site.jrp-data-url}}?a=parallelnofictapdf&id=" + sectionid;
 	} else if (analysistype === "activity") {
 		localStorage.ANALYSISrepertory = repertory;
 		localStorage.ANALYSISgenre		 = "";
@@ -1726,7 +1726,7 @@ function showWorkAnalysis(analysistype) {
 //	} else if (analysistype === "suspension") {
 //		url = "/data?a=suspensionpdf&id=" + sectionid;
    } else if (analysistype === "cadence") {
-		url = "http://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cdissonant%20-V&file=jrp:" + sectionid;
+		url = "{{site.vhv-url}}?k=ey&filter=extract%20-ikern%7cdissonant%20-V&file=jrp:" + sectionid;
 	}
 
 	if (!url.match(/^\s*$/)) {
@@ -1988,7 +1988,7 @@ function getRangeAsync(jrpid) {
 			action = "prange-svg";
 		}
 	}
-	ReadFileAsync("http://{{site.dataurl}}/data?a=" + action + "&id=" + jrpid, function(responseText) {
+	ReadFileAsync("{{site.jrp-data-url}}?a=" + action + "&id=" + jrpid, function(responseText) {
 		var data = responseText;
 		RANGES[jrpid] = responseText;
 	  	getRangeAsync(jrpid);
@@ -2032,7 +2032,7 @@ return;
 	document.getElementById("incipit_" + jrpid).style.height = "200px";
 	document.getElementById("music-area").style.height = "";
 	var action = "incipit-mime";
-	ReadFileAsync("http://{{site.dataurl}}/data?a=" + action + "&id=" + jrpid, function(responseText) {
+	ReadFileAsync("{{site.jrp-data-url}}?a=" + action + "&id=" + jrpid, function(responseText) {
 		var data = responseText;
 		INCIPITS[jrpid] = responseText;
 
@@ -2231,7 +2231,7 @@ function displayThisWorkRepertoryAnalyses() {
 	// content += 'localStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
 	// content += 'style="cursor:pointer;" ';
 	// content += 'class="btn btn-brown btn-medium">';
-	content += '<li><span onclick="var url = \'http://ribbon.humdrum.org/?id=\' + localStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
+	content += '<li><span onclick="var url = \'{{site.ribbon-url}}/?id=\' + localStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 

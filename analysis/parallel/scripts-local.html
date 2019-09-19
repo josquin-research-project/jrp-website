@@ -116,7 +116,7 @@ function showRepertory(repertory) {
 
 	maincontent.innerHTML = "Processing...";
 	$("body").css("cursor", "wait");
-	ReadFileAsync("http://{{site.dataurl}}/data?repertory=parallel&composer=" + repertory, 
+	ReadFileAsync("{{site.jrp-data-url}}?repertory=parallel&composer=" + repertory, 
 		function(responseText) {
 			var maincontent = document.getElementById('analysis-content');
 			if (!maincontent) {

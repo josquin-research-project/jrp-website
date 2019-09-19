@@ -51,7 +51,7 @@ function runAnalysis() {
 
 	maincontent.innerHTML = "<p>Processing...</p>";
 	$("body").css("cursor", "wait");
-   var file = "http://{{site.dataurl}}/data?repertory=activity&composer=" + 
+   var file = "{{site.jrp-data-url}}?repertory=activity&composer=" + 
 		localStorage.ANALYSISrepertory;
 
    localStorage.ANALYSISgenre = document.getElementById("genre").value;

@@ -3,9 +3,9 @@
 //
 // Programmer:    Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Wed Aug 27 17:13:25 PDT 2014
-// Last Modified: Wed Sep 10 23:28:27 PDT 2014
+// Last Modified: Thu Sep 19 14:57:18 PDT 2019
 // Filename:      .../search/scripts-local.html
-// Web Address:   http://josquin.stanford.edu/search/scripts-local.html
+// Web Address:   https://josquin.stanford.edu/search/scripts-local.html
 // Syntax:        JavaScript 1.8/ECMAScript 5
 // vim:				ts=3: ft=javascript
 //
@@ -140,9 +140,9 @@ function createSearchResult() {
 
 	$("body").css("cursor", "wait");
 
-	var dataloc = "http://{{site.dataurl}}/data";
+	var dataloc = "{{site.jrp-data-url}}";
 	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
+		dataloc = "{{site.tasso-data-url}}";
 	}
 
 	ReadFileAsync(dataloc + "?a=search" + searchparam, function(responseText) {
@@ -655,9 +655,9 @@ function displaySearchResultsTable(page) {
 
 		mcount = matchentry.count;
 
-		var dataloc = "http://{{site.dataurl}}/data";
+		var dataloc = "{{site.jrp-data-url}}";
 		if (window.location.href.match(/tasso/i)) {
-			dataloc = "http://data.tassomusic.org/data";
+			dataloc = "{{site.tasso-data-url}}";
 		}
 
 		output += "<tr>\n";
@@ -671,7 +671,7 @@ function displaySearchResultsTable(page) {
       output += "</span>";
 		output += "<a title='Score with highlighted matches' ";
 		output += PDFTARGET;
-		output += " href='http://" + BASEADDR ;
+		output += " href='";
 		output += dataloc + "?a=notationWithEditWithText&f=" + jrpid;
 		output += "&themax=" + THEMAX;
 		output += "'>";
@@ -724,23 +724,21 @@ function displaySearchResultsTable(page) {
 		output += "</td>\n";
 		output += "<td>\n";
 
-		var dataloc = "http://{{site.dataurl}}/data";
+		var dataloc = "{{site.jrp-data-url}}";
 		if (window.location.href.match(/tasso/i)) {
-			dataloc = "http://data.tassomusic.org/data";
+			dataloc = "{{site.tasso-data-url}}";
 		}
 
 		var scorelink = "";
 		scorelink  = "<a class='file' ";
 		scorelink += PDFTARGET;
 		scorelink += " title='Score without editorial";
-		scorelink += " accidentals' href='http://" + BASEADDR;
-		scorelink += dataloc + "?a=notationNoEditWithText&f=" + jrpid;
+		scorelink += " accidentals' href='" + dataloc + "?a=notationNoEditWithText&f=" + jrpid;
 		scorelink += "&themax=" + THEMAX + "'>file</a>";
 
 		scorelink += "<a title='Score with editorial accidentals'";
 		scorelink += PDFTARGET;
-		scorelink += " class='file-ed' href='http://" + BASEADDR ;
-		scorelink += dataloc + "?a=notationWithEditWithText&f=" + jrpid;
+		scorelink += " class='file-ed' href='+ dataloc + "?a=notationWithEditWithText&f=" + jrpid;
 		scorelink += "&themax=" + THEMAX;
 		scorelink += "'>Ed.&nbsp;file</a>";
 		output += scorelink;

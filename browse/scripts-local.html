@@ -5,9 +5,9 @@
 // Creation Date: Thu Aug 21 12:59:01 PDT 2014
 // Last Modified: Mon Oct 27 14:14:44 PDT 2014
 // Filename:		.../browse/scripts-local.html
-// Web Address:	http://josquin.stanford.edu/browse/scripts-local.html
+// Web Address:	https://josquin.stanford.edu/browse/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5
-// vim:				ts=3: ft=javascript
+// vim:				ts=3: ft=javascript: nowrap
 //
 // Description:	JavaScript management of the JRP Browse page.
 //
@@ -232,7 +232,7 @@ function showComposer(repid) {
 	// $('html,body').scrollTop(0);
 	// StylizeFormElements();
 	localStorage.BROWSEhome = "false";
-	var target  = "http://" + NON_DATA_BASEADDR + "/browse-filter?c=" + repid;
+	var target  = "/browse-filter?c=" + repid;
 	window.location = target;
 	return false;
 }
@@ -585,7 +585,6 @@ function generateComposerWorkEntries(worklist, index) {
 		if (OnlyText && (text !== "true")) {
 			continue;
 		}
-console.log("TEXT IS ", text, "FOR ENTRY", entry);
 		if (typeof entry.comshort !== 'undefined') {
 			composer = entry.comshort;
 		}
@@ -698,24 +697,24 @@ console.log("TEXT IS ", text, "FOR ENTRY", entry);
 			}
 		}
 
-		titlelink  = "<a style='word-spacing:1.5px; letter-spacing:-0.5px;' class='text-link' href=http://" + NON_DATA_BASEADDR;
-		titlelink += "/work?id=" + jrpid + ">";
+		titlelink  = "<a style='word-spacing:1.5px; letter-spacing:-0.5px;' class='text-link' href='";
+		titlelink += "/work?id=" + jrpid + "'>";
 		titlelink += title + "</a>";
 		if (fragment == true) {
 			titlelink += " <span style=\"font-size:90%; letter-spacing:-0.5px;\">[fragment]</span>";
 		}
 
 		scorelink  = "<a class='file' target='" + PDFTARGET + "' title='Score without editorial";
-		scorelink += " accidentals' href='http://" + BASEADDR;
-		scorelink += "/data?a=notationNoEditWithText&f=" + jrpid + "'>file</a>";
+		scorelink += " accidentals' href='{{site.jrp-data-url}}";
+		scorelink += "?a=notationNoEditWithText&f=" + jrpid + "'>file</a>";
 
 		scorelink += "<a title='Score with editorial accidentals'";
-		scorelink += " class='file-ed' target='" + PDFTARGET + "' href='http://" + BASEADDR ;
-		scorelink += "/data?a=notationWithEditWithText&f=" + jrpid;
+		scorelink += " class='file-ed' target='" + PDFTARGET + "' href='{{site.jrp-data-url}}";
+		scorelink += "?a=notationWithEditWithText&f=" + jrpid;
 		scorelink += "'>Ed.&nbsp;file</a> ";
 
-		//mp3link	 = "<a class='play' target='_blank' href='http://" + BASEADDR;
-		//mp3link	+= "/data?a=mp3&f=" + jrpid + "'>play</a>";
+		//mp3link	 = "<a class='play' target='_blank' href='{{site.jrp-data-url}}";
+		//mp3link	+= "?a=mp3&f=" + jrpid + "'>play</a>";
 
 	   if (AUDIOjrpid == jrpid) {
 			mp3link = "<a id=\"audio_" + jrpid + "\" ";

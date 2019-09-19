@@ -111,10 +111,7 @@ function showRepertory(repertory) {
 
 	maincontent.innerHTML = "Processing...";
 	$("body").css("cursor", "wait");
-console.log("FILE = http://{{site.dataurl}}/data?repertory=rhythm&composer=" + repertory);
-	ReadFileAsync("http://{{site.dataurl}}/data?repertory=rhythm&composer=" + repertory, function(responseText) {
-console.log("FINISHED FILE = http://{{site.dataurl}}/data?repertory=rhythm&composer=" + repertory);
-console.log("RESPONSE TEXT");
+	ReadFileAsync("{{site.jrp-data-url}}?repertory=rhythm&composer=" + repertory, function(responseText) {
 		var maincontent = document.getElementById('analysis-content');
 		if (!maincontent) {
 			return;
