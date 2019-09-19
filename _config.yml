@@ -8,6 +8,15 @@
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # 'bundle exec jekyll serve'. If you change this file, please restart the server process.
 
+
+# the preview server used. Leave as is.
+host: 127.0.0.1
+
+# the port where the preview is rendered. You can leave this as is
+# unless you have other Jekyll builds using this same port that might
+# cause conflicts. in that case, use another port such as 2001.
+port: 4444
+
 # Site settings
 # These are used to personalize your new site. If you look in the HTML files,
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.

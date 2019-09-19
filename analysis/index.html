@@ -1,1 +1,21 @@
-../search/index.html
+---
+---
+<!doctype html>
+<html lang="en">	           
+	<head>
+		<title>JRP Search</title>
+		{% include usual-head-contents.html %}
+	</head>
+<body>
+	<div class="page container" id="search-page">
+		{% include header-search.html %}
+		<div id="content">
+		{% include_relative content.html %}
+		<div style="height:611px"></div>
+		</div>
+		{% include footer-generic.html %}
+	</div> <!-- page -->
+	{% include_relative scripts-local.html %}
+</body>
+</html>
+<!-- vim: set ts=2: -->

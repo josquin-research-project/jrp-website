@@ -1,1 +1,87 @@
-../search/content.html
+<section id="search">
+	<h2 class='blue-bar'>Search <span id="search-help" onclick="return showPopupHelp('search-help.html', 'Search Help');" class='info'>info</span></h2>
+	<form action="#">
+
+		<div class="form-group">
+			<input id="pitch" type="text" class="form-control" placeholder="Enter Pitch">
+		</div>
+
+		<div class="form-group">
+			<input id="interval" type="text" class="form-control" placeholder="Enter Interval">
+		</div>
+
+		<div class="form-group">
+			<input id="rhythm" type="text" class="form-control" placeholder="Enter Rhythm">
+		</div>
+
+		<div id="composers-select" class="form-group"></div> 
+
+		<div id="genres-select" class="form-group"></div>
+
+<!--
+		<div class="form-group">
+			<select id="voices" data-placeholder="All Mensurations">
+				<option label="default">All Mensurations</option>
+				<option value="option1">option 1</option>
+				<option value="option2">option2</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label><input type="checkbox"> Editorial Accidentals</label>
+		</div>
+-->
+
+		<div class="form-group text-center border-dotted">
+<!--
+			<button type="submit" class="btn btn-brown btn-medium">Search</button>
+-->
+			<span style="cursor:hand; cursor:pointer;" onclick="doSearch();" class="btn btn-brown">Search</span>
+		</div>
+
+	</form>
+</section>
+
+
+<section id="tools">
+	<h2 class="blue-bar">ANALYSIS TOOLS <span id="analysis-help" onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class='info'>info</span></h2>
+
+<table><tr><td>
+<p align="left" class="grey" style="margin-top:-36px; margin-left:55px;" class="text">Choose repertory</p>
+	<div style="margin-left:55px;" id="repertory-select" class="form-group"></div> 
+</td></tr></table>
+
+	<div class="form-group border-dotted">
+		<ul>
+
+			<li><a href="/analysis/activity" onclick="storeRepertory();" 
+			class="btn btn-brown btn-medium">
+			<span class="anatitle">Activity</span>
+			<small>attacks per measure</small></span></a></li>
+
+			<li><a href="/analysis/parallel" onclick="storeRepertory();" 
+			class="btn btn-brown btn-medium">
+			<span class="anatitle">Parallel</span>
+			<small>parallel perfect intervals</small></span></a></li>
+
+			<li><a href="/analysis/rhythm" onclick="storeRepertory();" 
+			class="btn btn-brown btn-medium">
+			<span class="anatitle">Rhythm</span>
+			<small>measure-long patterns</small></span></a></li>
+
+			<li><a href="/analysis/range" onclick="storeRepertory();" 
+			class="btn btn-brown btn-medium">
+			<span class="anatitle">Range</span>
+			<small>vocal ranges</small></span></a></li>
+
+		</ul>
+	</div>
+
+</section>
+<!-- vim: set ts=2: -->
+</a></li>
+
+		</ul>
+	</div>
+
+</section>
+<!-- vim: set ts=2: -->

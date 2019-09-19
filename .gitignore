@@ -10,3 +10,7 @@ tasso
 notetree
 ribbon
 pushreceive
+.DS_Store
+_site
+.jekyll-metadata
+.sass-cache
