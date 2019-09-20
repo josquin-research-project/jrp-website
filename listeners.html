@@ -1,0 +1,52 @@
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Thu Sep 19 17:14:38 PDT 2019
+// Last Modified:	Thu Sep 19 17:14:40 PDT 2019
+// Filename:		.../listeners.html
+// Web Address:	https://josquin.stanford.edu/listeners.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript: nowrap
+//
+// Description:   Starting point for javascript initializations.
+//
+
+
+//////////////////////////////
+//
+// DOMContentLoaded event listener -- Function called when document has finished loading.
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+	AUDIO = document.getElementById("audio");
+	AUDIO.addEventListener('ended', function(e) {
+		AUDIO.pause();
+		var pauseelem = document.getElementById(AUDIOid);
+		pauseelem.className = "play";
+	}, false);
+
+   sessionStorage.removeItem('RECENTLYADDEDHTML');
+	NewInitializeWorklist(continueInitializationOfWorklist);
+});
+
+
+
+//////////////////////////////
+//
+// continueInitializationOfWorklist --  After the WORKLIST variable
+//     has been set up, continue with more initialization that is
+//     dependent on the WORKLIST.
+//
+
+var continueInitializationOfWorklist = function () {
+	buildComposerSelect();
+	buildGenreSelect();
+	displayRandomExample();
+	displayRecentAdditions();
+};
+
+
+</script>
+
+
+
