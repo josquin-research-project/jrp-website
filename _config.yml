@@ -61,7 +61,8 @@ tasso-mp3-url:  "https://data.tassomusic.org/audio/mp3/"
 tasso-data-url: "https://data.tassomusic.org/data"
 
 # Ribbon plot URL:
-ribbon-url: "https://ribbon.humdrum.org/"
+#ribbon-url: "https://ribbon.humdrum.org/"
+ribbon-url: "https://ribbon.stanford.edu/"
 
 # Verovio Humdrum View URL
 vhv-url: "https://verovio.humdrum.org/"
