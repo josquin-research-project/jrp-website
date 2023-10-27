@@ -1,0 +1,28 @@
+# title: The title of the website.
+title: "Josquin Research Project"
+
+# main_subtitle: The subtitle on the homepage.
+main_subtitle: "Search, browse, and analyze complete scores of polyphonic music, ca. 1420– ca. 1520"
+
+local: false
+
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  auto_ids: true
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+highlighter: rouge
+
+# Google Analytics tracking number:
+google_analytics: ""
+
+### External URLs ##########################################
+
+# data (PDFs, MP3s, etc)
+data_url: "https://data.josqu.in"
+
+jrp_url: "https://josquin.stanford.org"
+

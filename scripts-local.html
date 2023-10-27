@@ -1,0 +1,510 @@
+
+
+{% include scripts/scripts-common.js %}
+
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date:	Thu Aug 21 12:59:01 PDT 2014
+// Last Modified:	Tue Sep  2 12:48:02 PDT 2014
+// Filename:		.../scripts-local.html
+// Web Address:	http://josquin.stanford.edu/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3:ft=javascript
+//
+// Description:   JavaScript management for the JRP homepage.
+//
+
+
+//////////////////////////////
+//
+// Function called when document has finished loading:
+//
+
+document.addEventListener("DOMContentLoaded", function() {
+
+	AUDIO = document.getElementById("audio");
+	AUDIO.addEventListener('ended', function(e) {
+		AUDIO.pause();
+		var pauseelem = document.getElementById(AUDIOid);
+		pauseelem.className = "play";
+	}, false);
+
+   sessionStorage.removeItem('RECENTLYADDEDHTML');
+
+	buildComposerSelect();
+	buildGenreSelect();
+	displayRandomExample();
+	displayRecentAdditions();
+}, false);
+
+
+
+//////////////////////////////
+//
+// quickBrowse -- Go directly to the full list of works.
+//
+
+function quickBrowse() {
+	localStorage.BROWSEhome = "false";
+	window.location.replace = "http://" + BASEADDR + "/browse";
+}
+
+
+
+//////////////////////////////
+//
+// storeBrowseParameters -- Store the quick browse parameters in localStorage 
+//     and then go over to the browse page to display result (either to a 
+//     browse display or display the home page for browse if no fields 
+//     are filled in).
+//
+
+function storeBrowseParameters() {
+
+	var composers = document.getElementById("composers").value;
+	var genres    = document.getElementById("genres").value;
+	var titlebox  = document.getElementById("titlebox").value;
+
+	if (composers.match(/All/i)) {
+			composers = "";
+	}
+
+	localStorage.BROWSEcomposers  = composers;
+	localStorage.BROWSEgenres     = genres;
+	localStorage.BROWSEtitlebox   = titlebox;
+
+	if ((composers == "") && (genres == "") 
+			&& (titlebox == "")) {
+			// localStorage.BROWSEhome       = "true";
+			window.location.pathname = "/browse-home";
+			return false;
+	} else {
+			localStorage.BROWSEhome       = "false";
+	}
+
+	window.location.pathname = "/browse";
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// displayRandomExample -- Choose a random work from the WORKLIST to
+//    show on the frontpage.
+//
+
+function displayRandomExample() {
+	InitializeWorklistFlat();
+
+	var randomindex = Math.floor(Math.random() * WORKLISTrecent.length);
+	var randomwork  = WORKLISTrecent[randomindex];
+console.log("CHOSE RANDOM WORK", randomwork);
+	
+	var composer = randomwork.comshort;
+	var title    = randomwork.title;
+	var jrpid    = randomwork.id;
+
+	var filename = randomwork.filename;
+	if (randomwork.sections) {
+		filename = randomwork.sections[0].filename;
+	}
+console.log("FILENAME ===============================", filename);
+   var height   = 0;
+
+   if (!!randomwork.ih) {
+		height = randomwork.ih;
+	} else if (!!randomwork.sections && (randomwork.sections.length > 0)
+			&& !!randomwork.sections[0].ih) {
+		height = randomwork.sections[0].ih;
+	}
+
+	var output = "<h2 style=\"width:100%;\" class=\"sample-title\">\n";
+
+	output += "<table width=100%><tr><td>";
+	output += "<span style='float:left;'><a href=\"";
+	output += "/work?id=" + jrpid;
+	output += "\" class=\"sw\"><span style=\"color:#9f9187; word-spacing:-2px;";
+	output += " letter-spacing:-0.75px;\">Sample Work:</span> ";
+	output += "<span class=\"text-link\">";
+	output += composer + ", " + title;
+	output += "</span></a></span>\n";
+
+	output += "</td><td>";
+
+	output += "<span style='float:right; margin-right:10px;'>";
+
+   // output += "<a target=\"_blank\" href=\"";
+	// output += "http://data.tassomusic.org/data?a=mp3&f=" + jrpid;
+	// output += "\" class=\"play\">mp3</a>";
+
+	output += "<span id=\"audio2_" + jrpid + "\"";
+	output += "style=\"cursor:hand; cursor:pointer;\" ";
+	output += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
+	output += "href=\"\" class=\"play\">play</span>";
+
+	output += "</span>\n";
+
+	output += "</td></tr></table>";
+
+	output += "</h2>\n";
+	output += "<scr";
+	output += "ipt id='random-music' type='text/x-humdrum'></scr"
+	output += "ipt>";
+
+	//output += "<div class=\"music-area\">\n";
+	//output += "<a id=\"sample-incipit\" href=\"/work?id=" + jrpid + "\">";
+	//output += "<div style=\"height:"  + height + "px;\"></div>\n";
+	////output += "<img src=\"";
+	////output += incipit;
+	////output += "\" alt=\"music placeholder\">";
+	//output += "</a>";
+	//output += "</div> <!-- music area -->\n";
+
+
+	var samplemusic = document.querySelector("#sample-music");
+	if (!samplemusic) {
+		console.log("CANNOT FIND #sample-music");
+		return;
+	}
+	samplemusic.style.minHeight = "300px";
+	samplemusic.innerHTML = output;
+
+	// var script = document.createElement("script");
+	// script.type = "text/x-humdrum";
+	// script.id = "random";
+	// samplemusic.appendChild(script);
+	// getIncipitAsync(jrpid);
+
+	// var comcode = "";
+	// if (!filename) {
+	// 	console.log("NO FILENAME for random match", randomwork);
+	// 	return;
+	// }
+	var matches = filename.match(/^([A-Z][a-z][a-z])/);
+	if (matches) {
+		comcode = matches[1];
+	}
+	var url = "https://raw.githubusercontent.com/josquin-research-project/";
+	url += comcode;
+	url += "/master/";
+	url += filename;
+
+	displayHumdrum({
+		incipit: "true",
+		source: "random-music",
+		autoResize: "true",
+		scale: 35,
+		// spacingLinear: 0.18,
+		// spacingNonLinear: 0.45,
+		evenNoteSpacing: "true",
+		postFunction: resetHeight,
+		url: url
+	});
+
+}
+
+
+
+//////////////////////////////
+//
+// resetHeight --
+//
+
+function resetHeight(id) {
+	var samplemusic = document.getElementById("sample-music");
+	samplemusic.style.height = "";
+}
+
+
+
+//////////////////////////////
+//
+// getIncipitAsync --
+//
+
+function getIncipitAsync(jrpid) {
+	return;
+/*
+	var dataloc = "/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
+
+   var action = "incipit-mime";
+	ReadFileAsync(dataloc + "?a=" + action + "&id=" + jrpid, 
+			function(responseText) {
+   	var data = responseText;
+   	if (data != "") {
+     		var area = document.getElementById("sample-incipit");
+      	area.innerHTML = imgtext;
+      	// var imgtext = "ImG src=\"" + data + "\" alt=\"music placeholder\">";
+   	}
+	});
+*/
+}
+
+
+
+//////////////////////////////
+//
+// displayRecentAdditions -- 
+//
+
+function displayRecentAdditions() {
+
+console.log("CREATING RECENTLY ADDED");
+   var recentlyadded = document.getElementById("recently-added");
+	var ra = "<h2 onclick=\"document.location='/recent';\" class=\"pointer blue-bar\">recently added/updated</h2>\n";
+	ra += "<p class=\"text-brown\" style=\"letter-spacing:0.5px;\">";
+	ra += "Click the title of any piece for work-specific search ";
+	ra += "and analysis tools.</p>\n";
+	ra += "<div id=\"recently-added-table\"></div>\n";
+   recentlyadded.innerHTML = ra;
+
+	var recent = document.getElementById("recently-added-table");
+
+	InitializeWorklistFlat();
+
+	var tablecontent = printRecentTableHeader();
+	var i;
+	for (i=0; (i<7) && (i<WORKLISTrecent.length); i++) {
+		tablecontent += printWorklistRecentEntry(WORKLISTrecent[i]);
+	}
+	tablecontent += printRecentTableFooter();
+
+	recent.innerHTML = tablecontent;
+	sessionStorage.RECENTLYADDEDHTML = tablecontent;
+console.log("DONE CREATING RECENTLY ADDED");
+}
+
+
+
+//////////////////////////////
+//
+// printRecentTableHeader -- Print the table header for the recently added
+//      works.
+//
+
+function printRecentTableHeader() {
+
+	var output = "<table>\n";
+	output += "<thead>\n";
+	output += "<tr>\n";
+	output += "<th style=\"padding-right:40px;\">Composer</th>\n";
+	output += "<th>Title</th>\n";
+	output += "<th>&nbsp;&nbsp;&nbsp;&nbsp;Scores</th>\n";
+	output += "<th style=\"padding-left:30px;\">MP3</th>\n";
+	output += "</tr>\n";
+	output += "</thead>\n";
+	output += "</tbody>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// printRecentTableFooter -- Print the table footer for the recently added
+//       works.
+//
+
+function printRecentTableFooter() {
+	var output = "</tbody>\n";
+	output += "</table>\n";
+	return output;
+}
+
+
+
+///////////////////////////////
+//
+// printWorklistRecentEntry -- Create the recently added work list.
+//
+
+function printWorklistRecentEntry(entry) {
+	if (!entry) {
+			return "";
+	}
+
+	var title    = entry.title;
+	var matches = title.match(/\((.*?)\)/g);
+	if (matches && matches.length > 1) {
+		title = title.replace(matches[1], "");
+	}
+	var jrpid    = entry.id;
+	var composer = entry.comshort;
+	var voices;
+	if (typeof entry.voices === "undefined")  {
+			voices = "?";
+	} else {
+			voices = entry.voices;
+	}
+
+	var mjrpid = jrpid;
+	var sections = entry.sections;
+	if ((sections != null)) {
+			mjrpid = sections[0].id;
+	}
+	if (mjrpid == null) {
+			mjrpid = jrpid;
+	}
+
+/*
+	var mydate   = entry.adddate;
+	var month = "";
+	var day   = "";
+	var year  = "";
+	if (mydate != null) {
+			month    = parseInt(mydate.substring(4,6));
+			day      = parseInt(mydate.substring(6,8)); 
+			year     = mydate.substring(0,4);
+			if      (month == 0)  { month = ""; }
+			else if (month == 1)  { month = "Jan"; }
+			else if (month == 2)  { month = "Feb"; }
+			else if (month == 3)  { month = "Mar"; }
+			else if (month == 4)  { month = "Apr"; }
+			else if (month == 5)  { month = "May"; }
+			else if (month == 6)  { month = "Jun"; }
+			else if (month == 7)  { month = "Jul"; }
+			else if (month == 8)  { month = "Aug"; }
+			else if (month == 9)  { month = "Sep"; }
+			else if (month == 10) { month = "Oct"; }
+			else if (month == 11) { month = "Nov"; }
+			else if (month == 12) { month = "Dec"; }
+			else                  { month = ""; }
+	}
+	var cyear    = new Date().getFullYear();
+*/
+
+	var output = "<tr>\n";
+
+	// Composer:
+	output += "<td>";
+	output += composer;
+	output += "</td>\n";
+
+	// Title:
+	output += "<td><a href=\"";
+	output += "/work?id=" + jrpid;
+	output += "\" class=\"text-link\">";
+	output += title;
+	output += "</a></td>\n";
+
+	// Voices:
+	// output += "<td>" + voices + "</td>\n";
+/*
+	// Date:
+	output += "<td>" + day + "&nbsp;" + month;
+	if (parseInt(year) != cyear) {
+			output += "&nbsp;" + year;
+	} else {
+			output += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	}
+	output += "</td>\n";
+*/
+	var dataloc = "/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
+
+	// Scores
+	output += "<td>\n";
+	output += "<a target=\"" + PDFTARGET + "\" href=\"";
+	output += dataloc + "?a=notationnoeditwithtext&f=" + jrpid;
+	output += "\" class=\"file\">file</a>\n";
+	output += "<a target=\"" + PDFTARGET + "\" href=\"";
+	output += dataloc + "?a=notationwitheditwithtext&f=" + jrpid;
+	output += "\" class=\"file-ed\">Ed.</a>\n";
+	output += "</td>\n";
+
+	// MP3 playback button
+	//output += "<td style=\"padding-left:30px;\"><a target="_blank" href=\"http://data.tassomusic.org/data?a=mp3&f=";
+	//output += mjrpid + "\" class=\"play\">play</a></td>\n";
+	output += "<td style=\"padding-left:30px;\">";
+
+	output += "<span id=\"audio_" + mjrpid + "\"";
+	output += "style=\"cursor:hand; cursor:pointer;\" ";
+	output += "onclick=\"PlayAudioFile('" + mjrpid + "', this);\" ";
+	output += "href=\"\" class=\"play\">play</span>";
+
+	output += "</td>\n";
+
+	output += "</tr>\n";
+
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// buildComposerSelect -- Create the Composer drop-down list for browsing.
+//
+
+function buildComposerSelect() {
+	var composerselect = document.getElementById("composers-select");
+	if (composerselect == null) {
+			return;
+	}
+
+	var output = "<select name=\"c\" id=\"composers\"";
+	output += " data-placeholder=\"All Composers\">\n";
+	output += "<option label=\"default\">All Composers</option>\n";
+	var clist = GetComposerOptions();
+	output += clist;
+	output += "</select>\n";
+	composerselect.innerHTML = output;
+
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// buildGenreSelect -- Create the Genre drop-down list for browsing.
+//
+
+function buildGenreSelect() {
+	var genreselect = document.getElementById("genres-select");
+	if (genreselect == null) {
+			return;
+	}
+
+	var output = "<select name=\"g\" id=\"genres\"";
+	output += " onchange=\"browseDisplay();\"";
+	output += " data-placeholder=\"All Genres\">\n";
+	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
+	var clist = GetGenreOptions();
+	output += clist;
+	output += "</select>\n";
+	genreselect.innerHTML = output;
+
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// process Window keys down:
+//
+
+window.addEventListener('keydown', function(event) {
+   if (event.metaKey) {
+		return;
+	}
+
+	switch (event.keyCode) {
+		case CKey:
+			ClearWorklistCache();
+			break;
+	}
+
+});
+
+
+</script>
+
