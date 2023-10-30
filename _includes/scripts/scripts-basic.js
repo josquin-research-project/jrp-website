@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
 //
 
 function StylizeFormElements() {
-	$("select").not('.tricky').select2({
-		width: "off"
+	$('select').not('.tricky').select2({
+		width: 'off'
 	});
 
-	$("select.tricky").select2({
+	$('select.tricky').select2({
 		width: "off",
 		containerCssClass: 'tricky-choice',
 		dropdownCssClass: 'tricky-dropdown',

@@ -380,14 +380,18 @@ function GetCgiParameters() {
 
 function GetComposerOptions(worklist) {
    let output = '';
+	let longNames = {}; // Long names of composers indexed by COMPOSER_ID
+	let counts = {};    // Number of scores for a composer indexed by COMPOSER_ID
 
-	let longNames = {};
-	let counts = {};
-
+	// First count all of the works by composer, and
+	// build a database of the composer long names indexed
+	// by the COMPOSER_ID.  A complication is that there may
+	// be more than one composer for a musical score (such as
+	// one primary composer, and another who writes an extra voice).
 	for (let i=0; i<worklist.length; i++) {
 		let entry = worklist[i];
 		let cid = entry.COMPOSER_ID.trim();
-		let matches = cid.match(";");
+		let matches = cid.match(';');
 		if (matches) {
 			let pieces = cid.split(/\s*;\s*/);
 			cid = pieces;
@@ -395,8 +399,9 @@ function GetComposerOptions(worklist) {
 			cid = [ cid ];
 		}
 
-		let longName = entry.Composer.trim().replace(/[{}]/g, "");
-		matches = longName.match(";");
+		// let longName = entry.Composer.trim().replace(/[{}]/g, '');
+		let longName = entry.COM.trim();
+		matches = longName.match(';');
 		if (matches) {
 			let pieces = longName.split(/\s*;\s*/);
 			longName = pieces;
@@ -406,7 +411,7 @@ function GetComposerOptions(worklist) {
 
 		for (let j=0; j<cid.length; j++) {
 			longNames[cid[j]] = longName[j];
-			if (typeof counts[cid[j]] === "undefined") {
+			if (typeof counts[cid[j]] === 'undefined') {
 				counts[cid[j]] = 1;
 			} else {
 				counts[cid[j]]++;
@@ -414,8 +419,20 @@ function GetComposerOptions(worklist) {
 		}
 	}
 
+	// Sort the list of composers, placing Anonymous
+	// at the end of the list.
 	let keys = Object.keys(counts);
-	keys.sort();
+	keys.sort(function(a, b) {
+		let name1 = longNames[a];
+		let name2 = longNames[b];
+		if (name1 === "Anonymous") {
+			return +1;
+		}
+		if (name2 === "Anonymous") {
+			return -1;
+		}
+		name1.localeCompare(name2);
+	});
 	
    for (let i=0; i<keys.length; i++) {
       let cid = keys[i];

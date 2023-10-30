@@ -69,107 +69,73 @@ function storeBrowseParameters() {
 
 //////////////////////////////
 //
-// displayRandomExample -- Choose a random work from the WORKLIST to
+// displayRandomExample -- Choose a random work from the worklist to
 //    show on the frontpage.
 //
 
-function displayRandomExample() {
-console.warn("Shortcircuit of displayRandomExample");
-	return;
-	InitializeWorklistFlat();
+function displayRandomExample(worklist) {
+	// InitializeWorklistFlat();
 
-	var randomindex = Math.floor(Math.random() * WORKLISTrecent.length);
-	var randomwork  = WORKLISTrecent[randomindex];
-console.log("CHOSE RANDOM WORK", randomwork);
+	let randomindex = Math.floor(Math.random() * worklist.length);
+	let randomwork  = worklist[randomindex];
 	
-	var composer = randomwork.comshort;
-	var title    = randomwork.title;
-	var jrpid    = randomwork.id;
+	let composer = randomwork["COM-short"];
+	let title    = randomwork.Title;
+	let jrpid    = randomwork.COMPOSER_ID;
 
-	var filename = randomwork.filename;
-	if (randomwork.sections) {
-		filename = randomwork.sections[0].filename;
-	}
-console.log("FILENAME ===============================", filename);
-   var height   = 0;
+	let filename = randomwork.Filename;
 
-   if (!!randomwork.ih) {
-		height = randomwork.ih;
-	} else if (!!randomwork.sections && (randomwork.sections.length > 0)
-			&& !!randomwork.sections[0].ih) {
-		height = randomwork.sections[0].ih;
-	}
+   // let height   = 0;
+   // if (!!randomwork.ih) {
+	// 	height = randomwork.ih;
+	// } else if (!!randomwork.sections && (randomwork.sections.length > 0)
+	// 		&& !!randomwork.sections[0].ih) {
+	// 	height = randomwork.sections[0].ih;
+	// }
 
-	var output = "<h2 style=\"width:100%;\" class=\"sample-title\">\n";
+	let output = '<h2 style="width:100%;" class="sample-title">\n';
 
-	output += "<table width=100%><tr><td>";
-	output += "<span style='float:left;'><a href=\"";
-	output += "/work?id=" + jrpid;
-	output += "\" class=\"sw\"><span style=\"color:#9f9187; word-spacing:-2px;";
-	output += " letter-spacing:-0.75px;\">Sample Work:</span> ";
-	output += "<span class=\"text-link\">";
-	output += composer + ", " + title;
-	output += "</span></a></span>\n";
+	output += '<table width=100%><tr><td>';
+	output += '<span style="float:left;"><a href="';
+	output += '/work?id=' + jrpid;
+	output += '" class="sw"><span style="color:#9f9187; word-spacing:-2px;';
+	output += ' letter-spacing:-0.75px;">Sample Work:</span> ';
+	output += '<span class="text-link">';
+	output += composer + ', ' + title;
+	output += '</span></a></span>\n';
 
-	output += "</td><td>";
+	output += '</td><td>';
 
-	output += "<span style='float:right; margin-right:10px;'>";
+	output += '<span style="float:right; margin-right:10px;">';
 
-   // output += "<a target=\"_blank\" href=\"";
-	// output += "http://data.tassomusic.org/data?a=mp3&f=" + jrpid;
-	// output += "\" class=\"play\">mp3</a>";
-
-	output += "<span id=\"audio2_" + jrpid + "\"";
-	output += "style=\"cursor:hand; cursor:pointer;\" ";
+	output += `<span id="audio2_${jrpid}" `;
+	output += 'style="cursor:hand; cursor:pointer;" ';
 	output += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
-	output += "href=\"\" class=\"play\">play</span>";
+	output += 'href="" class="play">play</span>';
 
-	output += "</span>\n";
+	output += '</span>\n';
 
-	output += "</td></tr></table>";
+	output += '</td></tr></table>';
 
-	output += "</h2>\n";
-	output += "<scr";
-	output += "ipt id='random-music' type='text/x-humdrum'></scr"
-	output += "ipt>";
+	output += '</h2>\n';
+	output += '<scr';
+	output += 'ipt id="random-music" type="text/x-humdrum"></scr'
+	output += 'ipt>';
 
-	//output += "<div class=\"music-area\">\n";
-	//output += "<a id=\"sample-incipit\" href=\"/work?id=" + jrpid + "\">";
-	//output += "<div style=\"height:"  + height + "px;\"></div>\n";
-	////output += "<img src=\"";
-	////output += incipit;
-	////output += "\" alt=\"music placeholder\">";
-	//output += "</a>";
-	//output += "</div> <!-- music area -->\n";
-
-
-	var samplemusic = document.querySelector("#sample-music");
-	if (!samplemusic) {
-		console.log("CANNOT FIND #sample-music");
+	let sampleMusic = document.querySelector("#sample-music");
+	if (!sampleMusic) {
+		console.log("ERROR: Cannot find #sample-music");
 		return;
 	}
-	samplemusic.style.minHeight = "300px";
-	samplemusic.innerHTML = output;
+	sampleMusic.style.minHeight = "300px";
+	sampleMusic.innerHTML = output;
 
-	// var script = document.createElement("script");
-	// script.type = "text/x-humdrum";
-	// script.id = "random";
-	// samplemusic.appendChild(script);
-	// getIncipitAsync(jrpid);
-
-	// var comcode = "";
-	// if (!filename) {
-	// 	console.log("NO FILENAME for random match", randomwork);
-	// 	return;
-	// }
-	var matches = filename.match(/^([A-Z][a-z][a-z])/);
+	let matches = filename.match(/^([A-Z][a-z][a-z])/);
 	if (matches) {
 		comcode = matches[1];
 	}
-	var url = "https://raw.githubusercontent.com/josquin-research-project/";
-	url += comcode;
-	url += "/master/";
-	url += filename;
+	let url = 'https://raw.githubusercontent.com/josquin-research-project/';
+	url += `${comcode}/master/${filename}`;
 
 	displayHumdrum({
 		incipit: "true",
@@ -193,8 +159,8 @@ console.log("FILENAME ===============================", filename);
 //
 
 function resetHeight(id) {
-	var samplemusic = document.getElementById("sample-music");
-	samplemusic.style.height = "";
+	var sampleMusic = document.getElementById("sample-music");
+	sampleMusic.style.height = "";
 }
 
 
@@ -233,18 +199,16 @@ function getIncipitAsync(jrpid) {
 //
 
 function displayRecentAdditions(count, worklist) {
-
-console.log("CREATING RECENTLY ADDED");
    var recentlyAdded = document.querySelector("#recently-added");
 	if (!recentlyAdded) {
 		console.error("ERROR: Cannot find #recently-added");
 		return;
 	}
 	var ra = "<h2 onclick=\"document.location='/recent';\" class=\"pointer blue-bar\">recently added/updated</h2>\n";
-	ra += "<p class=\"text-brown\" style=\"letter-spacing:0.5px;\">";
-	ra += "Click the title of any piece for work-specific search ";
-	ra += "and analysis tools.</p>\n";
-	ra += "<div id=\"recently-added-table\"></div>\n";
+	ra += '<p class="text-brown" style="letter-spacing:0.5px;">';
+	ra += 'Click the title of any piece for work-specific search ';
+	ra += 'and analysis tools.</p>\n';
+	ra += '<div id="recently-added-table"></div>\n';
    recentlyAdded.innerHTML = ra;
 
 	var recent = document.querySelector("#recently-added-table");
@@ -329,7 +293,6 @@ function printRecentTableFooter() {
 //
 
 function printWorklistRecentEntry(entry) {
-console.warn("ENTRY", entry);
 	if (!entry) {
 			console.error("NO CONTENTS: ", entry);
 			return "";
@@ -392,8 +355,6 @@ console.warn("ENTRY", entry);
 
 	output += "</tr>\n";
 
-console.warn("OUTPUT", output);
-
 	return output;
 }
 
@@ -405,18 +366,17 @@ console.warn("OUTPUT", output);
 //
 
 function buildComposerSelect(worklist) {
-	var composerselect = document.getElementById("composers-select");
-	if (composerselect == null) {
+	let composerSelect = document.getElementById("composers-select");
+	if (!composerSelect) {
 			return;
 	}
 
-	var output = "<select name=\"c\" id=\"composers\"";
-	output += " data-placeholder=\"All Composers\">\n";
-	output += "<option label=\"default\">All Composers</option>\n";
-	var clist = GetComposerOptions(worklist);
-	output += clist;
-	output += "</select>\n";
-	composerselect.innerHTML = output;
+	let output = '<select name="c" id="composers"';
+	output += ' data-placeholder="All Composers">\n';
+	output += '<option label="default">All Composers</option>\n';
+	output += GetComposerOptions(worklist);
+	output += '</select>\n';
+	composerSelect.innerHTML = output;
 
 	StylizeFormElements();
 }
@@ -429,19 +389,18 @@ function buildComposerSelect(worklist) {
 //
 
 function buildGenreSelect() {
-	var genreselect = document.getElementById("genres-select");
-	if (genreselect == null) {
+	let genreSelect = document.getElementById("genres-select");
+	if (genreSelect == null) {
 			return;
 	}
 
-	var output = "<select name=\"g\" id=\"genres\"";
-	output += " onchange=\"browseDisplay();\"";
-	output += " data-placeholder=\"All Genres\">\n";
-	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
-	var clist = GetGenreOptions();
-	output += clist;
-	output += "</select>\n";
-	genreselect.innerHTML = output;
+	let output = '<select name="g" id="genres"';
+	output += ' onchange="browseDisplay();"';
+	output += ' data-placeholder="All Genres">\n';
+	output += '<option value="" label="default">All Genres</option>\n';
+	output += GetGenreOptions();
+	output += '</select>\n';
+	genreSelect.innerHTML = output;
 
 	StylizeFormElements();
 }
