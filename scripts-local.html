@@ -1,5 +1,7 @@
 
 
+
+{% include_relative scripts-listeners.html %}
 {% include scripts/scripts-common.js %}
 
 <script>
@@ -14,50 +16,6 @@
 //
 // Description:   JavaScript management for the JRP homepage.
 //
-
-let JRP = {};
-
-//////////////////////////////
-//
-// Function called when document has finished loading:
-//
-
-document.addEventListener("DOMContentLoaded", function() {
-
-	AUDIO = document.getElementById("audio");
-	AUDIO.addEventListener('ended', function(e) {
-		AUDIO.pause();
-		var pauseelem = document.getElementById(AUDIOid);
-		pauseelem.className = "play";
-	}, false);
-
-   sessionStorage.removeItem('RECENTLYADDEDHTML');
-
-	let macroid = "AKfycbxd74XE3MgVisPZ092KgtBvhfEu5OiVQxH-CXkSJIgP7OXwDN_7CEsBDYw-0RO-sgyiww";
-	let url = `https://script.google.com/macros/s/${macroid}/exec`;
-	url += "?sheet=works";
-	url += "&format=json";
-	fetch(url)
-		.then(response => {
-			if (response.ok) {
-				return response.json();
-			} else {
-				throw new Error("Request failed with status " + response.status);
-			}
-		})
-		.then(data => {
-			JRP.WORKS = data;
-			buildComposerSelect(JRP.WORKS);
-			buildGenreSelect(JRP.WORKS);
-			displayRandomExample(JRP.WORKS);
-			displayRecentAdditions(JRP.WORKS);
-		})
-		.catch(error => {
-			console.error("Fetch error: " + error.message);
-		});
-
-}, false);
-
 
 
 //////////////////////////////
@@ -100,7 +58,7 @@ function storeBrowseParameters() {
 			window.location.pathname = "/browse-home";
 			return false;
 	} else {
-			localStorage.BROWSEhome       = "false";
+			localStorage.BROWSEhome = "false";
 	}
 
 	window.location.pathname = "/browse";
@@ -274,31 +232,56 @@ function getIncipitAsync(jrpid) {
 // displayRecentAdditions -- 
 //
 
-function displayRecentAdditions() {
+function displayRecentAdditions(count, worklist) {
 
 console.log("CREATING RECENTLY ADDED");
-   var recentlyadded = document.getElementById("recently-added");
+   var recentlyAdded = document.querySelector("#recently-added");
+	if (!recentlyAdded) {
+		console.error("ERROR: Cannot find #recently-added");
+		return;
+	}
 	var ra = "<h2 onclick=\"document.location='/recent';\" class=\"pointer blue-bar\">recently added/updated</h2>\n";
 	ra += "<p class=\"text-brown\" style=\"letter-spacing:0.5px;\">";
 	ra += "Click the title of any piece for work-specific search ";
 	ra += "and analysis tools.</p>\n";
 	ra += "<div id=\"recently-added-table\"></div>\n";
-   recentlyadded.innerHTML = ra;
+   recentlyAdded.innerHTML = ra;
 
-	var recent = document.getElementById("recently-added-table");
+	var recent = document.querySelector("#recently-added-table");
+	if (!recent) {
+		console.error("ERROR: Cannot find #recently-added-table");
+		return;
+	}
 
-	InitializeWorklistFlat();
+	worklist.sort(function(a, b) {
+		date1 = a["Date changed"];
+		date2 = b["Date changed"];
+		if (!date1) {
+			date1 = a["Date added"];
+		}
+		if (!date2) {
+			date2 = b["Date added"];
+		}
+		if (!date1 && !date2) {
+			return 0;
+		}
+		if (!date1) {
+			return +1;
+		}
+		if (!date2) {
+			return -1;
+		}
+		return date2.localeCompare(date1);
+	});
 
-	var tablecontent = printRecentTableHeader();
-	var i;
-	for (i=0; (i<7) && (i<WORKLISTrecent.length); i++) {
-		tablecontent += printWorklistRecentEntry(WORKLISTrecent[i]);
+	let tablecontent = printRecentTableHeader();
+	for (let i=0; (i<count) && (i<worklist.length); i++) {
+		tablecontent += printWorklistRecentEntry(worklist[i]);
 	}
 	tablecontent += printRecentTableFooter();
 
 	recent.innerHTML = tablecontent;
 	sessionStorage.RECENTLYADDEDHTML = tablecontent;
-console.log("DONE CREATING RECENTLY ADDED");
 }
 
 
@@ -346,59 +329,30 @@ function printRecentTableFooter() {
 //
 
 function printWorklistRecentEntry(entry) {
+console.warn("ENTRY", entry);
 	if (!entry) {
+			console.error("NO CONTENTS: ", entry);
 			return "";
 	}
 
-	var title    = entry.title;
+	var title = entry.Title;
 	var matches = title.match(/\((.*?)\)/g);
 	if (matches && matches.length > 1) {
 		title = title.replace(matches[1], "");
 	}
-	var jrpid    = entry.id;
-	var composer = entry.comshort;
+	var subtitle = entry.Subtitle;
+	if (subtitle) {
+		title += ` <i>${subtitle}</i>`;
+	}
+
+	var jrpid    = entry.WORK_ID;
+	var composer = entry["COM-short"];
 	var voices;
-	if (typeof entry.voices === "undefined")  {
+	if (typeof entry.Voices === "undefined")  {
 			voices = "?";
 	} else {
-			voices = entry.voices;
+			voices = entry.Voices;
 	}
-
-	var mjrpid = jrpid;
-	var sections = entry.sections;
-	if ((sections != null)) {
-			mjrpid = sections[0].id;
-	}
-	if (mjrpid == null) {
-			mjrpid = jrpid;
-	}
-
-/*
-	var mydate   = entry.adddate;
-	var month = "";
-	var day   = "";
-	var year  = "";
-	if (mydate != null) {
-			month    = parseInt(mydate.substring(4,6));
-			day      = parseInt(mydate.substring(6,8)); 
-			year     = mydate.substring(0,4);
-			if      (month == 0)  { month = ""; }
-			else if (month == 1)  { month = "Jan"; }
-			else if (month == 2)  { month = "Feb"; }
-			else if (month == 3)  { month = "Mar"; }
-			else if (month == 4)  { month = "Apr"; }
-			else if (month == 5)  { month = "May"; }
-			else if (month == 6)  { month = "Jun"; }
-			else if (month == 7)  { month = "Jul"; }
-			else if (month == 8)  { month = "Aug"; }
-			else if (month == 9)  { month = "Sep"; }
-			else if (month == 10) { month = "Oct"; }
-			else if (month == 11) { month = "Nov"; }
-			else if (month == 12) { month = "Dec"; }
-			else                  { month = ""; }
-	}
-	var cyear    = new Date().getFullYear();
-*/
 
 	var output = "<tr>\n";
 
@@ -416,22 +370,9 @@ function printWorklistRecentEntry(entry) {
 
 	// Voices:
 	// output += "<td>" + voices + "</td>\n";
-/*
-	// Date:
-	output += "<td>" + day + "&nbsp;" + month;
-	if (parseInt(year) != cyear) {
-			output += "&nbsp;" + year;
-	} else {
-			output += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	}
-	output += "</td>\n";
-*/
-	var dataloc = "/data";
-	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
-	}
 
 	// Scores
+	var dataloc = "/data";
 	output += "<td>\n";
 	output += "<a target=\"" + PDFTARGET + "\" href=\"";
 	output += dataloc + "?a=notationnoeditwithtext&f=" + jrpid;
@@ -442,18 +383,16 @@ function printWorklistRecentEntry(entry) {
 	output += "</td>\n";
 
 	// MP3 playback button
-	//output += "<td style=\"padding-left:30px;\"><a target="_blank" href=\"http://data.tassomusic.org/data?a=mp3&f=";
-	//output += mjrpid + "\" class=\"play\">play</a></td>\n";
 	output += "<td style=\"padding-left:30px;\">";
-
-	output += "<span id=\"audio_" + mjrpid + "\"";
+	output += "<span id=\"audio_" + jrpid + "\"";
 	output += "style=\"cursor:hand; cursor:pointer;\" ";
-	output += "onclick=\"PlayAudioFile('" + mjrpid + "', this);\" ";
+	output += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 	output += "href=\"\" class=\"play\">play</span>";
-
 	output += "</td>\n";
 
 	output += "</tr>\n";
+
+console.warn("OUTPUT", output);
 
 	return output;
 }

@@ -18,7 +18,6 @@ var WORKLIST;										 // Master index of works in JRP database.
 var WORKLISTrecent = [];						 // List of works reverse sorted by add date.
 var WORKLISTjrpid  = {};						 // Hash of works by JRP ID.
 var BASEADDR       = window.location.host; // Base address of URL.
-console.log("BASEADDR = ", BASEADDR, "*******************************************************");
 var TARGET         = "_blank";             // target for new things
 var PDFTARGET      = TARGET;					 // Display PDF files in separate tab/window.
 var AUDIO          = null;						 // HTML5 audio interface ID.
@@ -387,7 +386,6 @@ function GetComposerOptions(worklist) {
 
 	for (let i=0; i<worklist.length; i++) {
 		let entry = worklist[i];
-console.warn("ENTRY", entry);
 		let cid = entry.COMPOSER_ID.trim();
 		let matches = cid.match(";");
 		if (matches) {
@@ -415,9 +413,6 @@ console.warn("ENTRY", entry);
 			}
 		}
 	}
-
-console.warn("COUNTS", counts);
-console.warn("LONGNAMES", longNames);
 
 	let keys = Object.keys(counts);
 	keys.sort();
