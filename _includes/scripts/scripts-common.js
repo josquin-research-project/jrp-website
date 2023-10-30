@@ -114,45 +114,36 @@ const RightArrowKey   = 39;    // maybe also 29 & 57376
 //
 
 function InitializeWorklist() {
-console.log("GOT HERE IN INITIALIZEWORKLIST");
+/*
    if (WORKLIST != null) {
       return;
    }
-console.log("GOT HERE ZZZ");
 
    // Eventually request a timestamp from the server, and compare
    // to WORKLIST store in localStorage, and only re-download if the
    // server has a newer WORKLIST.  For now, update once a day.
    var refreshtime = 3600 * 1;  // update once an hour
    var currenttime = parseInt(new Date() / 1000);  // convert from ms to sec.
-console.log("GOT HERE YYY");
 
    if ((typeof localStorage.WORKLISTrefreshtime !== 'undefined') && 
        (localStorage.WORKLISTrefreshtime < currenttime)) {
       localStorage.WORKLIST = null;
    }
-console.log("GOT HERE PPP");
 
    if ((typeof localStorage.WORKLIST === 'undefined') ||
          (localStorage.WORKLIST == 'null') || (localStorage.WORKLIST == '')) {
       // need to download the WORKLIST data from the server.
-console.log("GOT HERE AAA");
       localStorage.WORKLIST = ReadFile('/includes/worklist.json');
       if (localStorage.WORKLIST.match(/^\s*$/)) {
-console.log("GOT HERE BBB");
          localStorage.WORKLIST = ReadFile('/data?a=worklist-json'); 
       }
-console.log("GOT HERE CCC");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
-console.log("GOT HERE DDD");
       localStorage.WORKLISTrefreshtime = currenttime + refreshtime;
-console.log("GOT HERE EEE");
    } else {
       // already have the worklist in local storage, so read from there.
-console.log("GOT HERE FFF");
       WORKLIST = JSON.parse(localStorage.WORKLIST);
    }
-console.log("GOT HERE GGG");
+*/
 }
 
 
@@ -169,6 +160,7 @@ console.log("GOT HERE GGG");
 //
 
 function InitializeWorklistFlat() {
+/*
 
 console.log("IN INITIALIZEWORKLISTFLAT");
    if ((WORKLISTrecent != null) && (WORKLISTrecent.length != 0)) {
@@ -198,6 +190,7 @@ console.log("IN INITIALIZEWORKLISTFLAT");
    }
 
    WORKLISTrecent.sort(byReverseAddDate);
+*/
 }
 
 
@@ -386,25 +379,59 @@ function GetCgiParameters() {
 //    on various webpages.
 //
 
-function GetComposerOptions() {
-   InitializeWorklist();
-   var output = '';
-   var longname;
-   var abbr;
-   var i;
+function GetComposerOptions(worklist) {
+   let output = '';
 
-   for (i=0; i<WORKLIST.length; i++) {
-      longname  = WORKLIST[i].comlong;
-      shortname = WORKLIST[i].comshort;
-      abbr      = WORKLIST[i].repid;
-      output += '<option value="' + abbr + '">';
-      // output += longname + '</option>\n';
-      output += shortname + '</option>\n';
-      if (abbr == 'Jos') {
-         output += '<option value="Joa">Josquin (secure)</option>\n';
-         output += '<option value="Job">';
-         output += 'Josquin&nbsp;';
-         output += '(not&nbsp;secure)</option>\n';
+	let longNames = {};
+	let counts = {};
+
+	for (let i=0; i<worklist.length; i++) {
+		let entry = worklist[i];
+console.warn("ENTRY", entry);
+		let cid = entry.COMPOSER_ID.trim();
+		let matches = cid.match(";");
+		if (matches) {
+			let pieces = cid.split(/\s*;\s*/);
+			cid = pieces;
+		} else {
+			cid = [ cid ];
+		}
+
+		let longName = entry.Composer.trim().replace(/[{}]/g, "");
+		matches = longName.match(";");
+		if (matches) {
+			let pieces = longName.split(/\s*;\s*/);
+			longName = pieces;
+		} else {
+			longName = [ longName ];
+		}
+
+		for (let j=0; j<cid.length; j++) {
+			longNames[cid[j]] = longName[j];
+			if (typeof counts[cid[j]] === "undefined") {
+				counts[cid[j]] = 1;
+			} else {
+				counts[cid[j]]++;
+			}
+		}
+	}
+
+console.warn("COUNTS", counts);
+console.warn("LONGNAMES", longNames);
+
+	let keys = Object.keys(counts);
+	keys.sort();
+	
+   for (let i=0; i<keys.length; i++) {
+      let cid = keys[i];
+      let longName = longNames[cid];
+		let count = counts[cid];
+      output += `<option value="${cid}">${longName} (${count})</option>\n`;
+      if (cid == 'Jos') {
+         output += '<option value="Joa">Josquin&nbsp;(secure)</option>\n';
+         output += '<option value="Job">Josquin&nbsp;(probable)</option>\n';
+         output += '<option value="Joc">Josquin&nbsp;(improbable)</option>\n';
+         output += '<option value="Jod">Josquin&nbsp;(implausible)</option>\n';
       }
    }
    return output;

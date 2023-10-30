@@ -6,8 +6,8 @@
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Thu Aug 21 12:59:01 PDT 2014
-// Last Modified:	Tue Sep  2 12:48:02 PDT 2014
-// Filename:		.../scripts-local.html
+// Last Modified:	Sun Oct 29 22:08:45 PDT 2023
+// Filename:		scripts-local.html
 // Web Address:	http://josquin.stanford.edu/scripts-local.html
 // Syntax:			JavaScript 1.8/ECMAScript 5
 // vim:				ts=3:ft=javascript
@@ -15,6 +15,7 @@
 // Description:   JavaScript management for the JRP homepage.
 //
 
+let JRP = {};
 
 //////////////////////////////
 //
@@ -32,10 +33,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
    sessionStorage.removeItem('RECENTLYADDEDHTML');
 
-	buildComposerSelect();
-	buildGenreSelect();
-	displayRandomExample();
-	displayRecentAdditions();
+	let macroid = "AKfycbxd74XE3MgVisPZ092KgtBvhfEu5OiVQxH-CXkSJIgP7OXwDN_7CEsBDYw-0RO-sgyiww";
+	let url = `https://script.google.com/macros/s/${macroid}/exec`;
+	url += "?sheet=works";
+	url += "&format=json";
+	fetch(url)
+		.then(response => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error("Request failed with status " + response.status);
+			}
+		})
+		.then(data => {
+			JRP.WORKS = data;
+			buildComposerSelect(JRP.WORKS);
+			buildGenreSelect(JRP.WORKS);
+			displayRandomExample(JRP.WORKS);
+			displayRecentAdditions(JRP.WORKS);
+		})
+		.catch(error => {
+			console.error("Fetch error: " + error.message);
+		});
+
 }, false);
 
 
@@ -96,6 +116,8 @@ function storeBrowseParameters() {
 //
 
 function displayRandomExample() {
+console.warn("Shortcircuit of displayRandomExample");
+	return;
 	InitializeWorklistFlat();
 
 	var randomindex = Math.floor(Math.random() * WORKLISTrecent.length);
@@ -443,7 +465,7 @@ function printWorklistRecentEntry(entry) {
 // buildComposerSelect -- Create the Composer drop-down list for browsing.
 //
 
-function buildComposerSelect() {
+function buildComposerSelect(worklist) {
 	var composerselect = document.getElementById("composers-select");
 	if (composerselect == null) {
 			return;
@@ -452,7 +474,7 @@ function buildComposerSelect() {
 	var output = "<select name=\"c\" id=\"composers\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option label=\"default\">All Composers</option>\n";
-	var clist = GetComposerOptions();
+	var clist = GetComposerOptions(worklist);
 	output += clist;
 	output += "</select>\n";
 	composerselect.innerHTML = output;
