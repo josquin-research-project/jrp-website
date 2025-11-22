@@ -2492,5 +2492,8 @@ table.census th:not(:first-child) {
 	color: black;
 }
 
-
+.myquestion {
+	font-weight: 700;
+	font-style: italic;
+}
 
