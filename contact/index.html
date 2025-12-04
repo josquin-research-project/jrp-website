@@ -1,0 +1,71 @@
+---
+layout: default
+title: Contact
+permalink: /contact/
+---
+
+{% include_relative styles-local.html %}
+{% include_relative scripts-local.html %}
+
+<article class="about">
+  <h2 class="brown-heading">Contact Information</h2>
+  <p>
+    Jesse Rodin, Project Director (<a href="mailto:jrodin@stanford.edu">jrodin@stanford.edu</a>)<br>
+    Craig Stuart Sapp, Technical Director (<a href="mailto:craig@ccrma.stanford.edu">craig@ccrma.stanford.edu</a>)<br>
+    Benjamin Ory, Gopher (<a href="mailto:benjaminory@gmail.com">benjaminory@gmail.com</a>)
+  </p>
+</article>
+
+<article class="about">
+  <h2 class="brown-heading">Feedback</h2>
+  <p>
+    Choose a category and leave your feedback below. Fields marked * are required.
+  </p>
+
+  <form id="feedback-form" class="feedback-form" novalidate>
+    <div class="form-group">
+      <label for="feedback_category">Category *</label>
+      <select id="feedback_category" class="feedback-select">
+        <option value="">Select a category</option>
+        <option value="general">General feedback</option>
+        <option value="first">First impressions</option>
+        <option value="confusion">User-experience confusion</option>
+        <option value="request">Feature request</option>
+        <option value="question">Question</option>
+        <option value="dataproblem">Data problem</option>
+        <option value="webproblem">Website problem</option>
+        <option value="compliment">Compliment</option>
+        <option value="other">Other</option>
+      </select>   
+    </div>
+
+    <div class="form-group">
+      <label for="feedback_description">Description *</label>
+      <textarea
+        id="feedback_description"
+        rows="10"
+        required
+        placeholder="Describe your feedback..."
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="feedback_submitter">Your name / contact information (optional)</label>
+      <input
+        id="feedback_submitter"
+        type="text"
+        placeholder="Your name and/or contact information"
+      >
+    </div>
+
+    <button type="submit" class="btn btn-brown">
+      Submit feedback
+    </button>
+
+    <div id="status" class="feedback-status" aria-live="polite"></div>
+  </form>
+
+  <p class="feedback-extra">
+    For more detailed feedback, email someone listed above directly.
+  </p><br>
+</article>
