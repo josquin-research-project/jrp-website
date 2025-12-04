@@ -1,0 +1,218 @@
+---
+layout: default
+title: Under the Hood
+permalink: /under-the-hood/
+---
+
+{% include_relative styles-local.html %}
+
+<article class="about">
+  <h2 class="brown-heading">Information and Resources for Technical Users</h2>
+  <p></p>
+</article>
+
+<article class="about">
+  <h3 class="brown-heading">Structured list of works in the database</h3>
+
+  <p>
+    A complete structured list of works in the JRP database can be accessed through the link:
+    <span class="indented-block">
+      <a class="text-link" href="http://josquin.stanford.edu/data?a=worklist-json">
+        http://josquin.stanford.edu/data?a=worklist-json
+      </a>
+    </span>
+    More information about the format of the worklist can be found
+    <a href="worklist">here</a>.
+  </p>
+
+  <p>
+    A flat list of all catalog numbers can be viewed from this URL:
+    <span class="indented-block">
+      <a class="text-link" href="http://josquin.stanford.edu/data?a=list">
+        http://josquin.stanford.edu/data?a=list
+      </a>
+    </span>
+  </p>
+</article>
+
+<article class="about">
+  <h3 class="brown-heading">Digital scores</h3>
+
+  <p>
+    Digital scores in the JRP database are encoded in
+    <a href="http://www.humdrum.org/guide/ch02/">Humdrum syntax</a>.
+    The scores can be accessed in multiple ways, such as viewing directly on the website:
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=humdrum">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=humdrum
+      </a>
+    </span>
+    where <code>Ano3001</code> is the JRP catalog number of the desired work.
+    Similarly a matching PDF version of the graphical score generated from the Humdrum digital score is also available
+    for each work:
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=notation">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=notation
+      </a>
+    </span>
+  </p>
+
+  <p>
+    An archive of all digital scores in the JRP database can also be downloaded/browsed from
+    <a href="https://github.com">GitHub</a>:
+    <span class="indented-block">
+      <a href="https://github.com/josquin-research-project/jrp-scores">
+        https://github.com/josquin-research-project/jrp-scores
+      </a>
+    </span>
+    by using this git command:
+    <span class="code-block">
+      git clone --recursive
+      <a class="code-link" href="https://github.com/josquin-research-project/jrp-scores">
+        https://github.com/josquin-research-project/jrp-scores
+      </a>
+    </span>
+    Also run these commands to update to the latest versions of the scores:
+    <span class="code-block">cd jrp-scores</span>
+    <span class="code-block">make update</span>
+    Special groupings of the scores can also be made:
+    <span class="code-block">make genres</span>
+    This will create the directories <code>Zma</code> containing mass sections of all composers, and likewise
+    <code>Zmo</code> for motets and <code>Zso</code> for songs.
+    <span class="code-block">make joab</span>
+    This will create the directory <code>Joa</code> containing securely attributed works by Josquin, and
+    <code>Job</code> for other Josquin works.
+  </p>
+</article>
+
+<article class="about">
+  <h3 class="brown-heading">Digital score translations</h3>
+
+  <p>
+    The primary Humdrum format of the digital scores can be translated into other formats.
+    Most of the translations listed below are available as links throughout the website, particularly in the
+    “Downloads” section of the Work pages.
+  </p>
+
+  <p>
+    Translations into graphical music notation are available with several options to show data with/without
+    editorial accidentals and text underlay:
+  </p>
+
+  <p>
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationEditText">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationEditText
+      </a>
+    </span>
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationEditNoText">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationEditNoText
+      </a>
+    </span>
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationNoEditText">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationNoEditText
+      </a>
+    </span>
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationNoEditNoText">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=notationNoEditNoText
+      </a>
+    </span>
+  </p>
+
+  <p>
+    MuseData file translations are used to render the musical data into graphical scores as PDF files with
+    <a href="http://muse2ps.ccarh.org">muse2ps</a>:
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=musedata">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=musedata
+      </a>
+    </span>
+  </p>
+
+  <p>
+    MIDI files:
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=midi">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=midi
+      </a>
+    </span>
+  </p>
+
+  <p>
+    MP3 files:
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=mp3">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=mp3
+      </a>
+    </span>
+  </p>
+
+  <p>
+    <a href="http://www.music-encoding.org">MEI</a> files:
+    <span class="indented-block">
+      <a href="http://josquin.stanford.edu/data?id=Ano3001&amp;a=mei">
+        http://josquin.stanford.edu/data?id=Ano3001&amp;a=mei
+      </a>
+    </span>
+  </p>
+</article>
+
+<article class="about">
+  <h3 class="brown-heading">Website</h3>
+
+  <p>
+    Source files for the client-side of the website can be
+    <a href="https://github.com/josquin-research-project/jrp-website">viewed on GitHub</a>.
+    The files are served with the
+    <a href="http://httpd.apache.org">Apache webserver</a>, using
+    <a href="http://httpd.apache.org/docs/2.2/howto/ssi.html">server-side includes</a> and Google’s
+    <a href="https://developers.google.com/speed/pagespeed/">Pagespeed</a> module for Apache which automates
+    caching of files and automatic minimizing of JavaScript code for up to 50% faster webpage viewing.
+    The following JavaScript libraries are used on the website:
+  </p>
+
+  <dl class="mylist">
+    <dt><a href="https://github.com/ivaynberg/select2">Select2</a></dt>
+    <dd>
+      <p>
+        A <a href="http://www.jquery.com">jQuery</a> plugin.
+        Web browsers currently do not allow applying
+        <a href="http://en.wikipedia.org/wiki/Cascading_Style_Sheets">CSS styles</a>
+        to most form elements. Therefore the JRP website uses the
+        <a href="http://plugins.jquery.com/select2">plugin</a>
+        for styling selection menus. This is used for all drop-down menus on the website, such as
+        on the <a href="/browse-home">Browse page</a>.
+      </p>
+    </dd>
+
+    <dt><a href="https://github.com/itsalif/ezMark">ezMark</a></dt>
+    <dd>
+      <p>Another jQuery plugin used to style check boxes and radio buttons.</p>
+    </dd>
+
+    <dt><a href="https://github.com/qTip2/qTip2">qTip</a></dt>
+    <dd>
+      <p>Another jQuery plugin used to manage tooltips.</p>
+    </dd>
+
+    <dt><a href="http://www.handlebarsjs.com">Handlebars</a></dt>
+    <dd>
+      <p>
+        Used for content templating, such as for creating the tables on the
+        <a href="/census">Census page</a> and the list of error reports on the
+        <a href="/error-reports">Error reports page</a>.
+      </p>
+    </dd>
+
+    <dt><a target="_blank" href="http://d3js.org">D3</a></dt>
+    <dd>
+      <p>
+        D3 is used to visualize analysis data, such as on the
+        <a href="/ribbon">Ribbon plot page</a>.
+      </p>
+    </dd>
+  </dl>
+</article><br>
