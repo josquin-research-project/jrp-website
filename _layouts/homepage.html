@@ -2,12 +2,12 @@
 <html lang="en">
 	<head>
 		<!-- vim: set ts=3: -->
-		{% include homepage/head/main.html %}
+		{% include head/homepage-head.html %}
 	</head>
 	<body>
 		<audio id="audio"></audio>
 		<div class="page container" id="home-page">
-			{% include homepage/header/main.html %}
+			{% include header/homepage-header.html %}
 			<section id="content">
 				{% include homepage/aside/main.html %}
 				<section id="primary-content">
@@ -18,7 +18,7 @@
 					</section>
 				</section>
 			</section>
-			{% include homepage/footer/main.html %}
+			{% include footer/homepage-footer.html %}
 		</div>
 		{{ content }}
 	</body>
