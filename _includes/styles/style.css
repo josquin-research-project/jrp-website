@@ -1389,39 +1389,43 @@ header {
 	/* primary-nav styles */
 	/* banner styles */
 }
+
+/* PRIMARY NAV (all headers) */
 header nav#primary-nav {
 	background: #3a2e29;
 	padding-bottom: 1px;
 }
+
 header nav#primary-nav ul {
+	display: flex;
+	align-items: center;
 	margin: 0;
 	padding: 0;
-	padding-right: 0px;
-	display: block;
 	list-style: none;
-	text-align: left;
 }
+
+/* Nav items */
 header nav#primary-nav ul li {
-	display: inline-block;
+	display: block;
 }
+
+/* Links */
 header nav#primary-nav ul li a {
-	padding: 0px 0px;
+	display: block;
+	padding: 0;
 	text-transform: uppercase;
 	color: #838281;
 	font-family: "Lato", "sans-serif";
 	font-size: 18px;
-	display: block;
 	text-decoration: none;
 	letter-spacing: 3px;
-	margin-right: 36px;
 }
+
 header nav#primary-nav ul li a:hover {
 	color: #b6b6b6;
 }
+
 header nav#primary-nav ul li.active a {
-	color: #d7ab5b;
-}
-header nav#primary-nav ul li.active a:hover {
 	color: #d7ab5b;
 }
 
@@ -1471,34 +1475,42 @@ header #banner div.descr p, header #bannernotitle div.descr p {
 	font-weight: 400;
 	margin-top: 0;
 }
+
+/* Simple header nav bar */
 header.simple nav#primary-nav ul {
-	padding: 0;
+	display: flex;
+	align-items: center;
 	padding-right: 32px;
-	margin: 0;
 }
-header.simple nav#primary-nav ul:after {
-	content: "";
-	display: block;
-	width: 100%;
-	height: 0px;
-	clear: both;
+
+header.simple nav#primary-nav ul li.logo a {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	padding: 0;
+	height: 100%;
 }
+
+header.simple nav#primary-nav ul li:not(.logo) {
+	flex: 1 1 0;
+	text-align: center;
+}
+
 header.simple nav#primary-nav ul li {
 	display: block;
-	float: left;
 }
+
 header.simple nav#primary-nav ul li a {
-	padding: 10px 5px;
-	padding-top: 15px;
-	height: 57px;
-}
-header.simple nav#primary-nav ul li.logo a {
-	padding: 0;
-	margin-right: 20px;
+	margin: 0;
+	padding: 0 10px;
 }
 
 nav.main-page {
 	min-height: 57px;
+}
+
+nav.main-page ul {
+	justify-content: space-evenly;
 }
 
 nav.main-page ul li {
