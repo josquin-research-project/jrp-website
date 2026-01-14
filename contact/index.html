@@ -7,6 +7,8 @@ permalink: /contact/
 {% include_relative styles-local.html %}
 {% include_relative scripts-local.html %}
 
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
 <article class="about">
   <h2 class="brown-heading">Contact Information</h2>
   <p>
@@ -22,41 +24,67 @@ permalink: /contact/
     Choose a category and leave your feedback below. Fields marked * are required.
   </p>
 
-  <form id="feedback-form" class="feedback-form" novalidate>
+  <form
+    id="feedback-form"
+    class="feedback-form"
+    action="https://docs.google.com/forms/d/e/1FAIpQLSftVWciboaVu-J2sf0Y0wMTX-6cU2uE4JItfzovCfD69f-wvg/formResponse"
+    method="POST"
+    target="hidden_iframe"
+    novalidate
+  >
+
+    <!-- Category -->
     <div class="form-group">
       <label for="feedback_category">Category *</label>
-      <select id="feedback_category" class="feedback-select">
+      <select
+        id="feedback_category"
+        name="entry.594716763"
+        class="feedback-select"
+        required
+      >
         <option value="">Select a category</option>
-        <option value="general">General feedback</option>
-        <option value="first">First impressions</option>
-        <option value="confusion">User-experience confusion</option>
-        <option value="request">Feature request</option>
-        <option value="question">Question</option>
-        <option value="dataproblem">Data problem</option>
-        <option value="webproblem">Website problem</option>
-        <option value="compliment">Compliment</option>
-        <option value="other">Other</option>
-      </select>   
+        <option value="General feedback">General feedback</option>
+        <option value="First impressions">First impressions</option>
+        <option value="User-experience confusion">User-experience confusion</option>
+        <option value="Feature request">Feature request</option>
+        <option value="Question">Question</option>
+        <option value="Data problem">Data problem</option>
+        <option value="Website problem">Website problem</option>
+        <option value="Compliment">Compliment</option>
+        <option value="Other">Other</option>
+      </select>
     </div>
 
+    <!-- Description -->
     <div class="form-group">
       <label for="feedback_description">Description *</label>
       <textarea
         id="feedback_description"
+        name="entry.1835674852"
         rows="10"
         required
         placeholder="Describe your feedback..."
       ></textarea>
     </div>
 
+    <!-- Contact -->
     <div class="form-group">
-      <label for="feedback_submitter">Your name / contact information (optional)</label>
+      <label for="feedback_submitter">
+        Your name / contact information (optional)
+      </label>
       <input
         id="feedback_submitter"
+        name="entry.590265142"
         type="text"
         placeholder="Your name and/or contact information"
       >
     </div>
+
+    <!-- Hidden metadata -->
+    <input type="hidden" name="entry.270859303" value="">
+    <input type="hidden" name="entry.2136692707" value="">
+    <input type="hidden" name="fvv" value="1">
+    <input type="hidden" name="pageHistory" value="0">
 
     <button type="submit" class="btn btn-brown">
       Submit feedback
@@ -67,5 +95,5 @@ permalink: /contact/
 
   <p class="feedback-extra">
     For more detailed feedback, email someone listed above directly.
-  </p><br>
+  </p>
 </article>

@@ -1,105 +1,29 @@
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const form          = document.getElementById("feedback-form");
-    if (!form) return;
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("feedback-form");
+  const statusEl = document.getElementById("status");
 
-    const categoryEl    = document.getElementById("feedback_category");
-    const submitterEl   = document.getElementById("feedback_submitter");
-    const descriptionEl = document.getElementById("feedback_description");
-    const statusEl      = document.getElementById("status");
+  form.addEventListener("submit", function (event) {
+    const category = form.querySelector("#feedback_category").value;
+    const description = form.querySelector("#feedback_description").value.trim();
 
-    const categoryLabels = {
-      general:      "General feedback",
-      first:        "First impressions",
-      confusion:    "User-experience confusion",
-      request:      "Feature request",
-      question:     "Question",
-      dataproblem:  "Data problem",
-      webproblem:   "Website problem",
-      compliment:   "Compliment",
-      other:        "Other"
-    };
-
-    form.addEventListener("submit", function (event) {
+    if (!category || !description) {
       event.preventDefault();
-      clearStatus();
-
-      const categoryValue = categoryEl.value;
-      const submitter     = submitterEl.value.trim();
-      const description   = descriptionEl.value.trim();
-      const referer       = document.referrer || window.location.href;
-      const action        = "feedbackformsubmit";
-
-      if (!categoryValue) {
-        showError("Please choose a feedback category.");
-        categoryEl.focus();
-        return;
-      }
-
-      if (!description) {
-        showError("Please enter a description of your feedback.");
-        descriptionEl.focus();
-        return;
-      }
-
-      const categoryLabel = categoryLabels[categoryValue] || categoryValue;
-
-      let url = "/data?action=" + encodeURIComponent(action);
-      url += "&feedback_category="    + encodeURIComponent(categoryLabel);
-      url += "&feedback_submitter="   + encodeURIComponent(submitter);
-      url += "&feedback_description=" + encodeURIComponent(description);
-      url += "&feedback_referer="     + encodeURIComponent(referer);
-
-      showStatus("Submitting feedback…");
-
-      fetch(url, {
-        method: "GET",
-        headers: { "Accept": "text/plain, text/html, */*" }
-      })
-      .then(r => r.text())
-      .then(function (text) {
-        if (/success/i.test(text)) {
-          descriptionEl.value = "";
-          showSuccess("Thank you for your feedback.");
-        } else {
-          showError(
-            'Sorry, there was a problem submitting the feedback. ' +
-            'Try emailing the feedback to someone listed on the contact page.<br><br>' +
-            '<strong>Server response:</strong><br><pre>' + escapeHtml(text) + '</pre>'
-          );
-        }
-      })
-      .catch(function (error) {
-        console.error("Feedback submission error:", error);
-        showError(
-          "Sorry, there was a network or server problem submitting the feedback. " +
-          "Try again later or email someone listed on the contact page."
-        );
-      });
-    });
-
-    function clearStatus() {
-      statusEl.classList.remove("feedback-status--success", "feedback-status--error");
-      statusEl.innerHTML = "";
+      statusEl.className = "feedback-status feedback-status--error";
+      statusEl.textContent = "Please complete all required fields.";
+      return;
     }
 
-    function showSuccess(message) {
-      statusEl.classList.remove("feedback-status--error");
-      statusEl.classList.add("feedback-status--success");
-      statusEl.innerHTML = message;
-    }
+    form.querySelector('[name="entry.270859303"]').value = window.location.href;
+    form.querySelector('[name="entry.2136692707"]').value = navigator.userAgent;
 
-    function showError(message) {
-      statusEl.classList.remove("feedback-status--success");
-      statusEl.classList.add("feedback-status--error");
-      statusEl.innerHTML = message;
-    }
+    statusEl.textContent = "Submitting feedback…";
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-    }
+    setTimeout(() => {
+      form.reset();
+      statusEl.className = "feedback-status feedback-status--success";
+      statusEl.textContent = "Thank you for your feedback.";
+    }, 300);
   });
+});
 </script>
