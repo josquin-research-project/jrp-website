@@ -1,0 +1,97 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Analysis Help</title>
+
+  {% include head/default-head.html %}
+  {% include_relative styles-local.html %}
+
+  <style>
+
+    body {
+      font-size: 90%;
+      background: #fff;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="page container" id="search-page">
+  <div id="content" style="width:700px;">
+
+    <article class="about" style="margin-left:-140px; margin-top:-50px;">
+
+      <h2 class="brown-heading" style="margin-top:8px;">
+        JRP Analysis Tools
+      </h2>
+
+      <p style="margin-top:-18px;">
+        <span class="entry">Activity.</span>
+        These plots show:
+      </p>
+
+      <ol style="margin-top:-18px;">
+        <li>the total number of note attacks per measure, taking all voices into account</li>
+        <li>the relative activity of each voice (black = very active; white = rest)</li>
+      </ol>
+
+      <p>
+        <span class="entry">Parallel.</span>
+        Displays all parallel unisons, octaves, and fifths (diatonic) in a given repertory.
+        The JRP distinguishes between “hard” parallel motion, where the initial notes
+        are attacked simultaneously, and “soft” parallel motion, where they are staggered.
+      </p>
+
+      <p>
+        <span class="entry">Rhythm.</span>
+        Inspired by Sean Gallagher’s important
+        <a class="text-link" target="_blank" rel="noopener"
+           href="http://www.worldcat.org/title/syntax-and-style-rhythmic-patterns-in-the-music-of-ockeghem/oclc/610935839">
+          article
+        </a>
+        on style and syntax in the music of Johannes Ockeghem, this tool displays
+        every measure-long rhythmic pattern—that is, every pattern that starts
+        at the beginning of a measure and lasts exactly one breve (or, under some
+        mensuration signs, one long). Patterns are listed in order of frequency;
+        click any gesture for the passages in which it appears.
+      </p>
+
+      <p>
+        <span class="entry">Range.</span>
+        Displays the total range of each voice.
+        Also shows the relative frequency of each pitch:
+        (1) based on note attacks; (2) based on duration.
+      </p>
+
+      <p style="margin-top:-12px;">
+        An additional feature is available on all Work pages:
+        mouse over the range graph to see the precise number of times
+        a given note is sung.
+      </p>
+
+      <table class="xtra" width="500" cellpadding="0" cellspacing="0">
+        <tr valign="baseline">
+          <td width="100%"></td>
+          <td>
+            <button class="btn btn-brown btn-medium"
+                    type="button"
+                    onclick="window.close();">
+              Close
+            </button>
+          </td>
+        </tr>
+      </table>
+
+    </article>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2280 @@
+<script src="/assets/scripts/external/handlebars-v2.0.0.js"></script>
+
+<script src="/assets/scripts/references.js"></script>
+<script src="/assets/scripts/external/qtip/jquery.qtip.min.js"></script>
+<script src="/assets/scripts/external/qtip/imagesloaded.pkg.min.js"></script>
+
+{% include_relative scripts-listeners.html %}
+
+<script>
+//
+// Programmer:	 Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date: Mon Aug 25 15:06:38 PDT 2014
+// Last Modified: Wed Sep 24 12:36:01 PDT 2014 Added multi-incipit/range display
+// Filename:		.../work/scripts-local.html
+// Web Address:	https://josquin.stanford.edu/work/scripts-local.html
+// Syntax:		  JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript
+//
+// Description:	JavaScript management of the JRP work pages.
+//
+
+// Global variables:
+var INCIPITS            = {};  // local Incipit image cache
+
+// Display style for Vocal Ranges section
+var RANGESnotelabeled   = {};
+var RANGESnoteunlabeled	= {};
+var RANGESdurlabeled    = {};
+var RANGESdurunlabeled	= {};
+var RANGES				   = RANGESnoteunlabeled;
+var RANGENULLHEIGHT     = "110px";
+
+var SECTIONS            = [];
+var SECTIONID				= "";
+var SECTIONINDEX        = 0;
+var MENUINDEX           = -1;
+var MARGINRIGHT         = "margin-right: 50px";
+var WORKrangedur        = false;
+var JRPID               = sessionStorage.WORKjrpid;
+var QUERY					= "";
+
+if (typeof sessionStorage.WORKslist === 'undefined') {
+	sessionStorage.WORKslist = "false";
+}
+var WORKslist = true;
+if (sessionStorage.WORKslist == "false") {
+	WORKslist = false;
+}
+
+var WORKallincipits;
+if (sessionStorage.WORKallincipits == "true") {
+	WORKallincipits = true;
+} else {
+	WORKallincipits = false;
+}
+
+var WORKallranges;
+if (sessionStorage.WORKallranges == "true") {
+	WORKallranges = true;
+} else {
+	WORKallranges = false;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////
+//
+// generateBreadcrumbs -- Set the breadcrumb area.
+//
+
+function generateBreadcrumbs(title, composer, workid) {
+	var bread = "<ul>\n";
+	bread += "<li>";
+
+	var referrer = document.referrer;
+	referrer = referrer.replace(/index\.html/, "");
+	var rtitle = "Back";
+	if (referrer.match(/\/browse/)) {
+		referrer = referrer.replace(/\/?\??home=true$/, "");
+		rtitle = "Browse";
+	} else if (referrer.match(/\/search/)) {
+		rtitle = "Search Results";
+	} else if (referrer.match(/https?:\/\/[^\/]+\/?$/)) {
+		rtitle = "Home";
+	}
+
+	bread += "<a href=\"";
+	bread += referrer;
+	bread += "\">" + rtitle + "</a>";
+
+	bread += "</li>\n";
+
+	bread += "<li style=\"margin-top:5px; font-size:100%;\">" + title;
+	if (composer != "Anonymous") {
+		bread += " (" + composer + ")"
+	}
+	bread += "</li>\n";
+	bread += "<ul>\n";
+ 
+	return bread;
+}
+
+
+
+//////////////////////////////
+//
+// generateWorkPdfs --
+//
+
+function generateWorkPdfs(workid) {
+	if (!SECTIONS || SECTIONS < 2) {
+		return "";
+	} 
+
+	var wc = "";
+
+/*
+	wc += "<a style=\"line-height:14px;\" ";
+	wc += "class=\"work-orange\" target=\"" + PDFTARGET + "\" href=\"";
+	wc += "/data?a=notationNoEditText&f=" + workid;
+	wc += "\">";
+	wc += "<img title=\"Score of complete work\" src=/images/file-orange.png>";
+	wc += "</a>";
+	wc += "&nbsp;&nbsp;";
+	wc += "&nbsp;&nbsp;";
+	wc += "<a title=\"with editorial accidentals\" style=\"line-height:14px;\" class=\"work-ed-orange\" ";
+	wc += " target=\"" + PDFTARGET + "\" href=\"";
+	wc += "/data?a=notationEditText&f=" + workid;
+	wc += "\">"
+	wc += "<img src=/images/file-ed-orange.png>";
+	wc += "</a>";
+	wc += "&nbsp;&nbsp;";
+*/
+
+	return wc;
+}
+
+
+
+//////////////////////////////
+//
+// displayMultisectionWork --
+//
+
+function displayMultisectionWork(jrpid) {
+	InitializeWorklistFlat();
+	buildRepertorySelect();
+
+	sessionStorage.WORKjrpid = jrpid;
+
+	var pricon = document.getElementById("primary-content");
+	pricon.className = "work-content multiwork";
+
+	var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
+	var workid = pieces[1];
+	var movment = pieces[2];
+
+	var work = WORKLISTjrpid[workid];
+	if (typeof work === 'undefined') {
+		// Tas repertory uses a letter for work
+		work = WORKLISTjrpid[jrpid];
+	}
+	if (typeof work === 'undefined') {
+		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
+				+ jrpid + "</p>";
+		return;
+	}
+
+	SECTIONS = work.sections;
+	var sectionid = SECTIONS[0].id;
+	SECTIONID = sectionid;
+
+	var sectionindex = -1;
+	var i;
+	for (i=0; i<SECTIONS.length; i++) {
+		if (jrpid == SECTIONS[i].id) {
+			sectionid = jrpid;
+			sectionindex = i+1;
+			break;
+		}
+	}
+
+	SECTIONINDEX = sectionindex;
+	if (SECTIONINDEX < 0) {
+		sectionid = workid;
+		if (SECTIONS && SECTIONS.length > 0) {
+			SECTIONINDEX = 1;
+		}
+		MENUINDEX = 0;
+	} else {
+		MENUINDEX = SECTIONINDEX;
+	}
+
+	var title	 = work.title;
+	var composer = work.comshort;
+
+	var bread = generateBreadcrumbs(title, composer, jrpid);
+	document.getElementById("breadcrumbs").innerHTML = bread;
+
+	var workpdfs = generateWorkPdfs(workid);
+	document.getElementById("workpdfs").innerHTML = workpdfs;
+
+
+	// Set the title line //////////////////////////////////////////////////
+
+	var titlelem = document.getElementById("title");
+	if (WORKslist) {
+		//titlelem.innerHTML = getSectionHeaderTable(sectionid, sectionid);
+		displaySection(sectionid);
+	} else {
+		titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
+	}
+	$('select#select-section').prop('selectedIndex', MENUINDEX);
+	StylizeFormElements();
+
+	sessionStorage.WORKjrpid = sectionid;
+	jrpid = sectionid;
+
+	// Set the incipit image ///////////////////////////////////////////////
+	// prepareIncipitArea(jrpid, SECTIONS);
+	// getIncipitAsyncMultiple(jrpid, SECTIONS);
+	displayHumdrumIncipit(jrpid, SECTIONS)
+
+	// Set the vocal range  image //////////////////////////////////////////
+	prepareRangeArea(jrpid, SECTIONS);
+	getRangeAsyncMultiple(jrpid, SECTIONS);
+
+
+	var downloads = document.getElementById("downloads");
+	if (downloads) {
+		downloads.textContent = "";
+	}
+
+	// Set the Downloads area //////////////////////////////////////////////
+	if (jrpid.match(/[a-z]$/)) {
+		showSectionDownloads(jrpid);
+	} else {
+      // force the first section to display if the full work is being 
+      // displayed.
+      showSectionDownloads(SECTIONS[0].id);
+   }
+}
+
+
+
+//////////////////////////////
+//
+// getSectionHeaderTable -- For a multi-sectioned work.
+//
+
+function getSectionHeaderTable(workid, sectionid) {
+	if (!sectionid) {
+		sectionid = workid;
+	}
+	var tc = "";
+	tc += "<section style=\"margin-left:50px; padding-bottom:0; ";
+	tc += "padding-top:0\" id=\"recently-added\">\n";
+	tc += "<div>\n";
+	tc += "<h2>";
+	tc += "<span id=\"sectionid\">";
+	tc += sectionid + "</span></h2>\n";
+	tc += printSectionTableHeader();
+	var i;
+	for (i=0; i<SECTIONS.length; i++) {
+		tc += printSectionEntries(SECTIONS[i], sectionid);
+	}
+	tc += printSectionTableFooter();
+	tc += "</div>\n";
+	tc += "</section>\n";
+	return tc;
+}
+
+
+
+///////////////////////////////
+//
+// printWorklistRecentEntry -- Create the recently added work list.
+//
+
+function printSectionEntries(entry, currentid) {
+	if (!entry) {
+		return "";
+	}
+
+	var stitle    = entry.stitle;
+	var sectionid = entry.id;
+
+	var out = "";
+
+	if (currentid == sectionid) {
+		out = "<tr style=\"background:#f7f7f7;\">\n";
+	} else {
+		out = "<tr>\n";
+	}
+
+	// Title:
+	out += "<td><a style=\"width:200px; cursor:hand; cursor:pointer;\" name=\"";
+	out += "/work?id=" + sectionid;
+	out += "\" onclick=\"displayWork('" + sectionid + "');\"";
+	out += " class=\"text-link\">";
+	out += stitle;
+	out += "</a></td>\n";
+
+	// Scores
+	out += "<td align=center>\n";
+	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
+	out += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + sectionid;
+	out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
+	out += "</td>\n";
+
+	out += "<td>\n";
+	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
+	out += "{{site.jrp-data-url}}?a=notationEditText&f=" + sectionid;
+	out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
+	out += "</td>\n";
+
+	out += "<td style=\"padding-left:30px;\">";
+
+	if (sectionid == AUDIOjrpid) {
+		out += "<span id=\"audio_" + sectionid + "\"";
+		out += "style=\"cursor:hand; cursor:pointer;\" ";
+		out += "onclick=\"PlayAudioFile('" + sectionid + "', this);\" ";
+		out += "href=\"\" class=\"pause\">play</span>";
+	} else {
+		out += "<span id=\"audio_" + sectionid + "\"";
+		out += "style=\"cursor:hand; cursor:pointer;\" ";
+		out += "onclick=\"PlayAudioFile('" + sectionid + "', this);\" ";
+		out += "href=\"\" class=\"play\">play</span>";
+	}
+
+	out += "</td>\n";
+
+	out += "</tr>\n";
+
+	return out;
+}
+
+
+
+//////////////////////////////
+//
+// printSectionTableFooter -- Print the table footer for the recently added
+//		works.
+//
+
+function printSectionTableFooter() {
+	var out = "</tbody>\n";
+	out += "</table>\n";
+	return out;
+}
+
+
+
+//////////////////////////////
+//
+// printSectionTableHeader -- Print the table header for the recently added
+//		works.
+//
+
+function printSectionTableHeader(workid) {
+
+	var out = "<table style=\"margin-top:-10px; width:400px;\">\n";
+	out += "<thead>\n";
+	out += "<tr style=\"background:#eee; font-size:125%;\">\n";
+	out += "<td style=\"width:300px;\">Section title</td>\n";
+	out += "<td>Score</td>\n";
+	out += "<td>w/&nbsp;ed.&nbsp;acc.</td>\n";
+	out += "<td style=\"padding-left:30px; padding-right:10px;\">MP3</td>\n";
+	out += "</tr>\n";
+	out += "</thead>\n";
+	out += "</tbody>\n";
+	return out;
+}
+
+
+
+//////////////////////////////
+//
+// getSectionHeaderMenu -- For a multi-sectioned work.
+//
+
+function getSectionHeaderMenu(jrpid, menuindex) {
+	var sectionid  = jrpid;
+	var workid     = jrpid.replace(/[a-z.]+$/, "");
+	var title      = WORKLISTjrpid[workid].title;
+	var composer   = WORKLISTjrpid[workid].comshort;
+
+	var workQ = (workid === jrpid);
+
+	// list of sections underneath JRPID:
+	var tc = "";
+
+	tc += "<h2 class=\"worktitle\"> " + composer + ", ";
+	tc += title + " (<span id=\"sectionid\">";
+	tc += sectionid + "</span>)</h2>\n";
+
+	tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
+
+	tc += "<div class=\"form-group\">\n";
+	tc += "<select id=\"select-section\"";
+	tc += " onchange=\"displaySection(this.value);\"";
+	tc += ">\n";
+	tc += "<option value=\"" + workid + "\">Complete work</option>\n";
+	tc += getOptionList(SECTIONS);
+	tc += "</select>\n";
+	tc += "</div>\n";
+	tc += "</div>\n";
+
+	var pc = "";
+
+	if (workQ) {
+		pc += "<ul style=\"margin-top:0;\">\n";
+		pc += "<li><a class=\"file-orange WORKLINK\" ";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
+		pc += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + workid;
+		pc += "\">Score</a></li>\n";
+
+		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
+		pc += "{{site.jrp-data-url}}/data?a=notationEditText&f=" + workid;
+		pc += "\"><span style=\"display:block;\">";
+		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
+	} else {
+		pc += "<ul style=\"margin-top:0;\">\n";
+		pc += "<li><a class=\"file-orange WORKLINK\" ";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
+		pc += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + sectionid;
+		pc += "\">Score</a></li>\n";
+
+		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
+		pc += "target=\"" + PDFTARGET + "\" href=\"";
+		pc += "{{site.jrp-data-url}}?a=notationEditText&f=" + sectionid;
+		pc += "\"><span style=\"display:block;\">";
+		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
+	}
+
+	if (jrpid == AUDIOjrpid) {
+		pc += "<li><a id=\"audio_" + sectionid + "\"";
+		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
+		pc += "\" ";
+		pc += "class=\"mp3pause\" target=\"_blank\" ";
+		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
+		pc += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
+		pc += jrpid + "\">MP3</a></li>\n";
+	} else {
+		pc += "<li><a id=\"audio_" + sectionid + "\"";
+		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
+		pc += "\" ";
+		pc += "class=\"mp3play\" target=\"_blank\" ";
+		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
+		pc += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
+		pc += sectionid + "\">MP3</a></li>\n";
+	}
+
+	pc += "</ul>\n";
+
+/* Menu system:
+ 	// Score without accidentals
+ 	pc += "<li>\n";
+ 	pc += "<div class=\"file-orange\" >\n";
+ 	pc += "<select id=\"score\" data-placeholder=\"Score\" class=\"tricky\"";
+ 	pc += " onchange=\"getScoreNoEditText(this.value);\"";
+ 	pc += ">\n";
+ 	pc += "<option class=\"passiveoption\" value=\"Full Score\"";
+ 	pc += ">Score</option>\n";
+ 	pc += getOptionList(SECTIONS);
+ 	pc += "</select>\n";
+ 	pc += "</div>\n";
+ 	pc += "</li>\n";
+
+	// Score with accidentals
+ 	pc += "<li>\n";
+ 	pc += "<div class=\"file-ed-orange\">\n";
+ 	pc += "<select id=\"accidentals\"";
+ 	pc += " data-placeholder=\"Score w/ed. accidentals\" class=\"tricky\"";
+ 	pc += " onchange=\"getScoreEditText(this.value);\"";
+ 	pc += ">\n";
+ 	pc += "<option class=\"passiveoption\" value=\"Score w/ ed.\"";
+ 	pc += ">Score&nbsp;w/&nbsp;ed. accidentals</option>\n";
+ 	pc += getOptionList(SECTIONS);
+ 	pc += "</select>\n";
+ 	pc += "</div>\n";
+ 	pc += "</li>\n";
+
+	// MP3 files
+	pc += "<li>\n";
+ 	pc += "<div class=\"mp3\" >\n";
+ 	pc += "<select id=\"mp3\" onchange=\"getMp3(this.value, this);\" ";
+	pc += "data-placeholder=\"MP3\" class=\"tricky\">\n";
+ 	pc += "<option class=\"passiveoption\">MP3</option>\n";
+ 	pc += getOptionList(SECTIONS);
+ 	pc += "</select>\n";
+ 	pc += "</div>\n";
+ 	pc += "</li>\n";
+
+	pc += "</ul>\n";
+*/
+
+	return tc + pc;
+}
+
+
+
+//////////////////////////////
+//
+// getMp3 --
+//
+
+function getMp3(jrpid, element) {
+	if (!jrpid) {
+		$('#mp3').prop('selectedIndex', 0);
+		PlayAudioFile(SECTIONID, element);
+		StylizeFormElements();
+	} else {
+		PlayAudioFile(jrpid, element);
+	}
+}
+
+
+
+//////////////////////////////
+//
+// getScoreNoEditText --
+//
+
+function getScoreNoEditText(jrpid) {
+	$('#score').prop('selectedIndex', 0);
+	StylizeFormElements();
+	window.open("{{site.jrp-data-url}}?a=notationNoEditText&id=" + jrpid, "new");
+}
+
+
+
+//////////////////////////////
+//
+// getScoreEditText --
+//
+
+function getScoreEditText(jrpid) {
+	$('#accidentals').prop('selectedIndex', 0);
+	StylizeFormElements();
+	window.open("{{site.jrp-data-url}}?a=notationEditText&id=" + jrpid, "new");
+}
+
+
+
+//////////////////////////////
+//
+// showSectionDownloads --
+//
+
+function showSectionDownloads(jrpid) {
+	var sectionindex = -1;
+	var i;
+	for (i=0; i<SECTIONS.length; i++) {
+		if (jrpid == SECTIONS[i].id) {
+			sectionindex = i;
+			break;
+		}
+	}
+	if (sectionindex < 0) {
+		sectionindex = 0;
+	}
+
+	SECTIONINDEX = sectionindex;
+
+	var sectionid = SECTIONS[sectionindex].id;
+	var stitle = SECTIONS[sectionindex].stitle;
+
+
+   showDownloadArea(jrpid, stitle);
+	printErrorReportButton(sectionid);
+
+}
+
+
+
+//////////////////////////////
+//
+// printErrorReportButton --
+//
+
+function printErrorReportButton(jrpid) {
+	var error   = document.getElementById("error");
+	var message = "<a onclick=\"sessionStorage.ERRORjrpid = '" + jrpid + "';\"";
+	message += " style=\"" + MARGINRIGHT + "\"";
+	message += " href=\"/error\" class=\"btn btn-brown\">";
+	message += "Report an error for this work</a>";
+	error.innerHTML = message;
+}
+
+
+
+//////////////////////////////
+//
+// getOptionList --
+//
+
+function getOptionList(sections) {
+	var out = "";
+
+	var id;
+	for (i=0; i<sections.length; i++) {
+		id = sections[i].id;
+		out += "<option value=\"" + sections[i].id + "\"";
+		out += ">";
+		// convert underscores to spaces in WORKLIST generator:
+		sections[i].stitle = sections[i].stitle.replace(/_/g, " ");
+		out += sections[i].stitle;
+		out += "</option>\n";
+	}
+
+	return out;
+}
+
+
+
+/////////////////////////////
+//
+// Setup enter key to start search.
+//
+
+function setupSearchOnEnter() {
+
+	$("#pitch")   .focus(function() { $(this).data("hasfocus", true);});
+	$("#interval").focus(function() { $(this).data("hasfocus", true);});
+	$("#rhythm")  .focus(function() { $(this).data("hasfocus", true);});
+
+	$("#pitch")   .blur(function()  { $(this).data("hasfocus", false);});
+	$("#interval").blur(function()  { $(this).data("hasfocus", false);});
+	$("#rhythm")  .blur(function()  { $(this).data("hasfocus", false);});
+
+	$(document.body).keyup(function(ev) {
+		if (ev.which === EnterKey) {
+			if      ($("#pitch")   .data("hasfocus")) { doSearch(); }
+			else if ($("#interval").data("hasfocus")) { doSearch(); }
+			else if ($("#rhythm")  .data("hasfocus")) { doSearch(); }
+		}
+	});
+
+}
+
+
+
+//////////////////////////////
+//
+// hasMultipleSections --
+//
+
+function hasMultipleSections(jrpid) {
+	InitializeWorklist();
+	var i, j, k;
+	var works;
+	for (i=0; i<WORKLIST.length; i++) {
+		if (!jrpid.match(WORKLIST[i].repid)) {
+			continue;
+		}
+		works = WORKLIST[i].works;
+		for (j=0; j<works.length; j++) {
+			if (!jrpid.match(works[j].id)) {
+				continue;
+			}
+			if (jrpid == works[j].id) {
+				// The JRPID is a work-level id. Check to see if there are
+				// any sections.
+				if (typeof works[j].sections === 'undefined') {
+					return false;
+				} else {
+					return true;
+				}
+			} else {
+				// The JRPID is a section-level id.  Check to see if there
+				// are any sections which match to this id; otherwise, keep
+				// searching the work list
+				if (typeof works[j].sections === 'undefined') {
+					continue;
+				} else {
+					for (k=0; k<works[j].sections.length; k++) {
+						if (jrpid != works[j].sections[k].id) {
+							continue;
+						}
+						return true;
+					}
+				}
+			}
+		}
+		break;
+	}
+
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// displayWork --
+//
+
+function displayWork(jrpid) {
+	var search = document.getElementById("work-search-results");
+	if (search) {
+		search.textContent = "";
+	}
+   if (!jrpid.match(/^Tas/)) {
+   	DisplayReferences(jrpid, "references");
+	}
+	DisplayCriticalNotes(jrpid, "critical");
+
+	SECTIONS = null;
+	InitializeWorklistFlat();
+	if (hasMultipleSections(jrpid)) {
+		displayMultisectionWork(jrpid);
+		return;
+	}
+	buildRepertorySelect();
+
+	sessionStorage.WORKjrpid = jrpid;
+
+	var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
+	var workid = pieces[1];
+	var movment = pieces[2];
+
+	var work = WORKLISTjrpid[workid];
+	if (typeof work === 'undefined') {
+	// Tas repertory uses a letter for work
+	work = WORKLISTjrpid[jrpid];
+	}
+
+	if (typeof work === 'undefined') {
+		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
+				+ jrpid + "</p>";
+		return;
+	}
+
+	var title	 = work.title;
+	var composer = work.comshort;
+
+	var bread = generateBreadcrumbs(title, composer);
+	document.getElementById("breadcrumbs").innerHTML = bread;
+
+	var workpdfs = generateWorkPdfs(workid);
+	document.getElementById("workpdfs").innerHTML = workpdfs;
+
+	// Set the title line //////////////////////////////////////////////////
+	var titleContent = "";
+	titleContent += "<h2 style=\"margin-bottom:0;\">" + composer + ", " + title + " (" + jrpid + ")</h2>\n";
+
+	if (!jrpid.match(/^Tas/)) {
+		titleContent += "<ul style=\"padding-top:0;\">\n";
+		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
+		titleContent += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + jrpid;
+		titleContent += "\">Score</a></li>\n";
+
+		titleContent += "<li><a class=\"file-ed-orange\" target=\"" + PDFTARGET + "\" href=\"";
+		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
+		titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
+	} else {
+		titleContent += "<ul style=\"padding-top:0;\">\n";
+		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
+		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
+		titleContent += "\">Score</a></li>\n";
+	}
+
+	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" ";
+	titleContent += "id=\"audio_" + jrpid + "\" class=\"mp3play\" ";
+	titleContent += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+	titleContent += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
+	titleContent += jrpid + "\">MP3</a></li>\n";
+	titleContent += "</ul>\n";
+
+	document.getElementById("title").innerHTML = titleContent;
+
+	// Set the incipit image ///////////////////////////////////////////////
+	// prepareIncipitArea(jrpid);
+	// getIncipitAsync(jrpid);
+	displayHumdrumIncipit(jrpid, SECTIONS)
+
+	// Set the vocal range  image //////////////////////////////////////////
+	prepareRangeArea(jrpid);
+	getRangeAsync(jrpid);
+
+   showDownloadArea(jrpid);
+
+	printErrorReportButton(jrpid);
+}
+
+
+
+//////////////////////////////
+//
+// showDownloadArea --
+//
+
+function showDownloadArea(jrpid, stitle) {
+console.log("PRINTING DOWNLOAD FOR JRPID", jrpid);
+	var work = WORKLISTjrpid[jrpid];
+	if (!work) {
+		var jrpidparent = jrpid.replace(/[a-z]+$/, "");
+		work = WORKLISTjrpid[jrpidparent];
+	}
+	if (!work) {
+		console.log("PROBLEM FINDING WORK", jrpid);
+	}
+console.log("WORK IS ", work);
+	var filename = work.filename;
+	if (work.sections) {
+		filename = work.sections[0].filename;
+	}
+console.log("FILENAME FOR WORK IS ", filename);
+	
+
+	var cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
+
+	// Set the Downloads area //////////////////////////////////////////////
+	var download = "<h3 class=\"brown-border\">Downloads";
+   if ((typeof stitle !== 'undefined') &&(stitle.length > 0)) {
+      download += " (" + stitle + ")";
+   }
+   download += "</h3>\n";
+
+	download += "<div class=\"col first-col\">\n";
+	download += "<ul>\n";
+
+	download += "<li><a class=\"icon-file\" target=\"" + PDFTARGET + "\" href=\"";
+	download += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + jrpid;
+	download += "\">PDF score</a></li>\n";
+
+	download += "<li><a class=\"icon-file-ed\" target=\"" + PDFTARGET + "\" href=\"";
+	download += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
+	download += "\">PDF w/ ed. accidentals</a></li>\n";
+
+	download += "<li><a class=\"icon-midi\" href=\"";
+	download += "{{site.jrp-data-url}}?a=midi&f=" + jrpid;
+	download += "\">MIDI</a></li>\n";
+
+	download += "<li style='max-width:181px;  white-space:nowrap;'><div class=\"icon-file-list\"><nobr>";
+	download += "<a class=\"xlink\" target=\"_blank\" href=\"";
+	download += "{{site.jrp-data-url}}?a=humdrum&f=" + jrpid;
+	download += "\">Humdrum</a> ";
+
+	download += "(<a class=\"xlink\" target=\"_blank\" ";
+	download += "href=\"{{site.vhv-url}}?file=";
+	download += "{{site.raw-repository-url}}";
+	download += cshort;
+	download += "/master/" + filename;
+	download += "\">";
+	download += "in VHV</a>)\n";
+
+	download += " (<a class=\"xlink\" target=\"_blank\" ";
+	download += "href=\"{{site.repository-url}}";
+	download += cshort;
+	download += "/blob/master/" + filename;
+	download += "\">";
+	download += "on Github</a>)</nobr></div></li>\n";
+
+	download += "</ul>\n";
+	download += "</div>\n";
+	download += "<div class=\"col\">\n";
+	download += "<ul>\n";
+
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
+	download += "{{site.jrp-data-url}}?a=musedata&f=" + jrpid;
+	download += "\">MuseData</a></li>\n";
+
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
+	download += "{{site.jrp-data-url}}?a=notearrayraw&f=" + jrpid;
+	download += "\">NoteArray</a></li>\n";
+
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
+	// download += "/data?a=proll-json&f=" + jrpid;
+	download += "/proll/?id=" + jrpid;
+	download += "\">JSON Piano Roll</a></li>\n";
+
+	download += "</ul>\n";
+	download += "</div>\n";
+	download += "<div class=\"col\">\n";
+	download += "<ul>\n";
+
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
+	download += "{{site.jrp-data-url}}?a=musicxml&f=" + jrpid;
+	download += "\">MusicXML</a></li>\n";
+
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
+	download += "{{site.jrp-data-url}}?a=mei&f=" + jrpid;
+	download += "\">MEI</a></li>\n";
+
+	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
+	download += "{{site.jrp-data-url}}?a=mp3&f=" + jrpid;
+	download += "\">MP3</a></li>\n";
+
+	download += "</ul>\n";
+	download += "</div>\n";
+
+
+	var downloads = document.getElementById("downloads");
+	downloads.innerHTML = download;
+
+}
+
+
+
+//////////////////////////////
+//
+// displayHumdrumIncipit --
+//
+
+function displayHumdrumIncipit(jrpid, sections) {
+	var area = document.getElementById("music-area");
+	if (!area) {
+		return;
+	}
+	var work = WORKLISTjrpid[jrpid];
+	if (!work) {
+		var tjrpid = jrpid.replace(/[a-z]+$/, "");
+		work = WORKLISTjrpid[tjrpid];
+	}
+	if (!work) {
+		console.log("CANNOT FIND WORK FOR", jrpid);
+		return;
+	}
+	var filename = "";
+	if (work.filename) {
+		filename = work.filename;
+	}
+	if (work.sections) {
+		for (var x=0; x<work.sections.length; x++) {
+			if (jrpid == work.sections[x].id) {
+				filename = work.sections[x].filename;
+				break;
+			}
+		}
+	}
+	if (!filename && work.sections) {
+		filename = work.sections[0].filename;
+	}
+
+	var script = document.createElement("script");
+	script.type = "text/x-humdrum";
+	script.id = jrpid;
+	area.innerHTML = "";
+	area.appendChild(script);
+
+	var comcode = "";
+	if (!filename) {
+		console.log("NO FILENAME for random match", randomwork);
+		return;
+	}
+	var matches = filename.match(/^([A-Z][a-z][a-z])/);
+	if (matches) {
+		comcode = matches[1];
+	}
+	var url = "https://raw.githubusercontent.com/josquin-research-project/";
+	url += comcode;
+	url += "/master/";
+	url += filename;
+	area.style.height = "";
+	area.style.marginRight = "70px";
+	area.style.marginTop = "-50px";
+	area.style.marginBottom = "-20px";
+
+	displayHumdrum({
+		incipit: true,
+		source: jrpid,
+		scale: 35,
+		spacingLinear: 0.18,
+		spacingNonLinear: 0.45,
+		postFunction: resetHeight,
+		url: url
+	});
+}
+
+
+
+///////////////////////////
+//
+// resetHeight --
+//
+
+function resetHeight(id) {
+console.log("GOT HERE IN RESET HEIGHT ========================================= ", id);
+	var samplemusic = document.getElementById("music-area");
+	if (samplemusic) {
+console.log("CLEARING HEIGHT FOR", samplemusic);
+		samplemusic.style.height = "";
+	}
+}
+
+
+
+//////////////////////////////
+//
+// prepareIncipitArea --
+//
+
+function prepareIncipitArea(jrpid, sections) {
+	var area = document.getElementById("music-area");
+	var out = "";
+	if (!sections) {
+		// set up single incipit display
+		out += "<div id=\"incipit_" + jrpid + "\"></div>\n";
+	} else {
+		// set up multiple incipit display
+		out += "<div style=\"height:0;\" id=\"incipit_" + jrpid + "\"></div>\n";
+		for (var i=0; i<sections.length; i++) {
+			out += "<div style=\"height:0;\" id=\"incipit_";
+			out += sections[i].id + "\"></div>\n";
+		}
+		out += "<div id=\"incipit-button\"></div>\n";
+	}
+	area.innerHTML = out;
+	area.style.height = "200px";  // Give a dummy height until the next
+											// incipit is shown.  This prevents
+											// annoying jumping of text around on page.
+	if (!!sections) {
+		showIncipitButton();
+	}
+}
+
+
+
+//////////////////////////////
+//
+// prepareRangeArea --
+//
+
+function prepareRangeArea(jrpid, sections) {
+	var area = document.getElementById("vocal-ranges");
+	var out = "";
+	var sindex = -1;
+	if (!!sections && sections.length > 0) {
+		for (var i=0; i<sections.length; i++) {
+ 			if (jrpid == sections[i].id) {
+				sindex = i;
+				break;
+			}
+		}
+	}
+	var workid  = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	if (sindex >= 0) {
+  		out += "<h3 class=\"brown-border\">Vocal Ranges";
+		out += " (" + sections[sindex].stitle +")</h3>\n";
+	} else {
+  		out += "<h3 class=\"brown-border\">Vocal Ranges</h3>";
+	}
+  	out += "<span class=\"orange-text\">mouse-over";
+	out += " to see note ";
+	if (WORKrangedur) {
+		out += "durations";
+	} else {
+		out += "counts";
+	}
+	out += "</span>\n";
+	if (!sections || sections.length < 2) {
+		// set up single incipit display
+		out += "<div id=\"range_" + jrpid + "\"></div>\n";
+	} else {
+		out += "<div style=\"height:0'\" id=\"range_" + workid + "\"></div>\n";
+		// set up multiple incipit display
+		for (var i=0; i<sections.length; i++) {
+			out += "<div style=\"height:0;\" id=\"range_";
+			out += sections[i].id + "\"></div>\n";
+		}
+		// out += "<div id=\"range-button\"></div>\n";
+	}
+	area.innerHTML = out;
+	area.style.height = "15px";  // Give a dummy height until the next
+											// incipit is shown.  This prevents
+											// annoying jumping of text around on page.
+  	showRangeButtons();
+}
+
+
+
+//////////////////////////////
+//
+// showIncipitButton --
+//
+
+function showIncipitButton() {
+	if (!SECTIONS || SECTIONS.length < 2) {
+		return;
+	}
+
+	var ib = "<div ";
+	ib += "style=\"margin-top:0px; " + MARGINRIGHT + "\" ";
+	ib += "class=\"text-right\"><span ";
+	ib += "style=\"cursor:hand; cursor:pointer;\" ";
+	ib += "onclick=\"toggleIncipitDisplay();\" ";
+	ib += "class=\"btn btn-brown btn-small\">";
+	if (!WORKallincipits) {
+		ib += "Show&nbsp;all&nbsp;incipits";
+	} else {
+		ib += "Hide&nbsp;incipits";
+	}
+	ib += "</span></div>\n";
+
+	var buttonarea = document.getElementById("incipit-button");
+	buttonarea.innerHTML = ib;
+
+}
+
+
+
+//////////////////////////////
+//
+// showRangeButtons --
+//
+
+function showRangeButtons() {
+
+	var ib = "<div ";
+	ib += "style=\"margin-top:0px; " + MARGINRIGHT + "\" ";
+	ib += "class=\"text-right\">";
+
+	ib += "<span ";
+	if (!WORKrangedur) {
+		ib += "style=\"cursor:hand; cursor:pointer; padding-right:10px;\" ";
+		ib += "onclick=\"toggleRangeByDuration();\" ";
+		ib += "class=\"btn btn-brown\">";
+		ib += "Show&nbsp;by&nbsp;duration";
+	} else {
+		ib += "style=\"cursor:hand; cursor:pointer; margin-left:-10px; padding-right:10px;\" ";
+		ib += "onclick=\"toggleRangeByDuration();\" ";
+		ib += "class=\"btn btn-brown\">";
+		ib += "Show&nbsp;by&nbsp;note&nbsp;counts";
+	}
+	ib += "</span>";
+	ib += "<span>&nbsp;</span>\n";
+
+	if (!!SECTIONS && SECTIONS.length > 1) {
+		ib += "<span ";
+		ib += "style=\"cursor:hand; cursor:pointer;\" ";
+		ib += "onclick=\"toggleRangeDisplay();\" ";
+		ib += "class=\"btn btn-brown\">";
+		if (!WORKallranges) {
+			ib += "Show&nbsp;all&nbsp;ranges";
+		} else {
+			ib += "Hide&nbsp;ranges";
+		}
+		ib += "</span>";
+	}
+
+	ib += "</div>\n";
+
+	var buttonarea = document.getElementById("range-button");
+	buttonarea.innerHTML = ib;
+}
+
+
+
+//////////////////////////////
+//
+// toggleTitleType --
+//
+
+function toggleTitleType() {
+	if (!SECTIONS || SECTIONS < 2) {
+		// don't toggle title display when looking at single-section works.
+		return;
+	}
+
+	WORKslist = !WORKslist;
+	sessionStorage.WORKslist = WORKslist;
+
+	var workid    = sessionStorage.WORKjrpid;
+	var sectionid = SECTIONID;
+	var sectionindex = MENUINDEX;
+
+	var titlelem = document.getElementById("title");
+	if (WORKslist) {
+		titlelem.innerHTML = getSectionHeaderTable(workid, sectionid);
+	} else {
+		titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
+		$('select#select-section').prop('selectedIndex', MENUINDEX);
+		if (SECTIONS && (MENUINDEX == 0)) {
+			var downloads = document.getElementById("downloads");
+			if (downloads) {
+           	// now keeping the downloads section all of the time [20150428]:
+				// downloads.textContent = "";
+			}
+		}
+		StylizeFormElements();
+	}
+
+}
+
+
+
+//////////////////////////////
+//
+// toggleIncipitDisplay --
+//
+
+function toggleIncipitDisplay() {
+	if (!SECTIONS || SECTIONS < 2) {
+		// don't toggle title display when looking at single-section works.
+		return;
+	}
+	WORKallincipits = !WORKallincipits;
+	sessionStorage.WORKallincipits = WORKallincipits;
+	if (!WORKallincipits) {
+		clearAllIncipits();
+	  	// getIncipitAsync(sessionStorage.WORKjrpid);
+		displayHumdrumIncipit(sessionStorage.WORKjrpid)
+	} else {
+		clearAllIncipits();
+		showAllIncipits();
+	}
+	showIncipitButton();
+	if (!WORKallincipits) {
+		$('html, body').animate({
+//			scrollTop: $('#music-area').offset().top-200
+			scrollTop: $('body').offset().top
+		}, 300);
+	}
+}
+
+
+
+//////////////////////////////
+//
+// toggleRangeDisplay --
+//
+
+function toggleRangeDisplay() {
+	if (!SECTIONS || SECTIONS < 2) {
+		// don't toggle title display when looking at single-section works.
+		return;
+	}
+	WORKallranges = !WORKallranges;
+	sessionStorage.WORKallranges = WORKallranges;
+	if (WORKallranges) {
+		if (WORKrangedur) {
+			RANGES = RANGESdurlabeled;
+		} else {
+			RANGES = RANGESnotelabeled;
+		}
+		clearAllRanges();
+		showAllRanges();
+	} else {
+		if (WORKrangedur) {
+			RANGES = RANGESdurunlabeled;
+		} else {
+			RANGES = RANGESnoteunlabeled;
+		}
+		clearAllRanges();
+	  	getRangeAsync(sessionStorage.WORKjrpid);
+	}
+	showRangeButtons();
+	if (!WORKallranges) {
+		if (WORKallincipits && !SECTIONS) {
+			$('html, body').animate({scrollTop: $('body').offset().top}, 300);
+		} else {
+			$('html, body')
+				.animate({scrollTop: $('#vocal-ranges').offset().top-200}, 300);
+		}
+	}
+}
+
+
+
+//////////////////////////////
+//
+// toggleRangeByDuration --
+//
+
+function toggleRangeByDuration() {
+	WORKrangedur = !WORKrangedur;
+	sessionStorage.WORKrangedur = WORKrangedur;
+	prepareRangeArea(sessionStorage.WORKjrpid, SECTIONS);
+	if (WORKallranges) {
+		if (WORKrangedur) {
+			RANGES = RANGESdurlabeled;
+		} else {
+			RANGES = RANGESnotelabeled;
+		}
+		showAllRanges();
+	} else {
+		if (WORKrangedur) {
+			RANGES = RANGESdurunlabeled;
+		} else {
+			RANGES = RANGESnoteunlabeled;
+		}
+		clearAllRanges();
+	  	getRangeAsync(sessionStorage.WORKjrpid);
+	}
+	showRangeButtons();
+}
+
+
+
+//////////////////////////////
+//
+// showAllIncipits();
+//
+
+function showAllIncipits() {
+	// getIncipitAsyncMultiple(sessionStorage.WORKjrpid, SECTIONS);
+	displayHumdrumIncipit(sessionStorage.WORKjrpid, SECTIONS)
+}
+
+
+
+//////////////////////////////
+//
+// showAllRanges --
+//
+
+function showAllRanges() {
+	getRangeAsyncMultiple(sessionStorage.WORKjrpid, SECTIONS);
+}
+
+
+
+//////////////////////////////
+//
+// clearAllIncipits --
+//
+
+function clearAllIncipits() {
+	if (!SECTIONS || SECTIONS.length < 2) {
+  		// getIncipitAsync(sessionStorage.WORKjrpid);
+		displayHumdrumIncipit(sessionStorage.WORKjrpid);
+	}
+	var jrpid = sessionStorage.WORKjrpid;
+	for (var i=0; i<SECTIONS.length; i++) {
+		if (SECTIONS[i].id != sessionStorage.WORKjrpid) {
+			document.getElementById("incipit_" + SECTIONS[i].id).innerHTML = "";
+		} else {
+	  		// getIncipitAsync(SECTIONS[i].id);
+			displayHumdrumIncipit(SECTIONS[i].id);
+		}
+	}
+	// clear work-level incipit if multi-sectioned work.
+	document.getElementById("incipit_" + jrpid).innerHTML = "";
+}
+
+
+
+//////////////////////////////
+//
+// clearAllRanges --
+//
+
+function clearAllRanges() {
+	var jrpid = sessionStorage.WORKjrpid;
+	if (!SECTIONS || SECTIONS.length < 2) {
+  		getRangeAsync(jrpid);
+		return;
+	}
+	for (var i=0; i<SECTIONS.length; i++) {
+		if (SECTIONS[i].id != jrpid) {
+			document.getElementById("range_" + SECTIONS[i].id).innerHTML = "";
+		} else {
+	  		getRangeAsync(SECTIONS[i].id);
+		}
+	}
+	// clear work-level incipit if multi-sectioned work.
+	document.getElementById("range_" + jrpid).innerHTML = "";
+}
+
+
+
+//////////////////////////////
+//
+// doSearch --
+//
+
+function doSearch() {
+	var pitch	  = document.getElementById("pitch");
+	var interval  = document.getElementById("interval");
+	var rhythm	  = document.getElementById("rhythm");
+	var composers = document.getElementById("composers");
+	var genres	  = document.getElementById("genres");
+
+	var empty = 0;
+	if (pitch.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (interval.value.match(/^\s*$/)) {
+		empty += 1;
+	} 
+	if (rhythm.value.match(/^\s*$/)) {
+		empty += 1;
+	}
+
+	if (empty == 3) {
+		var empty2 = 0;
+		if (composers.value.match(/^\s*$/) || composers.value.match(/All/i)) {
+			empty2 += 1;
+		} 
+		if (genres.value.match(/^\s*$/) || genres.value.match(/All/i)) {
+			empty2 += 1;
+		} 
+
+		if (empty2 == 2) {
+			// displayContents();
+			return;
+		} else {
+			sessionStorage.BROWSEcomposers = composers.value;
+			sessionStorage.BROWSEgenres	 = genres.value;
+			sessionStorage.BROWSEvoices	 = "";
+			sessionStorage.BROWSEhome		= "false";
+			window.location.href = "/browse";
+			return;
+		}
+	}
+
+	var c = composers.value;
+	if (c.match(/All/i)) {
+		c = "";
+	}
+	var g = genres.value;
+	if (g.match(/All/i)) {
+		g = "";
+	}
+
+	var searchparam = "";
+	if (c != "") {
+		searchparam += "&composer=" + encodeURIComponent(c);
+	}
+	if (g != "") {
+		searchparam += "&genre=" + encodeURIComponent(g);
+	}
+	if (pitch.value != "") {
+		searchparam += "&pitch=" + encodeURIComponent(pitch.value);
+	}
+	if (rhythm.value != "") {
+		searchparam += "&rhythm=" + encodeURIComponent(rhythm.value);
+	}
+	if (interval.value != "") {
+		searchparam += "&interval=" + encodeURIComponent(interval.value);
+	}
+
+	scope = 'repertory';
+	var inputs = document.querySelectorAll('input[name="searchscope"]');
+	var i;
+	for (i=0; i<inputs.length; i++) {
+		if (inputs[i].getAttribute('value') !== "work") {
+			continue;
+		}
+		var paren = inputs[i].parentNode;
+		if (paren.className.match("ez-selected")) {
+			scope = 'work';
+		}
+	}
+
+	// The search-results page will look at sessionStorage.QUERY.  If it find
+	// that it has content, then it will run the query and display the results.
+	var query = {};
+	query.composer = c;
+	query.genre	 = g;
+	query.pitch	 = pitch.value;
+	query.rhythm	= rhythm.value;
+	query.interval = interval.value;
+	query.scope    = scope;
+	if (scope === 'work') {
+		if (JRPID.match(/^Tas/)) {
+			// Tasso works include a letter in the work id.
+			query.jrpid = JRPID.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*[a-z]+)/)[1];
+		} else {
+			query.jrpid = JRPID.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+		}
+	}
+	sessionStorage.QUERY = JSON.stringify(query);
+	QUERY = query;
+
+	if (scope === 'repertory') {
+		window.location.href = "/search-results";
+		return;
+	} else {
+		doWorkSearch(QUERY);
+	}
+}
+
+
+//////////////////////////////
+//
+// doWorkSearch -- Do a search on a single work, and display the
+// 	results on the current page.
+//
+
+function doWorkSearch(query) {
+	var pitch     = query.pitch;
+	var interval  = query.interval;
+	var rhythm    = query.rhythm;
+	var composers = query.composer;
+	var genres    = query.genre;
+	var work      = query.jrpid;
+
+	var searchparam = "";
+	if (composers != "") {
+		searchparam += "&composer=" + encodeURIComponent(composers);
+	}
+	if (genres != "") {
+		searchparam += "&genre=" + encodeURIComponent(genres);
+	}
+	if (pitch.value != "") {
+		searchparam += "&pitch=" + encodeURIComponent(pitch);
+	}
+	if (rhythm.value != "") {
+		searchparam += "&rhythm=" + encodeURIComponent(rhythm);
+	}
+	if (interval.value != "") {
+		searchparam += "&interval=" + encodeURIComponent(interval);
+	}
+	if (interval.value != "") {
+		searchparam += "&work=" + encodeURIComponent(work);
+	}
+
+	$("body").css("cursor", "wait");
+
+	var dataloc = "{{site.jrp-data-url}}";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "{{site.tasso-data-url}}";
+	}
+
+	var request = new XMLHttpRequest();
+	request.open('GET', dataloc + "?a=searchwork" + searchparam, true);
+	request.addEventListener('load', function(event) {
+		if (this.status !== 200) {
+			return;
+		}
+		displayWorkSearch(this.responseText);
+	}, false);
+	request.send();
+}
+
+
+
+//////////////////////////////
+//
+// displayWorkSearch --
+//
+
+function displayWorkSearch(searchresults) {
+	$("body").css("cursor", "default");
+	var SR = JSON.parse(searchresults);
+
+   var resultsarea = document.getElementById("work-search-results");
+   var debug = "<textarea rows=1 cols=1 style='font-size:75%;'>" 
+	debug += searchresults + "</textarea>";
+
+ 	var content = "";
+
+   var heading = "";
+   heading = "<h3 class='search-header'>";
+	if (SR.matchcount == 0) {
+		heading += "No matches";
+	} else {
+		heading += SR.matchcount + " match";
+		if (parseInt(SR.matchcount) != 1) {
+			heading += "es";
+		}
+	}
+	heading += "</h3>";
+
+	var template;
+	var content = "";
+	var source = "";
+	if (SR.matchcount > 0) {
+		if (SECTIONS && SECTIONS.length > 0) {
+			source = document.getElementById("multi-search-results-table");
+		} else {
+			source = document.getElementById("single-search-results-table");
+		}
+		template = Handlebars.compile(source.textContent);
+		content = template(SR);
+	}
+
+	// resultsarea.innerHTML = heading + content + debug;
+	resultsarea.innerHTML = heading + content;
+
+
+}
+
+
+
+//////////////////////////////
+//
+// buildComposerSelect --
+//
+
+function buildComposerSelect() {
+	var composerselect = document.getElementById("composers-select");
+	if (composerselect == null) {
+		return;
+	}
+
+	var out = "<select id=\"composers\">";
+	out += "<option label=\"default\">All Composers</option>\n";
+	var clist = GetComposerOptions();
+	out += clist;
+	out += "</select>\n";
+	composerselect.innerHTML = out;
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// buildRepertorySelect
+//
+
+function buildRepertorySelect() {
+	var repsel = document.getElementById("repertory-select");
+	if (repsel == null) {
+		StylizeFormElements();
+		return;
+	}
+
+	var out  = "<select style=\"width:220px;\" id=\"repertory\">\n";
+	var clist = GetComposerOptions();
+	out += clist;
+	out += "</select>\n";
+	repsel.innerHTML = out;
+	var pieces = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/);
+	if (pieces != null) {
+		// $('#repertory').val(pieces[1]); // doesn't seem to work.
+		document.getElementById("repertory").value = pieces[1];
+	} else if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
+			(localStorage.ANALYSISrepertory != "")) {
+		$('#repertory').val(localStorage.ANALYSISrepertory);
+	} else {
+		$('#repertory').val("Jos");
+	}
+
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// buildGenreSelect --
+//
+
+function buildGenreSelect() {
+	var genreselect = document.getElementById("genres-select");
+	if (genreselect == null) {
+		return;
+	}
+
+	var out = "<select id=\"genres\"";
+	out += " data-placeholder=\"All Genres\">\n";
+	out += "<option label=\"default\">All Genres</option>\n";
+	out += GetGenreOptions();
+	genreselect.innerHTML = out;
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// showPopupHelp --
+//
+
+function showPopupHelp(url, title) {
+	var newwindow = window.open(url, title,
+		'left=20,top=20,width=620,height=830,resizable=no,scrollbars=no,directories=no,location=no,status=no,toolbar=no');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// showRepertoryAnalysis --
+//
+
+function showRepertoryAnalysis(analysistype) {
+	var scope = $('input[name="analysisscope"]:checked').val();
+	var repertory = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/)[1];
+	localStorage.ANALYSISrepertory = repertory;
+	if (scope == "work") {
+		localStorage.ANALYSISwork = sessionStorage.WORKjrpid;
+	} else {
+		localStorage.ANALYSISwork = "";
+	}
+	localStorage.ANALYSISgenre = "";
+
+	window.location.href = "/analysis/" + analysistype;
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// showWorkAnalysis --
+//
+
+function showWorkAnalysis(analysistype) {
+	var sectionid = sessionStorage.WORKjrpid;
+	var workid  = sectionid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	var repertory = sectionid.match(/^([A-Z][a-z][a-z])/)[1];
+
+	if ((workid === sectionid) && SECTIONS && (SECTIONS.length > 0)) {
+		sectionid = SECTIONS[0].id;
+	}
+
+	var url = "";
+	if (analysistype === "dissonant") {
+		// url = "/data?a=dissonantpdf&id=" + sectionid;
+		url = "{{vhv-url}}?k=ey&filter=dissonant&file=jrp:" + sectionid;
+	} else if (analysistype === "imitation") {
+		url = "{{site.vhv-url}}?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
+	} else if (analysistype === "parallel") {
+		url = "{{site.jrp-data-url}}?a=parallelnofictapdf&id=" + sectionid;
+	} else if (analysistype === "activity") {
+		localStorage.ANALYSISrepertory = repertory;
+		localStorage.ANALYSISgenre		 = "";
+		localStorage.ANALYSISwork		 = sessionStorage.WORKjrpid;
+		url = "/analysis/activity";
+	} else if (analysistype === "proll") {
+		// url = "/data?a=proll&id=" + sectionid;
+		url = "/proll?id=" + sectionid;
+//	} else if (analysistype === "suspension") {
+//		url = "/data?a=suspensionpdf&id=" + sectionid;
+   } else if (analysistype === "cadence") {
+		url = "{{site.vhv-url}}?k=ey&filter=extract%20-ikern%7cdissonant%20-V&file=jrp:" + sectionid;
+	}
+
+	if (!url.match(/^\s*$/)) {
+		window.open(url, "_blank");
+	}
+}
+
+
+
+//////////////////////////////
+//
+// displayNextWorkPage --
+//
+
+function displayNextWorkPage() {
+	InitializeWorklistFlat();
+	SECTIONS = [];
+	var entry;
+	var nextone = 0;
+	var first;
+	var base = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z][\d.]+)/)[1];
+
+	for (entry in WORKLISTjrpid) {
+		if (!WORKLISTjrpid.hasOwnProperty(entry)) {
+			continue;
+		}
+		if (typeof first === 'undefined') {
+			first = entry;
+		}
+		if (nextone > 0) {
+			sessionStorage.WORKjrpid = entry;
+			displayWork(sessionStorage.WORKjrpid, true);
+			return false;
+		}
+		if (entry.match(sessionStorage.WORKjrpid)) {
+			nextone = 1;
+		} else if (entry.match(base)) {
+			nextone = 1;
+		}
+	}
+
+	if (typeof first !== 'undefined') {
+		sessionStorage.WORKjrpid = first;
+		displayWork(sessionStorage.WORKjrpid, true);
+		return false;
+	}
+}
+
+
+
+//////////////////////////////
+//
+// displayPreviousWorkPage --
+//
+
+function displayPreviousWorkPage() {
+	InitializeWorklistFlat();
+	SECTIONS = [];
+	var entry;
+	var lastentry;
+	var base = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z][\d.]+)/)[1];
+
+	for (entry in WORKLISTjrpid) {
+		if (!WORKLISTjrpid.hasOwnProperty(entry)) {
+			continue;
+		}
+		if (entry.match(sessionStorage.WORKjrpid) || entry.match(base)) {
+ 			if (typeof lastentry !== 'undefined') {
+				sessionStorage.WORKjrpid = lastentry;
+			} else {
+				sessionStorage.WORKjrpid = WORKLIST[WORKLIST.length-1]
+					.works[WORKLIST[WORKLIST.length-1].works.length-1].id;
+			}
+			displayWork(sessionStorage.WORKjrpid, true);
+			return false;
+		}
+		lastentry = entry;
+	}
+}
+
+
+
+//////////////////////////////
+//
+// displayPreviousRepertoryPage --
+//
+
+function displayPreviousRepertoryPage() {
+	var i;
+	SECTIONS = [];
+	if ((sessionStorage.WORKjrpid == null) || (sessionStorage.WORKjrpid == "")) {
+		sessionStorage.WORKjrpid = "Jos2721";
+	}
+	InitializeWorklist();
+	var pieces = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/);
+	if (pieces == null) {
+		return;
+	}
+	var repertory = pieces[1];
+	
+	for (i=0; i<WORKLIST.length; i++) {
+		if (repertory.match(WORKLIST[i].repid)) {
+			if (i == 0) {
+				sessionStorage.WORKjrpid = WORKLIST[WORKLIST.length-1].works[0].id;
+			} else {
+				sessionStorage.WORKjrpid = WORKLIST[i-1].works[0].id;
+			}
+			displayWork(sessionStorage.WORKjrpid);
+			return false;
+		}
+	}
+}
+
+
+
+//////////////////////////////
+//
+// displayNextRepertoryPage --
+//
+
+function displayNextRepertoryPage() {
+	var i;
+	InitializeWorklist();
+	SECTIONS = [];
+	var pieces = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/);
+	var repertory = pieces[1];
+	
+	for (i=0; i<WORKLIST.length; i++) {
+		if (repertory.match(WORKLIST[i].repid)) {
+			if (i == WORKLIST.length - 1) {
+				sessionStorage.WORKjrpid = WORKLIST[0].works[0].id;
+			} else {
+				sessionStorage.WORKjrpid = WORKLIST[i+1].works[0].id;
+			}
+			displayWork(sessionStorage.WORKjrpid);
+			return false;
+		}
+	}
+}
+
+
+
+//////////////////////////////
+//
+// displaySection --
+//
+
+function displaySection(workid) {
+	var sectionid = workid;
+	var sectionindex = -1;
+	var i;
+	for (i=0; i<SECTIONS.length; i++) {
+		if (workid == SECTIONS[i].id) {
+			sectionid = workid;
+			sectionindex = i;
+			break;
+		}
+	}
+
+	var menuindex = sectionindex + 1;
+
+	var titlelem = document.getElementById("title");
+	if (WORKslist == true) {
+		titlelem.innerHTML = getSectionHeaderTable(sectionid);
+	} else {
+		titlelem.innerHTML = getSectionHeaderMenu(sectionid, menuindex);
+		$('select#select-section').prop('selectedIndex', menuindex);
+		if (SECTIONS && (menuindex == 0)) {
+			var downloads = document.getElementById("downloads");
+			if (downloads) {
+           	// now keeping the downloads section all of the time [20150428]:
+				// downloads.textContent = "";
+			}
+		}
+		StylizeFormElements();
+	}
+
+	sessionStorage.WORKjrpid = workid;
+	//document.getElementById("sectionid").innerHTML = workid;
+	SECTIONID = workid;
+
+	if (!WORKallincipits) {
+		// prepareIncipitArea(workid, SECTIONS);
+		// getIncipitAsync(workid);
+		displayHumdrumIncipit(workid, SECTIONS)
+	}
+
+	if (!WORKallranges) {
+		prepareRangeArea(workid, SECTIONS);
+		getRangeAsync(workid);
+	}
+
+	if ((!SECTIONS) || (sectionindex >= 0)) {
+		showSectionDownloads(workid);
+	} else if (sectionindex == 0) {
+      // show the first section download 
+      console.log(SECTIONS);
+   }
+}
+
+
+
+//////////////////////////////
+//
+// getRangeAsync --
+//
+
+function getRangeAsync(jrpid) {
+	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	if (!WORKallranges) {
+		// if not showing all ranges
+		if ((jrpid != sessionStorage.WORKjrpid) &&
+				(workid != sessionStorage.WORKjrpid)) {
+			// not the range to show, so don't do anything
+			return;
+		}
+	}
+
+	if (RANGES[jrpid] && RANGES[jrpid].match(/Error: no image found for/)) {
+		var vrange = document.querySelector("#vocal-ranges");
+		if (vrange) {
+			vrange.style["display"] = "none";
+		}
+		var rangebutton = document.querySelector("#range-button");
+		if (rangebutton) {
+			rangebutton.style["display"] = "none";
+		}
+		// return;
+		var bad = 1;
+		console.log(RANGES[jrpid]);
+	}
+
+	if (!!RANGES[jrpid]) {
+ 		var area = document.getElementById("range_" + jrpid);
+		if (!!area) { 
+			area.style.height = ""; 
+			if (!bad) {
+	  			area.innerHTML = RANGES[jrpid];
+			}
+		}
+		document.getElementById("vocal-ranges").style.height = "";
+		return;
+	}
+
+	document.getElementById("range_" + jrpid).style.height = RANGENULLHEIGHT;
+	document.getElementById("vocal-ranges").style.height = "";
+
+	var allranges = WORKallranges;
+	if (allranges) {
+		if (WORKrangedur) {
+			action = "prange-dur-labeled-svg";
+		} else {
+			action = "prange-labeled-svg";
+		}
+	} else {
+		if (WORKrangedur) {
+			action = "prange-dur-svg";
+		} else {
+			action = "prange-svg";
+		}
+	}
+	ReadFileAsync("{{site.jrp-data-url}}?a=" + action + "&id=" + jrpid, function(responseText) {
+		var data = responseText;
+		RANGES[jrpid] = responseText;
+	  	getRangeAsync(jrpid);
+	});
+}
+
+
+
+//////////////////////////////
+//
+// getIncipitAsync --
+//
+
+function getIncipitAsync(jrpid) {
+return;
+	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	if (!WORKallincipits) {
+		// if not showing all incipits
+		if ((jrpid != sessionStorage.WORKjrpid) &&
+				(workid != sessionStorage.WORKjrpid)) {
+			// not the incipit to show, so don't do anything
+			return;
+		}
+	}
+
+	if (!!INCIPITS[jrpid]) {
+ 		var area = document.getElementById("incipit_" + jrpid);
+		area.style.height = "";
+		document.getElementById("music-area").style.height = "";
+	  	var imgtext = "<img src=\"" + INCIPITS[jrpid] 
+		imgtext += "\" alt=\"music placeholder\">";
+	  	area.innerHTML = imgtext;
+		return;
+	}
+
+	var incipit = document.getElementById("incipit_" + jrpid);
+	if (!incipit) {
+		incipit = document.getElementById("incipit_" + jrpid + "a");
+	}
+
+	document.getElementById("incipit_" + jrpid).style.height = "200px";
+	document.getElementById("music-area").style.height = "";
+	var action = "incipit-mime";
+	ReadFileAsync("{{site.jrp-data-url}}?a=" + action + "&id=" + jrpid, function(responseText) {
+		var data = responseText;
+		INCIPITS[jrpid] = responseText;
+
+	  	getIncipitAsync(jrpid);
+	});
+}
+
+
+
+//////////////////////////////
+//
+// getIncipitAsyncMultiple --
+//
+
+function getIncipitAsyncMultiple(jrpid, sections) {
+return;
+	if (!sections) {
+		getIncipitAsync(jrpid);
+		return;
+	}
+	var counter = 0;
+	for (var i=0; i<sections.length; i++) {
+		if (WORKallincipits) {
+			getIncipitAsync(sections[i].id);
+			counter++;
+		} else if (jrpid == sections[i].id) {
+			getIncipitAsync(sections[i].id);
+			counter++;
+		}
+	}
+	if (sections && (sections.length > 0) && (counter == 0)) {
+		getIncipitAsync(sections[0].id);
+	}
+}
+
+
+
+//////////////////////////////
+//
+// getRangeAsyncMultiple --
+//
+
+function getRangeAsyncMultiple(jrpid, sections) {
+	if (!sections || sections.length < 2) {
+		getRangeAsync(jrpid);
+	}
+	var counter = 0;
+	for (var i=0; i<sections.length; i++) {
+		if (WORKallranges) {
+			getRangeAsync(sections[i].id);
+			counter++;
+		} else if (jrpid == sections[i].id) {
+			getRangeAsync(sections[i].id);
+			counter++;
+		}
+	}
+	if (sections && (sections.length > 0) && (counter == 0)) {
+		getRangeAsync(sections[0].id);
+	}
+}
+
+
+
+//////////////////////////////
+//
+// displayNextSection --
+//
+
+function displayNextSection() {
+
+	if (!SECTIONS || SECTIONS.length < 2) {
+		return;
+	}
+
+	var i;
+	var si = -1;
+	for (i=0; i<SECTIONS.length; i++) {
+		if (SECTIONS[i].id == sessionStorage.WORKjrpid) {
+			si = i;
+			break;
+		}
+	}
+
+	var ocount = SECTIONS.length;
+	var current = si;
+	
+	if (si < 0) {
+		// display next section of multisection work
+		ocount = $('select#select-section option').length;
+		current = $('select#select-section option:selected').index();
+	}
+	current++;
+	if (current > ocount-1) {
+		current = 0;
+	}
+	var sectionid = SECTIONS[current].id;
+	$('select#select-section').prop('selectedIndex', current);
+	if (SECTIONS && (MENUINDEX == 0)) {
+		var downloads = document.getElementById("downloads");
+		if (downloads) {
+			downloads.textContent = "";
+		}
+	}
+	displaySection(sectionid);
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// displaySectionNumber --
+//
+
+function displaySectionNumber(sectionnum) {
+	if (SECTIONS.length < 2) {
+		// not a multi-sectioned work
+		return;
+	}
+	var ocount = SECTIONS.length;
+	var si     = sectionnum - 1;
+
+	if ((si < 0) || (si >= SECTIONS.length)) {
+		// not a valid section
+		return;
+	}
+
+	if (si < 0) {
+		// display next section of multisection work
+		ocount = $('select#select-section option').length;
+		si = $('select#select-section option:selected').index();
+	}
+	if (si > ocount-1) {
+		si = 0;
+	}
+	var sectionid = SECTIONS[si].id;
+	$('select#select-section').prop('selectedIndex', si);
+	if (SECTIONS && (MENUINDEX == 0)) {
+		var downloads = document.getElementById("downloads");
+		if (downloads) {
+			downloads.textContent = "";
+		}
+	}
+	displaySection(sectionid);
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// displayAllWorksRepertoryAnalyses --
+//
+
+function displayAllWorksRepertoryAnalyses() {
+	var content = "";
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'activity\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Activity</span> ';
+	content += '<small>attacks per measure</small></span></li>\n';
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'parallel\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Parallel</span> ';
+	content += '<small>parallel perfect intervals</small></span></a></li>\n';
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'rhythm\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Rhythm</span> ';
+	content += '<small>measure-long patterns</small></span></a></li>\n';
+
+	content += '<li><span onclick="showRepertoryAnalysis(\'range\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Range</span> ';
+	content += '<small>vocal ranges</small></span></a></li>\n';
+
+	var ul = document.getElementById("analysis-list");
+	ul.innerHTML = content;
+}
+
+
+
+//////////////////////////////
+//
+// displayThisWorkRepertoryAnalyses --
+//
+
+function displayThisWorkRepertoryAnalyses() {
+	var content = "";
+	// content += '<li><span onclick="localStorage.RIBBONjrpid=';
+	// content += 'sessionStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
+	// content += 'style="cursor:pointer;" ';
+	// content += 'class="btn btn-brown btn-medium">';
+	content += '<li><span onclick="var url = \'{{site.ribbon-url}}/?id=\' + sessionStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+
+	content += '<span class="anatitle">Ribbon</span> ';
+	content += '<small>formal analysis</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'activity\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Activity</span> ';
+	content += '<small>attacks per measure</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'dissonant\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Dissonant</span> ';
+	content += '<small>all dissonances labeled</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'cadence\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Cadences</span> ';
+	content += '<small>cadential voice functions marked</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'imitation\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Imitation</span> ';
+	content += '<small>all imitations marked</small></span></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'parallel\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Parallel</span> ';
+	content += '<small>parallel perfect intervals</span></a></li>\n';
+
+	content += '<li><span onclick="showWorkAnalysis(\'proll\');" ';
+	content += 'style="cursor:pointer;" ';
+	content += 'class="btn btn-brown btn-medium">';
+	content += '<span class="anatitle">Piano Roll</span> ';
+	content += '</span></a></li>\n';
+
+	var ul = document.getElementById("analysis-list");
+	ul.innerHTML = content;
+}
+
+</script>

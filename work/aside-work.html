@@ -1,0 +1,65 @@
+<aside class="search-filter">
+	<section id="search">
+		<h2 class='blue-bar'>Search <span id="search-help" onclick="return showPopupHelp('search-help.html', 'Search Help');" class='info'>info</span></h2>
+		<form action="#">
+			<div class="form-group radio-wrap">
+				<label><input type="radio" value="work" checked 
+						name="searchscope">This Work</label>
+				<label style="margin-left:-20px;"><input type="radio" value="repertory" 
+						name="searchscope">Choose Repertory</label>
+			</div>
+			<div class="form-group">
+				<input id="pitch" type="text" class="form-control" 
+						placeholder="Enter Pitch">
+			</div>
+			<div class="form-group">
+				<input id="interval" type="text" class="form-control" 
+						placeholder="Enter Interval">
+			</div>
+			<div class="form-group">
+				<input id="rhythm" type="text" class="form-control" 
+						placeholder="Enter Rhythm">
+			</div>
+
+			<div id="composers-select" class="form-group"></div>
+			<div id="genres-select" class="form-group"></div>
+
+<!--  Implement mensuration searching first
+			<div class="form-group">
+				<select id="voices" data-placeholder="All Mensurations">
+					<option label="default">All Mensurations</option>
+					<option value="option1">option 1</option>
+					<option value="option2">option2</option>
+				</select>
+			</div> 
+			<div class="form-group checkbox-small">
+				<label><input type="checkbox"> Editorial Accidentals</label>
+			</div>
+-->
+			
+			<div style="margin-top:28px;" 
+					class="form-group text-center border-dotted">
+				<span style="margin-top:16px; cursor:hand; cursor:pointer;" 
+					onclick="doSearch();" class="btn btn-brown">Search</span>
+			</div> <!-- form-group -->
+		</form>
+	</section> <!-- search -->
+
+
+	<section id="tools">
+		<h2 class='blue-bar'>ANALYSIS TOOLS
+					<span id="analysis-help" onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class='info'>info</span></h2>
+			<div class="form-group radio-wrap">
+				<label><input id="this-work-analysis-button" type="radio" 
+						value="work" checked name="analysis-scope">This Work</label>
+				<label style="margin-left:-20px;"><input id="all-works-analysis-button" type="radio" 
+						value="repertory" name="analysis-scope">Choose Repertory</label>
+			</div>
+		<div style="margin-left:5px;" 
+				id="repertory-select" 
+						class="analysis-hide form-group"></div>
+		<div style="margin-top:-14px;" class="form-group border-dotted">
+			<ul id="analysis-list"></ul>
+		</div> <!-- form-group -->
+	</section> <!-- tools -->
+</aside>
