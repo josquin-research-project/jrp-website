@@ -1,5 +1,3 @@
-<script>
-
 /*
  * qTip2 - Pretty powerful tooltips - v2.2.1
  * http://qtip2.com
@@ -3312,5 +3310,3 @@ $.extend(TRUE, QTIP.defaults, {
 });
 ;}));
 }( window, document ));
-
-</script>

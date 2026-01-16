@@ -1,0 +1,407 @@
+{% raw %}
+
+<script id="multi-search-results-table" type="text/x-handlebars-template">
+{% raw %}
+{{! vim: set ts=3: }}
+{{!-- 
+	--	Handlebars template multi-search-results-table --
+	--		This template is used to display single-work search results on
+	--		work pages when there are multiple-sections contained in the work.
+	--   Each section is listed in a separate row of the table.
+	--}}
+
+<table class="search-results-table">
+<thead>
+<tr>
+	<th class="sortable">Match&nbsp;Locations&nbsp;&nbsp;</th>
+	<th style="text-align:left; padding:5px;" class="sortable">Section</th>
+	<th class="sortable">Measures</th>
+	<th class="sortable">Scores</th>
+</tr>
+</thead>
+<tbody>
+{{#each this.locations}}
+<tr valign="top">
+	<td>{{{matchlocations this}}}</td>
+	<td>{{{sectiontitle id}}}</td>
+	<td>{{{listmeasures this}}}</td>
+	<td>{{{matchscore id}}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</script>
+{% endraw %}
+
+
+
+{% raw %}
+<script id="single-search-results-table" type="text/x-handlebars-template">
+{{!-- 
+	--	Handlebars template single-search-results-table --
+	--		This template is used to display single-work search results on
+	--		work pages when there are not any sections contained in the work.
+	--   The search results is a single row (but template is set up to
+	--		allow multiple rows).
+	--}}
+
+<table style="border-left: 0;" class="search-results-table">
+<tbody>
+<tr>
+	<td style="width:100px; padding-right:30px;">Match&nbsp;Locations&nbsp;&nbsp;</td>
+	<td style="width:500px; text-align:left;" class="sortable">Measures</td>
+	<td>Scores</td>
+</tr>
+{{#each this.locations}}
+<tr valign="top">
+	<td style="width:100px; text-align:left;">{{{matchlocations this}}}</td>
+	<td style="width:500px; text-align:left;">{{{listmeasures this}}}</td>
+	<td style="text-align:left;">{{{matchscore id}}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+</script>
+
+
+
+<script>
+///////////////////////////////////////////////////////////////////////////
+//
+// JavaScript helper functions for the above Handlebars templates.
+//
+// All of these helper functions operate on a JRP search results server
+// respones in the JSON format.  For more details about the data structure, 
+// see:
+//		http://josquin.stanford.edu/under-the-hood
+//
+// Handlebars helper functions defined below:
+// 	sectiontitle   -- Display the title of a section.
+// 	matchlocations -- Display the match count and location thumbnail
+//								for the matches.
+// 	listmeasures   --	Display a list of measures where matches start.
+//
+
+
+Handlebars.registerHelper('matchscore', function(jrpid) {
+	var dataloc = "http://{{site.dataurl}}/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
+
+	var themax = createThemax(QUERY);
+   var out = '';
+
+   out  = '<a class="file" target="_blank" ';
+	out += 'title="Score without editorial accidentals" ';
+	out += 'href="' + dataloc + '?a=notationNoEditText&id=' + jrpid;
+	out += '&themax=' + themax + '">file</a>';
+
+   out += '<a class="file-ed" target="_blank" ';
+	out += 'title="Score with editorial accidentals" ';
+	out += 'href="' + dataloc + '?a=notationEditText&id=' + jrpid;
+	out += '&themax=' + themax + '">Ed.&nbsp;file</a>';
+
+   return out;
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars sectiontitle helper function -- Given a JRPID, return the 
+//		section title.  If the JRPID is a single-movement work
+//
+
+Handlebars.registerHelper('sectiontitle', function(searchentry) {
+	var workid = searchentry.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	var i;
+	var work = WORKLISTjrpid[workid];
+	if (!work) {
+		// Error: no work with that ID, so return null string:
+		return "";
+	}
+	if (!work.sections) {
+		// Error: this work does not have any sections.
+		return "";
+	}
+	for (i=0; i<work.sections.length; i++) {
+		if (work.sections[i].id === searchentry) {
+			return work.sections[i].stitle;
+		}
+	}
+   // Error: could not find requeseted section in list:
+	return "";
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars listmeasures helper function -- Extract the starting measure
+// 	of all search results, collating them into a single sequence
+//		for all voices, then print the list from lowest to highest
+//		measure number
+//
+
+Handlebars.registerHelper('listmeasures', function(searchentry) {
+	var locs = searchentry.loc;
+	var i, j;
+	var measures = {};
+	var measure;
+	for (i=0; i<locs.length; i++) {
+		for (j=0; j<locs[i].loc.length; j++) {
+			lll = locs[i].loc[j];
+			measure = lll.match(/=(\d+)/)[1];
+			measures[measure] = 1;
+		}
+	}
+	var mmm = [];
+	for (var property in measures) {
+		if (measures.hasOwnProperty(property)) {
+			mmm.push(parseInt(property));
+		}
+	}
+	mmm.sort(function(a, b) {return a - b; });
+
+	var output = "";
+	if (mmm.length === 0) {
+		return "";
+	} else if (mmm.length === 1) {
+		return mmm[0];
+	}
+	output += mmm[0];
+	for (i=1; i<mmm.length; i++) {
+		if (mmm[i] > mmm[i-1] + 1) {
+			output += ", " + mmm[i];
+		} else if ((i < mmm.length-1) && (mmm[i] < mmm[i+1]-1)) {
+			output += "&ndash;" + mmm[i];
+		} else if ((i < mmm.length-1) && (mmm[i] === mmm[i+1]-1) 
+				&& (mmm[i] = mmm[i-1]+1)) {
+			continue;
+		} else {
+			output += "&ndash;" + mmm[i];
+		}
+	}
+
+	return output;
+});
+
+
+
+//////////////////////////////
+//
+// Handlebars matchlocations function -- Draw a map of the match locations
+//   in a thumbnail for the work/section, adding a hyperlink to the 
+//   PDF which shows the matches highlighted in orange as well as a
+//   count of the matches in the work/section.
+// Global variables this function is execting:
+//		QUERY = The search query in JSON format.
+//
+
+Handlebars.registerHelper('matchlocations', function(searchentry) {
+	var thumbnail = printLocationThumbnail(searchentry)
+
+	var dataloc = "http://{{site.dataurl}}/data";
+	if (window.location.href.match(/tasso/i)) {
+		dataloc = "http://data.tassomusic.org/data";
+	}
+
+	var themax = createThemax(QUERY);
+	var output = '';
+	output += '<span style="margin-left:10px;';
+	if (searchentry.count > 99) { 
+		output += 'letter-spacing:-1px;';
+	}
+	output += ' float:left; width:20px;">';
+ 	output += searchentry.count;
+	output += '</span>';
+	output += '<a title="Score with highlighted matches" ';
+	output += PDFTARGET;
+	output += ' href="http://' + BASEADDR ;
+	output += dataloc + '?a=notationWithEditWithText&f=' + searchentry.id;
+	output += '&themax=' + themax;
+	output += '">';
+	output +=  printLocationThumbnail(searchentry);
+	output += '</a>';
+
+	return output;
+});
+
+
+///////////////////////////////////////////////////////////////////////////
+//
+// Helper functions for the Handlebars helper functions defined above.
+//
+
+//////////////////////////////
+//
+// createThemax -- Create the themax option list for searching.
+//
+// Themax options:
+//    -D  : diatonic pitch query
+//    -I  : interval query
+//    -u  : duration query
+//
+
+function createThemax(query) {
+	var output   = "";
+	var pitch    = "";
+	var interval = "";
+	var rhythm   = "";
+
+	if ((typeof query !== 'undefined') && (query != "") && (query != null)) {
+		pitch    = query.pitch;
+		interval = query.interval;
+		rhythm   = query.rhythm;
+	} 
+  
+	pitch = pitch.replace(/[\\;\/\`\"\']/g, "");
+	if (!pitch.match(/^\s*$/)) {
+		if (!output.match(/^\s*$/)) {
+			output += " ";
+		}
+		output += "-D\"" + pitch + "\"";
+	}
+
+	interval = interval.replace(/[\\;\/\`\"\']/g, "");
+	if (!interval.match(/^\s*$/)) {
+		if (!output.match(/^\s*$/)) {
+			output += " ";
+		}
+		var newinterval = "";
+		var i;
+		var charlist = interval.split("");
+		newinterval = charlist[0];
+
+		// Javascript regexp does not support look-behind:
+		// $OPTIONS{'interval'} =~ s/(?<=[2-9])([1-9])/ \1/g;
+		for (i=1; i<charlist.length; i++) {
+			if (charlist[i].match(/[1-9]/)) {
+				if (charlist[i-1].match(/[2-9]/)) {
+ 					newinterval += " ";
+				}
+			}
+			newinterval += charlist[i];
+		}
+		newinterval = newinterval.replace(/\s+/g, " ");
+		newinterval = newinterval.replace(/^\s+/, "");
+		newinterval = newinterval.replace(/\s+$/, "");
+		output += "-I\"" + newinterval + "\"";
+	}
+
+	rhythm = rhythm.replace(/[\\;\/\`\"\']/g, "");
+	if (!rhythm.match(/^\s*$/)) {
+		rhythm = rhythm.replace(/\./g, " z ");
+		rhythm = rhythm.replace(/(.)(?=.)/g, "$1 ");
+		rhythm = rhythm.replace(/\s\./g, "");
+		rhythm = rhythm.replace(/\s+/g, " ");
+		rhythm = rhythm.replace(/^\s+/, "");
+		rhythm = rhythm.replace(/\s+$/, "");
+		// $rhythm =~ tr/lbDdWwHhQqEe/LBBB11224488/;
+		rhythm = rhythm.replace(/e/i, "8");
+		rhythm = rhythm.replace(/q/i, "4");
+		rhythm = rhythm.replace(/h/i, "2");
+		rhythm = rhythm.replace(/w/i, "1");
+		rhythm = rhythm.replace(/[db]/i, "B");
+		rhythm = rhythm.replace(/l/, "L");
+		rhythm = rhythm.replace(/ z/g, "d");
+		if (!rhythm.match(/^\s*$/)) {
+			if (!output.match(/^\s*$/)) {
+				output += " ";
+			}
+			output += "-u\"" + rhythm + "\"";
+		}
+	}
+	return encodeURIComponent(output);
+}
+
+
+
+//////////////////////////////
+//
+// printLocationThumbnail --
+//    <span class="location">
+//    <span class="point" style="top: 4px; left: 29px"></span>
+//    <span class="point point-blue" style="top: 2px; right: 22px"></span>
+//    </span>
+//  width of thumbnail: 100px;
+//  height of thumbnail: 13px;
+//  border: 2px solid #cbcbcb;
+//
+
+function printLocationThumbnail(match) {
+	var jrpid = match.id;
+	var workid;
+	if (jrpid.match(/^Tas/)) {
+		workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*[a-z]+)/)[1];
+	} else {
+		workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	}
+	var work = WORKLISTjrpid[workid];
+	var movement = null;
+	var i, j;
+	if (work.sections) {
+		for (i=0; i<work.sections.length; i++) {
+			if (work.sections[i].id === jrpid) {
+				movement = work.sections[i];
+				break;
+			}
+		}
+	}
+	var width  = 100;
+	var height = 13;
+	var percent;
+	var top;
+	var left;
+
+	var vcount = 0;
+	if (movement != null) {
+		vcount = parseInt(movement.v);
+	} else {
+		vcount = parseInt(work.voices);
+	}
+	if (vcount === 0) {
+		vcount = 4;
+	}
+	
+	var voice = 0;
+	var pieces;
+	var loc;
+
+	var output = "<span class=\"location\">";
+	for (i=0; i<match.loc.length; i++) {
+		voice = match.loc[i].ipart;
+		if (voice > vcount) {
+			voice = vcount;
+		}
+		top = height * (1.0 - voice / (vcount));
+		top = (top / height * 0.8 + 0.05) * height;
+		for (j=0; j<match.loc[i].loc.length; j++) {
+			loc = match.loc[i].loc[j];
+			pieces   = loc.match(/P([\d.]+)/);
+			if (pieces != null) {
+				percent = parseInt(pieces[1] + 0.5);
+				if (percent > 100) {
+					percent = 100;
+				}
+			} else {
+				continue;
+			}
+			left = percent /* * width/100 */;
+			left = left * 0.95;
+			if (left < 0) { left = 0; }
+			if (left > 100) { left = 100; }
+
+			output += "<span class=\"point\" style=\"background:black; left: ";
+			output += left + "px; top: " + top + "px;\"></span>";
+		}
+	}
+
+	output += "</span>";
+	return output;
+}
+
+
+</script>
+{% endraw %}

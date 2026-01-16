@@ -1,6 +1,3 @@
-
-
-<script>
 //
 // Programmer:    Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date: Thu Aug 21 12:59:01 PDT 2014
@@ -850,9 +847,3 @@ function DisplayCriticalNotes(jrpid, target) {
 
 	});
 }
-
-
-</script>
-
-
-

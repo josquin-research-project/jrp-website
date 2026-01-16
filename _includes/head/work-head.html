@@ -1,0 +1,38 @@
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=1010"/>
+<link rel="SHORTCUT ICON" href="/images/favicon.png"/>
+
+<!-- styles -->
+<link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lusitana:400,700" rel="stylesheet" type="text/css">
+
+<style>
+	{% include styles/normalize.css %}
+	{% include styles/style.css     %}
+</style>
+
+<script>
+	{% include scripts/external/jquery-3.6.0.min.js  %}
+	{% include scripts/external/select2.js           %}
+	{% include scripts/external/jquery.ezmark.min.js %}
+	{% include scripts/external/placeholders.min.js  %}
+	{% include scripts/scripts-basic.js              %}
+	{% include scripts/scripts-common.js             %}
+	{% include scripts/external/handlebars-v4.7.8.js %}
+	{% include scripts/references.js 				 %}
+	{% include scripts/external/qtip/jquery.qtip.min.js	 %}
+	{% include scripts/external/qtip/imagesloaded.pkg.min.js	 %}
+</script>
+
+<script>
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-38223992-1']);
+	_gaq.push(['_trackPageview']);
+	(function() {
+		var ga = document.createElement('script'); 
+		ga.type = 'text/javascript'; 
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>

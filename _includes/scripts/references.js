@@ -1,5 +1,3 @@
-<script>
-
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
 // Creation Date:	Mon Nov 17 23:25:21 PST 2014
@@ -62,5 +60,3 @@ function GetReferenceEdition(jrpid, referenceinfo) {
 	}
    return output;
 }
-
-</script>
