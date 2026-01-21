@@ -1480,7 +1480,15 @@ header #banner div.descr p, header #bannernotitle div.descr p {
 header.simple nav#primary-nav ul {
 	display: flex;
 	align-items: center;
-	padding-right: 32px;
+	justify-content: flex-start;
+	gap: 70px;   /* ← equal gaps between items */
+	padding-left: 0;
+	margin-left: 0;
+}
+
+nav.main-page ul li.logo {
+	padding-left: 0 !important;
+	margin-left: 0 !important;
 }
 
 header.simple nav#primary-nav ul li.logo a {
@@ -1488,11 +1496,12 @@ header.simple nav#primary-nav ul li.logo a {
 	display: flex;
 	align-items: center;
 	padding: 0;
+	margin-left: 0 !important;
 	height: 100%;
 }
 
 header.simple nav#primary-nav ul li:not(.logo) {
-	flex: 1 1 0;
+	flex: 0 0 auto;
 	text-align: center;
 }
 
