@@ -1,0 +1,350 @@
+[
+	{
+		"EDITON_ID": "Antico_MRM",
+		"Shorthand": "The Motet Books of Andrea Antico",
+		"Name of Volume/Journal": "The Motet Books of Andrea Antico",
+		"Editor": "Martin Picker",
+		"Series": "Monuments of Renaissance Music",
+		"Volume in Series": "8",
+		"Location": "Chicago",
+		"Publisher": "University of Chicago Press",
+		"Year": "1987"
+	},
+	{
+		"EDITON_ID": "Brumel_OO",
+		"Shorthand": "Antoine Brumel Opera Omnia",
+		"Composer/Author": "Antoine Brumel",
+		"Name of Volume/Journal": "Opera Omnia",
+		"Editor": "Barton Hudson",
+		"Volumes": "6",
+		"Series": "Corpus Mensurabilis Musicae",
+		"Volume in Series": "5",
+		"Publisher": "American Institute of Musicology",
+		"Year": "1969–72"
+	},
+	{
+		"EDITON_ID": "Busnoys_OO",
+		"Shorthand": "Antoine Busnoys Collected Works",
+		"Composer/Author": "Antoine Busnoys",
+		"Name of Volume/Journal": "Collected Works",
+		"Editor": "Leeman L. Perkins and Richard Taruskin",
+		"Volumes": "4",
+		"Series": "Masters and Monuments of the Renaissance",
+		"Volume in Series": "5",
+		"Location": "New York",
+		"Publisher": "Broude Trust",
+		"Year": "1990–2018"
+	},
+	{
+		"EDITON_ID": "Florentine_MRM",
+		"Shorthand": "A Florentine Chansonnier",
+		"Name of Volume/Journal": "A Florentine Chansonnier From the Time of Lorenzo the Magnificant: Florence, Biblioteca Nazionale Centrale MS Banco Rari 229",
+		"Editor": "Howard Mayer Brown",
+		"Volumes": "2",
+		"Series": "Monuments of Renaissance Music",
+		"Volume in Series": "7",
+		"Location": "Chicago",
+		"Publisher": "University of Chicago Press",
+		"Year": "1983"
+	},
+	{
+		"EDITON_ID": "Gaffurius_OO",
+		"Shorthand": "Franchinus Gaffurius Collected Works",
+		"Composer/Author": "Franchinus Gaffurius",
+		"Name of Volume/Journal": "Collected Musical Works",
+		"Editor": "Ludwig Finscher",
+		"Volumes": "2",
+		"Series": "Corpus Mensurabilis Musicae",
+		"Volume in Series": "10",
+		"Location": "Rome",
+		"Publisher": "American Institute of Musicology",
+		"Year": "1955"
+	},
+	{
+		"EDITON_ID": "Isaac_OO",
+		"Shorthand": "Heinrich Issac Opera Omnia",
+		"Composer/Author": "Heinrich Isaac",
+		"Name of Volume/Journal": "Opera Omnia",
+		"Editor": "Edward R. Lerner",
+		"Volumes": "10",
+		"Series": "Corpus Mensurabilis Musicae",
+		"Volume in Series": "65",
+		"Publisher": "American Institute of Musicology and Hänssler Verlag",
+		"Year": "1974–"
+	},
+	{
+		"EDITON_ID": "Japart_OO",
+		"Shorthand": "Jean Japart Collected Works",
+		"Composer/Author": "Jean Japart",
+		"Name of Volume/Journal": "The Collected Works",
+		"Editor": "Allan Atlas",
+		"Series": "Masters and Monuments of the Renaissance",
+		"Volume in Series": "6",
+		"Location": "New York",
+		"Publisher": "Broude Trust",
+		"Year": "2012"
+	},
+	{
+		"EDITON_ID": "Josquin_NJE",
+		"Shorthand": "New Josquin Edition",
+		"Composer/Author": "Josquin des Prez",
+		"Name of Volume/Journal": "The Collected Works of Josquin des Prez",
+		"Editor": "Willem Elders et al.",
+		"Volumes": "30",
+		"Location": "Utrecht",
+		"Publisher": "Vereniging voor Nederlandse Muziekgeschiedenis",
+		"Year": "1987–2017"
+	},
+	{
+		"EDITON_ID": "Josquin_WK",
+		"Shorthand": "Werken van Josquin des Prés",
+		"Composer/Author": "Josquin des Prez",
+		"Name of Volume/Journal": "Werken van Josquin des Prés",
+		"Editor": "Albert Smijers, Myroslaw Antonowycz, and Willem Elders",
+		"Volumes": "55",
+		"Location": "Utrecht",
+		"Publisher": "Vereniging voor Nederlandse Muziekgeschiedenis",
+		"Year": "1922–69"
+	},
+	{
+		"EDITON_ID": "LaRue_OO",
+		"Shorthand": "Piere de la Rue Opera Omnia",
+		"Composer/Author": "Pierre de la Rue",
+		"Name of Volume/Journal": "Opera Omnia",
+		"Editor": "Nigel St. John Davison, J. Evan Kreider, T. Herman Keahey",
+		"Volumes": "9",
+		"Series": "Corpus Mensurabilis Musicae",
+		"Volume in Series": "97",
+		"Publisher": "American Institute of Musicology and Hänssler Verlag",
+		"Year": "1989–"
+	},
+	{
+		"EDITON_ID": "Marguerite_CE",
+		"Shorthand": "The Chanson Albums of Marguerite of Austria",
+		"Name of Volume/Journal": "The Chanson Albums of Marguerite of Austria",
+		"Editor": "Martin Picker",
+		"Location": "Berkeley",
+		"Publisher": "University of California Press",
+		"Year": "1965"
+	},
+	{
+		"EDITON_ID": "Medici_MRM",
+		"Shorthand": "The Medici Codex of 1518",
+		"Name of Volume/Journal": "The Medici Codex of 1518",
+		"Editor": "Edward E. Lowinsky",
+		"Volumes": "3",
+		"Series": "Monuments of Renaissance Music",
+		"Volume in Series": "4",
+		"Location": "Chicago",
+		"Publisher": "University of Chicago Press",
+		"Year": "1968"
+	},
+	{
+		"EDITON_ID": "Mellon_CE",
+		"Shorthand": "Mellon Chansonnier Edition",
+		"Name of Volume/Journal": "The Mellon Chansonnier",
+		"Editor": "Leeman L. Perkins and Howard Garey",
+		"Volumes": "2",
+		"Location": "New Haven",
+		"Publisher": "Yale University Press",
+		"Year": "1979"
+	},
+	{
+		"EDITON_ID": "MotettiA_SCM",
+		"Shorthand": "Selections from Motetti A",
+		"Name of Volume/Journal": "Selections from Motetti A numero trentatre (Venice, 1502)",
+		"Editor": "Richard Sherr",
+		"Series": "Sixteenth-Century Motet",
+		"Volume in Series": "1",
+		"Location": "New York",
+		"Publisher": "Garland Publishing",
+		"Year": "1991"
+	},
+	{
+		"EDITON_ID": "MotettiB_MRM",
+		"Shorthand": "Motetti B Critical Edition",
+		"Name of Volume/Journal": "Ottaviano Petrucci Motetti B (Venice, 1503)",
+		"Editor": "Warren Drake",
+		"Series": "Monuments of Renaissance Music",
+		"Volume in Series": "11",
+		"Location": "Chicago",
+		"Publisher": "University of Chicago Press",
+		"Year": "2002"
+	},
+	{
+		"EDITON_ID": "MotettiC_SCM",
+		"Shorthand": "Selections from Motetti C",
+		"Name of Volume/Journal": "Selections from Motetti C (Venice, 1504)",
+		"Editor": "Richard Sherr",
+		"Series": "Sixteenth-Century Motet",
+		"Volume in Series": "2",
+		"Location": "New York",
+		"Publisher": "Garland Publishing",
+		"Year": "1991"
+	},
+	{
+		"EDITON_ID": "Motetti_quarto_SCM",
+		"Shorthand": "Selections from Motetti Libro quarto",
+		"Name of Volume/Journal": "Selections from Motetti Libro quarto (Venice, 1505)",
+		"Editor": "Richard Sherr",
+		"Series": "Sixteenth-Century Motet",
+		"Volume in Series": "3",
+		"Location": "New York",
+		"Publisher": "Garland Publishing",
+		"Year": "1991"
+	},
+	{
+		"EDITON_ID": "Mouton_OO",
+		"Shorthand": "Jean Mouton Opera Omnia",
+		"Composer/Author": "Jean Mouton",
+		"Name of Volume/Journal": "Opera Omnia",
+		"Editor": "Andrew C. Minor and Thomas G. MacCracken",
+		"Volumes": "5",
+		"Series": "Corpus Mensurabilis Musicae",
+		"Volume in Series": "43",
+		"Publisher": "American Institute of Musicology",
+		"Year": "1967–"
+	},
+	{
+		"EDITON_ID": "Obrecht_NOE",
+		"Shorthand": "New Obrecht Edition",
+		"Composer/Author": "Jacob Obrecht",
+		"Name of Volume/Journal": "Collected Works",
+		"Editor": "Chris Maas, Barton Hudson, Thomas Noblitt, Martin Staehelin, Tom R. Ward, Leon Kessels, Eric Jas",
+		"Volumes": "18",
+		"Location": "Utrecht",
+		"Publisher": "Vereniging voor Nederlandse Muziekgeschiedenis",
+		"Year": "1983–99"
+	},
+	{
+		"EDITON_ID": "Odhecaton_CE",
+		"Shorthand": "Odhecaton A Critical Edition",
+		"Name of Volume/Journal": "Harmonice musices odhecaton A",
+		"Editor": "Helen Hewitt and Isabel Pope",
+		"Location": "Cambridge",
+		"Publisher": "Mediaeval Academy of America",
+		"Year": "1942"
+	},
+	{
+		"EDITON_ID": "Vaqueras_OO",
+		"Shorthand": "Bertrandus Vaqueras Opera Omnia",
+		"Composer/Author": "Bertrandus Vaqueras",
+		"Name of Volume/Journal": "Opera Omnia",
+		"Editor": "Richard Sherr",
+		"Series": "Corpus Mensurabilis Musicae",
+		"Volume in Series": "78",
+		"Publisher": "American Institute of Musicology and Hänssler Verlag",
+		"Year": "1978"
+	},
+	{
+		"EDITON_ID": "Weerbeke_OO",
+		"Shorthand": "Gaspar van Weerbeke Collected Works",
+		"Composer/Author": "Gaspar van Weerbeke",
+		"Name of Volume/Journal": "Collected Works",
+		"Editor": "Gerhard Croll, Eric F. Fiedler, Andrea Lindmayr-Brandl, Agnese Pavanello, and Paul Kolb",
+		"Volumes": "4",
+		"Series": "Corpus Mensurabilis Musicae",
+		"Volume in Series": "106",
+		"Publisher": "American Institute of Musicology",
+		"Year": "1998–2018"
+	},
+	{
+		"Shorthand": "To add: Mouton (Shine, Smijers, Rhau), Isaac (Staehelin, Choralis Constantinus)"
+	},
+	{
+		"Shorthand": "Maniates, Combinative Chansons (M)"
+	},
+	{
+		"Shorthand": "Cyrus, De tous biens plaine (C)"
+	},
+	{
+		"Shorthand": "F. Gaffurio: Messe I–III, ed. A. Bortone, AMMM, i–iii (1958–60) [G i–iii]"
+	},
+	{
+		"Shorthand": "F. Gaffurio: Magnificat, ed. F. Fano, AMMM, iv (1959) [G iv]"
+	},
+	{
+		"Shorthand": "F. Gaffurio: Mottetti, ed. L. Migliavacca, AMMM, v (1959) [G v]"
+	},
+	{
+		"Shorthand": "Anonimi: Messe, ed. F. Fano, AMMM, vi (1966) [A]"
+	},
+	{
+		"Shorthand": "Liber capelle ecclesie maioris: Quarto codice di Gaffurio, AMMM, xvi (1968) [facs. of Librone 4 (olim 2266), which was badly damaged by fire in 1906; attrib. taken from earlier inventories: see Sartori, 1953, and Ward, 1986] [Lib.4]"
+	},
+	{
+		"Shorthand": "Milan, Archivio della Veneranda Fabbrica del Duomo, sezione musicale, Renaissance Music in Facsimile, xiia–c [=librone 1–3, I-Md olim 2269, 2268, 2267] (New York, 1987) [Lib.1–3]"
+	},
+	{
+		"Shorthand": "Van Ockeghem tot Sweelinck, ed. A. Smijers (Amsterdam, 1949–56) [S]"
+	},
+	{
+		"Shorthand": "Gaspar van Werbeke: Messe e motetti, ed. G. Tintori, AMMM, xi (1963) [T]"
+	},
+	{
+		"Shorthand": "An Editorial Transnotation of the Manuscript Capella Sistina 51, Biblioteca Apostolica Vaticana, Città del Vaticano: Liber Missarum (Collected Works, XVII/1), ed. R. Eakins (Ottawa, 1999) [E]"
+	},
+	{
+		"Shorthand": "Georg Rhau: Musikdrucke aus den Jahren 1538–1545 in praktischer Neuausgabe, ed. H. Albrecht and others (Kassel and St Louis, 1955–) [RhauM]"
+	},
+	{
+		"Shorthand": "Heinrich Isaac: Five Polyphonic Masses, ed. L. Cuyler (Ann Arbor, 1956) [C]"
+	},
+	{
+		"Shorthand": "Henricus Isaac: Messe, ed. F. Fano, AMMM, x (1962) [F]"
+	},
+	{
+		"Shorthand": "Heinrich Isaac: Messen, ed. M. Staehelin, Musikalische Denkmäler, vii–viii (Mainz, 1970–73) [S]"
+	},
+	{
+		"Shorthand": "Choralis Constantinus, i (Nuremberg, 1550), ed. E. Bezecny and W. Rabl, DTÖ, x, Jg.v/1 (1989/R); facs. (Peer, 1990) with introduction by E.R. Lerner [CC i]"
+	},
+	{
+		"Shorthand": "Choralis Constantinus, ii (Nuremberg, 1555), ed. A. von Webern, DTÖ, xxxii, Jg.xvi/1 (1909/R); facs. (Peer, 1990) with introduction by E.R. Lerner [CC ii]"
+	},
+	{
+		"Shorthand": "Choralis Constantinus, iii (Nuremberg, 1555), ed. L. Cuyler (Ann Arbor, 1950); facs. (Peer, 1990) with introduction by E.R. Lerner [CC iii]"
+	},
+	{
+		"Shorthand": "Heinrich Isaac: Introiten, ed. M. Just, Cw, lxxi (1960), cxix (1973) [J]"
+	},
+	{
+		"Shorthand": "Das Erbe deutscher Musik, ed. various [EDM]"
+	},
+	{
+		"Shorthand": "Publikation älterer praktischer und theoretischer Musikwerke [PÄMw] (listed in column D when no other edition available; listed in column J otherwise)"
+	},
+	{
+		"Shorthand": "Heinrich Isaac: Weltliche Werke, ed. J. Wolf, DTÖ, xxviii, Jg.xiv/1 (1907/R); xxxii, Jg.xvi/1, suppl. (1909/R) [W i, W ii]"
+	},
+	{
+		"Shorthand": "Das Chorwerk [Cw]"
+	},
+	{
+		"Shorthand": "Schweizerische Musikdenkmäler [SMd]"
+	},
+	{
+		"Shorthand": "Trésor musical: musique profane, ed. R.J. van Maldeghem, années i–xxix (Brussels, 1865–93/R) [VMP]"
+	},
+	{
+		"Shorthand": "Trésor musical: musique religieuse, ed. R.J. van Maldeghem, années i–xxix (Brussels, 1865–93/R) [VMR]"
+	},
+	{
+		"Shorthand": "Georg Rhau: Musikdrucke aus den Jahren 1538–1545 in praktischer Neuausgabe, ed. I.-M. Schröder and others (Kassel, 1955–) [RhauM]"
+	},
+	{
+		"Shorthand": "H. Meconi: Style and Authenticity in the Secular Music of Pierre de la Rue (diss., Harvard U., 1986) [M]"
+	},
+	{
+		"Shorthand": "Treize livres de motets parus chez Pierre Attaingnant en 1534 et 1535 ed. A. Smijers and A.T. Merritt (Monaco 1934–64) [SM]"
+	},
+	{
+		"Shorthand": "J.M. Shine The Motets of Jean Mouton (diss. New York U. 1953) [S; listed only where there is no published edn]"
+	},
+	{
+		"Shorthand": "Georg Rhau: Musikdrucke aus den Jahren 1538 bis 1545 ed. H. Albrecht and others (Kassel and Concordia MO 1955–) [R]"
+	},
+	{
+		"Shorthand": "Jean Mouton: Motets à 4 et 5 voix ed. H. Expert and others MAMF v (1975) [E]"
+	}
+]

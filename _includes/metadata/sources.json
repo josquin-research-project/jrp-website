@@ -1,0 +1,451 @@
+[
+	{
+		"SOURCE_ID": "SRC:Berlin_7",
+		"Shorthand": "Berlin 7",
+		"Manuscript Signature": "D-B Sammlung Bohn Mus. MS 7",
+		"Former Shelfmark": "Former Stadtbibliothek Breslau",
+		"CC or RISM sigla": "WrocS 7",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2691/"
+	},
+	{
+		"SOURCE_ID": "SRC:Berlin_40021",
+		"Shorthand": "Berlin 40021",
+		"Manuscript Signature": "D-B MS Mus. 40021",
+		"Former Shelfmark": "Preussische Staatsbibliothek, Z 21",
+		"CC or RISM sigla": "BerlS 40021",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1579"
+	},
+	{
+		"SOURCE_ID": "SRC:Berlin_40026",
+		"Shorthand": "Berlin 40026",
+		"Manuscript Signature": "D-B MS Mus. 40026"
+	},
+	{
+		"SOURCE_ID": "SRC:Bologna_142",
+		"Shorthand": "Bologna 142",
+		"Manuscript Signature": "I-Bc R.142",
+		"CC or RISM sigla": "BolC R142",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1396"
+	},
+	{
+		"SOURCE_ID": "SRC:Bologna_Q16",
+		"Shorthand": "Bologna Q16",
+		"Manuscript Signature": "I-Bc Q.16",
+		"CC or RISM sigla": "BolC Q16",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1387"
+	},
+	{
+		"SOURCE_ID": "SRC:Bologna_Q18",
+		"Shorthand": "Bologna Q18",
+		"Manuscript Signature": "I-Bc Q.18",
+		"Former Shelfmark": "olim 143",
+		"CC or RISM sigla": "BolC Q18",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1389"
+	},
+	{
+		"SOURCE_ID": "SRC:Bologna_Q34",
+		"Shorthand": "Bologna Q34",
+		"Manuscript Signature": "I-Bc Q.34",
+		"CC or RISM sigla": "BolC Q34",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2826"
+	},
+	{
+		"SOURCE_ID": "SRC:Brussels_228",
+		"Shorthand": "Brussels 228",
+		"Manuscript Signature": "B-Br MS 228",
+		"CC or RISM sigla": "BrusBR 228",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1628"
+	},
+	{
+		"SOURCE_ID": "SRC:Brussels_9126",
+		"Shorthand": "Brussels 9126",
+		"Manuscript Signature": "B-Br MS 9126",
+		"CC or RISM sigla": "BrusBR 9126",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1632"
+	},
+	{
+		"SOURCE_ID": "SRC:Canti_C",
+		"Shorthand": "Canti C",
+		"Print Name": "Canti. C. Nº cento Cinquanta. C",
+		"Place of Publication": "Venice",
+		"Publisher": "Ottaviano Petrucci",
+		"Date": "1504",
+		"CC or RISM sigla": "1504|3",
+		"RISM Source Link": "https://rism.online/sources/993103783"
+	},
+	{
+		"SOURCE_ID": "SRC:Cappella_Giulia_C",
+		"Shorthand": "Cappella Giulia Chansonnier",
+		"Manuscript Signature": "V-CVbav MS Capp. Giulia XIII,27",
+		"Alias": "Medici Chansonnier",
+		"CC or RISM sigla": "VatG XIII.27",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/944"
+	},
+	{
+		"SOURCE_ID": "SRC:Cappella_Sistina_15",
+		"Shorthand": "Cappella Sistina 15",
+		"Manuscript Signature": "V-CVbav MS Capp. Sist. 15",
+		"CC or RISM sigla": "VatS 15",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/805"
+	},
+	{
+		"SOURCE_ID": "SRC:Cappella_Sistina_42",
+		"Shorthand": "Cappella Sistina 42",
+		"Manuscript Signature": "V-CVbav MS Capp. Sist. 42",
+		"CC or RISM sigla": "VatS 42",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1474"
+	},
+	{
+		"SOURCE_ID": "SRC:Cappella_Sistina_51",
+		"Shorthand": "Cappella Sistina 51",
+		"Manuscript Signature": "V-CVbav MS Capp. Sist. 51",
+		"CC or RISM sigla": "VatS 51",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1479"
+	},
+	{
+		"SOURCE_ID": "SRC:Copenhagen_C",
+		"Shorthand": "Copenhagen Chansonnier",
+		"Manuscript Signature": "DK-Kk MS Thott 291, 8°",
+		"Alias": "Copenhagen Chansonnier",
+		"CC or RISM sigla": "CopKB 291",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1700"
+	},
+	{
+		"SOURCE_ID": "SRC:Cortona_95",
+		"Shorthand": "Cortona 95",
+		"Manuscript Signature": "I-CT MS 95",
+		"Alias": "Cortona/Paris Partbooks",
+		"CC or RISM sigla": "CorBC 95-6",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/242"
+	},
+	{
+		"SOURCE_ID": "SRC:Cortona_96",
+		"Shorthand": "Cortona 96",
+		"Manuscript Signature": "I-CT MS 96",
+		"Alias": "Cortona/Paris Partbooks",
+		"CC or RISM sigla": "CorBC 95-6",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1915"
+	},
+	{
+		"SOURCE_ID": "SRC:Dijon_C",
+		"Shorthand": "Dijon Chansonnier",
+		"Manuscript Signature": "F-Dm MS 517",
+		"Alias": "Dijon Chansonnier",
+		"Former Shelfmark": "olim 295",
+		"CC or RISM sigla": "DijBM 517",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"SOURCE_ID": "SRC:Dresden_505",
+		"Shorthand": "Dresden 1/D/505",
+		"Manuscript Signature": "D-Dl Ms Mus. 1/D/505",
+		"Alias": "Annaberger Chorbuch I",
+		"CC or RISM sigla": "DresSL 1/D/505",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1713/"
+	},
+	{
+		"SOURCE_ID": "SRC:Dressler_1571",
+		"Shorthand": "Dressler 1571",
+		"Print Name": "Mvsicæ practicæ elementa in vsum Scholæ Magdeburgensis edita",
+		"Place of Publication": "Magdeburg",
+		"Publisher": "Wolffgangus Kirchner",
+		"Date": "1571"
+	},
+	{
+		"SOURCE_ID": "SRC:Escorial_24",
+		"Shorthand": "Escorial IV.a.24 \"B\"",
+		"Manuscript Signature": "E-E MS IV.a.24",
+		"CC or RISM sigla": "EscSL IV.a.24",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"SOURCE_ID": "SRC:Facultad_1626",
+		"Shorthand": "Facultad organica 1626",
+		"Print Name": "Libro de tientos y discursos de musica practica, y theorica de organo, intitulado Falcultad organica",
+		"Place of Publication": "Alcala",
+		"Publisher": "Antonio Arnao",
+		"Date": "1626",
+		"RISM Source Link": "https://rism.online/sources/990011332"
+	},
+	{
+		"SOURCE_ID": "SRC:Florence_62",
+		"Shorthand": "Florence 62",
+		"Manuscript Signature": "I-Fn MS Banco Rari 62",
+		"CC or RISM sigla": "FlorBN BR 62",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1771"
+	},
+	{
+		"SOURCE_ID": "SRC:Florence_27",
+		"Shorthand": "Florence Panciatichi 27",
+		"Manuscript Signature": "I-Fn MS Panciatichiano 27",
+		"CC or RISM sigla": "FlorBN Panc. 27",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1400"
+	},
+	{
+		"SOURCE_ID": "SRC:Florence_176",
+		"Shorthand": "Florence 176",
+		"Manuscript Signature": "I-Fn MS Magl. XIX.176",
+		"CC or RISM sigla": "FlorBN Magl. 176",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1408"
+	},
+	{
+		"SOURCE_ID": "SRC:Florence_229",
+		"Shorthand": "Florence 229",
+		"Manuscript Signature": "I-Fn MS Banco Rari 229",
+		"Former Shelfmark": "olim Magl. XIX. 59",
+		"CC or RISM sigla": "FlorBN BR 229",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1410"
+	},
+	{
+		"SOURCE_ID": "SRC:Glog_L",
+		"Shorthand": "Glogauer Liederbuch",
+		"Manuscript Signature": "PL-Kj Berlin MS Mus. 40098",
+		"Alias": "Glogauer Liederbuch; Żagań partbooks",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1569"
+	},
+	{
+		"SOURCE_ID": "SRC:Jena_32",
+		"Shorthand": "Jena 32",
+		"Manuscript Signature": "D-Ju MS 32",
+		"CC or RISM sigla": "JenaU 32",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1232"
+	},
+	{
+		"SOURCE_ID": "SRC:Kriesstein_1540_7",
+		"Shorthand": "Kriesstein 1540|7",
+		"Print Name": "Selectissimae necnon familiarissimae cantiones",
+		"Place of Publication": "Augsburg",
+		"Publisher": "Melchior Kriesstein",
+		"Date": "1540",
+		"CC or RISM sigla": "1540|7",
+		"RISM Source Link": "https://rism.online/sources/993104292"
+	},
+	{
+		"SOURCE_ID": "SRC:Laborde_C",
+		"Shorthand": "Laborde Chansonnier",
+		"Manuscript Signature": "US-Wc M2.1.L25 Case",
+		"Alias": "Chansonnier Laborde",
+		"CC or RISM sigla": "WashLC L25",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2057"
+	},
+	{
+		"SOURCE_ID": "SRC:Leuven_C",
+		"Shorthand": "Leuven Chansonnier",
+		"Manuscript Signature": "B-AF MS 1",
+		"Alias": "Leuven chansonnier",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/4735"
+	},
+	{
+		"SOURCE_ID": "SRC:Librone_1",
+		"Shorthand": "Librone I",
+		"Manuscript Signature": "I-Mfd MS 2269",
+		"Alias": "Librone 1",
+		"CC or RISM sigla": "MilD 1",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2089"
+	},
+	{
+		"SOURCE_ID": "SRC:Laudi_1",
+		"Shorthand": "Libro primo delle laudi spirituali",
+		"Print Name": "Libro Primo delle laudi spirituali",
+		"Place of Publication": "Venice",
+		"Publisher": "Serafino Razzi",
+		"Date": "1563",
+		"CC or RISM sigla": "1563|6",
+		"RISM Source Link": "https://rism.online/sources/1000000577"
+	},
+	{
+		"SOURCE_ID": "SRC:Mellon_C",
+		"Shorthand": "Mellon Chansonnier",
+		"Manuscript Signature": "US-NHub 91",
+		"Alias": "Mellon Chansonnier",
+		"CC or RISM sigla": "NHavY 91",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1085"
+	},
+	{
+		"SOURCE_ID": "SRC:Munich_41",
+		"Shorthand": "Munich 41",
+		"Manuscript Signature": "D-Mbs Mus. MS 41",
+		"Former Shelfmark": "olim H.C. 58; MaiM 127",
+		"CC or RISM sigla": "MunBS 41",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2198"
+	},
+	{
+		"SOURCE_ID": "SRC:Munich_3154",
+		"Shorthand": "Munich 3154",
+		"Manuscript Signature": "D-Mbs Mus. MS 3154",
+		"Alias": "Leopold Codex",
+		"CC or RISM sigla": "MunBS 3154",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/797"
+	},
+	{
+		"SOURCE_ID": "SRC:Munich_17198",
+		"Shorthand": "Munich 17198",
+		"Manuscript Signature": "D-Mbs Mus. MS 17198",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/3928"
+	},
+	{
+		"SOURCE_ID": "SRC:Nivelle_C",
+		"Shorthand": "Nivelle Chansonnier",
+		"Manuscript Signature": "F-Pn Rés. Vmc ms. 57",
+		"Alias": "Nivelle de la Chaussée Chansonnier",
+		"CC or RISM sigla": "ParisBN 57",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2374"
+	},
+	{
+		"SOURCE_ID": "SRC:Odhecaton",
+		"Shorthand": "Odhecaton",
+		"Print Name": "Harmonice musices Odhecaton A",
+		"Place of Publication": "Venice",
+		"Publisher": "Ottaviano Petrucci",
+		"Date": "1501",
+		"CC or RISM sigla": "1501|1",
+		"RISM Source Link": "https://rism.online/sources/993103756"
+	},
+	{
+		"SOURCE_ID": "SRC:Paris_1817",
+		"Shorthand": "Paris 1817",
+		"Manuscript Signature": "F-Pnm NAF 1817",
+		"Alias": "Cortona/Paris Partbooks",
+		"Former Shelfmark": "olim F-Pn nouvelles acquisitions françaises 1817",
+		"CC or RISM sigla": "ParisBNN 1817",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2385/"
+	},
+	{
+		"SOURCE_ID": "SRC:Pavia_362",
+		"Shorthand": "Pavia 362",
+		"Manuscript Signature": "I-PAVu MS Aldini 362",
+		"CC or RISM sigla": "PavU 362",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1454"
+	},
+	{
+		"SOURCE_ID": "SRC:Perugia_G20",
+		"Shorthand": "Perugia G.20",
+		"Manuscript Signature": "I-PEc MS 431",
+		"Alias": "G 20",
+		"CC or RISM sigla": "PerBC 431",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1455"
+	},
+	{
+		"SOURCE_ID": "SRC:Perugia_1013",
+		"Shorthand": "Perugia 1013",
+		"Manuscript Signature": "I-PEc MS 1013",
+		"Alias": "M 36",
+		"CC or RISM sigla": "PerBC 1013",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/1456"
+	},
+	{
+		"SOURCE_ID": "SRC:Pixerecourt_C",
+		"Shorthand": "Pixérécourt Chansonnier",
+		"Manuscript Signature": "F-Pnm Français 15123",
+		"CC or RISM sigla": "ParisBNF 15123",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/818"
+	},
+	{
+		"SOURCE_ID": "SRC:Regensburg_76",
+		"Shorthand": "Regensburg 76",
+		"Manuscript Signature": "D-Rtt Freie Künste Musik 76 Abth. II",
+		"CC or RISM sigla": "RegT 76",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2438"
+	},
+	{
+		"SOURCE_ID": "SRC:Trent_87",
+		"Shorthand": "Trent 87",
+		"Manuscript Signature": "I-TRbc MS 1374",
+		"Alias": "87",
+		"Former Shelfmark": "olim Trent 87",
+		"CC or RISM sigla": "TrentC 87",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/807"
+	},
+	{
+		"SOURCE_ID": "SRC:Trent_88",
+		"Shorthand": "Trent 88",
+		"Manuscript Signature": "I-TRbc MS 1375",
+		"Alias": "88",
+		"Former Shelfmark": "olim Trent 88",
+		"CC or RISM sigla": "TrentC 88",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/808"
+	},
+	{
+		"SOURCE_ID": "SRC:Trent_89",
+		"Shorthand": "Trent 89",
+		"Manuscript Signature": "I-TRbc MS 1376",
+		"Alias": "89",
+		"Former Shelfmark": "olim Trent 89",
+		"CC or RISM sigla": "TrentC 89",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/809"
+	},
+	{
+		"SOURCE_ID": "SRC:Trent_90",
+		"Shorthand": "Trent 90",
+		"Manuscript Signature": "I-TRbc MS 1377",
+		"Alias": "90",
+		"Former Shelfmark": "olim Trent 90",
+		"CC or RISM sigla": "TrentC 90",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/810"
+	},
+	{
+		"SOURCE_ID": "SRC:Trent_91",
+		"Shorthand": "Trent 91",
+		"Manuscript Signature": "I-TRbc MS 1378",
+		"Alias": "91",
+		"Former Shelfmark": "olim Trent 91",
+		"CC or RISM sigla": "TrentC 91",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/811"
+	},
+	{
+		"SOURCE_ID": "SRC:Trent_92",
+		"Shorthand": "Trent 92",
+		"Manuscript Signature": "I-TRbc MS 1379",
+		"Alias": "92",
+		"Former Shelfmark": "olim Trent 92",
+		"CC or RISM sigla": "TrentC 92",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/812"
+	},
+	{
+		"SOURCE_ID": "SRC:Trent_93",
+		"Shorthand": "Trent 93",
+		"Manuscript Signature": "I-TRcap MS BL",
+		"Alias": "93",
+		"Former Shelfmark": "olim Trent 93",
+		"CC or RISM sigla": "TrentM 93",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/813"
+	},
+	{
+		"SOURCE_ID": "SRC:Verona_757",
+		"Shorthand": "Verona 757",
+		"Manuscript Signature": "I-VEc MS DCCLVII",
+		"CC or RISM sigla": "VerBC 757",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/971"
+	},
+	{
+		"SOURCE_ID": "SRC:Verona_758",
+		"Shorthand": "Verona 758",
+		"Manuscript Signature": "I-VEc MS DCCLVIII",
+		"CC or RISM sigla": "VerBC 758",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/972"
+	},
+	{
+		"SOURCE_ID": "SRC:Vienna_15941",
+		"Shorthand": "Vienna 15941",
+		"Manuscript Signature": "A-Wn Mus.Hs. 15941",
+		"Former Shelfmark": "A.N.35.H.18",
+		"CC or RISM sigla": "VienNB Mus. 15941",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2071/"
+	},
+	{
+		"SOURCE_ID": "SRC:Wolfenbuttel_C",
+		"Shorthand": "Wolfenbüttel Chansonnier",
+		"Manuscript Signature": "D-W Cod. Guelf. 287 Extrav.",
+		"Alias": "Wolfenbüttel Chansonnier",
+		"CC or RISM sigla": "WolfA 287",
+		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2016"
+	},
+	{
+		"SOURCE_ID": "SRC:Zacconi_1592",
+		"Shorthand": "Zacconi 1592",
+		"Print Name": "Prattica di musica",
+		"Place of Publication": "Venice",
+		"Publisher": "Bartolomeo Carampello",
+		"Date": "1592"
+	}
+]

@@ -1,0 +1,29 @@
+<aside class="browse">
+	<form action="#">
+		<div class="form-body">
+
+			<div id="composers-select" class="form-group"></div>
+			<div id="genres-select" class="form-group"></div>
+			<div id="voices-select" class="form-group"></div>
+			<div class="form-group">
+				<input onkeyup="browseDisplayTitleBox();" id="titlebox" type="text" class="form-control" placeholder="Enter Title">
+			</div>
+
+			<div class="form-group text-center">
+				<div class="repertory"></div>
+				<div class="form-group">
+						<span style="cursor:hand; cursor:pointer;" onclick="browseDisplayAll();" class="btn btn-brown">View Complete Repertory</span>
+						<span class="text-link" style="width:175px; margin-top:10px; text-align:right;" onclick="showCensusInfo();">Statistics</span>
+				</div>
+				<div id="about-button" class="form-group">
+					<span style="cursor:hand; cursor:pointer;" onclick="displayAboutBrowse();" class="btn btn-brown">Browse Home</span>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<div style="margin-left:14px; margin-top:18px;">
+		<div id="countinfo"></div>
+	</div>
+
+</aside>

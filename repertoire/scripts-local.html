@@ -1,0 +1,1432 @@
+{% include_relative scripts-listeners.html %}
+
+<script>
+//
+// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
+// Creation Date: Thu Aug 21 12:59:01 PDT 2014
+// Last Modified: Mon Oct 27 14:14:44 PDT 2014
+// Filename:		.../repertoire/scripts-local.html
+// Web Address:	https://josquin.stanford.edu/repertoire/scripts-local.html
+// Syntax:			JavaScript 1.8/ECMAScript 5
+// vim:				ts=3: ft=javascript: nowrap
+//
+// Description:	JavaScript management of the JRP Browse page.
+//
+
+// Used to display extra info:
+var CountInfo			= 0;
+var TextInfo			= 0;
+var OnlyText         = 0;
+var WORKCOUNT			= 0;
+var WORKCOUNTBYCOMPOSER = {};
+var COMPOSERALLWORKS	 = {};
+var JoaShortName		= "&nbsp;&nbsp;&nbsp;(secure)";
+var JobShortName		= "&nbsp;&nbsp;&nbsp;(not&nbsp;secure)";
+var ComposerList		= null;
+var BROWSEHOMEHTML	= null;
+var WORKLISTjos = [];
+
+// State variables used for keeping track of keypresses:
+var ControlKeyState = 0;
+var ShiftKeyState   = 0;
+var AltKeyState     = 0;
+var CommandKeyState = 0;
+
+var HtmlAccentRemovalMap = [
+	{'base':'ae','letters':/&aelig;/g},
+	{'base':'oe','letters':/&oelig;/g},
+	{'base':'sz','letters':/&szlig;/g},
+	{'base':'a','letters':/&a[^;]+;/g},
+	{'base':'e','letters':/&e[^;]+;/g},
+	{'base':'i','letters':/&i[^;]+;/g},
+	{'base':'o','letters':/&o[^;]+;/g},
+	{'base':'u','letters':/&u[^;]+;/g},
+];
+
+//////////////////////////////
+//
+// removeHtmlAccents --
+//
+
+function removeHtmlAccents(str) {
+	str = str.toLowerCase();
+	if (!str.match(/&/)) {
+		// No HTML entities, so don't bother trying to remove them.
+		return str;
+	}
+	for (var i=0; i<HtmlAccentRemovalMap.length; i++) {
+		str = str.replace(HtmlAccentRemovalMap[i].letters, 
+				HtmlAccentRemovalMap[i].base);
+	}
+	return str;
+}
+
+
+
+//////////////////////////////
+//
+// removeAccents --
+//
+// è = e-grave		= 101,768
+// é = e-acute		= 101,769
+// ê = e-circumflex = 101,770
+// ë = e-umlaut	  = 101,777
+// first number is ASCII code for unaccented character.
+// second number: http://www.fileformat.info/info/unicode/char/0300/index.htm
+//
+
+function removeAccents(str) {
+	str = str.toLowerCase()
+	var output = "";
+	var test = [];
+	for (var i=0; i<str.length; i++) {
+		var charcode = str.charCodeAt(i);
+		test.push(charcode);
+		// Remove stupid alternate representations of accented characters.
+		if (charcode < 128) {
+			output += String.fromCharCode(charcode);
+		} else if ((charcode >= 128) && (charcode < 256)) {
+			 output += stripHighBitCharcode(charcode);
+		}
+	}
+	// console.log("INPUT: "     + str);
+	// console.log("   CHARCODES: " + test);
+	// console.log("   OUTPUT: "    + output);
+	return output.toLowerCase();
+}
+
+
+//////////////////////////////
+//
+// Convert Unicode Latin-1 Supplement to 7-bit ASCII version without
+//	 accented character.  
+// http://www.alanwood.net/unicode/latin_1_supplement.html
+//
+
+function stripHighBitCharcode(charcode) {
+	switch (charcode) {
+
+		case 192: return "A";	// A-grave
+		case 193: return "A";	// A-acute
+		case 194: return "A";	// A-circumflex
+		case 195: return "A";	// A-tilde
+		case 196: return "A";	// A-umlaut
+		case 197: return "A";	// A-ring
+		case 198: return "Ae";	// AE ligature
+		case 199: return "C";	// C-cedilla
+		case 200: return "E";	// E-grave
+		case 201: return "E";	// E-acute
+		case 202: return "E";	// E-circumflex
+		case 203: return "E";	// E-umlaut
+		case 204: return "I";	// I-grave
+		case 205: return "I";	// I-acute
+		case 206: return "I";	// I-circumflex
+		case 207: return "I";	// I-umlaut
+		case 208: return "Th";	// Eth
+		case 209: return "N";	// N-tilde
+		case 210: return "O";	// O-grave
+		case 211: return "O";	// O-acute
+		case 212: return "O";	// O-circumflex
+		case 213: return "O";	// O-tilde
+		case 214: return "O";	// O-umlaut
+		// 
+		case 216: return "O";	// O-slash
+		case 217: return "U";	// U-grave
+		case 218: return "U";	// U-acute
+		case 219: return "U";	// U-circumflex
+		case 220: return "U";	// U-umlaut
+		case 221: return "Y";	// Y-acute
+		case 222: return "Th";	// Thorn
+		case 223: return "Sz";	// Sz-ligature
+
+		case 224: return "a";	// a-grave
+		case 225: return "a";	// a-acute
+		case 226: return "a";	// a-circumflex
+		case 227: return "a";	// a-tilde
+		case 228: return "a";	// a-umlaut
+		case 229: return "a";	// a-ring
+		case 230: return "ae";	// ae ligature
+		case 231: return "c";	// c-cedilla
+		case 232: return "e";	// e-grave
+		case 233: return "e";	// e-acute
+		case 234: return "e";	// e-circumflex
+		case 235: return "e";	// e-umlaut
+		case 236: return "i";	// i-grave
+		case 237: return "i";	// i-acute
+		case 238: return "i";	// i-circumflex
+		case 239: return "i";	// i-umlaut
+		case 240: return "th";	// eth
+		case 241: return "n";	// n-tilde
+		case 242: return "o";	// o-grave
+		case 243: return "o";	// o-acute
+		case 244: return "o";	// o-circumflex
+		case 245: return "o";	// o-tilde
+		case 246: return "o";	// o-umlaut
+		// 
+		case 248: return "o";	// o-slash
+		case 249: return "u";	// u-grave
+		case 250: return "u";	// u-acute
+		case 251: return "u";	// u-circumflex
+		case 252: return "u";	// u-umlaut
+		case 253: return "y";	// y-acute
+		case 254: return "th";	// thorn
+		case 255: return "y";	// y-umlaut
+	}
+
+	return String.fromCharCode(charcode);
+}
+
+
+
+//////////////////////////////
+//
+// resetFormValues -- Clear fields in Browse filter parameters.
+//
+
+function resetFormValues() {
+	var composers = document.getElementById("composers");
+	var genres    = document.getElementById("genres");
+	var voices    = document.getElementById("voices");
+	var titlebox  = document.getElementById("titlebox");
+
+	composers.value = "";
+	composers.label = "";
+	genres.value    = "";
+	genres.label    = "";
+	voices.value    = "";
+	voices.label    = "";
+	titlebox.value  = "";
+	titlebox.label  = "";
+
+	sessionStorage.BROWSEcomposers = "";
+	sessionStorage.BROWSEgenres    = "";
+	sessionStorage.BROWSEvoices    = "";
+	sessionStorage.BROWSEtitlebox  = "";
+
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// showComposer -- Show all works for a particular composer.
+//
+
+function showComposer(repid) {
+	var composers = document.getElementById("composers");
+	composers.value = repid;
+	composers.label = repid;
+	var genres = document.getElementById("genres");
+	genres.value = "";
+	genres.label = "";
+	var voices = document.getElementById("voices");
+	voices.value = "";
+	voices.label = "";
+	var titlebox = document.getElementById("titlebox");
+	titlebox.value = "";
+	titlebox.label = "";
+	/// ggg
+	// browseDisplay(1);
+	// $('html,body').scrollTop(0);
+	// StylizeFormElements();
+	sessionStorage.BROWSEhome = "false";
+	var target  = "/browse-filter?c=" + repid;
+	window.location = target;
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// showGenre -- Show all works in a particular genre.
+//
+
+function showGenre(genre) {
+	var composers = document.getElementById("composers");
+	composers.value = "";
+	var genres = document.getElementById("genres");
+	genres.value = genre;
+	var voices = document.getElementById("voices");
+	voices.value = "";
+	var titlebox = document.getElementById("titlebox");
+	titlebox.value = "";
+	browseDisplay(1);
+	$('html,body').scrollTop(0);
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// displayAboutBrowse -- Show the Browse homepage.
+//
+
+function displayAboutBrowse() {
+	var maincontent = document.getElementById('secondary-content');
+	if (!maincontent) {
+		return;
+	}
+//	if (BROWSEHOMEHTML == null) {
+		BROWSEHOMEHTML = ReadFile("content.html");
+//	}
+
+//			sessionStorage.BROWSEHOMEHTML = BROWSEHOMEHTML;
+//		} else {
+//			BROWSEHOMEHTML = sessionStorage.BROWSEHOMEHTML;
+//		}
+//	}
+
+	maincontent.innerHTML = BROWSEHOMEHTML;
+	fillInAboutComposerList(); 
+	document.getElementById('about-button').innerHTML = ""; 
+	resetFormValues();
+}
+
+
+
+//////////////////////////////
+//
+// fillInAboutComposerList -- Dynamic version of the file
+//	 includes/composer-browse-table.html.  This is a list
+//	 of composers in the database and a count of how many
+//	 works by them are present in the database.
+//
+
+function fillInAboutComposerList() {
+	var list = document.getElementById("composer-browse-list");
+	if (list == null) {
+		return;
+	}
+//	if (ComposerList != null) {
+//		list.innerHTML = ComposerList;
+//		return;
+//	}
+	InitializeWorklist();
+
+	var comlong;
+	var comdates     = "";
+	var firstcolumn  = "";
+	var secondcolumn = "";
+	var i;
+	var repid;
+	var count;
+	var columns = ["", ""]; 
+	for (i=0; i<WORKLIST.length; i++) {
+		comlong  = WORKLIST[i].comlong;
+		count    = WORKLIST[i].repwork;
+		repid	   = WORKLIST[i].repid;
+		comdates	= WORKLIST[i].comdates;
+		if (!comdates.match(/^\s*$/)) {
+			comdates = ", " 
+					+ "<span style='font-size:90%; letter-spacing:-0.5px;'>"
+					+ comdates
+					+ "</span>";
+		}
+		ii = 0;
+		if (repid.localeCompare("J") >= 0) {
+		  ii = 1;
+		}
+		columns[ii] += "<li";
+		if ((repid == "Rue") || (repid == "Ock") || (repid == "Ort")
+				|| (repid == "Jos")) {
+			columns[ii] += " class='complete-composer'";
+		}
+		columns[ii] += "><span "
+						+ " onclick='showComposer(\"" + repid + "\");'"
+						+ " class='composer-link2";
+		columns[ii] += "'>" + comlong + "</span>"
+						+ comdates 
+						+ " (" + count;
+		if (count == 1) {
+			columns[ii] += " work";
+		} else {
+			columns[ii] += " works";
+		}
+		columns[ii] += ")</li>\n";
+
+		if (repid == "Jos") {
+			var joacount = WORKLISTjos[1].works.length + " work";
+			var jobcount = WORKLISTjos[2].works.length + " work";
+			if (WORKLISTjos[1].works.length != 1) {
+				joacount += "s";
+			}
+			if (WORKLISTjos[2].works.length != 1) {
+				jobcount += "s";
+			}
+
+			columns[ii] += "<li><span style='margin-left:16px'>(<span"
+						+ " onclick='showComposer(\"" + "Joa" + "\");'"
+						+ " class='composer-link2'>" + "secure" + "</span>, "
+						+ joacount + ")";
+			columns[ii] += " (<span "
+						+ " onclick='showComposer(\"" + "Job" + "\");'"
+						+ " class='composer-link2'>" + "not secure" + "</span>, "
+						+ jobcount + ")";
+			columns[ii] += "</li>\n";
+		}
+
+	}
+
+	var output = "";
+	output += '<div class="col">\n';
+	output += '<ul>\n';
+	output += '<li class="title">A&ndash;I</li>\n';
+
+	output += columns[0];
+
+	output += '</ul>\n';
+	output += '</div>\n';
+	output += '<div class="col">\n';
+	output += '<ul>\n';
+	output += '<li class="title">J&ndash;Z</li>\n';
+
+	output += columns[1];
+
+	output += '</ul>\n';
+	output += '</div>\n';
+
+	ComposerList = output;
+
+	list.innerHTML = output;
+}
+
+
+
+//////////////////////////////
+//
+// createJoaJobLists --
+//
+
+function createJoaJobLists() {
+	InitializeWorklist();
+
+	if (WORKLIST == null) {
+		return;
+	}
+	var josindex = -1;
+	var i;
+	for (i=0; i<WORKLIST.length; i++) {
+		if (WORKLIST[i].repid == "Jos") {
+			josindex = i;
+			break;
+		}
+	}
+	if (josindex < 0) {
+		return;
+	}
+	var WORKLISTjoa = JSON.parse(JSON.stringify(WORKLIST[josindex]));
+	var WORKLISTjob = JSON.parse(JSON.stringify(WORKLIST[josindex]));
+	WORKLISTjoa.comshort  = "Josquin";
+	WORKLISTjob.comshort  = "Josquin";  // "?" added later.
+	WORKLISTjoa.repid = "Joa";
+	WORKLISTjob.repid = "Job";
+	WORKLISTjoa.works = [];
+	WORKLISTjob.works = [];
+
+	for (i=0; i<WORKLIST[josindex].works.length; i++) {
+		attribution = WORKLIST[josindex].works[i].attr;
+		if (attribution == 1 || attribution == 2) {
+			WORKLISTjoa.works.push(WORKLIST[josindex].works[i]);
+		} else {
+			WORKLISTjob.works.push(WORKLIST[josindex].works[i]);
+		}
+	}
+	WORKLISTjos.push(WORKLIST[josindex]);
+	WORKLISTjos.push(WORKLISTjoa);
+	WORKLISTjos.push(WORKLISTjob);
+}
+
+
+
+//////////////////////////////
+//
+// generateWorkEntries --
+//
+
+function generateWorkEntries(worklist) {
+	var tout = [];
+	var i;
+	clearCountInfo();
+	var composeroption = document.getElementById("composers").value;
+	if (composeroption.match(/All/i)) {
+		composeroption = "";
+	}
+	if (composeroption == "Joa") {
+		tout = tout.concat(generateComposerWorkEntries(WORKLISTjos, 1));
+	} else if (composeroption == "Job") {
+		tout = tout.concat(generateComposerWorkEntries(WORKLISTjos, 2));
+	} else {
+		for (i=0; i<worklist.length; i++) {
+			tout = tout.concat(generateComposerWorkEntries(worklist, i));
+		}
+	}
+
+	var output = [];
+	for (i=0; i<tout.length; i++) {
+		if (tout[i] == "") {
+			continue;
+		}
+		output.push(tout[i]);
+	}
+	
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// clearCountInfo --
+//
+
+function clearCountInfo() {
+	WORKCOUNT = 0;
+	WORKCOUNTBYCOMPOSER = {};
+	COMPOSERALLWORKS = {};
+}
+
+
+
+//////////////////////////////
+//
+// generateComposerWorkEntries -- Do the main work of searching.
+//
+// Columns in table:
+// (1) Genre
+// (2) Composer
+// (3) Title
+// (4) Voices
+// (5) Scores
+// (6) MP3
+//
+
+function generateComposerWorkEntries(worklist, index) {
+	var output			= [];
+	var tempout			= "";
+	var genre			= "";
+	var voices			= "";
+	var repid			= "";
+	var title			= "";
+	var fragment		= "";
+	var searchtitle	= "";
+	var titlelink		= "";
+	var jrpid			= "";
+	var composer		= "";
+	var comshort		= "";
+	var repid			= "";
+
+	if (typeof worklist[index] !== 'undefined') {
+		if (typeof worklist[index].comshort !== 'undefined') {
+			composer = worklist[index].comshort;
+			composer = composer.replace(/Comp&egrave;re/, "Compere");
+			comshort = worklist[index].comshort;
+		}
+		if (typeof worklist[index].repid !== 'undefined') {
+			repid  = worklist[index].repid;
+		}
+	}
+
+	var entry;
+	var j;
+	var scorelink;
+	var mp3link;
+
+	var voiceoption    = document.getElementById("voices").value;
+	// set voice option to two values for ranges of voices.
+	var composeroption = document.getElementById("composers").value;
+	var genreoption    = document.getElementById("genres").value;
+	if (composeroption.match(/All/i)) {
+		composeroption = "";
+	}
+	var titleboxoption    = document.getElementById("titlebox").value;
+	titleboxoption = removeAccents(titleboxoption);
+	// removing trailing space:
+	titleboxoption = titleboxoption.replace(/\s+$/, "");
+	// remove incomplete or search:
+	titleboxoption = titleboxoption.replace(/\s*\bor?\b\s*$/, "");
+	// convert "or" to "|":
+	titleboxoption = titleboxoption.replace(/\s*\bor\b\s*/g, "|");
+	// backslash causes problem in RegExp below, so remove it.
+	titleboxoption = titleboxoption.replace(/\\/g, "");
+
+	// only display desired composer(s):
+
+	if (composeroption != "") {
+		if ((typeof worklist[index] !== 'undefined') && 
+				(composeroption != worklist[index].repid)) {
+			return "";
+		}
+	}
+
+	var tsearch = 0;
+	if (!titleboxoption.match(/^\s$/)) {
+		tsearch = 1;
+	}
+	var re = new RegExp(titleboxoption, "i")
+	var attr;
+
+	var voicemin;
+	var voicemax;
+	var temparr;
+	var text;
+	var xcomposer = "";
+
+	for (j=0; j<worklist[index].works.length; j++) {
+		entry	   = worklist[index].works[j];
+		attr	   = entry.attr     || '0';
+		fragment = entry.fragment || 'false';
+		genre	   = entry.genre    || '';
+		voices	= entry.voices   || '?';
+		text	   = getTextState(entry);
+		if (OnlyText && (text !== "true")) {
+			continue;
+		}
+		if (typeof entry.comshort !== 'undefined') {
+			composer = entry.comshort;
+		}
+      xcomposer = composer;
+      // if ((composer == 'Josquin') && (entry.attr == '3')) {
+      //    xcomposer += "?";
+      // }
+     	switch (parseInt(entry.attr)) {
+        	case 1: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>&#10003;</span>"; break;
+        	case 2: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(&#10003;)</span>"; break;
+        	//case 2: xcomposer += "<sup onclick='window.location=\"/about/attribution\";' style='cursor:pointer; font-size:60%; letter-spacing:-1px;'>?</sup>"; break;
+        	case 3: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(?)</span>"; break;
+        	case 4: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer;'>?</span>";   break;
+        	case 5: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>??</span>"; break;
+        	case 6: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>???</span>"; break;
+     	}
+		
+		temparr = voices.match(/(\d+)[^\d]+(\d+)/);
+		if ((temparr != null) && (temparr.length > 2)) {
+			voicemin = parseInt(temparr[1]);
+			voicemax = parseInt(temparr[2]);
+			if (voicemin > voicemax) {
+				var vtemp = voicemin;
+				voicemin = voicemax;
+				voicemax = vtemp;
+			}
+		} else if (voices.match(/(\d+)/)) {
+			temparr  = voices.match(/(\d+)/);
+			voicemin = temparr[1];
+			voicemax = voicemin;
+		} else {
+			voicemin = 0;
+			voicemax = 0;
+		}
+		
+		title  = entry.title || "?";
+		if (typeof entry.searchtitle === 'undefined') {
+			if (typeof entry.title === 'undefined') {
+				entry.searchtitle = "";
+			} else {
+				entry.searchtitle = removeHtmlAccents(entry.title);
+			}
+		}
+		title = title.replace(/\(a\&/g, "(&agrave;&");
+		jrpid  = entry.id	  || "";
+		searchtitle  = jrpid + " " + (entry.searchtitle  || "");
+
+		if (COMPOSERALLWORKS[comshort] == null) {
+			COMPOSERALLWORKS[comshort] = 0;
+			if (repid == "Jos") {
+				COMPOSERALLWORKS[JoaShortName] = 0;
+				COMPOSERALLWORKS[JobShortName] = 0;
+			}
+		}
+		COMPOSERALLWORKS[comshort]++;
+		if (repid == "Jos") {
+			if ((attr == 1) || (attr == 2)) {
+				COMPOSERALLWORKS[JoaShortName]++;
+			} else {
+				COMPOSERALLWORKS[JobShortName]++;
+			}
+		}
+
+		if (voiceoption != "") {
+			var vo = parseInt(voiceoption);
+			if (voices == voiceoption) {
+				// matches literally so continue;
+			} else if ((vo >= voicemin) && (vo <= voicemax)) {
+				// voice range is ok.
+			} else if ((voiceoption == "5+") && (voicemax >= 5)) {
+				// also ok 
+			} else if (voices != voiceoption) {
+				continue;
+			} else {
+				console.log("GOT TO STRANGE VOICE CASE: " + voiceoption 
+						+ ", " + voices);
+				continue;
+			}
+		}
+
+		if (genreoption != "") {
+			if (genre.toLowerCase() != genreoption.toLowerCase()) {
+				continue;
+			}
+		}
+
+		if (tsearch) {
+			var matches = searchtitle.match(re);
+			if (!matches) {
+				continue;
+			}
+		}
+
+		// Work passed through the filters, so add it to the list.
+
+		WORKCOUNT++;
+		if (WORKCOUNTBYCOMPOSER[comshort] == null) {
+			WORKCOUNTBYCOMPOSER[comshort] = 0;
+			if (repid == "Jos") {
+				WORKCOUNTBYCOMPOSER[JoaShortName] = 0;
+				WORKCOUNTBYCOMPOSER[JobShortName] = 0;
+			}
+		}
+		WORKCOUNTBYCOMPOSER[comshort]++;
+		if (repid == "Jos") {
+			if ((attr == 1) || (attr == 2)) {
+				WORKCOUNTBYCOMPOSER[JoaShortName]++;
+			} else {
+				WORKCOUNTBYCOMPOSER[JobShortName]++;
+			}
+		}
+
+		titlelink  = "<a style='word-spacing:1.5px; letter-spacing:-0.5px;' class='text-link' href='";
+		titlelink += "/work?id=" + jrpid + "'>";
+		titlelink += title + "</a>";
+		if (fragment == true) {
+			titlelink += " <span style=\"font-size:90%; letter-spacing:-0.5px;\">[fragment]</span>";
+		}
+
+		scorelink  = "<a class='file' target='" + PDFTARGET + "' title='Score without editorial";
+		scorelink += " accidentals' href='{{site.jrp-data-url}}";
+		scorelink += "?a=notationNoEditWithText&f=" + jrpid + "'>file</a>";
+
+		scorelink += "<a title='Score with editorial accidentals'";
+		scorelink += " class='file-ed' target='" + PDFTARGET + "' href='{{site.jrp-data-url}}";
+		scorelink += "?a=notationWithEditWithText&f=" + jrpid;
+		scorelink += "'>Ed.&nbsp;file</a> ";
+
+		//mp3link	 = "<a class='play' target='_blank' href='{{site.jrp-data-url}}";
+		//mp3link	+= "?a=mp3&f=" + jrpid + "'>play</a>";
+
+	   if (AUDIOjrpid == jrpid) {
+			mp3link = "<a id=\"audio_" + jrpid + "\" ";
+			mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
+			mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
+			mp3link += "class=\"pause\">play</a>";
+		} else {
+			mp3link = "<a id=\"audio_" + jrpid + "\" ";
+			mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
+			mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
+			mp3link += "class=\"play\">play</a>";
+		}
+
+		tempout = "<tr>";
+			jrpid  = entry.id	  || "";
+
+		if (TextInfo && (text == "true")) {
+			//tempout	 = "<tr valign=top><td style=\"background-color:#eeeeee;\">" + genre;
+			if (sessionStorage.BROWSEshowjrpid == "true") {
+				tempout    += "<td style=\"background-color:#eeeeee;\">" + jrpid;
+			} else {
+				tempout    += "<td style=\"background-color:#eeeeee;\">" + genre;
+			}
+		} else {
+			//tempout	 = "<tr valign=top><td>" + genre;
+			if (sessionStorage.BROWSEshowjrpid == "true") {
+				tempout    += "<td>" + jrpid;
+			} else {
+				tempout    += "<td>" + genre;
+			}
+		}
+
+		tempout	+= "</td><td>" + xcomposer;
+		tempout	+= "</td><td style='text-indent:-12px;'>" + titlelink;
+		tempout	+= "</td><td>" + voices;
+		tempout	+= "</td><td>" + scorelink;
+		tempout	+= "</td><td>" + mp3link;
+		tempout	+= "</tr>\n";
+
+		output.push(tempout);
+	}
+
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// getTextState --
+//
+
+function getTextState(entry) {
+	if (entry.text && entry.text === "true") {
+		return "true";
+	}
+	if (entry.sections) {
+		var list = entry.sections;
+		for (var i=0; i<list.length; i++) {
+			if (list[i].text && list[i].text === "true") {
+				return "true";
+			}
+		}
+	}
+
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// browseDisplay -- display works of one or more composer.
+//
+// displayBrowse --
+//
+
+function browseDisplayTitleBox(page) {
+	// This is needed to avoid problems with shift-arrow keys.
+	// Need to also check if the key pressed is an arrow key, but
+	// this is close enough for now.
+	if (ShiftKeyState || ControlKeyState) {
+		return;
+	}
+	browseDisplay(page);
+}
+
+
+function browseDisplay(page) {
+	if (typeof page === 'undefined') {
+		page = sessionStorage.BROWSEcurrentpage;
+	}
+	storeBrowseFilters();
+   showBrowseHomeButton();
+	
+	var maincontent = document.getElementById('secondary-content');
+	var content = "";
+	content += printTableStart();
+	InitializeWorklist();
+
+	var tablerows = generateWorkEntries(WORKLIST);
+	if (typeof sessionStorage.BROWSEpagesize === 'undefined') {
+		sessionStorage.BROWSEpagesize = 20;
+	}
+	if (typeof sessionStorage.BROWSEpagesize === 'undefined') {
+		sessionStorage.BROWSEshowjrpid = "false";
+	}
+	var pagesize = sessionStorage.BROWSEpagesize;
+	sessionStorage.BROWSEentries = tablerows.length;
+	var totalpages = tablerows.length / pagesize;
+	if (totalpages - parseInt(totalpages) > 0.0) {
+		totalpages = parseInt(totalpages) + 1;
+	} else {
+		totalpages = parseInt(totalpages);
+	}
+	if (page < 1) {
+		page = 1;
+	}
+	if (page > totalpages) {
+		page = totalpages;
+	}
+	sessionStorage.BROWSEcurrentpage = page;
+
+	var startindex = (page - 1) * pagesize;
+	var stopindex  = parseInt(startindex) + parseInt(pagesize);
+	if (stopindex > tablerows.length) {
+		stopindex = tablerows.length;
+	}
+
+	if (sessionStorage.BROWSEpageview == "all") {
+		startindex = 0;
+		stopindex = tablerows.length;
+	}
+
+	var tablebody = "";
+	var i;
+	if (tablerows.length > 0) {
+		for (i=startindex; i<stopindex; i++) {
+			tablebody += tablerows[i];
+		}
+	}
+	content += tablebody;
+	content += printTableEnd();
+	maincontent.innerHTML = content;
+
+	printPageList(page, totalpages);
+
+	if (CountInfo) {
+		showCountInfo();
+	}
+}
+
+
+
+//////////////////////////////
+//
+// printTableEnd --
+//
+
+function printTableEnd() {
+	return "</tbody>\n</table>\n</div>\n";
+}
+
+
+
+//////////////////////////////
+//
+// printPageList --
+//
+//  <span id="page-list">
+//	<ul>
+//	 <li class="active"><a href="#">&lt;</a></li>
+//	 <li class="active"><a href="#">1</a></li>
+//	 <li><a href="#">2</a></li>
+//	  <li><a href="#">...</a></li>
+//	 <li><a href="#">10</a></li>
+//	 <li><a href="#">20</a></li>
+//	 <li><a href="#">&gt;</a></li>
+//	 <li><a href="#">view all</a></li>
+//	</ul>
+//  </span>
+//
+
+function printPageList(currentpage, totalpages) {
+
+	var rightarrow = "&#10095;";
+	// var rightarrow = "&gt;";
+	var leftarrow = "&#10094;";
+	// var leftarrow = "&lt;";
+
+	if (sessionStorage.BROWSEpageview == "all") {
+		printPageListAll(totalpages);
+		return;
+	}
+ 
+	var pagelist = document.getElementById("page-list");
+	if (totalpages <= 1) {
+		pagelist.innerHTML = "<ul><li>&nbsp;</ul>";
+		return;
+	}
+
+	var output = "<ul>\n";
+
+	previouspage = currentpage - 1;
+	if (previouspage < 1) {
+		previouspage = totalpages;
+	}
+
+	// print left arrow 
+	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += " onclick=\"browseDisplay(";
+	output += previouspage;
+	output += ");\">";
+	output += leftarrow + "</span></li>\n";
+
+	// print the number one:
+	if (currentpage == 1) {
+		output += "<li class=\"active\">1</li>\n";
+	} else {
+		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += " onclick=\"browseDisplay(1);\">";
+		output += "1</span></li>\n";
+	}
+
+	if (totalpages > 2) {
+
+		var elipsis = "&#8943;";
+		var needpredots = 0;
+		var needpostdots = 0;
+		if (totalpages > 3) {
+			if (currentpage > 2) {
+				needpredots = 1;
+			}
+			if (currentpage < totalpages - 1) {
+				needpostdots = 1;
+			}
+		} else if ((totalpages == 3) && (currentpage != 2)) {
+			if (currentpage == 1) {
+				needpostdots = 1;
+			} else {
+				needpredots = 1;
+			}
+		}
+	
+		if (needpredots) {
+			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += " onclick=\"browseDisplay(";
+			output += (currentpage - 1) + ");\">";
+			output += elipsis + "</span></li>\n";
+		}
+	
+		if ((currentpage > 1) && (currentpage < totalpages)) {
+			output += "<li class=\"active\">" + currentpage + "</li>\n";
+		}
+	
+		if (needpostdots) {
+			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += " onclick=\"browseDisplay(";
+			output += (currentpage + 1) + ");\">";
+			output += elipsis + "</span></li>\n";
+		}
+	}
+
+	// print the last page:
+	if (currentpage == totalpages) {
+		output += "<li class=\"active\">" + currentpage + "</li>\n";
+	} else {
+		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += " onclick=\"browseDisplay(";
+		output += totalpages;
+		output += ");\">";
+		output += totalpages + "</span></li>\n";
+	}
+
+	var nextpage = currentpage + 1;
+	if (nextpage > totalpages) {
+		nextpage = 1;
+	}
+
+	// print right arrow gray if on page one otherwise blue.
+	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += " onclick=\"browseDisplay(";
+	output += nextpage + ");\">";
+	output += rightarrow + "</span></li>\n";
+
+	output += "<li>";
+	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += " letter-spacing:=-0.5px;\"";
+	output += " onclick=\"sessionStorage.BROWSEpageview='all';";
+	output += " browseDisplay(1);\">view all</span>";
+	output += "</li>\n";
+
+	output += "</ul>\n";
+	pagelist.innerHTML = output;
+}
+
+
+
+/////////////////////////////
+//
+// printPageListAll --
+//
+
+function printPageListAll(totalpages) {
+	var output = "";
+
+	if (totalpages == 1) {
+		// don't show "paged view" option if there would only be one page
+		// in paged view.
+		output += "<ul><li>&nbsp;</li></ul>";
+		document.getElementById("page-list").innerHTML = output;
+		return;
+	}
+
+	output += "<ul><li>";
+	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += " letter-spacing:-0.5px;\"";
+	output += " onclick=\"sessionStorage.BROWSEpageview='paged';";
+	output += " browseDisplay(1);\">paged view</span>";
+	output += "</li></ul>\n";
+
+	document.getElementById("page-list").innerHTML = output;
+}
+
+
+
+//////////////////////////////
+//
+// printTableStart --
+//
+
+function printTableStart() {
+	var output = "";
+
+	output += "<div id='primary-content' class='search-results-content'>\n";
+
+	output += "<div class=\"pagination\">\n";
+	output += "<span id=\"match-counts\" class=\"grey\"></span>\n";
+	output += "<span class=\"pagination\" id=\"page-list\"></span>\n";
+	output += "</div>\n";
+
+	output += "<table style='margin-bottom:48px;' ";
+	output += "class='search-results-table'>\n";
+	output += "<thead>\n";
+	output += "<tr>\n";
+
+	if (sessionStorage.BROWSEshowjrpid == "true") {
+		output += "<th class='sortable'><a href='#'>JRPID</a></th>\n";
+	} else {
+		output += "<th class='sortable'><a href='#'>Genre</a></th>\n";
+	}
+
+	output += "<th class='sortable'><a href='#'><span style='margin-left:-30px;'>Composer</span></a></th>\n";
+	output += "<th class='sortable'><a href='#'><span style='margin-left:-25px;'>Title</span></a></th>\n";
+	output += "<th>Voices</th>\n";
+	output += "<th>Scores</th>\n";
+	output += "<th>MP3</th>\n";
+	output += "</tr>\n";
+	output += "</thead>\n";
+	output += "<tbody>\n";
+	return output;
+}
+
+
+
+//////////////////////////////
+//
+// displayNextPage --
+//
+
+function displayNextPage() {
+	var currentpage = sessionStorage.BROWSEcurrentpage;
+	var nextpage = parseInt(currentpage) + 1;
+	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
+	if (pagecount - parseInt(pagecount) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	if (nextpage > pagecount) {
+		nextpage = 1;
+	}
+	browseDisplay(nextpage);
+}
+
+
+
+//////////////////////////////
+//
+// displayPreviousPage --
+//
+
+function displayPreviousPage() {
+	var currentpage = sessionStorage.BROWSEcurrentpage;
+	var previouspage = parseInt(currentpage) - 1;
+	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
+	if ((pagecount - parseInt(pagecount)) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	if (previouspage < 1) {
+		previouspage = pagecount;
+	}
+	browseDisplay(previouspage);
+}
+
+
+
+//////////////////////////////
+//
+// displayFirstPage --
+//
+
+function displayFirstPage() {
+	browseDisplay(1);
+}
+
+
+
+//////////////////////////////
+//
+// displayLastPage --
+//
+
+function displayLastPage() {
+	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
+	if (pagecount - parseInt(pagecount) > 0) {
+		pagecount = parseInt(pagecount) + 1;
+	} else {
+		pagecount = parseInt(pagecount);
+	}
+	browseDisplay(pagecount);
+}
+
+
+
+//////////////////////////////
+//
+// showCountInfo --
+//
+
+function showCountInfo() {
+	var countinfo = document.getElementById('countinfo');
+	if (countinfo == null) {
+		return;
+	}
+	var message = WORKCOUNT;
+	if (WORKCOUNT == 1) {
+		message += " work";
+	} else {
+		message += " works";
+	}
+	message += "<table>\n";
+	var composeroption = document.getElementById('composers').value;
+	if (composeroption.match(/All/i)) {
+		composeroption = "";
+	}
+	if (composeroption.match(/^\s*$/)) {
+		for (var key in WORKCOUNTBYCOMPOSER) {
+			if (WORKCOUNTBYCOMPOSER[key] == 0) {
+				continue;
+			}
+			message += "<tr><td style='padding-right:30px;'>" + key + ": </td>";
+			message += "<td valign=right>";
+			message += WORKCOUNTBYCOMPOSER[key];
+			if (COMPOSERALLWORKS[key] != WORKCOUNTBYCOMPOSER[key]) {
+				message += "/" + COMPOSERALLWORKS[key];
+			}
+			message += "</td></tr>\n";
+		}
+		message += "</table>\n";
+	}
+	message += "<div style='min-height:24px;'></div>\n";
+	
+	countinfo.innerHTML = message;
+}
+
+
+
+//////////////////////////////
+//
+// hideCountInfo --
+//
+
+function hideCountInfo() {
+	var countinfo = document.getElementById('countinfo');
+	if (countinfo == null) {
+		return;
+	}
+	countinfo.innerHTML = '';
+}
+
+
+
+//////////////////////////////
+//
+// browseDisplayAll --
+//
+
+function browseDisplayAll() {
+	clearBrowseFilters();
+	browseDisplay(1);
+}
+
+
+
+//////////////////////////////
+//
+// clearBrowseFilters -- Set browse filters to defaults or empty.
+//
+
+function clearBrowseFilters() {
+	document.getElementById("genres").value = "";
+	document.getElementById("voices").value = "";
+	document.getElementById("composers").value = "";
+	document.getElementById("titlebox").value = "";
+
+	sessionStorage.BROWSEcomposers = "";
+	sessionStorage.BROWSEgenres    = "";
+	sessionStorage.BROWSEvoices    = "";
+	sessionStorage.BROWSEtitlebox  = "";
+	sessionStorage.BROWSEhome		= "false";
+
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// storeBrowseFilters --
+//
+
+function storeBrowseFilters() {
+	sessionStorage.BROWSEcomposers = document.getElementById("composers").value;
+	sessionStorage.BROWSEgenres    = document.getElementById("genres").value;
+	sessionStorage.BROWSEvoices    = document.getElementById("voices").value;
+	sessionStorage.BROWSEtitlebox  = document.getElementById("titlebox").value;
+	sessionStorage.BROWSEhome		= "false";
+
+	if (sessionStorage.BROWSEcomposers.match(/All/i)) {
+		sessionStorage.BROWSEcomposers = "";
+	}
+	if (sessionStorage.BROWSEgenres.match(/All/i)) {
+		sessionStorage.BROWSEgenres = "";
+	}
+
+}
+
+
+
+//////////////////////////////
+//
+// buildComposerSelect -- Create the Composer drop-down list for browsing.
+//
+
+function buildComposerSelect() {
+	var composerselect = document.getElementById("composers-select");
+	if (composerselect == null) {
+		return;
+	}
+
+	var output = "<select id=\"composers\"";
+	output += " onchange=\"browseDisplay();\"";
+	output += " data-placeholder=\"All Composers\">\n";
+	output += "<option value=\"\" label=\"All Composers\">All Composers</option>\n";
+	var clist = GetComposerOptions();
+	output += clist;
+	output += "</select>\n";
+	composerselect.innerHTML = output;
+
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// buildGenreSelect -- Create the Genre drop-down list for browsing.
+//
+
+function buildGenreSelect() {
+	var genreselect = document.getElementById("genres-select");
+	if (genreselect == null) {
+		return;
+	}
+
+	var output = "<select id=\"genres\"";
+	output += " onchange=\"browseDisplay();\"";
+	output += " data-placeholder=\"All Genres\">\n";
+	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
+	var clist = GetGenreBrowseOptions();
+	output += clist;
+	output += "</select>\n";
+	genreselect.innerHTML = output;
+
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// buildVoiceSelect -- Create the Voice drop-down list for browsing.
+//
+
+function buildVoiceSelect() {
+	var genreselect = document.getElementById("voices-select");
+	if (genreselect == null) {
+		return;
+	}
+
+	var output = "<select id=\"voices\"";
+	output += " onchange=\"browseDisplay();\"";
+	output += " data-placeholder=\"All Composers\">\n";
+	output += "<option value=\"\" label=\"default\">All Voices</option>\n";
+	var clist = GetVoiceOptions();
+	output += clist;
+	output += "</select>\n";
+	genreselect.innerHTML = output;
+
+	StylizeFormElements();
+}
+
+
+
+/////////////////////////////
+//
+// showCensusInfo --
+//
+
+function showCensusInfo() {
+	var content = '';
+	content += '<section style="font-size:100%; padding-left:8px; ';
+	content += 'padding-right:0px; padding-bottom:100px;" ';
+	content += 'id="primary-content" class="browse-content">\n';
+	content += '<article style="padding-left:10px; padding-right:0px;" class="about first">\n';
+	content += '<h2 class="brown-heading">Census of work and note ';
+	content += 'counts by composer/genre</h2>\n';
+	content += '<div id="notetable"></div>\n';
+	content += '</article>\n';
+	content += '\n';
+	content += '<article style="padding-left:10px; padding-right:0;" class="about first">\n';
+	content += '<h2 class="brown-heading">Nominal performance durations ';
+	content += 'by composer/genre</h2>\n';
+	content += '<div id="timetable"></div>\n';
+	content += '</article>\n';
+	content += '\n';
+	content += '<article style="padding-left:10px;" ';
+	content += 'style="margin-bottom:90px;" class="about first">\n';
+	content += '<h2 class="brown-heading">PDF page counts ';
+	content += 'by composer/genre</h2>\n';
+	content += '<div id="pagetable"></div>\n';
+	content += '</article>\n';
+	content += '</section>\n';
+	var element = document.getElementById("secondary-content");
+	element.innerHTML = content;
+	showNoteTable("notetable");
+	showTimeTable("timetable");
+	showPageTable("pagetable");
+	var i;
+
+	// Convert composer anchor tags pointing pointing to an external page into
+	// events which move within the page:
+   var composerlinks = document.querySelectorAll("table.census td a");
+	var newlink;
+	var matches;
+	var title;
+   var dummy = document.createElement("div");
+	for (i=0; i<composerlinks.length; i++) {
+		dummy.innerHTML = "";
+		dummy.appendChild(composerlinks[i].cloneNode(true));
+		matches = dummy.innerHTML.match(/c=([A-Z][a-z][a-z])/);
+		if (!matches) {
+			continue;
+		}
+		title = composerlinks[i].getAttribute("title");
+		newlink  = '<span class="text-link" title="' + title + '"';
+      newlink += ' onclick="showComposer(\'' + matches[1] + '\');"';
+		newlink += '>' + composerlinks[i].textContent + '</span>';
+		composerlinks[i].outerHTML = newlink;
+	}
+
+	var tables = document.querySelectorAll("table.census");
+	var width = $('#primary-content').width();
+	for (i=0; i<tables.length; i++) {
+		tables[i].style.width = width + 'px';
+	}
+
+	showBrowseHomeButton();
+
+}
+
+
+
+//////////////////////////////
+//
+// showBrowseHomeButton --
+//
+
+function showBrowseHomeButton() {
+	var text = '<span style="cursor:hand; cursor:pointer;" ';
+	text += 'onclick="displayAboutBrowse();" class="btn btn-brown">';
+	if (window.location.pathname.match(/performance/i)) {
+		text += 'Performance Home';
+	} else {
+		text += 'Browse Home';
+	}
+	text += '</span>\n';
+	document.getElementById('about-button').innerHTML = text;
+}
+
+
+
+</script>
