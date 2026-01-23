@@ -1,5 +1,4 @@
 {% include_relative scripts-listeners.html %}
-{% include scripts/scripts-common.js %}
 
 <script>
 //
@@ -37,28 +36,21 @@ function quickBrowse() {
 
 function storeBrowseParameters() {
 
-	var composers = document.getElementById("composers").value;
-	var genres    = document.getElementById("genres").value;
-	var titlebox  = document.getElementById("titlebox").value;
+	const composers = document.getElementById("composers")?.value || "";
+	const genres    = document.getElementById("genres")?.value || "";
+	const titlebox  = document.getElementById("titlebox")?.value || "";
 
-	if (composers.match(/All/i)) {
-			composers = "";
-	}
+	localStorage.BROWSEcomposers = composers;
+	localStorage.BROWSEgenres    = genres;
+	localStorage.BROWSEtitlebox  = titlebox;
 
-	localStorage.BROWSEcomposers  = composers;
-	localStorage.BROWSEgenres     = genres;
-	localStorage.BROWSEtitlebox   = titlebox;
+	const hasFilters = composers || genres || titlebox;
 
-	if ((composers == "") && (genres == "") 
-			&& (titlebox == "")) {
-			// localStorage.BROWSEhome       = "true";
-			window.location.pathname = "/browse-home";
-			return false;
-	} else {
-			localStorage.BROWSEhome = "false";
-	}
+	// Flag for repertoire page
+	localStorage.BROWSEhome = hasFilters ? "false" : "true";
 
-	window.location.pathname = "/browse";
+	// Always go to repertoire
+	window.location.pathname = "/repertoire";
 	return false;
 }
 
