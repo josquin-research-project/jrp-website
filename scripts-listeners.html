@@ -1,26 +1,68 @@
 <script>
-
 let JRP = {};
+let WORKS = {% include metadata/works.json %};
+
+//////////////////////////////
+//
+// initializeHomepage -- shared init logic
+//
+
+function initializeHomepage(worklist) {
+	if (!Array.isArray(worklist) || worklist.length === 0) {
+		console.warn("initializeHomepage: empty worklist");
+		return;
+	}
+
+	JRP.WORKS = worklist;
+
+	buildComposerSelect(JRP.WORKS);
+	buildGenreSelect();
+
+	if (document.getElementById("sample-music")) {
+		displayRandomExample(JRP.WORKS);
+	}
+
+	if (document.getElementById("recently-added")) {
+		displayRecentAdditions(7, JRP.WORKS);
+	}
+}
+
 
 
 //////////////////////////////
 //
-// DOMContentLoaded event listener --
+// DOMContentLoaded event listener
 //
 
 document.addEventListener("DOMContentLoaded", function () {
 
 	// Audio handling
-	AUDIO = document.getElementById("audio");
+	const AUDIO = document.getElementById("audio");
 	if (AUDIO) {
 		AUDIO.addEventListener("ended", function () {
 			AUDIO.pause();
-			const pauseelem = document.getElementById(AUDIOid);
-			if (pauseelem) pauseelem.className = "play";
+			if (window.AUDIOid) {
+				const pauseelem = document.getElementById(AUDIOid);
+				if (pauseelem) pauseelem.className = "play";
+			}
 		});
 	}
 
 	sessionStorage.removeItem("RECENTLYADDEDHTML");
+
+	// ----------------------------------
+	// 1) Prefer local works.json
+	// ----------------------------------
+	if (Array.isArray(WORKS) && WORKS.length > 0) {
+		console.log("Using local works.json");
+		initializeHomepage(WORKS);
+		return;
+	}
+
+	// ----------------------------------
+	// 2) Fallback: fetch Google Sheet
+	// ----------------------------------
+	console.warn("Local works.json unavailable, fetching remote data");
 
 	const macroid = "AKfycbyeHfmyCHHgbY9X_UDMzW9xyRgqH0c7Ycp76NTW18mjZSnW_2umhgH2ZGDtxuwDot6mKw";
 	let url = `https://script.google.com/macros/s/${macroid}/exec`;
@@ -34,21 +76,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			return response.json();
 		})
 		.then(data => {
-			JRP.WORKS = data;
-
-			buildComposerSelect(JRP.WORKS);
-			buildGenreSelect();
-
-			if (document.getElementById("sample-music")) {
-				displayRandomExample(JRP.WORKS);
-			}
-
-			if (document.getElementById("recently-added")) {
-				displayRecentAdditions(7, JRP.WORKS);
-			}
+			initializeHomepage(data);
 		})
 		.catch(error => {
-			console.error("Fetch error:", error.message);
+			console.error("Homepage initialization failed:", error);
 		});
 
 });

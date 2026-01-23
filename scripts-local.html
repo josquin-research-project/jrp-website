@@ -46,11 +46,12 @@ function storeBrowseParameters() {
 
 	const hasFilters = composers || genres || titlebox;
 
-	// Flag for repertoire page
-	localStorage.BROWSEhome = hasFilters ? "false" : "true";
+	if (!hasFilters) {
+		window.location.href = "/repertoire?home=true";
+	} else {
+		window.location.href = "/repertoire";
+	}
 
-	// Always go to repertoire
-	window.location.pathname = "/repertoire";
 	return false;
 }
 
@@ -357,18 +358,13 @@ function printWorklistRecentEntry(entry) {
 //
 
 function buildComposerSelect(worklist) {
-	let composerSelect = document.getElementById("composers-select");
-	if (!composerSelect) {
-			return;
-	}
+	const select = document.getElementById("composers");
+	if (!select) return;
 
-	let output = '<select name="c" id="composers"';
-	output += ' data-placeholder="All Composers">\n';
-	output += '<option label="default">All Composers</option>\n';
+	let output = '<option value="">All Composers</option>\n';
 	output += GetComposerOptions(worklist);
-	output += '</select>\n';
-	composerSelect.innerHTML = output;
 
+	select.innerHTML = output;
 	StylizeFormElements();
 }
 
@@ -380,18 +376,13 @@ function buildComposerSelect(worklist) {
 //
 
 function buildGenreSelect() {
-	let genreSelect = document.getElementById("genres-select");
-	if (genreSelect == null) {
-			return;
-	}
+	const select = document.getElementById("genres");
+	if (!select) return;
 
-	let output = '<select name="g" id="genres"';
-	output += ' data-placeholder="All Genres">\n';
-	output += '<option value="" label="default">All Genres</option>\n';
+	let output = '<option value="">All Genres</option>\n';
 	output += GetGenreBrowseOptions();
-	output += '</select>\n';
-	genreSelect.innerHTML = output;
 
+	select.innerHTML = output;
 	StylizeFormElements();
 }
 
