@@ -119,8 +119,12 @@ body {
 #content {
 	background: white;
 	min-height: 500px;
-	display: flex;
 	align-items: flex-start;
+}
+
+#home-page #content,
+#repertoire #content {
+  display: flex;
 }
 
 #content:after {
