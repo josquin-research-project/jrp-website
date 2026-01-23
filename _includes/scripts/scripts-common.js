@@ -110,36 +110,48 @@ const RightArrowKey   = 39;    // maybe also 29 & 57376
 //
 
 function InitializeWorklist() {
-/*
-   if (WORKLIST != null) {
-      return;
-   }
+  if (typeof WORKLIST !== "undefined" && WORKLIST && WORKLIST.length) {
+    return;
+  }
 
-   // Eventually request a timestamp from the server, and compare
-   // to WORKLIST store in localStorage, and only re-download if the
-   // server has a newer WORKLIST.  For now, update once a day.
-   var refreshtime = 3600 * 1;  // update once an hour
-   var currenttime = parseInt(new Date() / 1000);  // convert from ms to sec.
+  WORKLIST = [];
 
-   if ((typeof localStorage.WORKLISTrefreshtime !== 'undefined') && 
-       (localStorage.WORKLISTrefreshtime < currenttime)) {
-      localStorage.WORKLIST = null;
-   }
+  const byComposer = {};
 
-   if ((typeof localStorage.WORKLIST === 'undefined') ||
-         (localStorage.WORKLIST == 'null') || (localStorage.WORKLIST == '')) {
-      // need to download the WORKLIST data from the server.
-      localStorage.WORKLIST = ReadFile('/includes/worklist.json');
-      if (localStorage.WORKLIST.match(/^\s*$/)) {
-         localStorage.WORKLIST = ReadFile('/data?a=worklist-json'); 
-      }
-      WORKLIST = JSON.parse(localStorage.WORKLIST);
-      localStorage.WORKLISTrefreshtime = currenttime + refreshtime;
-   } else {
-      // already have the worklist in local storage, so read from there.
-      WORKLIST = JSON.parse(localStorage.WORKLIST);
-   }
-*/
+  for (const w of WORKS) {
+    const repid = w.COMPOSER_ID;
+    if (!repid) continue;
+
+    if (!byComposer[repid]) {
+      byComposer[repid] = {
+        repid: repid,
+        comshort: w["COM-short"] || w.Composer,
+        comlong: w.Composer,
+        comdates: w.Dates || "",
+        repwork: 0,
+        works: []
+      };
+    }
+
+    byComposer[repid].works.push({
+      id: w.WORK_ID,
+      title: w.Title,
+      variant: w.Subtitle || "",
+      genre: w.Genre,
+      voices: w.Voices,
+      attr: w.Attribution || 0,
+      text: w.Text || "false",
+      fragment: w.Fragment || false,
+      comshort: byComposer[repid].comshort
+    });
+
+    byComposer[repid].repwork++;
+  }
+
+  // Preserve original ordering semantics (alphabetical by composer)
+  WORKLIST = Object.values(byComposer).sort((a, b) =>
+    a.comlong.localeCompare(b.comlong)
+  );
 }
 
 
@@ -376,6 +388,11 @@ function GetCgiParameters() {
 //
 
 function GetComposerOptions(worklist) {
+   if (!Array.isArray(worklist)) {
+    console.error("GetComposerOptions expected array, got:", worklist);
+    return "";
+   }
+
    let output = '';
 	let longNames = {}; // Long names of composers indexed by COMPOSER_ID
 	let counts = {};    // Number of scores for a composer indexed by COMPOSER_ID
@@ -387,6 +404,8 @@ function GetComposerOptions(worklist) {
 	// one primary composer, and another who writes an extra voice).
 	for (let i=0; i<worklist.length; i++) {
 		let entry = worklist[i];
+      if (!entry || !entry.COMPOSER_ID) continue;
+
 		let cid = entry.COMPOSER_ID.trim();
 		let matches = cid.match(';');
 		if (matches) {
@@ -446,71 +465,6 @@ function GetComposerOptions(worklist) {
    return output;
 }
 
-
-
-//////////////////////////////
-//
-// GetGenreOptions -- Return an option list of genres.  
-//     This is used to fill in the Composer/Repertory section list 
-//     in forms on various webpages.  If there is an input repe
-//     Mass, Motet, or Song.
-//
-
-function GetGenreOptions(repertory) {
-   if ((typeof repertory === 'undefined') || 
-			(repertory == null) || (repertory == '')) {
-	   // Avoiding displaying the genre list without a repertory.
-	   // This is because analyses mostly need to be limited to a single repertory
-	   // So that not too many images are shown on the same page.
-		var opts = '<option value="mass">Masses</option>\n';
-		opts += '<option value="motet">Motets</option>\n';
-		opts += '<option value="song">Songs</option>\n';
-      return opts;
-   }
-
-   InitializeWorklist();
-   var output = '';
-   var longname;
-   var abbr;
-   var i, j;
-   var rep;
-   var gen;
-
-   var genlist1 = {};
-
-   for (i=0; i<WORKLIST.length; i++) {
-		rep = WORKLIST[i].repid;
-		if (!repertory.match(/^\s*$/) && (!rep.match(repertory))) {
-			continue;
-		}
-      gen = WORKLIST[i].genres;
-      for (j=0; j<gen.length; j++) {
-			genlist1[gen[j].name] = gen[j].name;
-		}
-	}
-   var genlist2 = [];
-   for (entry in genlist1) genlist2.push(entry);
-	genlist2.sort();
-
-	var output = '';
-   for (i=0; i<genlist2.length; i++) {
-      output += '<option value="' + genlist2[i] + '">';
-	   if (genlist2[i].match('mass')) {
-			output += 'Masses';
-	   } else if (genlist2[i].match('motet')) {
-			output += 'Motets';
-	   } else if (genlist2[i].match('song')) {
-			output += 'Songs';
-		} else {
-			output += genlist2[i];
-		}
-		output += '</option>\n';
-   }
-   return output;
-}
-
-
-
 //////////////////////////////
 //
 // GetGenreBrowseOptions -- Return an option list of genres.  
@@ -520,45 +474,33 @@ function GetGenreOptions(repertory) {
 //
 
 function GetGenreBrowseOptions() {
-   InitializeWorklist();
-   var output = '';
-   var longname;
-   var abbr;
-   var i, j;
-   var rep;
-   var gen;
+  const seen = {};
+  let output = '';
 
-   var genlist1 = {};
+  for (let i = 0; i < WORKS.length; i++) {
+    const g = WORKS[i].Genre;
+    if (!g) continue;
+    seen[g] = true;
+  }
 
-   for (i=0; i<WORKLIST.length; i++) {
-		rep = WORKLIST[i].repid;
-      gen = WORKLIST[i].genres;
-      for (j=0; j<gen.length; j++) {
-			genlist1[gen[j].name] = gen[j].name;
-		}
-	}
-   var genlist2 = [];
-   for (entry in genlist1) genlist2.push(entry);
-	genlist2.sort();
+  const genres = Object.keys(seen).sort();
 
-	var output = '';
-   for (i=0; i<genlist2.length; i++) {
-      output += '<option value="' + genlist2[i] + '">';
-	   if (genlist2[i].match('mass')) {
-			output += 'Masses';
-	   } else if (genlist2[i].match('motet')) {
-			output += 'Motets';
-	   } else if (genlist2[i].match('song')) {
-			output += 'Songs';
-		} else {
-			output += genlist2[i];
-		}
-		output += '</option>\n';
-   }
-   return output;
+  for (let i = 0; i < genres.length; i++) {
+    const g = genres[i];
+    output += `<option value="${g}">${formatGenreLabel(g)}</option>\n`;
+  }
+
+  return output;
 }
 
-
+function formatGenreLabel(g) {
+  switch (g.toLowerCase()) {
+    case 'mass':  return 'Masses';
+    case 'motet': return 'Motets';
+    case 'song':  return 'Songs';
+    default:      return g;
+  }
+}
 
 //////////////////////////////
 //

@@ -1,5 +1,169 @@
 <script>
 
+// Used to display extra info:
+var CountInfo			= 0;
+var TextInfo			= 0;
+var OnlyText         = 0;
+var WORKCOUNT			= 0;
+var WORKCOUNTBYCOMPOSER = {};
+var COMPOSERALLWORKS	 = {};
+var JoaShortName		= "&nbsp;&nbsp;&nbsp;(secure)";
+var JobShortName		= "&nbsp;&nbsp;&nbsp;(not&nbsp;secure)";
+var ComposerList		= null;
+var WORKLISTjos = [];
+
+// State variables used for keeping track of keypresses:
+var ControlKeyState = 0;
+var ShiftKeyState   = 0;
+var AltKeyState     = 0;
+var CommandKeyState = 0;
+
+var HtmlAccentRemovalMap = [
+	{'base':'ae','letters':/&aelig;/g},
+	{'base':'oe','letters':/&oelig;/g},
+	{'base':'sz','letters':/&szlig;/g},
+	{'base':'a','letters':/&a[^;]+;/g},
+	{'base':'e','letters':/&e[^;]+;/g},
+	{'base':'i','letters':/&i[^;]+;/g},
+	{'base':'o','letters':/&o[^;]+;/g},
+	{'base':'u','letters':/&u[^;]+;/g},
+];
+
+let WORKS = {% include metadata/works.json %};
+
+///////////////////////////////
+//
+// normalize -- normalize accents.
+//
+
+function normalize(str) {
+  if (!str) return "";
+  return removeAccents(str.toLowerCase());
+}
+
+//////////////////////////////
+//
+// Convert Unicode Latin-1 Supplement to 7-bit ASCII version without
+//	 accented character.  
+// http://www.alanwood.net/unicode/latin_1_supplement.html
+//
+
+function stripHighBitCharcode(charcode) {
+	switch (charcode) {
+
+		case 192: return "A";	// A-grave
+		case 193: return "A";	// A-acute
+		case 194: return "A";	// A-circumflex
+		case 195: return "A";	// A-tilde
+		case 196: return "A";	// A-umlaut
+		case 197: return "A";	// A-ring
+		case 198: return "Ae";	// AE ligature
+		case 199: return "C";	// C-cedilla
+		case 200: return "E";	// E-grave
+		case 201: return "E";	// E-acute
+		case 202: return "E";	// E-circumflex
+		case 203: return "E";	// E-umlaut
+		case 204: return "I";	// I-grave
+		case 205: return "I";	// I-acute
+		case 206: return "I";	// I-circumflex
+		case 207: return "I";	// I-umlaut
+		case 208: return "Th";	// Eth
+		case 209: return "N";	// N-tilde
+		case 210: return "O";	// O-grave
+		case 211: return "O";	// O-acute
+		case 212: return "O";	// O-circumflex
+		case 213: return "O";	// O-tilde
+		case 214: return "O";	// O-umlaut
+		// 
+		case 216: return "O";	// O-slash
+		case 217: return "U";	// U-grave
+		case 218: return "U";	// U-acute
+		case 219: return "U";	// U-circumflex
+		case 220: return "U";	// U-umlaut
+		case 221: return "Y";	// Y-acute
+		case 222: return "Th";	// Thorn
+		case 223: return "Sz";	// Sz-ligature
+
+		case 224: return "a";	// a-grave
+		case 225: return "a";	// a-acute
+		case 226: return "a";	// a-circumflex
+		case 227: return "a";	// a-tilde
+		case 228: return "a";	// a-umlaut
+		case 229: return "a";	// a-ring
+		case 230: return "ae";	// ae ligature
+		case 231: return "c";	// c-cedilla
+		case 232: return "e";	// e-grave
+		case 233: return "e";	// e-acute
+		case 234: return "e";	// e-circumflex
+		case 235: return "e";	// e-umlaut
+		case 236: return "i";	// i-grave
+		case 237: return "i";	// i-acute
+		case 238: return "i";	// i-circumflex
+		case 239: return "i";	// i-umlaut
+		case 240: return "th";	// eth
+		case 241: return "n";	// n-tilde
+		case 242: return "o";	// o-grave
+		case 243: return "o";	// o-acute
+		case 244: return "o";	// o-circumflex
+		case 245: return "o";	// o-tilde
+		case 246: return "o";	// o-umlaut
+		// 
+		case 248: return "o";	// o-slash
+		case 249: return "u";	// u-grave
+		case 250: return "u";	// u-acute
+		case 251: return "u";	// u-circumflex
+		case 252: return "u";	// u-umlaut
+		case 253: return "y";	// y-acute
+		case 254: return "th";	// thorn
+		case 255: return "y";	// y-umlaut
+	}
+
+	return String.fromCharCode(charcode);
+}
+
+//////////////////////////////
+//
+// removeAccents --
+//
+// è = e-grave		= 101,768
+// é = e-acute		= 101,769
+// ê = e-circumflex = 101,770
+// ë = e-umlaut	  = 101,777
+// first number is ASCII code for unaccented character.
+// second number: http://www.fileformat.info/info/unicode/char/0300/index.htm
+//
+
+function removeAccents(str) {
+	str = str.toLowerCase()
+	var output = "";
+	var test = [];
+	for (var i=0; i<str.length; i++) {
+		var charcode = str.charCodeAt(i);
+		test.push(charcode);
+		// Remove stupid alternate representations of accented characters.
+		if (charcode < 128) {
+			output += String.fromCharCode(charcode);
+		} else if ((charcode >= 128) && (charcode < 256)) {
+			 output += stripHighBitCharcode(charcode);
+		}
+	}
+	// console.log("INPUT: "     + str);
+	// console.log("   CHARCODES: " + test);
+	// console.log("   OUTPUT: "    + output);
+	return output.toLowerCase();
+}
+
+const WORKS_INDEX = WORKS.map(w => ({
+  ...w,
+  _search: normalize([
+    w.WORK_ID,
+    w.Title,
+    w.Subtitle,
+    w.Composer,
+    w.Genre
+  ].join(" "))
+}));
+
 //////////////////////////////
 //
 // DOMContentLoaded — page bootstrap

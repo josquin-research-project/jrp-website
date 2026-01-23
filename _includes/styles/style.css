@@ -119,7 +119,10 @@ body {
 #content {
 	background: white;
 	min-height: 500px;
+	display: flex;
+	align-items: flex-start;
 }
+
 #content:after {
 	content: "\a0";
 	display: block;
@@ -1532,8 +1535,8 @@ aside {
 	float: left;
 	width: 315px;
 	text-align: left;
-	/* browse page aside */
 }
+
 aside h2 {
 	margin-top: 0;
 	margin-bottom: 0;
@@ -1557,7 +1560,7 @@ aside #news p {
 	margin-bottom: 10px;
 }
 aside.browse {
-	width: 250px;
+	flex: 0 0 180px;
 }
 aside.browse form {
 	padding: 60px 15px;
@@ -1662,8 +1665,9 @@ aside.search-filter #tools .form-group.border-dotted {
 /* primary-content styles */
 #primary-content {
 	border-left: 1px solid #e1e1e1;
-	float: left;
-	width: 675px;
+	float: none;
+	width: auto;
+	min-width: 650px;
 	text-align: left;
 	padding-top: 63px;
 	padding-left: 30px;
@@ -1757,10 +1761,13 @@ aside.search-filter #tools .form-group.border-dotted {
 }
 
 #primary-content.repertoire-content {
+	flex: 1;
+	min-width: 0;
 	padding-top: 9px;
 	padding-left: 22px;
-	width: 720px;
+	padding-right: 22px;
 }
+
 #primary-content.repertoire-content h3.brown-border {
 	padding-bottom: 2px;
 }
@@ -1782,8 +1789,10 @@ aside.search-filter #tools .form-group.border-dotted {
 	margin-bottom: 5px;
 }
 #primary-content .browse-items {
-	padding-bottom: 20px;
+	display: flex;
+	gap: 20px;
 }
+
 #primary-content .browse-items:after {
 	content: "";
 	display: block;
@@ -1791,33 +1800,36 @@ aside.search-filter #tools .form-group.border-dotted {
 	height: 0px;
 	clear: both;
 }
+
 #primary-content .browse-items .col {
-	float: left;
-	/* width: 286px; */
-	width: 320px;
-	margin-left: 19px;
+	flex: 1;
+	min-width: 300px;
+	margin-left: 0;
 }
+
 #primary-content .browse-items .col ul {
 	list-style: none;
+	padding-left: 0px;
+	width: 100%;
 	margin-top: 38px;
 }
+
 #primary-content .browse-items .col ul li {
 	font-size: 14px;
 	color: #736960;
 	display: block;
-	/* margin-bottom: 8px; */
 	margin-bottom: 7px;
 }
+
 #primary-content .browse-items .col ul li.title {
 	font-weight: 700;
 	margin-bottom: 0;
 }
+
 #primary-content .browse-items .col ul li a {
 	font-size: 14px;
 }
-#primary-content .browse-items .col + .col {
-	margin-left: 0;
-}
+
 #primary-content .search-results-content {
 	padding-top: 0;
 	padding-left: 21px;
@@ -1830,6 +1842,21 @@ aside.search-filter #tools .form-group.border-dotted {
 	padding-bottom: 1px;
 	color: #cc6633;
 	font-size: 16px;
+}
+
+#repertoire {
+	display: flex;
+	align-items: flex-start;
+}
+
+#repertoire > aside {
+	float: none;
+	width: auto;
+	flex: 0 0 220px;
+}
+
+#repertoire > #primary-content {
+	flex: 1;
 }
 
 table.search-results-table {

@@ -21,7 +21,7 @@
 
 function quickBrowse() {
 	localStorage.BROWSEhome = "false";
-	window.location.replace = "http://" + BASEADDR + "/browse";
+	window.location.pathname = "/repertoire";
 }
 
 
@@ -64,6 +64,8 @@ function storeBrowseParameters() {
 
 function displayRandomExample(worklist) {
 	// InitializeWorklistFlat();
+
+	if (!worklist || !worklist.length) return;
 
 	let randomindex = Math.floor(Math.random() * worklist.length);
 	let randomwork  = worklist[randomindex];
@@ -384,10 +386,9 @@ function buildGenreSelect() {
 	}
 
 	let output = '<select name="g" id="genres"';
-	output += ' onchange="browseDisplay();"';
 	output += ' data-placeholder="All Genres">\n';
 	output += '<option value="" label="default">All Genres</option>\n';
-	output += GetGenreOptions();
+	output += GetGenreBrowseOptions();
 	output += '</select>\n';
 	genreSelect.innerHTML = output;
 

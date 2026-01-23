@@ -1,20 +1,20 @@
 <aside>
   <form class="quick-browse">
     <a onclick="ClearBrowseFields(); localStorage.BROWSEhome='false';"
-       href="/browse" style="text-decoration:none;">
+       href="/repertoire" style="text-decoration:none;">
       <h2 class="blue-bar" style="width:316px;">quick browse</h2>
     </a>
 
     <div class="form-body">
 
       <div class="form-group">
-        <select id="composers" name="c">
+        <select id="composers-select" name="c">
           <option value="">All Composers</option>
         </select>
       </div>
 
       <div class="form-group">
-        <select id="genres" name="g">
+        <select id="genres-select" name="g">
           <option value="">All Genres</option>
         </select>
       </div>
@@ -28,10 +28,10 @@
       </div>
 
       <div class="form-group text-center">
+        <form class="quick-browse" onsubmit="return storeBrowseParameters();">
         <button type="submit"
                 class="btn btn-brown"
-                style="width:110px;"
-                onclick="return storeBrowseParameters();">
+                style="width:110px;">
           Browse
         </button>
       </div>

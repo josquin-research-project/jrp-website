@@ -1,14 +1,4 @@
 <script>
-//
-// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
-// Creation Date:	Thu Aug 21 12:59:01 PDT 2014
-// Last Modified:	Sun Oct 29 22:08:45 PDT 2023
-// Filename:		scripts-local.html
-// Syntax:			ECMAScript 6
-// vim:				ts=3:ft=javascript
-//
-// Description:   Listeners for homepage.
-//
 
 let JRP = {};
 
@@ -18,41 +8,48 @@ let JRP = {};
 // DOMContentLoaded event listener --
 //
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
+	// Audio handling
 	AUDIO = document.getElementById("audio");
-	AUDIO.addEventListener('ended', function(e) {
-		AUDIO.pause();
-		var pauseelem = document.getElementById(AUDIOid);
-		pauseelem.className = "play";
-	}, false);
+	if (AUDIO) {
+		AUDIO.addEventListener("ended", function () {
+			AUDIO.pause();
+			const pauseelem = document.getElementById(AUDIOid);
+			if (pauseelem) pauseelem.className = "play";
+		});
+	}
 
-   sessionStorage.removeItem('RECENTLYADDEDHTML');
+	sessionStorage.removeItem("RECENTLYADDEDHTML");
 
-	let macroid = "AKfycbyeHfmyCHHgbY9X_UDMzW9xyRgqH0c7Ycp76NTW18mjZSnW_2umhgH2ZGDtxuwDot6mKw";
+	const macroid = "AKfycbyeHfmyCHHgbY9X_UDMzW9xyRgqH0c7Ycp76NTW18mjZSnW_2umhgH2ZGDtxuwDot6mKw";
 	let url = `https://script.google.com/macros/s/${macroid}/exec`;
-	url += "?sheet=works";
-	url += "&format=json";
+	url += "?sheet=works&format=json";
+
 	fetch(url)
 		.then(response => {
-			if (response.ok) {
-				return response.json();
-			} else {
+			if (!response.ok) {
 				throw new Error("Request failed with status " + response.status);
 			}
+			return response.json();
 		})
 		.then(data => {
 			JRP.WORKS = data;
+
 			buildComposerSelect(JRP.WORKS);
-			buildGenreSelect(JRP.WORKS);
-			displayRandomExample(JRP.WORKS);
-			displayRecentAdditions(7, JRP.WORKS);
+			buildGenreSelect();
+
+			if (document.getElementById("sample-music")) {
+				displayRandomExample(JRP.WORKS);
+			}
+
+			if (document.getElementById("recently-added")) {
+				displayRecentAdditions(7, JRP.WORKS);
+			}
 		})
 		.catch(error => {
-			console.error("Fetch error: " + error.message);
+			console.error("Fetch error:", error.message);
 		});
 
-}, false);
-
-
+});
 </script>
