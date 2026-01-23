@@ -1,330 +1,188 @@
 <script>
 
-//
-// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
-// Creation Date: Thu Aug 21 12:59:01 PDT 2014
-// Last Modified: Thu Oct 30 21:36:07 PDT 2014 Split from scripts.local.html
-// Filename:		.../repertoire/listeners.js
-// Web Address:		http://josqu.in/repertoire/listeners.js
-// Syntax:			JavaScript 1.8/ECMAScript 5
-// vim:				ts=3: ft=javascript
-//
-// Description:	Event listeners for the Repertoire page.
-//
-
-
 //////////////////////////////
 //
-// DOMContentLoaded event listener -- automatic setup of the page 
-//    after everything has been loaded.
+// DOMContentLoaded — page bootstrap
 //
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
+	// Audio end handling
 	AUDIO = document.getElementById("audio");
-	AUDIO.addEventListener('ended', function(e) {
-		AUDIO.pause();
-		var pauseelem = document.getElementById(AUDIOid);
-		if (pauseelem) {
-			pauseelem.className = "play";
-		}
-	}, false);
+	if (AUDIO) {
+		AUDIO.addEventListener("ended", function () {
+			AUDIO.pause();
+			const pauseelem = document.getElementById(AUDIOid);
+			if (pauseelem) pauseelem.className = "play";
+		});
+	}
 
-	//buildComposerSelect();
+	// Build filters
+	buildComposerSelect();
 	buildGenreSelect();
 	buildVoiceSelect();
 	createJoaJobLists();
 
-	if (typeof sessionStorage.BROWSEshowjrpid === 'undefined') {
-		sessionStorage.BROWSEshowjrpid = "false";
+	// Defaults
+	if (typeof sessionStorage.REPERTOIREshowjrpid === "undefined") {
+		sessionStorage.REPERTOIREshowjrpid = "false";
 	}
 
-	var CgiParameters = GetCgiParameters();
+	// Restore filters from URL or session
+	const params = GetCgiParameters();
 
-	var home = CgiParameters['home'];
-	if (typeof home === 'undefined') {
-		home = sessionStorage.BROWSEhome;
-	}
-	if (typeof home === 'undefined') {
-		home = "false";
-	}
+	const composers = document.getElementById("composers");
+	const genres    = document.getElementById("genres");
+	const voices    = document.getElementById("voices");
+	const titlebox  = document.getElementById("titlebox");
 
-	var text = CgiParameters['text'];
-	if (text) {
-		home = "true";
-		OnlyText = 1;
-	}
-	if (window.location.pathname.match(/performance/)) {
-		home = "true";
-		OnlyText = 1;
-	}
+	if (params.c) composers.value = params.c;
+	else if (sessionStorage.REPERTOIREcomposers) composers.value = sessionStorage.REPERTOIREcomposers;
 
-	var composers = document.getElementById("composers");
-	if (home == "true") {
-		composers.value = "default";
-	} else if (CgiParameters['c'] != null) {
-		composers.value = CgiParameters['c'];
-	} else if (sessionStorage.BROWSEcomposers != "") {
-		composers.value = sessionStorage.BROWSEcomposers;
-	}
+	if (params.g) genres.value = params.g;
+	else if (sessionStorage.REPERTOIREgenres) genres.value = sessionStorage.REPERTOIREgenres;
 
-	var genres = document.getElementById("genres");
-	if (home == "true") {
-		genres.value = "default";
-	} else if (CgiParameters['g'] != null) {
-		genres.value = CgiParameters['g'];
-	} else if (sessionStorage.BROWSEgenres != "") {
-		genres.value = sessionStorage.BROWSEgenres;
-	}
+	if (params.v) voices.value = params.v;
+	else if (sessionStorage.REPERTOIREvoices) voices.value = sessionStorage.REPERTOIREvoices;
 
-	var voices = document.getElementById("voices");
-	if (home == "true") {
-		voices.value = "default";
-	} else if (CgiParameters['v'] != null) {
-		voices.value = CgiParameters['v'];
-	} else if (sessionStorage.BROWSEvoices != "") {
-		voices.value = sessionStorage.BROWSEvoices;
-	}
-
-	var titlebox = document.getElementById("titlebox");
-	if (home == "true") {
-		titlebox.value = "";
-	} else if (typeof CgiParameters['t'] !== 'undefined') {
-		titlebox.value = CgiParameters['t'];
-	} else if (typeof sessionStorage.BROWSEtitlebox !== 'undefined') {
-		titlebox.value = sessionStorage.BROWSEtitlebox;
-	}
-
-	if (home == "true") {
-		var composers = document.getElementById("composers");
-		composers.value = "All Composers";
-		displayAboutBrowse();
-		StylizeFormElements();
-		return;
-	}
+	if (params.t) titlebox.value = params.t;
+	else if (sessionStorage.REPERTOIREtitlebox) titlebox.value = sessionStorage.REPERTOIREtitlebox;
 
 	StylizeFormElements();
 
-	if (home == "census") {
+	// Decide initial view
+	if (params.home === "true") {
+		displayAboutRepertoire();
+		return;
+	}
+
+	if (params.home === "census") {
 		showCensusInfo();
 		return;
 	}
 
-	browseDisplay(1);
-
+	// Default: show results
+	repertoireDisplay(1);
 });
 
 
 
 //////////////////////////////
 //
-// window keydown event listener --
+// Keyboard handling
 //
 
-window.addEventListener('keydown', function(event) {
+window.addEventListener("keydown", function (event) {
 
-	if (event.keyCode == ControlKey) {
-		ControlKeyState = 1;
-	} else if (event.keyCode == ShiftKey) {
-		ShiftKeyState = 1;
-	} else if (event.keyCode == AltKey) {
-		AltKeyState = 1;
-	} else if (event.keyCode == CommandLeftKey) {
-		CommandKeyState = 1;
-	} else if (event.keyCode == CommandRightKey) {
+	// Modifier tracking
+	if (event.keyCode === ControlKey) ControlKeyState = 1;
+	if (event.keyCode === ShiftKey)   ShiftKeyState   = 1;
+	if (event.keyCode === AltKey)     AltKeyState     = 1;
+	if (event.keyCode === CommandLeftKey || event.keyCode === CommandRightKey) {
 		CommandKeyState = 1;
 	}
-  
-	// don't process any command- key combinations.
-	if (CommandKeyState == 1) {
-		return;
-	}
 
-	var titlebox = document.getElementById("titlebox");
+	// Ignore command-key combos
+	if (CommandKeyState) return;
+
+	const titlebox = document.getElementById("titlebox");
+	const inInput  = document.activeElement === titlebox;
 
 	switch (event.keyCode) {
+
 		case AKey:
 			if (ControlKeyState) {
-				if (sessionStorage.BROWSEpageview == "all") {
-					sessionStorage.BROWSEpageview = "paged";
-					browseDisplay(1);
-				} else {
-					sessionStorage.BROWSEpageview = "all";
-					browseDisplay(1);
-				}
+				sessionStorage.REPERTOIREpageview =
+					(sessionStorage.REPERTOIREpageview === "all") ? "paged" : "all";
+				repertoireDisplay(1);
 			}
 			break;
 
 		case JKey:
 			if (ControlKeyState) {
-				if (typeof sessionStorage.BROWSEshowjrpid === 'undefined') {
-					sessionStorage.BROWSEshowjrpid = "false";
-				}
-				if (sessionStorage.BROWSEshowjrpid == "false") {
-					sessionStorage.BROWSEshowjrpid = "true";
-				} else {
-					sessionStorage.BROWSEshowjrpid = "false";
-				}
-				browseDisplay();
+				sessionStorage.REPERTOIREshowjrpid =
+					(sessionStorage.REPERTOIREshowjrpid === "true") ? "false" : "true";
+				repertoireDisplay();
 			}
 			break;
 
 		case RightArrowKey:
 		case DownArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
-				displayNextPage();
-			}
-			break;
-		case LeftArrowKey:
-		case UpArrowKey:
-			if (ControlKeyState || ShiftKeyState) {
-				displayPreviousPage();
-			}
-			break;
-		case PageUpKey:
-			displayPreviousPage();
-			break;
-		case PageDownKey:
-			displayNextPage();
-			break;
-		case HomeKey:
-			displayFirstPage();
-			break;
-		case EndKey:
-			displayLastPage();
+			if (ControlKeyState || ShiftKeyState) displayNextPage();
 			break;
 
-		case EqualsKey:	// (include Plus key which is shift-EqualsKey):
+		case LeftArrowKey:
+		case UpArrowKey:
+			if (ControlKeyState || ShiftKeyState) displayPreviousPage();
+			break;
+
+		case PageUpKey:   displayPreviousPage(); break;
+		case PageDownKey: displayNextPage();     break;
+		case HomeKey:     displayFirstPage();    break;
+		case EndKey:      displayLastPage();     break;
+
+		case EqualsKey:
 			if (ControlKeyState) {
-				var value = parseInt(sessionStorage.BROWSEpagesize);
-				sessionStorage.BROWSEpagesize = value + 1;
+				sessionStorage.REPERTOIREpagesize =
+					parseInt(sessionStorage.REPERTOIREpagesize || 20) + 1;
 				displayFirstPage();
 			}
 			break;
-		case MinusKey:	   // decrease search results table entries by one
+
+		case MinusKey:
 			if (ControlKeyState) {
-				var value = parseInt(sessionStorage.BROWSEpagesize);
-				if (value <= 1) {
-					value = 1;
-				} else {
-					value = value - 1;
-				}
-				sessionStorage.BROWSEpagesize = value;
-				sessionStorage.SEARCHcurrentpage = 1;
+				let v = parseInt(sessionStorage.REPERTOIREpagesize || 20);
+				sessionStorage.REPERTOIREpagesize = Math.max(1, v - 1);
 				displayFirstPage();
 			}
 			break;
 
 		case BackspaceKey:
 		case DeleteKey:
-			if (ControlKeyState == 1) {
-				titlebox.value = '';
-				browseDisplay(1);
+			if (ControlKeyState) {
+				titlebox.value = "";
+				repertoireDisplay(1);
 			}
 			break;
 
 		case NKey:
-			if (ControlKeyState == 1) {
+			if (ControlKeyState) {
 				CountInfo = !CountInfo;
-				if (CountInfo && (WORKCOUNT > 0)) {
-					showCountInfo();
-				} else if (!CountInfo) {
-					hideCountInfo();
-				}
+				CountInfo ? showCountInfo() : hideCountInfo();
 			}
 			break;
 
 		case TKey:
-			if (ControlKeyState == 1) {
+			if (ControlKeyState) {
 				TextInfo = !TextInfo;
-				if (TextInfo) {
-					console.log("Text underlay markers turned on.");
-				} else {
-					console.log("Text underlay markers turned off.");
-				}
-				browseDisplay();
+				repertoireDisplay();
 			}
 			break;
-
 	}
 
-	// Maybe remove ShiftKeyState from list:
-	if (!(ControlKeyState || ShiftKeyState || AltKeyState || CommandKeyState)) {
-		if ((event.keyCode >= AKey && event.keyCode <= ZKey)) {
-			if (titlebox != document.activeElement) {
-				var character = String.fromCharCode(event.keyCode);
-				if (!ShiftKeyState) {
-					character = character.toLowerCase();
-				}
-				titlebox.value += character;
-				browseDisplay(1);
-			}
-		} else if (titlebox != document.activeElement) {
-			// What to do out of titlebox focus
-			switch (event.keyCode) {
-				case SpaceKey:
-					titlebox.value += String.fromCharCode(event.keyCode);
-					break;
-				case DeleteKey:
-				case BackspaceKey:
-					var str = titlebox.value;
-					titlebox.value = str.slice(0, -1);
-					browseDisplay(1);
-					event.preventDefault();
-					event.stopPropagation();
-				// add apostrophe here...
-			}
+	// Type-to-search (outside inputs)
+	if (!inInput && !ControlKeyState && !AltKeyState && !CommandKeyState) {
+		if (event.keyCode >= AKey && event.keyCode <= ZKey) {
+			titlebox.value += String.fromCharCode(event.keyCode).toLowerCase();
+			repertoireDisplay(1);
 		}
 	}
-
-}
-);
+});
 
 
 
 //////////////////////////////
 //
-// Process window key ups --
+// Key-up cleanup
 //
 
-window.onkeyup = function(event) {
-
-	if (event.keyCode == ControlKey) {
-		ControlKeyState = 0;
-	} else if (event.keyCode == ShiftKey) {
-		ShiftKeyState = 0;
-	} else if (event.keyCode == AltKey) {
-		AltKeyState = 0;
-	} else if (event.keyCode == CommandLeftKey) {
-		CommandKeyState = 0;
-	} else if (event.keyCode == CommandRightKey) {
+window.addEventListener("keyup", function (event) {
+	if (event.keyCode === ControlKey) ControlKeyState = 0;
+	if (event.keyCode === ShiftKey)   ShiftKeyState   = 0;
+	if (event.keyCode === AltKey)     AltKeyState     = 0;
+	if (event.keyCode === CommandLeftKey || event.keyCode === CommandRightKey) {
 		CommandKeyState = 0;
 	}
-}
-
-
-
-//////////////////////////////
-//
-// Prevent backspace from being interpreted by the web browser:
-//
-// Maybe deal with by using: event.preventDefault() in window
-//	  key processing code.
-//
-
-trapfunction = function(event) {
-	if (event.keyCode == BackspaceKey) {
-		var titlebox = document.getElementById("titlebox");
-		var str = titlebox.value;
-		titlebox.value = str.slice(0, -1);
-		event.preventDefault();
-		event.stopPropagation();
-		return false;
-	}
-
-	return event;
-}
-document.addEventListener('keydown',  trapfunction); // Most browsers
-document.addEventListener('keypress', trapfunction); // Opera browser
+});
 
 </script>

@@ -6,9 +6,29 @@ permalink: /repertoire/
 
 <audio id="audio"></audio>
 
-<section id="content">
-	{% include_relative aside-repertoire.html %}
-	{% include_relative content.html %}
+<section id="repertoire">
+
+  <!-- LEFT COLUMN: filters / controls -->
+  <aside id="repertoire-aside" class="browse">
+    {% include_relative aside-repertoire.html %}
+  </aside>
+
+  <!-- RIGHT COLUMN: content area (never replaced, only toggled) -->
+  <section id="primary-content" class="repertoire-content">
+
+    <!-- Home / explanatory content -->
+    <div id="repertoire-home" data-view="home">
+      {% include_relative content-repertoire.html %}
+    </div>
+
+    <!-- Results table -->
+    <div id="repertoire-results" data-view="results" hidden></div>
+
+    <!-- Census / statistics -->
+    <div id="repertoire-census" data-view="census" hidden></div>
+
+  </section>
+
 </section>
 
 {% include_relative scripts-local.html %}

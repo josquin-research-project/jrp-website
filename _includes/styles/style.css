@@ -1756,28 +1756,28 @@ aside.search-filter #tools .form-group.border-dotted {
 	top: 0;
 }
 
-#primary-content.browse-content {
+#primary-content.repertoire-content {
 	padding-top: 9px;
 	padding-left: 22px;
 	width: 720px;
 }
-#primary-content.browse-content h3.brown-border {
+#primary-content.repertoire-content h3.brown-border {
 	padding-bottom: 2px;
 }
-#primary-content.browse-content article.browse p {
+#primary-content.repertoire-content article.repertoire p {
 	margin-top: 0;
 	font-size: 14px;
 	color: #736960;
 	text-align: justify;
 	margin-bottom: 0;
 }
-#primary-content.browse-content article.browse p + h4 {
+#primary-content.repertoire-content article.repertoire p + h4 {
 	margin-top: 10px;
 }
-#primary-content.browse-content article.browse.voices h3 {
+#primary-content.repertoire-content article.repertoire.voices h3 {
 	padding-top: 15px;
 }
-#primary-content.browse-content article.browse.composer h3 {
+#primary-content.repertoire-content article.repertoire.composer h3 {
 	padding-top: 15px;
 	margin-bottom: 5px;
 }
@@ -1818,13 +1818,13 @@ aside.search-filter #tools .form-group.border-dotted {
 #primary-content .browse-items .col + .col {
 	margin-left: 0;
 }
-#primary-content.search-results-content {
+#primary-content .search-results-content {
 	padding-top: 0;
 	padding-left: 21px;
 	width: 739px;
 }
 
-#primary-content.search-results-content h3, .search-header {
+#primary-content .search-results-content h3, .search-header {
 	padding-top: 0;
 	margin-top: 13px;
 	padding-bottom: 1px;
@@ -2443,7 +2443,7 @@ footer ul li:last-child:after {
 }
 
 /******************** Census tale styling ***************************/
-/* Used on /census and /browse pages.                               */
+/* Used on /census and /repertoire pages.                               */
 
 table.census {
 	border:		1px solid #eee;

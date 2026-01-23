@@ -1,5 +1,3 @@
-{% include_relative scripts-listeners.html %}
-
 <script>
 //
 // Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
@@ -10,7 +8,7 @@
 // Syntax:			JavaScript 1.8/ECMAScript 5
 // vim:				ts=3: ft=javascript: nowrap
 //
-// Description:	JavaScript management of the JRP Browse page.
+// Description:	JavaScript management of the JRP Repertoire page.
 //
 
 // Used to display extra info:
@@ -23,7 +21,6 @@ var COMPOSERALLWORKS	 = {};
 var JoaShortName		= "&nbsp;&nbsp;&nbsp;(secure)";
 var JobShortName		= "&nbsp;&nbsp;&nbsp;(not&nbsp;secure)";
 var ComposerList		= null;
-var BROWSEHOMEHTML	= null;
 var WORKLISTjos = [];
 
 // State variables used for keeping track of keypresses:
@@ -42,6 +39,24 @@ var HtmlAccentRemovalMap = [
 	{'base':'o','letters':/&o[^;]+;/g},
 	{'base':'u','letters':/&u[^;]+;/g},
 ];
+
+//////////////////////////////
+//
+// showRepertoireView -- View switcher
+//
+
+function showRepertoireView(view) {
+  const views = {
+    home: document.getElementById("repertoire-home"),
+    results: document.getElementById("repertoire-results"),
+    census: document.getElementById("repertoire-census")
+  };
+
+  Object.keys(views).forEach(v => {
+    if (!views[v]) return;
+    views[v].style.display = (v === view) ? "" : "none";
+  });
+}
 
 //////////////////////////////
 //
@@ -180,7 +195,7 @@ function stripHighBitCharcode(charcode) {
 
 //////////////////////////////
 //
-// resetFormValues -- Clear fields in Browse filter parameters.
+// resetFormValues -- Clear fields in Repertoire filter parameters.
 //
 
 function resetFormValues() {
@@ -198,10 +213,10 @@ function resetFormValues() {
 	titlebox.value  = "";
 	titlebox.label  = "";
 
-	sessionStorage.BROWSEcomposers = "";
-	sessionStorage.BROWSEgenres    = "";
-	sessionStorage.BROWSEvoices    = "";
-	sessionStorage.BROWSEtitlebox  = "";
+	sessionStorage.REPERTOIREcomposers = "";
+	sessionStorage.REPERTOIREgenres    = "";
+	sessionStorage.REPERTOIREvoices    = "";
+	sessionStorage.REPERTOIREtitlebox  = "";
 
 	StylizeFormElements();
 }
@@ -227,11 +242,10 @@ function showComposer(repid) {
 	titlebox.value = "";
 	titlebox.label = "";
 	/// ggg
-	// browseDisplay(1);
+	// repertoireDisplay(1);
 	// $('html,body').scrollTop(0);
 	// StylizeFormElements();
-	sessionStorage.BROWSEhome = "false";
-	var target  = "/browse-filter?c=" + repid;
+	var target  = "/repertoire-filter?c=" + repid;
 	window.location = target;
 	return false;
 }
@@ -252,51 +266,31 @@ function showGenre(genre) {
 	voices.value = "";
 	var titlebox = document.getElementById("titlebox");
 	titlebox.value = "";
-	browseDisplay(1);
+	repertoireDisplay(1);
 	$('html,body').scrollTop(0);
 	StylizeFormElements();
 }
 
 
 
-//////////////////////////////
-//
-// displayAboutBrowse -- Show the Browse homepage.
-//
-
-function displayAboutBrowse() {
-	var maincontent = document.getElementById('secondary-content');
-	if (!maincontent) {
-		return;
-	}
-//	if (BROWSEHOMEHTML == null) {
-		BROWSEHOMEHTML = ReadFile("content.html");
-//	}
-
-//			sessionStorage.BROWSEHOMEHTML = BROWSEHOMEHTML;
-//		} else {
-//			BROWSEHOMEHTML = sessionStorage.BROWSEHOMEHTML;
-//		}
-//	}
-
-	maincontent.innerHTML = BROWSEHOMEHTML;
-	fillInAboutComposerList(); 
-	document.getElementById('about-button').innerHTML = ""; 
+function displayAboutRepertoire() {
+	showRepertoireView("home");
 	resetFormValues();
+	fillInAboutComposerList();
+	showRepertoireHomeButton();
 }
-
 
 
 //////////////////////////////
 //
 // fillInAboutComposerList -- Dynamic version of the file
-//	 includes/composer-browse-table.html.  This is a list
+//	 includes/composer-repertoire-table.html.  This is a list
 //	 of composers in the database and a count of how many
 //	 works by them are present in the database.
 //
 
 function fillInAboutComposerList() {
-	var list = document.getElementById("composer-browse-list");
+	var list = document.getElementById("composer-repertoire-list");
 	if (list == null) {
 		return;
 	}
@@ -516,7 +510,6 @@ function generateComposerWorkEntries(worklist, index) {
 	var jrpid			= "";
 	var composer		= "";
 	var comshort		= "";
-	var repid			= "";
 
 	if (typeof worklist[index] !== 'undefined') {
 		if (typeof worklist[index].comshort !== 'undefined') {
@@ -732,14 +725,14 @@ function generateComposerWorkEntries(worklist, index) {
 
 		if (TextInfo && (text == "true")) {
 			//tempout	 = "<tr valign=top><td style=\"background-color:#eeeeee;\">" + genre;
-			if (sessionStorage.BROWSEshowjrpid == "true") {
+			if (sessionStorage.REPERTOIREshowjrpid == "true") {
 				tempout    += "<td style=\"background-color:#eeeeee;\">" + jrpid;
 			} else {
 				tempout    += "<td style=\"background-color:#eeeeee;\">" + genre;
 			}
 		} else {
 			//tempout	 = "<tr valign=top><td>" + genre;
-			if (sessionStorage.BROWSEshowjrpid == "true") {
+			if (sessionStorage.REPERTOIREshowjrpid == "true") {
 				tempout    += "<td>" + jrpid;
 			} else {
 				tempout    += "<td>" + genre;
@@ -786,43 +779,45 @@ function getTextState(entry) {
 
 //////////////////////////////
 //
-// browseDisplay -- display works of one or more composer.
+// repertoireDisplay -- display works of one or more composer.
 //
-// displayBrowse --
+//
 //
 
-function browseDisplayTitleBox(page) {
+function repertoireDisplayTitleBox(page) {
 	// This is needed to avoid problems with shift-arrow keys.
 	// Need to also check if the key pressed is an arrow key, but
 	// this is close enough for now.
 	if (ShiftKeyState || ControlKeyState) {
 		return;
 	}
-	browseDisplay(page);
+	repertoireDisplay(page);
 }
 
 
-function browseDisplay(page) {
+function repertoireDisplay(page) {
 	if (typeof page === 'undefined') {
-		page = sessionStorage.BROWSEcurrentpage;
+		page = sessionStorage.REPERTOIREcurrentpage;
 	}
-	storeBrowseFilters();
-   showBrowseHomeButton();
+
+	storeRepertoireFilters();
+	showRepertoireHomeButton();
+	showRepertoireView("results");
 	
-	var maincontent = document.getElementById('secondary-content');
+	var maincontent = document.getElementById('repertoire-results');
 	var content = "";
 	content += printTableStart();
 	InitializeWorklist();
 
 	var tablerows = generateWorkEntries(WORKLIST);
-	if (typeof sessionStorage.BROWSEpagesize === 'undefined') {
-		sessionStorage.BROWSEpagesize = 20;
+	if (typeof sessionStorage.REPERTOIREpagesize === 'undefined') {
+		sessionStorage.REPERTOIREpagesize = 20;
 	}
-	if (typeof sessionStorage.BROWSEpagesize === 'undefined') {
-		sessionStorage.BROWSEshowjrpid = "false";
+	if (typeof sessionStorage.REPERTOIREpagesize === 'undefined') {
+		sessionStorage.REPERTOIREshowjrpid = "false";
 	}
-	var pagesize = sessionStorage.BROWSEpagesize;
-	sessionStorage.BROWSEentries = tablerows.length;
+	var pagesize = sessionStorage.REPERTOIREpagesize;
+	sessionStorage.REPERTOIREentries = tablerows.length;
 	var totalpages = tablerows.length / pagesize;
 	if (totalpages - parseInt(totalpages) > 0.0) {
 		totalpages = parseInt(totalpages) + 1;
@@ -835,7 +830,7 @@ function browseDisplay(page) {
 	if (page > totalpages) {
 		page = totalpages;
 	}
-	sessionStorage.BROWSEcurrentpage = page;
+	sessionStorage.REPERTOIREcurrentpage = page;
 
 	var startindex = (page - 1) * pagesize;
 	var stopindex  = parseInt(startindex) + parseInt(pagesize);
@@ -843,7 +838,7 @@ function browseDisplay(page) {
 		stopindex = tablerows.length;
 	}
 
-	if (sessionStorage.BROWSEpageview == "all") {
+	if (sessionStorage.REPERTOIREpageview == "all") {
 		startindex = 0;
 		stopindex = tablerows.length;
 	}
@@ -904,7 +899,7 @@ function printPageList(currentpage, totalpages) {
 	var leftarrow = "&#10094;";
 	// var leftarrow = "&lt;";
 
-	if (sessionStorage.BROWSEpageview == "all") {
+	if (sessionStorage.REPERTOIREpageview == "all") {
 		printPageListAll(totalpages);
 		return;
 	}
@@ -924,7 +919,7 @@ function printPageList(currentpage, totalpages) {
 
 	// print left arrow 
 	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
-	output += " onclick=\"browseDisplay(";
+	output += " onclick=\"repertoireDisplay(";
 	output += previouspage;
 	output += ");\">";
 	output += leftarrow + "</span></li>\n";
@@ -934,7 +929,7 @@ function printPageList(currentpage, totalpages) {
 		output += "<li class=\"active\">1</li>\n";
 	} else {
 		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
-		output += " onclick=\"browseDisplay(1);\">";
+		output += " onclick=\"repertoireDisplay(1);\">";
 		output += "1</span></li>\n";
 	}
 
@@ -960,7 +955,7 @@ function printPageList(currentpage, totalpages) {
 	
 		if (needpredots) {
 			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
-			output += " onclick=\"browseDisplay(";
+			output += " onclick=\"repertoireDisplay(";
 			output += (currentpage - 1) + ");\">";
 			output += elipsis + "</span></li>\n";
 		}
@@ -971,7 +966,7 @@ function printPageList(currentpage, totalpages) {
 	
 		if (needpostdots) {
 			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
-			output += " onclick=\"browseDisplay(";
+			output += " onclick=\"repertoireDisplay(";
 			output += (currentpage + 1) + ");\">";
 			output += elipsis + "</span></li>\n";
 		}
@@ -982,7 +977,7 @@ function printPageList(currentpage, totalpages) {
 		output += "<li class=\"active\">" + currentpage + "</li>\n";
 	} else {
 		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
-		output += " onclick=\"browseDisplay(";
+		output += " onclick=\"repertoireDisplay(";
 		output += totalpages;
 		output += ");\">";
 		output += totalpages + "</span></li>\n";
@@ -995,15 +990,15 @@ function printPageList(currentpage, totalpages) {
 
 	// print right arrow gray if on page one otherwise blue.
 	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
-	output += " onclick=\"browseDisplay(";
+	output += " onclick=\"repertoireDisplay(";
 	output += nextpage + ");\">";
 	output += rightarrow + "</span></li>\n";
 
 	output += "<li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:=-0.5px;\"";
-	output += " onclick=\"sessionStorage.BROWSEpageview='all';";
-	output += " browseDisplay(1);\">view all</span>";
+	output += " onclick=\"sessionStorage.REPERTOIREpageview='all';";
+	output += " repertoireDisplay(1);\">view all</span>";
 	output += "</li>\n";
 
 	output += "</ul>\n";
@@ -1031,8 +1026,8 @@ function printPageListAll(totalpages) {
 	output += "<ul><li>";
 	output += "<span style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:-0.5px;\"";
-	output += " onclick=\"sessionStorage.BROWSEpageview='paged';";
-	output += " browseDisplay(1);\">paged view</span>";
+	output += " onclick=\"sessionStorage.REPERTOIREpageview='paged';";
+	output += " repertoireDisplay(1);\">paged view</span>";
 	output += "</li></ul>\n";
 
 	document.getElementById("page-list").innerHTML = output;
@@ -1048,7 +1043,7 @@ function printPageListAll(totalpages) {
 function printTableStart() {
 	var output = "";
 
-	output += "<div id='primary-content' class='search-results-content'>\n";
+	output += "<div class='search-results-content'>\n";
 
 	output += "<div class=\"pagination\">\n";
 	output += "<span id=\"match-counts\" class=\"grey\"></span>\n";
@@ -1060,7 +1055,7 @@ function printTableStart() {
 	output += "<thead>\n";
 	output += "<tr>\n";
 
-	if (sessionStorage.BROWSEshowjrpid == "true") {
+	if (sessionStorage.REPERTOIREshowjrpid == "true") {
 		output += "<th class='sortable'><a href='#'>JRPID</a></th>\n";
 	} else {
 		output += "<th class='sortable'><a href='#'>Genre</a></th>\n";
@@ -1085,9 +1080,9 @@ function printTableStart() {
 //
 
 function displayNextPage() {
-	var currentpage = sessionStorage.BROWSEcurrentpage;
+	var currentpage = sessionStorage.REPERTOIREcurrentpage;
 	var nextpage = parseInt(currentpage) + 1;
-	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
+	var pagecount = sessionStorage.REPERTOIREentries / sessionStorage.REPERTOIREpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1096,7 +1091,7 @@ function displayNextPage() {
 	if (nextpage > pagecount) {
 		nextpage = 1;
 	}
-	browseDisplay(nextpage);
+	repertoireDisplay(nextpage);
 }
 
 
@@ -1107,9 +1102,9 @@ function displayNextPage() {
 //
 
 function displayPreviousPage() {
-	var currentpage = sessionStorage.BROWSEcurrentpage;
+	var currentpage = sessionStorage.REPERTOIREcurrentpage;
 	var previouspage = parseInt(currentpage) - 1;
-	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
+	var pagecount = sessionStorage.REPERTOIREentries / sessionStorage.REPERTOIREpagesize;
 	if ((pagecount - parseInt(pagecount)) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
@@ -1118,7 +1113,7 @@ function displayPreviousPage() {
 	if (previouspage < 1) {
 		previouspage = pagecount;
 	}
-	browseDisplay(previouspage);
+	repertoireDisplay(previouspage);
 }
 
 
@@ -1129,7 +1124,7 @@ function displayPreviousPage() {
 //
 
 function displayFirstPage() {
-	browseDisplay(1);
+	repertoireDisplay(1);
 }
 
 
@@ -1140,13 +1135,13 @@ function displayFirstPage() {
 //
 
 function displayLastPage() {
-	var pagecount = sessionStorage.BROWSEentries / sessionStorage.BROWSEpagesize;
+	var pagecount = sessionStorage.REPERTOIREentries / sessionStorage.REPERTOIREpagesize;
 	if (pagecount - parseInt(pagecount) > 0) {
 		pagecount = parseInt(pagecount) + 1;
 	} else {
 		pagecount = parseInt(pagecount);
 	}
-	browseDisplay(pagecount);
+	repertoireDisplay(pagecount);
 }
 
 
@@ -1211,32 +1206,31 @@ function hideCountInfo() {
 
 //////////////////////////////
 //
-// browseDisplayAll --
+// repertoireDisplayAll --
 //
 
-function browseDisplayAll() {
-	clearBrowseFilters();
-	browseDisplay(1);
+function repertoireDisplayAll() {
+	clearRepertoireFilters();
+	repertoireDisplay(1);
 }
 
 
 
 //////////////////////////////
 //
-// clearBrowseFilters -- Set browse filters to defaults or empty.
+// clearRepertoireFilters -- Set repertoire filters to defaults or empty.
 //
 
-function clearBrowseFilters() {
+function clearRepertoireFilters() {
 	document.getElementById("genres").value = "";
 	document.getElementById("voices").value = "";
 	document.getElementById("composers").value = "";
 	document.getElementById("titlebox").value = "";
 
-	sessionStorage.BROWSEcomposers = "";
-	sessionStorage.BROWSEgenres    = "";
-	sessionStorage.BROWSEvoices    = "";
-	sessionStorage.BROWSEtitlebox  = "";
-	sessionStorage.BROWSEhome		= "false";
+	sessionStorage.REPERTOIREcomposers = "";
+	sessionStorage.REPERTOIREgenres    = "";
+	sessionStorage.REPERTOIREvoices    = "";
+	sessionStorage.REPERTOIREtitlebox  = "";
 
 	StylizeFormElements();
 }
@@ -1245,21 +1239,20 @@ function clearBrowseFilters() {
 
 //////////////////////////////
 //
-// storeBrowseFilters --
+// storeRepertoireFilters --
 //
 
-function storeBrowseFilters() {
-	sessionStorage.BROWSEcomposers = document.getElementById("composers").value;
-	sessionStorage.BROWSEgenres    = document.getElementById("genres").value;
-	sessionStorage.BROWSEvoices    = document.getElementById("voices").value;
-	sessionStorage.BROWSEtitlebox  = document.getElementById("titlebox").value;
-	sessionStorage.BROWSEhome		= "false";
+function storeRepertoireFilters() {
+	sessionStorage.REPERTOIREcomposers = document.getElementById("composers").value;
+	sessionStorage.REPERTOIREgenres    = document.getElementById("genres").value;
+	sessionStorage.REPERTOIREvoices    = document.getElementById("voices").value;
+	sessionStorage.REPERTOIREtitlebox  = document.getElementById("titlebox").value;
 
-	if (sessionStorage.BROWSEcomposers.match(/All/i)) {
-		sessionStorage.BROWSEcomposers = "";
+	if (sessionStorage.REPERTOIREcomposers.match(/All/i)) {
+		sessionStorage.REPERTOIREcomposers = "";
 	}
-	if (sessionStorage.BROWSEgenres.match(/All/i)) {
-		sessionStorage.BROWSEgenres = "";
+	if (sessionStorage.REPERTOIREgenres.match(/All/i)) {
+		sessionStorage.REPERTOIREgenres = "";
 	}
 
 }
@@ -1278,11 +1271,11 @@ function buildComposerSelect() {
 	}
 
 	var output = "<select id=\"composers\"";
-	output += " onchange=\"browseDisplay();\"";
+	output += " onchange=\"repertoireDisplay();\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"All Composers\">All Composers</option>\n";
-	//var clist = GetComposerOptions();
-	output += clist;
+	var clist = GetComposerOptions();
+	//output += clist;
 	output += "</select>\n";
 	composerselect.innerHTML = output;
 
@@ -1303,7 +1296,7 @@ function buildGenreSelect() {
 	}
 
 	var output = "<select id=\"genres\"";
-	output += " onchange=\"browseDisplay();\"";
+	output += " onchange=\"repertoireDisplay();\"";
 	output += " data-placeholder=\"All Genres\">\n";
 	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
 	var clist = GetGenreBrowseOptions();
@@ -1328,7 +1321,7 @@ function buildVoiceSelect() {
 	}
 
 	var output = "<select id=\"voices\"";
-	output += " onchange=\"browseDisplay();\"";
+	output += " onchange=\"repertoireDisplay();\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"default\">All Voices</option>\n";
 	var clist = GetVoiceOptions();
@@ -1350,7 +1343,7 @@ function showCensusInfo() {
 	var content = '';
 	content += '<section style="font-size:100%; padding-left:8px; ';
 	content += 'padding-right:0px; padding-bottom:100px;" ';
-	content += 'id="primary-content" class="browse-content">\n';
+	content += 'id="repertoire-home" class="repertoire-content">\n';
 	content += '<article style="padding-left:10px; padding-right:0px;" class="about first">\n';
 	content += '<h2 class="brown-heading">Census of work and note ';
 	content += 'counts by composer/genre</h2>\n';
@@ -1370,8 +1363,9 @@ function showCensusInfo() {
 	content += '<div id="pagetable"></div>\n';
 	content += '</article>\n';
 	content += '</section>\n';
-	var element = document.getElementById("secondary-content");
+	var element = document.getElementById("repertoire-census");
 	element.innerHTML = content;
+	showRepertoireView("census");
 	showNoteTable("notetable");
 	showTimeTable("timetable");
 	showPageTable("pagetable");
@@ -1399,34 +1393,33 @@ function showCensusInfo() {
 	}
 
 	var tables = document.querySelectorAll("table.census");
-	var width = $('#primary-content').width();
+	var width = $('#repertoire-home').width();
 	for (i=0; i<tables.length; i++) {
 		tables[i].style.width = width + 'px';
 	}
 
-	showBrowseHomeButton();
+	showRepertoireHomeButton();
 
 }
 
 
-
 //////////////////////////////
 //
-// showBrowseHomeButton --
+// showRepertoireHomeButton --
 //
 
-function showBrowseHomeButton() {
+function showRepertoireHomeButton() {
 	var text = '<span style="cursor:hand; cursor:pointer;" ';
-	text += 'onclick="displayAboutBrowse();" class="btn btn-brown">';
+	text += 'onclick="displayAboutRepertoire();" class="btn btn-brown">';
 	if (window.location.pathname.match(/performance/i)) {
 		text += 'Performance Home';
 	} else {
-		text += 'Browse Home';
+		text += 'Repertoire Home';
 	}
 	text += '</span>\n';
 	document.getElementById('about-button').innerHTML = text;
 }
 
-
-
 </script>
+
+{% include_relative scripts-listeners.html %}
