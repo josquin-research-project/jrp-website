@@ -1837,7 +1837,7 @@ aside.search-filter #tools .form-group.border-dotted {
 #primary-content .search-results-content {
 	padding-top: 0;
 	padding-left: 21px;
-	width: 739px;
+	width: auto;
 }
 
 #primary-content .search-results-content h3, .search-header {

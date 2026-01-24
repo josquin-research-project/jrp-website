@@ -13,6 +13,36 @@
 // Description:	JavaScript management of the JRP Repertoire page.
 //
 
+
+//////////////////////////////
+//
+// migrateBrowseToRepertoire -- 
+//
+
+function migrateBrowseToRepertoire() {
+
+	// nothing to migrate
+	if (
+		!localStorage.BROWSEcomposers &&
+		!localStorage.BROWSEgenres &&
+		!localStorage.BROWSEtitlebox
+	) {
+		return false;
+	}
+
+	sessionStorage.REPERTOIREcomposers = localStorage.BROWSEcomposers || "";
+	sessionStorage.REPERTOIREgenres    = localStorage.BROWSEgenres    || "";
+	sessionStorage.REPERTOIREtitlebox  = localStorage.BROWSEtitlebox  || "";
+
+	// cleanup (critical)
+	localStorage.removeItem("BROWSEhome");
+	localStorage.removeItem("BROWSEcomposers");
+	localStorage.removeItem("BROWSEgenres");
+	localStorage.removeItem("BROWSEtitlebox");
+
+	return true;
+}
+
 //////////////////////////////
 //
 // showRepertoireView -- View switcher
@@ -192,6 +222,7 @@ function showGenre(genre) {
 
 
 function displayAboutRepertoire() {
+	OnlyText = 0;
 	showRepertoireView("home");
 	resetFormValues();
 	fillInAboutComposerList();
@@ -259,27 +290,6 @@ function fillInAboutComposerList() {
 		}
 		columns[ii] += ")</li>\n";
 
-		if (repid == "Jos") {
-			var joacount = WORKLISTjos[1].works.length + " work";
-			var jobcount = WORKLISTjos[2].works.length + " work";
-			if (WORKLISTjos[1].works.length != 1) {
-				joacount += "s";
-			}
-			if (WORKLISTjos[2].works.length != 1) {
-				jobcount += "s";
-			}
-
-			columns[ii] += "<li><span style='margin-left:16px'>(<span"
-						+ " onclick='showComposer(\"" + "Joa" + "\");'"
-						+ " class='composer-link2'>" + "secure" + "</span>, "
-						+ joacount + ")";
-			columns[ii] += " (<span "
-						+ " onclick='showComposer(\"" + "Job" + "\");'"
-						+ " class='composer-link2'>" + "not secure" + "</span>, "
-						+ jobcount + ")";
-			columns[ii] += "</li>\n";
-		}
-
 	}
 
 	var output = "";
@@ -306,54 +316,7 @@ function fillInAboutComposerList() {
 }
 
 
-
-//////////////////////////////
-//
-// createJoaJobLists --
-//
-
-function createJoaJobLists() {
-	InitializeWorklist();
-
-	if (WORKLIST == null) {
-		return;
-	}
-	var josindex = -1;
-	var i;
-	for (i=0; i<WORKLIST.length; i++) {
-		if (WORKLIST[i].repid == "Jos") {
-			josindex = i;
-			break;
-		}
-	}
-	if (josindex < 0) {
-		return;
-	}
-	var WORKLISTjoa = JSON.parse(JSON.stringify(WORKLIST[josindex]));
-	var WORKLISTjob = JSON.parse(JSON.stringify(WORKLIST[josindex]));
-	WORKLISTjoa.comshort  = "Josquin";
-	WORKLISTjob.comshort  = "Josquin";  // "?" added later.
-	WORKLISTjoa.repid = "Joa";
-	WORKLISTjob.repid = "Job";
-	WORKLISTjoa.works = [];
-	WORKLISTjob.works = [];
-
-	for (i=0; i<WORKLIST[josindex].works.length; i++) {
-		attribution = WORKLIST[josindex].works[i].attr;
-		if (attribution == 1 || attribution == 2) {
-			WORKLISTjoa.works.push(WORKLIST[josindex].works[i]);
-		} else {
-			WORKLISTjob.works.push(WORKLIST[josindex].works[i]);
-		}
-	}
-	WORKLISTjos.push(WORKLIST[josindex]);
-	WORKLISTjos.push(WORKLISTjoa);
-	WORKLISTjos.push(WORKLISTjob);
-}
-
-
-
-//////////////////////////////
+/////////////////////////////
 //
 // generateWorkEntries --
 //
@@ -482,7 +445,6 @@ function generateComposerWorkEntries(worklist, index) {
 	var voicemin;
 	var voicemax;
 	var temparr;
-	var text;
 	var xcomposer = "";
 
 	for (j=0; j<worklist[index].works.length; j++) {
@@ -491,10 +453,16 @@ function generateComposerWorkEntries(worklist, index) {
 		fragment = entry.fragment || 'false';
 		genre	   = entry.genre    || '';
 		voices	= entry.voices   || '?';
-		text	   = getTextState(entry);
-		if (OnlyText && (text !== "true")) {
+		const isTexted = entry.Texted === "yes" || entry.Texted === "Yes";
+		
+		if (OnlyText) {
+	    console.log(entry.id, entry.Texted);
+	  }
+		
+		if (OnlyText && !isTexted) {
 			continue;
 		}
+
 		if (typeof entry.comshort !== 'undefined') {
 			composer = entry.comshort;
 		}
@@ -542,22 +510,6 @@ function generateComposerWorkEntries(worklist, index) {
 		jrpid  = entry.id	  || "";
 		searchtitle  = jrpid + " " + (entry.searchtitle  || "");
 
-		if (COMPOSERALLWORKS[comshort] == null) {
-			COMPOSERALLWORKS[comshort] = 0;
-			if (repid == "Jos") {
-				COMPOSERALLWORKS[JoaShortName] = 0;
-				COMPOSERALLWORKS[JobShortName] = 0;
-			}
-		}
-		COMPOSERALLWORKS[comshort]++;
-		if (repid == "Jos") {
-			if ((attr == 1) || (attr == 2)) {
-				COMPOSERALLWORKS[JoaShortName]++;
-			} else {
-				COMPOSERALLWORKS[JobShortName]++;
-			}
-		}
-
 		if (voiceoption != "") {
 			var vo = parseInt(voiceoption);
 			if (voices == voiceoption) {
@@ -591,21 +543,6 @@ function generateComposerWorkEntries(worklist, index) {
 		// Work passed through the filters, so add it to the list.
 
 		WORKCOUNT++;
-		if (WORKCOUNTBYCOMPOSER[comshort] == null) {
-			WORKCOUNTBYCOMPOSER[comshort] = 0;
-			if (repid == "Jos") {
-				WORKCOUNTBYCOMPOSER[JoaShortName] = 0;
-				WORKCOUNTBYCOMPOSER[JobShortName] = 0;
-			}
-		}
-		WORKCOUNTBYCOMPOSER[comshort]++;
-		if (repid == "Jos") {
-			if ((attr == 1) || (attr == 2)) {
-				WORKCOUNTBYCOMPOSER[JoaShortName]++;
-			} else {
-				WORKCOUNTBYCOMPOSER[JobShortName]++;
-			}
-		}
 
 		titlelink  = "<a style='word-spacing:1.5px; letter-spacing:-0.5px;' class='text-link' href='";
 		titlelink += "/work?id=" + jrpid + "'>";
@@ -641,7 +578,7 @@ function generateComposerWorkEntries(worklist, index) {
 		tempout = "<tr>";
 			jrpid  = entry.id	  || "";
 
-		if (TextInfo && (text == "true")) {
+		if (TextInfo && isTexted) {
 			//tempout	 = "<tr valign=top><td style=\"background-color:#eeeeee;\">" + genre;
 			if (sessionStorage.REPERTOIREshowjrpid == "true") {
 				tempout    += "<td style=\"background-color:#eeeeee;\">" + jrpid;
@@ -669,31 +606,6 @@ function generateComposerWorkEntries(worklist, index) {
 
 	return output;
 }
-
-
-
-//////////////////////////////
-//
-// getTextState --
-//
-
-function getTextState(entry) {
-	if (entry.text && entry.text === "true") {
-		return "true";
-	}
-	if (entry.sections) {
-		var list = entry.sections;
-		for (var i=0; i<list.length; i++) {
-			if (list[i].text && list[i].text === "true") {
-				return "true";
-			}
-		}
-	}
-
-	return false;
-}
-
-
 
 //////////////////////////////
 //
@@ -1129,9 +1041,26 @@ function hideCountInfo() {
 
 function repertoireDisplayAll() {
 	clearRepertoireFilters();
+	OnlyText = 0;
+	sessionStorage.REPERTOIREpageview = "all";
+	showRepertoireView("results");
 	repertoireDisplay(1);
+	window.scrollTo(0, 0);
 }
 
+//////////////////////////////
+//
+// showAllTextedWorks --
+//
+
+function showAllTextedWorks() {
+	clearRepertoireFilters();
+	OnlyText = 1;
+	sessionStorage.REPERTOIREpageview = "all";
+	showRepertoireView("results");
+	repertoireDisplay(1);
+	window.scrollTo(0, 0);
+}
 
 
 //////////////////////////////

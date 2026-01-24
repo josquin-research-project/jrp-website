@@ -357,12 +357,12 @@ function printWorklistRecentEntry(entry) {
 // buildComposerSelect -- Create the Composer drop-down list for browsing.
 //
 
-function buildComposerSelect(worklist) {
+function buildHomepageComposerSelect(worklist) {
 	const select = document.getElementById("composers");
 	if (!select) return;
 
 	let output = '<option value="">All Composers</option>\n';
-	output += GetComposerOptions(worklist);
+	output += GetComposerOptions(worklist); // OK to sort here if desired
 
 	select.innerHTML = output;
 	StylizeFormElements();
@@ -375,7 +375,8 @@ function buildComposerSelect(worklist) {
 // buildGenreSelect -- Create the Genre drop-down list for browsing.
 //
 
-function buildGenreSelect() {
+
+function buildHomepageGenreSelect() {
 	const select = document.getElementById("genres");
 	if (!select) return;
 

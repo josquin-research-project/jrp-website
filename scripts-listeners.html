@@ -15,8 +15,8 @@ function initializeHomepage(worklist) {
 
 	JRP.WORKS = worklist;
 
-	buildComposerSelect(JRP.WORKS);
-	buildGenreSelect();
+	buildHomepageComposerSelect(JRP.WORKS);
+	buildHomepageGenreSelect();
 
 	if (document.getElementById("sample-music")) {
 		displayRandomExample(JRP.WORKS);
@@ -81,6 +81,16 @@ document.addEventListener("DOMContentLoaded", function () {
 		.catch(error => {
 			console.error("Homepage initialization failed:", error);
 		});
+
+	const titlebox = document.getElementById("titlebox");
+	if (titlebox) {
+		titlebox.addEventListener("keydown", function (e) {
+			if (e.key === "Enter") {
+				e.preventDefault();
+				storeBrowseParameters();
+			}
+		});
+	}
 
 });
 </script>

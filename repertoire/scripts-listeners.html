@@ -155,13 +155,19 @@ function removeAccents(str) {
 
 const WORKS_INDEX = WORKS.map(w => ({
   ...w,
+
+  // normalized search string
   _search: normalize([
     w.WORK_ID,
     w.Title,
     w.Subtitle,
     w.Composer,
     w.Genre
-  ].join(" "))
+  ].join(" ")),
+
+  	// check if texted
+   _isTexted: w.Texted === "yes" || w.Texted === "Yes"
+
 }));
 
 //////////////////////////////
@@ -170,6 +176,8 @@ const WORKS_INDEX = WORKS.map(w => ({
 //
 
 document.addEventListener("DOMContentLoaded", function () {
+
+	migrateBrowseToRepertoire();
 
 	// Audio end handling
 	AUDIO = document.getElementById("audio");
@@ -185,7 +193,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	buildComposerSelect();
 	buildGenreSelect();
 	buildVoiceSelect();
-	createJoaJobLists();
 
 	// Defaults
 	if (typeof sessionStorage.REPERTOIREshowjrpid === "undefined") {

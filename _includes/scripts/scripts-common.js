@@ -134,16 +134,16 @@ function InitializeWorklist() {
     }
 
     byComposer[repid].works.push({
-      id: w.WORK_ID,
-      title: w.Title,
-      variant: w.Subtitle || "",
-      genre: w.Genre,
-      voices: w.Voices,
-      attr: w.Attribution || 0,
-      text: w.Text || "false",
-      fragment: w.Fragment || false,
-      comshort: byComposer[repid].comshort
-    });
+        id: w.WORK_ID,
+        title: w.Title,
+        variant: w.Subtitle || "",
+        genre: w.Genre,
+        voices: w.Voices,
+        attr: w.Attribution || 0,
+        Texted: w.Texted,
+        fragment: w.Fragment || false,
+        comshort: byComposer[repid].comshort
+      });
 
     byComposer[repid].repwork++;
   }
