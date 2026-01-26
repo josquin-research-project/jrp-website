@@ -269,7 +269,8 @@ function fillInAboutComposerList() {
 					+ "</span>";
 		}
 		ii = 0;
-		if (repid.localeCompare("J") >= 0) {
+		const sortKey = WORKLIST[i].comsort || "";
+		if (sortKey.localeCompare("J", "fr", { sensitivity: "base" }) >= 0) {
 		  ii = 1;
 		}
 		columns[ii] += "<li";
@@ -455,30 +456,27 @@ function generateComposerWorkEntries(worklist, index) {
 		voices	= entry.voices   || '?';
 		const isTexted = entry.Texted === "yes" || entry.Texted === "Yes";
 		
-		if (OnlyText) {
-	    console.log(entry.id, entry.Texted);
-	  }
-		
 		if (OnlyText && !isTexted) {
 			continue;
 		}
 
-		if (typeof entry.comshort !== 'undefined') {
-			composer = entry.comshort;
+		if (typeof worklist[index].comdisplay !== "undefined") {
+			composer = worklist[index].comdisplay;
 		}
-      xcomposer = composer;
+    
+    xcomposer = formatComposerForResults(entry.comraw);
       // if ((composer == 'Josquin') && (entry.attr == '3')) {
       //    xcomposer += "?";
       // }
-     	switch (parseInt(entry.attr)) {
-        	case 1: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>&#10003;</span>"; break;
-        	case 2: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(&#10003;)</span>"; break;
-        	//case 2: xcomposer += "<sup onclick='window.location=\"/about/attribution\";' style='cursor:pointer; font-size:60%; letter-spacing:-1px;'>?</sup>"; break;
-        	case 3: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(?)</span>"; break;
-        	case 4: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer;'>?</span>";   break;
-        	case 5: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>??</span>"; break;
-        	case 6: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>???</span>"; break;
-     	}
+   	switch (parseInt(entry.attr)) {
+      	case 1: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>&#10003;</span>"; break;
+      	case 2: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(&#10003;)</span>"; break;
+      	//case 2: xcomposer += "<sup onclick='window.location=\"/about/attribution\";' style='cursor:pointer; font-size:60%; letter-spacing:-1px;'>?</sup>"; break;
+      	case 3: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(?)</span>"; break;
+      	case 4: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer;'>?</span>";   break;
+      	case 5: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>??</span>"; break;
+      	case 6: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>???</span>"; break;
+   	}
 		
 		temparr = voices.match(/(\d+)[^\d]+(\d+)/);
 		if ((temparr != null) && (temparr.length > 2)) {

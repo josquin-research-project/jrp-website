@@ -97,7 +97,105 @@ const DownArrowKey    = 40;    // maybe also 31 & 57374
 const LeftArrowKey    = 37;    // maybe also 28 & 57375
 const RightArrowKey   = 39;    // maybe also 29 & 57376
 
+//////////////////////////////
+//
+// normalizeComposerName
+//
+// Returns { sort, display }
+//
 
+function normalizeComposerName(raw) {
+
+   if (!raw) {
+      return { sort: "", display: "" };
+   }
+
+   // Extract brace contents
+   const braceMatches = [...raw.matchAll(/\{([^}]+)\}/g)].map(m => m[1]);
+
+   // Remove braces for display
+   const clean = raw.replace(/[{}]/g, "").replace(/\s+/g, " ").trim();
+
+   // --- Févin hard exception ---
+   if (clean.match(/^(Antoine|Robert) de Févin$/i)) {
+      return {
+         sort: "Févin, " + clean.replace(/^.*?\s/, ""),
+         display: clean
+      };
+   }
+
+   // --- Josquin-style exception ---
+   // First token is braced → keep natural order
+   if (raw.trim().startsWith("{")) {
+      return {
+         sort: clean,
+         display: clean
+      };
+   }
+
+   // --- Default case: last, first ---
+   // Use LAST braced token as surname
+   if (braceMatches.length > 0) {
+      const surname = braceMatches[braceMatches.length - 1];
+
+      const given = clean
+         .replace(new RegExp(`\\b${surname}\\b`), "")
+         .trim();
+
+      return {
+         sort: `${surname}, ${given}`,
+         display: clean
+      };
+   }
+
+   // --- Fallback (no braces at all) ---
+   return {
+      sort: clean,
+      display: clean
+   };
+}
+
+//////////////////////////////
+//
+// formatComposerForResults --
+//
+
+function formatComposerForResults(raw) {
+  if (!raw) return "";
+
+  return raw.split(/\s*;\s*/).map(name => {
+
+    // remove braces but remember what was braced
+    const braceMatches = [...name.matchAll(/\{([^}]+)\}/g)].map(m => m[1]);
+    const clean = name.replace(/[{}]/g, "").replace(/\s+/g, " ").trim();
+
+    // Josquin-style: {Josquin} des Prez → Josquin
+    if (name.trim().startsWith("{")) {
+      return braceMatches[0];
+    }
+
+    // Févin special case → A. Févin / R. Févin
+    if (/^(Antoine|Robert) de Févin$/i.test(clean)) {
+      return clean.charAt(0) + ". Févin";
+    }
+
+    // Normal case: use LAST braced token as surname
+    if (braceMatches.length) {
+      const surname = braceMatches[braceMatches.length - 1];
+
+      // remove surname once, preserve particles
+      let given = clean.replace(
+        new RegExp(`\\b${surname}\\b`), ""
+      ).trim();
+
+      return `${surname}, ${given}`;
+    }
+
+    // fallback
+    return clean;
+
+  }).join("; ");
+}
 
 //////////////////////////////
 //
@@ -123,15 +221,28 @@ function InitializeWorklist() {
     if (!repid) continue;
 
     if (!byComposer[repid]) {
+      const nameInfo = normalizeComposerName(w.Composer);
+
       byComposer[repid] = {
-        repid: repid,
-        comshort: w["COM-short"] || w.Composer,
-        comlong: w.Composer,
-        comdates: w.Dates || "",
-        repwork: 0,
-        works: []
+         repid: repid,
+
+         // raw source name (WITH braces)
+         comraw: w.Composer,
+
+         // what users see
+         comshort: nameInfo.display,
+         comlong:  nameInfo.sort,
+
+         comdisplay: nameInfo.sort,
+
+         // what sorting uses
+         comsort:  nameInfo.sort,
+
+         comdates: w.Dates || "",
+         repwork: 0,
+         works: []
       };
-    }
+   }
 
     byComposer[repid].works.push({
         id: w.WORK_ID,
@@ -141,7 +252,7 @@ function InitializeWorklist() {
         voices: w.Voices,
         attr: w.Attribution || 0,
         Texted: w.Texted,
-        fragment: w.Fragment || false,
+        fragment: w.Fragment || "false",
         comshort: byComposer[repid].comshort
       });
 
@@ -149,9 +260,9 @@ function InitializeWorklist() {
   }
 
   // Preserve original ordering semantics (alphabetical by composer)
-  WORKLIST = Object.values(byComposer).sort((a, b) =>
-    a.comlong.localeCompare(b.comlong)
-  );
+   WORKLIST = Object.values(byComposer).sort((a, b) =>
+      a.comsort.localeCompare(b.comsort, "fr", { sensitivity: "base" })
+   );
 }
 
 
