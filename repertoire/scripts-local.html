@@ -73,7 +73,9 @@ function browseFilter() {
   const title    = normalize(document.getElementById("titlebox")?.value || "");
 
   return WORKS_INDEX.filter(w => {
-    if (composer && w.COMPOSER_ID !== composer) return false;
+    if (composer && !w.COMPOSER_ID.split(/\s*;\s*/).includes(composer)) {
+		  return false;
+		}
     if (genre && w.Genre !== genre) return false;
     if (title && !w._search.includes(title)) return false;
     return true;
@@ -103,19 +105,25 @@ function renderBrowseResults() {
   `;
 
   for (const w of results) {
-    html += `
-      <tr>
-        <td>${w["COM-short"] || w.Composer}</td>
-        <td>
-          <a href="/work?id=${w.WORK_ID}">
-            ${w.Title}${w.Subtitle ? " – " + w.Subtitle : ""}
-          </a>
-        </td>
-        <td>${w.Genre}</td>
-        <td>${w.Voices}</td>
-      </tr>
-    `;
-  }
+	  html += `
+	    <tr>
+	      <td>${
+				  w.COMPOSER_ID
+				    .split(/\s*;\s*/)
+				    .map(cid => COMPOSER_INDEX[cid]?.short)
+				    .filter(Boolean)
+				    .join("; ")
+				}</td>
+	      <td>
+	        <a href="/work?id=${w.WORK_ID}">
+	          ${w.Title}${w.Subtitle ? " – " + w.Subtitle : ""}
+	        </a>
+	      </td>
+	      <td>${w.Genre}</td>
+	      <td>${w.Voices}</td>
+	    </tr>
+	  `;
+	}
 
   html += "</tbody></table>";
   target.innerHTML = html;
@@ -176,25 +184,38 @@ function resetFormValues() {
 //
 
 function showComposer(repid) {
-	var composers = document.getElementById("composers");
-	composers.value = repid;
-	composers.label = repid;
-	var genres = document.getElementById("genres");
-	genres.value = "";
-	genres.label = "";
-	var voices = document.getElementById("voices");
-	voices.value = "";
-	voices.label = "";
-	var titlebox = document.getElementById("titlebox");
-	titlebox.value = "";
-	titlebox.label = "";
-	/// ggg
-	// repertoireDisplay(1);
-	// $('html,body').scrollTop(0);
-	// StylizeFormElements();
-	var target  = "/repertoire-filter?c=" + repid;
-	window.location = target;
-	return false;
+  const composers = document.getElementById("composers");
+  const genres    = document.getElementById("genres");
+  const voices    = document.getElementById("voices");
+  const titlebox  = document.getElementById("titlebox");
+
+  // Set composer filter
+  composers.value = repid;
+  composers.label = repid;
+
+  // Clear others
+  genres.value   = "";
+  genres.label   = "";
+  voices.value   = "";
+  voices.label   = "";
+  titlebox.value = "";
+  titlebox.label = "";
+
+  // Persist filters
+  storeRepertoireFilters();
+
+  // Show results, paged view
+  sessionStorage.REPERTOIREpageview = "paged";
+  showRepertoireView("results");
+
+  // Render
+  repertoireDisplay(1);
+
+  // Optional: scroll to top
+  window.scrollTo(0, 0);
+
+  StylizeFormElements();
+  return false;
 }
 
 
@@ -239,81 +260,88 @@ function displayAboutRepertoire() {
 //
 
 function fillInAboutComposerList() {
-	var list = document.getElementById("composer-repertoire-list");
-	if (list == null) {
-		return;
-	}
-//	if (ComposerList != null) {
-//		list.innerHTML = ComposerList;
-//		return;
-//	}
-	InitializeWorklist();
+  const list = document.getElementById("composer-repertoire-list");
+  if (!list) return;
 
-	var comlong;
-	var comdates     = "";
-	var firstcolumn  = "";
-	var secondcolumn = "";
-	var i;
-	var repid;
-	var count;
-	var columns = ["", ""]; 
-	for (i=0; i<WORKLIST.length; i++) {
-		comlong  = WORKLIST[i].comlong;
-		count    = WORKLIST[i].repwork;
-		repid	   = WORKLIST[i].repid;
-		comdates	= WORKLIST[i].comdates;
-		if (!comdates.match(/^\s*$/)) {
-			comdates = ", " 
-					+ "<span style='font-size:90%; letter-spacing:-0.5px;'>"
-					+ comdates
-					+ "</span>";
+  InitializeWorklist();
+
+  const columns = ["", ""];
+  const colBounds = [
+    { min: null, max: null },
+    { min: null, max: null }
+  ];
+
+  const half = Math.ceil(WORKLIST.length / 2);
+
+  for (let i = 0; i < WORKLIST.length; i++) {
+    const entry   = WORKLIST[i];
+    const repid   = entry.repid;
+    const comlong = entry.comlong;
+    const count   = entry.repwork;
+
+    let comdates = entry.comdates || "";
+    if (comdates) {
+      comdates =
+        ", <span style='font-size:90%; letter-spacing:-0.5px;'>" +
+        comdates +
+        "</span>";
+    }
+
+    const col = (i < half) ? 0 : 1;
+
+    // Track first/last initial for column title
+    const initial = comlong.trim().charAt(0).toUpperCase();
+    if (!colBounds[col].min || initial < colBounds[col].min) {
+      colBounds[col].min = initial;
+    }
+    if (!colBounds[col].max || initial > colBounds[col].max) {
+      colBounds[col].max = initial;
+    }
+
+    columns[col] += "<li";
+
+    if (entry.complete) {
+		  columns[col] += " class='complete-composer'";
 		}
-		ii = 0;
-		const sortKey = WORKLIST[i].comsort || "";
-		if (sortKey.localeCompare("J", "fr", { sensitivity: "base" }) >= 0) {
-		  ii = 1;
-		}
-		columns[ii] += "<li";
-		if ((repid == "Rue") || (repid == "Ock") || (repid == "Ort")
-				|| (repid == "Jos")) {
-			columns[ii] += " class='complete-composer'";
-		}
-		columns[ii] += "><span "
-						+ " onclick='showComposer(\"" + repid + "\");'"
-						+ " class='composer-link2";
-		columns[ii] += "'>" + comlong + "</span>"
-						+ comdates 
-						+ " (" + count;
-		if (count == 1) {
-			columns[ii] += " work";
-		} else {
-			columns[ii] += " works";
-		}
-		columns[ii] += ")</li>\n";
 
-	}
+    columns[col] += ">";
+    columns[col] +=
+      "<span onclick='showComposer(\"" + repid + "\");' " +
+      "class='composer-link2'>" +
+      comlong +
+      "</span>" +
+      comdates +
+      " (" + count + (count === 1 ? " work" : " works") + ")";
+    columns[col] += "</li>\n";
+  }
 
-	var output = "";
-	output += '<div class="col">\n';
-	output += '<ul>\n';
-	output += '<li class="title">A&ndash;I</li>\n';
+  const title0 =
+    colBounds[0].min && colBounds[0].max
+      ? `${colBounds[0].min}&ndash;${colBounds[0].max}`
+      : "";
 
-	output += columns[0];
+  const title1 =
+    colBounds[1].min && colBounds[1].max
+      ? `${colBounds[1].min}&ndash;${colBounds[1].max}`
+      : "";
 
-	output += '</ul>\n';
-	output += '</div>\n';
-	output += '<div class="col">\n';
-	output += '<ul>\n';
-	output += '<li class="title">J&ndash;Z</li>\n';
+  let output = "";
+  output += `<div class="col">
+<ul>
+<li class="title">${title0}</li>
+${columns[0]}
+</ul>
+</div>`;
 
-	output += columns[1];
+  output += `<div class="col">
+<ul>
+<li class="title">${title1}</li>
+${columns[1]}
+</ul>
+</div>`;
 
-	output += '</ul>\n';
-	output += '</div>\n';
-
-	ComposerList = output;
-
-	list.innerHTML = output;
+  ComposerList = output;
+  list.innerHTML = output;
 }
 
 
@@ -330,14 +358,8 @@ function generateWorkEntries(worklist) {
 	if (composeroption.match(/All/i)) {
 		composeroption = "";
 	}
-	if (composeroption == "Joa") {
-		tout = tout.concat(generateComposerWorkEntries(WORKLISTjos, 1));
-	} else if (composeroption == "Job") {
-		tout = tout.concat(generateComposerWorkEntries(WORKLISTjos, 2));
-	} else {
-		for (i=0; i<worklist.length; i++) {
-			tout = tout.concat(generateComposerWorkEntries(worklist, i));
-		}
+	for (i=0; i<worklist.length; i++) {
+		tout = tout.concat(generateComposerWorkEntries(worklist, i));
 	}
 
 	var output = [];
@@ -390,8 +412,6 @@ function generateComposerWorkEntries(worklist, index) {
 	var searchtitle	= "";
 	var titlelink		= "";
 	var jrpid			= "";
-	var composer		= "";
-	var comshort		= "";
 
 	if (typeof worklist[index] !== 'undefined') {
 		if (typeof worklist[index].comshort !== 'undefined') {
@@ -460,14 +480,12 @@ function generateComposerWorkEntries(worklist, index) {
 			continue;
 		}
 
-		if (typeof worklist[index].comdisplay !== "undefined") {
-			composer = worklist[index].comdisplay;
-		}
-    
-    xcomposer = formatComposerForResults(entry.comraw);
-      // if ((composer == 'Josquin') && (entry.attr == '3')) {
-      //    xcomposer += "?";
-      // }
+    xcomposer = entry.COMPOSER_ID
+		  .split(/\s*;\s*/)
+		  .map(cid => COMPOSER_INDEX[cid]?.short)
+		  .filter(Boolean)
+		  .join("; ");
+
    	switch (parseInt(entry.attr)) {
       	case 1: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>&#10003;</span>"; break;
       	case 2: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(&#10003;)</span>"; break;
@@ -624,9 +642,15 @@ function repertoireDisplayTitleBox(page) {
 
 
 function repertoireDisplay(page) {
-	if (typeof page === 'undefined') {
-		page = sessionStorage.REPERTOIREcurrentpage;
+
+  // Default to paged view (not "all")
+  if (sessionStorage.REPERTOIREpageview !== "all") {
+		sessionStorage.REPERTOIREpageview = "paged";
 	}
+
+  if (typeof page === 'undefined') {
+    page = sessionStorage.REPERTOIREcurrentpage;
+  }
 
 	storeRepertoireFilters();
 	showRepertoireHomeButton();
@@ -1038,12 +1062,15 @@ function hideCountInfo() {
 //
 
 function repertoireDisplayAll() {
-	clearRepertoireFilters();
-	OnlyText = 0;
-	sessionStorage.REPERTOIREpageview = "all";
-	showRepertoireView("results");
-	repertoireDisplay(1);
-	window.scrollTo(0, 0);
+  clearRepertoireFilters();
+  OnlyText = 0;
+
+  // default to paged view
+  sessionStorage.REPERTOIREpageview = "paged";
+
+  showRepertoireView("results");
+  repertoireDisplay(1);
+  window.scrollTo(0, 0);
 }
 
 //////////////////////////////
@@ -1054,7 +1081,11 @@ function repertoireDisplayAll() {
 function showAllTextedWorks() {
 	clearRepertoireFilters();
 	OnlyText = 1;
-	sessionStorage.REPERTOIREpageview = "all";
+	
+	// default to paged view
+  sessionStorage.REPERTOIREpageview = "paged";
+
+
 	showRepertoireView("results");
 	repertoireDisplay(1);
 	window.scrollTo(0, 0);

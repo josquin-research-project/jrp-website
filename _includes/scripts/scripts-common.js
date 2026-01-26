@@ -97,104 +97,29 @@ const DownArrowKey    = 40;    // maybe also 31 & 57374
 const LeftArrowKey    = 37;    // maybe also 28 & 57375
 const RightArrowKey   = 39;    // maybe also 29 & 57376
 
-//////////////////////////////
-//
-// normalizeComposerName
-//
-// Returns { sort, display }
-//
+// Composer lookup indexed by COMPOSER_ID
+var COMPOSER_INDEX = null;
 
-function normalizeComposerName(raw) {
+function InitializeComposerIndex() {
+  if (COMPOSER_INDEX) return;
 
-   if (!raw) {
-      return { sort: "", display: "" };
-   }
+  COMPOSER_INDEX = {};
 
-   // Extract brace contents
-   const braceMatches = [...raw.matchAll(/\{([^}]+)\}/g)].map(m => m[1]);
+  for (let i = 0; i < COMPOSERS.length; i++) {
+    const c = COMPOSERS[i];
+    if (!c.COMPOSER_ID) continue;
 
-   // Remove braces for display
-   const clean = raw.replace(/[{}]/g, "").replace(/\s+/g, " ").trim();
-
-   // --- Févin hard exception ---
-   if (clean.match(/^(Antoine|Robert) de Févin$/i)) {
-      return {
-         sort: "Févin, " + clean.replace(/^.*?\s/, ""),
-         display: clean
+    COMPOSER_INDEX[c.COMPOSER_ID] = {
+        short: c["Display Short"] || "",
+        long:  c["Display Long"]  || "",
+        birth: c.Birth || "",
+        death: c.Death || "",
+        dates: formatComposerDates(c.Birth, c.Death),
+        complete: c.Complete === true ||
+           /^yes$/i.test(c.Complete || "") ||
+           /^yes$/i.test(c["Complete?"] || "")
       };
-   }
-
-   // --- Josquin-style exception ---
-   // First token is braced → keep natural order
-   if (raw.trim().startsWith("{")) {
-      return {
-         sort: clean,
-         display: clean
-      };
-   }
-
-   // --- Default case: last, first ---
-   // Use LAST braced token as surname
-   if (braceMatches.length > 0) {
-      const surname = braceMatches[braceMatches.length - 1];
-
-      const given = clean
-         .replace(new RegExp(`\\b${surname}\\b`), "")
-         .trim();
-
-      return {
-         sort: `${surname}, ${given}`,
-         display: clean
-      };
-   }
-
-   // --- Fallback (no braces at all) ---
-   return {
-      sort: clean,
-      display: clean
-   };
-}
-
-//////////////////////////////
-//
-// formatComposerForResults --
-//
-
-function formatComposerForResults(raw) {
-  if (!raw) return "";
-
-  return raw.split(/\s*;\s*/).map(name => {
-
-    // remove braces but remember what was braced
-    const braceMatches = [...name.matchAll(/\{([^}]+)\}/g)].map(m => m[1]);
-    const clean = name.replace(/[{}]/g, "").replace(/\s+/g, " ").trim();
-
-    // Josquin-style: {Josquin} des Prez → Josquin
-    if (name.trim().startsWith("{")) {
-      return braceMatches[0];
-    }
-
-    // Févin special case → A. Févin / R. Févin
-    if (/^(Antoine|Robert) de Févin$/i.test(clean)) {
-      return clean.charAt(0) + ". Févin";
-    }
-
-    // Normal case: use LAST braced token as surname
-    if (braceMatches.length) {
-      const surname = braceMatches[braceMatches.length - 1];
-
-      // remove surname once, preserve particles
-      let given = clean.replace(
-        new RegExp(`\\b${surname}\\b`), ""
-      ).trim();
-
-      return `${surname}, ${given}`;
-    }
-
-    // fallback
-    return clean;
-
-  }).join("; ");
+  }
 }
 
 //////////////////////////////
@@ -208,43 +133,39 @@ function formatComposerForResults(raw) {
 //
 
 function InitializeWorklist() {
-  if (typeof WORKLIST !== "undefined" && WORKLIST && WORKLIST.length) {
-    return;
-  }
+  if (WORKLIST && WORKLIST.length) return;
 
+  InitializeComposerIndex();
   WORKLIST = [];
 
   const byComposer = {};
 
   for (const w of WORKS) {
-    const repid = w.COMPOSER_ID;
-    if (!repid) continue;
 
-    if (!byComposer[repid]) {
-      const nameInfo = normalizeComposerName(w.Composer);
+    // åuntitled works do not exist anywhere
+    if (!w.Title || !w.Title.trim()) continue;
 
-      byComposer[repid] = {
-         repid: repid,
+    if (!w.COMPOSER_ID) continue;
 
-         // raw source name (WITH braces)
-         comraw: w.Composer,
+    const ids = w.COMPOSER_ID.split(/\s*;\s*/);
 
-         // what users see
-         comshort: nameInfo.display,
-         comlong:  nameInfo.sort,
+    for (let i = 0; i < ids.length; i++) {
+      const cid = ids[i];
+      const cinfo = COMPOSER_INDEX[cid];
+      if (!cinfo) continue;
 
-         comdisplay: nameInfo.sort,
+      if (!byComposer[cid]) {
+        byComposer[cid] = {
+          repid: cid,
+          comshort: cinfo.short,
+          comlong:  cinfo.long,
+          comdates: cinfo.dates || "",
+          repwork: 0,
+          works: []
+        };
+      }
 
-         // what sorting uses
-         comsort:  nameInfo.sort,
-
-         comdates: w.Dates || "",
-         repwork: 0,
-         works: []
-      };
-   }
-
-    byComposer[repid].works.push({
+      byComposer[cid].works.push({
         id: w.WORK_ID,
         title: w.Title,
         variant: w.Subtitle || "",
@@ -252,17 +173,17 @@ function InitializeWorklist() {
         voices: w.Voices,
         attr: w.Attribution || 0,
         Texted: w.Texted,
-        fragment: w.Fragment || "false",
-        comshort: byComposer[repid].comshort
+        fragment: w.Fragment || false,
+        COMPOSER_ID: w.COMPOSER_ID
       });
 
-    byComposer[repid].repwork++;
+      byComposer[cid].repwork++;
+    }
   }
 
-  // Preserve original ordering semantics (alphabetical by composer)
-   WORKLIST = Object.values(byComposer).sort((a, b) =>
-      a.comsort.localeCompare(b.comsort, "fr", { sensitivity: "base" })
-   );
+  WORKLIST = Object.values(byComposer).sort((a, b) =>
+    a.comlong.localeCompare(b.comlong, "fr", { sensitivity: "base" })
+  );
 }
 
 
@@ -499,81 +420,39 @@ function GetCgiParameters() {
 //
 
 function GetComposerOptions(worklist) {
-   if (!Array.isArray(worklist)) {
-    console.error("GetComposerOptions expected array, got:", worklist);
-    return "";
-   }
+  if (!Array.isArray(worklist)) return "";
 
-   let output = '';
-	let longNames = {}; // Long names of composers indexed by COMPOSER_ID
-	let counts = {};    // Number of scores for a composer indexed by COMPOSER_ID
+  InitializeComposerIndex();
 
-	// First count all of the works by composer, and
-	// build a database of the composer long names indexed
-	// by the COMPOSER_ID.  A complication is that there may
-	// be more than one composer for a musical score (such as
-	// one primary composer, and another who writes an extra voice).
-	for (let i=0; i<worklist.length; i++) {
-		let entry = worklist[i];
-      if (!entry || !entry.COMPOSER_ID) continue;
+  const counts = {};
 
-		let cid = entry.COMPOSER_ID.trim();
-		let matches = cid.match(';');
-		if (matches) {
-			let pieces = cid.split(/\s*;\s*/);
-			cid = pieces;
-		} else {
-			cid = [ cid ];
-		}
+  for (let i = 0; i < worklist.length; i++) {
+    const w = worklist[i];
+    if (!w.COMPOSER_ID) continue;
 
-		// let longName = entry.Composer.trim().replace(/[{}]/g, '');
-		let longName = entry.COM.trim();
-		matches = longName.match(';');
-		if (matches) {
-			let pieces = longName.split(/\s*;\s*/);
-			longName = pieces;
-		} else {
-			longName = [ longName ];
-		}
+    const ids = w.COMPOSER_ID.split(/\s*;\s*/);
+    for (let j = 0; j < ids.length; j++) {
+      counts[ids[j]] = (counts[ids[j]] || 0) + 1;
+    }
+  }
 
-		for (let j=0; j<cid.length; j++) {
-			longNames[cid[j]] = longName[j];
-			if (typeof counts[cid[j]] === 'undefined') {
-				counts[cid[j]] = 1;
-			} else {
-				counts[cid[j]]++;
-			}
-		}
-	}
+  const keys = Object.keys(counts).sort((a, b) => {
+    const A = COMPOSER_INDEX[a]?.long || "";
+    const B = COMPOSER_INDEX[b]?.long || "";
+    return A.localeCompare(B, "fr", { sensitivity: "base" });
+  });
 
-	// Sort the list of composers, placing Anonymous
-	// at the end of the list.
-	let keys = Object.keys(counts);
-	keys.sort(function(a, b) {
-		let name1 = longNames[a];
-		let name2 = longNames[b];
-		if (name1 === "Anonymous") {
-			return +1;
-		}
-		if (name2 === "Anonymous") {
-			return -1;
-		}
-		name1.localeCompare(name2);
-	});
-	
-   for (let i=0; i<keys.length; i++) {
-      let cid = keys[i];
-      let longName = longNames[cid];
-		let count = counts[cid];
-      output += `<option value="${cid}">${longName} (${count})</option>\n`;
-      if (cid == 'Jos') {
-         output += '<option value="Joa">Josquin&nbsp;(secure)</option>\n';
-         output += '<option value="Job">Josquin&nbsp;(probable)</option>\n';
-         output += '<option value="Joc">Josquin&nbsp;(improbable)</option>\n';
-         output += '<option value="Jod">Josquin&nbsp;(implausible)</option>\n';
-      }
-   }
-   return output;
+  let output = "";
+
+  for (let i = 0; i < keys.length; i++) {
+    const cid = keys[i];
+    const c = COMPOSER_INDEX[cid];
+    if (!c) continue;
+
+    output += `<option value="${cid}">${c.long} (${counts[cid]})</option>\n`;
+  }
+
+  return output;
 }
 
 //////////////////////////////
@@ -637,7 +516,6 @@ function GetWorkOptions(repertory, genre) {
    var i, j;
    var works;
 
-   var output = '';
    for (i=0; i<WORKLIST.length; i++) {
 		if (!repertory.match(WORKLIST[i].repid)) {
 			continue;
@@ -899,4 +777,24 @@ function DisplayCriticalNotes(jrpid, target) {
 		}
 
 	});
+}
+
+function normalizeYear(date) {
+  if (!date) return "";
+
+  const circa = date.startsWith("~");
+  const clean = date.replace(/^~/, "");
+
+  const yearMatch = clean.match(/^(\d{4})/);
+  if (!yearMatch) return "";
+
+  return (circa ? "ca. " : "") + yearMatch[1];
+}
+
+function formatComposerDates(birth, death) {
+  const b = normalizeYear(birth);
+  const d = normalizeYear(death);
+
+  if (b && d) return `${b}–${d.replace(/^ca\. /, "")}`;
+  return b || d || "";
 }

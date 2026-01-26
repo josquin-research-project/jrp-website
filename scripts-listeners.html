@@ -1,6 +1,7 @@
 <script>
 let JRP = {};
 let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
 
 //////////////////////////////
 //
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	// ----------------------------------
 	console.warn("Local works.json unavailable, fetching remote data");
 
-	const macroid = "AKfycbyeHfmyCHHgbY9X_UDMzW9xyRgqH0c7Ycp76NTW18mjZSnW_2umhgH2ZGDtxuwDot6mKw";
+	const macroid = "AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1L6drL9Th7PR-jARwDKP6kZEhED56w";
 	let url = `https://script.google.com/macros/s/${macroid}/exec`;
 	url += "?sheet=works&format=json";
 

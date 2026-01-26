@@ -71,9 +71,18 @@ function displayRandomExample(worklist) {
 	let randomindex = Math.floor(Math.random() * worklist.length);
 	let randomwork  = worklist[randomindex];
 	
-	let composer = randomwork["COM-short"];
+	// composer display (supports multiple composers)
+	let composer = randomwork.COMPOSER_ID
+	  ? randomwork.COMPOSER_ID
+	      .split(/\s*;\s*/)
+	      .map(cid => COMPOSER_INDEX[cid]?.short)
+	      .filter(Boolean)
+	      .join("; ")
+	  : "";
+
+	// correct work ID
+	let jrpid = randomwork.WORK_ID;
 	let title    = randomwork.Title;
-	let jrpid    = randomwork.COMPOSER_ID;
 
 	let filename = randomwork.Filename;
 

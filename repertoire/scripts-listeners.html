@@ -30,6 +30,7 @@ var HtmlAccentRemovalMap = [
 ];
 
 let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
 
 ///////////////////////////////
 //
@@ -232,6 +233,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		return;
 	}
 
+	// Default to paged view unless explicitly overridden later
+	if (!sessionStorage.REPERTOIREpageview) {
+	  sessionStorage.REPERTOIREpageview = "paged";
+	}
+	
 	// Default: show results
 	repertoireDisplay(1);
 });

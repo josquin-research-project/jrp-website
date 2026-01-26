@@ -1541,6 +1541,12 @@ aside {
 	text-align: left;
 }
 
+#repertoire-aside > aside {
+	float: left;
+	width: 250px;
+	text-align: left;
+}
+
 aside h2 {
 	margin-top: 0;
 	margin-bottom: 0;

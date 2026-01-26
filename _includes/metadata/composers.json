@@ -2,6 +2,8 @@
 	{
 		"COMPOSER_ID": "Agr",
 		"Name": "Alexander {Agricola}",
+		"Display Short": "Agricola",
+		"Display Long": "Agricola, Alexander",
 		"Birth": "1446|1445",
 		"Death": "1506/08/15",
 		"RISM ID": "pe30005595",
@@ -10,24 +12,21 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Alexander_Agricola",
 		"IMSLP": "https://imslp.org/wiki/Category:Agricola,_Alexander",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Alexander_Agricola",
-		"VIAF": "https://viaf.org/viaf/37105288",
-		"COM": "Agricola, Alexander",
-		"COM-short": "Agricola",
-		"COM-long": "Alexander Agricola",
-		"CNT": "1446|1445-1506/08/15"
+		"VIAF": "https://viaf.org/viaf/37105288"
 	},
 	{
 		"COMPOSER_ID": "Ano",
 		"Name": "{Anonymous}",
+		"Display Short": "Anonymous",
+		"Display Long": "Anonymous",
 		"RISM ID": "pe30004985",
-		"RISM": "https://rism.online/people/30004985",
-		"COM": "Anonymous",
-		"COM-short": "Anonymous",
-		"COM-long": "Anonymous"
+		"RISM": "https://rism.online/people/30004985"
 	},
 	{
 		"COMPOSER_ID": "App",
 		"Name": "Benedictus {Appenzeller}",
+		"Display Short": "Appenzeller",
+		"Display Long": "Appenzeller, Benedictus",
 		"Birth": "~1480",
 		"Death": "~1560",
 		"RISM ID": "pe30009742",
@@ -36,15 +35,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Benedictus_Appenzeller",
 		"IMSLP": "https://imslp.org/wiki/Category:Appenzeller,_Benedictus",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Benedictus_Appenzeller",
-		"VIAF": "https://viaf.org/viaf/222418083",
-		"COM": "Appenzeller, Benedictus",
-		"COM-short": "Appenzeller",
-		"COM-long": "Benedictus Appenzeller",
-		"CNT": "~1480-~1560"
+		"VIAF": "https://viaf.org/viaf/222418083"
 	},
 	{
 		"COMPOSER_ID": "Arc",
 		"Name": "Jacques {Arcadelt}",
+		"Display Short": "Arcadelt",
+		"Display Long": "Arcadelt, Jacques",
 		"Birth": "1507",
 		"Death": "1568",
 		"RISM ID": "pe30004860",
@@ -53,15 +50,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Jacques_Arcadelt",
 		"IMSLP": "https://imslp.org/wiki/Category:Arcadelt,_Jacob",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jacques_Arcadelt",
-		"VIAF": "https://viaf.org/viaf/61730880/",
-		"COM": "Arcadelt, Jacques",
-		"COM-short": "Arcadelt",
-		"COM-long": "Jacques Arcadelt",
-		"CNT": "1507-1568"
+		"VIAF": "https://viaf.org/viaf/61730880/"
 	},
 	{
 		"COMPOSER_ID": "Bar",
 		"Name": "Hotinet {Barra}",
+		"Display Short": "Barra",
+		"Display Long": "Barra, Hotinet",
 		"Birth": "~1490",
 		"Death": ">1523",
 		"RISM ID": "pe30002116",
@@ -69,15 +64,13 @@
 		"DIAMM": "https://www.diamm.ac.uk/people/211",
 		"IMSLP": "https://imslp.org/wiki/Category:Barra%2C_Hotinet",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Hotinet_Barra",
-		"VIAF": "http://viaf.org/76581243",
-		"COM": "Barra, Hotinet",
-		"COM-short": "Barra",
-		"COM-long": "Hotinet Barra",
-		"CNT": "~1490->1523"
+		"VIAF": "http://viaf.org/76581243"
 	},
 	{
 		"COMPOSER_ID": "Bas",
 		"Name": "Philippe {Basiron}",
+		"Display Short": "Basiron",
+		"Display Long": "Basiron, Philippe",
 		"Birth": "~1449",
 		"Death": "1491",
 		"RISM ID": "pe30016303",
@@ -86,15 +79,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Philippe_Basiron",
 		"IMSLP": "https://imslp.org/wiki/Category:Basiron%2C_Philippe",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Philippe_Basiron",
-		"VIAF": "https://viaf.org/viaf/44567375",
-		"COM": "Basiron, Philippe",
-		"COM-short": "Basiron",
-		"COM-long": "Philippe Basiron",
-		"CNT": "~1449-1491"
+		"VIAF": "https://viaf.org/viaf/44567375"
 	},
 	{
 		"COMPOSER_ID": "Bau",
 		"Name": "Noel {Bauldeweyn}",
+		"Display Short": "Bauldeweyn",
+		"Display Long": "Bauldeweyn, Noel",
 		"Birth": "~1480",
 		"Death": "1529",
 		"RISM ID": "pe30001642",
@@ -103,15 +94,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Noel_Bauldeweyn",
 		"IMSLP": "https://imslp.org/wiki/Category:Bauldeweyn%2C_Noel",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Noel_Bauldeweyn",
-		"VIAF": "https://viaf.org/viaf/16252408",
-		"COM": "Bauldeweyn, Noel",
-		"COM-short": "Bauldeweyn",
-		"COM-long": "Noel Bauldeweyn",
-		"CNT": "~1480-1529"
+		"VIAF": "https://viaf.org/viaf/16252408"
 	},
 	{
 		"COMPOSER_ID": "Bed",
 		"Name": "Johannes {Bedyngham}",
+		"Display Short": "Bedyngham",
+		"Display Long": "Bedyngham, Johannes",
 		"Birth": "~1422",
 		"Death": "~1460",
 		"RISM ID": "pe30020899",
@@ -119,15 +108,13 @@
 		"DIAMM": "https://www.diamm.ac.uk/people/236",
 		"Wikipedia": "https://en.wikipedia.org/wiki/John_Bedyngham",
 		"IMSLP": "https://imslp.org/wiki/Category:Bedyngham%2C_John",
-		"VIAF": "https://viaf.org/viaf/67340123",
-		"COM": "Bedyngham, Johannes",
-		"COM-short": "Bedyngham",
-		"COM-long": "Johannes Bedyngham",
-		"CNT": "~1422-~1460"
+		"VIAF": "https://viaf.org/viaf/67340123"
 	},
 	{
 		"COMPOSER_ID": "Bin",
 		"Name": "Gilles {Binchoys}",
+		"Display Short": "Binchoys",
+		"Display Long": "Binchoys, Gilles",
 		"Birth": "~1400",
 		"Death": "1460/09/20",
 		"RISM ID": "pe30020900",
@@ -136,47 +123,39 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Gilles_Binchois",
 		"IMSLP": "https://imslp.org/wiki/Category:Binchois,_Gilles",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Gilles_Binchois",
-		"VIAF": "https://viaf.org/viaf/2655463",
-		"COM": "Binchoys, Gilles",
-		"COM-short": "Binchoys",
-		"COM-long": "Gilles Binchoys",
-		"CNT": "~1400-1460/09/20"
+		"VIAF": "https://viaf.org/viaf/2655463"
 	},
 	{
 		"COMPOSER_ID": "Bis",
 		"Name": "{Bisgueria}",
+		"Display Short": "Bisgueria",
+		"Display Long": "Bisgueria",
 		"RISM ID": "pe30102210",
 		"RISM": "https://rism.online/people/30102210",
-		"DIAMM": "https://www.diamm.ac.uk/people/1106",
-		"COM": "Bisgueria",
-		"COM-short": "Bisgueria",
-		"COM-long": "Bisgueria",
-		"CNT": "?-?"
+		"DIAMM": "https://www.diamm.ac.uk/people/1106"
 	},
 	{
 		"COMPOSER_ID": "Bnt",
 		"Name": "Johannes {Brunet}",
+		"Display Short": "Brunet",
+		"Display Long": "Brunet, Johannes",
 		"RISM ID": "pe50041963",
 		"RISM": "https://rism.online/people/50041963",
 		"DIAMM": "https://www.diamm.ac.uk/people/331",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Johannes_Brunet",
-		"VIAF": "https://viaf.org/viaf/91168840942645402097",
-		"COM": "Brunet, Johannes",
-		"COM-short": "Brunet",
-		"COM-long": "Johannes Brunet",
-		"CNT": "?-?"
+		"VIAF": "https://viaf.org/viaf/91168840942645402097"
 	},
 	{
 		"COMPOSER_ID": "Boy",
 		"Name": "{Boyleau}",
-		"COM": "Boyleau",
-		"COM-short": "Boyleau",
-		"COM-long": "Boyleau",
-		"CNT": "?-?"
+		"Display Short": "Boyleau",
+		"Display Long": "Boyleau"
 	},
 	{
 		"COMPOSER_ID": "Brk",
 		"Name": "Arnold von {Bruck}",
+		"Display Short": "Bruck",
+		"Display Long": "Bruck, Arnold von",
 		"Birth": "~1500",
 		"Death": "1554/02/06",
 		"RISM ID": "pe30008561",
@@ -185,23 +164,19 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Arnold_von_Bruck",
 		"IMSLP": "https://imslp.org/wiki/Category:Bruck,_Arnold_von",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Arnold_von_Bruck",
-		"VIAF": "https://viaf.org/viaf/27330861",
-		"COM": "Bruck, Arnold von",
-		"COM-short": "Bruck",
-		"COM-long": "Arnold von Bruck",
-		"CNT": "~1500-1554/02/06"
+		"VIAF": "https://viaf.org/viaf/27330861"
 	},
 	{
 		"COMPOSER_ID": "Brh",
 		"Name": "Antoine {Bruhier}",
-		"COM": "Bruhier, Antoine",
-		"COM-short": "Bruhier",
-		"COM-long": "Antoine Bruhier",
-		"CNT": "?-?"
+		"Display Short": "Bruhier",
+		"Display Long": "Bruhier, Antoine"
 	},
 	{
 		"COMPOSER_ID": "Bru",
 		"Name": "Antoine {Brumel}",
+		"Display Short": "Brumel",
+		"Display Long": "Brumel, Antoine",
 		"Birth": "~1460",
 		"Death": "~1523",
 		"RISM ID": "pe20000368",
@@ -210,15 +185,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Antoine_Brumel",
 		"IMSLP": "https://imslp.org/wiki/Category:Brumel,_Antoine",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Antoine_Brumel",
-		"VIAF": "https://viaf.org/viaf/39561173",
-		"COM": "Brumel, Antoine",
-		"COM-short": "Brumel",
-		"COM-long": "Antoine Brumel",
-		"CNT": "~1460-~1523"
+		"VIAF": "https://viaf.org/viaf/39561173"
 	},
 	{
 		"COMPOSER_ID": "Bus",
 		"Name": "Antoine {Busnoys}",
+		"Display Short": "Busnoys",
+		"Display Long": "Busnoys, Antoine",
 		"Birth": "~1430",
 		"Death": "<1492/11/06",
 		"RISM ID": "pe30016323",
@@ -227,29 +200,25 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Antoine_Busnois",
 		"IMSLP": "https://imslp.org/wiki/Category:Busnois,_Antoine",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Antoine_Busnois",
-		"VIAF": "https://viaf.org/viaf/100249538",
-		"COM": "Busnoys, Antoine",
-		"COM-short": "Busnoys",
-		"COM-long": "Antoine Busnoys",
-		"CNT": "~1430-<1492/11/06"
+		"VIAF": "https://viaf.org/viaf/100249538"
 	},
 	{
 		"COMPOSER_ID": "Cae",
 		"Name": "Arnold {Caen}",
+		"Display Short": "Caen",
+		"Display Long": "Caen, Arnold",
 		"Death": ">1500",
 		"RISM ID": "pe30025538",
 		"RISM": "https://rism.online/people/30025538",
 		"DIAMM": "https://www.diamm.ac.uk/people/381",
 		"IMSLP": "https://imslp.org/wiki/Category:Caen,_Arnold",
-		"VIAF": "https://viaf.org/viaf/27330336",
-		"COM": "Caen, Arnold",
-		"COM-short": "Caen",
-		"COM-long": "Arnold Caen",
-		"CNT": "?->1500"
+		"VIAF": "https://viaf.org/viaf/27330336"
 	},
 	{
 		"COMPOSER_ID": "Car",
 		"Name": "Firminus {Caron}",
+		"Display Short": "Caron",
+		"Display Long": "Caron, Firminus",
 		"Birth": "<1460",
 		"Death": ">1475",
 		"RISM ID": "pe30005348",
@@ -258,15 +227,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Firminus_Caron",
 		"IMSLP": "https://imslp.org/wiki/Category:Caron,_Firminus",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Firminus_Caron",
-		"VIAF": "https://viaf.org/viaf/250767073",
-		"COM": "Caron, Firminus",
-		"COM-short": "Caron",
-		"COM-long": "Firminus Caron",
-		"CNT": "<1460->1475"
+		"VIAF": "https://viaf.org/viaf/250767073"
 	},
 	{
 		"COMPOSER_ID": "Cer",
 		"Name": "Pierre {Certon}",
+		"Display Short": "Certon",
+		"Display Long": "Certon, Pierre",
 		"Birth": "~1510",
 		"Death": "1572/02/23",
 		"RISM ID": "pe30006023",
@@ -274,15 +241,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Pierre_Certon",
 		"IMSLP": "https://imslp.org/wiki/Category:Certon,_Pierre",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Pierre_Certon",
-		"VIAF": "https://viaf.org/viaf/32182767",
-		"COM": "Certon, Pierre",
-		"COM-short": "Certon",
-		"COM-long": "Pierre Certon",
-		"CNT": "~1510-1572/02/23"
+		"VIAF": "https://viaf.org/viaf/32182767"
 	},
 	{
 		"COMPOSER_ID": "Cha",
 		"Name": "Nicolas {Champion}",
+		"Display Short": "Champion",
+		"Display Long": "Champion, Nicolas",
 		"Birth": "~1475",
 		"Death": "1533/09/20",
 		"RISM ID": "pe30102560",
@@ -291,15 +256,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Nicolas_Champion",
 		"IMSLP": "https://imslp.org/wiki/Category:Champion%2C_Nicolas",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Nicolas_Champion",
-		"VIAF": "https://viaf.org/viaf/61403700",
-		"COM": "Champion, Nicolas",
-		"COM-short": "Champion",
-		"COM-long": "Nicolas Champion",
-		"CNT": "~1475-1533/09/20"
+		"VIAF": "https://viaf.org/viaf/61403700"
 	},
 	{
 		"COMPOSER_ID": "Com",
 		"Name": "Loyset {Compere}",
+		"Display Short": "Compere",
+		"Display Long": "Compere, Loyset",
 		"Birth": "~1445",
 		"Death": "1518/08/16",
 		"RISM ID": "pe30005358",
@@ -308,15 +271,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Loyset_Comp%C3%A8re",
 		"IMSLP": "https://imslp.org/wiki/Category:Comp%C3%A8re,_Loyset",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Loyset_Comp%C3%A8re",
-		"VIAF": "https://viaf.org/viaf/14957872",
-		"COM": "Compere, Loyset",
-		"COM-short": "Compere",
-		"COM-long": "Loyset Compere",
-		"CNT": "~1445-1518/08/16"
+		"VIAF": "https://viaf.org/viaf/14957872"
 	},
 	{
 		"COMPOSER_ID": "Con",
 		"Name": "Jean {Conseil}",
+		"Display Short": "Conseil",
+		"Display Long": "Conseil, Jean",
 		"Birth": "~1498",
 		"Death": "1534",
 		"RISM ID": "pe30025536",
@@ -324,15 +285,13 @@
 		"DIAMM": "https://www.diamm.ac.uk/people/232",
 		"IMSLP": "https://imslp.org/wiki/Category:Conseil,_Jean",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jean_Conseil",
-		"VIAF": "https://viaf.org/viaf/49488204",
-		"COM": "Conseil, Jean",
-		"COM-short": "Conseil",
-		"COM-long": "Jean Conseil",
-		"CNT": "~1498-1534"
+		"VIAF": "https://viaf.org/viaf/49488204"
 	},
 	{
 		"COMPOSER_ID": "Cra",
 		"Name": "Nicolaus {Craen}",
+		"Display Short": "Craen",
+		"Display Long": "Craen, Nicolaus",
 		"Birth": "~1445",
 		"Death": "1507",
 		"RISM ID": "pe30016301",
@@ -341,15 +300,13 @@
 		"Wikipedia": "https://fr.wikipedia.org/wiki/Nicolaes_Craen",
 		"IMSLP": "https://imslp.org/wiki/Category:Craen%2C_Nicolaus",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Nicolaes_Craen",
-		"VIAF": "https://viaf.org/viaf/117571705",
-		"COM": "Craen, Nicolaus",
-		"COM-short": "Craen",
-		"COM-long": "Nicolaus Craen",
-		"CNT": "~1445-1507"
+		"VIAF": "https://viaf.org/viaf/117571705"
 	},
 	{
 		"COMPOSER_ID": "Crp",
 		"Name": "{Carpentras}",
+		"Display Short": "Carpentras",
+		"Display Long": "Carpentras",
 		"Birth": "~1470",
 		"Death": "1548",
 		"RISM ID": "pe30005089",
@@ -358,15 +315,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Carpentras_(composer)",
 		"IMSLP": "https://imslp.org/wiki/Category:Carpentras",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Elzear_Genet",
-		"VIAF": "https://viaf.org/viaf/56799307",
-		"COM": "Carpentras",
-		"COM-short": "Carpentras",
-		"COM-long": "Carpentras",
-		"CNT": "~1470-1548"
+		"VIAF": "https://viaf.org/viaf/56799307"
 	},
 	{
 		"COMPOSER_ID": "Das",
 		"Name": "Ludwig {Daser}",
+		"Display Short": "Daser",
+		"Display Long": "Daser, Ludwig",
 		"Birth": "~1526",
 		"Death": "1589/03/27",
 		"RISM ID": "pe30013049",
@@ -375,23 +330,19 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Ludwig_Daser",
 		"IMSLP": "https://imslp.org/wiki/Category:Daser,_Ludwig",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Ludwig_Daser",
-		"VIAF": "https://viaf.org/viaf/119464164",
-		"COM": "Daser, Ludwig",
-		"COM-short": "Daser",
-		"COM-long": "Ludwig Daser",
-		"CNT": "~1526-1589/03/27"
+		"VIAF": "https://viaf.org/viaf/119464164"
 	},
 	{
 		"COMPOSER_ID": "Div",
 		"Name": "Antonius {Divitis}",
-		"COM": "Divitis, Antonius",
-		"COM-short": "Divitis",
-		"COM-long": "Antonius Divitis",
-		"CNT": "?-?"
+		"Display Short": "Divitis",
+		"Display Long": "Divitis, Antonius"
 	},
 	{
 		"COMPOSER_ID": "Dom",
 		"Name": "Petrus de {Domarto}",
+		"Display Short": "Domarto",
+		"Display Long": "Domarto, Petrus de",
 		"Birth": "<~1445",
 		"Death": ">1455",
 		"RISM ID": "pe50041914",
@@ -400,15 +351,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Petrus_de_Domarto",
 		"IMSLP": "https://imslp.org/wiki/Category:Domarto%2C_Petrus_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Petrus_de_Domarto",
-		"VIAF": "https://viaf.org/viaf/90759102",
-		"COM": "Domarto, Petrus de",
-		"COM-short": "Domarto",
-		"COM-long": "Petrus de Domarto",
-		"CNT": "<~1445->1455"
+		"VIAF": "https://viaf.org/viaf/90759102"
 	},
 	{
 		"COMPOSER_ID": "Duf",
 		"Name": "Guillaume {Du Fay}",
+		"Display Short": "Du Fay",
+		"Display Long": "Du Fay, Guillaume",
 		"Birth": "~1397/08/05",
 		"Death": "1474/11/27",
 		"RISM ID": "pe30005374",
@@ -417,15 +366,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Guillaume_Du_Fay",
 		"IMSLP": "https://imslp.org/wiki/Category:Dufay,_Guillaume",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Guillaume_Dufay",
-		"VIAF": "https://viaf.org/viaf/100955223",
-		"COM": "Du Fay, Guillaume",
-		"COM-short": "Du Fay",
-		"COM-long": "Guillaume Du Fay",
-		"CNT": "~1397/08/05-1474/11/27"
+		"VIAF": "https://viaf.org/viaf/100955223"
 	},
 	{
 		"COMPOSER_ID": "Dun",
 		"Name": "John {Dunstaple}",
+		"Display Short": "Dunstaple",
+		"Display Long": "Dunstaple, John",
 		"Birth": "~1390",
 		"Death": "1453/12/24",
 		"RISM ID": "pe30020903",
@@ -434,23 +381,19 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/John_Dunstaple",
 		"IMSLP": "https://imslp.org/wiki/Category:Dunstaple,_John",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/John_Dunstable",
-		"VIAF": "https://viaf.org/viaf/12491221",
-		"COM": "Dunstaple, John",
-		"COM-short": "Dunstaple",
-		"COM-long": "John Dunstaple",
-		"CNT": "~1390-1453/12/24"
+		"VIAF": "https://viaf.org/viaf/12491221"
 	},
 	{
 		"COMPOSER_ID": "Era",
 		"Name": "{Erasmus?}",
-		"COM": "Erasmus?",
-		"COM-short": "Erasmus?",
-		"COM-long": "Erasmus?",
-		"CNT": "?-?"
+		"Display Short": "Erasmus?",
+		"Display Long": "Erasmus?"
 	},
 	{
 		"COMPOSER_ID": "Fau",
 		"Name": "Guillaume {Faugues}",
+		"Display Short": "Faugues",
+		"Display Long": "Faugues, Guillaume",
 		"Birth": "<~1455",
 		"Death": "1475",
 		"RISM ID": "pe50041917",
@@ -459,23 +402,19 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Guillaume_Faugues",
 		"IMSLP": "https://imslp.org/wiki/Category:Faugues,_Guillaume",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Guillaume_Faugues",
-		"VIAF": "https://viaf.org/viaf/79173655",
-		"COM": "Faugues, Guillaume",
-		"COM-short": "Faugues",
-		"COM-long": "Guillaume Faugues",
-		"CNT": "<~1455-1475"
+		"VIAF": "https://viaf.org/viaf/79173655"
 	},
 	{
 		"COMPOSER_ID": "For",
 		"Name": "Mathurin {Forestier}",
-		"COM": "Forestier, Mathurin",
-		"COM-short": "Forestier",
-		"COM-long": "Mathurin Forestier",
-		"CNT": "?-?"
+		"Display Short": "Forestier",
+		"Display Long": "Forestier, Mathurin"
 	},
 	{
 		"COMPOSER_ID": "Fry",
 		"Name": "Walter {Frye}",
+		"Display Short": "Frye",
+		"Display Long": "Frye, Walter",
 		"Birth": "<1450",
 		"Death": "~1474",
 		"RISM ID": "pe30016321",
@@ -484,15 +423,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Walter_Frye",
 		"IMSLP": "https://imslp.org/wiki/Category:Frye,_Walter",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Walter_Frye",
-		"VIAF": "https://viaf.org/viaf/5117570",
-		"COM": "Frye, Walter",
-		"COM-short": "Frye",
-		"COM-long": "Walter Frye",
-		"CNT": "<1450-~1474"
+		"VIAF": "https://viaf.org/viaf/5117570"
 	},
 	{
 		"COMPOSER_ID": "Fsc",
 		"Name": "{C}ostanzo {Festa}",
+		"Display Short": "C. Festa",
+		"Display Long": "Festa, Costanzo",
 		"Birth": "~1485",
 		"Death": "1545/04/10",
 		"RISM ID": "pe30004621",
@@ -501,15 +438,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Costanzo_Festa",
 		"IMSLP": "https://imslp.org/wiki/Category:Festa,_Costanzo",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Costanzo_Festa",
-		"VIAF": "https://viaf.org/viaf/2658765",
-		"COM": "Festa, Costanzo",
-		"COM-short": "C. Festa",
-		"COM-long": "Costanzo Festa",
-		"CNT": "~1485-1545/04/10"
+		"VIAF": "https://viaf.org/viaf/2658765"
 	},
 	{
 		"COMPOSER_ID": "Fss",
 		"Name": "{S}ebastiano {Festa}",
+		"Display Short": "S. Festa",
+		"Display Long": "Festa, Sebastiano",
 		"Birth": "~1490",
 		"Death": "1524/07/31",
 		"RISM ID": "pe30006139",
@@ -518,15 +453,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Sebastiano_Festa",
 		"IMSLP": "https://imslp.org/wiki/Category:Festa,_Sebastiano",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Sebastian_Festa",
-		"VIAF": "https://viaf.org/viaf/32192513",
-		"COM": "Festa, Sebastiano",
-		"COM-short": "S. Festa",
-		"COM-long": "Sebastiano Festa",
-		"CNT": "~1490-1524/07/31"
+		"VIAF": "https://viaf.org/viaf/32192513"
 	},
 	{
 		"COMPOSER_ID": "Fva",
 		"Name": "{A}ntoine de {Févin}",
+		"Display Short": "A. de Févin",
+		"Display Long": "Févin, Antoine de",
 		"Birth": "~1470",
 		"Death": "~1511",
 		"RISM ID": "pe30006140",
@@ -535,15 +468,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Antoine_de_F%C3%A9vin",
 		"IMSLP": "https://imslp.org/wiki/Category:F%C3%A9vin,_Antoine_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Antoine_de_F%C3%A9vin",
-		"VIAF": "https://viaf.org/viaf/3285407",
-		"COM": "Févin, Antoine de",
-		"COM-short": "A. Févin",
-		"COM-long": "Antoine de Févin",
-		"CNT": "~1470-~1511"
+		"VIAF": "https://viaf.org/viaf/3285407"
 	},
 	{
 		"COMPOSER_ID": "Fvr",
 		"Name": "{R}obert de {Févin}",
+		"Display Short": "R. de Févin",
+		"Display Long": "Févin, Robert de",
 		"Birth": "<1500",
 		"Death": ">1500",
 		"RISM ID": "pe30102161",
@@ -552,15 +483,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Robert_de_F%C3%A9vin",
 		"IMSLP": "https://imslp.org/wiki/Category:F%C3%A9vin,_Robert_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Robert_de_F%C3%A9vin",
-		"VIAF": "https://viaf.org/viaf/78648292",
-		"COM": "Févin, Robert de",
-		"COM-short": "R. Févin",
-		"COM-long": "Robert de Févin",
-		"CNT": "<1500->1500"
+		"VIAF": "https://viaf.org/viaf/78648292"
 	},
 	{
 		"COMPOSER_ID": "Gas",
 		"Name": "{Gaspar} van Weerbecke",
+		"Display Short": "Gaspar",
+		"Display Long": "Gaspar van Weerbecke",
 		"Birth": "~1445",
 		"Death": ">1516",
 		"RISM ID": "pe30006179",
@@ -569,15 +498,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Gaspar_van_Weerbeke",
 		"IMSLP": "https://imslp.org/wiki/Category:Van_Weerbeke,_Gaspar",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Gaspar_van_Weerbeke",
-		"VIAF": "https://viaf.org/viaf/88076257",
-		"COM": "Gaspar van Weerbecke",
-		"COM-short": "Gaspar",
-		"COM-long": "Gaspar van Weerbecke",
-		"CNT": "~1445->1516"
+		"VIAF": "https://viaf.org/viaf/88076257"
 	},
 	{
 		"COMPOSER_ID": "Ghi",
 		"Name": "Johannes {Ghiselin}",
+		"Display Short": "Ghiselin",
+		"Display Long": "Ghiselin, Johannes",
 		"Birth": "<1491",
 		"Death": ">1507",
 		"RISM ID": "pe30012342",
@@ -586,15 +513,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Ghiselin",
 		"IMSLP": "https://imslp.org/wiki/Category:Ghiselin%2C_Johannes",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Johannes_Ghiselin",
-		"VIAF": "https://viaf.org/viaf/79200466",
-		"COM": "Ghiselin, Johannes",
-		"COM-short": "Ghiselin",
-		"COM-long": "Johannes Ghiselin",
-		"CNT": "<1491->1507"
+		"VIAF": "https://viaf.org/viaf/79200466"
 	},
 	{
 		"COMPOSER_ID": "Gom",
 		"Name": "Nicolas {Gombert}",
+		"Display Short": "Gombert",
+		"Display Long": "Gombert, Nicolas",
 		"Birth": "~1495",
 		"Death": "~1560",
 		"RISM ID": "pe30006168",
@@ -603,15 +528,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Nicolas_Gombert",
 		"IMSLP": "https://imslp.org/wiki/Category:Gombert,_Nicolas",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Nicolas_Gombert",
-		"VIAF": "https://viaf.org/viaf/87113257",
-		"COM": "Gombert, Nicolas",
-		"COM-short": "Gombert",
-		"COM-long": "Nicolas Gombert",
-		"CNT": "~1495-~1560"
+		"VIAF": "https://viaf.org/viaf/87113257"
 	},
 	{
 		"COMPOSER_ID": "Gsc",
 		"Name": "Mathieu {Gascongne}",
+		"Display Short": "Gascongne",
+		"Display Long": "Gascongne, Mathieu",
 		"Birth": "~1445",
 		"Death": "~1475",
 		"RISM ID": "pe30022179",
@@ -620,15 +543,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Mathieu_Gascongne",
 		"IMSLP": "https://imslp.org/wiki/Category:Gascongne,_Mathieu",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Mathieu_Gascongne",
-		"VIAF": "https://viaf.org/viaf/2735013",
-		"COM": "Gascongne, Mathieu",
-		"COM-short": "Gascongne",
-		"COM-long": "Mathieu Gascongne",
-		"CNT": "~1445-~1475"
+		"VIAF": "https://viaf.org/viaf/2735013"
 	},
 	{
 		"COMPOSER_ID": "Hay",
 		"Name": "{Hayne} van Ghizeghem",
+		"Display Short": "Hayne",
+		"Display Long": "Ghizeghem, Hayne van",
 		"Birth": "~1445",
 		"Death": ">1497",
 		"RISM ID": "pe30005404",
@@ -637,15 +558,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Hayne_van_Ghizeghem",
 		"IMSLP": "https://imslp.org/wiki/Category:Ghizeghem,_Hayne_van",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Hayne_van_Ghizeghem",
-		"VIAF": "https://viaf.org/viaf/79200466",
-		"COM": "Hayne van Ghizeghem",
-		"COM-short": "Hayne",
-		"COM-long": "Hayne van Ghizeghem",
-		"CNT": "~1445->1497"
+		"VIAF": "https://viaf.org/viaf/79200466"
 	},
 	{
 		"COMPOSER_ID": "Isa",
 		"Name": "Heinrich {Isaac}",
+		"Display Short": "Isaac",
+		"Display Long": "Isaac, Heinrich",
 		"Birth": "~1450",
 		"Death": "1517/03/27",
 		"RISM ID": "pe20000364",
@@ -654,28 +573,24 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Heinrich_Isaac",
 		"IMSLP": "https://imslp.org/wiki/Category:Isaac,_Heinrich",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Heinrich_Isaac",
-		"VIAF": "https://viaf.org/viaf/34643473",
-		"COM": "Isaac, Heinrich",
-		"COM-short": "Isaac",
-		"COM-long": "Heinrich Isaac",
-		"CNT": "~1450-1517/03/27"
+		"VIAF": "https://viaf.org/viaf/34643473"
 	},
 	{
 		"COMPOSER_ID": "Jac",
 		"Name": "{Jacotin Frontin?}",
+		"Display Short": "Jacotin Frontin?",
+		"Display Long": "Jacotin Frontin?",
 		"Birth": "~1495",
 		"Death": ">1516",
 		"IMSLP": "https://imslp.org/wiki/Category:Jacotin",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jacotin",
-		"VIAF": "https://viaf.org/viaf/265589659",
-		"COM": "Jacotin Frontin?",
-		"COM-short": "Jacotin Frontin?",
-		"COM-long": "Jacotin Frontin?",
-		"CNT": "~1495->1516"
+		"VIAF": "https://viaf.org/viaf/265589659"
 	},
 	{
 		"COMPOSER_ID": "Jan",
 		"Name": "{Maistre Jan}",
+		"Display Short": "Maistre Jan",
+		"Display Long": "Maistre Jan",
 		"Birth": "~1490",
 		"Death": "~1541",
 		"RISM ID": "pe30005590",
@@ -684,15 +599,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Maistre_Jhan",
 		"IMSLP": "https://imslp.org/wiki/Category:Maistre_Jhan",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Maistre_Jhan",
-		"VIAF": "https://viaf.org/viaf/7651782",
-		"COM": "Maistre Jan",
-		"COM-short": "Maistre Jan",
-		"COM-long": "Maistre Jan",
-		"CNT": "~1490-~1541"
+		"VIAF": "https://viaf.org/viaf/7651782"
 	},
 	{
 		"COMPOSER_ID": "Jap",
 		"Name": "Jean {Japart}",
+		"Display Short": "Japart",
+		"Display Long": "Japart, Jean",
 		"Birth": "<1474",
 		"Death": ">1481",
 		"RISM ID": "pe30100993",
@@ -700,29 +613,26 @@
 		"DIAMM": "https://www.diamm.ac.uk/people/145",
 		"Wikipedia": "https://en.wikipedia.org/wiki/Jean_Japart",
 		"IMSLP": "https://imslp.org/wiki/Category:Japart,_Jean",
-		"VIAF": "https://viaf.org/viaf/64201802",
-		"COM": "Japart, Jean",
-		"COM-short": "Japart",
-		"COM-long": "Jean Japart",
-		"CNT": "<1474->1481"
+		"VIAF": "https://viaf.org/viaf/64201802"
 	},
 	{
 		"COMPOSER_ID": "Jom",
 		"Name": "{Jacquet of Mantua}",
+		"Display Short": "Jacquet of Mantua",
+		"Display Long": "Jacquet of Mantua",
 		"Birth": "1483",
 		"Death": "1559/10/02",
 		"RISM ID": "pe30003816",
 		"RISM": "https://rism.online/people/30003816",
 		"DIAMM": "https://www.diamm.ac.uk/people/215",
-		"Wikipedia": "https://en.wikipedia.org/wiki/Jacquet_of_Mantua",
-		"COM": "Jacquet of Mantua",
-		"COM-short": "Jacquet of Mantua",
-		"COM-long": "Jacquet of Mantua",
-		"CNT": "1483-1559/10/02"
+		"Wikipedia": "https://en.wikipedia.org/wiki/Jacquet_of_Mantua"
 	},
 	{
 		"COMPOSER_ID": "Jos",
 		"Name": "{Josquin} des Prez",
+		"Display Short": "Josquin",
+		"Display Long": "Josquin des Prez",
+		"Complete?": "yes",
 		"Birth": "1450",
 		"Death": "1521/08/27",
 		"RISM ID": "pe20000367",
@@ -731,41 +641,35 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Josquin_des_Prez",
 		"IMSLP": "https://imslp.org/wiki/Category:Josquin_Desprez",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Josquin_des_Prez",
-		"VIAF": "https://viaf.org/viaf/100226284",
-		"COM": "Josquin des Prez",
-		"COM-short": "Josquin",
-		"COM-long": "Josquin des Prez",
-		"CNT": "1450-1521/08/27"
+		"VIAF": "https://viaf.org/viaf/100226284"
 	},
 	{
 		"COMPOSER_ID": "Lan",
 		"Name": "Colinet de {Lannoy}",
+		"Display Short": "Lannoy",
+		"Display Long": "Lannoy, Colinet de",
 		"Death": "<1497/02/06",
 		"RISM ID": "pe30102376",
 		"RISM": "https://rism.online/people/30102376",
 		"DIAMM": "https://www.diamm.ac.uk/people/189",
 		"Wikipedia": "https://en.wikipedia.org/wiki/Colinet_de_Lannoy",
-		"IMSLP": "https://imslp.org/wiki/Category:Lannoy,_Colinet_de",
-		"COM": "Lannoy, Colinet de",
-		"COM-short": "Lannoy",
-		"COM-long": "Colinet de Lannoy",
-		"CNT": "?-<1497/02/06"
+		"IMSLP": "https://imslp.org/wiki/Category:Lannoy,_Colinet_de"
 	},
 	{
 		"COMPOSER_ID": "Leb",
 		"Name": "Johannes {Lebrung}",
+		"Display Short": "Lebrung",
+		"Display Long": "Lebrung, Johannes",
 		"RISM ID": "pe30006303",
 		"RISM": "https://rism.online/people/30006303",
 		"DIAMM": "https://www.diamm.ac.uk/people/766",
-		"VIAF": "https://viaf.org/viaf/74242736",
-		"COM": "Lebrung, Johannes",
-		"COM-short": "Lebrung",
-		"COM-long": "Johannes Lebrung",
-		"CNT": "?-?"
+		"VIAF": "https://viaf.org/viaf/74242736"
 	},
 	{
 		"COMPOSER_ID": "Lfg",
 		"Name": "Jean de la {Fage}",
+		"Display Short": "Fage",
+		"Display Long": "Fage, Jean de la",
 		"Birth": "<1518",
 		"Death": ">1530",
 		"RISM ID": "pe30018710",
@@ -774,15 +678,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_de_la_Fage",
 		"IMSLP": "https://imslp.org/wiki/Category:La_Fage%2C_Jean_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jean_de_La_Fage",
-		"VIAF": "https://viaf.org/viaf/56874576",
-		"COM": "Fage, Jean de la",
-		"COM-short": "Fage",
-		"COM-long": "Jean de la Fage",
-		"CNT": "<1518->1530"
+		"VIAF": "https://viaf.org/viaf/56874576"
 	},
 	{
 		"COMPOSER_ID": "Lhe",
 		"Name": "Jean {Lhéritier}",
+		"Display Short": "Lhéritier",
+		"Display Long": "Lhéritier, Jean",
 		"Birth": "~1480",
 		"Death": ">1551",
 		"RISM ID": "pe30012541",
@@ -791,23 +693,19 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Jean_l%27H%C3%A9ritier",
 		"IMSLP": "https://imslp.org/wiki/Category:Lh%C3%A9ritier,_Jean",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jehan_L%27Heritier",
-		"VIAF": "https://viaf.org/viaf/54333035",
-		"COM": "Lhéritier, Jean",
-		"COM-short": "Lhéritier",
-		"COM-long": "Jean Lhéritier",
-		"CNT": "~1480->1551"
+		"VIAF": "https://viaf.org/viaf/54333035"
 	},
 	{
 		"COMPOSER_ID": "Lon",
 		"Name": "Antoine de {Longueval}",
-		"COM": "Longueval, Antoine de",
-		"COM-short": "Longueval",
-		"COM-long": "Antoine de Longueval",
-		"CNT": "?-?"
+		"Display Short": "Longueval",
+		"Display Long": "Longueval, Antoine de"
 	},
 	{
 		"COMPOSER_ID": "Lpi",
 		"Name": "Johannes {Lupi}",
+		"Display Short": "Lupi",
+		"Display Long": "Lupi, Johannes",
 		"Birth": "~1506",
 		"Death": "1539/12/20",
 		"RISM ID": "pe30012552",
@@ -816,15 +714,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Lupi",
 		"IMSLP": "https://imslp.org/wiki/Category:Lupi,_Johannes",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Johannes_Lupi",
-		"VIAF": "https://viaf.org/viaf/42035469",
-		"COM": "Lupi, Johannes",
-		"COM-short": "Lupi",
-		"COM-long": "Johannes Lupi",
-		"CNT": "~1506-1539/12/20"
+		"VIAF": "https://viaf.org/viaf/42035469"
 	},
 	{
 		"COMPOSER_ID": "Lps",
 		"Name": "{Lupus} Hellinck",
+		"Display Short": "Lupus",
+		"Display Long": "Hellinck, Lupus",
 		"Birth": "~1493",
 		"Death": "~1541/01/14",
 		"RISM ID": "pe30006996",
@@ -833,36 +729,30 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Lupus_Hellinck",
 		"IMSLP": "https://imslp.org/wiki/Category:Hellinck,_Lupus",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Lupus_Hellinck",
-		"VIAF": "https://viaf.org/viaf/291576828",
-		"COM": "Lupus Hellinck",
-		"COM-short": "Lupus",
-		"COM-long": "Lupus Hellinck",
-		"CNT": "~1493-~1541/01/14"
+		"VIAF": "https://viaf.org/viaf/291576828"
 	},
 	{
 		"COMPOSER_ID": "Lsa",
 		"Name": "{Le Santier}",
-		"COM": "Le Santier",
-		"COM-short": "Le Santier",
-		"COM-long": "Le Santier",
-		"CNT": "?-?"
+		"Display Short": "Le Santier",
+		"Display Long": "Le Santier"
 	},
 	{
 		"COMPOSER_ID": "Mal",
 		"Name": "{Malcourt}",
+		"Display Short": "Malcourt",
+		"Display Long": "Malcourt",
 		"Birth": "<1470",
 		"Death": ">1480",
 		"DIAMM": "https://www.diamm.ac.uk/people/184",
 		"IMSLP": "https://imslp.org/wiki/Category:Malcourt",
-		"VIAF": "https://viaf.org/viaf/32263036",
-		"COM": "Malcourt",
-		"COM-short": "Malcourt",
-		"COM-long": "Malcourt",
-		"CNT": "<1470->1480"
+		"VIAF": "https://viaf.org/viaf/32263036"
 	},
 	{
 		"COMPOSER_ID": "Mar",
 		"Name": "Johannes {Martini}",
+		"Display Short": "Martini",
+		"Display Long": "Martini, Johannes",
 		"Birth": "~1440",
 		"Death": "~1497",
 		"RISM ID": "pe30033934",
@@ -871,23 +761,19 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Martini",
 		"IMSLP": "https://imslp.org/wiki/Category:Martini,_Johannes",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Johannes_Martini",
-		"VIAF": "https://viaf.org/viaf/66661850",
-		"COM": "Martini, Johannes",
-		"COM-short": "Martini",
-		"COM-long": "Johannes Martini",
-		"CNT": "~1440-~1497"
+		"VIAF": "https://viaf.org/viaf/66661850"
 	},
 	{
 		"COMPOSER_ID": "Mat",
 		"Name": "Thomas {Martini}",
-		"COM": "Martini, Thomas",
-		"COM-short": "Martini",
-		"COM-long": "Thomas Martini",
-		"CNT": "?-?"
+		"Display Short": "Martini",
+		"Display Long": "Martini, Thomas"
 	},
 	{
 		"COMPOSER_ID": "Mlu",
 		"Name": "Pierre {Moulu}",
+		"Display Short": "Moulu",
+		"Display Long": "Moulu, Pierre",
 		"Birth": "~1480",
 		"Death": "~1550",
 		"RISM ID": "pe30016304",
@@ -896,15 +782,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Pierre_Moulu",
 		"IMSLP": "https://imslp.org/wiki/Category:Moulu,_Pierre",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Pierre_Moulu",
-		"VIAF": "https://viaf.org/viaf/221798289",
-		"COM": "Moulu, Pierre",
-		"COM-short": "Moulu",
-		"COM-long": "Pierre Moulu",
-		"CNT": "~1480-~1550"
+		"VIAF": "https://viaf.org/viaf/221798289"
 	},
 	{
 		"COMPOSER_ID": "Mou",
 		"Name": "Jean {Mouton}",
+		"Display Short": "Mouton",
+		"Display Long": "Mouton, Jean",
 		"Birth": "~1459",
 		"Death": "1522/10/30",
 		"RISM ID": "pe30005489",
@@ -913,29 +797,25 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Jean_Mouton",
 		"IMSLP": "https://imslp.org/wiki/Category:Mouton,_Jean",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jean_Mouton",
-		"VIAF": "https://viaf.org/viaf/100249517",
-		"COM": "Mouton, Jean",
-		"COM-short": "Mouton",
-		"COM-long": "Jean Mouton",
-		"CNT": "~1459-1522/10/30"
+		"VIAF": "https://viaf.org/viaf/100249517"
 	},
 	{
 		"COMPOSER_ID": "Nin",
 		"Name": "{Ninot le Petit}",
+		"Display Short": "Ninot le Petit",
+		"Display Long": "Ninot le Petit",
 		"RISM ID": "pe30016722",
 		"RISM": "https://rism.online/people/30016722",
 		"Wikipedia": "https://en.wikipedia.org/wiki/Ninot_le_Petit",
 		"IMSLP": "https://imslp.org/wiki/Category:Ninot_le_Petit",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Ninot_le_Petit",
-		"VIAF": "https://viaf.org/viaf/305406048",
-		"COM": "Ninot le Petit",
-		"COM-short": "Ninot le Petit",
-		"COM-long": "Ninot le Petit",
-		"CNT": "?-?"
+		"VIAF": "https://viaf.org/viaf/305406048"
 	},
 	{
 		"COMPOSER_ID": "Obr",
 		"Name": "Jacob {Obrecht}",
+		"Display Short": "Obrecht",
+		"Display Long": "Obrecht, Jacob",
 		"Birth": "~1457",
 		"Death": "~1505/07",
 		"RISM ID": "pe30005499",
@@ -944,15 +824,14 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Jacob_Obrecht",
 		"IMSLP": "https://imslp.org/wiki/Category:Obrecht,_Jacob",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jacob_Obrecht",
-		"VIAF": "https://viaf.org/viaf/111839700",
-		"COM": "Obrecht, Jacob",
-		"COM-short": "Obrecht",
-		"COM-long": "Jacob Obrecht",
-		"CNT": "~1457-~1505/07"
+		"VIAF": "https://viaf.org/viaf/111839700"
 	},
 	{
 		"COMPOSER_ID": "Oke",
 		"Name": "Johannes {Okeghem}",
+		"Display Short": "Okeghem",
+		"Display Long": "Okeghem, Johannes",
+		"Complete?": "yes",
 		"Birth": "~1410",
 		"Death": "1497/02/06",
 		"RISM ID": "pe30016300",
@@ -961,15 +840,14 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Ockeghem",
 		"IMSLP": "https://imslp.org/wiki/Category:Ockeghem,_Johannes",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Johannes_Ockeghem",
-		"VIAF": "https://viaf.org/viaf/22150988",
-		"COM": "Okeghem, Johannes",
-		"COM-short": "Okeghem",
-		"COM-long": "Johannes Okeghem",
-		"CNT": "~1410-1497/02/06"
+		"VIAF": "https://viaf.org/viaf/22150988"
 	},
 	{
 		"COMPOSER_ID": "Ort",
 		"Name": "Marbrianus {de Orto}",
+		"Display Short": "de Orto",
+		"Display Long": "de Orto, Marbrianus",
+		"Complete?": "yes",
 		"Birth": "~1460",
 		"Death": "1529",
 		"RISM ID": "pe30013316",
@@ -978,38 +856,32 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Marbrianus_de_Orto",
 		"IMSLP": "https://imslp.org/wiki/Category:Orto,_Marbrianus_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Marbrianus_de_Orto",
-		"VIAF": "https://viaf.org/viaf/56810510",
-		"COM": "de Orto, Marbrianus",
-		"COM-short": "de Orto",
-		"COM-long": "Marbrianus de Orto",
-		"CNT": "~1460-1529"
+		"VIAF": "https://viaf.org/viaf/56810510"
 	},
 	{
 		"COMPOSER_ID": "Pen",
 		"Name": "Juan de {Peñalosa}",
-		"COM": "Peñalosa, Juan de",
-		"COM-short": "Peñalosa",
-		"COM-long": "Juan de Peñalosa",
-		"CNT": "?-?"
+		"Display Short": "Peñalosa",
+		"Display Long": "Peñalosa, Juan de"
 	},
 	{
 		"COMPOSER_ID": "Pes",
 		"Name": "Michele {Pesenti}",
+		"Display Short": "Pesenti",
+		"Display Long": "Pesenti, Michele",
 		"Birth": "~1470",
 		"Death": "1528/05",
 		"RISM ID": "pe30008803",
 		"RISM": "https://rism.online/people/30008803",
 		"DIAMM": "https://www.diamm.ac.uk/people/352",
 		"IMSLP": "https://imslp.org/wiki/Category:Pesenti,_Michele",
-		"CPDL": "https://www.cpdl.org/wiki/index.php/Michael_Pesenti",
-		"COM": "Pesenti, Michele",
-		"COM-short": "Pesenti",
-		"COM-long": "Michele Pesenti",
-		"CNT": "~1470-1528/05"
+		"CPDL": "https://www.cpdl.org/wiki/index.php/Michael_Pesenti"
 	},
 	{
 		"COMPOSER_ID": "Pip",
 		"Name": "Mattheus {Pipelare}",
+		"Display Short": "Pipelare",
+		"Display Long": "Pipelare, Mattheus",
 		"Birth": "~1450",
 		"Death": "~1515",
 		"RISM ID": "pe30016483",
@@ -1018,15 +890,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Matthaeus_Pipelare",
 		"IMSLP": "https://imslp.org/wiki/Category:Pipelare,_Matthaeus",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Matthaeus_Pipelare",
-		"VIAF": "https://viaf.org/viaf/44566257",
-		"COM": "Pipelare, Mattheus",
-		"COM-short": "Pipelare",
-		"COM-long": "Mattheus Pipelare",
-		"CNT": "~1450-~1515"
+		"VIAF": "https://viaf.org/viaf/44566257"
 	},
 	{
 		"COMPOSER_ID": "Plu",
 		"Name": "John {Plummer}",
+		"Display Short": "Plummer",
+		"Display Long": "Plummer, John",
 		"Birth": "~1410",
 		"Death": "1486",
 		"RISM ID": "pe41009372",
@@ -1035,15 +905,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/John_Plummer",
 		"IMSLP": "https://imslp.org/wiki/Category:Plummer,_John",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/John_Plummer",
-		"VIAF": "https://viaf.org/viaf/30686318",
-		"COM": "Plummer, John",
-		"COM-short": "Plummer",
-		"COM-long": "John Plummer",
-		"CNT": "~1410-1486"
+		"VIAF": "https://viaf.org/viaf/30686318"
 	},
 	{
 		"COMPOSER_ID": "Pow",
 		"Name": "Leonel {Power}",
+		"Display Short": "Power",
+		"Display Long": "Power, Leonel",
 		"Birth": "~1375",
 		"Death": "1445",
 		"RISM ID": "pe30102578",
@@ -1052,15 +920,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Leonel_Power",
 		"IMSLP": "https://imslp.org/wiki/Category:Power%2C_Leonel",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Leonel_Power",
-		"VIAF": "https://viaf.org/viaf/79169248",
-		"COM": "Power, Leonel",
-		"COM-short": "Power",
-		"COM-long": "Leonel Power",
-		"CNT": "~1375-1445"
+		"VIAF": "https://viaf.org/viaf/79169248"
 	},
 	{
 		"COMPOSER_ID": "Pri",
 		"Name": "Johannes {Prioris}",
+		"Display Short": "Prioris",
+		"Display Long": "Prioris, Johannes",
 		"Birth": "~1460",
 		"Death": "~1514",
 		"RISM ID": "pe30016484",
@@ -1069,30 +935,26 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Prioris",
 		"IMSLP": "https://imslp.org/wiki/Category:Prioris,_Johannes",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Dionisius_Prioris",
-		"VIAF": "https://viaf.org/viaf/44566584",
-		"COM": "Prioris, Johannes",
-		"COM-short": "Prioris",
-		"COM-long": "Johannes Prioris",
-		"CNT": "~1460-~1514"
+		"VIAF": "https://viaf.org/viaf/44566584"
 	},
 	{
 		"COMPOSER_ID": "Puy",
 		"Name": "Johannes {Puyllois}",
+		"Display Short": "Puyllois",
+		"Display Long": "Puyllois, Johannes",
 		"Death": "~1478/08/23",
 		"RISM ID": "pe30102581",
 		"RISM": "https://rism.online/people/30102581",
 		"DIAMM": "https://www.diamm.ac.uk/people/366",
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Pullois",
 		"IMSLP": "https://imslp.org/wiki/Category:Pullois,_Johannes",
-		"VIAF": "https://viaf.org/viaf/36958828",
-		"COM": "Puyllois, Johannes",
-		"COM-short": "Puyllois",
-		"COM-long": "Johannes Puyllois",
-		"CNT": "?-~1478/08/23"
+		"VIAF": "https://viaf.org/viaf/36958828"
 	},
 	{
 		"COMPOSER_ID": "Reg",
 		"Name": "Johannes {Regis}",
+		"Display Short": "Regis",
+		"Display Long": "Regis, Johannes",
 		"Birth": "~1425",
 		"Death": "~1496",
 		"RISM ID": "pe30101081",
@@ -1101,37 +963,31 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Regis",
 		"IMSLP": "https://imslp.org/wiki/Category:Regis,_Johannes",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Johannes_Regis",
-		"VIAF": "https://viaf.org/viaf/59349003",
-		"COM": "Regis, Johannes",
-		"COM-short": "Regis",
-		"COM-long": "Johannes Regis",
-		"CNT": "~1425-~1496"
+		"VIAF": "https://viaf.org/viaf/59349003"
 	},
 	{
 		"COMPOSER_ID": "Ren",
 		"Name": "{Renaldo}",
-		"COM": "Renaldo",
-		"COM-short": "Renaldo",
-		"COM-long": "Renaldo",
-		"CNT": "?-?"
+		"Display Short": "Renaldo",
+		"Display Long": "Renaldo"
 	},
 	{
 		"COMPOSER_ID": "Res",
 		"Name": "Nicole {Regnes}",
+		"Display Short": "Regnes",
+		"Display Long": "Regnes, Nicole",
 		"RISM ID": "pe30018759",
 		"RISM": "https://rism.online/people/30018759",
 		"DIAMM": "https://www.diamm.ac.uk/people/723/",
 		"IMSLP": "https://imslp.org/wiki/Category:Regnes,_Nicole",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Nicole_Regnes",
-		"VIAF": "http://viaf.org/viaf/105148207708100341050",
-		"COM": "Regnes, Nicole",
-		"COM-short": "Regnes",
-		"COM-long": "Nicole Regnes",
-		"CNT": "?-?"
+		"VIAF": "http://viaf.org/viaf/105148207708100341050"
 	},
 	{
 		"COMPOSER_ID": "Ric",
 		"Name": "Jean {Richafort}",
+		"Display Short": "Richafort",
+		"Display Long": "Richafort, Jean",
 		"Birth": "~1480",
 		"Death": "~1547",
 		"RISM ID": "pe30012751",
@@ -1140,15 +996,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Jean_Richafort",
 		"IMSLP": "https://imslp.org/wiki/Category:Richafort,_Jean",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Jean_Richafort",
-		"VIAF": "https://viaf.org/viaf/107536201",
-		"COM": "Richafort, Jean",
-		"COM-short": "Richafort",
-		"COM-long": "Jean Richafort",
-		"CNT": "~1480-~1547"
+		"VIAF": "https://viaf.org/viaf/107536201"
 	},
 	{
 		"COMPOSER_ID": "Ror",
 		"Name": "Cipriano de {Rore}",
+		"Display Short": "Rore",
+		"Display Long": "Rore, Cipriano de",
 		"Birth": "~1515",
 		"Death": "1565/9",
 		"RISM ID": "pe30006899",
@@ -1157,15 +1011,14 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Cipriano_de_Rore",
 		"IMSLP": "https://imslp.org/wiki/Category:Rore,_Cipriano_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Cipriano_de_Rore",
-		"VIAF": "http://viaf.org/viaf/2622801",
-		"COM": "Rore, Cipriano de",
-		"COM-short": "Rore",
-		"COM-long": "Cipriano de Rore",
-		"CNT": "~1515-1565/9"
+		"VIAF": "http://viaf.org/viaf/2622801"
 	},
 	{
 		"COMPOSER_ID": "Rue",
 		"Name": "Pierre de {la Rue}",
+		"Display Short": "la Rue",
+		"Display Long": "la Rue, Pierre de",
+		"Complete?": "yes",
 		"Birth": "~1452",
 		"Death": "1518/11/20",
 		"RISM ID": "pe30001841",
@@ -1174,15 +1027,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Pierre_de_la_Rue",
 		"IMSLP": "https://imslp.org/wiki/Category:La_Rue,_Pierre_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Pierre_de_la_Rue",
-		"VIAF": "https://viaf.org/viaf/265244429",
-		"COM": "La Rue, Pierre de",
-		"COM-short": "La Rue",
-		"COM-long": "Pierre de la Rue",
-		"CNT": "~1452-1518/11/20"
+		"VIAF": "https://viaf.org/viaf/265244429"
 	},
 	{
 		"COMPOSER_ID": "Ser",
 		"Name": "Claudin de {Sermisy}",
+		"Display Short": "Sermisy",
+		"Display Long": "Sermisy, Claudin de",
 		"Birth": "~1490",
 		"Death": "1562/10/13",
 		"RISM ID": "pe20000369",
@@ -1191,23 +1042,19 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Claudin_de_Sermisy",
 		"IMSLP": "https://imslp.org/wiki/Category:Sermisy,_Claudin_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Claudin_de_Sermisy",
-		"VIAF": "https://viaf.org/viaf/89469141",
-		"COM": "Sermisy, Claudin de",
-		"COM-short": "Sermisy",
-		"COM-long": "Claudin de Sermisy",
-		"CNT": "~1490-1562/10/13"
+		"VIAF": "https://viaf.org/viaf/89469141"
 	},
 	{
 		"COMPOSER_ID": "Sfr",
 		"Name": "{Simon of Ferrara}",
-		"COM": "Simon of Ferrara",
-		"COM-short": "Simon of Ferrara",
-		"COM-long": "Simon of Ferrara",
-		"CNT": "?-?"
+		"Display Short": "Simon of Ferrara",
+		"Display Long": "Simon of Ferrara"
 	},
 	{
 		"COMPOSER_ID": "Sil",
 		"Name": "Andreas de {Silva}",
+		"Display Short": "Silva",
+		"Display Long": "Silva, Andreas de",
 		"Birth": "<1520",
 		"Death": ">1520",
 		"RISM ID": "pe30024652",
@@ -1216,15 +1063,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Andreas_de_Silva",
 		"IMSLP": "https://imslp.org/wiki/Category:De_Silva,_Andreas",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Andreas_de_Silva",
-		"VIAF": "https://viaf.org/viaf/45811079",
-		"COM": "Silva, Andreas de",
-		"COM-short": "Silva",
-		"COM-long": "Andreas de Silva",
-		"CNT": "<1520->1520"
+		"VIAF": "https://viaf.org/viaf/45811079"
 	},
 	{
 		"COMPOSER_ID": "Snf",
 		"Name": "Ludwig {Senfl}",
+		"Display Short": "Senfl",
+		"Display Long": "Senfl, Ludwig",
 		"Birth": "<1489",
 		"Death": "~1543",
 		"RISM ID": "pe20000365",
@@ -1234,43 +1079,37 @@
 		"IMSLP": "https://imslp.org/wiki/Category:Senfl,_Ludwig",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Ludwig_Senfl",
 		"VIAF": "https://viaf.org/viaf/19866990",
-		"Wikidata": "https://www.wikidata.org/wiki/Q58008",
-		"COM": "Senfl, Ludwig",
-		"COM-short": "Senfl",
-		"COM-long": "Ludwig Senfl",
-		"CNT": "<1489-~1543"
+		"Wikidata": "https://www.wikidata.org/wiki/Q58008"
 	},
 	{
 		"COMPOSER_ID": "Sto",
 		"Name": "Johannes de {Stokem}",
+		"Display Short": "Stokem",
+		"Display Long": "Stokem, Johannes de",
 		"Birth": "~1445",
 		"Death": "1487",
 		"RISM ID": "pe30101016",
 		"RISM": "https://rism.online/people/30101016",
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_de_Stokem",
 		"IMSLP": "https://imslp.org/wiki/Category:Stokem,_Johannes_de",
-		"VIAF": "https://viaf.org/viaf/79201034",
-		"COM": "Stokem, Johannes de",
-		"COM-short": "Stokem",
-		"COM-long": "Johannes de Stokem",
-		"CNT": "~1445-1487"
+		"VIAF": "https://viaf.org/viaf/79201034"
 	},
 	{
 		"COMPOSER_ID": "Tad",
 		"Name": "Ja {Tadinghen}",
+		"Display Short": "Tadinghen",
+		"Display Long": "Tadinghen, Ja",
 		"RISM ID": "pe30100994",
 		"RISM": "https://rism.online/people/30100994",
 		"DIAMM": "https://www.diamm.ac.uk/people/1365",
 		"IMSLP": "https://imslp.org/wiki/Category:Tadinghen,_Ja",
-		"VIAF": "https://viaf.org/viaf/250586553",
-		"COM": "Tadinghen, Ja",
-		"COM-short": "Tadinghen",
-		"COM-long": "Ja Tadinghen",
-		"CNT": "?-?"
+		"VIAF": "https://viaf.org/viaf/250586553"
 	},
 	{
 		"COMPOSER_ID": "The",
 		"Name": "Pierrequin de {Therache}",
+		"Display Short": "Therache",
+		"Display Long": "Therache, Pierrequin de",
 		"Birth": "~1470",
 		"Death": "1528",
 		"RISM ID": "pe30102136",
@@ -1278,15 +1117,13 @@
 		"DIAMM": "https://www.diamm.ac.uk/people/315",
 		"Wikipedia": "https://en.wikipedia.org/wiki/Pierrequin_de_Th%C3%A9rache",
 		"IMSLP": "https://imslp.org/wiki/Category:Th%C3%A9rache,_Pierrequin_de",
-		"VIAF": "https://viaf.org/viaf/29730750",
-		"COM": "Therache, Pierrequin de",
-		"COM-short": "Therache",
-		"COM-long": "Pierrequin de Therache",
-		"CNT": "~1470-1528"
+		"VIAF": "https://viaf.org/viaf/29730750"
 	},
 	{
 		"COMPOSER_ID": "Tin",
 		"Name": "Johannes {Tinctoris}",
+		"Display Short": "Tinctoris",
+		"Display Long": "Tinctoris, Johannes",
 		"Birth": "~1435",
 		"Death": "1511",
 		"RISM ID": "pe30008613",
@@ -1295,15 +1132,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Johannes_Tinctoris",
 		"IMSLP": "https://imslp.org/wiki/Category:Tinctoris,_Johannes",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Johannes_Tinctoris",
-		"VIAF": "https://viaf.org/viaf/100214007",
-		"COM": "Tinctoris, Johannes",
-		"COM-short": "Tinctoris",
-		"COM-long": "Johannes Tinctoris",
-		"CNT": "~1435-1511"
+		"VIAF": "https://viaf.org/viaf/100214007"
 	},
 	{
 		"COMPOSER_ID": "Urr",
 		"Name": "Juan de {Urrede}",
+		"Display Short": "Urrede",
+		"Display Long": "Urrede, Juan de",
 		"Birth": "~1430",
 		"Death": ">1482",
 		"RISM ID": "pe30003195",
@@ -1312,38 +1147,32 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Juan_de_Urrede",
 		"IMSLP": "https://imslp.org/wiki/Category:Urrede,_Juan_de",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Juan_de_Urrede",
-		"VIAF": "https://viaf.org/viaf/305406037",
-		"COM": "Urrede, Juan de",
-		"COM-short": "Urrede",
-		"COM-long": "Juan de Urrede",
-		"CNT": "~1430->1482"
+		"VIAF": "https://viaf.org/viaf/305406037"
 	},
 	{
 		"COMPOSER_ID": "Vaq",
 		"Name": "Bertrandus {Vaqueras}",
+		"Display Short": "Vaqueras",
+		"Display Long": "Vaqueras, Bertrandus",
 		"Birth": "~1450",
 		"Death": "1507",
 		"RISM ID": "pe30095675",
 		"RISM": "https://rism.online/people/30095675",
 		"IMSLP": "https://imslp.org/wiki/Category:Vaqueras,_Bertrandus",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Bertrandus_Vaqueras",
-		"VIAF": "https://viaf.org/viaf/2658085",
-		"COM": "Vaqueras, Bertrandus",
-		"COM-short": "Vaqueras",
-		"COM-long": "Bertrandus Vaqueras",
-		"CNT": "~1450-1507"
+		"VIAF": "https://viaf.org/viaf/2658085"
 	},
 	{
 		"COMPOSER_ID": "Vea",
 		"Name": "Antonius {de Vinea}",
-		"COM": "de Vinea, Antonius",
-		"COM-short": "de Vinea",
-		"COM-long": "Antonius de Vinea",
-		"CNT": "?-?"
+		"Display Short": "de Vinea",
+		"Display Long": "de Vinea, Antonius"
 	},
 	{
 		"COMPOSER_ID": "Ver",
 		"Name": "Philippe {Verdelot}",
+		"Display Short": "Verdelot",
+		"Display Long": "Verdelot, Philippe",
 		"Birth": "~1480",
 		"Death": "~1530",
 		"RISM ID": "pe30013948",
@@ -1352,15 +1181,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Philippe_Verdelot",
 		"IMSLP": "https://imslp.org/wiki/Category:Verdelot,_Philippe",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Philippe_Verdelot",
-		"VIAF": "https://viaf.org/viaf/122374708",
-		"COM": "Verdelot, Philippe",
-		"COM-short": "Verdelot",
-		"COM-long": "Philippe Verdelot",
-		"CNT": "~1480-~1530"
+		"VIAF": "https://viaf.org/viaf/122374708"
 	},
 	{
 		"COMPOSER_ID": "Vin",
 		"Name": "Jheronimus {Vinders}",
+		"Display Short": "Vinders",
+		"Display Long": "Vinders, Jheronimus",
 		"Birth": "<1525",
 		"Death": ">1526",
 		"RISM ID": "pe30007720",
@@ -1369,15 +1196,13 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Jheronimus_Vinders",
 		"IMSLP": "https://imslp.org/wiki/Category:Vinders,_Jheronimus",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Hieronymus_Vinders",
-		"VIAF": "https://viaf.org/viaf/79667193/",
-		"COM": "Vinders, Jheronimus",
-		"COM-short": "Vinders",
-		"COM-long": "Jheronimus Vinders",
-		"CNT": "<1525->1526"
+		"VIAF": "https://viaf.org/viaf/79667193/"
 	},
 	{
 		"COMPOSER_ID": "Wil",
 		"Name": "Adrian {Willaert}",
+		"Display Short": "Willaert",
+		"Display Long": "Willaert, Adrian",
 		"Birth": "~1490",
 		"Death": "1562/12/07",
 		"RISM ID": "pe30005312",
@@ -1386,22 +1211,31 @@
 		"Wikipedia": "https://en.wikipedia.org/wiki/Adrian_Willaert",
 		"IMSLP": "https://imslp.org/wiki/Category:Willaert,_Adrian",
 		"CPDL": "https://www.cpdl.org/wiki/index.php/Adrian_Willaert",
-		"VIAF": "https://viaf.org/viaf/14959955",
-		"COM": "Willaert, Adrian",
-		"COM-short": "Willaert",
-		"COM-long": "Adrian Willaert",
-		"CNT": "~1490-1562/12/07"
+		"VIAF": "https://viaf.org/viaf/14959955"
 	},
 	{
 		"COMPOSER_ID": "Zen",
 		"Name": "Giulio {Zenaro}",
+		"Display Short": "Zenaro",
+		"Display Long": "Zenaro, Giulio",
 		"Death": ">~1590",
 		"RISM ID": "pe30011649",
 		"RISM": "https://rism.online/people/30011649",
-		"VIAF": "https://viaf.org/viaf/79972258",
-		"COM": "Zenaro, Giulio",
-		"COM-short": "Zenaro",
-		"COM-long": "Giulio Zenaro",
-		"CNT": "?->~1590"
+		"VIAF": "https://viaf.org/viaf/79972258"
+	},
+	{
+		"COMPOSER_ID": "Zma",
+		"Name": "Masses",
+		"Fake": "Y"
+	},
+	{
+		"COMPOSER_ID": "Zmo",
+		"Name": "Motets",
+		"Fake": "Y"
+	},
+	{
+		"COMPOSER_ID": "Zso",
+		"Name": "Songs",
+		"Fake": "Y"
 	}
 ]
