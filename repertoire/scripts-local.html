@@ -480,12 +480,8 @@ function generateComposerWorkEntries(worklist, index) {
 			continue;
 		}
 
-    xcomposer = entry.COMPOSER_ID
-		  .split(/\s*;\s*/)
-		  .map(cid => COMPOSER_INDEX[cid]?.short)
-		  .filter(Boolean)
-		  .join("; ");
-
+    xcomposer = entry.composers || worklist[index].comshort;
+    
    	switch (parseInt(entry.attr)) {
       	case 1: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>&#10003;</span>"; break;
       	case 2: xcomposer += "<span onclick='window.location=\"/about/attribution\";' style='cursor:pointer; letter-spacing:-2px;'>(&#10003;)</span>"; break;

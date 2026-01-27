@@ -175,15 +175,14 @@ function InitializeWorklist() {
 
   for (const w of WORKS) {
 
-    // åuntitled works do not exist anywhere
+    // Untitled works do not exist conceptually
     if (!w.Title || !w.Title.trim()) continue;
+    if (!w.COMPOSER_ID || !w.WORK_ID) continue;
 
-    if (!w.COMPOSER_ID) continue;
+    const baseId = w.WORK_ID.replace(/[a-z]$/, "");
+    const composerIds = w.COMPOSER_ID.split(/\s*;\s*/);
 
-    const ids = w.COMPOSER_ID.split(/\s*;\s*/);
-
-    for (let i = 0; i < ids.length; i++) {
-      const cid = ids[i];
+    for (const cid of composerIds) {
       const cinfo = COMPOSER_INDEX[cid];
       if (!cinfo) continue;
 
@@ -198,22 +197,40 @@ function InitializeWorklist() {
         };
       }
 
-      byComposer[cid].works.push({
-        id: w.WORK_ID,
-        title: w.Title,
-        variant: w.Subtitle || "",
-        genre: w.Genre,
-        voices: w.Voices,
-        attr: w.Attribution || 0,
-        Texted: w.Texted,
-        fragment: w.Fragment || false,
-        COMPOSER_ID: w.COMPOSER_ID
-      });
+      // conceptual work = same base WORK_ID
+      let cw = byComposer[cid].works.find(x => x.baseId === baseId);
 
-      byComposer[cid].repwork++;
+      if (!cw) {
+        cw = {
+          baseId: baseId,
+          id: baseId,
+          title: w.Title,
+          genre: w.Genre,
+          voices: w.Voices,
+          Texted: w.Texted,
+          fragment: w.Fragment || false,
+          attr: w.Attribution || 0,
+
+          // short display
+          composers: getComposerShortFromIds(w.COMPOSER_ID),
+
+          parts: []
+        };
+
+        byComposer[cid].works.push(cw);
+        byComposer[cid].repwork++;
+      }
+
+      // record the physical part (movement/file)
+      cw.parts.push({
+        id: w.WORK_ID,
+        subtitle: w.Subtitle || "",
+        filename: w.Filename || ""
+      });
     }
   }
 
+  // Alphabetical by composer
   WORKLIST = Object.values(byComposer).sort((a, b) =>
     a.comlong.localeCompare(b.comlong, "fr", { sensitivity: "base" })
   );
@@ -457,15 +474,18 @@ function GetComposerOptions(worklist) {
 
   InitializeComposerIndex();
 
+  // composer → Set of base work IDs
   const counts = {};
 
-  for (let i = 0; i < worklist.length; i++) {
-    const w = worklist[i];
-    if (!w.COMPOSER_ID) continue;
+  for (const w of WORKS) {
+    if (!w.WORK_ID || !w.COMPOSER_ID || !w.Title) continue;
 
+    const baseId = getBaseWorkId(w.WORK_ID);
     const ids = w.COMPOSER_ID.split(/\s*;\s*/);
-    for (let j = 0; j < ids.length; j++) {
-      counts[ids[j]] = (counts[ids[j]] || 0) + 1;
+
+    for (const cid of ids) {
+      if (!counts[cid]) counts[cid] = new Set();
+      counts[cid].add(baseId);
     }
   }
 
@@ -477,12 +497,11 @@ function GetComposerOptions(worklist) {
 
   let output = "";
 
-  for (let i = 0; i < keys.length; i++) {
-    const cid = keys[i];
+  for (const cid of keys) {
     const c = COMPOSER_INDEX[cid];
     if (!c) continue;
 
-    output += `<option value="${cid}">${c.long} (${counts[cid]})</option>\n`;
+    output += `<option value="${cid}">${c.long} (${counts[cid].size})</option>\n`;
   }
 
   return output;
@@ -812,6 +831,25 @@ function DisplayCriticalNotes(jrpid, target) {
 	});
 }
 
+function getBaseWorkId(workId) {
+  return workId.replace(/[a-z]$/, "");
+}
+
+function getComposerShortFromIds(composerIdString) {
+  if (!composerIdString) return "";
+
+  return composerIdString
+    .split(/\s*;\s*/)
+    .map(cid => COMPOSER_INDEX[cid]?.short)
+    .filter(Boolean)
+    .join("; ");
+}
+
+function extractYear(v) {
+  const m = v.match(/(\d{4})/);
+  return m ? m[1] : "";
+}
+
 function formatDateToken(value, role) {
   if (!value || !value.trim()) return "";
 
@@ -834,16 +872,25 @@ function formatDateToken(value, role) {
     v = v.slice(1).trim();
   }
 
-  // 🔑 extract first 4-digit year ONLY
-  const match = v.match(/(\d{4})/);
-  if (!match) return "";
+  // range support (1518–1520 or 1518-1520)
+  let years = v
+    .split(/[–-]/)
+    .map(s => extractYear(s.trim()))
+    .filter(Boolean);
 
-  const year = match[1];
+  let yearText = "";
+  if (years.length === 2) {
+    yearText = `${years[0]}–${years[1]}`;
+  } else if (years.length === 1) {
+    yearText = years[0];
+  } else {
+    return "";
+  }
 
   let label = "";
-  if (role === "birth") label = "b. ";
-  if (role === "death") label = "d. ";
-  if (role === "flourished") label = "<i>fl. </i>";
+  if (role === "birth")      label = "b. ";
+  if (role === "death")      label = "d. ";
+  if (role === "flourished") label = "fl. ";
 
-  return label + (circa ? "ca. " : "") + prefix + year;
+  return label + (circa ? "ca. " : "") + prefix + yearText;
 }
