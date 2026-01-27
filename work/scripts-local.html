@@ -302,13 +302,13 @@ function printSectionEntries(entry, currentid) {
 	// Scores
 	out += "<td align=center>\n";
 	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + sectionid;
+	out += JOSQUIN_LEGACY + "data/?a=notationNoEditText&f=" + sectionid;
 	out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
 	out += "</td>\n";
 
 	out += "<td>\n";
 	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += "{{site.jrp-data-url}}?a=notationEditText&f=" + sectionid;
+	out += JOSQUIN_LEGACY + "data/?a=notationEditText&f=" + sectionid;
 	out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
 	out += "</td>\n";
 
@@ -417,24 +417,24 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + workid;
+		pc += JOSQUIN_LEGACY + "/data?a=notationNoEditText&f=" + workid;
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "{{site.jrp-data-url}}?a=notationEditText&f=" + workid;
+		pc += JOSQUIN_LEGACY + "/data?a=notationEditText&f=" + workid;
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	} else {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + sectionid;
+		pc += JOSQUIN_LEGACY + "/data?a=notationNoEditText&f=" + sectionid;
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "{{site.jrp-data-url}}?a=notationEditText&f=" + sectionid;
+		pc += JOSQUIN_LEGACY + "/data?a=notationEditText&f=" + sectionid;
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	}
@@ -664,45 +664,51 @@ function hasMultipleSections(jrpid) {
 //
 
 function displayWork(jrpid) {
+	InitializeWorklistFlat();
+	InitializeComposerIndex();
+
 	const baseId = getBaseWorkId(jrpid);
 
 	var search = document.getElementById("work-search-results");
 	if (search) {
 		search.textContent = "";
 	}
-   if (!jrpid.match(/^Tas/)) {
-   	DisplayReferences(jrpid, "references");
+
+	if (!jrpid.match(/^Tas/)) {
+		DisplayReferences(jrpid, "references");
 	}
 	DisplayCriticalNotes(jrpid, "critical");
 
 	SECTIONS = null;
-	InitializeWorklistFlat();
+
 	if (hasMultipleSections(jrpid)) {
 		displayMultisectionWork(jrpid);
 		return;
 	}
+
 	buildRepertorySelect();
 
 	sessionStorage.WORKjrpid = jrpid;
 
 	var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
-	var workid = pieces[1];
-	var movment = pieces[2];
-
-	var work = WORKLISTjrpid[baseId];
-	if (typeof work === 'undefined') {
-	// Tas repertory uses a letter for work
-	work = WORKLISTjrpid[baseId];
-	}
-
-	if (typeof work === 'undefined') {
-		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
-				+ jrpid + "</p>";
+	if (!pieces) {
+		document.getElementById("title").innerHTML =
+			"<p>Invalid work ID: " + jrpid + "</p>";
 		return;
 	}
 
-	var title	 = work.title;
-	var composer = work.comshort;
+	var workid  = pieces[1];
+	var movement = pieces[2];
+
+	var work = WORKLISTjrpid[baseId];
+	if (!work) {
+		document.getElementById("title").innerHTML =
+			"<p>Unknown work ID: " + jrpid + "</p>";
+		return;
+	}
+
+	var title    = work.title;
+	var composer = work.composers || "Anonymous";
 
 	var bread = generateBreadcrumbs(title, composer);
 	document.getElementById("breadcrumbs").innerHTML = bread;
@@ -712,10 +718,13 @@ function displayWork(jrpid) {
 
 	// Set the title line //////////////////////////////////////////////////
 	var titleContent = "";
-	titleContent += "<h2 style=\"margin-bottom:0;\">" + composer + ", " + title + " (" + jrpid + ")</h2>\n";
+	titleContent +=
+		"<h2 style=\"margin-bottom:0;\">" +
+		composer + ", " + title + " (" + jrpid + ")</h2>\n";
+
+	titleContent += "<ul style=\"padding-top:0;\">\n";
 
 	if (!jrpid.match(/^Tas/)) {
-		titleContent += "<ul style=\"padding-top:0;\">\n";
 		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
 		titleContent += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + jrpid;
 		titleContent += "\">Score</a></li>\n";
@@ -724,7 +733,6 @@ function displayWork(jrpid) {
 		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
 		titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
 	} else {
-		titleContent += "<ul style=\"padding-top:0;\">\n";
 		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
 		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
 		titleContent += "\">Score</a></li>\n";
@@ -740,16 +748,13 @@ function displayWork(jrpid) {
 	document.getElementById("title").innerHTML = titleContent;
 
 	// Set the incipit image ///////////////////////////////////////////////
-	// prepareIncipitArea(jrpid);
-	// getIncipitAsync(jrpid);
-	displayHumdrumIncipit(jrpid, SECTIONS)
+	displayHumdrumIncipit(jrpid, SECTIONS);
 
-	// Set the vocal range  image //////////////////////////////////////////
+	// Set the vocal range image ///////////////////////////////////////////
 	prepareRangeArea(jrpid);
 	getRangeAsync(jrpid);
 
-   showDownloadArea(jrpid);
-
+	showDownloadArea(jrpid);
 	printErrorReportButton(jrpid);
 }
 
@@ -761,110 +766,87 @@ function displayWork(jrpid) {
 //
 
 function showDownloadArea(jrpid, stitle) {
-	console.log("PRINTING DOWNLOAD FOR JRPID", jrpid);
+
 	const baseId = getBaseWorkId(jrpid);
-	var work = WORKLISTjrpid[baseId];
-	if (!work) {
-		var jrpidparent = jrpid.replace(/[a-z]+$/, "");
-		work = WORKLISTjrpid[jrpidparent];
-	}
+	let work = WORKLISTjrpid[baseId];
+
 	if (!work) {
 		console.log("PROBLEM FINDING WORK", jrpid);
+		return;
 	}
-console.log("WORK IS ", work);
-	var filename = work.filename;
-	if (work.sections) {
+
+	let filename = work.filename;
+	if (work.sections && work.sections.length) {
 		filename = work.sections[0].filename;
 	}
-console.log("FILENAME FOR WORK IS ", filename);
-	
 
-	var cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
+	const cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
 
-	// Set the Downloads area //////////////////////////////////////////////
-	var download = "<h3 class=\"brown-border\">Downloads";
-   if ((typeof stitle !== 'undefined') &&(stitle.length > 0)) {
-      download += " (" + stitle + ")";
-   }
-   download += "</h3>\n";
+	let download = "";
 
-	download += "<div class=\"col first-col\">\n";
-	download += "<ul>\n";
+	download += "<h3 class=\"brown-border\">Downloads";
+	if (stitle) download += " (" + stitle + ")";
+	download += "</h3>\n";
 
-	download += "<li><a class=\"icon-file\" target=\"" + PDFTARGET + "\" href=\"";
-	download += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + jrpid;
-	download += "\">PDF score</a></li>\n";
+	/* ================= LEFT COLUMN ================= */
+	download += "<div class=\"col first-col\">\n<ul>\n";
 
-	download += "<li><a class=\"icon-file-ed\" target=\"" + PDFTARGET + "\" href=\"";
-	download += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
-	download += "\">PDF w/ ed. accidentals</a></li>\n";
+	// PDF scores (modern backend)
+	download += `<li><a class="icon-file" target="${PDFTARGET}"
+	href="${JOSQUIN_LEGACY}/data?a=notationNoEditText&f=${jrpid}">
+	PDF score</a></li>\n`;
 
-	download += "<li><a class=\"icon-midi\" href=\"";
-	download += "{{site.jrp-data-url}}?a=midi&f=" + jrpid;
-	download += "\">MIDI</a></li>\n";
+	download += `<li><a class="icon-file-ed" target="${PDFTARGET}"
+		href="${JOSQUIN_LEGACY}/data?a=notationEditText&f=${jrpid}">
+		PDF w/ ed. accidentals</a></li>\n`;
 
-	download += "<li style='max-width:181px;  white-space:nowrap;'><div class=\"icon-file-list\"><nobr>";
-	download += "<a class=\"xlink\" target=\"_blank\" href=\"";
-	download += "{{site.jrp-data-url}}?a=humdrum&f=" + jrpid;
-	download += "\">Humdrum</a> ";
+	// MIDI (modern)
+	download += `<li><a class="icon-midi" target="_blank" href="${JOSQUIN_DATA}.mid">MIDI</a></li>\n`;
 
-	download += "(<a class=\"xlink\" target=\"_blank\" ";
-	download += "href=\"{{site.vhv-url}}?file=";
-	download += "{{site.raw-repository-url}}";
-	download += cshort;
-	download += "/master/" + filename;
-	download += "\">";
-	download += "in VHV</a>)\n";
+	// Humdrum (modern)
+	download += "<li><div class=\"icon-file-list\"><nobr>";
+	download += `<a class="xlink" target="_blank" href="${JOSQUIN_DATA}.krn">Humdrum</a> `;
 
-	download += " (<a class=\"xlink\" target=\"_blank\" ";
-	download += "href=\"{{site.repository-url}}";
-	download += cshort;
-	download += "/blob/master/" + filename;
-	download += "\">";
-	download += "on Github</a>)</nobr></div></li>\n";
+	// keep VHV + GitHub
+	download += `( <a class="xlink" target="_blank" href="{{site.vhv-url}}?file={{site.raw-repository-url}}${cshort}/master/${filename}">in VHV</a> ) `;
+	download += `( <a class="xlink" target="_blank" href="{{site.repository-url}}${cshort}/blob/master/${filename}">on GitHub</a> )`;
 
-	download += "</ul>\n";
-	download += "</div>\n";
-	download += "<div class=\"col\">\n";
-	download += "<ul>\n";
+	download += "</nobr></div></li>\n";
 
-	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "{{site.jrp-data-url}}?a=musedata&f=" + jrpid;
-	download += "\">MuseData</a></li>\n";
+	download += "</ul>\n</div>\n";
 
-	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "{{site.jrp-data-url}}?a=notearrayraw&f=" + jrpid;
-	download += "\">NoteArray</a></li>\n";
+	/* ================= MIDDLE COLUMN ================= */
+	download += "<div class=\"col\">\n<ul>\n";
 
-	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	// download += "/data?a=proll-json&f=" + jrpid;
-	download += "/proll/?id=" + jrpid;
-	download += "\">JSON Piano Roll</a></li>\n";
+	// ❗ MuseData — legacy only (no clean modern endpoint)
+	download += `<li><a class="icon-list" target="_blank" href="{{site.jrp-data-url}}?a=musedata&f=${jrpid}">MuseData</a></li>\n`;
 
-	download += "</ul>\n";
-	download += "</div>\n";
-	download += "<div class=\"col\">\n";
-	download += "<ul>\n";
+	// ❗ NoteArray — legacy only
+	download += `<li><a class="icon-list" target="_blank" href="{{site.jrp-data-url}}?a=notearrayraw&f=${jrpid}">NoteArray</a></li>\n`;
 
-	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "{{site.jrp-data-url}}?a=musicxml&f=" + jrpid;
-	download += "\">MusicXML</a></li>\n";
+	// ❗ Piano roll — legacy viewer
+	download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">JSON Piano Roll</a></li>\n`;
 
-	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "{{site.jrp-data-url}}?a=mei&f=" + jrpid;
-	download += "\">MEI</a></li>\n";
+	// MP3 (modern)
+	download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}.mp3">MP3</a></li>\n`;
 
-	download += "<li><a target=\"_blank\" class=\"icon-list\" href=\"";
-	download += "{{site.jrp-data-url}}?a=mp3&f=" + jrpid;
-	download += "\">MP3</a></li>\n";
+	download += "</ul>\n</div>\n";
 
-	download += "</ul>\n";
-	download += "</div>\n";
+	/* ================= RIGHT COLUMN ================= */
+	download += "<div class=\"col\">\n<ul>\n";
 
+	// MusicXML
+	download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}.musicxml">MusicXML</a></li>\n`;
 
-	var downloads = document.getElementById("downloads");
-	downloads.innerHTML = download;
+	// MEI
+	download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}.mei">MEI</a></li>\n`;
 
+	// ❗ Timemap (used internally; still valuable)
+	download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}-timemap.json">Timemap (JSON)</a></li>\n`;
+
+	download += "</ul>\n</div>\n";
+
+	document.getElementById("downloads").innerHTML = download;
 }
 
 
@@ -1315,7 +1297,7 @@ function clearAllIncipits() {
 //
 
 function clearAllRanges() {
-	var jrpid = sessionStorage.WORKjrpid;
+	var jrpid = sessionStorage.WORKd;
 	if (!SECTIONS || SECTIONS.length < 2) {
   		getRangeAsync(jrpid);
 		return;
@@ -2246,29 +2228,14 @@ function displayThisWorkRepertoryAnalyses() {
 }
 
 function getComposerShortFromWork(work) {
-	if (!work || !work.COMPOSER_ID) return "Anonymous";
+	if (!work) return "Anonymous";
 
-	let ids = work.COMPOSER_ID;
-
-	// Normalize to array
-	if (typeof ids === "string") {
-		ids = ids.split(";").map(s => s.trim()).filter(Boolean);
-	} else if (!Array.isArray(ids)) {
-		return "Anonymous";
+	// WORKLISTjrpid entries already store normalized short names
+	if (work.composers && work.composers.trim()) {
+		return work.composers;
 	}
 
-	const names = [];
-
-	for (let i = 0; i < ids.length; i++) {
-		const c = COMPOSERS[ids[i]];
-		if (c && c["Display Short"]) {
-			names.push(c["Display Short"]);
-		}
-	}
-
-	if (names.length === 0) return "Anonymous";
-
-	return names.join("; ");
+	return "Anonymous";
 }
 
 </script>

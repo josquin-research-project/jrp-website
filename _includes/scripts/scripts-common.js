@@ -3,7 +3,6 @@
 // Creation Date: Thu Aug 21 12:59:01 PDT 2014
 // Last Modified: Mon Sep  1 22:01:13 PDT 2014
 // Filename:      _includes/scripts/scripts-common.js
-// Web Address:   https://josquin.stanford.edu/scripts/scripts-common.js
 // Syntax:        JavaScript 1.8/ECMAScript 5
 // vim:				ts=3: ft=javascript
 //
@@ -20,7 +19,8 @@ var PDFTARGET      = TARGET;					 // Display PDF files in separate tab/window.
 var AUDIO          = null;						 // HTML5 audio interface ID.
 var AUDIOjrpid     = '';  						 // currently playing audio file.
 var AUDIOid        = '';                   // currently playing audio button.
-
+const JOSQUIN_DATA = "https://data.josqu.in/"; // data server
+const JOSQUIN_LEGACY = "https://josquin.stanford.edu"; // old website
 
 // List of Key Codes.  More can be extracted from this page:
 // https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
@@ -96,6 +96,39 @@ const UpArrowKey      = 38;    // maybe also 30 & 57373
 const DownArrowKey    = 40;    // maybe also 31 & 57374
 const LeftArrowKey    = 37;    // maybe also 28 & 57375
 const RightArrowKey   = 39;    // maybe also 29 & 57376
+
+function getJosquinDataUrl(jrpid, type) {
+  switch (type) {
+
+    // Core score formats
+    case "humdrum":  return `${JOSQUIN_DATA}${jrpid}.krn`;
+    case "musedata": return `${JOSQUIN_DATA}${jrpid}.mds`;
+    case "mei":      return `${JOSQUIN_DATA}${jrpid}.mei`;
+    case "musicxml": return `${JOSQUIN_DATA}${jrpid}.musicxml`;
+    case "midi":     return `${JOSQUIN_DATA}${jrpid}.mid`;
+    case "mp3":      return `${JOSQUIN_DATA}${jrpid}.mp3`;
+
+    // Notation & graphics
+    case "incipit":  return `${JOSQUIN_DATA}${jrpid}-incipit.svg`;
+    case "prange-attack":   return `${JOSQUIN_DATA}${jrpid}-prange-attack.svg`;
+    case "prange-duration": return `${JOSQUIN_DATA}${jrpid}-prange-duration.svg`;
+
+    // Activity plots
+    case "activity-merged":
+      return `${JOSQUIN_DATA}${jrpid}-activity-merged.png`;
+    case "activity-separate":
+      return `${JOSQUIN_DATA}${jrpid}-activity-separate.png`;
+
+    // Lyrics
+    case "lyrics":
+      return `${JOSQUIN_DATA}${jrpid}.lyrics`;
+    case "lyrics-modern":
+      return `${JOSQUIN_DATA}${jrpid}.lyrics-modern`;
+
+    default:
+      return "";
+  }
+}
 
 // Composer lookup indexed by COMPOSER_ID
 var COMPOSER_INDEX = null;
@@ -647,104 +680,116 @@ function UpdateEzMark() {
 //
 
 function PlayAudioFile(jrpid, element) {
-	// The JRPID is not the same as the currently playing file
-	// (or there is no file playing).  So start the new one.
-	if (!AUDIO) {
-	   AUDIO = document.getElementById('audio');
-   }
-	if (!AUDIO) {
-		document.body.innerHTML += '<audio id="audio"></audio>\n';
-	   AUDIO = document.getElementById('audio');
-	}
-   if (!AUDIO) {
-		console.log('Error: could not set up audio interface\n');
-		return false;
-   }
-	AUDIO.setAttribute('controls', 'controls');
-	AUDIO.style.position = 'fixed';
-	AUDIO.style.bottom = '0';
-	AUDIO.style.right = '0';
-	AUDIO.style.zIndex = '1';
 
-	var audiobutton;
-   if (jrpid != AUDIOjrpid) {
-		if (!!AUDIOid) {
-			// turn of previously playing audio file:
-			audiobutton = document.getElementById(AUDIOid);
-			if (!!audiobutton && !!audiobutton.className) {
-				if (audiobutton.className.match(/mp3/)) {
-					audiobutton.className = 'mp3play';
-				} else {
-					audiobutton.className = 'play';
-				}
-			}
-		}
-		AUDIO.removeAttribute('controls');
-      AUDIO.pause();
-		
-      AUDIOid = element.id;
-		var source = '';
-		// Can't have seekable dynamic content in audio element:
-		//source += '<source src="/data?a=mp3&id=' + jrpid + '" ';
-		if (window.location.href.match(/tasso/i)) {
-			source += '<source src="https://data.tassomusic.org/audio/mp3/' + jrpid + '.mp3" ';
-		} else {
-			source += '<source src="/audio/mp3/' + jrpid + '.mp3" ';
-		}
-		source += 'type="audio/mpeg"/>\n';
-		AUDIO.innerHTML = source;
+  // Ensure audio element exists
+  if (!AUDIO) {
+    AUDIO = document.getElementById('audio');
+  }
+  if (!AUDIO) {
+    document.body.innerHTML += '<audio id="audio"></audio>\n';
+    AUDIO = document.getElementById('audio');
+  }
+  if (!AUDIO) {
+    console.log('Error: could not set up audio interface');
+    return false;
+  }
 
-		AUDIOjrpid = jrpid;
-		AUDIO.load();
-		AUDIO.play();
-		AUDIO.setAttribute('controls', 'controls');
-		var newelement = document.getElementById(AUDIOid);
-		
-		if (newelement.className.match(/mp3/)) {
-			newelement.className = 'mp3pause';
-		} else {
-			newelement.className = 'pause';
-		}
-		return;
-	}
+  AUDIO.setAttribute('controls', 'controls');
+  AUDIO.style.position = 'fixed';
+  AUDIO.style.bottom = '0';
+  AUDIO.style.right = '0';
+  AUDIO.style.zIndex = '1';
 
-	// The audio file is the same, so start it or pause it depending
-	// on its current state:
-	if (AUDIO.paused) {
-		audiobutton = document.getElementById(AUDIOid);
- 		if (!audiobutton) {
-			return;
-		}
-		if (audiobutton.className.match(/mp3/)) {
-			audiobutton.className = 'mp3play';
-		} else {
-			audiobutton.className = 'play';
-		}
-		if (element.className.match(/mp3/)) {
-			element.className = 'mp3pause';
-		} else {
-			element.className = 'pause';
-		}
-		AUDIO.play();
-		AUDIO.setAttribute('controls', 'controls');
-	} else {
-		audiobutton = document.getElementById(AUDIOid);
- 		if (!audiobutton) {
-			return;
-		}
-		if (audiobutton.className.match(/mp3/)) {
-			audiobutton.className = 'mp3pause';
-		} else {
-			audiobutton.className = 'pause';
-		}
-		if (element.className.match(/mp3/)) {
-			element.className = 'mp3play';
-		} else {
-			element.className = 'play';
-		}
-		AUDIO.pause();
-		AUDIO.removeAttribute('controls');
-	}
+  var audiobutton;
+
+  // ------------------------------------------------------------
+  // NEW FILE (or first playback)
+  // ------------------------------------------------------------
+  if (jrpid !== AUDIOjrpid) {
+
+    // Reset previous button
+    if (AUDIOid) {
+      audiobutton = document.getElementById(AUDIOid);
+      if (audiobutton && audiobutton.className) {
+        if (audiobutton.className.match(/mp3/)) {
+          audiobutton.className = 'mp3play';
+        } else {
+          audiobutton.className = 'play';
+        }
+      }
+    }
+
+    AUDIO.pause();
+    AUDIO.removeAttribute('controls');
+
+    AUDIOid = element.id;
+
+    // 🔹 MP3 from Josquin data server
+    var source = '';
+    source += '<source src="' + JOSQUIN_DATA + jrpid + '.mp3" ';
+    source += 'type="audio/mpeg"/>\n';
+
+    AUDIO.innerHTML = source;
+
+    AUDIOjrpid = jrpid;
+    AUDIO.load();
+    AUDIO.play();
+    AUDIO.setAttribute('controls', 'controls');
+
+    var newelement = document.getElementById(AUDIOid);
+    if (newelement) {
+      if (newelement.className.match(/mp3/)) {
+        newelement.className = 'mp3pause';
+      } else {
+        newelement.className = 'pause';
+      }
+    }
+    return;
+  }
+
+  // ------------------------------------------------------------
+  // SAME FILE → toggle play / pause
+  // ------------------------------------------------------------
+  if (AUDIO.paused) {
+
+    audiobutton = document.getElementById(AUDIOid);
+    if (!audiobutton) return;
+
+    if (audiobutton.className.match(/mp3/)) {
+      audiobutton.className = 'mp3play';
+    } else {
+      audiobutton.className = 'play';
+    }
+
+    if (element.className.match(/mp3/)) {
+      element.className = 'mp3pause';
+    } else {
+      element.className = 'pause';
+    }
+
+    AUDIO.play();
+    AUDIO.setAttribute('controls', 'controls');
+
+  } else {
+
+    audiobutton = document.getElementById(AUDIOid);
+    if (!audiobutton) return;
+
+    if (audiobutton.className.match(/mp3/)) {
+      audiobutton.className = 'mp3pause';
+    } else {
+      audiobutton.className = 'pause';
+    }
+
+    if (element.className.match(/mp3/)) {
+      element.className = 'mp3play';
+    } else {
+      element.className = 'play';
+    }
+
+    AUDIO.pause();
+    AUDIO.removeAttribute('controls');
+  }
 }
 
 
