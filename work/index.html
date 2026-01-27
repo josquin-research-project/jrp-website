@@ -6,17 +6,17 @@ permalink: /work/
 
 <audio id="audio"></audio>
 
-<div class="page container">
-  <section id="content">
+<section id="repertoire">
 
+  <aside id="work-aside" class="search-filter">
     {% include_relative aside-work.html %}
+  </aside>
 
-    <div id="primary-content" class="work-content">
-      {% include_relative content.html %}
-    </div>
-
-  </section>
-</div>
+  <div id="primary-content" class="work-content">
+    {% include_relative content.html %}
+  </div>
+  
+</section>
 
 {% include_relative scripts-local.html %}
 {% include_relative templates.html %}

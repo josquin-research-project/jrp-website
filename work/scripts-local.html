@@ -152,10 +152,11 @@ function displayMultisectionWork(jrpid) {
 	var workid = pieces[1];
 	var movment = pieces[2];
 
-	var work = WORKLISTjrpid[workid];
+	const baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId];
 	if (typeof work === 'undefined') {
 		// Tas repertory uses a letter for work
-		work = WORKLISTjrpid[jrpid];
+		work = WORKLISTjrpid[workid];
 	}
 	if (typeof work === 'undefined') {
 		document.getElementById("title").innerHTML = "<p>Unknown work ID: " 
@@ -189,7 +190,7 @@ function displayMultisectionWork(jrpid) {
 	}
 
 	var title	 = work.title;
-	var composer = work.comshort;
+	var composer = getComposerShortFromWork(work);
 
 	var bread = generateBreadcrumbs(title, composer, jrpid);
 	document.getElementById("breadcrumbs").innerHTML = bread;
@@ -377,12 +378,20 @@ function printSectionTableHeader(workid) {
 //
 
 function getSectionHeaderMenu(jrpid, menuindex) {
-	var sectionid  = jrpid;
-	var workid     = jrpid.replace(/[a-z.]+$/, "");
-	var title      = WORKLISTjrpid[workid].title;
-	var composer   = WORKLISTjrpid[workid].comshort;
+	const baseId = getBaseWorkId(jrpid);
+	const work   = WORKLISTjrpid[baseId];
+	if (!work) return "";
 
-	var workQ = (workid === jrpid);
+	// IMPORTANT:
+	// - sectionid should be the actual id currently being viewed (jrpid),
+	//   not something derived from subtitle.
+	const sectionid = jrpid;
+	const workid    = baseId;
+
+	var title    = work.title;
+	var composer = getComposerShortFromWork(work);
+
+	var workQ = (baseId === jrpid);
 
 	// list of sections underneath JRPID:
 	var tc = "";
@@ -392,7 +401,6 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	tc += sectionid + "</span>)</h2>\n";
 
 	tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
-
 	tc += "<div class=\"form-group\">\n";
 	tc += "<select id=\"select-section\"";
 	tc += " onchange=\"displaySection(this.value);\"";
@@ -414,7 +422,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += "{{site.jrp-data-url}}/data?a=notationEditText&f=" + workid;
+		pc += "{{site.jrp-data-url}}?a=notationEditText&f=" + workid;
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	} else {
@@ -450,48 +458,6 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	}
 
 	pc += "</ul>\n";
-
-/* Menu system:
- 	// Score without accidentals
- 	pc += "<li>\n";
- 	pc += "<div class=\"file-orange\" >\n";
- 	pc += "<select id=\"score\" data-placeholder=\"Score\" class=\"tricky\"";
- 	pc += " onchange=\"getScoreNoEditText(this.value);\"";
- 	pc += ">\n";
- 	pc += "<option class=\"passiveoption\" value=\"Full Score\"";
- 	pc += ">Score</option>\n";
- 	pc += getOptionList(SECTIONS);
- 	pc += "</select>\n";
- 	pc += "</div>\n";
- 	pc += "</li>\n";
-
-	// Score with accidentals
- 	pc += "<li>\n";
- 	pc += "<div class=\"file-ed-orange\">\n";
- 	pc += "<select id=\"accidentals\"";
- 	pc += " data-placeholder=\"Score w/ed. accidentals\" class=\"tricky\"";
- 	pc += " onchange=\"getScoreEditText(this.value);\"";
- 	pc += ">\n";
- 	pc += "<option class=\"passiveoption\" value=\"Score w/ ed.\"";
- 	pc += ">Score&nbsp;w/&nbsp;ed. accidentals</option>\n";
- 	pc += getOptionList(SECTIONS);
- 	pc += "</select>\n";
- 	pc += "</div>\n";
- 	pc += "</li>\n";
-
-	// MP3 files
-	pc += "<li>\n";
- 	pc += "<div class=\"mp3\" >\n";
- 	pc += "<select id=\"mp3\" onchange=\"getMp3(this.value, this);\" ";
-	pc += "data-placeholder=\"MP3\" class=\"tricky\">\n";
- 	pc += "<option class=\"passiveoption\">MP3</option>\n";
- 	pc += getOptionList(SECTIONS);
- 	pc += "</select>\n";
- 	pc += "</div>\n";
- 	pc += "</li>\n";
-
-	pc += "</ul>\n";
-*/
 
 	return tc + pc;
 }
@@ -594,20 +560,23 @@ function printErrorReportButton(jrpid) {
 //
 
 function getOptionList(sections) {
-	var out = "";
+  if (!Array.isArray(sections)) return "";
 
-	var id;
-	for (i=0; i<sections.length; i++) {
-		id = sections[i].id;
-		out += "<option value=\"" + sections[i].id + "\"";
-		out += ">";
-		// convert underscores to spaces in WORKLIST generator:
-		sections[i].stitle = sections[i].stitle.replace(/_/g, " ");
-		out += sections[i].stitle;
-		out += "</option>\n";
-	}
+  let out = "";
 
-	return out;
+  for (let i = 0; i < sections.length; i++) {
+    const s = sections[i];
+    if (!s || !s.id) continue;
+
+    // prefer stitle, fall back to subtitle, then id
+    let title = s.stitle || s.subtitle || s.id;
+
+    title = String(title).replace(/_/g, " ");
+
+    out += `<option value="${s.id}">${title}</option>\n`;
+  }
+
+  return out;
 }
 
 
@@ -695,6 +664,8 @@ function hasMultipleSections(jrpid) {
 //
 
 function displayWork(jrpid) {
+	const baseId = getBaseWorkId(jrpid);
+
 	var search = document.getElementById("work-search-results");
 	if (search) {
 		search.textContent = "";
@@ -718,10 +689,10 @@ function displayWork(jrpid) {
 	var workid = pieces[1];
 	var movment = pieces[2];
 
-	var work = WORKLISTjrpid[workid];
+	var work = WORKLISTjrpid[baseId];
 	if (typeof work === 'undefined') {
 	// Tas repertory uses a letter for work
-	work = WORKLISTjrpid[jrpid];
+	work = WORKLISTjrpid[baseId];
 	}
 
 	if (typeof work === 'undefined') {
@@ -790,8 +761,9 @@ function displayWork(jrpid) {
 //
 
 function showDownloadArea(jrpid, stitle) {
-console.log("PRINTING DOWNLOAD FOR JRPID", jrpid);
-	var work = WORKLISTjrpid[jrpid];
+	console.log("PRINTING DOWNLOAD FOR JRPID", jrpid);
+	const baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId];
 	if (!work) {
 		var jrpidparent = jrpid.replace(/[a-z]+$/, "");
 		work = WORKLISTjrpid[jrpidparent];
@@ -903,11 +875,13 @@ console.log("FILENAME FOR WORK IS ", filename);
 //
 
 function displayHumdrumIncipit(jrpid, sections) {
+	const baseId = getBaseWorkId(jrpid);
+
 	var area = document.getElementById("music-area");
 	if (!area) {
 		return;
 	}
-	var work = WORKLISTjrpid[jrpid];
+	var work = WORKLISTjrpid[baseId];
 	if (!work) {
 		var tjrpid = jrpid.replace(/[a-z]+$/, "");
 		work = WORKLISTjrpid[tjrpid];
@@ -1643,7 +1617,7 @@ function buildGenreSelect() {
 	var out = "<select id=\"genres\"";
 	out += " data-placeholder=\"All Genres\">\n";
 	out += "<option label=\"default\">All Genres</option>\n";
-	out += GetGenreOptions();
+	out += GetGenreBrowseOptions();
 	genreselect.innerHTML = out;
 	StylizeFormElements();
 }
@@ -2269,6 +2243,32 @@ function displayThisWorkRepertoryAnalyses() {
 
 	var ul = document.getElementById("analysis-list");
 	ul.innerHTML = content;
+}
+
+function getComposerShortFromWork(work) {
+	if (!work || !work.COMPOSER_ID) return "Anonymous";
+
+	let ids = work.COMPOSER_ID;
+
+	// Normalize to array
+	if (typeof ids === "string") {
+		ids = ids.split(";").map(s => s.trim()).filter(Boolean);
+	} else if (!Array.isArray(ids)) {
+		return "Anonymous";
+	}
+
+	const names = [];
+
+	for (let i = 0; i < ids.length; i++) {
+		const c = COMPOSERS[ids[i]];
+		if (c && c["Display Short"]) {
+			names.push(c["Display Short"]);
+		}
+	}
+
+	if (names.length === 0) return "Anonymous";
+
+	return names.join("; ");
 }
 
 </script>

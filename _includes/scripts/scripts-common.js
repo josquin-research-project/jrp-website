@@ -214,7 +214,7 @@ function InitializeWorklist() {
           // short display
           composers: getComposerShortFromIds(w.COMPOSER_ID),
 
-          parts: []
+          sections: []
         };
 
         byComposer[cid].works.push(cw);
@@ -222,7 +222,7 @@ function InitializeWorklist() {
       }
 
       // record the physical part (movement/file)
-      cw.parts.push({
+      cw.sections.push({
         id: w.WORK_ID,
         subtitle: w.Subtitle || "",
         filename: w.Filename || ""
@@ -250,40 +250,20 @@ function InitializeWorklist() {
 //
 
 function InitializeWorklistFlat() {
-/*
+  if (WORKLISTjrpid && Object.keys(WORKLISTjrpid).length) return;
 
-console.log("IN INITIALIZEWORKLISTFLAT");
-   if ((WORKLISTrecent != null) && (WORKLISTrecent.length != 0)) {
-      // WORILISTjrpid is presumed to be in a similar state.
-      return;
-   }
+  InitializeWorklist();
 
-   InitializeWorklist();
+  WORKLISTjrpid = {};
+  WORKLISTrecent = [];
 
-   WORKLISTrecent = [];
-   WORKLISTjrpid  = {};
-
-   var i;
-   var works;
-   var jrpid;
-
-   for (i=0; i<WORKLIST.length; i++) {
-      works = WORKLIST[i].works;
-      for (j=0; j<works.length; j++) {
-         if (typeof works[j].comshort === 'undefined') {
-            works[j].comshort = WORKLIST[i].comshort;
-         }
-         WORKLISTrecent.push(works[j]);
-         jrpid = works[j].id;
-         WORKLISTjrpid[jrpid] = works[j];
-      }
-   }
-
-   WORKLISTrecent.sort(byReverseAddDate);
-*/
+  for (const composer of WORKLIST) {
+    for (const work of composer.works) {
+      WORKLISTjrpid[work.id] = work;   // work.id === baseId
+      WORKLISTrecent.push(work);
+    }
+  }
 }
-
-
 
 //////////////////////////////
 //

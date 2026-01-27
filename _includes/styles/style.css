@@ -123,7 +123,8 @@ body {
 }
 
 #home-page #content,
-#repertoire #content {
+#repertoire #content
+#work #content {
   display: flex;
 }
 
@@ -1547,6 +1548,12 @@ aside {
 	text-align: left;
 }
 
+#work-aside > aside {
+	float: left;
+	width: 250px;
+	text-align: left;
+}
+
 aside h2 {
 	margin-top: 0;
 	margin-bottom: 0;
@@ -1859,13 +1866,28 @@ aside.search-filter #tools .form-group.border-dotted {
 	align-items: flex-start;
 }
 
+#work {
+	display: flex;
+	align-items: flex-start;
+}
+
 #repertoire > aside {
 	float: none;
 	width: auto;
 	flex: 0 0 220px;
 }
 
+#work > aside {
+	float: none;
+	width: auto;
+	flex: 0 0 220px;
+}
+
 #repertoire > #primary-content {
+	flex: 1;
+}
+
+#work > #primary-content {
 	flex: 1;
 }
 

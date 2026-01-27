@@ -17,6 +17,7 @@
 //
 
 function DisplayReferences(jrpid, target) {
+/*
    ReadFileAsync("http://{{site.dataurl}}/includes/references.json", function(responseText) {
 		var edition = GetReferenceEdition(jrpid, responseText);
 		if (edition.match(/^\s*$/)) {
@@ -25,6 +26,8 @@ function DisplayReferences(jrpid, target) {
 	   var element = document.getElementById(target);
 		element.innerHTML = '<h3 class="brown-border">Modern Edition</h3>' + edition;
 	});
+
+*/
 }
 
 
@@ -35,6 +38,7 @@ function DisplayReferences(jrpid, target) {
 //
 
 function GetReferenceEdition(jrpid, referenceinfo) {
+/*
    var refinfo = JSON.parse(referenceinfo);
    var i;
    var j;
@@ -59,4 +63,5 @@ function GetReferenceEdition(jrpid, referenceinfo) {
 		output = '<a href="' + link + '" target="' + TARGET + '">' + text + '</a>';
 	}
    return output;
+*/
 }
