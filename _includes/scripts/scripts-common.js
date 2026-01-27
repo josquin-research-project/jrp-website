@@ -122,7 +122,7 @@ function InitializeComposerIndex() {
 
       dates = `${b}–${d}`;
 
-      if (birth.startsWith("ca.") || death.startsWith("ca.")) {
+      if (birth.includes("ca.") || death.includes("ca.")) {
         dates = "ca. " + dates.replace(/^ca.\s*/, "");
       }
 
@@ -855,12 +855,9 @@ function formatDateToken(value, role) {
 
   let v = value.trim();
 
-  // ca.
-  let circa = false;
-  if (v.startsWith("~")) {
-    circa = true;
-    v = v.slice(1).trim();
-  }
+  // detect ca. anywhere
+  let circa = v.includes("~");
+  v = v.replace(/~/g, "").trim();
 
   // before / after
   let prefix = "";
