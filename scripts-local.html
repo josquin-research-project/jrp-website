@@ -295,11 +295,21 @@ function printRecentTableFooter() {
 
 function printWorklistRecentEntry(entry) {
 	if (!entry) {
-			console.error("NO CONTENTS: ", entry);
-			return "";
+		console.error("NO CONTENTS: ", entry);
+		return "";
 	}
 
-	var title = entry.Title;
+	// Helper: display composer(s) from COMPOSER_ID using COMPOSER_INDEX
+	function getComposerDisplay(work) {
+		if (!work || !work.COMPOSER_ID) return "";
+		return work.COMPOSER_ID
+			.split(/\s*;\s*/)
+			.map(cid => (COMPOSER_INDEX && COMPOSER_INDEX[cid]) ? COMPOSER_INDEX[cid].short : "")
+			.filter(Boolean)
+			.join("; ");
+	}
+
+	var title = entry.Title || "";
 	var matches = title.match(/\((.*?)\)/g);
 	if (matches && matches.length > 1) {
 		title = title.replace(matches[1], "");
@@ -310,12 +320,20 @@ function printWorklistRecentEntry(entry) {
 	}
 
 	var jrpid    = entry.WORK_ID;
-	var composer = entry["COM-short"];
+
+	// ✅ Updated: pull composer(s) from COMPOSER_ID
+	var composer = getComposerDisplay(entry);
+
+	// fallback if something is missing
+	if (!composer) {
+		composer = entry["COM-short"] || entry.Composer || "";
+	}
+
 	var voices;
 	if (typeof entry.Voices === "undefined")  {
-			voices = "?";
+		voices = "?";
 	} else {
-			voices = entry.Voices;
+		voices = entry.Voices;
 	}
 
 	var output = "<tr>\n";

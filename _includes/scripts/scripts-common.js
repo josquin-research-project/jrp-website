@@ -109,16 +109,49 @@ function InitializeComposerIndex() {
     const c = COMPOSERS[i];
     if (!c.COMPOSER_ID) continue;
 
+    const birth = formatDateToken(c.Birth, "birth");
+    const death = formatDateToken(c.Death, "death");
+    const flour = formatDateToken(c.Flourished, "flourished");
+
+    let dates = "";
+
+    // Birth–death range
+    if (birth && death) {
+      let b = birth.replace(/^.*?(\d.*)$/, "$1");
+      let d = death.replace(/^.*?(\d.*)$/, "$1");
+
+      dates = `${b}–${d}`;
+
+      if (birth.startsWith("ca.") || death.startsWith("ca.")) {
+        dates = "ca. " + dates.replace(/^ca.\s*/, "");
+      }
+
+    // Single known date
+    } else if (birth) {
+      dates = birth;
+    } else if (death) {
+      dates = death;
+    } else if (flour) {
+      dates = flour;
+    }
+
     COMPOSER_INDEX[c.COMPOSER_ID] = {
-        short: c["Display Short"] || "",
-        long:  c["Display Long"]  || "",
-        birth: c.Birth || "",
-        death: c.Death || "",
-        dates: formatComposerDates(c.Birth, c.Death),
-        complete: c.Complete === true ||
-           /^yes$/i.test(c.Complete || "") ||
-           /^yes$/i.test(c["Complete?"] || "")
-      };
+      short: c["Display Short"] || "",
+      long:  c["Display Long"]  || "",
+
+      // raw (still useful elsewhere)
+      birth: c.Birth || "",
+      death: c.Death || "",
+      flourished: c.Flourished || "",
+
+      // formatted display string
+      dates: dates,
+
+      complete:
+        c.Complete === true ||
+        /^yes$/i.test(c.Complete || "") ||
+        /^yes$/i.test(c["Complete?"] || "")
+    };
   }
 }
 
@@ -779,22 +812,38 @@ function DisplayCriticalNotes(jrpid, target) {
 	});
 }
 
-function normalizeYear(date) {
-  if (!date) return "";
+function formatDateToken(value, role) {
+  if (!value || !value.trim()) return "";
 
-  const circa = date.startsWith("~");
-  const clean = date.replace(/^~/, "");
+  let v = value.trim();
 
-  const yearMatch = clean.match(/^(\d{4})/);
-  if (!yearMatch) return "";
+  // ca.
+  let circa = false;
+  if (v.startsWith("~")) {
+    circa = true;
+    v = v.slice(1).trim();
+  }
 
-  return (circa ? "ca. " : "") + yearMatch[1];
-}
+  // before / after
+  let prefix = "";
+  if (v.startsWith("<")) {
+    prefix = "before ";
+    v = v.slice(1).trim();
+  } else if (v.startsWith(">")) {
+    prefix = "after ";
+    v = v.slice(1).trim();
+  }
 
-function formatComposerDates(birth, death) {
-  const b = normalizeYear(birth);
-  const d = normalizeYear(death);
+  // 🔑 extract first 4-digit year ONLY
+  const match = v.match(/(\d{4})/);
+  if (!match) return "";
 
-  if (b && d) return `${b}–${d.replace(/^ca\. /, "")}`;
-  return b || d || "";
+  const year = match[1];
+
+  let label = "";
+  if (role === "birth") label = "b. ";
+  if (role === "death") label = "d. ";
+  if (role === "flourished") label = "<i>fl. </i>";
+
+  return label + (circa ? "ca. " : "") + prefix + year;
 }
