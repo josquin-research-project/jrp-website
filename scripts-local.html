@@ -321,7 +321,7 @@ function printWorklistRecentEntry(entry) {
 
 	var jrpid    = entry.WORK_ID;
 
-	// ✅ Updated: pull composer(s) from COMPOSER_ID
+	// Updated: pull composer(s) from COMPOSER_ID
 	var composer = getComposerDisplay(entry);
 
 	// fallback if something is missing
@@ -354,7 +354,7 @@ function printWorklistRecentEntry(entry) {
 	// output += "<td>" + voices + "</td>\n";
 
 	// Scores
-	var dataloc = "/data";
+	var dataloc = JOSQUIN_LEGACY + "/data";
 	output += "<td>\n";
 	output += "<a target=\"" + PDFTARGET + "\" href=\"";
 	output += dataloc + "?a=notationnoeditwithtext&f=" + jrpid;

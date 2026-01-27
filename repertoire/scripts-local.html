@@ -564,12 +564,12 @@ function generateComposerWorkEntries(worklist, index) {
 		}
 
 		scorelink  = "<a class='file' target='" + PDFTARGET + "' title='Score without editorial";
-		scorelink += " accidentals' href='{{site.jrp-data-url}}";
-		scorelink += "?a=notationNoEditWithText&f=" + jrpid + "'>file</a>";
+		scorelink += " accidentals' href='" + JOSQUIN_LEGACY;
+		scorelink += "/data?a=notationNoEditWithText&f=" + jrpid + "'>file</a>";
 
 		scorelink += "<a title='Score with editorial accidentals'";
-		scorelink += " class='file-ed' target='" + PDFTARGET + "' href='{{site.jrp-data-url}}";
-		scorelink += "?a=notationWithEditWithText&f=" + jrpid;
+		scorelink += " class='file-ed' target='" + PDFTARGET + "' href='" + JOSQUIN_LEGACY;
+		scorelink += "/data?a=notationWithEditWithText&f=" + jrpid;
 		scorelink += "'>Ed.&nbsp;file</a> ";
 
 		//mp3link	 = "<a class='play' target='_blank' href='{{site.jrp-data-url}}";
