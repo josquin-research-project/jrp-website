@@ -827,7 +827,7 @@ function audioStoppedAction(event) {
 //
 
 function DisplayCriticalNotes(jrpid, target) {
-   ReadFileAsync("/data?id=" + jrpid + "&a=critical", function(responseText) {
+   ReadFileAsync(JOSQUIN_LEGACY + "/data?id=" + jrpid + "&a=critical", function(responseText) {
 		if (responseText.match(/^\s*$/)) {
 			return;
 		}
