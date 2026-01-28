@@ -400,16 +400,18 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	tc += title + " (<span id=\"sectionid\">";
 	tc += sectionid + "</span>)</h2>\n";
 
-	tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
-	tc += "<div class=\"form-group\">\n";
-	tc += "<select id=\"select-section\"";
-	tc += " onchange=\"displaySection(this.value);\"";
-	tc += ">\n";
-	tc += "<option value=\"" + workid + "\">Complete work</option>\n";
-	tc += getOptionList(SECTIONS);
-	tc += "</select>\n";
-	tc += "</div>\n";
-	tc += "</div>\n";
+	if (Array.isArray(SECTIONS) && SECTIONS.length > 1) {
+		tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
+		tc += "<div class=\"form-group\">\n";
+		tc += "<select id=\"select-section\"";
+		tc += " onchange=\"displaySection(this.value);\"";
+		tc += ">\n";
+		tc += "<option value=\"" + workid + "\">Complete work</option>\n";
+		tc += getOptionList(SECTIONS);
+		tc += "</select>\n";
+		tc += "</div>\n";
+		tc += "</div>\n";
+	}
 
 	var pc = "";
 
