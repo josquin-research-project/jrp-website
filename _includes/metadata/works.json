@@ -4,7 +4,7 @@
 		"Title": "Missa In myne zin",
 		"COMPOSER_ID": "Agr",
 		"Composer": "Alexander {Agricola}",
-		"Subtitle": "Kyrie",
+		"Subtitle": "Gloria",
 		"Genre": "mass",
 		"Filename": "Agr1001a-Missa_In_myne_zin-Gloria.krn",
 		"Voices": "4",
@@ -20,7 +20,7 @@
 		"Title": "Missa In myne zin",
 		"COMPOSER_ID": "Agr",
 		"Composer": "Alexander {Agricola}",
-		"Subtitle": "Gloria",
+		"Subtitle": "Credo",
 		"Genre": "mass",
 		"Filename": "Agr1001b-Missa_In_myne_zin-Credo.krn",
 		"Voices": "4",
@@ -36,7 +36,7 @@
 		"Title": "Missa In myne zin",
 		"COMPOSER_ID": "Agr",
 		"Composer": "Alexander {Agricola}",
-		"Subtitle": "Credo",
+		"Subtitle": "Sanctus",
 		"Genre": "mass",
 		"Filename": "Agr1001c-Missa_In_myne_zin-Sanctus.krn",
 		"Voices": "4",
@@ -52,7 +52,7 @@
 		"Title": "Missa In myne zin",
 		"COMPOSER_ID": "Agr",
 		"Composer": "Alexander {Agricola}",
-		"Subtitle": "Sanctus",
+		"Subtitle": "Agnus",
 		"Genre": "mass",
 		"Filename": "Agr1001d-Missa_In_myne_zin-Agnus.krn",
 		"Voices": "4",
@@ -62,15 +62,6 @@
 		"Note count": "2065",
 		"Date added": "2013/09/04",
 		"Date changed": "2014/01/04"
-	},
-	{
-		"WORK_ID": "Agr1001e",
-		"Title": "Missa In myne zin",
-		"COMPOSER_ID": "Agr",
-		"Composer": "Alexander {Agricola}",
-		"Subtitle": "Agnus",
-		"Genre": "mass",
-		"Filename": "NO_FILE"
 	},
 	{
 		"WORK_ID": "Agr1004a",
@@ -1396,26 +1387,28 @@
 		"Date changed": "2018/12/13"
 	},
 	{
-		"WORK_ID": "Ano3153",
+		"WORK_ID": "Ano3154",
 		"Title": "Je ne suis plus si esbatant",
 		"COMPOSER_ID": "Ano",
 		"Composer": "{Anonymous}",
 		"Genre": "secular work",
 		"Subgenre": "rondeau",
-		"Filename": "NO_FILE",
+		"Filename": "Ano3154-Je_ne_suis_plus_si_esbatant--rondeau__Dijon_Chansonnier.krn",
 		"Voices": "3",
+		"Extant voices": "3",
+		"Texted": "no",
 		"Source": "SRC:Dijon_C",
 		"Folios": "160v–161r",
-		"Gihub URL": "https://github.com/josquin-research-project/NO_/blob/main/NO_FILE"
+		"Gihub URL": "https://github.com/josquin-research-project/Ano/blob/main/Ano3152-Jamais_nul_jour_de_ma_vie--rondeau__Dijon_Chansonnier.krn"
 	},
 	{
-		"WORK_ID": "Ano3154",
+		"WORK_ID": "Ano3155",
 		"Title": "Joyeulx espoir et bon vouloir",
 		"COMPOSER_ID": "Ano",
 		"Composer": "{Anonymous}",
 		"Genre": "secular work",
 		"Subgenre": "rondeau",
-		"Filename": "Ano3154-Je_ne_suis_plus_si_esbatant--rondeau__Dijon_Chansonnier.krn",
+		"Filename": "Ano3155-Joyeulx_espoir_et_bon_vouloir--rondeau__Dijon_Chansonnier.krn",
 		"Voices": "3",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -1427,13 +1420,13 @@
 		"Date changed": "2018/12/13"
 	},
 	{
-		"WORK_ID": "Ano3155",
+		"WORK_ID": "Ano3156",
 		"Title": "L'aumosne au povre desireulx",
 		"COMPOSER_ID": "Ano",
 		"Composer": "{Anonymous}",
 		"Genre": "secular work",
 		"Subgenre": "rondeau",
-		"Filename": "Ano3155-Joyeulx_espoir_et_bon_vouloir--rondeau__Dijon_Chansonnier.krn",
+		"Filename": "Ano3156-Laumosne_au_povre_desireulx--rondeau__Dijon_Chansonnier.krn",
 		"Voices": "3",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -2365,15 +2358,17 @@
 		"Date changed": "2015/09/21"
 	},
 	{
-		"WORK_ID": "Bus3030",
+		"WORK_ID": "Bus3032",
 		"Title": "Joye me fuit",
 		"COMPOSER_ID": "Bus",
 		"Composer": "Antoine {Busnoys}",
 		"Genre": "secular work",
 		"Subgenre": "rondeau",
-		"Filename": "NO_FILE",
+		"Filename": "Bus3032-Joye_me_fuit.krn",
 		"Voices": "3",
-		"Gihub URL": "https://github.com/josquin-research-project/NO_/blob/main/NO_FILE"
+		"Extant voices": "3",
+		"Texted": "no",
+		"Gihub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3032-Joye_me_fuit.krn"
 	},
 	{
 		"WORK_ID": "Bus3034",
@@ -2471,8 +2466,10 @@
 	},
 	{
 		"WORK_ID": "Bus3040",
+		"Title": "Ma plus quassez",
 		"COMPOSER_ID": "Bus",
 		"Composer": "Antoine {Busnoys}",
+		"Genre": "secular work",
 		"Filename": "Bus3040-Ma_plus_quassez.krn",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -2531,8 +2528,10 @@
 	},
 	{
 		"WORK_ID": "Bus3044",
+		"Title": "Mon seul et cele souvenir",
 		"COMPOSER_ID": "Bus",
 		"Composer": "Antoine {Busnoys}",
+		"Genre": "secular work",
 		"Filename": "Bus3044-Mon_seul_et_cele_souvenir.krn",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -2880,19 +2879,8 @@
 		"Date changed": "2015/05/10"
 	},
 	{
-		"WORK_ID": "Bus3078",
-		"COMPOSER_ID": "Bus",
-		"Composer": "Antoine {Busnoys}",
-		"Filename": "Bus3078-Sil_vous_plaist_bien_que_je_vous_tiegne.krn",
-		"Extant voices": "3",
-		"Texted": "no",
-		"Gihub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3078-Sil_vous_plaist_bien_que_je_vous_tiegne.krn",
-		"Note count": "425",
-		"Date added": "2016/04/16",
-		"Date changed": "2016/06/01"
-	},
-	{
 		"WORK_ID": "Com1002a",
+		"Title": "Missa L'homme armé quarti toni",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
 		"Subtitle": "Kyrie",
@@ -2908,6 +2896,7 @@
 	},
 	{
 		"WORK_ID": "Com1002b",
+		"Title": "Missa L'homme armé quarti toni",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
 		"Subtitle": "Gloria",
@@ -2957,6 +2946,7 @@
 	},
 	{
 		"WORK_ID": "Com1002e",
+		"Title": "Missa L'homme armé quarti toni",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
 		"Subtitle": "Agnus",
@@ -3034,8 +3024,10 @@
 	},
 	{
 		"WORK_ID": "Com3028",
+		"Title": "Nous sommes de lordre en Saint Babouin",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Genre": "secular work",
 		"Filename": "Com3028-Nous_sommes_de_lordre_de_Saint_Babouin.krn",
 		"Extant voices": "4",
 		"Texted": "no",
@@ -3046,8 +3038,10 @@
 	},
 	{
 		"WORK_ID": "Com3029",
+		"Title": "Pensant au bien que ma dame ma fait",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Genre": "secular work",
 		"Filename": "Com3029-Pensant_au_bien_que_ma_dame_ma_fait.krn",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -3058,8 +3052,10 @@
 	},
 	{
 		"WORK_ID": "Com3030",
+		"Title": "Pleut or a Dieu que n'aymasse jamais",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Genre": "secular work",
 		"Filename": "Com3030-Pleut_or_a_Dieu_que_naymasse_jamais.krn",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -3117,8 +3113,10 @@
 	},
 	{
 		"WORK_ID": "Com3035",
+		"Title": "Se mieulx ne vient d'amours peu me contente",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Genre": "secular work",
 		"Filename": "Com3035-Se_mieulx_ne_vient_damours_peu_me_contente.krn",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -3144,15 +3142,17 @@
 		"Date changed": "2014/02/23"
 	},
 	{
-		"WORK_ID": "Com3037",
+		"WORK_ID": "Com3038",
 		"Title": "Si j'ay parlé aucunement",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
 		"Genre": "secular work",
 		"Subgenre": "rondeau",
-		"Filename": "NO_FILE",
+		"Filename": "Com3038-Si_jay_parle_aucunement.krn",
 		"Voices": "3",
-		"Gihub URL": "https://github.com/josquin-research-project/NO_/blob/main/NO_FILE"
+		"Extant voices": "3",
+		"Texted": "no",
+		"Gihub URL": "https://github.com/josquin-research-project/Com/blob/main/Com3038-Si_jay_parle_aucunement.krn"
 	},
 	{
 		"WORK_ID": "Com3039",
@@ -3203,8 +3203,10 @@
 	},
 	{
 		"WORK_ID": "Com3042",
+		"Title": "Une plaisante fillette",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Genre": "secular work",
 		"Filename": "Com3042-Une_plaisante_fillette.krn",
 		"Extant voices": "4",
 		"Texted": "no",
@@ -3215,8 +3217,10 @@
 	},
 	{
 		"WORK_ID": "Com3043",
+		"Title": "Un franc archier a la guerre sen va",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Genre": "secular work",
 		"Filename": "Com3043-Un_franc_archier_a_la_guerre_sen_va.krn",
 		"Extant voices": "4",
 		"Texted": "no",
@@ -3305,8 +3309,10 @@
 	},
 	{
 		"WORK_ID": "Com3049",
+		"Title": "Vous me faittes morir denvie",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Genre": "secular work",
 		"Filename": "Com3049-Vous_me_faittes_morir_denvie.krn",
 		"Extant voices": "3",
 		"Texted": "no",
@@ -3919,8 +3925,10 @@
 	},
 	{
 		"WORK_ID": "Duf3022",
+		"Title": "Belle vueillez moy vengier",
 		"COMPOSER_ID": "Duf",
 		"Composer": "Guillaume {Du Fay}",
+		"Genre": "secular work",
 		"Filename": "Duf3022-Belle_vueillez_moy_vengier.krn",
 		"Extant voices": "3",
 		"Texted": "yes",
@@ -4042,8 +4050,10 @@
 	},
 	{
 		"WORK_ID": "Fry3005",
+		"Title": "Tout a par moy",
 		"COMPOSER_ID": "Fry",
 		"Composer": "Walter {Frye}",
+		"Genre": "secular work",
 		"Filename": "Fry3005-Tout_a_par_moy.krn",
 		"Extant voices": "3",
 		"Texted": "yes",
@@ -4843,6 +4853,66 @@
 		"Date changed": "2022/02/02"
 	},
 	{
+		"WORK_ID": "Gas0302c",
+		"Title": "Quam pulchra es",
+		"COMPOSER_ID": "Gas",
+		"Composer": "{Gaspar} van Weerbeke",
+		"Subtitle": "Salva virgo salutata",
+		"Genre": "motet",
+		"Subgenre": "motetti misales",
+		"Filename": "Gas0302c-Quam_pulchra_es-Salve_virgo_salutata.krn"
+	},
+	{
+		"WORK_ID": "Gas0302d",
+		"Title": "Quam pulchra es",
+		"COMPOSER_ID": "Gas",
+		"Composer": "{Gaspar} van Weerbeke",
+		"Subtitle": "O pulcherrima mulierum",
+		"Genre": "motet",
+		"Subgenre": "motetti misales",
+		"Filename": "Gas0302d-Quam_pulchra_es-O_pulcherrima_mulierum.krn"
+	},
+	{
+		"WORK_ID": "Gas0302e",
+		"Title": "Quam pulchra es",
+		"COMPOSER_ID": "Gas",
+		"Composer": "{Gaspar} van Weerbeke",
+		"Subtitle": "Ave regina caelorum mater",
+		"Genre": "motet",
+		"Subgenre": "motetti misales",
+		"Filename": "Gas0302e-Quam_pulchra_es-Ave_regina_caelorum_mater.krn"
+	},
+	{
+		"WORK_ID": "Gas0302f",
+		"Title": "Quam pulchra es",
+		"COMPOSER_ID": "Gas",
+		"Composer": "{Gaspar} van Weerbeke",
+		"Subtitle": "O Maria clausus hortus",
+		"Genre": "motet",
+		"Subgenre": "motetti misales",
+		"Filename": "Gas0302f-Quam_pulchra_es-O_Maria_clausus_hortus.krn"
+	},
+	{
+		"WORK_ID": "Gas0302g",
+		"Title": "Quam pulchra es",
+		"COMPOSER_ID": "Gas",
+		"Composer": "{Gaspar} van Weerbeke",
+		"Subtitle": "Mater patris filia",
+		"Genre": "motet",
+		"Subgenre": "motetti misales",
+		"Filename": "Gas0302g-Quam_pulchra_es-Mater_patris_filia.krn"
+	},
+	{
+		"WORK_ID": "Gas0302h",
+		"Title": "Quam pulchra es",
+		"COMPOSER_ID": "Gas",
+		"Composer": "{Gaspar} van Weerbeke",
+		"Subtitle": "Tota pulchra es",
+		"Genre": "motet",
+		"Subgenre": "motetti misales",
+		"Filename": "Gas0302h-Quam_pulchra_es-Tota_pulchra_es.krn"
+	},
+	{
 		"WORK_ID": "Gas0303a",
 		"Title": "In honorem sancti spiritus",
 		"COMPOSER_ID": "Gas",
@@ -4876,22 +4946,6 @@
 	},
 	{
 		"WORK_ID": "Gas0303c",
-		"Title": "Quam pulchra es",
-		"COMPOSER_ID": "Gas",
-		"Composer": "{Gaspar} van Weerbeke",
-		"Subtitle": "Salve virgo salutata",
-		"Genre": "motet",
-		"Subgenre": "motetti misales",
-		"Filename": "Gas0303c-In_honorem_sancti_spiritus-Beata_gens.krn",
-		"Voices": "4",
-		"Extant voices": "4",
-		"Texted": "yes",
-		"Gihub URL": "https://github.com/josquin-research-project/Gas/blob/main/Gas0303c-In_honorem_sancti_spiritus-Beata_gens.krn",
-		"Note count": "508",
-		"Date changed": "2021/11/25"
-	},
-	{
-		"WORK_ID": "Gas0303c",
 		"Title": "In honorem sancti spiritus",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
@@ -4904,22 +4958,6 @@
 		"Texted": "yes",
 		"Gihub URL": "https://github.com/josquin-research-project/Gas/blob/main/Gas0303c-In_honorem_sancti_spiritus-Beata_gens.krn",
 		"Note count": "508",
-		"Date changed": "2021/11/25"
-	},
-	{
-		"WORK_ID": "Gas0303d",
-		"Title": "Quam pulchra es",
-		"COMPOSER_ID": "Gas",
-		"Composer": "{Gaspar} van Weerbeke",
-		"Subtitle": "O pulcherrima mulierum",
-		"Genre": "motet",
-		"Subgenre": "motetti misales",
-		"Filename": "Gas0303d-In_honorem_sancti_spiritus-Confirma_hoc_deus.krn",
-		"Voices": "4",
-		"Extant voices": "4",
-		"Texted": "yes",
-		"Gihub URL": "https://github.com/josquin-research-project/Gas/blob/main/Gas0303d-In_honorem_sancti_spiritus-Confirma_hoc_deus.krn",
-		"Note count": "547",
 		"Date changed": "2021/11/25"
 	},
 	{
@@ -4940,7 +4978,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303e",
-		"Title": "Quam pulchra es",
+		"Title": "In honorem sancti spiritus",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Ave regina caelorum mater",
@@ -4988,22 +5026,6 @@
 	},
 	{
 		"WORK_ID": "Gas0303f",
-		"Title": "Quam pulchra es",
-		"COMPOSER_ID": "Gas",
-		"Composer": "{Gaspar} van Weerbeke",
-		"Subtitle": "O Maria clausus hortus",
-		"Genre": "motet",
-		"Subgenre": "motetti misales",
-		"Filename": "Gas0303f-In_honorem_sancti_spiritus-Factus_est_repente.krn",
-		"Voices": "4",
-		"Extant voices": "4",
-		"Texted": "yes",
-		"Gihub URL": "https://github.com/josquin-research-project/Gas/blob/main/Gas0303f-In_honorem_sancti_spiritus-Factus_est_repente.krn",
-		"Note count": "606",
-		"Date changed": "2021/11/27"
-	},
-	{
-		"WORK_ID": "Gas0303f",
 		"Title": "In honorem sancti spiritus",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
@@ -5017,30 +5039,6 @@
 		"Gihub URL": "https://github.com/josquin-research-project/Gas/blob/main/Gas0303f-In_honorem_sancti_spiritus-Factus_est_repente.krn",
 		"Note count": "606",
 		"Date changed": "2021/11/27"
-	},
-	{
-		"WORK_ID": "Gas0303g",
-		"Title": "Quam pulchra es",
-		"COMPOSER_ID": "Gas",
-		"Composer": "{Gaspar} van Weerbeke",
-		"Subtitle": "Mater patris filia",
-		"Genre": "motet",
-		"Subgenre": "motetti misales",
-		"Filename": "NO_FILE",
-		"Voices": "4",
-		"Gihub URL": "https://github.com/josquin-research-project/NO_/blob/main/NO_FILE"
-	},
-	{
-		"WORK_ID": "Gas0303h",
-		"Title": "Quam pulchra es",
-		"COMPOSER_ID": "Gas",
-		"Composer": "{Gaspar} van Weerbeke",
-		"Subtitle": "Tota pulchra es",
-		"Genre": "motet",
-		"Subgenre": "motetti misales",
-		"Filename": "NO_FILE",
-		"Voices": "4",
-		"Gihub URL": "https://github.com/josquin-research-project/NO_/blob/main/NO_FILE"
 	},
 	{
 		"WORK_ID": "Gas0401",
@@ -5058,8 +5056,10 @@
 	},
 	{
 		"WORK_ID": "Gas0402",
+		"Title": "Ave mater omnium",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
+		"Genre": "motet",
 		"Filename": "Gas0402-Ave_mater_omnium.krn",
 		"Extant voices": "4",
 		"Texted": "yes",
@@ -5069,8 +5069,10 @@
 	},
 	{
 		"WORK_ID": "Gas0403",
+		"Title": "Ave regina celorum",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
+		"Genre": "motet",
 		"Filename": "Gas0403-Ave_regina_celorum.krn",
 		"Extant voices": "4",
 		"Texted": "yes",
@@ -5150,8 +5152,10 @@
 	},
 	{
 		"WORK_ID": "Gas0409",
+		"Title": "Ibo mihi ad montem Mirrhe",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
+		"Genre": "motet",
 		"Filename": "Gas0409-Ibo_mihi_ad_montem_Mirrhe.krn",
 		"Extant voices": "4",
 		"Texted": "yes",
@@ -5405,8 +5409,10 @@
 	},
 	{
 		"WORK_ID": "Gas0502",
+		"Title": "Magnificat octavi toni",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
+		"Genre": "motet",
 		"Filename": "Gas0502-Magnificat_octavi_toni.krn",
 		"Extant voices": "4",
 		"Texted": "yes",
@@ -5495,8 +5501,10 @@
 	},
 	{
 		"WORK_ID": "Jap3001",
+		"Title": "Amours amours amours",
 		"COMPOSER_ID": "Jap",
 		"Composer": "Jean {Japart}",
+		"Genre": "secular work",
 		"Filename": "Jap3001-Amours_amours_amours.krn",
 		"Extant voices": "4",
 		"Texted": "no",
@@ -10779,8 +10787,10 @@
 	},
 	{
 		"WORK_ID": "Jos2605",
+		"Title": "Gloria laus et honor",
 		"COMPOSER_ID": "Jos",
 		"Composer": "{Josquin} des Prez",
+		"Genre": "motet",
 		"Filename": "Jos2605-Gloria_laus_et_honor.krn",
 		"Extant voices": "4",
 		"Texted": "no",
@@ -12111,6 +12121,7 @@
 		"COMPOSER_ID": "Jos",
 		"Composer": "{Josquin} des Prez",
 		"Qualifier": "?",
+		"Genre": "secular work",
 		"Filename": "Jos2838-Textless_piece_3.krn",
 		"Voices": "4",
 		"Extant voices": "4",
@@ -12126,6 +12137,7 @@
 		"Title": "Textless piece",
 		"COMPOSER_ID": "Ano",
 		"Composer": "{Anonymous}",
+		"Genre": "secular work",
 		"Filename": "Jos2839-Textless_piece_4.krn",
 		"Voices": "4",
 		"Extant voices": "4",
