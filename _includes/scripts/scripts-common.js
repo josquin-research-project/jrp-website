@@ -22,6 +22,12 @@ var AUDIOid        = '';                   // currently playing audio button.
 const JOSQUIN_DATA = "https://data.josqu.in/"; // data server
 const JOSQUIN_LEGACY = "https://josquin.stanford.edu"; // old website
 
+// Backup Variables
+const JOSQUIN_PDF_BACKUP = "https://cdn.jsdelivr.net/gh/benory/jrp-scores-backup@main/"
+const LEGACY_STATUS_KEY = "JOSQUIN_LEGACY_UP";
+const LEGACY_STATUS_TS_KEY = "JOSQUIN_LEGACY_UP_TS";
+const LEGACY_STATUS_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
 // List of Key Codes.  More can be extracted from this page:
 // https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
 const AKey            = 65; // Letters
@@ -96,6 +102,72 @@ const UpArrowKey      = 38;    // maybe also 30 & 57373
 const DownArrowKey    = 40;    // maybe also 31 & 57374
 const LeftArrowKey    = 37;    // maybe also 28 & 57375
 const RightArrowKey   = 39;    // maybe also 29 & 57376
+
+
+async function checkJosquinLegacyUp(force = false) {
+  try {
+    const now = Date.now();
+    const ts  = parseInt(sessionStorage.getItem(LEGACY_STATUS_TS_KEY) || "0", 10);
+
+    if (!force && ts && (now - ts) < LEGACY_STATUS_TTL_MS) {
+      return sessionStorage.getItem(LEGACY_STATUS_KEY) === "true";
+    }
+
+    const url = JOSQUIN_LEGACY;
+
+    let ok = false;
+
+    try {
+      const r = await fetch(url, { method: "HEAD", cache: "no-store" });
+      ok = r.ok;
+    } catch (e) {
+      const r = await fetch(url, { method: "GET", cache: "no-store" });
+      ok = r.ok;
+    }
+
+    sessionStorage.setItem(LEGACY_STATUS_KEY, ok ? "true" : "false");
+    sessionStorage.setItem(LEGACY_STATUS_TS_KEY, String(now));
+
+    return ok;
+
+  } catch (e) {
+    sessionStorage.setItem(LEGACY_STATUS_KEY, "false");
+    sessionStorage.setItem(LEGACY_STATUS_TS_KEY, String(Date.now()));
+    return false;
+  }
+}
+
+function isJosquinLegacyUpCached() {
+  return sessionStorage.getItem(LEGACY_STATUS_KEY) === "true";
+}
+
+// ============================================================
+// PDF URL Builders
+// ============================================================
+
+function getLegacyPdfUrl(jrpid, version) {
+  const base   = JOSQUIN_LEGACY.replace(/\/+$/, "");
+  const action = (version === "edit")
+    ? "notationEditText"
+    : "notationNoEditText";
+
+  return `${base}/data?a=${action}&f=${jrpid}`;
+}
+
+function getBackupPdfUrl(jrpid, version) {
+  const cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
+  const base   = JOSQUIN_PDF_BACKUP.replace(/\/+$/, "");
+
+  return `${base}/scores/${cshort}/${jrpid}-${version}.pdf`;
+}
+
+function getBestPdfUrl(jrpid, version) {
+  if (isJosquinLegacyUpCached()) {
+    return getLegacyPdfUrl(jrpid, version);
+  }
+  return getBackupPdfUrl(jrpid, version);
+}
+
 
 function getJosquinDataUrl(jrpid, type) {
   switch (type) {
@@ -791,21 +863,6 @@ function PlayAudioFile(jrpid, element) {
     AUDIO.removeAttribute('controls');
   }
 }
-
-
-
-//////////////////////////////
-//
-// ClearWorklistCache --
-//
-
-function ClearWorklistCache() {
-   localStorage.removeItem('WORKLIST');
-   localStorage.removeItem('WORKLISTrefreshtime');
-   localStorage.removeItem('WORKjrpid');
-   sessionStorage.removeItem('RECENTLYADDEDHTML');
-}
-
 
 
 //////////////////////////////

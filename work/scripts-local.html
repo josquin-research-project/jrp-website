@@ -302,13 +302,13 @@ function printSectionEntries(entry, currentid) {
 	// Scores
 	out += "<td align=center>\n";
 	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += JOSQUIN_LEGACY + "data/?a=notationNoEditText&f=" + sectionid;
+	out += getBestPdfUrl(sectionid, "no_edit");
 	out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
 	out += "</td>\n";
 
 	out += "<td>\n";
 	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += JOSQUIN_LEGACY + "data/?a=notationEditText&f=" + sectionid;
+	out += getBestPdfUrl(sectionid, "edit");
 	out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
 	out += "</td>\n";
 
@@ -419,24 +419,24 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += JOSQUIN_LEGACY + "/data?a=notationNoEditText&f=" + workid;
+		pc += getBestPdfUrl(workid, "no_edit");
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += JOSQUIN_LEGACY + "/data?a=notationEditText&f=" + workid;
+		pc += getBestPdfUrl(workid, "edit");
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	} else {
 		pc += "<ul style=\"margin-top:0;\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += JOSQUIN_LEGACY + "/data?a=notationNoEditText&f=" + sectionid;
+		pc += getBestPdfUrl(sectionid, "no_edit");
 		pc += "\">Score</a></li>\n";
 
 		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += JOSQUIN_LEGACY + "/data?a=notationEditText&f=" + sectionid;
+		pc += getBestPdfUrl(sectionid, "edit");
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	}
@@ -676,9 +676,6 @@ function displayWork(jrpid) {
 		search.textContent = "";
 	}
 
-	if (!jrpid.match(/^Tas/)) {
-		DisplayReferences(jrpid, "references");
-	}
 	DisplayCriticalNotes(jrpid, "critical");
 
 	SECTIONS = null;
@@ -726,19 +723,13 @@ function displayWork(jrpid) {
 
 	titleContent += "<ul style=\"padding-top:0;\">\n";
 
-	if (!jrpid.match(/^Tas/)) {
-		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
-		titleContent += "{{site.jrp-data-url}}?a=notationNoEditText&f=" + jrpid;
-		titleContent += "\">Score</a></li>\n";
+	titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
+	titleContent += getBestPdfUrl(jrpid, "no_edit");
+	titleContent += "\">Score</a></li>\n";
 
-		titleContent += "<li><a class=\"file-ed-orange\" target=\"" + PDFTARGET + "\" href=\"";
-		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
-		titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
-	} else {
-		titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
-		titleContent += "{{site.jrp-data-url}}?a=notationEditText&f=" + jrpid;
-		titleContent += "\">Score</a></li>\n";
-	}
+	titleContent += "<li><a class=\"file-ed-orange\" target=\"" + PDFTARGET + "\" href=\"";
+	titleContent += getBestPdfUrl(jrpid, "edit");
+	titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
 
 	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" ";
 	titleContent += "id=\"audio_" + jrpid + "\" class=\"mp3play\" ";
@@ -795,11 +786,11 @@ function showDownloadArea(jrpid, stitle) {
 
 	// PDF scores (modern backend)
 	download += `<li><a class="icon-file" target="${PDFTARGET}"
-	href="${JOSQUIN_LEGACY}/data?a=notationNoEditText&f=${jrpid}">
+	href=\"" + getBestPdfUrl(jrpid, "no_edit") + "\">
 	PDF score</a></li>\n`;
 
 	download += `<li><a class="icon-file-ed" target="${PDFTARGET}"
-		href="${JOSQUIN_LEGACY}/data?a=notationEditText&f=${jrpid}">
+		href=\"" + getBestPdfUrl(jrpid, "edit") + "\">
 		PDF w/ ed. accidentals</a></li>\n`;
 
 	// MIDI (modern)

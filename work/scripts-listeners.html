@@ -3,6 +3,10 @@
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
 
+document.addEventListener("DOMContentLoaded", async () => {
+  await checkJosquinLegacyUp(false);
+});
+
 //////////////////////////////
 //
 // document DOMContentLoaded event listener -- This function
@@ -156,7 +160,7 @@ window.addEventListener('keydown', function(event) {
 		case CKey:
 			if (($(event.target).is('input') && event.ctrlKey) || 
 					!$(event.target).is('input')) {
-				ClearWorklistCache();
+				ClearWorklist();
 			}
 			break;
 

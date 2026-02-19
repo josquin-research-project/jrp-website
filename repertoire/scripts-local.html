@@ -563,13 +563,14 @@ function generateComposerWorkEntries(worklist, index) {
 			titlelink += " <span style=\"font-size:90%; letter-spacing:-0.5px;\">[fragment]</span>";
 		}
 
-		scorelink  = "<a class='file' target='" + PDFTARGET + "' title='Score without editorial";
-		scorelink += " accidentals' href='" + JOSQUIN_LEGACY;
-		scorelink += "/data?a=notationNoEditWithText&f=" + jrpid + "'>file</a>";
+		scorelink  = "<a class='file' target='" + PDFTARGET + "' ";
+		scorelink += "title='Score without editorial accidentals' href='";
+		scorelink += getBestPdfUrl(jrpid, "no_edit");
+		scorelink += "'>file</a>";
 
-		scorelink += "<a title='Score with editorial accidentals'";
-		scorelink += " class='file-ed' target='" + PDFTARGET + "' href='" + JOSQUIN_LEGACY;
-		scorelink += "/data?a=notationWithEditWithText&f=" + jrpid;
+		scorelink += "<a class='file-ed' target='" + PDFTARGET + "' ";
+		scorelink += "title='Score with editorial accidentals' href='";
+		scorelink += getBestPdfUrl(jrpid, "edit");
 		scorelink += "'>Ed.&nbsp;file</a> ";
 
 		//mp3link	 = "<a class='play' target='_blank' href='{{site.jrp-data-url}}";

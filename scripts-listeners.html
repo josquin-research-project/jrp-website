@@ -3,6 +3,10 @@ let JRP = {};
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
 
+document.addEventListener("DOMContentLoaded", async () => {
+  await checkJosquinLegacyUp(false);
+});
+
 //////////////////////////////
 //
 // initializeHomepage -- shared init logic
@@ -94,4 +98,24 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 });
+
+//////////////////////////////
+//
+// process Window keys down:
+//
+
+window.addEventListener('keydown', function(event) {
+   if (event.metaKey) {
+		return;
+	}
+
+	switch (event.keyCode) {
+		case CKey:
+			ClearWorklist();
+			break;
+	}
+
+});
+
+
 </script>

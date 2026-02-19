@@ -32,6 +32,10 @@ var HtmlAccentRemovalMap = [
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
 
+document.addEventListener("DOMContentLoaded", async () => {
+  await checkJosquinLegacyUp(false);
+});
+
 ///////////////////////////////
 //
 // normalize -- normalize accents.

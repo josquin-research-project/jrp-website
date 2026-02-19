@@ -165,35 +165,6 @@ function resetHeight(id) {
 }
 
 
-
-//////////////////////////////
-//
-// getIncipitAsync --
-//
-
-function getIncipitAsync(jrpid) {
-	return;
-/*
-	var dataloc = "/data";
-	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
-	}
-
-   var action = "incipit-mime";
-	ReadFileAsync(dataloc + "?a=" + action + "&id=" + jrpid, 
-			function(responseText) {
-   	var data = responseText;
-   	if (data != "") {
-     		var area = document.getElementById("sample-incipit");
-      	area.innerHTML = imgtext;
-      	// var imgtext = "ImG src=\"" + data + "\" alt=\"music placeholder\">";
-   	}
-	});
-*/
-}
-
-
-
 //////////////////////////////
 //
 // displayRecentAdditions -- 
@@ -354,13 +325,12 @@ function printWorklistRecentEntry(entry) {
 	// output += "<td>" + voices + "</td>\n";
 
 	// Scores
-	var dataloc = JOSQUIN_LEGACY + "/data";
 	output += "<td>\n";
 	output += "<a target=\"" + PDFTARGET + "\" href=\"";
-	output += dataloc + "?a=notationnoeditwithtext&f=" + jrpid;
+	output += getBestPdfUrl(jrpid, "no_edit");
 	output += "\" class=\"file\">file</a>\n";
 	output += "<a target=\"" + PDFTARGET + "\" href=\"";
-	output += dataloc + "?a=notationwitheditwithtext&f=" + jrpid;
+	output += getBestPdfUrl(jrpid, "edit");
 	output += "\" class=\"file-ed\">Ed.</a>\n";
 	output += "</td>\n";
 
@@ -413,26 +383,6 @@ function buildHomepageGenreSelect() {
 	select.innerHTML = output;
 	StylizeFormElements();
 }
-
-
-
-//////////////////////////////
-//
-// process Window keys down:
-//
-
-window.addEventListener('keydown', function(event) {
-   if (event.metaKey) {
-		return;
-	}
-
-	switch (event.keyCode) {
-		case CKey:
-			ClearWorklistCache();
-			break;
-	}
-
-});
 
 
 </script>
