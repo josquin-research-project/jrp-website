@@ -1399,7 +1399,10 @@
 		"Texted": "no",
 		"Source": "SRC:Dijon_C",
 		"Folios": "160v–161r",
-		"Gihub URL": "https://github.com/josquin-research-project/Ano/blob/main/Ano3152-Jamais_nul_jour_de_ma_vie--rondeau__Dijon_Chansonnier.krn"
+		"Gihub URL": "https://github.com/josquin-research-project/Ano/blob/main/Ano3152-Jamais_nul_jour_de_ma_vie--rondeau__Dijon_Chansonnier.krn",
+		"Note count": "200",
+		"Date added": "2018/12/10",
+		"Date changed": "2018/12/13"
 	},
 	{
 		"WORK_ID": "Ano3155",
@@ -1415,7 +1418,7 @@
 		"Source": "SRC:Dijon_C",
 		"Folios": "114v–115r",
 		"Gihub URL": "https://github.com/josquin-research-project/Ano/blob/main/Ano3154-Je_ne_suis_plus_si_esbatant--rondeau__Dijon_Chansonnier.krn",
-		"Note count": "200",
+		"Note count": "260",
 		"Date added": "2018/12/10",
 		"Date changed": "2018/12/13"
 	},
@@ -1433,7 +1436,7 @@
 		"Source": "SRC:Dijon_C",
 		"Folios": "98v–99r",
 		"Gihub URL": "https://github.com/josquin-research-project/Ano/blob/main/Ano3155-Joyeulx_espoir_et_bon_vouloir--rondeau__Dijon_Chansonnier.krn",
-		"Note count": "260",
+		"Note count": "221",
 		"Date added": "2018/12/10",
 		"Date changed": "2018/12/13"
 	},
@@ -2368,7 +2371,10 @@
 		"Voices": "3",
 		"Extant voices": "3",
 		"Texted": "no",
-		"Gihub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3032-Joye_me_fuit.krn"
+		"Gihub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3032-Joye_me_fuit.krn",
+		"Note count": "371",
+		"Date added": "2015/02/20",
+		"Date changed": "2015/05/10"
 	},
 	{
 		"WORK_ID": "Bus3034",
@@ -3152,7 +3158,10 @@
 		"Voices": "3",
 		"Extant voices": "3",
 		"Texted": "no",
-		"Gihub URL": "https://github.com/josquin-research-project/Com/blob/main/Com3038-Si_jay_parle_aucunement.krn"
+		"Gihub URL": "https://github.com/josquin-research-project/Com/blob/main/Com3038-Si_jay_parle_aucunement.krn",
+		"Note count": "170",
+		"Date added": "2013/11/30",
+		"Date changed": "2014/02/23"
 	},
 	{
 		"WORK_ID": "Com3039",
@@ -4860,7 +4869,11 @@
 		"Subtitle": "Salva virgo salutata",
 		"Genre": "motet",
 		"Subgenre": "motetti misales",
-		"Filename": "Gas0302c-Quam_pulchra_es-Salve_virgo_salutata.krn"
+		"Filename": "Gas0302c-Quam_pulchra_es-Salve_virgo_salutata.krn",
+		"Extant voices": "4",
+		"Texted": "yes",
+		"Note count": "397",
+		"Date changed": "2022/02/02"
 	},
 	{
 		"WORK_ID": "Gas0302d",
@@ -4870,7 +4883,11 @@
 		"Subtitle": "O pulcherrima mulierum",
 		"Genre": "motet",
 		"Subgenre": "motetti misales",
-		"Filename": "Gas0302d-Quam_pulchra_es-O_pulcherrima_mulierum.krn"
+		"Filename": "Gas0302d-Quam_pulchra_es-O_pulcherrima_mulierum.krn",
+		"Extant voices": "4",
+		"Texted": "yes",
+		"Note count": "673",
+		"Date changed": "2022/02/02"
 	},
 	{
 		"WORK_ID": "Gas0302e",
@@ -4880,7 +4897,11 @@
 		"Subtitle": "Ave regina caelorum mater",
 		"Genre": "motet",
 		"Subgenre": "motetti misales",
-		"Filename": "Gas0302e-Quam_pulchra_es-Ave_regina_caelorum_mater.krn"
+		"Filename": "Gas0302e-Quam_pulchra_es-Ave_regina_caelorum_mater.krn",
+		"Extant voices": "4",
+		"Texted": "yes",
+		"Note count": "650",
+		"Date changed": "2022/02/02"
 	},
 	{
 		"WORK_ID": "Gas0302f",
@@ -4890,7 +4911,11 @@
 		"Subtitle": "O Maria clausus hortus",
 		"Genre": "motet",
 		"Subgenre": "motetti misales",
-		"Filename": "Gas0302f-Quam_pulchra_es-O_Maria_clausus_hortus.krn"
+		"Filename": "Gas0302f-Quam_pulchra_es-O_Maria_clausus_hortus.krn",
+		"Extant voices": "4",
+		"Texted": "yes",
+		"Note count": "455",
+		"Date changed": "2022/02/02"
 	},
 	{
 		"WORK_ID": "Gas0302g",
@@ -4900,7 +4925,11 @@
 		"Subtitle": "Mater patris filia",
 		"Genre": "motet",
 		"Subgenre": "motetti misales",
-		"Filename": "Gas0302g-Quam_pulchra_es-Mater_patris_filia.krn"
+		"Filename": "Gas0302g-Quam_pulchra_es-Mater_patris_filia.krn",
+		"Extant voices": "4",
+		"Texted": "yes",
+		"Note count": "650",
+		"Date changed": "2022/02/02"
 	},
 	{
 		"WORK_ID": "Gas0302h",
@@ -4910,7 +4939,11 @@
 		"Subtitle": "Tota pulchra es",
 		"Genre": "motet",
 		"Subgenre": "motetti misales",
-		"Filename": "Gas0302h-Quam_pulchra_es-Tota_pulchra_es.krn"
+		"Filename": "Gas0302h-Quam_pulchra_es-Tota_pulchra_es.krn",
+		"Extant voices": "4",
+		"Texted": "yes",
+		"Note count": "738",
+		"Date changed": "2022/02/02"
 	},
 	{
 		"WORK_ID": "Gas0303a",
@@ -6980,7 +7013,7 @@
 		"Texted": "yes",
 		"Probable attribution": "Jos",
 		"Gihub URL": "https://github.com/josquin-research-project/Jos/blob/main/Jos0703b-Missa_Dung_aultre_amer-Gloria.krn",
-		"Note count": "832",
+		"Note count": "416",
 		"Date added": "2012/02/27",
 		"Date changed": "2012/03/22"
 	},
@@ -15009,9 +15042,12 @@
 		"Subgenre": "rondeau?",
 		"Filename": "Mar3040-Malheur_me_bat.krn",
 		"Voices": "3",
-		"Extant voices": "NO_FILE",
-		"Texted": "NO_FILE",
-		"Implausible attrribution": "Mar; Oke"
+		"Extant voices": "3",
+		"Texted": "no",
+		"Implausible attrribution": "Mar; Oke",
+		"Note count": "495",
+		"Date added": "2012/08/10",
+		"Date changed": "2013/04/27"
 	},
 	{
 		"WORK_ID": "Mar3042",

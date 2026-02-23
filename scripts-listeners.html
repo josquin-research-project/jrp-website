@@ -3,10 +3,6 @@ let JRP = {};
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await checkJosquinLegacyUp(false);
-});
-
 //////////////////////////////
 //
 // initializeHomepage -- shared init logic
@@ -39,7 +35,10 @@ function initializeHomepage(worklist) {
 // DOMContentLoaded event listener
 //
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async () => {
+
+	// See if legacy website is running
+	await checkJosquinLegacyUp(false);
 
 	// Audio handling
 	const AUDIO = document.getElementById("audio");
