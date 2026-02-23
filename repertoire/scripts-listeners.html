@@ -32,6 +32,68 @@ var HtmlAccentRemovalMap = [
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
 
+function parseNoteCount(value) {
+	const n = parseInt(String(value || "0").replace(/[^\d]/g, ""), 10);
+	return Number.isFinite(n) ? n : 0;
+}
+
+function buildNoteCountByBaseId(works) {
+	const totals = {};
+	const seenPartIds = new Set();
+
+	for (const w of works) {
+		if (!w.WORK_ID || seenPartIds.has(w.WORK_ID)) continue;
+		seenPartIds.add(w.WORK_ID);
+
+		const baseId = w.WORK_ID.replace(/[a-z]$/, "");
+		const noteCount = parseNoteCount(w["Note count"]);
+		totals[baseId] = (totals[baseId] || 0) + noteCount;
+	}
+
+	return totals;
+}
+
+const NOTECOUNT_BY_BASEID = buildNoteCountByBaseId(WORKS);
+
+const NOTE_TABLE_TEMPLATE = `{% raw %}
+<table class="census" style="width:100%;">
+<thead>
+<tr>
+	<th>Repertory</th>
+	<th>Works</th>
+	<th>Notes</th>
+	<th>Masses</th>
+	<th>Sections</th>
+	<th>Notes</th>
+	<th>Motets</th>
+	<th>Notes</th>
+	<th>Songs</th>
+	<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+{{#each this}}
+<tr>
+	<td>
+		<span class="text-link"
+			title="{{comlong}} {{#if comdates}}({{comdates}}){{/if}}"
+			onclick="showComposer('{{repid}}');">{{{comshort}}}</span>
+	</td>
+	<td>{{repwork}}</td>
+	<td>{{composernotecount this}}</td>
+	<td>{{genreworkcount this "mass"}}</td>
+	<td>{{genreworkcount this "mass-section"}}</td>
+	<td>{{genrenotecount this "mass"}}</td>
+	<td>{{genreworkcount this "motet"}}</td>
+	<td>{{genrenotecount this "motet"}}</td>
+	<td>{{genreworkcount this "secular work"}}</td>
+	<td>{{genrenotecount this "secular work"}}</td>
+</tr>
+{{/each}}
+</tbody>
+</table>
+{% endraw %}`;
+
 document.addEventListener("DOMContentLoaded", async () => {
   await checkJosquinLegacyUp(false);
 });

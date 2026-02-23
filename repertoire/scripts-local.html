@@ -59,6 +59,8 @@ function showRepertoireView(view) {
     if (!views[v]) return;
     views[v].style.display = (v === view) ? "" : "none";
   });
+
+  setSidebarActionButtons(view);
 }
 
 //////////////////////////////
@@ -240,14 +242,23 @@ function showGenre(genre) {
 	StylizeFormElements();
 }
 
+function setSidebarActionButtons(view) {
+  const stats = document.getElementById("about-button");
+  const home  = document.getElementById("home-button");
+  if (!stats || !home) return;
 
+  // Home view: only Statistics.
+  // Results/Texted: show both.
+  // Census: only Repertoire Home.
+  stats.style.display = (view === "census") ? "none" : "";
+  home.style.display  = (view === "home") ? "none" : "";
+}
 
 function displayAboutRepertoire() {
 	OnlyText = 0;
 	showRepertoireView("home");
 	resetFormValues();
 	fillInAboutComposerList();
-	showRepertoireHomeButton();
 }
 
 
@@ -650,7 +661,6 @@ function repertoireDisplay(page) {
   }
 
 	storeRepertoireFilters();
-	showRepertoireHomeButton();
 	showRepertoireView("results");
 	
 	var maincontent = document.getElementById('repertoire-results');
@@ -1213,84 +1223,117 @@ function buildVoiceSelect() {
 //
 
 function showCensusInfo() {
-	var content = '';
-	content += '<section style="font-size:100%; padding-left:8px; ';
-	content += 'padding-right:0px; padding-bottom:100px;" ';
-	content += 'id="repertoire-home" class="repertoire-content">\n';
-	content += '<article style="padding-left:10px; padding-right:0px;" class="about first">\n';
-	content += '<h2 class="brown-heading">Census of work and note ';
-	content += 'counts by composer/genre</h2>\n';
+	let content = "";
+	content += '<section style="font-size:100%; padding-left:8px; padding-right:0; padding-bottom:100px;" class="repertoire-content">\n';
+	content += '<article style="padding-left:10px; padding-right:0;" class="about first">\n';
+	content += '<h2 class="brown-heading">Census of work and note counts by composer/genre</h2>\n';
 	content += '<div id="notetable"></div>\n';
 	content += '</article>\n';
-	content += '\n';
-	content += '<article style="padding-left:10px; padding-right:0;" class="about first">\n';
-	content += '<h2 class="brown-heading">Nominal performance durations ';
-	content += 'by composer/genre</h2>\n';
-	content += '<div id="timetable"></div>\n';
-	content += '</article>\n';
-	content += '\n';
-	content += '<article style="padding-left:10px;" ';
-	content += 'style="margin-bottom:90px;" class="about first">\n';
-	content += '<h2 class="brown-heading">PDF page counts ';
-	content += 'by composer/genre</h2>\n';
-	content += '<div id="pagetable"></div>\n';
-	content += '</article>\n';
 	content += '</section>\n';
-	var element = document.getElementById("repertoire-census");
+
+	const element = document.getElementById("repertoire-census");
 	element.innerHTML = content;
+
 	showRepertoireView("census");
 	showNoteTable("notetable");
-	showTimeTable("timetable");
-	showPageTable("pagetable");
-	var i;
-
-	// Convert composer anchor tags pointing pointing to an external page into
-	// events which move within the page:
-   var composerlinks = document.querySelectorAll("table.census td a");
-	var newlink;
-	var matches;
-	var title;
-   var dummy = document.createElement("div");
-	for (i=0; i<composerlinks.length; i++) {
-		dummy.innerHTML = "";
-		dummy.appendChild(composerlinks[i].cloneNode(true));
-		matches = dummy.innerHTML.match(/c=([A-Z][a-z][a-z])/);
-		if (!matches) {
-			continue;
-		}
-		title = composerlinks[i].getAttribute("title");
-		newlink  = '<span class="text-link" title="' + title + '"';
-      newlink += ' onclick="showComposer(\'' + matches[1] + '\');"';
-		newlink += '>' + composerlinks[i].textContent + '</span>';
-		composerlinks[i].outerHTML = newlink;
-	}
-
-	var tables = document.querySelectorAll("table.census");
-	var width = $('#repertoire-home').width();
-	for (i=0; i<tables.length; i++) {
-		tables[i].style.width = width + 'px';
-	}
-
-	showRepertoireHomeButton();
-
 }
 
+function getWorkNoteCount(work) {
+	if (!work) return 0;
+	return NOTECOUNT_BY_BASEID[work.baseId || work.id] || 0;
+}
 
-//////////////////////////////
-//
-// showRepertoireHomeButton --
-//
+Handlebars.registerHelper("composernotecount", function(entry) {
+	let sum = 0;
+	for (const work of (entry.works || [])) sum += getWorkNoteCount(work);
+	return sum || "";
+});
 
-function showRepertoireHomeButton() {
-	var text = '<span style="cursor:hand; cursor:pointer;" ';
-	text += 'onclick="displayAboutRepertoire();" class="btn btn-brown">';
-	if (window.location.pathname.match(/performance/i)) {
-		text += 'Performance Home';
-	} else {
-		text += 'Repertoire Home';
+Handlebars.registerHelper("genrenotecount", function(entry, genre) {
+	let sum = 0;
+	for (const work of (entry.works || [])) {
+		if (work.genre === genre) sum += getWorkNoteCount(work);
 	}
-	text += '</span>\n';
-	document.getElementById('about-button').innerHTML = text;
+	return sum || "";
+});
+
+Handlebars.registerHelper("genreworkcount", function(entry, genre) {
+	let counter = 0;
+	let scounter = 0;
+	const works = entry.works || [];
+
+	if (genre === "mass") {
+		for (const work of works) {
+			if (work.genre !== "mass") continue;
+			if (work.sections && work.sections.length > 1) {
+				counter++;
+				scounter += work.sections.length;
+			}
+		}
+		return counter ? `${counter}(${scounter})` : "";
+	}
+
+	if (genre === "mass-section") {
+		for (const work of works) {
+			if (work.genre !== "mass") continue;
+			if (!work.sections || work.sections.length <= 1) counter++;
+		}
+		return counter || "";
+	}
+
+	for (const work of works) {
+		if (work.genre === genre) counter++;
+	}
+	return counter || "";
+});
+
+function sumColums(tableelement) {
+	if (!tableelement) return;
+
+	const firstRow = tableelement.querySelector("tr");
+	const colcount = firstRow ? firstRow.querySelectorAll("th, td").length : 0;
+	if (!colcount) return;
+
+	const lastrow = document.createElement("tr");
+	lastrow.style.borderTop = "1px solid #eee";
+	lastrow.style.color = "#333";
+	tableelement.querySelector("tbody").appendChild(lastrow);
+
+	let cell = document.createElement("td");
+	cell.style.fontStyle = "italic";
+	cell.innerHTML = "All&nbsp;repertories";
+	lastrow.appendChild(cell);
+
+	for (let i = 1; i < colcount; i++) {
+		lastrow.appendChild(document.createElement("td"));
+	}
+
+	const len = colcount;
+	for (let i = 2; i <= len; i++) {
+		const col = tableelement.querySelectorAll(`td:nth-of-type(${i})`);
+		let sum = 0;
+		let scounter = 0;
+
+		for (let j = 0; j < col.length - 1; j++) {
+			const num = parseInt(col[j].textContent, 10);
+			if (num) sum += num;
+
+			const matches = col[j].textContent.match(/\((\d+)\)/);
+			if (matches) scounter += parseInt(matches[1], 10);
+		}
+
+		col[col.length - 1].textContent = scounter ? `${sum}(${scounter})` : String(sum);
+	}
+}
+
+function showNoteTable(tagid) {
+	const parentelement = document.getElementById(tagid);
+	if (!parentelement) return;
+
+	InitializeWorklist();
+	const template = Handlebars.compile(NOTE_TABLE_TEMPLATE);
+	parentelement.innerHTML = template(WORKLIST);
+	sumColums(parentelement.querySelector("table"));
 }
 
 </script>
