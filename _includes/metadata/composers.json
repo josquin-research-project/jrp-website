@@ -20,6 +20,14 @@
 		"RISM": "https://rism.online/people/30004985"
 	},
 	{
+		"COMPOSER_ID": "Any",
+		"Name": "{Anonymous}",
+		"Display Short": "Anonymous",
+		"Display Long": "Anonymous",
+		"RISM ID": "pe30004985",
+		"RISM": "https://rism.online/people/30004985"
+	},
+	{
 		"COMPOSER_ID": "App",
 		"Name": "Benedictus {Appenzeller}",
 		"Display Short": "Appenzeller",
@@ -323,6 +331,17 @@
 		"RISM": "https://rism.online/people/50041917",
 		"DIAMM": "https://www.diamm.ac.uk/people/370",
 		"VIAF": "https://viaf.org/viaf/79173655"
+	},
+	{
+		"COMPOSER_ID": "Fnk",
+		"Name": "Heinrich {Finck}",
+		"Display Short": "Finck",
+		"Display Long": "Finck, Heinrich",
+		"Death": "1527/6/9",
+		"RISM ID": "pe30016306",
+		"RISM": "https://rism.online/people/30016306",
+		"DIAMM": "https://www.diamm.ac.uk/people/549/",
+		"VIAF": "https://viaf.org/viaf/59269465"
 	},
 	{
 		"COMPOSER_ID": "For",
@@ -865,6 +884,17 @@
 		"RISM ID": "pe30101016",
 		"RISM": "https://rism.online/people/30101016",
 		"VIAF": "https://viaf.org/viaf/79201034"
+	},
+	{
+		"COMPOSER_ID": "Stz",
+		"Name": "Thomas {Stoltzer}",
+		"Display Short": "Stoltzer",
+		"Display Long": "Stoltzer, Thomas",
+		"Death": "1526",
+		"RISM ID": "pe20000363",
+		"RISM": "https://rism.online/people/20000363",
+		"DIAMM": "https://www.diamm.ac.uk/people/597/",
+		"VIAF": "http://viaf.org/viaf/27253302"
 	},
 	{
 		"COMPOSER_ID": "Tad",
