@@ -285,18 +285,19 @@ function InitializeWorklist() {
     if (!w.COMPOSER_ID || !w.WORK_ID) continue;
 
     const baseId = w.WORK_ID.replace(/[a-z]$/, "");
-    const composerIds = w.COMPOSER_ID.split(/\s*;\s*/);
+    const composerIds = getQualifiedComposerIdsFromWork(w);
 
     for (const cid of composerIds) {
-      const cinfo = COMPOSER_INDEX[cid];
+      const baseCid = getBaseComposerId(cid);
+      const cinfo = COMPOSER_INDEX[baseCid];
       if (!cinfo) continue;
-
       if (!byComposer[cid]) {
         byComposer[cid] = {
           repid: cid,
           comshort: cinfo.short,
           comlong:  cinfo.long,
           comdates: cinfo.dates || "",
+          notsecure: cid === "Jos?",
           repwork: 0,
           works: []
         };
@@ -317,7 +318,7 @@ function InitializeWorklist() {
           attr: w.Attribution || 0,
 
           // short display
-          composers: getComposerShortFromIds(w.COMPOSER_ID),
+          composers: getComposerDisplayFromWork(w),
 
           sections: []
         };
@@ -566,7 +567,7 @@ function GetComposerOptions(worklist) {
     if (!w.WORK_ID || !w.COMPOSER_ID || !w.Title) continue;
 
     const baseId = getBaseWorkId(w.WORK_ID);
-    const ids = w.COMPOSER_ID.split(/\s*;\s*/);
+    const ids = getQualifiedComposerIdsFromWork(w);
 
     for (const cid of ids) {
       if (!counts[cid]) counts[cid] = new Set();
@@ -575,18 +576,27 @@ function GetComposerOptions(worklist) {
   }
 
   const keys = Object.keys(counts).sort((a, b) => {
-    const A = COMPOSER_INDEX[a]?.long || "";
-    const B = COMPOSER_INDEX[b]?.long || "";
-    return A.localeCompare(B, "fr", { sensitivity: "base" });
+    const aBase = getBaseComposerId(a);
+    const bBase = getBaseComposerId(b);
+    const A = COMPOSER_INDEX[aBase]?.long || "";
+    const B = COMPOSER_INDEX[bBase]?.long || "";
+    const nameCmp = A.localeCompare(B, "fr", { sensitivity: "base" });
+    if (nameCmp !== 0) return nameCmp;
+    const aIsQualified = a.endsWith("?");
+    const bIsQualified = b.endsWith("?");
+    if (aIsQualified !== bIsQualified) return aIsQualified ? 1 : -1;
+    return a.localeCompare(b, "fr", { sensitivity: "base" });
   });
 
   let output = "";
 
   for (const cid of keys) {
-    const c = COMPOSER_INDEX[cid];
+    const baseCid = getBaseComposerId(cid);
+    const c = COMPOSER_INDEX[baseCid];
     if (!c) continue;
+    const label = c.long + (cid === "Jos?" ? "?" : "");
 
-    output += `<option value="${cid}">${c.long} (${counts[cid].size})</option>\n`;
+    output += `<option value="${cid}">${label} (${counts[cid].size})</option>\n`;
   }
 
   return output;
@@ -650,11 +660,11 @@ function GetWorkOptions(repertory, genre) {
    var output = '';
    var longname;
    var abbr;
-   var i, j;
-   var works;
+	var i, j;
+	var works;
 
    for (i=0; i<WORKLIST.length; i++) {
-		if (!repertory.match(WORKLIST[i].repid)) {
+		if (repertory !== WORKLIST[i].repid) {
 			continue;
 		}
 		works = WORKLIST[i].works;
@@ -917,6 +927,39 @@ function getBaseWorkId(workId) {
   return workId.replace(/[a-z]$/, "");
 }
 
+function splitComposerIds(value) {
+  if (!value || typeof value !== "string") return [];
+  return value
+    .split(/\s*;\s*/)
+    .map(v => v.trim())
+    .filter(Boolean);
+}
+
+function getComposerDisplayFromWork(work) {
+  if (!work) return "";
+
+  const composerIds = splitComposerIds(work.COMPOSER_ID);
+  if (!composerIds.length) return "";
+
+  // support both the correct key and the legacy typo key in works.json
+  const improbableRaw =
+    work["Improbable attribution"] ||
+    work["Implausible attrribution"] ||
+    "";
+
+  const improbableIds = new Set(splitComposerIds(improbableRaw));
+
+  return composerIds
+    .map(cid => {
+      const base = COMPOSER_INDEX[cid]?.short || "";
+      if (!base) return "";
+      if (improbableIds.has(cid) && !base.endsWith("?")) return `${base}?`;
+      return base;
+    })
+    .filter(Boolean)
+    .join("; ");
+}
+
 function getComposerShortFromIds(composerIdString) {
   if (!composerIdString) return "";
 
@@ -925,6 +968,24 @@ function getComposerShortFromIds(composerIdString) {
     .map(cid => COMPOSER_INDEX[cid]?.short)
     .filter(Boolean)
     .join("; ");
+}
+
+function getImprobableComposerIds(work) {
+  return splitComposerIds(
+    work?.["Improbable attribution"] ||
+    work?.["Implausible attrribution"] ||
+    ""
+  );
+}
+
+function getQualifiedComposerIdsFromWork(work) {
+  const ids = splitComposerIds(work?.COMPOSER_ID || "");
+  const improbable = new Set(getImprobableComposerIds(work));
+  return ids.map(cid => (cid === "Jos" && improbable.has(cid) ? `${cid}?` : cid));
+}
+
+function getBaseComposerId(qualifiedId) {
+  return (qualifiedId || "").replace(/\?$/, "");
 }
 
 function extractYear(v) {

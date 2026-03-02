@@ -620,7 +620,7 @@ function hasMultipleSections(jrpid) {
 	var i, j, k;
 	var works;
 	for (i=0; i<WORKLIST.length; i++) {
-		if (!jrpid.match(WORKLIST[i].repid)) {
+		if (!jrpid.match(getBaseComposerId(WORKLIST[i].repid))) {
 			continue;
 		}
 		works = WORKLIST[i].works;
@@ -1564,8 +1564,16 @@ function buildRepertorySelect() {
 	repsel.innerHTML = out;
 	var pieces = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/);
 	if (pieces != null) {
-		// $('#repertory').val(pieces[1]); // doesn't seem to work.
-		document.getElementById("repertory").value = pieces[1];
+		var selectedRepertory = pieces[1];
+		var currentWork = WORKS.find(w => w.WORK_ID === sessionStorage.WORKjrpid);
+		if (currentWork) {
+			var qualifiedIds = getQualifiedComposerIdsFromWork(currentWork);
+			var matchedQualified = qualifiedIds.find(id => getBaseComposerId(id) === pieces[1]);
+			if (matchedQualified) {
+				selectedRepertory = matchedQualified;
+			}
+		}
+		document.getElementById("repertory").value = selectedRepertory;
 	} else if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
 			(localStorage.ANALYSISrepertory != "")) {
 		$('#repertory').val(localStorage.ANALYSISrepertory);
@@ -1770,7 +1778,7 @@ function displayPreviousRepertoryPage() {
 	var repertory = pieces[1];
 	
 	for (i=0; i<WORKLIST.length; i++) {
-		if (repertory.match(WORKLIST[i].repid)) {
+		if (repertory === getBaseComposerId(WORKLIST[i].repid)) {
 			if (i == 0) {
 				sessionStorage.WORKjrpid = WORKLIST[WORKLIST.length-1].works[0].id;
 			} else {
@@ -1797,7 +1805,7 @@ function displayNextRepertoryPage() {
 	var repertory = pieces[1];
 	
 	for (i=0; i<WORKLIST.length; i++) {
-		if (repertory.match(WORKLIST[i].repid)) {
+		if (repertory === getBaseComposerId(WORKLIST[i].repid)) {
 			if (i == WORKLIST.length - 1) {
 				sessionStorage.WORKjrpid = WORKLIST[0].works[0].id;
 			} else {

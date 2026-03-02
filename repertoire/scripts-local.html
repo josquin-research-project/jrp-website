@@ -75,7 +75,7 @@ function browseFilter() {
   const title    = normalize(document.getElementById("titlebox")?.value || "");
 
   return WORKS_INDEX.filter(w => {
-    if (composer && !w.COMPOSER_ID.split(/\s*;\s*/).includes(composer)) {
+    if (composer && !getQualifiedComposerIdsFromWork(w).includes(composer)) {
 		  return false;
 		}
     if (genre && w.Genre !== genre) return false;
@@ -109,13 +109,7 @@ function renderBrowseResults() {
   for (const w of results) {
 	  html += `
 	    <tr>
-	      <td>${
-				  w.COMPOSER_ID
-				    .split(/\s*;\s*/)
-				    .map(cid => COMPOSER_INDEX[cid]?.short)
-				    .filter(Boolean)
-				    .join("; ")
-				}</td>
+	      <td>${getComposerDisplayFromWork(w)}</td>
 	      <td>
 	        <a href="/work?id=${w.WORK_ID}">
 	          ${w.Title}${w.Subtitle ? " – " + w.Subtitle : ""}
@@ -290,12 +284,17 @@ function fillInAboutComposerList() {
     const comlong = entry.comlong;
     const count   = entry.repwork;
 
-    let comdates = entry.comdates || "";
-    if (comdates) {
-      comdates =
+    const comdatesRaw = entry.comdates || "";
+    const isJosNotSecure = repid === "Jos?";
+    let label = comlong;
+    if (comdatesRaw) {
+      label +=
         ", <span style='font-size:90%; letter-spacing:-0.5px;'>" +
-        comdates +
+        comdatesRaw +
         "</span>";
+    }
+    if (isJosNotSecure) {
+      label += " (not secure)";
     }
 
     const col = (i < half) ? 0 : 1;
@@ -319,9 +318,8 @@ function fillInAboutComposerList() {
     columns[col] +=
       "<span onclick='showComposer(\"" + repid + "\");' " +
       "class='composer-link2'>" +
-      comlong +
+      label +
       "</span>" +
-      comdates +
       " (" + count + (count === 1 ? " work" : " works") + ")";
     columns[col] += "</li>\n";
   }
@@ -1285,6 +1283,13 @@ Handlebars.registerHelper("genreworkcount", function(entry, genre) {
 		if (work.genre === genre) counter++;
 	}
 	return counter || "";
+});
+
+Handlebars.registerHelper("censuslabel", function(entry) {
+	if (!entry) return "";
+	if (entry.repid === "Jos?") return "Josquin?";
+	if (entry.repid === "Jos") return "Josquin";
+	return entry.comshort || "";
 });
 
 function sumColums(tableelement) {

@@ -1,0 +1,120 @@
+{% include_relative scripts-listeners.html %}
+
+<script>
+
+let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
+
+function storeRepertory() {
+  var repertory = document.getElementById("repertory");
+  if (repertory) {
+    localStorage.ANALYSISrepertory = repertory.value;
+  }
+}
+
+function showPopupHelp(url, title) {
+  var newwindow = window.open(
+    url,
+    title,
+    "left=20,top=20,width=620,height=830,resizable=no,scrollbars=no,directories=no,location=no,status=no,toolbar=no"
+  );
+  if (window.focus && newwindow) {
+    newwindow.focus();
+  }
+  return false;
+}
+
+function doSearch() {
+  var pitch = document.getElementById("pitch");
+  var interval = document.getElementById("interval");
+  var rhythm = document.getElementById("rhythm");
+  var composers = document.getElementById("composers");
+  var genres = document.getElementById("genres");
+
+  var pitchValue = pitch ? pitch.value : "";
+  var intervalValue = interval ? interval.value : "";
+  var rhythmValue = rhythm ? rhythm.value : "";
+  var composerValue = composers ? composers.value : "";
+  var genreValue = genres ? genres.value : "";
+
+  var emptyPattern = /^\s*$/;
+  var emptyMelodic = emptyPattern.test(pitchValue) && emptyPattern.test(intervalValue) && emptyPattern.test(rhythmValue);
+
+  if (emptyMelodic) {
+    var emptyFilters = (emptyPattern.test(composerValue) || /All/i.test(composerValue)) &&
+      (emptyPattern.test(genreValue) || /All/i.test(genreValue));
+
+    if (emptyFilters) {
+      return false;
+    }
+
+    localStorage.BROWSEcomposers = composerValue;
+    localStorage.BROWSEgenres = genreValue;
+    localStorage.BROWSEvoices = "";
+    localStorage.BROWSEtitlebox = "";
+    localStorage.BROWSEhome = "false";
+    window.location.href = "/repertoire";
+    return false;
+  }
+
+  var c = /All/i.test(composerValue) ? "" : composerValue;
+  var g = /All/i.test(genreValue) ? "" : genreValue;
+
+  var QUERY = {
+    composer: c,
+    genre: g,
+    pitch: pitchValue,
+    rhythm: rhythmValue,
+    interval: intervalValue,
+    requestTime: new Date().getTime() / 1000
+  };
+
+  sessionStorage.QUERY = JSON.stringify(QUERY);
+  window.location.href = "/search-results";
+  return false;
+}
+
+function buildComposerSelect() {
+  var composerselect = document.getElementById("composers-select");
+  if (!composerselect) {
+    return;
+  }
+
+  var clist = GetComposerOptions(WORKS || []);
+  var output = "<select id=\"composers\" data-placeholder=\"All Composers\">\n";
+  output += "<option label=\"default\">All Composers</option>\n";
+  output += clist;
+  output += "</select>\n";
+  composerselect.innerHTML = output;
+
+  var repsel = document.getElementById("repertory-select");
+  if (repsel) {
+    var repout = "<select style=\"width:230px;\" id=\"repertory\">\n";
+    repout += clist;
+    repout += "</select>\n";
+    repsel.innerHTML = repout;
+
+    if (typeof localStorage.ANALYSISrepertory !== "undefined" && localStorage.ANALYSISrepertory !== "") {
+      $("#repertory").val(localStorage.ANALYSISrepertory);
+    } else {
+      $("#repertory").val("Jos");
+    }
+  }
+
+  StylizeFormElements();
+}
+
+function buildGenreSelect() {
+  var genreselect = document.getElementById("genres-select");
+  if (!genreselect) {
+    return;
+  }
+
+  var output = "<select id=\"genres\" data-placeholder=\"All Genres\">\n";
+  output += "<option label=\"default\">All Genres</option>\n";
+  output += GetGenreBrowseOptions();
+  output += "</select>\n";
+  genreselect.innerHTML = output;
+  StylizeFormElements();
+}
+</script>

@@ -348,6 +348,12 @@
 		"DIAMM Source Link": "https://www.diamm.ac.uk/sources/2438"
 	},
 	{
+		"SOURCE_ID": "SRC:Seville_Chansonnier",
+		"Shorthand": "Seville Chansonnier",
+		"Manuscript Signature": "E-Sc 5-1-43 and F-Pnm NAF 4379",
+		"Alias": "Seville-Paris"
+	},
+	{
 		"SOURCE_ID": "SRC:Trent_87",
 		"Shorthand": "Trent 87",
 		"Manuscript Signature": "I-TRbc MS 1374",

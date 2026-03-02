@@ -72,13 +72,7 @@ function displayRandomExample(worklist) {
 	let randomwork  = worklist[randomindex];
 	
 	// composer display (supports multiple composers)
-	let composer = randomwork.COMPOSER_ID
-	  ? randomwork.COMPOSER_ID
-	      .split(/\s*;\s*/)
-	      .map(cid => COMPOSER_INDEX[cid]?.short)
-	      .filter(Boolean)
-	      .join("; ")
-	  : "";
+	let composer = getComposerDisplayFromWork(randomwork);
 
 	// correct work ID
 	let jrpid = randomwork.WORK_ID;
@@ -270,16 +264,6 @@ function printWorklistRecentEntry(entry) {
 		return "";
 	}
 
-	// Helper: display composer(s) from COMPOSER_ID using COMPOSER_INDEX
-	function getComposerDisplay(work) {
-		if (!work || !work.COMPOSER_ID) return "";
-		return work.COMPOSER_ID
-			.split(/\s*;\s*/)
-			.map(cid => (COMPOSER_INDEX && COMPOSER_INDEX[cid]) ? COMPOSER_INDEX[cid].short : "")
-			.filter(Boolean)
-			.join("; ");
-	}
-
 	var title = entry.Title || "";
 	var matches = title.match(/\((.*?)\)/g);
 	if (matches && matches.length > 1) {
@@ -293,7 +277,7 @@ function printWorklistRecentEntry(entry) {
 	var jrpid    = entry.WORK_ID;
 
 	// Updated: pull composer(s) from COMPOSER_ID
-	var composer = getComposerDisplay(entry);
+	var composer = getComposerDisplayFromWork(entry);
 
 	// fallback if something is missing
 	if (!composer) {

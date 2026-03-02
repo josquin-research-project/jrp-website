@@ -1,0 +1,43 @@
+<script>
+
+document.addEventListener("DOMContentLoaded", function() {
+  sessionStorage.removeItem("SEARCHLIST");
+  buildComposerSelect();
+  buildGenreSelect();
+  setupSearchOnEnter();
+  setupTooltips();
+});
+
+function setupTooltips() {
+  $("#analysis-help").qtip({
+    content: {
+      text: "Click for a short description of the analysis tools."
+    }
+  });
+
+  $("#search-help").qtip({
+    content: {
+      text: "Click for help on expressing search queries."
+    }
+  });
+}
+
+function setupSearchOnEnter() {
+  $("#pitch").focus(function() { $(this).data("hasfocus", true); });
+  $("#interval").focus(function() { $(this).data("hasfocus", true); });
+  $("#rhythm").focus(function() { $(this).data("hasfocus", true); });
+
+  $("#pitch").blur(function() { $(this).data("hasfocus", false); });
+  $("#interval").blur(function() { $(this).data("hasfocus", false); });
+  $("#rhythm").blur(function() { $(this).data("hasfocus", false); });
+
+  $(document.body).keyup(function(ev) {
+    if (ev.which !== EnterKey) {
+      return;
+    }
+    if ($("#pitch").data("hasfocus") || $("#interval").data("hasfocus") || $("#rhythm").data("hasfocus")) {
+      doSearch();
+    }
+  });
+}
+</script>
