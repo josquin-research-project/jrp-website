@@ -1,0 +1,62 @@
+<script>
+let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
+</script>
+<script src="/analysis/scripts-common.js"></script>
+<script>
+function displayContents(repertory) {
+  if (typeof repertory === "undefined" || repertory === null) {
+    repertory = localStorage.ANALYSISrepertory || "";
+  }
+  buildRepertorySelect();
+  $("#repertory").val(repertory);
+  StylizeFormElements();
+  showRepertory(repertory);
+}
+
+function showRepertory(repertory) {
+  if (typeof repertory === "undefined" || repertory === null) {
+    repertory = document.getElementById("repertory") ? document.getElementById("repertory").value : "";
+  }
+
+  localStorage.ANALYSISrepertory = repertory || "";
+
+  var maincontent = document.getElementById("analysis-content");
+  if (!maincontent) {
+    return;
+  }
+
+  if (!repertory) {
+    maincontent.innerHTML = "Choose a repertory from the above menu to view its rhythm patterns.";
+    return;
+  }
+
+  maincontent.innerHTML = "Processing...";
+  $("body").css("cursor", "wait");
+
+  ReadFileAsync(analysisDataUrl("rhythm", repertory), function(responseText) {
+    var target = document.getElementById("analysis-content");
+    if (!target) {
+      return;
+    }
+    target.innerHTML = responseText;
+    $("body").css("cursor", "default");
+  });
+}
+
+function showPopupInfo(url) {
+  var title = "Rhythm pattern info";
+  var newwindow = window.open(url, title);
+  if (window.focus && newwindow) {
+    newwindow.focus();
+  }
+  return false;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  ensureAnalysisState();
+  loadCgiParameters();
+  window.addEventListener("keydown", analysisKeyDownFunction, false);
+  displayContents(localStorage.ANALYSISrepertory || "");
+});
+</script>

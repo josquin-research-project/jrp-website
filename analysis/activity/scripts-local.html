@@ -1,0 +1,123 @@
+<script>
+let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
+</script>
+<script src="/analysis/scripts-common.js"></script>
+<script>
+function collectActivitySectionIds(repertory, genre, workId) {
+  if (!repertory) {
+    return [];
+  }
+
+  InitializeWorklist();
+  const sectionIds = [];
+  const seen = new Set();
+
+  for (let i = 0; i < WORKLIST.length; i++) {
+    const rep = WORKLIST[i];
+    if (rep.repid !== repertory) {
+      continue;
+    }
+
+    const works = rep.works || [];
+    for (let j = 0; j < works.length; j++) {
+      const work = works[j];
+
+      if (genre && work.genre !== genre) {
+        continue;
+      }
+      if (workId && work.id !== workId) {
+        continue;
+      }
+
+      const sections = Array.isArray(work.sections) && work.sections.length
+        ? work.sections.map(section => section.id).filter(Boolean)
+        : [work.id];
+
+      for (let k = 0; k < sections.length; k++) {
+        const id = sections[k];
+        if (!seen.has(id)) {
+          seen.add(id);
+          sectionIds.push(id);
+        }
+      }
+    }
+  }
+
+  return sectionIds;
+}
+
+function getActivityLabel(sectionId) {
+  if (!sectionId) {
+    return "";
+  }
+
+  for (let i = 0; i < WORKS.length; i++) {
+    const work = WORKS[i];
+    if (work.WORK_ID !== sectionId) {
+      continue;
+    }
+
+    const title = work.Title || sectionId;
+    const subtitle = work.Subtitle || "";
+    return subtitle ? (title + ", " + subtitle) : title;
+  }
+
+  return sectionId;
+}
+
+function runAnalysis() {
+  var maincontent = document.getElementById("analysis-content");
+  if (!maincontent) {
+    return;
+  }
+
+  var repertory = localStorage.ANALYSISrepertory || "";
+  var genre = localStorage.ANALYSISgenre || "";
+  var work = localStorage.ANALYSISwork || "";
+
+  if (!repertory) {
+    maincontent.innerHTML = "<p>Choose a repertory from the above menu to view its activity plots.</p>";
+    return;
+  }
+
+  const sectionIds = collectActivitySectionIds(repertory, genre, work);
+  if (!sectionIds.length) {
+    maincontent.innerHTML = "<p>No activity plot files were found for the selected filters.</p>";
+    return;
+  }
+
+  let html = "";
+  for (let i = 0; i < sectionIds.length; i++) {
+    const sectionId = sectionIds[i];
+    const mergedUrl = "https://data.josqu.in/" + sectionId + "-activity-merged-notitle.png";
+    const separateUrl = "https://data.josqu.in/" + sectionId + "-activity-separate-notitle.png";
+    const mergedFallbacks = getLegacyPlotFallbackList(sectionId, "activity-merged-notitle").join("||");
+    const separateFallbacks = getLegacyPlotFallbackList(sectionId, "activity-separate-notitle").join("||");
+    const label = getActivityLabel(sectionId);
+
+    html += "<section style=\"margin: 0 0 2rem 0;\">";
+    html += "<h3 class=\"brown-heading\" style=\"font-size:120%; margin-bottom:0.5rem;\">" + label + "</h3>";
+    html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.5rem; width:100%;\">";
+    html += "<a href=\"" + mergedUrl + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
+    html += "<img src=\"" + mergedUrl + "\" alt=\"Merged activity plot for " + label + "\" style=\"width:100%; height:auto;\"";
+    html += " data-fallbacks=\"" + mergedFallbacks + "\" data-fallback-index=\"0\" onerror=\"useLegacyPlotFallback(this);\">";
+    html += "</a>";
+    html += "<a href=\"" + separateUrl + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
+    html += "<img src=\"" + separateUrl + "\" alt=\"Separate activity plot for " + label + "\" style=\"width:100%; height:auto;\"";
+    html += " data-fallbacks=\"" + separateFallbacks + "\" data-fallback-index=\"0\" onerror=\"useLegacyPlotFallback(this);\">";
+    html += "</a>";
+    html += "</div>";
+    html += "</section>";
+  }
+
+  maincontent.innerHTML = html;
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  ensureAnalysisState();
+  loadCgiParameters();
+  window.addEventListener("keydown", analysisKeyDownFunction, false);
+  displayContents();
+});
+</script>

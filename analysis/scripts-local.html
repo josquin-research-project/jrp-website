@@ -1,0 +1,26 @@
+<script>
+let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
+</script>
+<script src="/analysis/scripts-common.js"></script>
+<script>
+function storeRepertory() {
+  var repertory = document.getElementById("repertory");
+  if (repertory) {
+    localStorage.ANALYSISrepertory = repertory.value;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  ensureAnalysisState();
+  buildRepertorySelect();
+
+  if (localStorage.ANALYSISrepertory) {
+    $("#repertory").val(localStorage.ANALYSISrepertory);
+  } else {
+    $("#repertory").val("Jos");
+  }
+
+  StylizeFormElements();
+});
+</script>
