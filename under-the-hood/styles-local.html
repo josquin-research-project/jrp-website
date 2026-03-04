@@ -1,5 +1,26 @@
 <style>
 
+/* Force visible bullets even if global CSS disables list markers */
+article.about ul {
+  list-style: none !important;
+  margin-left: 2em;
+  padding-left: 0;
+}
+
+article.about li {
+  position: relative;
+  margin: 0 0 0.25em 0;
+  padding-left: 1.2em;
+}
+
+article.about li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  line-height: 1.4;
+  display: inline-block;
+}
 	.indented-block {
 		display: block;
 		margin-left: 60px;

@@ -3,3 +3,5 @@ Gemfile.lock
 _site
 *.bak
 website-jrp2
+vendor
+.bundle
