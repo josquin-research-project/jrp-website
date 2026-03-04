@@ -8,93 +8,56 @@ permalink: /under-the-hood/
 
 <article class="about">
 
-<h2 class="brown-heading">Josquin Research Project: Infrastructure Overview</h2>
+<h2 class="brown-heading">Under the Hood</h2>
 
 <p>
 The Josquin Research Project consists of two primary components:
 </p>
 
-<ul>
+<ol class="process-steps">
 <li>The website</li>
 <li>The data server and digital score files</li>
-</ul>
+</ol>
 
 <p>
-Together these two components provide public access front end to encoded musical scores,
-metadata, and derived analytical resources.
+Together these components provide public access to encoded musical scores, metadata, and derived analytical resources.
 </p>
 
 </article>
 
+<hr class="doc-divider">
 
 
 <article class="about">
 
-<h3 class="brown-heading">Website</h3>
+<h3 class="brown-heading">The Website</h3>
 
 <p>
-The public website for the project is hosted using <b>GitHub Pages</b>,
-which provides static web hosting built on <b>Jekyll</b> and <b>Liquid templates</b>.
+Source files for the client-side of the website can be
+<a href="https://github.com/josquin-research-project/jrp-website">viewed on GitHub</a>. The website uses <a href="https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/about-github-pages-and-jekyll">GitHub Pages</a> and <a href="https://jekyllrb.com">Jekyll</a>, a static website generator.
+
+The following JavaScript libraries are used on the website:
 </p>
-
-<p>
-Repository:
-</p>
-
-<span class="indented-block">
-<a href="https://github.com/josquin-research-project/jrp-website">
-https://github.com/josquin-research-project/jrp-website
-</a>
-</span>
-
-<p>
-GitHub Pages automatically builds the site whenever changes are committed to the repository.
-Updating the website therefore requires only committing modifications to the repository; the site
-rebuilds and deploys automatically.
-</p>
-
-<p>Advantages include:</p>
 
 <ul>
-<li>Collaborative editing through pull requests</li>
-<li>Full version control through Git history</li>
-<li>Automatic publishing after commits</li>
-<li>Global distribution through GitHub's content network</li>
-<li>No server maintenance requirements</li>
-<li>Free hosting</li>
+<li><a href="https://github.com/ivaynberg/select2">Select2</a>, a <a href="http://www.jquery.com">jQuery</a> plugin. Form controls can now be styled in modern browsers, but cross-browser behavior is still inconsistent for some native elements, so the project uses Select2 for consistent dropdown UI and behavior.</li>
+<li><a href="https://github.com/itsalif/ezMark">ezMark</a>, a jQuery plugin used to style check boxes and radio buttons.</li>
+<li><a href="https://github.com/qTip2/qTip2">qTip</a>, a jQuery plugin used to manage tooltips.</li>
+<li><a href="http://www.handlebarsjs.com">Handlebars</a>, which is used for content templating, such as for creating the tables on the <a href="/census">Census page</a> and the list of error reports on the <a href="/error-reports">Error reports page</a>.</li>
+<li><a target="_blank" href="http://d3js.org">D3</a>, used to visualize analysis data, such as on the <a href="/ribbon">Ribbon plot page</a>.</li>
 </ul>
-
-<p>
-Feature requests and bug reports can be submitted through the <b>Issues</b> system:
-</p>
-
-<span class="indented-block">
-<a href="https://github.com/josquin-research-project/jrp-website/issues">
-https://github.com/josquin-research-project/jrp-website/issues
-</a>
-</span>
-
-<p>
-All changes to the website are tracked in the <b>commit history</b>:
-</p>
-
-<span class="indented-block">
-<a href="https://github.com/josquin-research-project/jrp-website/commits/main">
-https://github.com/josquin-research-project/jrp-website/commits/main
-</a>
-</span>
 
 </article>
 
+<hr class="doc-divider">
 
 
 <article class="about">
 
-<h3 class="brown-heading">Data Server</h3>
+<h3 class="brown-heading">The Data Server</h3>
 
 <p>
-The Josquin Research Project also operates a separate <b>data server</b> that manages digital scores,
-format translations, and prepared analytical data:
+The Josquin Research Project operates a separate <b>data server</b> to manage digital scores, format translations, and prepared analytical data:
 </p>
 
 <span class="indented-block">
@@ -102,11 +65,11 @@ format translations, and prepared analytical data:
 </span>
 
 <p>
-The server provides API endpoints that allow retrieval of musical data in multiple formats, including:
+The server provides API endpoints for retrieving musical data in various formats, including:
 </p>
 
 <ul>
-<li>Humdrum</li>
+<li>Humdrum, the primary archival format used for encoding musical scores</li>
 <li>MEI</li>
 <li>MusicXML</li>
 <li>MIDI</li>
@@ -114,11 +77,7 @@ The server provides API endpoints that allow retrieval of musical data in multip
 </ul>
 
 <p>
-The primary archival format used for encoding musical scores is the <b>Humdrum format</b>.
-</p>
-
-<p>
-All encoded scores are maintained in the repository:
+The authoritative files for all encoded scores are maintained in the repository:
 </p>
 
 <span class="indented-block">
@@ -126,10 +85,6 @@ All encoded scores are maintained in the repository:
 https://github.com/josquin-research-project/jrp-scores
 </a>
 </span>
-
-<p>
-These files contain the authoritative digital transcriptions encoded and used by the project.
-</p>
 
 <p>
 The data server automatically imports the contents of this repository into its internal framework.
@@ -142,26 +97,21 @@ https://github.com/craigsapp/jrp-data-server
 </a>
 </span>
 
-<p>This software handles:</p>
-
-<ul>
-<li>data indexing</li>
-<li>format conversion</li>
-<li>API responses</li>
-<li>generation of derived files such as incipits and analytical datasets</li>
-</ul>
-
-<p>
-Further documentation is available in the repository README file.
+<p>This software handles data indexing, format conversion, API responses, and generation of derived files such as incipits and analytical datasets. Further documentation is available in the repository README file.
 </p>
 
 </article>
 
+<hr class="doc-divider">
 
 
 <article class="about">
 
-<h3 class="brown-heading">Example Data Object</h3>
+<h3 class="brown-heading">File Naming and Example Data Object</h3>
+
+<p>
+Each musical work uses a structured identifier, consisting of a three-letter composer code, a four-digit work number, and an optional section letter, which typically corresponds to the movements of multi-section works (e.g., <b>a</b> for the Kyrie in the mass ordinary).
+</p>
 
 <p>Example incipit file:</p>
 
@@ -174,15 +124,10 @@ https://data.josqu.in/Agr1001a-incipit.svg
 <p>Filename interpretation:</p>
 
 <ul>
-<li><b>Agr</b> --- composer Alexander Agricola</li>
-<li><b>1001</b> --- work number</li>
-<li><b>a</b> --- first section of the work</li>
+<li><b>Agr</b> — composer Alexander Agricola</li>
+<li><b>1001</b> — work number</li>
+<li><b>a</b> — first section of the work</li>
 </ul>
-
-<p>
-The section letter typically corresponds to movements of multi-section works
-(for example Mass movements such as Kyrie, Gloria, Credo, Sanctus, Agnus).
-</p>
 
 <p>List of composer codes:</p>
 
@@ -194,85 +139,33 @@ https://bit.ly/renaissance-composer-codes
 
 </article>
 
+<hr class="doc-divider">
 
 
 <article class="about">
 
 <h3 class="brown-heading">Encoding Standards</h3>
 
-<p>Encoding standards are described here:</p>
+<p>Encoding standards for the project ensure consistency across scores from multiple contributors. These standards define how Renaissance musical notation is represented within the Humdrum framework:</p>
 
 <span class="indented-block">
-<a href="https://wiki.ccarh.org/wiki/Josquin">
-https://wiki.ccarh.org/wiki/Josquin
-</a>
+  <a href="https://wiki.ccarh.org/wiki/Josquin">
+https://wiki.ccarh.org/wiki/Josquin</a>
 </span>
 
 <p>
-These standards define how Renaissance musical notation is represented
-within the Humdrum framework. Topics include:
-</p>
-
-<ul>
-<li>part naming conventions</li>
-<li>mensural notation representation</li>
-<li>editorial accidentals</li>
-<li>cadence markings</li>
-<li>section boundaries</li>
-<li>text underlay conventions</li>
-<li>metadata documentation</li>
-</ul>
-
-<p>
-These conventions ensure consistency across scores encoded by multiple contributors.
-</p>
+Topics include conventions for voice names, mensural notation, editorial accidentals, section boundaries, text underlay, and metadata documentation.</p>
 
 </article>
 
-
-
-<article class="about">
-
-<h3 class="brown-heading">File Naming System</h3>
-
-<p>
-Each musical work uses a structured identifier:
-</p>
-
-<span class="code-block">CCC####S</span>
-
-<p>Where:</p>
-
-<ul>
-<li>CCC — three-letter composer code</li>
-<li>#### — four-digit work number</li>
-<li>S — optional section letter</li>
-</ul>
-
-<p>Examples:</p>
-
-<span class="code-block">Jos2303</span>
-<span class="code-block">Agr1001a</span>
-<span class="code-block">Obr2005b</span>
-
-<p>Explanation:</p>
-
-<ul>
-<li>The composer code identifies the composer.</li>
-<li>The four-digit number identifies the work.</li>
-<li>The optional letter identifies a section or movement.</li>
-</ul>
-
-</article>
-
-
+<hr class="doc-divider">
 
 <article class="about">
 
 <h3 class="brown-heading">Master Metadata Index</h3>
 
 <p>
-All work metadata is maintained in a master spreadsheet:
+Metadata is maintained in a master spreadsheet:
 </p>
 
 <span class="indented-block">
@@ -281,19 +174,7 @@ https://bit.ly/renaissance-metadata
 </a>
 </span>
 
-<p>This spreadsheet contains catalog information such as:</p>
-
-<ul>
-<li>composer</li>
-<li>work title</li>
-<li>manuscript sources</li>
-<li>catalog numbers</li>
-<li>scoring</li>
-<li>editorial metadata</li>
-</ul>
-
-<p>
-A Google Apps Script converts the spreadsheet into JSON data used by the website:
+<p>This spreadsheet catalogues information such as composers, work titles, manuscript sources, catalogue numbers, work scoring, and editorial metadata. A Google Apps Script converts the spreadsheet into JSON data used by the website:
 </p>
 
 <span class="indented-block">
@@ -303,19 +184,7 @@ https://script.google.com/macros/s/AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1
 </span>
 
 <p>
-The website loads this JSON file dynamically to support:
-</p>
-
-<ul>
-<li>metadata searching</li>
-<li>browsing by composer</li>
-<li>work listings</li>
-<li>catalog navigation</li>
-</ul>
-
-<p>
-This architecture allows the project to maintain a single authoritative metadata source
-while automatically distributing updated data to the public website.
+The website loads this JSON file dynamically to power metadata search, composer browsing, work listings, and catalog navigation. This setup enables the project to maintain one authoritative metadata source.
 </p>
 
 </article>
