@@ -1,6 +1,7 @@
 <script>
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
+const RANGE_PAGING_PREFIX = "ANALYSISrange";
 </script>
 <script src="/analysis/scripts-common.js"></script>
 <script>
@@ -80,6 +81,10 @@ function getRepertoryLongName(repertory) {
   return repertory;
 }
 
+function resetPageState() {
+  resetAnalysisPaging(RANGE_PAGING_PREFIX);
+}
+
 function displayContents(repertory) {
   if (typeof repertory === "undefined" || repertory === null) {
     repertory = localStorage.ANALYSISrepertory || "";
@@ -90,7 +95,50 @@ function displayContents(repertory) {
   showRepertory(repertory);
 }
 
-function showRepertory(repertory) {
+function renderRangeIntro(repertoryLongName) {
+  let html = "";
+  html += "<section style=\"margin: 0 0 1.5rem 0;\">";
+  html += "<h3 class=\"brown-heading\" style=\"font-size:140%; margin-bottom:0.5rem;\">";
+  html += "Vocal ranges in works by " + repertoryLongName;
+  html += "</h3>";
+  html += "<p style=\"margin:0.35rem 0; color:#736960; font-size:15px; line-height:1.32;\">";
+  html += "The ranges in the left column shows the relative number of notes each voice plays for each pitch. ";
+  html += "The large black noteheads indicate the highest and lowest pitch sung by the voice, and the small white notehead indicates the median pitch. ";
+  html += "The ranges in the second column are weighted the note durations, so each bar in the historgram shows the relative duration for each pitch sung by the voice.";
+  html += "</p>";
+  html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.75rem; margin-top:1.75rem;\">";
+  html += "<h4 style=\"margin:0; color:#736960; font-size:20px; line-height:1.2; font-weight:700;\">Ranges with note-attack histograms</h4>";
+  html += "<h4 style=\"margin:0; color:#736960; font-size:20px; line-height:1.2; font-weight:700;\">Ranges with note-duration histograms</h4>";
+  html += "</div>";
+  html += "</section>";
+  return html;
+}
+
+function renderRangeSection(sectionId) {
+  const label = getRangeLabel(sectionId);
+  const attackSvg = getJosquinDataUrl(sectionId, "prange-attack");
+  const durationSvg = getJosquinDataUrl(sectionId, "prange-duration");
+  const attackFallbacks = getLegacyPlotFallbackList(sectionId, "prange-attack").join("||");
+  const durationFallbacks = getLegacyPlotFallbackList(sectionId, "prange-duration").join("||");
+
+  let html = "";
+  html += "<section data-analysis-entry=\"range\" data-analysis-page=\"range\" data-entry-label=\"" + label.replace(/"/g, "&quot;") + "\" data-required-assets=\"2\" style=\"margin: 0 0 2rem 0; display:none;\">";
+  html += "<h3 class=\"brown-heading\" style=\"font-size:120%; margin-bottom:0.5rem;\">" + label + "</h3>";
+  html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.75rem; align-items:start;\">";
+  html += "<a href=\"" + attackSvg + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
+  html += "<img src=\"" + attackSvg + "\" alt=\"Pitch range by attack for " + label + "\" style=\"width:100%; height:auto;\"";
+  html += " data-fallbacks=\"" + attackFallbacks + "\" data-fallback-index=\"0\" onload=\"markAnalysisAssetLoaded(this);\" onerror=\"useLegacyPlotFallback(this);\">";
+  html += "</a>";
+  html += "<a href=\"" + durationSvg + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
+  html += "<img src=\"" + durationSvg + "\" alt=\"Pitch range by duration for " + label + "\" style=\"width:100%; height:auto;\"";
+  html += " data-fallbacks=\"" + durationFallbacks + "\" data-fallback-index=\"0\" onload=\"markAnalysisAssetLoaded(this);\" onerror=\"useLegacyPlotFallback(this);\">";
+  html += "</a>";
+  html += "</div>";
+  html += "</section>";
+  return html;
+}
+
+function showRepertory(repertory, page) {
   if (typeof repertory === "undefined" || repertory === null) {
     repertory = document.getElementById("repertory") ? document.getElementById("repertory").value : "";
   }
@@ -116,46 +164,19 @@ function showRepertory(repertory) {
   }
 
   const repertoryLongName = getRepertoryLongName(repertory);
-  let html = "";
-  html += "<section style=\"margin: 0 0 1.5rem 0;\">";
-  html += "<h3 class=\"brown-heading\" style=\"font-size:140%; margin-bottom:0.5rem;\">";
-  html += "Vocal ranges in works by " + repertoryLongName;
-  html += "</h3>";
-  html += "<p style=\"margin:0.35rem 0; color:#736960; font-size:15px; line-height:1.32;\">";
-  html += "The ranges in the left column shows the relative number of notes each voice plays for each pitch. ";
-  html += "The large black noteheads indicate the highest and lowest pitch sung by the voice, and the small white notehead indicates the median pitch. ";
-  html += "The ranges in the second column are weighted the note durations, so each bar in the historgram shows the relative duration for each pitch sung by the voice.";
-  html += "</p>";
-  html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.75rem; margin-top:1.75rem;\">";
-  html += "<h4 style=\"margin:0; color:#736960; font-size:20px; line-height:1.2; font-weight:700;\">Ranges with note-attack histograms</h4>";
-  html += "<h4 style=\"margin:0; color:#736960; font-size:20px; line-height:1.2; font-weight:700;\">Ranges with note-duration histograms</h4>";
-  html += "</div>";
-  html += "</section>";
+  const rendered = renderAnalysisPaginatedResults(sectionIds, {
+    storagePrefix: RANGE_PAGING_PREFIX,
+    page: page,
+    beforeItemsHtml: renderRangeIntro(repertoryLongName),
+    renderItem: renderRangeSection,
+    rerenderFunction: "runAnalysis"
+  });
+  maincontent.innerHTML = rendered.html;
+  printAnalysisPageList(rendered.currentPage, rendered.totalPages, rendered.storagePrefix, rendered.rerenderFunction);
+}
 
-  for (let i = 0; i < sectionIds.length; i++) {
-    const sectionId = sectionIds[i];
-    const label = getRangeLabel(sectionId);
-    const attackSvg = getJosquinDataUrl(sectionId, "prange-attack");
-    const durationSvg = getJosquinDataUrl(sectionId, "prange-duration");
-    const attackFallbacks = getLegacyPlotFallbackList(sectionId, "prange-attack").join("||");
-    const durationFallbacks = getLegacyPlotFallbackList(sectionId, "prange-duration").join("||");
-
-    html += "<section style=\"margin: 0 0 2rem 0;\">";
-    html += "<h3 class=\"brown-heading\" style=\"font-size:120%; margin-bottom:0.5rem;\">" + label + "</h3>";
-    html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.75rem; align-items:start;\">";
-    html += "<a href=\"" + attackSvg + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
-    html += "<img src=\"" + attackSvg + "\" alt=\"Pitch range by attack for " + label + "\" style=\"width:100%; height:auto;\"";
-    html += " data-fallbacks=\"" + attackFallbacks + "\" data-fallback-index=\"0\" onerror=\"useLegacyPlotFallback(this);\">";
-    html += "</a>";
-    html += "<a href=\"" + durationSvg + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
-    html += "<img src=\"" + durationSvg + "\" alt=\"Pitch range by duration for " + label + "\" style=\"width:100%; height:auto;\"";
-    html += " data-fallbacks=\"" + durationFallbacks + "\" data-fallback-index=\"0\" onerror=\"useLegacyPlotFallback(this);\">";
-    html += "</a>";
-    html += "</div>";
-    html += "</section>";
-  }
-
-  maincontent.innerHTML = html;
+function runAnalysis(page) {
+  showRepertory(localStorage.ANALYSISrepertory || "", page);
 }
 
 document.addEventListener("DOMContentLoaded", function() {

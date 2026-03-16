@@ -286,15 +286,17 @@ function fillInAboutComposerList() {
 
     const comdatesRaw = entry.comdates || "";
     const isJosNotSecure = repid === "Jos?";
+    const isJosSpurious = repid === "Jos_spurious";
     let label = comlong;
-    if (comdatesRaw) {
+    if (isJosNotSecure) {
+      label = "Josquin? (not secure)";
+    } else if (isJosSpurious) {
+      label = "Not Josquin (spurious)";
+    } else if (comdatesRaw) {
       label +=
         ", <span style='font-size:90%; letter-spacing:-0.5px;'>" +
         comdatesRaw +
         "</span>";
-    }
-    if (isJosNotSecure) {
-      label += " (not secure)";
     }
 
     const col = (i < half) ? 0 : 1;
@@ -317,10 +319,15 @@ function fillInAboutComposerList() {
     columns[col] += ">";
     columns[col] +=
       "<span onclick='showComposer(\"" + repid + "\");' " +
+      ((isJosNotSecure || isJosSpurious) ? " style='padding-left:1.5em; display:inline-block;'" : "") +
       "class='composer-link2'>" +
       label +
       "</span>" +
-      " (" + count + (count === 1 ? " work" : " works") + ")";
+      (isJosNotSecure
+        ? " (category III, " + count + (count === 1 ? " work" : " works") + ")"
+        : isJosSpurious
+        ? " (category IV, " + count + (count === 1 ? " work" : " works") + ")"
+        : " (" + count + (count === 1 ? " work" : " works") + ")");
     columns[col] += "</li>\n";
   }
 
@@ -1287,7 +1294,8 @@ Handlebars.registerHelper("genreworkcount", function(entry, genre) {
 
 Handlebars.registerHelper("censuslabel", function(entry) {
 	if (!entry) return "";
-	if (entry.repid === "Jos?") return "Josquin?";
+	if (entry.repid === "Jos?") return "Josquin? (not secure)";
+	if (entry.repid === "Jos_spurious") return "Not Josquin (spurious)";
 	if (entry.repid === "Jos") return "Josquin";
 	return entry.comshort || "";
 });

@@ -298,6 +298,7 @@ function InitializeWorklist() {
           comlong:  cinfo.long,
           comdates: cinfo.dates || "",
           notsecure: cid === "Jos?",
+          spurious: cid === "Jos_spurious",
           repwork: 0,
           works: []
         };
@@ -337,9 +338,15 @@ function InitializeWorklist() {
   }
 
   // Alphabetical by composer
-  WORKLIST = Object.values(byComposer).sort((a, b) =>
-    a.comlong.localeCompare(b.comlong, "fr", { sensitivity: "base" })
-  );
+  WORKLIST = Object.values(byComposer).sort((a, b) => {
+    const nameCmp = a.comlong.localeCompare(b.comlong, "fr", { sensitivity: "base" });
+    if (nameCmp !== 0) return nameCmp;
+    const josOrder = { "Jos": 0, "Jos?": 1, "Jos_spurious": 2 };
+    const aOrder = Object.prototype.hasOwnProperty.call(josOrder, a.repid) ? josOrder[a.repid] : 99;
+    const bOrder = Object.prototype.hasOwnProperty.call(josOrder, b.repid) ? josOrder[b.repid] : 99;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    return a.repid.localeCompare(b.repid, "fr", { sensitivity: "base" });
+  });
 }
 
 
@@ -582,6 +589,10 @@ function GetComposerOptions(worklist) {
     const B = COMPOSER_INDEX[bBase]?.long || "";
     const nameCmp = A.localeCompare(B, "fr", { sensitivity: "base" });
     if (nameCmp !== 0) return nameCmp;
+    const josOrder = { "Jos": 0, "Jos?": 1, "Jos_spurious": 2 };
+    const aOrder = Object.prototype.hasOwnProperty.call(josOrder, a) ? josOrder[a] : 99;
+    const bOrder = Object.prototype.hasOwnProperty.call(josOrder, b) ? josOrder[b] : 99;
+    if (aOrder !== bOrder) return aOrder - bOrder;
     const aIsQualified = a.endsWith("?");
     const bIsQualified = b.endsWith("?");
     if (aIsQualified !== bIsQualified) return aIsQualified ? 1 : -1;
@@ -594,7 +605,9 @@ function GetComposerOptions(worklist) {
     const baseCid = getBaseComposerId(cid);
     const c = COMPOSER_INDEX[baseCid];
     if (!c) continue;
-    const label = c.long + (cid === "Jos?" ? "?" : "");
+    let label = c.long;
+    if (cid === "Jos?") label = "Josquin? (not secure)";
+    if (cid === "Jos_spurious") label = "Not Josquin (spurious)";
 
     output += `<option value="${cid}">${label} (${counts[cid].size})</option>\n`;
   }
@@ -981,10 +994,15 @@ function getImprobableComposerIds(work) {
 function getQualifiedComposerIdsFromWork(work) {
   const ids = splitComposerIds(work?.COMPOSER_ID || "");
   const improbable = new Set(getImprobableComposerIds(work));
-  return ids.map(cid => (cid === "Jos" && improbable.has(cid) ? `${cid}?` : cid));
+  const qualified = ids.map(cid => (cid === "Jos" && improbable.has(cid) ? `${cid}?` : cid));
+  if (!ids.includes("Jos") && improbable.has("Jos")) {
+    qualified.push("Jos_spurious");
+  }
+  return qualified;
 }
 
 function getBaseComposerId(qualifiedId) {
+  if (qualifiedId === "Jos_spurious") return "Jos";
   return (qualifiedId || "").replace(/\?$/, "");
 }
 

@@ -1,6 +1,7 @@
 <script>
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
+const ACTIVITY_PAGING_PREFIX = "ANALYSISactivity";
 </script>
 <script src="/analysis/scripts-common.js"></script>
 <script>
@@ -66,7 +67,35 @@ function getActivityLabel(sectionId) {
   return sectionId;
 }
 
-function runAnalysis() {
+function resetPageState() {
+  resetAnalysisPaging(ACTIVITY_PAGING_PREFIX);
+}
+
+function renderActivitySection(sectionId) {
+  const mergedUrl = "https://data.josqu.in/" + sectionId + "-activity-merged-notitle.png";
+  const separateUrl = "https://data.josqu.in/" + sectionId + "-activity-separate-notitle.png";
+  const mergedFallbacks = getLegacyPlotFallbackList(sectionId, "activity-merged-notitle").join("||");
+  const separateFallbacks = getLegacyPlotFallbackList(sectionId, "activity-separate-notitle").join("||");
+  const label = getActivityLabel(sectionId);
+
+  let html = "";
+  html += "<section data-analysis-entry=\"activity\" data-analysis-page=\"activity\" data-entry-label=\"" + label.replace(/"/g, "&quot;") + "\" data-required-assets=\"2\" style=\"margin: 0 0 2rem 0; display:none;\">";
+  html += "<h3 class=\"brown-heading\" style=\"font-size:120%; margin-bottom:0.5rem;\">" + label + "</h3>";
+  html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.5rem; width:100%;\">";
+  html += "<a href=\"" + mergedUrl + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
+  html += "<img src=\"" + mergedUrl + "\" alt=\"Merged activity plot for " + label + "\" style=\"width:100%; height:auto;\"";
+  html += " data-fallbacks=\"" + mergedFallbacks + "\" data-fallback-index=\"0\" onload=\"markAnalysisAssetLoaded(this);\" onerror=\"useLegacyPlotFallback(this);\">";
+  html += "</a>";
+  html += "<a href=\"" + separateUrl + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
+  html += "<img src=\"" + separateUrl + "\" alt=\"Separate activity plot for " + label + "\" style=\"width:100%; height:auto;\"";
+  html += " data-fallbacks=\"" + separateFallbacks + "\" data-fallback-index=\"0\" onload=\"markAnalysisAssetLoaded(this);\" onerror=\"useLegacyPlotFallback(this);\">";
+  html += "</a>";
+  html += "</div>";
+  html += "</section>";
+  return html;
+}
+
+function runAnalysis(page) {
   var maincontent = document.getElementById("analysis-content");
   if (!maincontent) {
     return;
@@ -87,31 +116,14 @@ function runAnalysis() {
     return;
   }
 
-  let html = "";
-  for (let i = 0; i < sectionIds.length; i++) {
-    const sectionId = sectionIds[i];
-    const mergedUrl = "https://data.josqu.in/" + sectionId + "-activity-merged-notitle.png";
-    const separateUrl = "https://data.josqu.in/" + sectionId + "-activity-separate-notitle.png";
-    const mergedFallbacks = getLegacyPlotFallbackList(sectionId, "activity-merged-notitle").join("||");
-    const separateFallbacks = getLegacyPlotFallbackList(sectionId, "activity-separate-notitle").join("||");
-    const label = getActivityLabel(sectionId);
-
-    html += "<section style=\"margin: 0 0 2rem 0;\">";
-    html += "<h3 class=\"brown-heading\" style=\"font-size:120%; margin-bottom:0.5rem;\">" + label + "</h3>";
-    html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.5rem; width:100%;\">";
-    html += "<a href=\"" + mergedUrl + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
-    html += "<img src=\"" + mergedUrl + "\" alt=\"Merged activity plot for " + label + "\" style=\"width:100%; height:auto;\"";
-    html += " data-fallbacks=\"" + mergedFallbacks + "\" data-fallback-index=\"0\" onerror=\"useLegacyPlotFallback(this);\">";
-    html += "</a>";
-    html += "<a href=\"" + separateUrl + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
-    html += "<img src=\"" + separateUrl + "\" alt=\"Separate activity plot for " + label + "\" style=\"width:100%; height:auto;\"";
-    html += " data-fallbacks=\"" + separateFallbacks + "\" data-fallback-index=\"0\" onerror=\"useLegacyPlotFallback(this);\">";
-    html += "</a>";
-    html += "</div>";
-    html += "</section>";
-  }
-
-  maincontent.innerHTML = html;
+  const rendered = renderAnalysisPaginatedResults(sectionIds, {
+    storagePrefix: ACTIVITY_PAGING_PREFIX,
+    page: page,
+    renderItem: renderActivitySection,
+    rerenderFunction: "runAnalysis"
+  });
+  maincontent.innerHTML = rendered.html;
+  printAnalysisPageList(rendered.currentPage, rendered.totalPages, rendered.storagePrefix, rendered.rerenderFunction);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
