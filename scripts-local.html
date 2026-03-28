@@ -38,13 +38,15 @@ function storeBrowseParameters() {
 
 	const composers = document.getElementById("composers")?.value || "";
 	const genres    = document.getElementById("genres")?.value || "";
+	const voices    = document.getElementById("voices")?.value || "";
 	const titlebox  = document.getElementById("titlebox")?.value || "";
 
 	localStorage.BROWSEcomposers = composers;
 	localStorage.BROWSEgenres    = genres;
+	localStorage.BROWSEvoices    = voices;
 	localStorage.BROWSEtitlebox  = titlebox;
 
-	const hasFilters = composers || genres || titlebox;
+	const hasFilters = composers || genres || voices || titlebox;
 
 	if (!hasFilters) {
 		window.location.href = "/repertoire?home=true";
@@ -363,6 +365,24 @@ function buildHomepageGenreSelect() {
 
 	let output = '<option value="">All Genres</option>\n';
 	output += GetGenreBrowseOptions();
+
+	select.innerHTML = output;
+	StylizeFormElements();
+}
+
+
+
+//////////////////////////////
+//
+// buildHomepageVoiceSelect -- Create the voice drop-down list for browsing.
+//
+
+function buildHomepageVoiceSelect() {
+	const select = document.getElementById("voices");
+	if (!select) return;
+
+	let output = '<option value="">All Voices</option>\n';
+	output += GetVoiceOptions();
 
 	select.innerHTML = output;
 	StylizeFormElements();

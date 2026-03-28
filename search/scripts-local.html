@@ -30,19 +30,22 @@ function doSearch() {
   var rhythm = document.getElementById("rhythm");
   var composers = document.getElementById("composers");
   var genres = document.getElementById("genres");
+  var voices = document.getElementById("voices");
 
   var pitchValue = pitch ? pitch.value : "";
   var intervalValue = interval ? interval.value : "";
   var rhythmValue = rhythm ? rhythm.value : "";
   var composerValue = composers ? composers.value : "";
   var genreValue = genres ? genres.value : "";
+  var voiceValue = voices ? voices.value : "";
 
   var emptyPattern = /^\s*$/;
   var emptyMelodic = emptyPattern.test(pitchValue) && emptyPattern.test(intervalValue) && emptyPattern.test(rhythmValue);
 
   if (emptyMelodic) {
     var emptyFilters = (emptyPattern.test(composerValue) || /All/i.test(composerValue)) &&
-      (emptyPattern.test(genreValue) || /All/i.test(genreValue));
+      (emptyPattern.test(genreValue) || /All/i.test(genreValue)) &&
+      (emptyPattern.test(voiceValue) || /All/i.test(voiceValue));
 
     if (emptyFilters) {
       return false;
@@ -50,7 +53,7 @@ function doSearch() {
 
     localStorage.BROWSEcomposers = composerValue;
     localStorage.BROWSEgenres = genreValue;
-    localStorage.BROWSEvoices = "";
+    localStorage.BROWSEvoices = voiceValue;
     localStorage.BROWSEtitlebox = "";
     localStorage.BROWSEhome = "false";
     window.location.href = "/repertoire";
@@ -59,10 +62,12 @@ function doSearch() {
 
   var c = /All/i.test(composerValue) ? "" : composerValue;
   var g = /All/i.test(genreValue) ? "" : genreValue;
+  var v = /All/i.test(voiceValue) ? "" : voiceValue;
 
   var QUERY = {
     composer: c,
     genre: g,
+    voice: v,
     pitch: pitchValue,
     rhythm: rhythmValue,
     interval: intervalValue,
@@ -115,6 +120,20 @@ function buildGenreSelect() {
   output += GetGenreBrowseOptions();
   output += "</select>\n";
   genreselect.innerHTML = output;
+  StylizeFormElements();
+}
+
+function buildVoiceSelect() {
+  var voiceselect = document.getElementById("voices-select");
+  if (!voiceselect) {
+    return;
+  }
+
+  var output = "<select id=\"voices\" data-placeholder=\"All Voices\">\n";
+  output += "<option label=\"default\">All Voices</option>\n";
+  output += GetVoiceOptions();
+  output += "</select>\n";
+  voiceselect.innerHTML = output;
   StylizeFormElements();
 }
 </script>

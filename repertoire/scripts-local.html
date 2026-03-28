@@ -25,6 +25,7 @@ function migrateBrowseToRepertoire() {
 	if (
 		!localStorage.BROWSEcomposers &&
 		!localStorage.BROWSEgenres &&
+		!localStorage.BROWSEvoices &&
 		!localStorage.BROWSEtitlebox
 	) {
 		return false;
@@ -32,12 +33,14 @@ function migrateBrowseToRepertoire() {
 
 	sessionStorage.REPERTOIREcomposers = localStorage.BROWSEcomposers || "";
 	sessionStorage.REPERTOIREgenres    = localStorage.BROWSEgenres    || "";
+	sessionStorage.REPERTOIREvoices    = localStorage.BROWSEvoices    || "";
 	sessionStorage.REPERTOIREtitlebox  = localStorage.BROWSEtitlebox  || "";
 
 	// cleanup (critical)
 	localStorage.removeItem("BROWSEhome");
 	localStorage.removeItem("BROWSEcomposers");
 	localStorage.removeItem("BROWSEgenres");
+	localStorage.removeItem("BROWSEvoices");
 	localStorage.removeItem("BROWSEtitlebox");
 
 	return true;
