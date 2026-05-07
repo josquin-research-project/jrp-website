@@ -278,7 +278,11 @@
 		"Name": "Antonius {Divitis}",
 		"Display Short": "Divitis",
 		"Display Long": "Divitis, Antonius",
-		"Flourished": "1501–1525"
+		"Flourished": "1501–1525",
+		"RISM ID": "pe30019873",
+		"RISM": "https://rism.online/people/30019873",
+		"DIAMM": "https://www.diamm.ac.uk/people/107/",
+		"VIAF": "http://viaf.org/viaf/290588954"
 	},
 	{
 		"COMPOSER_ID": "Dom",
@@ -630,6 +634,17 @@
 		"Display Short": "Martini",
 		"Display Long": "Martini, Thomas",
 		"Flourished": "~1521"
+	},
+	{
+		"COMPOSER_ID": "Mor",
+		"Name": "Robert {Morton}",
+		"Display Short": "Morton",
+		"Display Long": "Morton, Robert",
+		"Death": "1483/9/16",
+		"RISM ID": "pe30005487",
+		"RISM": "https://rism.online/people/30005487",
+		"DIAMM": "https://www.diamm.ac.uk/people/196/",
+		"VIAF": "https://viaf.org/en/viaf/3686042"
 	},
 	{
 		"COMPOSER_ID": "Mlu",

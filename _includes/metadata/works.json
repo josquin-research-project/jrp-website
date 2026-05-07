@@ -161,6 +161,22 @@
 		"Date changed": "2012/06/21"
 	},
 	{
+		"WORK_ID": "Agr3028",
+		"Title": "J'ay beau heur",
+		"COMPOSER_ID": "Agr",
+		"Composer": "Alexander {Agricola}",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Filename": "Agr3028-Jay_beau_heur",
+		"Voices": "3",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Gihub URL": "https://github.com/josquin-research-project/Agr/blob/main/Agr3028-Jay_beau_heur",
+		"Note count": "413",
+		"Date added": "2026/05/07",
+		"Date changed": "2026/05/07"
+	},
+	{
 		"WORK_ID": "Agr3051",
 		"Title": "Tout a par moy I",
 		"COMPOSER_ID": "Agr",
@@ -2879,9 +2895,10 @@
 	},
 	{
 		"WORK_ID": "Com2002a",
-		"Title": "Hodie nobis cycle-Hodie nobis",
+		"Title": "Hodie nobis cycle",
 		"COMPOSER_ID": "Com",
 		"Composer": "Loyset {Compere}",
+		"Subtitle": "Hodie nobis",
 		"Genre": "motet",
 		"Filename": "Com2002a-Hodie_nobis_cycle-Hodie_nobis.krn",
 		"Voices": "4",
