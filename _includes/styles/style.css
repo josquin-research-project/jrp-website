@@ -2322,8 +2322,45 @@ article.about ul li {
 article.about h3.brown-border + ul {
 	margin-top: 28px;
 }
+article.about .process-steps {
+	margin: 0 0 24px 0;
+	padding-left: 0;
+	list-style: none;
+	counter-reset: step;
+}
+article.about .process-steps li {
+	counter-increment: step;
+	position: relative;
+	padding: 10px 0 10px 36px;
+	margin-bottom: 0;
+}
+article.about .process-steps li::before {
+	content: counter(step);
+	position: absolute;
+	left: 0;
+	top: 10px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	background: rgba(0,0,0,0.06);
+	color: #1c1c1e;
+	text-align: center;
+	line-height: 22px;
+	font-size: 13px;
+	font-weight: 500;
+}
+article.about .process-steps strong {
+	font-weight: bold;
+}
 article.about ul + p {
 	margin-top: 38px;
+}
+article.about .donor-intro {
+	margin-bottom: 0;
+}
+article.about .donor-list {
+	margin-top: 8px;
+	padding-left: 28px;
 }
 article.about.board h3 {
 	padding-top: 21px;
@@ -2385,7 +2422,7 @@ article.about .team-member .bio a {
 	font-size: inherit;
 }
 article.about .team-container + p {
-	margin-top: 34px;
+	margin-top: 12px;
 }
 @media screen and (max-width: 640px) {
 	article.about .team-member {
