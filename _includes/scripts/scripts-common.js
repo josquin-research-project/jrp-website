@@ -284,7 +284,7 @@ function InitializeWorklist() {
     if (!w.Title || !w.Title.trim()) continue;
     if (!w.COMPOSER_ID || !w.WORK_ID) continue;
 
-    const baseId = w.WORK_ID.replace(/[a-z]$/, "");
+    const baseId = getBaseWorkId(w.WORK_ID);
     const composerIds = getQualifiedComposerIdsFromWork(w);
 
     for (const cid of composerIds) {
@@ -937,7 +937,7 @@ function DisplayCriticalNotes(jrpid, target) {
 }
 
 function getBaseWorkId(workId) {
-  return workId.replace(/[a-z]$/, "");
+  return workId.replace(/[a-z](?:\.[a-z])?$/, "");
 }
 
 function splitComposerIds(value) {

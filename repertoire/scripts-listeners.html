@@ -45,7 +45,7 @@ function buildNoteCountByBaseId(works) {
 		if (!w.WORK_ID || seenPartIds.has(w.WORK_ID)) continue;
 		seenPartIds.add(w.WORK_ID);
 
-		const baseId = w.WORK_ID.replace(/[a-z]$/, "");
+		const baseId = getBaseWorkId(w.WORK_ID);
 		const noteCount = parseNoteCount(w["Note count"]);
 		totals[baseId] = (totals[baseId] || 0) + noteCount;
 	}
@@ -285,6 +285,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	if (params.t) titlebox.value = params.t;
 	else if (sessionStorage.REPERTOIREtitlebox) titlebox.value = sessionStorage.REPERTOIREtitlebox;
+
+	titlebox.addEventListener("input", function () {
+		const normalizedTitle = normalizeTitleSearch(titlebox.value);
+		if ((normalizedTitle.length === 0) || (normalizedTitle.length >= 3)) {
+			repertoireDisplay(1);
+		}
+	});
 
 	StylizeFormElements();
 

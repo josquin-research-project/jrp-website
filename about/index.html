@@ -7,7 +7,22 @@ permalink: /about/
 <article class="about">
 	<h2 class="brown-heading">About the Josquin Research Project</h2>
 
-	<p>The Josquin Research Project (JRP) is an open-access digital library of Renaissance music. Users can browse, search, analyze, listen to, and perform from more than 1,500 scores spanning ca. 1400–ca. 1520.</p>
+	{% capture works_json %}{% include metadata/works.json %}{% endcapture %}
+	{% assign score_count = works_json | split: '"WORK_ID"' | size | minus: 1 %}
+	{% assign rounded_score_count = score_count | divided_by: 100 | times: 100 %}
+	{% assign score_count_thousands = rounded_score_count | divided_by: 1000 %}
+	{% assign score_count_remainder = rounded_score_count | modulo: 1000 %}
+	{% if score_count_remainder == 0 %}
+		{% assign formatted_score_count_remainder = "000" %}
+	{% else %}
+		{% assign formatted_score_count_remainder = score_count_remainder %}
+	{% endif %}
+	{% if rounded_score_count >= 1000 %}
+		{% capture formatted_score_count %}{{ score_count_thousands }},{{ formatted_score_count_remainder }}{% endcapture %}
+	{% else %}
+		{% assign formatted_score_count = rounded_score_count %}
+	{% endif %}
+	<p>The Josquin Research Project (JRP) is an open-access digital library of Renaissance music. Users can browse, search, analyze, listen to, and perform from more than {{ formatted_score_count }} scores spanning ca. 1400–ca. 1520.</p>
 
 	<p>The JRP partners with <a href="https://1520s-project.org" target="_blank">The 1520s Project</a>, which curates repertoire from ca. 1510 to ca. 1540. From 2025 to 2028 both projects are supported by a National Endowment for the Humanities <a href="https://www.neh.gov/grants/research/scholarly-editions-and-translations-grants" target="_blank">Scholarly Editions & Translations Grant</a>. At an earlier stage the JRP was awarded a Digital Innovation Fellowship from the American Council of Learned Societies.</p>
 

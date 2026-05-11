@@ -55,6 +55,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 	sessionStorage.removeItem("RECENTLYADDEDHTML");
 
+	const titlebox = document.getElementById("titlebox");
+	if (titlebox) {
+		titlebox.addEventListener("keydown", function (e) {
+			if (e.key === "Enter") {
+				e.preventDefault();
+				storeBrowseParameters();
+			}
+		});
+	}
+
 	// ----------------------------------
 	// 1) Prefer local works.json
 	// ----------------------------------
@@ -86,16 +96,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 		.catch(error => {
 			console.error("Homepage initialization failed:", error);
 		});
-
-	const titlebox = document.getElementById("titlebox");
-	if (titlebox) {
-		titlebox.addEventListener("keydown", function (e) {
-			if (e.key === "Enter") {
-				e.preventDefault();
-				storeBrowseParameters();
-			}
-		});
-	}
 
 });
 

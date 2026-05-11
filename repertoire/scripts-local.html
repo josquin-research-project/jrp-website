@@ -130,6 +130,19 @@ function renderBrowseResults() {
 
 //////////////////////////////
 //
+// normalizeTitleSearch -- remove accents and make punctuation searchable
+//     as word spacing.
+//
+
+function normalizeTitleSearch(str) {
+	str = removeAccents(str || "");
+	str = str.replace(/[^\w|]+/g, " ");
+	str = str.replace(/\s+/g, " ");
+	return str.replace(/^\s+|\s+$/g, "");
+}
+
+//////////////////////////////
+//
 // removeHtmlAccents --
 //
 
@@ -377,8 +390,9 @@ function generateWorkEntries(worklist) {
 	if (composeroption.match(/All/i)) {
 		composeroption = "";
 	}
+	var seenBaseIds = {};
 	for (i=0; i<worklist.length; i++) {
-		tout = tout.concat(generateComposerWorkEntries(worklist, i));
+		tout = tout.concat(generateComposerWorkEntries(worklist, i, seenBaseIds));
 	}
 
 	var output = [];
@@ -420,7 +434,7 @@ function clearCountInfo() {
 // (6) MP3
 //
 
-function generateComposerWorkEntries(worklist, index) {
+function generateComposerWorkEntries(worklist, index, seenBaseIds) {
 	var output			= [];
 	var tempout			= "";
 	var genre			= "";
@@ -456,7 +470,7 @@ function generateComposerWorkEntries(worklist, index) {
 		composeroption = "";
 	}
 	var titleboxoption    = document.getElementById("titlebox").value;
-	titleboxoption = removeAccents(titleboxoption);
+	titleboxoption = normalizeTitleSearch(titleboxoption);
 	// removing trailing space:
 	titleboxoption = titleboxoption.replace(/\s+$/, "");
 	// remove incomplete or search:
@@ -539,7 +553,7 @@ function generateComposerWorkEntries(worklist, index) {
 		}
 		title = title.replace(/\(a\&/g, "(&agrave;&");
 		jrpid  = entry.id	  || "";
-		searchtitle  = jrpid + " " + (entry.searchtitle  || "");
+		searchtitle  = normalizeTitleSearch(jrpid + " " + (entry.searchtitle  || ""));
 
 		if (voiceoption != "") {
 			var vo = parseInt(voiceoption);
@@ -572,6 +586,12 @@ function generateComposerWorkEntries(worklist, index) {
 		}
 
 		// Work passed through the filters, so add it to the list.
+		if ((composeroption == "") && seenBaseIds) {
+			if (seenBaseIds[jrpid]) {
+				continue;
+			}
+			seenBaseIds[jrpid] = true;
+		}
 
 		WORKCOUNT++;
 
