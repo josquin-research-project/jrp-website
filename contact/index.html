@@ -30,7 +30,6 @@ permalink: /contact/
     action="https://docs.google.com/forms/d/e/1FAIpQLSftVWciboaVu-J2sf0Y0wMTX-6cU2uE4JItfzovCfD69f-wvg/formResponse"
     method="POST"
     target="hidden_iframe"
-    novalidate
   >
 
     <!-- Category -->
@@ -67,16 +66,29 @@ permalink: /contact/
       ></textarea>
     </div>
 
-    <!-- Contact -->
+    <!-- Email -->
     <div class="form-group">
-      <label for="feedback_submitter">
-        Your name / contact information (optional)
-      </label>
+      <label for="feedback_email">Email address *</label>
       <input
-        id="feedback_submitter"
+        id="feedback_email"
         name="entry.590265142"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="you@example.com"
+      >
+    </div>
+
+    <!-- Human check -->
+    <div class="form-group">
+      <label for="feedback_human">Human check: type Josquin *</label>
+      <input
+        id="feedback_human"
         type="text"
-        placeholder="Your name and/or contact information"
+        required
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Josquin"
       >
     </div>
 

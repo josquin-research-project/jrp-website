@@ -549,7 +549,7 @@ function printErrorReportButton(jrpid) {
 	var error   = document.getElementById("error");
 	var message = "<a onclick=\"sessionStorage.ERRORjrpid = '" + jrpid + "';\"";
 	message += " style=\"" + MARGINRIGHT + "\"";
-	message += " href=\"/error\" class=\"btn btn-brown\">";
+	message += " href=\"/error/?work=" + encodeURIComponent(jrpid) + "\" class=\"btn btn-brown\">";
 	message += "Report an error for this work</a>";
 	error.innerHTML = message;
 }

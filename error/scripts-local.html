@@ -1,19 +1,37 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("feedback-form");
+  const form = document.getElementById("error-form");
   const statusEl = document.getElementById("status");
+  const targetEl = document.getElementById("error_target");
 
   function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   }
 
-  form.addEventListener("submit", function (event) {
-    const category = form.querySelector("#feedback_category").value;
-    const description = form.querySelector("#feedback_description").value.trim();
-    const email = form.querySelector("#feedback_email").value.trim();
-    const humanCheck = form.querySelector("#feedback_human").value.trim();
+  function getParam(name) {
+    return new URLSearchParams(window.location.search).get(name) || "";
+  }
 
-    if (!category || !description || !email || !humanCheck) {
+  function workUrl(workId) {
+    return window.location.origin + "/work?id=" + encodeURIComponent(workId);
+  }
+
+  const workId = getParam("work") || sessionStorage.ERRORjrpid || "";
+  const sourceUrl = getParam("url") || document.referrer || "";
+
+  if (workId) {
+    targetEl.value = workUrl(workId);
+  } else if (sourceUrl) {
+    targetEl.value = sourceUrl;
+  }
+
+  form.addEventListener("submit", function (event) {
+    const description = form.querySelector("#error_description").value.trim();
+    const email = form.querySelector("#error_email").value.trim();
+    const humanCheck = form.querySelector("#error_human").value.trim();
+    const reportedTarget = targetEl.value.trim() || window.location.href;
+
+    if (!description || !email || !humanCheck) {
       event.preventDefault();
       statusEl.className = "feedback-status feedback-status--error";
       statusEl.textContent = "Please complete all required fields.";
@@ -34,16 +52,16 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    form.querySelector('[name="entry.270859303"]').value = window.location.href;
+    form.querySelector('[name="entry.270859303"]').value = reportedTarget;
     form.querySelector('[name="entry.2136692707"]').value = navigator.userAgent;
 
     statusEl.className = "feedback-status";
-    statusEl.textContent = "Submitting feedback...";
+    statusEl.textContent = "Submitting error report...";
 
     setTimeout(() => {
       form.reset();
       statusEl.className = "feedback-status feedback-status--success";
-      statusEl.textContent = "Thank you for your feedback.";
+      statusEl.textContent = "Thank you for your report.";
     }, 300);
   });
 });
