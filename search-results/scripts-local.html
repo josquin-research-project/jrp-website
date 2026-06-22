@@ -1,0 +1,385 @@
+<script>
+let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
+
+const SEARCH_RESULTS_PAGE_SIZE = 20;
+const SEARCH_ENDPOINT = JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp";
+
+let QUERY = null;
+let SEARCHLIST = null;
+let SEARCH_RESULTS_PAGE = 1;
+let SEARCH_WORKS_BY_ID = {};
+let SEARCH_BASE_WORKS_BY_ID = {};
+
+document.addEventListener("DOMContentLoaded", function () {
+  AUDIO = document.getElementById("audio");
+  if (AUDIO) {
+    AUDIO.addEventListener("ended", function () {
+      AUDIO.pause();
+      const pauseelem = document.getElementById(AUDIOid);
+      if (pauseelem) pauseelem.className = "play";
+    });
+  }
+
+  initializeSearchLookups();
+  QUERY = readSearchQuery();
+
+  if (!hasMusicalQuery(QUERY)) {
+    showSearchMessage("Enter a pitch, rhythm, or interval pattern to run a musical search.");
+    return;
+  }
+
+  runSearch(QUERY);
+});
+
+function initializeSearchLookups() {
+  InitializeComposerIndex();
+
+  SEARCH_WORKS_BY_ID = {};
+  SEARCH_BASE_WORKS_BY_ID = {};
+
+  for (let i = 0; i < WORKS.length; i++) {
+    const work = WORKS[i];
+    if (!work.WORK_ID) continue;
+
+    SEARCH_WORKS_BY_ID[work.WORK_ID] = work;
+
+    const baseId = getBaseWorkId(work.WORK_ID);
+    if (!SEARCH_BASE_WORKS_BY_ID[baseId]) {
+      SEARCH_BASE_WORKS_BY_ID[baseId] = work;
+    }
+  }
+}
+
+function readSearchQuery() {
+  const params = new URLSearchParams(window.location.search);
+  const fromParams = {
+    composer: params.get("composer") || "",
+    genre: params.get("genre") || "",
+    voice: params.get("voice") || "",
+    pitch: params.get("pitch") || "",
+    rhythm: params.get("rhythm") || "",
+    interval: params.get("interval") || "",
+    requestTime: Date.now() / 1000
+  };
+
+  if (hasMusicalQuery(fromParams)) {
+    return fromParams;
+  }
+
+  try {
+    if (sessionStorage.QUERY) {
+      return JSON.parse(sessionStorage.QUERY);
+    }
+  } catch (e) {
+    console.error("Could not parse stored search query", e);
+  }
+
+  return fromParams;
+}
+
+function hasMusicalQuery(query) {
+  if (!query) return false;
+  return !!(
+    String(query.pitch || "").trim() ||
+    String(query.rhythm || "").trim() ||
+    String(query.interval || "").trim()
+  );
+}
+
+function runSearch(query) {
+  showSearchMessage("Searching...");
+  document.body.style.cursor = "wait";
+
+  const url = buildSearchUrl(query);
+
+  fetch(url, { cache: "no-store" })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("Search request failed: " + response.status);
+      }
+      return response.text();
+    })
+    .then(function (text) {
+      SEARCHLIST = JSON.parse(text);
+      SEARCHLIST.locations = filterLocationsByVoice(SEARCHLIST.locations || [], query.voice);
+      sessionStorage.SEARCHLIST = JSON.stringify(SEARCHLIST);
+      sessionStorage.QUERY = "";
+      SEARCH_RESULTS_PAGE = 1;
+      displaySearchResults(SEARCH_RESULTS_PAGE);
+    })
+    .catch(function (error) {
+      console.error(error);
+      showSearchMessage("Search is temporarily unavailable.");
+    })
+    .finally(function () {
+      document.body.style.cursor = "default";
+    });
+}
+
+function buildSearchUrl(query) {
+  const params = new URLSearchParams();
+  params.set("a", "search");
+
+  addParam(params, "composer", cleanFilterValue(query.composer));
+  addParam(params, "genre", cleanFilterValue(query.genre));
+  addParam(params, "pitch", query.pitch);
+  addParam(params, "rhythm", query.rhythm);
+  addParam(params, "interval", query.interval);
+
+  return SEARCH_ENDPOINT + "?" + params.toString();
+}
+
+function addParam(params, key, value) {
+  value = String(value || "").trim();
+  if (value) params.set(key, value);
+}
+
+function cleanFilterValue(value) {
+  value = String(value || "").trim();
+  return /all/i.test(value) ? "" : value;
+}
+
+function filterLocationsByVoice(locations, voice) {
+  voice = cleanFilterValue(voice);
+  if (!voice) return locations;
+
+  const wanted = parseInt(voice, 10);
+  if (!wanted) return locations;
+
+  return locations.filter(function (entry) {
+    const work = getSearchWork(entry.id);
+    return parseInt(work && work.Voices, 10) === wanted;
+  });
+}
+
+function displaySearchResults(page) {
+  const status = document.getElementById("search-results-status");
+  const queryInfo = document.getElementById("query-info");
+  const counts = document.getElementById("match-counts");
+  const table = document.getElementById("search-results-table");
+
+  status.textContent = "";
+  queryInfo.innerHTML = formatQueryInfo(QUERY);
+
+  const locations = SEARCHLIST.locations || [];
+  const matchCount = sumMatches(locations);
+  const workCount = countWorks(locations);
+
+  counts.innerHTML = printCount(matchCount, "match", "matches") +
+    " in " + printCount(workCount, "work", "works") +
+    "/" + printCount(locations.length, "movement", "movements");
+
+  if (!locations.length) {
+    table.innerHTML = "<p>No matches found.</p>";
+    printPageList(1, 1);
+    return;
+  }
+
+  const totalPages = Math.max(1, Math.ceil(locations.length / SEARCH_RESULTS_PAGE_SIZE));
+  page = Math.max(1, Math.min(page || 1, totalPages));
+  SEARCH_RESULTS_PAGE = page;
+  printPageList(page, totalPages);
+
+  const start = (page - 1) * SEARCH_RESULTS_PAGE_SIZE;
+  const stop = Math.min(start + SEARCH_RESULTS_PAGE_SIZE, locations.length);
+
+  let output = printSearchTableHeader();
+  for (let i = start; i < stop; i++) {
+    output += printSearchResultRow(locations[i]);
+  }
+  output += "</tbody>\n</table>\n";
+
+  table.innerHTML = output;
+}
+
+function formatQueryInfo(query) {
+  const parts = [];
+  if (query.pitch) parts.push("Pitch: \"" + escapeHtml(query.pitch) + "\"");
+  if (query.interval) parts.push("Interval: \"" + escapeHtml(query.interval) + "\"");
+  if (query.rhythm) parts.push("Rhythm: \"" + escapeHtml(query.rhythm) + "\"");
+  if (cleanFilterValue(query.composer)) parts.push("Composer: " + escapeHtml(query.composer));
+  if (cleanFilterValue(query.genre)) parts.push("Genre: " + escapeHtml(query.genre));
+  if (cleanFilterValue(query.voice)) parts.push("Voices: " + escapeHtml(query.voice));
+
+  if (!parts.length) return "";
+  return "Search results for " + parts.join(" ");
+}
+
+function printSearchResultRow(entry) {
+  const work = getSearchWork(entry.id);
+  const base = getBaseSearchWork(entry.id);
+  const title = formatSearchTitle(work, base);
+  const composer = getComposerDisplayFromWork(work || base) || "";
+  const voices = (work && work.Voices) || (base && base.Voices) || "";
+
+  let output = "<tr>\n";
+  output += "<td><nobr>" + formatMatchLocation(entry, work || base) + "</nobr></td>\n";
+  output += "<td>" + escapeHtml(composer) + "</td>\n";
+  output += "<td><a class=\"text-link\" href=\"/work/?id=" + encodeURIComponent(entry.id) + "\">" + title + "</a></td>\n";
+  output += "<td>" + escapeHtml(voices) + "</td>\n";
+  output += "<td>" + formatScoreLinks(entry.id) + "</td>\n";
+  output += "<td>" + formatAudioLink(entry.id) + "</td>\n";
+  output += "</tr>\n";
+  return output;
+}
+
+function printSearchTableHeader() {
+  let output = "";
+  output += "<table class=\"search-results-table\">\n";
+  output += "<thead>\n";
+  output += "<tr>\n";
+  output += "<th>Match Locations</th>\n";
+  output += "<th>Composer</th>\n";
+  output += "<th>Title</th>\n";
+  output += "<th>Voices</th>\n";
+  output += "<th>Scores</th>\n";
+  output += "<th>MP3</th>\n";
+  output += "</tr>\n";
+  output += "</thead>\n";
+  output += "<tbody>\n";
+  return output;
+}
+
+function getSearchWork(jrpid) {
+  return SEARCH_WORKS_BY_ID[jrpid] || SEARCH_BASE_WORKS_BY_ID[getBaseWorkId(jrpid)] || null;
+}
+
+function getBaseSearchWork(jrpid) {
+  return SEARCH_BASE_WORKS_BY_ID[getBaseWorkId(jrpid)] || getSearchWork(jrpid);
+}
+
+function formatSearchTitle(work, base) {
+  if (!work && !base) return "";
+
+  const title = (base && base.Title) || (work && work.Title) || "";
+  const subtitle = work && work.Subtitle ? " " + work.Subtitle : "";
+  return escapeHtml(title + subtitle);
+}
+
+function formatMatchLocation(entry, work) {
+  let output = "<span class=\"search-match-count\">" + escapeHtml(entry.count || "0") + "</span>";
+  output += printLocationThumbnail(entry, work);
+  return output;
+}
+
+function printLocationThumbnail(entry, work) {
+  const vcount = Math.max(1, parseInt(work && work.Voices, 10) || 4);
+  const height = 13;
+  let output = "<span class=\"location\" title=\"Match distribution\">";
+
+  const locs = entry.loc || [];
+  for (let i = 0; i < locs.length; i++) {
+    let voice = parseInt(locs[i].ipart, 10) || 1;
+    if (voice > vcount) voice = vcount;
+    const top = ((1.0 - voice / vcount) * 0.8 + 0.05) * height;
+
+    const points = locs[i].loc || [];
+    for (let j = 0; j < points.length; j++) {
+      const match = String(points[j]).match(/P([\d.]+)/);
+      if (!match) continue;
+
+      let left = parseFloat(match[1]);
+      if (Number.isNaN(left)) continue;
+      left = Math.max(0, Math.min(100, left * 0.95));
+
+      output += "<span class=\"point\" style=\"left:" + left + "px; top:" + top + "px;\"></span>";
+    }
+  }
+
+  output += "</span>";
+  return output;
+}
+
+function formatScoreLinks(jrpid) {
+  return "<a class=\"file\" target=\"" + PDFTARGET + "\" title=\"PDF score\" href=\"" +
+    getBestPdfUrl(jrpid, "no_edit") + "\">file</a>" +
+    "<a class=\"file-ed\" target=\"" + PDFTARGET + "\" title=\"PDF with editorial accidentals\" href=\"" +
+    getBestPdfUrl(jrpid, "edit") + "\">Ed. file</a>";
+}
+
+function formatAudioLink(jrpid) {
+  const id = "audio_" + jrpid.replace(/[^\w.-]/g, "_");
+  return "<a id=\"" + id + "\" style=\"cursor:pointer;\" onclick=\"PlayAudioFile('" +
+    escapeJs(jrpid) + "', this);\" class=\"play\">play</a>";
+}
+
+function printPageList(currentPage, totalPages) {
+  const pagelist = document.getElementById("page-list");
+  if (!pagelist) return;
+
+  if (totalPages <= 1) {
+    pagelist.innerHTML = "";
+    return;
+  }
+
+  let output = "<ul>";
+  output += printPageLink(currentPage - 1, "&#10094;", currentPage <= 1);
+
+  const first = Math.max(1, currentPage - 3);
+  const last = Math.min(totalPages, currentPage + 3);
+
+  if (first > 1) {
+    output += printPageLink(1, "1", false);
+    if (first > 2) output += "<li>...</li>";
+  }
+
+  for (let page = first; page <= last; page++) {
+    output += printPageLink(page, String(page), false, page === currentPage);
+  }
+
+  if (last < totalPages) {
+    if (last < totalPages - 1) output += "<li>...</li>";
+    output += printPageLink(totalPages, String(totalPages), false);
+  }
+
+  output += printPageLink(currentPage + 1, "&#10095;", currentPage >= totalPages);
+  output += "</ul>";
+
+  pagelist.innerHTML = output;
+}
+
+function printPageLink(page, label, disabled, active) {
+  const className = active ? " class=\"active\"" : "";
+  if (disabled) {
+    return "<li" + className + "><span>" + label + "</span></li>";
+  }
+  return "<li" + className + "><span onclick=\"displaySearchResults(" + page + ");\">" + label + "</span></li>";
+}
+
+function sumMatches(locations) {
+  return locations.reduce(function (sum, entry) {
+    return sum + (parseInt(entry.count, 10) || 0);
+  }, 0);
+}
+
+function countWorks(locations) {
+  const works = {};
+  for (let i = 0; i < locations.length; i++) {
+    works[getBaseWorkId(locations[i].id)] = true;
+  }
+  return Object.keys(works).length;
+}
+
+function printCount(number, singular, plural) {
+  number = parseInt(number, 10) || 0;
+  return number + " " + (number === 1 ? singular : plural);
+}
+
+function showSearchMessage(message) {
+  const status = document.getElementById("search-results-status");
+  if (status) status.textContent = message;
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function escapeJs(value) {
+  return String(value || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+</script>

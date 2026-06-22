@@ -1413,7 +1413,7 @@ function doSearch() {
 	QUERY = query;
 
 	if (scope === 'repertory') {
-		window.location.href = "/search-results";
+		window.location.href = "/search-results/";
 		return;
 	} else {
 		doWorkSearch(QUERY);
@@ -1442,25 +1442,22 @@ function doWorkSearch(query) {
 	if (genres != "") {
 		searchparam += "&genre=" + encodeURIComponent(genres);
 	}
-	if (pitch.value != "") {
+	if (pitch != "") {
 		searchparam += "&pitch=" + encodeURIComponent(pitch);
 	}
-	if (rhythm.value != "") {
+	if (rhythm != "") {
 		searchparam += "&rhythm=" + encodeURIComponent(rhythm);
 	}
-	if (interval.value != "") {
+	if (interval != "") {
 		searchparam += "&interval=" + encodeURIComponent(interval);
 	}
-	if (interval.value != "") {
+	if (work != "") {
 		searchparam += "&work=" + encodeURIComponent(work);
 	}
 
 	$("body").css("cursor", "wait");
 
-	var dataloc = "{{site.jrp-data-url}}";
-	if (window.location.href.match(/tasso/i)) {
-		dataloc = "{{site.tasso-data-url}}";
-	}
+	var dataloc = JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp";
 
 	var request = new XMLHttpRequest();
 	request.open('GET', dataloc + "?a=searchwork" + searchparam, true);

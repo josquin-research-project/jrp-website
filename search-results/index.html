@@ -1,0 +1,27 @@
+---
+layout: repertoire
+title: Search Results
+permalink: /search-results/
+---
+
+{% include_relative styles-local.html %}
+{% include_relative scripts-local.html %}
+
+<audio id="audio"></audio>
+
+<section id="search-results" class="search-results-content">
+  <h2 class="blue-bar">Search Results</h2>
+
+  <div id="search-results-status" class="search-results-status">
+    Searching...
+  </div>
+
+  <div id="query-info" class="search-query-info"></div>
+  <div id="match-counts" class="grey"></div>
+  <span class="pagination" id="page-list"></span>
+  <div id="search-results-table"></div>
+
+  <p class="search-results-actions">
+    <a class="btn btn-brown" href="/search/">Revise search</a>
+  </p>
+</section>

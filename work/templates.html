@@ -84,10 +84,7 @@
 
 
 Handlebars.registerHelper('matchscore', function(jrpid) {
-	var dataloc = "http://{{site.dataurl}}/data";
-	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
-	}
+	var dataloc = JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp";
 
 	var themax = createThemax(QUERY);
    var out = '';
@@ -202,10 +199,7 @@ Handlebars.registerHelper('listmeasures', function(searchentry) {
 Handlebars.registerHelper('matchlocations', function(searchentry) {
 	var thumbnail = printLocationThumbnail(searchentry)
 
-	var dataloc = "http://{{site.dataurl}}/data";
-	if (window.location.href.match(/tasso/i)) {
-		dataloc = "http://data.tassomusic.org/data";
-	}
+	var dataloc = JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp";
 
 	var themax = createThemax(QUERY);
 	var output = '';
@@ -218,8 +212,7 @@ Handlebars.registerHelper('matchlocations', function(searchentry) {
 	output += '</span>';
 	output += '<a title="Score with highlighted matches" ';
 	output += PDFTARGET;
-	output += ' href="http://' + BASEADDR ;
-	output += dataloc + '?a=notationWithEditWithText&f=' + searchentry.id;
+	output += ' href="' + dataloc + '?a=notationWithEditWithText&f=' + searchentry.id;
 	output += '&themax=' + themax;
 	output += '">';
 	output +=  printLocationThumbnail(searchentry);
