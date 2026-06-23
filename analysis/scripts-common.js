@@ -24,17 +24,18 @@ function loadCgiParameters() {
 }
 
 function analysisDataUrl(type, repertory, genre, work) {
-  let url = "/data?repertory=" + encodeURIComponent(type);
+  const params = new URLSearchParams();
+  params.set("repertory", type);
   if (repertory) {
-    url += "&composer=" + encodeURIComponent(repertory);
+    params.set("composer", repertory);
   }
   if (genre) {
-    url += "&genre=" + encodeURIComponent(genre);
+    params.set("genre", genre);
   }
   if (work) {
-    url += "&work=" + encodeURIComponent(work);
+    params.set("work", work);
   }
-  return url;
+  return JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp?" + params.toString();
 }
 
 function getLegacyDataFileUrl(file) {
@@ -635,6 +636,12 @@ function analyzeWork() {
     resetPageState();
   }
   runAnalysis();
+}
+
+function runAnalysis() {
+  if (typeof showRepertory === "function") {
+    showRepertory(localStorage.ANALYSISrepertory || "");
+  }
 }
 
 function analysisKeyDownFunction(event) {
