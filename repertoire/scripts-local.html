@@ -688,6 +688,7 @@ function repertoireDisplay(page) {
   }
 
 	storeRepertoireFilters();
+	updateRepertoireUrl();
 	showRepertoireView("results");
 	
 	var maincontent = document.getElementById('repertoire-results');
@@ -1165,6 +1166,38 @@ function storeRepertoireFilters() {
 		sessionStorage.REPERTOIREgenres = "";
 	}
 
+}
+
+
+
+//////////////////////////////
+//
+// updateRepertoireUrl -- Mirror active filters in the URL so repertoire
+//     views can be bookmarked or shared.
+//
+
+function updateRepertoireUrl() {
+	if (!window.history || !window.history.replaceState) {
+		return;
+	}
+
+	const params = new URLSearchParams();
+	if (sessionStorage.REPERTOIREcomposers) {
+		params.set("c", sessionStorage.REPERTOIREcomposers);
+	}
+	if (sessionStorage.REPERTOIREgenres) {
+		params.set("g", sessionStorage.REPERTOIREgenres);
+	}
+	if (sessionStorage.REPERTOIREvoices) {
+		params.set("v", sessionStorage.REPERTOIREvoices);
+	}
+	if (sessionStorage.REPERTOIREtitlebox) {
+		params.set("t", sessionStorage.REPERTOIREtitlebox);
+	}
+
+	const query = params.toString();
+	const url = window.location.pathname + (query ? "?" + query : "");
+	window.history.replaceState(null, document.title, url);
 }
 
 
