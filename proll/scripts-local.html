@@ -1,0 +1,446 @@
+<script>
+(function () {
+  const DEFAULT_JRPID = "Jos2721";
+  const PROLL_ENDPOINT = JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp";
+
+  let currentJrpid = "";
+  let currentSvg = null;
+  let timemap = [];
+  let highlighted = [];
+  let worksById = {};
+  let highlightFrame = null;
+  let lastFollowAt = 0;
+
+  document.addEventListener("DOMContentLoaded", function () {
+    buildWorkIndex();
+    bindControls();
+    loadFromLocation();
+  });
+
+  function buildWorkIndex() {
+    if (typeof InitializeComposerIndex === "function") {
+      InitializeComposerIndex();
+    }
+
+    worksById = {};
+    for (let i = 0; i < WORKS.length; i++) {
+      if (WORKS[i].WORK_ID) {
+        worksById[WORKS[i].WORK_ID] = WORKS[i];
+      }
+    }
+  }
+
+  function bindControls() {
+    document.getElementById("proll-work-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const jrpid = cleanJrpid(document.getElementById("proll-id").value);
+      if (jrpid) {
+        setUrlJrpid(jrpid);
+        loadPianoRoll(jrpid);
+      }
+    });
+
+    document.getElementById("proll-width").addEventListener("change", function () {
+      displayWidth(this.value);
+    });
+
+    document.getElementById("proll-fit-height").addEventListener("click", displayFullHeight);
+    document.getElementById("proll-fit-width").addEventListener("click", displayFullWidth);
+    document.getElementById("proll-round-notes").addEventListener("change", function () {
+      displayRound(this.checked);
+    });
+    document.getElementById("proll-note-connectors").addEventListener("change", function () {
+      displayLines(this.checked);
+    });
+    document.getElementById("proll-grand-staff").addEventListener("change", function () {
+      displayStafflines(this.checked);
+    });
+    document.getElementById("proll-maxima").addEventListener("change", function () {
+      displayMaxima(this.checked);
+    });
+    document.getElementById("proll-minima").addEventListener("change", function () {
+      displayMinima(this.checked);
+    });
+
+    const audio = document.getElementById("proll-audio");
+    audio.addEventListener("timeupdate", scheduleHighlightUpdate);
+    audio.addEventListener("seeked", scheduleHighlightUpdate);
+    audio.addEventListener("play", scheduleHighlightUpdate);
+    audio.addEventListener("pause", clearHighlights);
+    audio.addEventListener("ended", clearHighlights);
+  }
+
+  function loadFromLocation() {
+    const params = new URLSearchParams(window.location.search);
+    const jrpid = cleanJrpid(params.get("id") || params.get("f") || localStorage.PIANOROLLjrpid || DEFAULT_JRPID);
+    const safeJrpid = jrpid === "undefined" ? DEFAULT_JRPID : jrpid;
+    setUrlJrpid(safeJrpid, true);
+    loadPianoRoll(safeJrpid);
+  }
+
+  function cleanJrpid(value) {
+    return String(value || "").trim();
+  }
+
+  function setUrlJrpid(jrpid, replaceOnly) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("id", jrpid);
+    if (replaceOnly) {
+      window.history.replaceState({}, "", url);
+    } else {
+      window.history.pushState({}, "", url);
+    }
+  }
+
+  function loadPianoRoll(jrpid) {
+    currentJrpid = jrpid;
+    localStorage.PIANOROLLjrpid = jrpid;
+    localStorage.PROLLjrpid = jrpid;
+    currentSvg = null;
+    timemap = [];
+    highlighted = [];
+    lastFollowAt = 0;
+
+    document.getElementById("proll-id").value = jrpid;
+    document.getElementById("proll-title").textContent = formatTitle(jrpid);
+    document.getElementById("proll-voices").innerHTML = "";
+    document.getElementById("svg-container").innerHTML = "";
+    setStatus("Loading piano roll...");
+    setupAudio(jrpid);
+
+    const params = new URLSearchParams();
+    params.set("a", "prollsvg");
+    params.set("id", jrpid);
+
+    fetch(PROLL_ENDPOINT + "?" + params.toString(), { cache: "no-store" })
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error("Piano roll request failed: " + response.status);
+        }
+        return response.text();
+      })
+      .then(function (svgText) {
+        if (!svgText || !svgText.match(/<svg[\s>]/i)) {
+          throw new Error("The piano roll SVG was empty.");
+        }
+        displaySvg(svgText);
+      })
+      .catch(function (error) {
+        console.error(error);
+        setStatus("Piano roll is temporarily unavailable.", "error");
+      });
+  }
+
+  function setupAudio(jrpid) {
+    const audio = document.getElementById("proll-audio");
+    audio.pause();
+    audio.removeAttribute("src");
+    audio.src = getJosquinDataUrl(jrpid, "mp3");
+    audio.load();
+  }
+
+  function formatTitle(jrpid) {
+    const work = worksById[jrpid] || worksById[getBaseWorkId(jrpid)];
+    if (!work) {
+      return jrpid;
+    }
+
+    const composer = getComposerDisplayFromWork(work);
+    const title = [work.Title, work.Subtitle].filter(Boolean).join(": ");
+    return [jrpid, composer, title].filter(Boolean).join(" | ");
+  }
+
+  function displaySvg(svgText) {
+    const container = document.getElementById("svg-container");
+    container.innerHTML = svgText;
+    currentSvg = container.querySelector("svg");
+
+    if (!currentSvg) {
+      setStatus("Piano roll is temporarily unavailable.", "error");
+      return;
+    }
+
+    currentSvg.style.display = "block";
+    prepareTimemap();
+    buildVoiceControls();
+    applyControls();
+    displayFullHeight();
+    setStatus("");
+  }
+
+  function applyControls() {
+    displayStafflines(document.getElementById("proll-grand-staff").checked);
+    displayRound(document.getElementById("proll-round-notes").checked);
+    displayLines(document.getElementById("proll-note-connectors").checked);
+    displayMaxima(document.getElementById("proll-maxima").checked);
+    displayMinima(document.getElementById("proll-minima").checked);
+  }
+
+  function buildVoiceControls() {
+    const container = document.getElementById("proll-voices");
+    const tracks = getTrackNumbers();
+
+    if (!tracks.length) {
+      container.innerHTML = "";
+      return;
+    }
+
+    container.innerHTML = "";
+    for (let i = 0; i < tracks.length; i++) {
+      const track = tracks[i];
+      const label = document.createElement("label");
+      label.className = "proll-control";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = true;
+      checkbox.addEventListener("change", function () {
+        displayVoice(this.checked, track);
+      });
+
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode("Voice " + track));
+      container.appendChild(label);
+    }
+  }
+
+  function getTrackNumbers() {
+    if (!currentSvg) return [];
+
+    const tracks = new Set();
+    const elements = currentSvg.querySelectorAll("[class]");
+    const trackRegex = /\btrack-(\d+)\b/g;
+
+    for (let i = 0; i < elements.length; i++) {
+      const classes = getSvgClass(elements[i]);
+      let match;
+      trackRegex.lastIndex = 0;
+      while ((match = trackRegex.exec(classes)) !== null) {
+        tracks.add(match[1]);
+      }
+    }
+
+    return Array.from(tracks).sort(function (a, b) {
+      return parseInt(b, 10) - parseInt(a, 10);
+    });
+  }
+
+  function prepareTimemap() {
+    timemap = [];
+    if (!currentSvg) return;
+
+    const elements = currentSvg.querySelectorAll("[class*='ont-']");
+    for (let i = 0; i < elements.length; i++) {
+      const classes = getSvgClass(elements[i]);
+      const onMatch = classes.match(/\bont-([^\s]+)/);
+      const offMatch = classes.match(/\bofft-([^\s]+)/);
+      if (!onMatch) continue;
+
+      const ontime = parseSvgTime(onMatch[1]);
+      const offtime = offMatch ? parseSvgTime(offMatch[1]) : ontime + 0.1;
+      timemap.push({ element: elements[i], on: ontime, off: offtime });
+    }
+  }
+
+  function parseSvgTime(value) {
+    return parseFloat(String(value || "0").replace(/d/g, "."));
+  }
+
+  function scheduleHighlightUpdate() {
+    if (highlightFrame) return;
+    highlightFrame = window.requestAnimationFrame(function () {
+      highlightFrame = null;
+      updateHighlights();
+    });
+  }
+
+  function updateHighlights() {
+    const audio = document.getElementById("proll-audio");
+    const now = audio.currentTime || 0;
+    const active = [];
+
+    for (let i = 0; i < timemap.length; i++) {
+      const note = timemap[i];
+      const isActive = now >= note.on && now <= note.off;
+      setSvgClass(note.element, "proll-highlight", isActive);
+      if (isActive) {
+        active.push(note.element);
+      }
+    }
+
+    highlighted = active;
+    followActiveNote(now);
+  }
+
+  function clearHighlights() {
+    for (let i = 0; i < highlighted.length; i++) {
+      setSvgClass(highlighted[i], "proll-highlight", false);
+    }
+    highlighted = [];
+  }
+
+  function followActiveNote(now) {
+    const follow = document.getElementById("proll-follow");
+    if (!follow.checked || !highlighted.length || now - lastFollowAt < 0.45) {
+      return;
+    }
+
+    const container = document.getElementById("svg-container");
+    const noteBox = highlighted[0].getBoundingClientRect();
+    const containerBox = container.getBoundingClientRect();
+    const noteCenter = noteBox.left + noteBox.width / 2;
+    const containerCenter = containerBox.left + containerBox.width / 2;
+
+    container.scrollLeft += noteCenter - containerCenter;
+    lastFollowAt = now;
+  }
+
+  function displayVoice(state, track) {
+    setVisibility(".track-" + track, state);
+    setVisibility(".note-background-" + track, state);
+  }
+
+  function displayStafflines(state) {
+    setVisibility(".staff-lines", state);
+  }
+
+  function displayLines(state) {
+    setVisibility(".note-lines", state);
+  }
+
+  function displayMaxima(state) {
+    setFill(".maxima", state, "red");
+  }
+
+  function displayMinima(state) {
+    setFill(".minima", state, "red");
+  }
+
+  function displayRound(state) {
+    if (!currentSvg) return;
+
+    const list = currentSvg.querySelectorAll("rect[rx], rect[ry]");
+    for (let i = 0; i < list.length; i++) {
+      list[i].setAttribute("rx", state ? "1" : "0");
+      list[i].setAttribute("ry", state ? "1" : "0");
+    }
+  }
+
+  function displayWidth(width) {
+    if (!currentSvg) return;
+
+    width = parseFloat(width);
+    if (!width || width < 1) {
+      width = 100;
+    }
+
+    const container = document.getElementById("svg-container");
+    setSvgPixelWidth(container.clientWidth * width / 100);
+  }
+
+  function displayFullHeight() {
+    if (!currentSvg) return;
+
+    const ratio = getSvgHeightToWidthRatio();
+    const container = document.getElementById("svg-container");
+    const height = Math.max(180, container.clientHeight - 18);
+    const width = height / ratio;
+    setSvgPixelWidth(width);
+  }
+
+  function displayFullWidth() {
+    if (!currentSvg) return;
+
+    const container = document.getElementById("svg-container");
+    setSvgPixelWidth(container.clientWidth - 18);
+  }
+
+  function setSvgPixelWidth(width) {
+    const ratio = getSvgHeightToWidthRatio();
+    const safeWidth = Math.max(200, Math.round(width));
+    const safeHeight = Math.max(40, Math.round(safeWidth * ratio));
+    const container = document.getElementById("svg-container");
+    const percent = Math.round(safeWidth / container.clientWidth * 100);
+
+    currentSvg.setAttribute("width", safeWidth);
+    currentSvg.setAttribute("height", safeHeight);
+    document.getElementById("proll-width").value = percent;
+  }
+
+  function getSvgHeightToWidthRatio() {
+    const viewBox = currentSvg.getAttribute("viewBox");
+    if (viewBox) {
+      const pieces = viewBox.trim().split(/\s+/).map(parseFloat);
+      if (pieces.length === 4 && pieces[2] > 0) {
+        return pieces[3] / pieces[2];
+      }
+    }
+
+    const width = parseFloat(currentSvg.getAttribute("width")) || 1;
+    const height = parseFloat(currentSvg.getAttribute("height")) || 1;
+    return height / width;
+  }
+
+  function setVisibility(selector, state) {
+    if (!currentSvg) return;
+
+    const list = currentSvg.querySelectorAll(selector);
+    for (let i = 0; i < list.length; i++) {
+      list[i].style.visibility = state ? "visible" : "hidden";
+    }
+  }
+
+  function setFill(selector, state, color) {
+    if (!currentSvg) return;
+
+    const list = currentSvg.querySelectorAll(selector);
+    for (let i = 0; i < list.length; i++) {
+      if (!list[i].hasAttribute("data-proll-fill")) {
+        list[i].setAttribute("data-proll-fill", list[i].getAttribute("fill") || "");
+      }
+
+      if (state) {
+        list[i].setAttribute("fill", color);
+      } else {
+        const original = list[i].getAttribute("data-proll-fill");
+        if (original) {
+          list[i].setAttribute("fill", original);
+        } else {
+          list[i].removeAttribute("fill");
+        }
+      }
+    }
+  }
+
+  function getSvgClass(element) {
+    if (typeof element.className === "string") {
+      return element.className;
+    }
+    if (element.className && typeof element.className.baseVal === "string") {
+      return element.className.baseVal;
+    }
+    return element.getAttribute("class") || "";
+  }
+
+  function setSvgClass(element, className, state) {
+    if (element.classList) {
+      element.classList.toggle(className, state);
+      return;
+    }
+
+    let classes = getSvgClass(element);
+    const pattern = new RegExp("\\b" + className + "\\b", "g");
+    classes = classes.replace(pattern, "").replace(/\s+/g, " ").trim();
+    if (state) {
+      classes += (classes ? " " : "") + className;
+    }
+    element.setAttribute("class", classes);
+  }
+
+  function setStatus(message, type) {
+    const status = document.getElementById("proll-status");
+    status.textContent = message || "";
+    status.className = "proll-status" + (type ? " " + type : "");
+  }
+})();
+</script>

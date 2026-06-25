@@ -1,0 +1,74 @@
+---
+layout: repertoire
+title: Piano Roll
+permalink: /proll/
+---
+
+{% include_relative styles-local.html %}
+
+<article class="about proll-page">
+  <h2 class="brown-heading">Piano Roll</h2>
+
+  <div class="proll-toolbar">
+    <form id="proll-work-form" class="proll-work-form">
+      <label for="proll-id">Work ID</label>
+      <input id="proll-id" class="form-control" type="text" autocomplete="off" spellcheck="false">
+      <button class="btn btn-brown proll-load-button" type="submit">Load</button>
+    </form>
+
+    <audio id="proll-audio" class="proll-audio" controls preload="none"></audio>
+  </div>
+
+  <h3 id="proll-title" class="proll-title">Loading...</h3>
+
+  <div class="proll-controls" aria-label="Piano roll controls">
+    <label class="proll-control proll-width-control">
+      Width
+      <input id="proll-width" type="number" value="800" min="50" max="2400" step="50">
+      <span>%</span>
+    </label>
+
+    <button id="proll-fit-height" class="proll-control-button" type="button">Fit height</button>
+    <button id="proll-fit-width" class="proll-control-button" type="button">Fit width</button>
+
+    <label class="proll-control">
+      <input id="proll-round-notes" type="checkbox" checked>
+      Round notes
+    </label>
+
+    <label class="proll-control">
+      <input id="proll-note-connectors" type="checkbox" checked>
+      Note connectors
+    </label>
+
+    <label class="proll-control">
+      <input id="proll-grand-staff" type="checkbox">
+      Grand staff
+    </label>
+
+    <label class="proll-control">
+      <input id="proll-maxima" type="checkbox">
+      Maxima
+    </label>
+
+    <label class="proll-control">
+      <input id="proll-minima" type="checkbox">
+      Minima
+    </label>
+
+    <label class="proll-control">
+      <input id="proll-follow" type="checkbox" checked>
+      Follow audio
+    </label>
+  </div>
+
+  <div id="proll-voices" class="proll-voices"></div>
+  <div id="proll-status" class="proll-status" role="status" aria-live="polite"></div>
+  <div id="svg-container" class="proll-svg-container"></div>
+</article>
+
+<script>
+let WORKS = {% include metadata/works.json %};
+let COMPOSERS = {% include metadata/composers.json %};
+</script>
+{% include_relative scripts-local.html %}

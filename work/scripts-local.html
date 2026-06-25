@@ -1656,12 +1656,11 @@ function showWorkAnalysis(analysistype) {
 
 	var url = "";
 	if (analysistype === "dissonant") {
-		// url = "/data?a=dissonantpdf&id=" + sectionid;
-		url = "{{vhv-url}}?k=ey&filter=dissonant&file=jrp:" + sectionid;
+		url = "https://verovio.humdrum.org/?k=ey&filter=dissonant%20--color&file=jrp:" + sectionid;
 	} else if (analysistype === "imitation") {
-		url = "{{site.vhv-url}}?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
+		url = "https://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
 	} else if (analysistype === "parallel") {
-		url = "{{site.jrp-data-url}}?a=parallelnofictapdf&id=" + sectionid;
+		url = "https://josquin.stanford.edu/cgi-bin/jrp?a=parallelnofictapdf&id=" + sectionid;
 	} else if (analysistype === "activity") {
 		localStorage.ANALYSISrepertory = repertory;
 		localStorage.ANALYSISgenre		 = "";
@@ -1669,11 +1668,11 @@ function showWorkAnalysis(analysistype) {
 		url = "/analysis/activity";
 	} else if (analysistype === "proll") {
 		// url = "/data?a=proll&id=" + sectionid;
-		url = "/proll?id=" + sectionid;
+		url = "/proll/?id=" + sectionid;
 //	} else if (analysistype === "suspension") {
 //		url = "/data?a=suspensionpdf&id=" + sectionid;
    } else if (analysistype === "cadence") {
-		url = "{{site.vhv-url}}?k=ey&filter=extract%20-ikern%7cdissonant%20-V&file=jrp:" + sectionid;
+		url = "https://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cdissonant%20-V&file=jrp:" + sectionid;
 	}
 
 	if (!url.match(/^\s*$/)) {
@@ -2178,7 +2177,7 @@ function displayThisWorkRepertoryAnalyses() {
 	// content += 'sessionStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
 	// content += 'style="cursor:pointer;" ';
 	// content += 'class="btn btn-brown btn-medium">';
-	content += '<li><span onclick="var url = \'{{site.ribbon-url}}/?id=\' + sessionStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
+	content += '<li><span onclick="var url = \'{{ site.ribbon_url }}/?id=\' + sessionStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 
