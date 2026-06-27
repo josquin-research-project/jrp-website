@@ -820,11 +820,11 @@ function showDownloadArea(jrpid, stitle) {
 	// ❗ MuseData — legacy only (no clean modern endpoint)
 	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=musedata&f=${jrpid}">MuseData</a></li>\n`;
 
-	// ❗ NoteArray — legacy only
-	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=notearrayraw&f=${jrpid}">NoteArray</a></li>\n`;
+	// MusicXML
+	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "musicxml")}">MusicXML</a></li>\n`;
 
-	// ❗ Piano roll — legacy viewer
-	download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">JSON Piano Roll</a></li>\n`;
+	// MIDI
+	download += `<li><a class="icon-midi" target="_blank" href="${getJosquinDataUrl(jrpid, "midi")}">MIDI</a></li>\n`;
 
 	// MP3 (modern)
 	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "mp3")}">MP3</a></li>\n`;
@@ -834,11 +834,11 @@ function showDownloadArea(jrpid, stitle) {
 	/* ================= RIGHT COLUMN ================= */
 	download += "<div class=\"col\">\n<ul>\n";
 
-	// MusicXML
-	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "musicxml")}">MusicXML</a></li>\n`;
+	// ❗ NoteArray — legacy only
+	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=notearrayraw&f=${jrpid}">NoteArray</a></li>\n`;
 
-	// MIDI
-	download += `<li><a class="icon-midi" target="_blank" href="${getJosquinDataUrl(jrpid, "midi")}">MIDI</a></li>\n`;
+	// ❗ Piano roll — legacy viewer
+	download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">JSON Piano Roll</a></li>\n`;
 
 	// ❗ Timemap (used internally; still valuable)
 	download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}${jrpid}-timemap.json">Timemap (JSON)</a></li>\n`;
