@@ -2151,17 +2151,17 @@ table.search-results-table span.location span.point.point-green {
 }
 #primary-content.work-content .downloads {
 	margin-top: 25px;
+	margin-right: 30px;
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	column-gap: 36px;
+	align-items: start;
 }
-#primary-content.work-content .downloads:after {
-	content: "";
-	display: block;
-	width: 100%;
-	height: 0px;
-	clear: both;
+#primary-content.work-content .downloads h3 {
+	grid-column: 1 / -1;
 }
 #primary-content.work-content .downloads .col {
-	float: left;
-	margin-left: 30px;
+	min-width: 0;
 }
 #primary-content.work-content .downloads .col.first-col {
 	margin-left: 0;
@@ -2170,7 +2170,7 @@ table.search-results-table span.location span.point.point-green {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	margin-top: 32px;
+	margin-top: 24px;
 }
 #primary-content.work-content .downloads .col ul li {
 	display: block;
@@ -2185,12 +2185,31 @@ table.search-results-table span.location span.point.point-green {
 	padding-left: 24px;
 	position: relative;
 	display: block;
-	margin-bottom: 15px;
+	margin-bottom: 13px;
+	line-height: 20px;
 }
 
 .xlink {
    display: inline !important;
 	padding: 0;
+}
+
+#primary-content.work-content .downloads .download-sublinks {
+	display: block;
+	margin-top: 2px;
+	color: #97897d;
+	font-family: "Lato";
+	font-size: 14px;
+	line-height: 18px;
+}
+
+#primary-content.work-content .downloads .download-sublinks .xlink {
+	font-size: 14px;
+	line-height: 18px;
+}
+
+#primary-content.work-content .downloads .download-separator {
+	color: #b5aaa0;
 }
 
 
@@ -2224,11 +2243,14 @@ table.search-results-table span.location span.point.point-green {
 	margin-top: 59px;
 	margin-bottom: 40px;
 }
-#primary-content.work-content.multiwork .vocal-ranges, #primary-content.work-content.multiwork .downloads, #primary-content.work-content.multiwork .title {
+#primary-content.work-content.multiwork .vocal-ranges, #primary-content.work-content.multiwork .title {
 	margin-right: 150px;
 }
+#primary-content.work-content.multiwork .downloads {
+	margin-right: 30px;
+}
 #primary-content.work-content.multiwork .downloads .col {
-	margin-left: 30px;
+	margin-left: 0;
 }
 #primary-content.work-content.multiwork .downloads .col.first-col {
 	margin-left: 0;

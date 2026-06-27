@@ -606,7 +606,7 @@ function GetComposerOptions(worklist) {
     const c = COMPOSER_INDEX[baseCid];
     if (!c) continue;
     let label = c.long;
-    if (cid === "Jos?") label = "Josquin? (not secure)";
+    if (cid === "Jos?") label = "Josquin (doubtful)";
     if (cid === "Jos_spurious") label = "Not Josquin (spurious)";
 
     output += `<option value="${cid}">${label} (${counts[cid].size})</option>\n`;
