@@ -68,6 +68,105 @@ function showRepertoireView(view) {
 
 //////////////////////////////
 //
+// getRepertoireUrlState -- Read the active repertoire state from the URL.
+//
+
+function getRepertoireUrlState() {
+	const params = new URLSearchParams(window.location.search);
+	return {
+		view: params.get("home") || "",
+		composer: params.get("c") || "",
+		genre: params.get("g") || "",
+		voices: params.get("v") || "",
+		title: params.get("t") || ""
+	};
+}
+
+
+
+//////////////////////////////
+//
+// hasRepertoireUrlFilters -- Returns true if the URL encodes a browse state.
+//
+
+function hasRepertoireUrlFilters(state) {
+	return !!(state.composer || state.genre || state.voices || state.title);
+}
+
+
+
+//////////////////////////////
+//
+// setRepertoireFilters -- Put filter values into the controls and session.
+//
+
+function setRepertoireFilters(state) {
+	const composers = document.getElementById("composers");
+	const genres    = document.getElementById("genres");
+	const voices    = document.getElementById("voices");
+	const titlebox  = document.getElementById("titlebox");
+
+	if (composers) {
+		composers.value = state.composer || "";
+		composers.label = state.composer || "";
+	}
+	if (genres) {
+		genres.value = state.genre || "";
+		genres.label = state.genre || "";
+	}
+	if (voices) {
+		voices.value = state.voices || "";
+		voices.label = state.voices || "";
+	}
+	if (titlebox) {
+		titlebox.value = state.title || "";
+		titlebox.label = state.title || "";
+	}
+
+	sessionStorage.REPERTOIREcomposers = state.composer || "";
+	sessionStorage.REPERTOIREgenres    = state.genre || "";
+	sessionStorage.REPERTOIREvoices    = state.voices || "";
+	sessionStorage.REPERTOIREtitlebox  = state.title || "";
+}
+
+
+
+//////////////////////////////
+//
+// displayRepertoireFromUrl -- Render the page represented by the URL.
+//
+
+function displayRepertoireFromUrl(options) {
+	options = options || {};
+	const state = getRepertoireUrlState();
+
+	if (state.view === "true") {
+		displayAboutRepertoire({ history: "replace" });
+		return;
+	}
+
+	if (state.view === "census") {
+		showCensusInfo({ history: "replace" });
+		return;
+	}
+
+	if (!hasRepertoireUrlFilters(state) && options.useStoredFilters) {
+		state.composer = sessionStorage.REPERTOIREcomposers || "";
+		state.genre    = sessionStorage.REPERTOIREgenres || "";
+		state.voices   = sessionStorage.REPERTOIREvoices || "";
+		state.title    = sessionStorage.REPERTOIREtitlebox || "";
+	}
+
+	setRepertoireFilters(state);
+	StylizeFormElements();
+	OnlyText = 0;
+	sessionStorage.REPERTOIREpageview = "paged";
+
+	repertoireDisplay(1, { history: "replace" });
+}
+
+//////////////////////////////
+//
 // browseFilter & renderBrowseResults -- Simple version of repertoire table
 //
 
@@ -195,7 +294,8 @@ function resetFormValues() {
 // showComposer -- Show all works for a particular composer.
 //
 
-function showComposer(repid) {
+function showComposer(repid, options) {
+  options = options || {};
   const composers = document.getElementById("composers");
   const genres    = document.getElementById("genres");
   const voices    = document.getElementById("voices");
@@ -221,7 +321,7 @@ function showComposer(repid) {
   showRepertoireView("results");
 
   // Render
-  repertoireDisplay(1);
+  repertoireDisplay(1, { history: options.history || "push" });
 
   // Optional: scroll to top
   window.scrollTo(0, 0);
@@ -264,10 +364,12 @@ function setSidebarActionButtons(view) {
   home.style.display  = (view === "home") ? "none" : "";
 }
 
-function displayAboutRepertoire() {
+function displayAboutRepertoire(options) {
+	options = options || {};
 	OnlyText = 0;
 	showRepertoireView("home");
 	resetFormValues();
+	updateRepertoireUrl(options.history || "push", "home");
 	fillInAboutComposerList();
 }
 
@@ -672,11 +774,13 @@ function repertoireDisplayTitleBox(page) {
 	if (ShiftKeyState || ControlKeyState) {
 		return;
 	}
-	repertoireDisplay(page);
+	repertoireDisplay(page, { history: "replace" });
 }
 
 
-function repertoireDisplay(page) {
+function repertoireDisplay(page, options) {
+	options = options || {};
+	const historyMode = options.history || "push";
 
   // Default to paged view (not "all")
   if (sessionStorage.REPERTOIREpageview !== "all") {
@@ -688,7 +792,7 @@ function repertoireDisplay(page) {
   }
 
 	storeRepertoireFilters();
-	updateRepertoireUrl();
+	updateRepertoireUrl(historyMode, "results");
 	showRepertoireView("results");
 	
 	var maincontent = document.getElementById('repertoire-results');
@@ -1104,7 +1208,7 @@ function repertoireDisplayAll() {
   sessionStorage.REPERTOIREpageview = "paged";
 
   showRepertoireView("results");
-  repertoireDisplay(1);
+  repertoireDisplay(1, { history: "push" });
   window.scrollTo(0, 0);
 }
 
@@ -1122,7 +1226,7 @@ function showAllTextedWorks() {
 
 
 	showRepertoireView("results");
-	repertoireDisplay(1);
+	repertoireDisplay(1, { history: "push" });
 	window.scrollTo(0, 0);
 }
 
@@ -1176,28 +1280,45 @@ function storeRepertoireFilters() {
 //     views can be bookmarked or shared.
 //
 
-function updateRepertoireUrl() {
-	if (!window.history || !window.history.replaceState) {
+function updateRepertoireUrl(mode, view) {
+	if (!window.history || !window.history.replaceState || !window.history.pushState) {
 		return;
 	}
 
+	mode = (mode === "replace") ? "replace" : "push";
+	view = view || "results";
+
 	const params = new URLSearchParams();
-	if (sessionStorage.REPERTOIREcomposers) {
-		params.set("c", sessionStorage.REPERTOIREcomposers);
-	}
-	if (sessionStorage.REPERTOIREgenres) {
-		params.set("g", sessionStorage.REPERTOIREgenres);
-	}
-	if (sessionStorage.REPERTOIREvoices) {
-		params.set("v", sessionStorage.REPERTOIREvoices);
-	}
-	if (sessionStorage.REPERTOIREtitlebox) {
-		params.set("t", sessionStorage.REPERTOIREtitlebox);
+
+	if (view === "home") {
+		params.set("home", "true");
+	} else if (view === "census") {
+		params.set("home", "census");
+	} else {
+		if (sessionStorage.REPERTOIREcomposers) {
+			params.set("c", sessionStorage.REPERTOIREcomposers);
+		}
+		if (sessionStorage.REPERTOIREgenres) {
+			params.set("g", sessionStorage.REPERTOIREgenres);
+		}
+		if (sessionStorage.REPERTOIREvoices) {
+			params.set("v", sessionStorage.REPERTOIREvoices);
+		}
+		if (sessionStorage.REPERTOIREtitlebox) {
+			params.set("t", sessionStorage.REPERTOIREtitlebox);
+		}
 	}
 
 	const query = params.toString();
 	const url = window.location.pathname + (query ? "?" + query : "");
-	window.history.replaceState(null, document.title, url);
+	const current = window.location.pathname + window.location.search;
+
+	if (url === current) {
+		return;
+	}
+
+	const method = (mode === "replace") ? "replaceState" : "pushState";
+	window.history[method]({ repertoire: true }, document.title, url);
 }
 
 
@@ -1214,7 +1335,7 @@ function buildComposerSelect() {
 	}
 
 	var output = "<select id=\"composers\"";
-	output += " onchange=\"repertoireDisplay();\"";
+	output += " onchange=\"repertoireDisplay(1);\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"All Composers\">All Composers</option>\n";
 	var clist = GetComposerOptions(WORKS_INDEX);
@@ -1239,7 +1360,7 @@ function buildGenreSelect() {
 	}
 
 	var output = "<select id=\"genres\"";
-	output += " onchange=\"repertoireDisplay();\"";
+	output += " onchange=\"repertoireDisplay(1);\"";
 	output += " data-placeholder=\"All Genres\">\n";
 	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
 	var clist = GetGenreBrowseOptions();
@@ -1264,7 +1385,7 @@ function buildVoiceSelect() {
 	}
 
 	var output = "<select id=\"voices\"";
-	output += " onchange=\"repertoireDisplay();\"";
+	output += " onchange=\"repertoireDisplay(1);\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"default\">All Voices</option>\n";
 	var clist = GetVoiceOptions();
@@ -1282,7 +1403,8 @@ function buildVoiceSelect() {
 // showCensusInfo --
 //
 
-function showCensusInfo() {
+function showCensusInfo(options) {
+	options = options || {};
 	let content = "";
 	content += '<section style="font-size:100%; padding-left:8px; padding-right:0; padding-bottom:100px;" class="repertoire-content">\n';
 	content += '<article style="padding-left:10px; padding-right:0;" class="about first">\n';
@@ -1295,6 +1417,7 @@ function showCensusInfo() {
 	element.innerHTML = content;
 
 	showRepertoireView("census");
+	updateRepertoireUrl(options.history || "push", "census");
 	showNoteTable("notetable");
 }
 

@@ -196,8 +196,9 @@ body {
 	font-size: 18px;
 	color: white;
 	background: #c86843;
+	cursor: pointer;
 	margin-top: 8px;
-	-webkit-box-shadow: rgba(0, 0, 0, 0.701961) 0px 5px 6px -6px, rgba(255, 255, 255, 0.298039) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.0980392) 0px -1px 1px 0px inset; 
+	-webkit-box-shadow: rgba(0, 0, 0, 0.701961) 0px 5px 6px -6px, rgba(255, 255, 255, 0.298039) 0px 1px 1px 0px inset, rgba(0, 0, 0, 0.0980392) 0px -1px 1px 0px inset;
 }
 .btn.btn-brown:hover {
 	background: #a25436;

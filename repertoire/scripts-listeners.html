@@ -244,7 +244,7 @@ const WORKS_INDEX = WORKS.map(w => ({
 
 document.addEventListener("DOMContentLoaded", function () {
 
-	migrateBrowseToRepertoire();
+	const migratedBrowse = migrateBrowseToRepertoire();
 
 	// Audio end handling
 	AUDIO = document.getElementById("audio");
@@ -266,53 +266,25 @@ document.addEventListener("DOMContentLoaded", function () {
 		sessionStorage.REPERTOIREshowjrpid = "false";
 	}
 
-	// Restore filters from URL or session
-	const params = GetCgiParameters();
-
-	const composers = document.getElementById("composers");
-	const genres    = document.getElementById("genres");
-	const voices    = document.getElementById("voices");
 	const titlebox  = document.getElementById("titlebox");
-
-	if (params.c) composers.value = params.c;
-	else if (sessionStorage.REPERTOIREcomposers) composers.value = sessionStorage.REPERTOIREcomposers;
-
-	if (params.g) genres.value = params.g;
-	else if (sessionStorage.REPERTOIREgenres) genres.value = sessionStorage.REPERTOIREgenres;
-
-	if (params.v) voices.value = params.v;
-	else if (sessionStorage.REPERTOIREvoices) voices.value = sessionStorage.REPERTOIREvoices;
-
-	if (params.t) titlebox.value = params.t;
-	else if (sessionStorage.REPERTOIREtitlebox) titlebox.value = sessionStorage.REPERTOIREtitlebox;
 
 	titlebox.addEventListener("input", function () {
 		const normalizedTitle = normalizeTitleSearch(titlebox.value);
 		if ((normalizedTitle.length === 0) || (normalizedTitle.length >= 3)) {
-			repertoireDisplay(1);
+			repertoireDisplay(1, { history: "replace" });
 		}
 	});
-
-	StylizeFormElements();
-
-	// Decide initial view
-	if (params.home === "true") {
-		displayAboutRepertoire();
-		return;
-	}
-
-	if (params.home === "census") {
-		showCensusInfo();
-		return;
-	}
 
 	// Default to paged view unless explicitly overridden later
 	if (!sessionStorage.REPERTOIREpageview) {
 	  sessionStorage.REPERTOIREpageview = "paged";
 	}
-	
-	// Default: show results
-	repertoireDisplay(1);
+
+	window.addEventListener("popstate", function () {
+		displayRepertoireFromUrl({ useStoredFilters: false });
+	});
+
+	displayRepertoireFromUrl({ useStoredFilters: migratedBrowse });
 });
 
 
@@ -391,7 +363,7 @@ window.addEventListener("keydown", function (event) {
 		case DeleteKey:
 			if (ControlKeyState) {
 				titlebox.value = "";
-				repertoireDisplay(1);
+				repertoireDisplay(1, { history: "replace" });
 			}
 			break;
 
@@ -414,7 +386,7 @@ window.addEventListener("keydown", function (event) {
 	if (!inInput && !ControlKeyState && !AltKeyState && !CommandKeyState) {
 		if (event.keyCode >= AKey && event.keyCode <= ZKey) {
 			titlebox.value += String.fromCharCode(event.keyCode).toLowerCase();
-			repertoireDisplay(1);
+			repertoireDisplay(1, { history: "replace" });
 		}
 	}
 });
