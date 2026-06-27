@@ -768,12 +768,15 @@ function showDownloadArea(jrpid, stitle) {
 		return;
 	}
 
-	let filename = work.filename;
+	let filename = work.filename || "";
 	if (work.sections && work.sections.length) {
-		filename = work.sections[0].filename;
+		const section = work.sections.find(entry => entry.id === jrpid) || work.sections[0];
+		filename = section.filename || "";
 	}
 
 	const cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
+	const githubUrl = "https://github.com/josquin-research-project/" + cshort + "/blob/main/" + filename;
+	const legacyBase = JOSQUIN_LEGACY.replace(/\/+$/, "");
 
 	let download = "";
 
@@ -793,18 +796,21 @@ function showDownloadArea(jrpid, stitle) {
 		href="${getBestPdfUrl(jrpid, "edit")}">
 		PDF w/ ed. accidentals</a></li>\n`;
 
-	// MIDI (modern)
-	download += `<li><a class="icon-midi" target="_blank" href="${getJosquinDataUrl(jrpid, "midi")}">MIDI</a></li>\n`;
+	// MEI (modern)
+	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "mei")}">MEI</a></li>\n`;
 
 	// Humdrum (modern)
-	download += "<li><div class=\"icon-file-list\"><nobr>";
+	download += "<li><div class=\"icon-file-list\">";
 	download += `<a class="xlink" target="_blank" href="${getJosquinDataUrl(jrpid, "humdrum")}">Humdrum</a> `;
 
 	// keep VHV + GitHub
-	download += `( <a class="xlink" target="_blank" href="{{site.vhv-url}}?file={{site.raw-repository-url}}${cshort}/master/${filename}">in VHV</a> ) `;
-	download += `( <a class="xlink" target="_blank" href="{{site.repository-url}}${cshort}/blob/master/${filename}">on GitHub</a> )`;
+	download += `<span class="download-sublinks">`;
+	download += `<a class="xlink" target="_blank" href="https://verovio.humdrum.org/?file=jrp:${jrpid}">VHV</a>`;
+	download += `<span class="download-separator"> · </span>`;
+	download += `<a class="xlink" target="_blank" href="${githubUrl}">GitHub</a>`;
+	download += `</span>`;
 
-	download += "</nobr></div></li>\n";
+	download += "</div></li>\n";
 
 	download += "</ul>\n</div>\n";
 
@@ -812,10 +818,10 @@ function showDownloadArea(jrpid, stitle) {
 	download += "<div class=\"col\">\n<ul>\n";
 
 	// ❗ MuseData — legacy only (no clean modern endpoint)
-	download += `<li><a class="icon-list" target="_blank" href="{{site.jrp-data-url}}?a=musedata&f=${jrpid}">MuseData</a></li>\n`;
+	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=musedata&f=${jrpid}">MuseData</a></li>\n`;
 
 	// ❗ NoteArray — legacy only
-	download += `<li><a class="icon-list" target="_blank" href="{{site.jrp-data-url}}?a=notearrayraw&f=${jrpid}">NoteArray</a></li>\n`;
+	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=notearrayraw&f=${jrpid}">NoteArray</a></li>\n`;
 
 	// ❗ Piano roll — legacy viewer
 	download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">JSON Piano Roll</a></li>\n`;
@@ -831,8 +837,8 @@ function showDownloadArea(jrpid, stitle) {
 	// MusicXML
 	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "musicxml")}">MusicXML</a></li>\n`;
 
-	// MEI
-	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "mei")}">MEI</a></li>\n`;
+	// MIDI
+	download += `<li><a class="icon-midi" target="_blank" href="${getJosquinDataUrl(jrpid, "midi")}">MIDI</a></li>\n`;
 
 	// ❗ Timemap (used internally; still valuable)
 	download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}${jrpid}-timemap.json">Timemap (JSON)</a></li>\n`;

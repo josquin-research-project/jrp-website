@@ -305,7 +305,7 @@ function fillInAboutComposerList() {
     const isJosSpurious = repid === "Jos_spurious";
     let label = comlong;
     if (isJosNotSecure) {
-      label = "Josquin? (not secure)";
+      label = "Josquin (doubtful)";
     } else if (isJosSpurious) {
       label = "Not Josquin (spurious)";
     } else if (comdatesRaw) {
@@ -1349,7 +1349,7 @@ Handlebars.registerHelper("genreworkcount", function(entry, genre) {
 
 Handlebars.registerHelper("censuslabel", function(entry) {
 	if (!entry) return "";
-	if (entry.repid === "Jos?") return "Josquin? (not secure)";
+	if (entry.repid === "Jos?") return "Josquin (doubtful)";
 	if (entry.repid === "Jos_spurious") return "Not Josquin (spurious)";
 	if (entry.repid === "Jos") return "Josquin";
 	return entry.comshort || "";
