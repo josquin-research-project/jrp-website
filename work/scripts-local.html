@@ -48,6 +48,10 @@ if (sessionStorage.WORKallincipits == "true") {
 	WORKallincipits = false;
 }
 
+var WORKscoreExpanded = false;
+var WORKscoreCurrentId = "";
+var WORKscoreRequestToken = 0;
+
 var WORKallranges;
 if (sessionStorage.WORKallranges == "true") {
 	WORKallranges = true;
@@ -416,7 +420,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	var pc = "";
 
 	if (workQ) {
-		pc += "<ul style=\"margin-top:0;\">\n";
+		pc += "<ul class=\"work-title-actions\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
 		pc += getBestPdfUrl(workid, "no_edit");
@@ -428,7 +432,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += "\"><span style=\"display:block;\">";
 		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
 	} else {
-		pc += "<ul style=\"margin-top:0;\">\n";
+		pc += "<ul class=\"work-title-actions\">\n";
 		pc += "<li><a class=\"file-orange WORKLINK\" ";
 		pc += "target=\"" + PDFTARGET + "\" href=\"";
 		pc += getBestPdfUrl(sectionid, "no_edit");
@@ -721,7 +725,7 @@ function displayWork(jrpid) {
 		"<h2 style=\"margin-bottom:0;\">" +
 		composer + ", " + title + " (" + jrpid + ")</h2>\n";
 
-	titleContent += "<ul style=\"padding-top:0;\">\n";
+	titleContent += "<ul class=\"work-title-actions\">\n";
 
 	titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
 	titleContent += getBestPdfUrl(jrpid, "no_edit");
@@ -852,74 +856,290 @@ function showDownloadArea(jrpid, stitle) {
 
 //////////////////////////////
 //
-// displayHumdrumIncipit --
+// displayHumdrumIncipit -- Render a Verovio/Humdrum score preview.  The
+//     collapsed state matches the old incipit position; users can expand the
+//     same Humdrum source into the complete score.
 //
 
 function displayHumdrumIncipit(jrpid, sections) {
-	const baseId = getBaseWorkId(jrpid);
-
 	var area = document.getElementById("music-area");
 	if (!area) {
 		return;
 	}
-	var work = WORKLISTjrpid[baseId];
-	if (!work) {
-		var tjrpid = jrpid.replace(/[a-z]+$/, "");
-		work = WORKLISTjrpid[tjrpid];
+
+	if (WORKscoreCurrentId !== jrpid) {
+		WORKscoreExpanded = false;
+		WORKscoreCurrentId = jrpid;
 	}
-	if (!work) {
-		console.log("CANNOT FIND WORK FOR", jrpid);
-		return;
-	}
-	var filename = "";
-	if (work.filename) {
-		filename = work.filename;
-	}
-	if (work.sections) {
-		for (var x=0; x<work.sections.length; x++) {
-			if (jrpid == work.sections[x].id) {
-				filename = work.sections[x].filename;
-				break;
-			}
-		}
-	}
-	if (!filename && work.sections) {
-		filename = work.sections[0].filename;
-	}
+
+	var token = ++WORKscoreRequestToken;
+	var sourceId = "work-score-source";
+	var statusId = "work-score-status";
+	var buttonText = WORKscoreExpanded ? "Show incipit" : "Show complete score";
+
+	clearHumdrumScoreEntry(sourceId);
+	area.innerHTML = "";
+	area.style.height = "";
+	area.style.marginRight = "0";
+	area.style.marginTop = "0";
+	area.style.marginBottom = WORKscoreExpanded ? "20px" : "-45px";
+
+	var panel = document.createElement("div");
+	panel.className = WORKscoreExpanded
+		? "work-score-panel work-score-panel--expanded"
+		: "work-score-panel work-score-panel--preview";
+
+	var status = document.createElement("div");
+	status.id = statusId;
+	status.className = "work-score-status";
+	status.textContent = "Loading score...";
+	panel.appendChild(status);
 
 	var script = document.createElement("script");
 	script.type = "text/x-humdrum";
-	script.id = jrpid;
-	area.innerHTML = "";
-	area.appendChild(script);
+	script.id = sourceId;
+	panel.appendChild(script);
 
-	var comcode = "";
-	if (!filename) {
-		console.log("NO FILENAME for random match", randomwork);
+	var toolbar = document.createElement("div");
+	toolbar.className = "work-score-toolbar text-right";
+	toolbar.style.display = "none";
+	toolbar.style.marginRight = "63px";
+	toolbar.style.marginTop = "0";
+	toolbar.innerHTML = "<span class=\"btn btn-brown btn-small\" "
+		+ "onclick=\"toggleCompleteScore();\">" + buttonText + "</span>";
+
+	area.appendChild(panel);
+	area.appendChild(toolbar);
+
+	loadHumdrumScore(jrpid).then(function(score) {
+		if (token !== WORKscoreRequestToken) {
+			return;
+		}
+		if (!score) {
+			status.className = "work-score-status work-score-status--error";
+			status.textContent = "Score preview unavailable.";
+			return;
+		}
+		status.textContent = "";
+		status.style.display = "none";
+		toolbar.style.display = "block";
+		script.textContent = score.text;
+		renderHumdrumScore(sourceId);
+	}).catch(function(error) {
+		if (token !== WORKscoreRequestToken) {
+			return;
+		}
+		status.className = "work-score-status work-score-status--error";
+		status.textContent = "Score preview unavailable.";
+		console.error("Unable to render Humdrum score", error);
+	});
+}
+
+
+
+//////////////////////////////
+//
+// clearHumdrumScoreEntry -- The Humdrum plugin caches entries by id.  Since
+//     this work-page score is rebuilt when switching works or toggling the
+//     complete score, clear the old cached entry before creating fresh DOM.
+//
+
+function clearHumdrumScoreEntry(sourceId) {
+	var entry = window.HNP && HNP.entries ? HNP.entries[sourceId] : null;
+	if (entry) {
+		if (entry._resizeObserver) {
+			entry._resizeObserver.disconnect();
+		}
+		if (entry._resizeCallback) {
+			clearInterval(entry._resizeCallback);
+		}
+		if (entry._timer) {
+			clearTimeout(entry._timer);
+		}
+		delete HNP.entries[sourceId];
+	}
+
+	var container = document.getElementById(sourceId + "-container");
+	if (container) {
+		container.remove();
+	}
+}
+
+
+
+//////////////////////////////
+//
+// renderHumdrumScore -- Ask the Humdrum Notation Plugin / Verovio to render
+//     the script tag filled by loadHumdrumScore().
+//
+
+function renderHumdrumScore(sourceId) {
+	if (typeof displayHumdrum !== "function") {
+		console.error("Humdrum notation plugin is not loaded.");
 		return;
 	}
-	var matches = filename.match(/^([A-Z][a-z][a-z])/);
-	if (matches) {
-		comcode = matches[1];
-	}
-	var url = "https://raw.githubusercontent.com/josquin-research-project/";
-	url += comcode;
-	url += "/master/";
-	url += filename;
-	area.style.height = "";
-	area.style.marginRight = "70px";
-	area.style.marginTop = "-50px";
-	area.style.marginBottom = "-20px";
 
-	displayHumdrum({
-		incipit: true,
-		source: jrpid,
+	var options = {
+		source: sourceId,
 		scale: 35,
-		spacingLinear: 0.18,
+		pageHeight: WORKscoreExpanded ? 60000 : 650,
+		pageMarginTop: 20,
+		pageMarginLeft: 40,
+		pageMarginRight: 40,
+		spacingLinear: WORKscoreExpanded ? 0.36 : 0.24,
 		spacingNonLinear: 0.45,
-		postFunction: resetHeight,
-		url: url
+		spacingSystem: WORKscoreExpanded ? 10 : 4,
+		mnumInterval: 5,
+		autoResize: "true",
+		postFunction: resetHeight
+	};
+
+	displayHumdrum(options);
+}
+
+
+
+//////////////////////////////
+//
+// toggleCompleteScore -- Expand/collapse the Verovio score in place.
+//
+
+function toggleCompleteScore() {
+	WORKscoreExpanded = !WORKscoreExpanded;
+	displayHumdrumIncipit(sessionStorage.WORKjrpid, SECTIONS);
+}
+
+
+
+//////////////////////////////
+//
+// loadHumdrumScore -- Try data.josqu.in first, then GitHub raw fallback.
+//
+
+async function loadHumdrumScore(jrpid) {
+	var candidates = getHumdrumScoreCandidates(jrpid);
+
+	for (var i=0; i<candidates.length; i++) {
+		try {
+			var response = await fetch(candidates[i].url, { cache: "no-cache" });
+			if (!response.ok) {
+				continue;
+			}
+			var text = await response.text();
+			if (isHumdrumScoreText(text)) {
+				return {
+					source: candidates[i].source,
+					url: candidates[i].url,
+					text: text
+				};
+			}
+		} catch (error) {
+			console.warn("Could not load Humdrum candidate", candidates[i].url, error);
+		}
+	}
+
+	return null;
+}
+
+
+
+//////////////////////////////
+//
+// getHumdrumScoreCandidates -- Data endpoint first, then GitHub metadata file.
+//
+
+function getHumdrumScoreCandidates(jrpid) {
+	var candidates = [];
+	var section = getHumdrumSectionInfo(jrpid);
+
+	addHumdrumCandidate(candidates, {
+		source: "data",
+		url: getJosquinDataUrl(jrpid, "humdrum")
 	});
+
+	if (section.id && section.id !== jrpid) {
+		addHumdrumCandidate(candidates, {
+			source: "data",
+			url: getJosquinDataUrl(section.id, "humdrum")
+		});
+	}
+
+	if (section.filename) {
+		addHumdrumCandidate(candidates, {
+			source: "github",
+			url: getGithubHumdrumUrl(section.filename)
+		});
+	}
+
+	return candidates;
+}
+
+
+
+function addHumdrumCandidate(candidates, candidate) {
+	if (!candidate.url) {
+		return;
+	}
+	for (var i=0; i<candidates.length; i++) {
+		if (candidates[i].url === candidate.url) {
+			return;
+		}
+	}
+	candidates.push(candidate);
+}
+
+
+
+function getHumdrumSectionInfo(jrpid) {
+	const baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId] || WORKLISTjrpid[jrpid];
+	var info = {
+		id: jrpid,
+		filename: ""
+	};
+
+	if (!work) {
+		return info;
+	}
+
+	if (work.filename) {
+		info.filename = work.filename;
+	}
+
+	if (work.sections && work.sections.length) {
+		var section = null;
+		for (var i=0; i<work.sections.length; i++) {
+			if (work.sections[i].id === jrpid) {
+				section = work.sections[i];
+				break;
+			}
+		}
+		if (!section) {
+			section = work.sections[0];
+		}
+		info.id = section.id || jrpid;
+		info.filename = section.filename || info.filename;
+	}
+
+	return info;
+}
+
+
+
+function getGithubHumdrumUrl(filename) {
+	var matches = filename.match(/^([A-Z][a-z][a-z])/);
+	if (!matches) {
+		return "";
+	}
+
+	return "https://raw.githubusercontent.com/josquin-research-project/"
+		+ matches[1] + "/main/" + filename.split("/").map(encodeURIComponent).join("/");
+}
+
+
+
+function isHumdrumScoreText(text) {
+	return !!(text && text.match(/\*\*kern/));
 }
 
 
@@ -930,10 +1150,8 @@ function displayHumdrumIncipit(jrpid, sections) {
 //
 
 function resetHeight(id) {
-console.log("GOT HERE IN RESET HEIGHT ========================================= ", id);
 	var samplemusic = document.getElementById("music-area");
 	if (samplemusic) {
-console.log("CLEARING HEIGHT FOR", samplemusic);
 		samplemusic.style.height = "";
 	}
 }
@@ -1016,10 +1234,13 @@ function prepareRangeArea(jrpid, sections) {
 		// out += "<div id=\"range-button\"></div>\n";
 	}
 	area.innerHTML = out;
-	area.style.height = "15px";  // Give a dummy height until the next
-											// incipit is shown.  This prevents
-											// annoying jumping of text around on page.
+	area.style.display = "none";
+	area.style.height = "0";
   	showRangeButtons();
+	var rangebutton = document.getElementById("range-button");
+	if (rangebutton) {
+		rangebutton.style.display = "none";
+	}
 }
 
 
@@ -1062,7 +1283,7 @@ function showIncipitButton() {
 function showRangeButtons() {
 
 	var ib = "<div ";
-	ib += "style=\"margin-top:0px; " + MARGINRIGHT + "\" ";
+	ib += "style=\"margin-top:0px; margin-right:59px\" ";
 	ib += "class=\"text-right\">";
 
 	ib += "<span ";
@@ -1901,6 +2122,7 @@ function getRangeAsync(jrpid) {
 		var vrange = document.querySelector("#vocal-ranges");
 		if (vrange) {
 			vrange.style["display"] = "none";
+			vrange.style.height = "0";
 		}
 		var rangebutton = document.querySelector("#range-button");
 		if (rangebutton) {
@@ -1914,17 +2136,24 @@ function getRangeAsync(jrpid) {
 	if (!!RANGES[jrpid]) {
  		var area = document.getElementById("range_" + jrpid);
 		if (!!area) { 
+			var vrange = document.querySelector("#vocal-ranges");
+			if (vrange) {
+				vrange.style.display = "";
+				vrange.style.height = "";
+			}
+			var rangebutton = document.querySelector("#range-button");
+			if (rangebutton) {
+				rangebutton.style.display = "";
+			}
 			area.style.height = ""; 
 			if (!bad) {
 	  			area.innerHTML = RANGES[jrpid];
 			}
 		}
-		document.getElementById("vocal-ranges").style.height = "";
 		return;
 	}
 
 	document.getElementById("range_" + jrpid).style.height = RANGENULLHEIGHT;
-	document.getElementById("vocal-ranges").style.height = "";
 
 	var allranges = WORKallranges;
 	if (allranges) {
