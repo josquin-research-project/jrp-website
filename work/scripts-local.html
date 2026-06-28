@@ -59,6 +59,10 @@ if (sessionStorage.WORKallranges == "true") {
 	WORKallranges = false;
 }
 
+var WORKrangesVisible = false;
+var WORKscoreSourcePrefix = "work-score-source";
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -169,7 +173,7 @@ function displayMultisectionWork(jrpid) {
 	}
 
 	SECTIONS = work.sections;
-	var sectionid = SECTIONS[0].id;
+	var sectionid = workid;
 	SECTIONID = sectionid;
 
 	var sectionindex = -1;
@@ -177,7 +181,7 @@ function displayMultisectionWork(jrpid) {
 	for (i=0; i<SECTIONS.length; i++) {
 		if (jrpid == SECTIONS[i].id) {
 			sectionid = jrpid;
-			sectionindex = i+1;
+			sectionindex = i;
 			break;
 		}
 	}
@@ -185,12 +189,9 @@ function displayMultisectionWork(jrpid) {
 	SECTIONINDEX = sectionindex;
 	if (SECTIONINDEX < 0) {
 		sectionid = workid;
-		if (SECTIONS && SECTIONS.length > 0) {
-			SECTIONINDEX = 1;
-		}
 		MENUINDEX = 0;
 	} else {
-		MENUINDEX = SECTIONINDEX;
+		MENUINDEX = SECTIONINDEX + 1;
 	}
 
 	var title	 = work.title;
@@ -225,7 +226,11 @@ function displayMultisectionWork(jrpid) {
 
 	// Set the vocal range  image //////////////////////////////////////////
 	prepareRangeArea(jrpid, SECTIONS);
-	getRangeAsyncMultiple(jrpid, SECTIONS);
+	if (WORKrangesVisible) {
+		showCurrentRangePlots();
+	} else {
+		getRangeAsyncMultiple(jrpid, SECTIONS);
+	}
 
 
 	var downloads = document.getElementById("downloads");
@@ -404,18 +409,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	tc += title + " (<span id=\"sectionid\">";
 	tc += sectionid + "</span>)</h2>\n";
 
-	if (Array.isArray(SECTIONS) && SECTIONS.length > 1) {
-		tc += "<div style=\"padding-top:0;\" class=\"fl\">\n";
-		tc += "<div class=\"form-group\">\n";
-		tc += "<select id=\"select-section\"";
-		tc += " onchange=\"displaySection(this.value);\"";
-		tc += ">\n";
-		tc += "<option value=\"" + workid + "\">Complete work</option>\n";
-		tc += getOptionList(SECTIONS);
-		tc += "</select>\n";
-		tc += "</div>\n";
-		tc += "</div>\n";
-	}
+	tc += getMovementNavHtml(sectionid, "work-movement-nav--title");
 
 	var pc = "";
 
@@ -552,7 +546,6 @@ function showSectionDownloads(jrpid) {
 function printErrorReportButton(jrpid) {
 	var error   = document.getElementById("error");
 	var message = "<a onclick=\"sessionStorage.ERRORjrpid = '" + jrpid + "';\"";
-	message += " style=\"" + MARGINRIGHT + "\"";
 	message += " href=\"/error/?work=" + encodeURIComponent(jrpid) + "\" class=\"btn btn-brown\">";
 	message += "Report an error for this work</a>";
 	error.innerHTML = message;
@@ -583,6 +576,192 @@ function getOptionList(sections) {
   }
 
   return out;
+}
+
+
+
+//////////////////////////////
+//
+// getMovementNavHtml -- Create section links for multi-section works.
+//
+
+function getMovementNavHtml(currentid, modifierClass) {
+	if (!Array.isArray(SECTIONS) || SECTIONS.length < 2) {
+		return "";
+	}
+
+	var currentMovementId = getCurrentMovementId(currentid);
+	var baseId = getBaseWorkId(currentid);
+	var classes = "work-movement-nav";
+	if (modifierClass) {
+		classes += " " + modifierClass;
+	}
+
+	var out = "<nav class=\"" + classes + "\" aria-label=\"Work movements\">\n";
+	var completeActive = currentMovementId === baseId;
+
+	out += "<a class=\"work-movement-link work-movement-link--complete";
+	if (completeActive) {
+		out += " is-active";
+	}
+	out += "\"";
+	if (completeActive) {
+		out += " aria-current=\"true\"";
+	}
+	out += " href=\"" + getMovementSectionHref(baseId) + "\"";
+	out += " onclick=\"return displayMovementSection('";
+	out += escapeJs(baseId) + "', event);\">";
+	out += "Complete work</a>\n";
+
+	for (var i=0; i<SECTIONS.length; i++) {
+		var section = SECTIONS[i];
+		if (!section || !section.id) {
+			continue;
+		}
+
+		var active = section.id === currentMovementId;
+		var activeClass = active ? " is-active" : "";
+		var ariaCurrent = active ? " aria-current=\"true\"" : "";
+		var label = escapeWorkHtml(getMovementTitle(section));
+
+		out += "<a class=\"work-movement-link" + activeClass + "\"";
+		out += ariaCurrent;
+		out += " href=\"" + getMovementSectionHref(section.id) + "\"";
+		out += " onclick=\"return displayMovementSection('";
+		out += escapeJs(section.id) + "', event);\">";
+		out += label + "</a>\n";
+	}
+
+	out += "</nav>\n";
+	return out;
+}
+
+
+
+//////////////////////////////
+//
+// getCurrentMovementId -- Resolve the selected movement or complete-work id.
+//
+
+function getCurrentMovementId(currentid) {
+	if (!Array.isArray(SECTIONS) || SECTIONS.length < 1) {
+		return currentid;
+	}
+
+	if (currentid === getBaseWorkId(currentid)) {
+		return currentid;
+	}
+
+	for (var i=0; i<SECTIONS.length; i++) {
+		if (SECTIONS[i].id === currentid) {
+			return currentid;
+		}
+	}
+
+	return getBaseWorkId(currentid);
+}
+
+
+
+//////////////////////////////
+//
+// getMovementTitle -- Prefer the section label already used by work pages.
+//
+
+function getMovementTitle(section) {
+	var title = section.stitle || section.subtitle || section.id || "";
+	title = String(title).replace(/_/g, " ").trim();
+	if (title.match(/^Agnus$/i)) {
+		return "Agnus dei";
+	}
+	return title;
+}
+
+
+
+//////////////////////////////
+//
+// getMovementSectionHref -- Stable fallback URL for movement links.
+//
+
+function getMovementSectionHref(sectionid) {
+	return "/work/?id=" + encodeURIComponent(sectionid) + "#incipit";
+}
+
+
+
+//////////////////////////////
+//
+// displayMovementSection -- Switch sections in place without changing scroll.
+//
+
+function displayMovementSection(sectionid, event) {
+	if (event && event.preventDefault) {
+		event.preventDefault();
+	}
+	if (!sectionid) {
+		return false;
+	}
+
+	var scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+	displaySection(sectionid);
+	updateMovementSectionUrl(sectionid);
+	restoreScrollPosition(scrollTop);
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// updateMovementSectionUrl -- Keep copy/share URL aligned with selection.
+//
+
+function updateMovementSectionUrl(sectionid) {
+	if (!window.history || !window.history.replaceState) {
+		return;
+	}
+	window.history.replaceState(null, "", getMovementSectionHref(sectionid));
+}
+
+
+
+//////////////////////////////
+//
+// restoreScrollPosition -- Movement links should not reposition the page.
+//
+
+function restoreScrollPosition(scrollTop) {
+	window.scrollTo(window.pageXOffset || 0, scrollTop);
+	window.setTimeout(function() {
+		window.scrollTo(window.pageXOffset || 0, scrollTop);
+	}, 250);
+}
+
+
+
+//////////////////////////////
+//
+// escapeWorkHtml -- Escape strings used in generated work-page HTML.
+//
+
+function escapeWorkHtml(value) {
+	return String(value || "")
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;");
+}
+
+
+
+//////////////////////////////
+//
+// escapeJs -- Escape strings used in inline handlers.
+//
+
+function escapeJs(value) {
+	return String(value || "").replace(/\\/g, "\\\\").replace(/'/g, "\\'");
 }
 
 
@@ -620,46 +799,12 @@ function setupSearchOnEnter() {
 //
 
 function hasMultipleSections(jrpid) {
-	InitializeWorklist();
-	var i, j, k;
-	var works;
-	for (i=0; i<WORKLIST.length; i++) {
-		if (!jrpid.match(getBaseComposerId(WORKLIST[i].repid))) {
-			continue;
-		}
-		works = WORKLIST[i].works;
-		for (j=0; j<works.length; j++) {
-			if (!jrpid.match(works[j].id)) {
-				continue;
-			}
-			if (jrpid == works[j].id) {
-				// The JRPID is a work-level id. Check to see if there are
-				// any sections.
-				if (typeof works[j].sections === 'undefined') {
-					return false;
-				} else {
-					return true;
-				}
-			} else {
-				// The JRPID is a section-level id.  Check to see if there
-				// are any sections which match to this id; otherwise, keep
-				// searching the work list
-				if (typeof works[j].sections === 'undefined') {
-					continue;
-				} else {
-					for (k=0; k<works[j].sections.length; k++) {
-						if (jrpid != works[j].sections[k].id) {
-							continue;
-						}
-						return true;
-					}
-				}
-			}
-		}
-		break;
-	}
+	InitializeWorklistFlat();
 
-	return false;
+	var baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId] || WORKLISTjrpid[jrpid];
+
+	return !!(work && Array.isArray(work.sections) && work.sections.length > 1);
 }
 
 
@@ -749,7 +894,11 @@ function displayWork(jrpid) {
 
 	// Set the vocal range image ///////////////////////////////////////////
 	prepareRangeArea(jrpid);
-	getRangeAsync(jrpid);
+	if (WORKrangesVisible) {
+		showCurrentRangePlots();
+	} else {
+		getRangeAsync(jrpid);
+	}
 
 	showDownloadArea(jrpid);
 	printErrorReportButton(jrpid);
@@ -856,9 +1005,9 @@ function showDownloadArea(jrpid, stitle) {
 
 //////////////////////////////
 //
-// displayHumdrumIncipit -- Render a Verovio/Humdrum score preview.  The
-//     collapsed state matches the old incipit position; users can expand the
-//     same Humdrum source into the complete score.
+// displayHumdrumIncipit -- Render a Verovio/Humdrum score preview. Complete
+//     multi-section works load the first movement as an incipit, then render
+//     each movement separately when expanded.
 //
 
 function displayHumdrumIncipit(jrpid, sections) {
@@ -867,17 +1016,18 @@ function displayHumdrumIncipit(jrpid, sections) {
 		return;
 	}
 
+	var completeWork = getCompleteHumdrumWork(jrpid);
+
 	if (WORKscoreCurrentId !== jrpid) {
 		WORKscoreExpanded = false;
 		WORKscoreCurrentId = jrpid;
 	}
 
 	var token = ++WORKscoreRequestToken;
-	var sourceId = "work-score-source";
 	var statusId = "work-score-status";
 	var buttonText = WORKscoreExpanded ? "Show incipit" : "Show complete score";
 
-	clearHumdrumScoreEntry(sourceId);
+	clearHumdrumScoreEntries(WORKscoreSourcePrefix);
 	area.innerHTML = "";
 	area.style.height = "";
 	area.style.marginRight = "0";
@@ -895,23 +1045,54 @@ function displayHumdrumIncipit(jrpid, sections) {
 	status.textContent = "Loading score...";
 	panel.appendChild(status);
 
-	var script = document.createElement("script");
-	script.type = "text/x-humdrum";
-	script.id = sourceId;
-	panel.appendChild(script);
-
 	var toolbar = document.createElement("div");
 	toolbar.className = "work-score-toolbar text-right";
 	toolbar.style.display = "none";
 	toolbar.style.marginRight = "63px";
 	toolbar.style.marginTop = "0";
-	toolbar.innerHTML = "<span class=\"btn btn-brown btn-small\" "
-		+ "onclick=\"toggleCompleteScore();\">" + buttonText + "</span>";
+	toolbar.innerHTML = "<div class=\"work-score-toolbar-left\">"
+		+ getRangeToggleButtonHtml()
+		+ "</div><div class=\"work-score-toolbar-right\">"
+		+ "<span class=\"btn btn-brown btn-small\" "
+		+ "onclick=\"toggleCompleteScore();\">" + buttonText + "</span>"
+		+ "</div>";
 
 	area.appendChild(panel);
 	area.appendChild(toolbar);
 
-	loadHumdrumScore(jrpid).then(function(score) {
+	if (completeWork && WORKscoreExpanded) {
+		loadCompleteHumdrumScores(completeWork).then(function(scores) {
+			if (token !== WORKscoreRequestToken) {
+				return;
+			}
+			if (!scores || !scores.length) {
+				status.className = "work-score-status work-score-status--error";
+				status.textContent = "Score preview unavailable.";
+				return;
+			}
+			status.textContent = "";
+			status.style.display = "none";
+			toolbar.style.display = "flex";
+			renderCompleteHumdrumScore(panel, scores, completeWork);
+		}).catch(function(error) {
+			if (token !== WORKscoreRequestToken) {
+				return;
+			}
+			status.className = "work-score-status work-score-status--error";
+			status.textContent = "Score preview unavailable.";
+			console.error("Unable to render complete Humdrum score", error);
+		});
+		return;
+	}
+
+	var previewId = completeWork ? getCompleteHumdrumPreviewId(completeWork, jrpid) : jrpid;
+	var sourceId = WORKscoreSourcePrefix;
+	var script = document.createElement("script");
+	script.type = "text/x-humdrum";
+	script.id = sourceId;
+	panel.appendChild(script);
+
+	loadHumdrumScore(previewId).then(function(score) {
 		if (token !== WORKscoreRequestToken) {
 			return;
 		}
@@ -922,7 +1103,7 @@ function displayHumdrumIncipit(jrpid, sections) {
 		}
 		status.textContent = "";
 		status.style.display = "none";
-		toolbar.style.display = "block";
+		toolbar.style.display = "flex";
 		script.textContent = score.text;
 		renderHumdrumScore(sourceId);
 	}).catch(function(error) {
@@ -962,6 +1143,27 @@ function clearHumdrumScoreEntry(sourceId) {
 	var container = document.getElementById(sourceId + "-container");
 	if (container) {
 		container.remove();
+	}
+}
+
+
+
+//////////////////////////////
+//
+// clearHumdrumScoreEntries -- Clear the single preview score and any separate
+//     complete-work movement scores from the Humdrum plugin cache.
+//
+
+function clearHumdrumScoreEntries(sourcePrefix) {
+	clearHumdrumScoreEntry(sourcePrefix);
+
+	if (window.HNP && HNP.entries) {
+		var keys = Object.keys(HNP.entries);
+		for (var i=0; i<keys.length; i++) {
+			if (keys[i].indexOf(sourcePrefix + "-") === 0) {
+				clearHumdrumScoreEntry(keys[i]);
+			}
+		}
 	}
 }
 
@@ -1017,7 +1219,20 @@ function toggleCompleteScore() {
 //
 
 async function loadHumdrumScore(jrpid) {
-	var candidates = getHumdrumScoreCandidates(jrpid);
+	return await loadHumdrumScoreFromCandidates(getHumdrumScoreCandidates(jrpid));
+}
+
+
+
+//////////////////////////////
+//
+// loadHumdrumScoreFromCandidates -- Return the first valid Humdrum score.
+//
+
+async function loadHumdrumScoreFromCandidates(candidates) {
+	if (!Array.isArray(candidates)) {
+		return null;
+	}
 
 	for (var i=0; i<candidates.length; i++) {
 		try {
@@ -1039,6 +1254,128 @@ async function loadHumdrumScore(jrpid) {
 	}
 
 	return null;
+}
+
+
+
+//////////////////////////////
+//
+// getCompleteHumdrumWork -- Complete-work views use the conceptual work id.
+//
+
+function getCompleteHumdrumWork(jrpid) {
+	const baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId] || WORKLISTjrpid[jrpid];
+
+	if (!work || !Array.isArray(work.sections) || work.sections.length < 2) {
+		return null;
+	}
+
+	if (jrpid !== work.id && jrpid !== baseId) {
+		return null;
+	}
+
+	return work;
+}
+
+
+
+//////////////////////////////
+//
+// getCompleteHumdrumPreviewId -- Use the first movement as the incipit-style
+//     preview when the complete work is selected.
+//
+
+function getCompleteHumdrumPreviewId(work, jrpid) {
+	if (work && Array.isArray(work.sections) && work.sections.length) {
+		return work.sections[0].id || jrpid;
+	}
+	return jrpid;
+}
+
+
+
+//////////////////////////////
+//
+// loadCompleteHumdrumScores -- Load each movement separately so Verovio does
+//     not stop after the first terminating Humdrum interpretation.
+//
+
+async function loadCompleteHumdrumScores(work) {
+	var entries = [];
+
+	if (!work || !Array.isArray(work.sections)) {
+		return entries;
+	}
+
+	for (var i=0; i<work.sections.length; i++) {
+		var section = work.sections[i];
+		if (!section || !section.id) {
+			continue;
+		}
+
+		var score = await loadHumdrumScoreFromCandidates(getHumdrumScoreCandidates(section.id));
+		if (!score) {
+			console.warn("Could not load Humdrum movement", section.id);
+			continue;
+		}
+		entries.push({
+			section: section,
+			score: score
+		});
+	}
+
+	return entries;
+}
+
+
+
+//////////////////////////////
+//
+// renderCompleteHumdrumScore -- Render each movement in its own Humdrum script
+//     tag and Verovio call.
+//
+
+function renderCompleteHumdrumScore(panel, entries, work) {
+	for (var i=0; i<entries.length; i++) {
+		var entry = entries[i];
+		var section = entry.section || {};
+		var movement = document.createElement("div");
+		movement.className = "work-score-movement";
+
+		var title = document.createElement("div");
+		title.className = "work-score-movement-title";
+		title.textContent = getCompleteScoreMovementLabel(work, section);
+		movement.appendChild(title);
+
+		var sourceId = WORKscoreSourcePrefix + "-" + i;
+		var script = document.createElement("script");
+		script.type = "text/x-humdrum";
+		script.id = sourceId;
+		script.textContent = entry.score.text;
+		movement.appendChild(script);
+
+		panel.appendChild(movement);
+		renderHumdrumScore(sourceId);
+	}
+}
+
+
+
+//////////////////////////////
+//
+// getCompleteScoreMovementLabel -- Match the range-page pattern:
+//     "Work title, Movement title".
+//
+
+function getCompleteScoreMovementLabel(work, section) {
+	var title = work && work.title ? String(work.title).trim() : "";
+	var movement = getMovementTitle(section);
+
+	if (title && movement) {
+		return title + ", " + movement;
+	}
+	return title || movement || (section && section.id) || "";
 }
 
 
@@ -1197,23 +1534,15 @@ function prepareIncipitArea(jrpid, sections) {
 function prepareRangeArea(jrpid, sections) {
 	var area = document.getElementById("vocal-ranges");
 	var out = "";
-	var sindex = -1;
-	if (!!sections && sections.length > 0) {
-		for (var i=0; i<sections.length; i++) {
- 			if (jrpid == sections[i].id) {
-				sindex = i;
-				break;
-			}
-		}
-	}
 	var workid  = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
-	if (sindex >= 0) {
-  		out += "<h3 class=\"brown-border\">Vocal Ranges";
-		out += " (" + sections[sindex].stitle +")</h3>\n";
-	} else {
-  		out += "<h3 class=\"brown-border\">Vocal Ranges</h3>";
+
+	out += "<div id=\"work-range-panel\" class=\"work-range-panel";
+	if (!WORKrangesVisible) {
+		out += " is-hidden";
 	}
-  	out += "<span class=\"orange-text\">mouse-over";
+	out += "\">\n";
+	out += "<div id=\"range-button\" class=\"work-range-controls\"></div>\n";
+	out += "<span class=\"orange-text\">Mouse-over";
 	out += " to see note ";
 	if (WORKrangedur) {
 		out += "durations";
@@ -1225,7 +1554,7 @@ function prepareRangeArea(jrpid, sections) {
 		// set up single incipit display
 		out += "<div id=\"range_" + jrpid + "\"></div>\n";
 	} else {
-		out += "<div style=\"height:0'\" id=\"range_" + workid + "\"></div>\n";
+		out += "<div style=\"height:0;\" id=\"range_" + workid + "\"></div>\n";
 		// set up multiple incipit display
 		for (var i=0; i<sections.length; i++) {
 			out += "<div style=\"height:0;\" id=\"range_";
@@ -1233,14 +1562,32 @@ function prepareRangeArea(jrpid, sections) {
 		}
 		// out += "<div id=\"range-button\"></div>\n";
 	}
+	out += "</div>\n";
 	area.innerHTML = out;
-	area.style.display = "none";
-	area.style.height = "0";
-  	showRangeButtons();
-	var rangebutton = document.getElementById("range-button");
-	if (rangebutton) {
-		rangebutton.style.display = "none";
-	}
+	area.style.display = "";
+	area.style.height = "";
+	showRangeButtons();
+	updateRangePanelVisibility();
+}
+
+
+
+//////////////////////////////
+//
+// getRangeToggleButtonHtml -- Button that expands/collapses work-page ranges.
+//
+
+function getRangeToggleButtonHtml() {
+	var expanded = WORKrangesVisible ? "true" : "false";
+	var html = "";
+	html += "<button type=\"button\" id=\"work-range-toggle\"";
+	html += " class=\"btn btn-brown work-range-toggle\"";
+	html += " aria-expanded=\"" + expanded + "\"";
+	html += " aria-controls=\"work-range-panel\"";
+	html += " onclick=\"return toggleRangePanel();\">";
+	html += "Show vocal ranges</button>\n";
+
+	return html;
 }
 
 
@@ -1282,42 +1629,31 @@ function showIncipitButton() {
 
 function showRangeButtons() {
 
-	var ib = "<div ";
-	ib += "style=\"margin-top:0px; margin-right:59px\" ";
-	ib += "class=\"text-right\">";
+	var ib = "";
 
-	ib += "<span ";
+	ib += "<label class=\"work-range-mode-toggle\">";
+	ib += "<span class=\"work-range-mode-label";
 	if (!WORKrangedur) {
-		ib += "style=\"cursor:hand; cursor:pointer; padding-right:10px;\" ";
-		ib += "onclick=\"toggleRangeByDuration();\" ";
-		ib += "class=\"btn btn-brown\">";
-		ib += "Show&nbsp;by&nbsp;duration";
-	} else {
-		ib += "style=\"cursor:hand; cursor:pointer; margin-left:-10px; padding-right:10px;\" ";
-		ib += "onclick=\"toggleRangeByDuration();\" ";
-		ib += "class=\"btn btn-brown\">";
-		ib += "Show&nbsp;by&nbsp;note&nbsp;counts";
+		ib += " is-active";
 	}
-	ib += "</span>";
-	ib += "<span>&nbsp;</span>\n";
-
-	if (!!SECTIONS && SECTIONS.length > 1) {
-		ib += "<span ";
-		ib += "style=\"cursor:hand; cursor:pointer;\" ";
-		ib += "onclick=\"toggleRangeDisplay();\" ";
-		ib += "class=\"btn btn-brown\">";
-		if (!WORKallranges) {
-			ib += "Show&nbsp;all&nbsp;ranges";
-		} else {
-			ib += "Hide&nbsp;ranges";
-		}
-		ib += "</span>";
+	ib += "\">Note counts</span>";
+	ib += "<input type=\"checkbox\" ";
+	if (WORKrangedur) {
+		ib += "checked ";
 	}
-
-	ib += "</div>\n";
+	ib += "onchange=\"setRangeByDuration(this.checked);\">";
+	ib += "<span class=\"work-range-mode-switch\" aria-hidden=\"true\"></span>";
+	ib += "<span class=\"work-range-mode-label";
+	if (WORKrangedur) {
+		ib += " is-active";
+	}
+	ib += "\">Durations</span>";
+	ib += "</label>\n";
 
 	var buttonarea = document.getElementById("range-button");
-	buttonarea.innerHTML = ib;
+	if (buttonarea) {
+		buttonarea.innerHTML = ib;
+	}
 }
 
 
@@ -1435,30 +1771,56 @@ function toggleRangeDisplay() {
 
 //////////////////////////////
 //
+// toggleRangePanel -- Show/hide the vocal ranges panel.
+//
+
+function toggleRangePanel() {
+	WORKrangesVisible = !WORKrangesVisible;
+	updateRangePanelVisibility();
+
+	if (WORKrangesVisible) {
+		showCurrentRangePlots();
+	}
+
+	return false;
+}
+
+
+
+//////////////////////////////
+//
 // toggleRangeByDuration --
 //
 
 function toggleRangeByDuration() {
-	WORKrangedur = !WORKrangedur;
+	return setRangeByDuration(!WORKrangedur);
+}
+
+
+
+//////////////////////////////
+//
+// setRangeByDuration -- Switch between note-count and duration plots.
+//
+
+function setRangeByDuration(showDuration) {
+	WORKrangedur = !!showDuration;
 	sessionStorage.WORKrangedur = WORKrangedur;
+
 	prepareRangeArea(sessionStorage.WORKjrpid, SECTIONS);
-	if (WORKallranges) {
-		if (WORKrangedur) {
-			RANGES = RANGESdurlabeled;
-		} else {
-			RANGES = RANGESnotelabeled;
-		}
-		showAllRanges();
+
+	if (WORKrangedur) {
+		RANGES = RANGESdurunlabeled;
 	} else {
-		if (WORKrangedur) {
-			RANGES = RANGESdurunlabeled;
-		} else {
-			RANGES = RANGESnoteunlabeled;
-		}
-		clearAllRanges();
-	  	getRangeAsync(sessionStorage.WORKjrpid);
+		RANGES = RANGESnoteunlabeled;
 	}
+
+	if (WORKrangesVisible) {
+		showCurrentRangePlots();
+	}
+
 	showRangeButtons();
+	return false;
 }
 
 
@@ -1481,7 +1843,80 @@ function showAllIncipits() {
 //
 
 function showAllRanges() {
-	getRangeAsyncMultiple(sessionStorage.WORKjrpid, SECTIONS);
+	if (!SECTIONS || SECTIONS.length < 2) {
+		getRangeAsync(sessionStorage.WORKjrpid);
+		return;
+	}
+	for (var i=0; i<SECTIONS.length; i++) {
+		getRangeAsync(SECTIONS[i].id);
+	}
+}
+
+
+
+//////////////////////////////
+//
+// showCurrentRangePlots -- Complete-work selection shows every movement;
+//     section selection shows only that movement.
+//
+
+function showCurrentRangePlots() {
+	clearRangeContainers();
+
+	if (shouldShowAllRangePlots(sessionStorage.WORKjrpid)) {
+		showAllRanges();
+		return;
+	}
+
+	getRangeAsync(getCurrentRangePlotId(sessionStorage.WORKjrpid));
+}
+
+
+
+//////////////////////////////
+//
+// shouldShowAllRangePlots -- Complete works show all movement plots.
+//
+
+function shouldShowAllRangePlots(jrpid) {
+	return !!(SECTIONS && SECTIONS.length > 1 && jrpid === getBaseWorkId(jrpid));
+}
+
+
+
+//////////////////////////////
+//
+// getCurrentRangePlotId -- Pick the section-level plot for the current view.
+//
+
+function getCurrentRangePlotId(jrpid) {
+	if (!SECTIONS || SECTIONS.length < 2) {
+		return jrpid;
+	}
+
+	for (var i=0; i<SECTIONS.length; i++) {
+		if (SECTIONS[i].id === jrpid) {
+			return jrpid;
+		}
+	}
+
+	return SECTIONS[0].id;
+}
+
+
+
+//////////////////////////////
+//
+// clearRangeContainers -- Remove already-rendered range plots before switching
+//     range mode or selection.
+//
+
+function clearRangeContainers() {
+	var containers = document.querySelectorAll("#vocal-ranges [id^='range_']");
+	for (var i=0; i<containers.length; i++) {
+		containers[i].innerHTML = "";
+		containers[i].style.height = "0";
+	}
 }
 
 
@@ -1517,7 +1952,7 @@ function clearAllIncipits() {
 //
 
 function clearAllRanges() {
-	var jrpid = sessionStorage.WORKd;
+	var jrpid = sessionStorage.WORKjrpid;
 	if (!SECTIONS || SECTIONS.length < 2) {
   		getRangeAsync(jrpid);
 		return;
@@ -2060,6 +2495,8 @@ function displaySection(workid) {
 	}
 
 	var menuindex = sectionindex + 1;
+	SECTIONINDEX = sectionindex;
+	MENUINDEX = menuindex;
 
 	var titlelem = document.getElementById("title");
 	if (WORKslist == true) {
@@ -2089,15 +2526,18 @@ function displaySection(workid) {
 
 	if (!WORKallranges) {
 		prepareRangeArea(workid, SECTIONS);
-		getRangeAsync(workid);
+		if (WORKrangesVisible) {
+			showCurrentRangePlots();
+		} else if (!shouldShowAllRangePlots(workid)) {
+			getRangeAsync(workid);
+		}
 	}
 
 	if ((!SECTIONS) || (sectionindex >= 0)) {
 		showSectionDownloads(workid);
-	} else if (sectionindex == 0) {
-      // show the first section download 
-      console.log(SECTIONS);
-   }
+	} else if (SECTIONS && SECTIONS.length > 0) {
+		showSectionDownloads(SECTIONS[0].id);
+	}
 }
 
 
@@ -2108,6 +2548,13 @@ function displaySection(workid) {
 //
 
 function getRangeAsync(jrpid) {
+	if (shouldShowAllRangePlots(jrpid)) {
+		if (WORKrangesVisible) {
+			showAllRanges();
+		}
+		return;
+	}
+
 	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 	if (!WORKallranges) {
 		// if not showing all ranges
@@ -2118,62 +2565,167 @@ function getRangeAsync(jrpid) {
 		}
 	}
 
-	if (RANGES[jrpid] && RANGES[jrpid].match(/Error: no image found for/)) {
-		var vrange = document.querySelector("#vocal-ranges");
-		if (vrange) {
-			vrange.style["display"] = "none";
-			vrange.style.height = "0";
-		}
-		var rangebutton = document.querySelector("#range-button");
-		if (rangebutton) {
-			rangebutton.style["display"] = "none";
-		}
-		// return;
-		var bad = 1;
-		console.log(RANGES[jrpid]);
-	}
-
-	if (!!RANGES[jrpid]) {
- 		var area = document.getElementById("range_" + jrpid);
-		if (!!area) { 
-			var vrange = document.querySelector("#vocal-ranges");
-			if (vrange) {
-				vrange.style.display = "";
-				vrange.style.height = "";
-			}
-			var rangebutton = document.querySelector("#range-button");
-			if (rangebutton) {
-				rangebutton.style.display = "";
-			}
-			area.style.height = ""; 
-			if (!bad) {
-	  			area.innerHTML = RANGES[jrpid];
-			}
-		}
+	var area = document.getElementById("range_" + jrpid);
+	if (!area) {
 		return;
 	}
 
-	document.getElementById("range_" + jrpid).style.height = RANGENULLHEIGHT;
+	if (!RANGES[jrpid]) {
+		RANGES[jrpid] = getRangePlotHtml(jrpid);
+	}
 
-	var allranges = WORKallranges;
-	if (allranges) {
-		if (WORKrangedur) {
-			action = "prange-dur-labeled-svg";
-		} else {
-			action = "prange-labeled-svg";
-		}
-	} else {
-		if (WORKrangedur) {
-			action = "prange-dur-svg";
-		} else {
-			action = "prange-svg";
+	showRangeSection();
+	area.style.height = "";
+	area.innerHTML = RANGES[jrpid];
+}
+
+
+
+//////////////////////////////
+//
+// getRangePlotHtml -- Work pages use the static range plots on data.josqu.in.
+//
+
+function getRangePlotHtml(jrpid) {
+	var plotType = WORKrangedur ? "prange-duration" : "prange-attack";
+	var url = getJosquinDataUrl(jrpid, plotType);
+	var label = WORKrangedur ? "duration" : "note-count";
+	var plotLabel = getRangePlotLabel(jrpid);
+	var alt = "Vocal range " + label + " plot for " + jrpid;
+	var html = "";
+
+	html += "<div class=\"work-range-plot\">";
+	if (plotLabel) {
+		html += "<h3 class=\"work-range-plot-title\">";
+		html += escapeWorkHtml(plotLabel);
+		html += "</h3>";
+	}
+	html += "<div class=\"vocal-wrap\">";
+	html += "<object class=\"work-range-svg\" data=\"" + url + "\" ";
+	html += "type=\"image/svg+xml\" aria-label=\"" + escapeWorkHtml(alt) + "\" ";
+	html += "onload=\"showLoadedRangeImage(this);\" ";
+	html += "onerror=\"hideMissingRangeImage(this);\">";
+	html += "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener\">";
+	html += escapeWorkHtml(alt);
+	html += "</a>";
+	html += "</object>";
+	html += "</div>";
+	html += "</div>\n";
+
+	return html;
+}
+
+
+
+//////////////////////////////
+//
+// getRangePlotLabel -- Match the range analysis page: "Title, Movement".
+//
+
+function getRangePlotLabel(jrpid) {
+	var baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId] || WORKLISTjrpid[jrpid];
+	var title = work && work.title ? String(work.title).trim() : "";
+	var movement = "";
+
+	if (work && Array.isArray(work.sections)) {
+		for (var i=0; i<work.sections.length; i++) {
+			if (work.sections[i].id === jrpid) {
+				movement = getMovementTitle(work.sections[i]);
+				break;
+			}
 		}
 	}
-	ReadFileAsync("{{site.jrp-data-url}}?a=" + action + "&id=" + jrpid, function(responseText) {
-		var data = responseText;
-		RANGES[jrpid] = responseText;
-	  	getRangeAsync(jrpid);
-	});
+
+	if (title && movement) {
+		return title + ", " + movement;
+	}
+	return title || movement || jrpid;
+}
+
+
+
+//////////////////////////////
+//
+// showRangeSection -- Keep the work-page vocal range area available while
+//     respecting the collapsed/expanded panel state.
+//
+
+function showRangeSection() {
+	var vrange = document.querySelector("#vocal-ranges");
+	if (vrange) {
+		vrange.style.display = "";
+		vrange.style.height = "";
+	}
+	var rangebutton = document.querySelector("#range-button");
+	if (rangebutton) {
+		rangebutton.style.display = "";
+	}
+	updateRangePanelVisibility();
+}
+
+
+
+//////////////////////////////
+//
+// updateRangePanelVisibility -- Sync the panel and toggle button.
+//
+
+function updateRangePanelVisibility() {
+	var panel = document.getElementById("work-range-panel");
+	if (panel) {
+		if (WORKrangesVisible) {
+			panel.className = panel.className.replace(/\bis-hidden\b/g, "").trim();
+			panel.style.display = "";
+		} else {
+			if (!panel.className.match(/\bis-hidden\b/)) {
+				panel.className += " is-hidden";
+			}
+			panel.style.display = "none";
+		}
+	}
+
+	var toggle = document.getElementById("work-range-toggle");
+	if (toggle) {
+		if (WORKrangesVisible) {
+			if (!toggle.className.match(/\bis-active\b/)) {
+				toggle.className += " is-active";
+			}
+			toggle.setAttribute("aria-expanded", "true");
+		} else {
+			toggle.className = toggle.className.replace(/\bis-active\b/g, "").trim();
+			toggle.setAttribute("aria-expanded", "false");
+		}
+	}
+}
+
+
+
+//////////////////////////////
+//
+// showLoadedRangeImage -- Keep the range section visible when the SVG loads.
+//
+
+function showLoadedRangeImage(img) {
+	showRangeSection();
+}
+
+
+
+//////////////////////////////
+//
+// hideMissingRangeImage -- Hide a missing static range plot without falling
+//     back to the old website.
+//
+
+function hideMissingRangeImage(img) {
+	var wrap = img && img.closest ? img.closest(".work-range-plot") : null;
+	if (!wrap && img && img.closest) {
+		wrap = img.closest(".vocal-wrap");
+	}
+	if (wrap) {
+		wrap.style.display = "none";
+	}
 }
 
 
