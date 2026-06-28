@@ -2163,10 +2163,14 @@ table.search-results-table span.location span.point.point-green {
 }
 #primary-content.work-content .work-score-toolbar {
 	margin: 0 30px 0 77px;
+	position: relative;
 	text-align: right;
+	z-index: 5;
 }
 #primary-content.work-content .work-score-toolbar .btn {
 	padding: 10px 13px;
+	position: relative;
+	z-index: 6;
 }
 #primary-content.work-content .vocal-ranges,
 #primary-content.work-content .downloads,
@@ -2208,6 +2212,8 @@ table.search-results-table span.location span.point.point-green {
 	grid-template-columns: repeat(3, minmax(0, 1fr));
 	column-gap: 36px;
 	align-items: start;
+	position: relative;
+	z-index: 1;
 }
 #primary-content.work-content .downloads h3 {
 	grid-column: 1 / -1;

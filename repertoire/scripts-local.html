@@ -160,7 +160,7 @@ function displayRepertoireFromUrl(options) {
 	setRepertoireFilters(state);
 	StylizeFormElements();
 	OnlyText = 0;
-	sessionStorage.REPERTOIREpageview = "paged";
+	sessionStorage.REPERTOIREpageview = hasRepertoireUrlFilters(state) ? "all" : "paged";
 
 	repertoireDisplay(1, { history: "replace" });
 }
@@ -316,8 +316,8 @@ function showComposer(repid, options) {
   // Persist filters
   storeRepertoireFilters();
 
-  // Show results, paged view
-  sessionStorage.REPERTOIREpageview = "paged";
+  // Filter links default to view-all; users can still switch to paged view.
+  sessionStorage.REPERTOIREpageview = "all";
   showRepertoireView("results");
 
   // Render
