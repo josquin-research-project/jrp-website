@@ -1891,6 +1891,9 @@ function prepareRangeArea(jrpid, sections) {
 		out += "<div style=\"height:0;\" id=\"range_" + workid + "\"></div>\n";
 		// set up multiple incipit display
 		for (var i=0; i<sections.length; i++) {
+			if (!hasRangeAsset(sections[i].id)) {
+				continue;
+			}
 			out += "<div style=\"height:0;\" id=\"range_";
 			out += sections[i].id + "\"></div>\n";
 		}
@@ -2186,6 +2189,9 @@ function showAllRanges() {
 		return;
 	}
 	for (var i=0; i<SECTIONS.length; i++) {
+		if (!hasRangeAsset(SECTIONS[i].id)) {
+			continue;
+		}
 		getRangeAsync(SECTIONS[i].id);
 	}
 }
@@ -2234,11 +2240,32 @@ function getCurrentRangePlotId(jrpid) {
 
 	for (var i=0; i<SECTIONS.length; i++) {
 		if (SECTIONS[i].id === jrpid) {
-			return jrpid;
+			return hasRangeAsset(jrpid) ? jrpid : "";
 		}
 	}
 
-	return SECTIONS[0].id;
+	return getFirstAvailableRangeSectionId();
+}
+
+
+
+//////////////////////////////
+//
+// getFirstAvailableRangeSectionId -- Complete works may have only some section
+//     range plots, so choose the first section represented in the manifest.
+//
+
+function getFirstAvailableRangeSectionId() {
+	if (!SECTIONS || SECTIONS.length < 1) {
+		return sessionStorage.WORKjrpid || JRPID || "";
+	}
+
+	for (var i=0; i<SECTIONS.length; i++) {
+		if (hasRangeAsset(SECTIONS[i].id)) {
+			return SECTIONS[i].id;
+		}
+	}
+	return "";
 }
 
 
@@ -2296,14 +2323,23 @@ function clearAllRanges() {
 		return;
 	}
 	for (var i=0; i<SECTIONS.length; i++) {
+		if (!hasRangeAsset(SECTIONS[i].id)) {
+			continue;
+		}
 		if (SECTIONS[i].id != jrpid) {
-			document.getElementById("range_" + SECTIONS[i].id).innerHTML = "";
+			var sectionRange = document.getElementById("range_" + SECTIONS[i].id);
+			if (sectionRange) {
+				sectionRange.innerHTML = "";
+			}
 		} else {
 	  		getRangeAsync(SECTIONS[i].id);
 		}
 	}
 	// clear work-level incipit if multi-sectioned work.
-	document.getElementById("range_" + jrpid).innerHTML = "";
+	var workRange = document.getElementById("range_" + jrpid);
+	if (workRange) {
+		workRange.innerHTML = "";
+	}
 }
 
 
@@ -2893,6 +2929,10 @@ function getRangeAsync(jrpid) {
 		return;
 	}
 
+	if (!jrpid || !hasRangeAsset(jrpid)) {
+		return;
+	}
+
 	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 	if (!WORKallranges) {
 		// if not showing all ranges
@@ -3154,6 +3194,9 @@ function getRangeAsyncMultiple(jrpid, sections) {
 	}
 	var counter = 0;
 	for (var i=0; i<sections.length; i++) {
+		if (!hasRangeAsset(sections[i].id)) {
+			continue;
+		}
 		if (WORKallranges) {
 			getRangeAsync(sections[i].id);
 			counter++;
@@ -3163,7 +3206,7 @@ function getRangeAsyncMultiple(jrpid, sections) {
 		}
 	}
 	if (sections && (sections.length > 0) && (counter == 0)) {
-		getRangeAsync(sections[0].id);
+		getRangeAsync(getFirstAvailableRangeSectionId());
 	}
 }
 
