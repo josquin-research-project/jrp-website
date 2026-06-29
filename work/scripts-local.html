@@ -457,6 +457,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 		pc += sectionid + "\">MP3</a></li>\n";
 	}
 
+	pc += getScoreToggleActionHtml();
 	pc += "</ul>\n";
 
 	return tc + pc;
@@ -885,6 +886,7 @@ function displayWork(jrpid) {
 	titleContent += "onclick=\"getMp3('" + jrpid + "', this);\" ";
 	titleContent += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
 	titleContent += jrpid + "\">MP3</a></li>\n";
+	titleContent += getScoreToggleActionHtml();
 	titleContent += "</ul>\n";
 
 	document.getElementById("title").innerHTML = titleContent;
@@ -1025,7 +1027,6 @@ function displayHumdrumIncipit(jrpid, sections) {
 
 	var token = ++WORKscoreRequestToken;
 	var statusId = "work-score-status";
-	var buttonText = WORKscoreExpanded ? "Show incipit" : "Show complete score";
 
 	clearHumdrumScoreEntries(WORKscoreSourcePrefix);
 	area.innerHTML = "";
@@ -1052,13 +1053,17 @@ function displayHumdrumIncipit(jrpid, sections) {
 	toolbar.style.marginTop = "0";
 	toolbar.innerHTML = "<div class=\"work-score-toolbar-left\">"
 		+ getRangeToggleButtonHtml()
-		+ "</div><div class=\"work-score-toolbar-right\">"
-		+ "<span class=\"btn btn-brown btn-small\" "
-		+ "onclick=\"toggleCompleteScore();\">" + buttonText + "</span>"
 		+ "</div>";
+	if (!WORKscoreExpanded) {
+		toolbar.innerHTML += "<div class=\"work-score-toolbar-right\">"
+			+ "<span class=\"btn btn-brown btn-small\" "
+			+ "onclick=\"toggleCompleteScore();\">Show complete score</span>"
+			+ "</div>";
+	}
 
 	area.appendChild(panel);
 	area.appendChild(toolbar);
+	updateScoreToggleButton();
 
 	if (completeWork && WORKscoreExpanded) {
 		loadCompleteHumdrumScores(completeWork).then(function(scores) {
@@ -1209,6 +1214,58 @@ function renderHumdrumScore(sourceId) {
 function toggleCompleteScore() {
 	WORKscoreExpanded = !WORKscoreExpanded;
 	displayHumdrumIncipit(sessionStorage.WORKjrpid, SECTIONS);
+}
+
+
+
+//////////////////////////////
+//
+// getScoreToggleActionHtml -- Button shown in the title action row.
+//
+
+function getScoreToggleActionHtml() {
+	var html = "";
+	html += "<li class=\"work-title-score-toggle is-hidden\">";
+	html += "<button type=\"button\" id=\"work-score-toggle\" ";
+	html += "class=\"btn btn-brown btn-small\" ";
+	html += "onclick=\"toggleCompleteScore();\">";
+	html += getScoreToggleLabel();
+	html += "</button></li>\n";
+	return html;
+}
+
+
+
+//////////////////////////////
+//
+// getScoreToggleLabel -- Text for the score preview/full-score toggle.
+//
+
+function getScoreToggleLabel() {
+	return WORKscoreExpanded ? "Show incipit only" : "Show complete score";
+}
+
+
+
+//////////////////////////////
+//
+// updateScoreToggleButton -- Keep the title-row score toggle synchronized
+//     when the score area re-renders.
+//
+
+function updateScoreToggleButton() {
+	var button = document.getElementById("work-score-toggle");
+	if (button) {
+		button.textContent = getScoreToggleLabel();
+		var item = button.parentNode;
+		if (item) {
+			if (WORKscoreExpanded) {
+				item.className = item.className.replace(/\bis-hidden\b/g, "").trim();
+			} else if (!item.className.match(/\bis-hidden\b/)) {
+				item.className += " is-hidden";
+			}
+		}
+	}
 }
 
 
@@ -1579,13 +1636,14 @@ function prepareRangeArea(jrpid, sections) {
 
 function getRangeToggleButtonHtml() {
 	var expanded = WORKrangesVisible ? "true" : "false";
+	var label = WORKrangesVisible ? "Hide vocal ranges" : "Show vocal ranges";
 	var html = "";
 	html += "<button type=\"button\" id=\"work-range-toggle\"";
 	html += " class=\"btn btn-brown work-range-toggle\"";
 	html += " aria-expanded=\"" + expanded + "\"";
 	html += " aria-controls=\"work-range-panel\"";
 	html += " onclick=\"return toggleRangePanel();\">";
-	html += "Show vocal ranges</button>\n";
+	html += label + "</button>\n";
 
 	return html;
 }
@@ -2691,9 +2749,11 @@ function updateRangePanelVisibility() {
 			if (!toggle.className.match(/\bis-active\b/)) {
 				toggle.className += " is-active";
 			}
+			toggle.textContent = "Hide vocal ranges";
 			toggle.setAttribute("aria-expanded", "true");
 		} else {
 			toggle.className = toggle.className.replace(/\bis-active\b/g, "").trim();
+			toggle.textContent = "Show vocal ranges";
 			toggle.setAttribute("aria-expanded", "false");
 		}
 	}

@@ -2134,6 +2134,21 @@ table.search-results-table span.location span.point.point-green {
 	padding-left: 0;
 	padding-right: 0;
 }
+#primary-content.work-content .title ul.work-title-actions li.work-title-score-toggle {
+	float: right;
+	margin: 0;
+}
+#primary-content.work-content .title ul.work-title-actions li.work-title-score-toggle.is-hidden {
+	display: none;
+}
+#primary-content.work-content .title ul.work-title-actions li.work-title-score-toggle .btn {
+	border: 0;
+	cursor: pointer;
+	font-family: "Lato";
+	margin-top: 0;
+	padding: 10px 13px;
+	width: auto;
+}
 
 #primary-content.work-content .work-movement-nav {
 	clear: both;
