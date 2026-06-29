@@ -937,7 +937,8 @@ function DisplayCriticalNotes(jrpid, target) {
 }
 
 function getBaseWorkId(workId) {
-  return workId.replace(/[a-z](?:\.[a-z])?$/, "");
+  const match = String(workId || "").match(/^([A-Z][a-z][a-z]\d{4}(?:\.\d+)?)(?:[a-z](?:\.[A-Za-z0-9]+)?|\.[A-Za-z])?$/);
+  return match ? match[1] : workId;
 }
 
 function splitComposerIds(value) {

@@ -703,6 +703,12 @@
 		"VIAF": "https://viaf.org/viaf/22150988"
 	},
 	{
+		"COMPOSER_ID": "Opi",
+		"Name": "Benedictus de {Opitiis}",
+		"Display Short": "de Opitiis",
+		"Display Long": "de Opitiis, Benedictus"
+	},
+	{
 		"COMPOSER_ID": "Ort",
 		"Name": "Marbrianus {de Orto}",
 		"Display Short": "de Orto",

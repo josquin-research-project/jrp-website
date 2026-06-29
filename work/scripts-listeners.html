@@ -2,6 +2,7 @@
 
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
+let ASSET_AVAILABILITY = {% include metadata/asset-availability.json %};
 
 document.addEventListener("DOMContentLoaded", async () => {
   await checkJosquinLegacyUp(false);

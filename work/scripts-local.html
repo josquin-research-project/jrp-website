@@ -64,6 +64,164 @@ var WORKscoreSourcePrefix = "work-score-source";
 
 
 
+//////////////////////////////
+//
+// hasAssetManifest -- True when the generated availability manifest is loaded.
+//
+
+function hasAssetManifest() {
+	return typeof ASSET_AVAILABILITY !== "undefined"
+		&& ASSET_AVAILABILITY
+		&& ASSET_AVAILABILITY.assets;
+}
+
+
+
+//////////////////////////////
+//
+// getAssetEntry -- Return generated availability data for a work/section.
+//
+
+function getAssetEntry(jrpid) {
+	if (!hasAssetManifest()) {
+		return null;
+	}
+	return ASSET_AVAILABILITY.assets[jrpid] || null;
+}
+
+
+
+//////////////////////////////
+//
+// hasAsset -- Check one generated availability key. If the manifest is missing,
+//     fall back to showing the link so local development is not blank.
+//
+
+function hasAsset(jrpid, key) {
+	var entry = getAssetEntry(jrpid);
+	if (!entry) {
+		return !hasAssetManifest();
+	}
+	return !!entry[key];
+}
+
+
+
+//////////////////////////////
+//
+// isCompleteWorkAssetView -- True for a multi-section parent work view.
+//
+
+function isCompleteWorkAssetView(jrpid) {
+	var entry = getAssetEntry(jrpid);
+	return !!(entry && entry.multiSection && jrpid === getBaseWorkId(jrpid));
+}
+
+
+
+//////////////////////////////
+//
+// hasScorePreviewAsset -- The incipit/preview score needs at least one
+//     Humdrum file; complete work views use section-level files.
+//
+
+function hasScorePreviewAsset(jrpid) {
+	var entry = getAssetEntry(jrpid);
+	if (!entry) {
+		return !hasAssetManifest();
+	}
+	if (isCompleteWorkAssetView(jrpid)) {
+		return !!entry.anyHumdrum;
+	}
+	return !!entry.humdrum;
+}
+
+
+
+//////////////////////////////
+//
+// hasCompleteScoreAsset -- The complete-score button needs every movement for
+//     a multi-section work, or the current score for a single-section work.
+//
+
+function hasCompleteScoreAsset(jrpid) {
+	var entry = getAssetEntry(jrpid);
+	if (!entry) {
+		return !hasAssetManifest();
+	}
+	if (isCompleteWorkAssetView(jrpid)) {
+		return !!entry.completeHumdrum;
+	}
+	return !!entry.humdrum;
+}
+
+
+
+//////////////////////////////
+//
+// hasRangeAsset -- Work-level views can show any available section plot.
+//
+
+function hasRangeAsset(jrpid) {
+	var entry = getAssetEntry(jrpid);
+	if (!entry) {
+		return !hasAssetManifest();
+	}
+	if (isCompleteWorkAssetView(jrpid)) {
+		return !!entry.anyRange;
+	}
+	return !!entry.range;
+}
+
+
+
+//////////////////////////////
+//
+// hasActivityAsset -- Activity tools use generated data/plots.
+//
+
+function hasActivityAsset(jrpid) {
+	var entry = getAssetEntry(jrpid);
+	if (!entry) {
+		return !hasAssetManifest();
+	}
+	if (isCompleteWorkAssetView(jrpid)) {
+		return !!entry.anyActivity;
+	}
+	return !!entry.activity;
+}
+
+
+
+//////////////////////////////
+//
+// getWorkAnalysisSectionId -- VHV-style work tools use a concrete section id.
+//
+
+function getWorkAnalysisSectionId(jrpid) {
+	var sectionid = jrpid;
+	var workid = sectionid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
+	if ((workid === sectionid) && SECTIONS && (SECTIONS.length > 0)) {
+		sectionid = SECTIONS[0].id;
+	}
+	return sectionid;
+}
+
+
+
+//////////////////////////////
+//
+// addListItem -- Append one list item when content is not empty.
+//
+
+function addListItem(items, html) {
+	if (html) {
+		items.push("<li>" + html + "</li>\n");
+	}
+}
+
+
+
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -310,15 +468,19 @@ function printSectionEntries(entry, currentid) {
 
 	// Scores
 	out += "<td align=center>\n";
-	out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += getBestPdfUrl(sectionid, "no_edit");
-	out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
+	if (hasAsset(sectionid, "pdfScore")) {
+		out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
+		out += getBestPdfUrl(sectionid, "no_edit");
+		out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
+	}
 	out += "</td>\n";
 
 	out += "<td>\n";
-	out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-	out += getBestPdfUrl(sectionid, "edit");
-	out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
+	if (hasAsset(sectionid, "pdfEdited")) {
+		out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
+		out += getBestPdfUrl(sectionid, "edit");
+		out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
+	}
 	out += "</td>\n";
 
 	out += "<td style=\"padding-left:30px;\">";
@@ -383,6 +545,47 @@ function printSectionTableHeader(workid) {
 
 //////////////////////////////
 //
+// getTitlePdfActionHtml -- Top work-page PDF icon/link.
+//
+
+function getTitlePdfActionHtml(jrpid, version, className, label) {
+	var key = version === "edit" ? "pdfEdited" : "pdfScore";
+	if (!hasAsset(jrpid, key)) {
+		return "";
+	}
+	var html = "";
+	html += "<li><a class=\"" + className + "\" target=\"" + PDFTARGET + "\" href=\"";
+	html += getBestPdfUrl(jrpid, version);
+	html += "\">" + label + "</a></li>\n";
+	return html;
+}
+
+
+
+//////////////////////////////
+//
+// getTitleMp3ActionHtml -- Top work-page MP3 icon/link.
+//
+
+function getTitleMp3ActionHtml(jrpid) {
+	if (!hasAsset(jrpid, "mp3")) {
+		return "";
+	}
+
+	var html = "";
+	var audioClass = jrpid == AUDIOjrpid ? "mp3pause" : "mp3play";
+	html += "<li><a style=\"cursor:hand; cursor:pointer; display:block;\" ";
+	html += "id=\"audio_" + jrpid + "\" class=\"" + audioClass + "\" ";
+	html += "onclick=\"getMp3('" + jrpid + "', this);\" ";
+	html += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
+	html += jrpid + "\">MP3</a></li>\n";
+	return html;
+}
+
+
+
+//////////////////////////////
+//
 // getSectionHeaderMenu -- For a multi-sectioned work.
 //
 
@@ -412,52 +615,15 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	tc += getMovementNavHtml(sectionid, "work-movement-nav--title");
 
 	var pc = "";
+	var actionid = workQ ? workid : sectionid;
 
-	if (workQ) {
-		pc += "<ul class=\"work-title-actions\">\n";
-		pc += "<li><a class=\"file-orange WORKLINK\" ";
-		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += getBestPdfUrl(workid, "no_edit");
-		pc += "\">Score</a></li>\n";
+	pc += "<ul class=\"work-title-actions\">\n";
+	pc += getTitlePdfActionHtml(actionid, "no_edit", "file-orange WORKLINK", "Score");
+	pc += getTitlePdfActionHtml(actionid, "edit", "file-ed-orange WORKLINK",
+		"<span style=\"display:block;\">Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span>");
+	pc += getTitleMp3ActionHtml(actionid);
 
-		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
-		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += getBestPdfUrl(workid, "edit");
-		pc += "\"><span style=\"display:block;\">";
-		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
-	} else {
-		pc += "<ul class=\"work-title-actions\">\n";
-		pc += "<li><a class=\"file-orange WORKLINK\" ";
-		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += getBestPdfUrl(sectionid, "no_edit");
-		pc += "\">Score</a></li>\n";
-
-		pc += "<li><a class=\"file-ed-orange WORKLINK\" ";
-		pc += "target=\"" + PDFTARGET + "\" href=\"";
-		pc += getBestPdfUrl(sectionid, "edit");
-		pc += "\"><span style=\"display:block;\">";
-		pc += "Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span></a></li>\n";
-	}
-
-	if (jrpid == AUDIOjrpid) {
-		pc += "<li><a id=\"audio_" + sectionid + "\"";
-		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
-		pc += "\" ";
-		pc += "class=\"mp3pause\" target=\"_blank\" ";
-		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
-		pc += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
-		pc += jrpid + "\">MP3</a></li>\n";
-	} else {
-		pc += "<li><a id=\"audio_" + sectionid + "\"";
-		pc += "style=\"cursor:hand; cursor:pointer; display:block; ";
-		pc += "\" ";
-		pc += "class=\"mp3play\" target=\"_blank\" ";
-		pc += "onclick=\"getMp3('" + sectionid + "', this);\" ";
-		pc += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
-		pc += sectionid + "\">MP3</a></li>\n";
-	}
-
-	pc += getScoreToggleActionHtml();
+	pc += getScoreToggleActionHtml(jrpid);
 	pc += "</ul>\n";
 
 	return tc + pc;
@@ -670,12 +836,93 @@ function getCurrentMovementId(currentid) {
 //
 
 function getMovementTitle(section) {
+	var title = getMovementBaseTitle(section);
+	title = addMovementVersionLabel(title, section);
+	return title;
+}
+
+
+
+//////////////////////////////
+//
+// getMovementBaseTitle -- Prefer the section label already used by work pages.
+//
+
+function getMovementBaseTitle(section) {
 	var title = section.stitle || section.subtitle || section.id || "";
 	title = String(title).replace(/_/g, " ").trim();
 	if (title.match(/^Agnus$/i)) {
-		return "Agnus dei";
+		title = "Agnus dei";
 	}
 	return title;
+}
+
+
+
+//////////////////////////////
+//
+// addMovementVersionLabel -- Make alternate settings/versions visible in labels.
+//
+
+function addMovementVersionLabel(title, section) {
+	var version = getMovementVersionNumber(section);
+	if (!version || !title || title.match(/\bversion\b/i) || !hasDuplicateMovementBaseTitle(title, section)) {
+		return title;
+	}
+	return title + ", version " + version;
+}
+
+
+
+//////////////////////////////
+//
+// hasDuplicateMovementBaseTitle -- Only number alternate settings when their
+//     visible movement labels would otherwise collide.
+//
+
+function hasDuplicateMovementBaseTitle(title, section) {
+	if (!section || !section.id || !Array.isArray(SECTIONS)) {
+		return false;
+	}
+
+	for (var i=0; i<SECTIONS.length; i++) {
+		var other = SECTIONS[i];
+		if (!other || other === section || other.id === section.id) {
+			continue;
+		}
+		if (getMovementBaseTitle(other) === title) {
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+//////////////////////////////
+//
+// getMovementVersionNumber -- Section IDs like Gas0303e.2 and Jos1201d.b are
+//     alternate versions/settings of a movement, not standalone works.
+//
+
+function getMovementVersionNumber(section) {
+	if (!section || !section.id) {
+		return "";
+	}
+
+	var match = String(section.id).match(/^[A-Z][a-z][a-z]\d{4}[a-z]\.([A-Za-z0-9]+)$/);
+	if (!match) {
+		return "";
+	}
+
+	var suffix = match[1];
+	if (suffix.match(/^\d+$/)) {
+		return String(parseInt(suffix, 10));
+	}
+	if (suffix.match(/^[A-Za-z]$/)) {
+		return String(suffix.toLowerCase().charCodeAt(0) - 96);
+	}
+	return "";
 }
 
 
@@ -873,20 +1120,10 @@ function displayWork(jrpid) {
 
 	titleContent += "<ul class=\"work-title-actions\">\n";
 
-	titleContent += "<li><a class=\"file-orange\" target=\"" + PDFTARGET + "\" href=\"";
-	titleContent += getBestPdfUrl(jrpid, "no_edit");
-	titleContent += "\">Score</a></li>\n";
-
-	titleContent += "<li><a class=\"file-ed-orange\" target=\"" + PDFTARGET + "\" href=\"";
-	titleContent += getBestPdfUrl(jrpid, "edit");
-	titleContent += "\">Score&nbsp;w/&nbsp;ed. accidentals</a></li>\n";
-
-	titleContent += "<li><a style=\"cursor:hand; cursor:pointer;\" ";
-	titleContent += "id=\"audio_" + jrpid + "\" class=\"mp3play\" ";
-	titleContent += "onclick=\"getMp3('" + jrpid + "', this);\" ";
-	titleContent += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
-	titleContent += jrpid + "\">MP3</a></li>\n";
-	titleContent += getScoreToggleActionHtml();
+	titleContent += getTitlePdfActionHtml(jrpid, "no_edit", "file-orange", "Score");
+	titleContent += getTitlePdfActionHtml(jrpid, "edit", "file-ed-orange", "Score&nbsp;w/&nbsp;ed. accidentals");
+	titleContent += getTitleMp3ActionHtml(jrpid);
+	titleContent += getScoreToggleActionHtml(jrpid);
 	titleContent += "</ul>\n";
 
 	document.getElementById("title").innerHTML = titleContent;
@@ -943,46 +1180,62 @@ function showDownloadArea(jrpid, stitle) {
 	download += "<div class=\"col first-col\">\n<ul>\n";
 
 	// PDF scores (modern backend)
-	download += `<li><a class="icon-file" target="${PDFTARGET}"
-	href="${getBestPdfUrl(jrpid, "no_edit")}">
-	PDF score</a></li>\n`;
+	if (hasAsset(jrpid, "pdfScore")) {
+		download += `<li><a class="icon-file" target="${PDFTARGET}"
+		href="${getBestPdfUrl(jrpid, "no_edit")}">
+		PDF score</a></li>\n`;
+	}
 
-	download += `<li><a class="icon-file-ed" target="${PDFTARGET}"
-		href="${getBestPdfUrl(jrpid, "edit")}">
-		PDF w/ ed. accidentals</a></li>\n`;
+	if (hasAsset(jrpid, "pdfEdited")) {
+		download += `<li><a class="icon-file-ed" target="${PDFTARGET}"
+			href="${getBestPdfUrl(jrpid, "edit")}">
+			PDF w/ ed. accidentals</a></li>\n`;
+	}
 
 	// MEI (modern)
-	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "mei")}">MEI</a></li>\n`;
+	if (hasAsset(jrpid, "mei")) {
+		download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "mei")}">MEI</a></li>\n`;
+	}
 
 	// Humdrum (modern)
-	download += "<li><div class=\"icon-file-list\">";
-	download += `<a class="xlink" target="_blank" href="${getJosquinDataUrl(jrpid, "humdrum")}">Humdrum</a> `;
+	if (hasAsset(jrpid, "humdrum")) {
+		download += "<li><div class=\"icon-file-list\">";
+		download += `<a class="xlink" target="_blank" href="${getJosquinDataUrl(jrpid, "humdrum")}">Humdrum</a> `;
 
-	// keep VHV + GitHub
-	download += `<span class="download-sublinks">`;
-	download += `<a class="xlink" target="_blank" href="https://verovio.humdrum.org/?file=jrp:${jrpid}">VHV</a>`;
-	download += `<span class="download-separator"> · </span>`;
-	download += `<a class="xlink" target="_blank" href="${githubUrl}">GitHub</a>`;
-	download += `</span>`;
+		// keep VHV + GitHub
+		download += `<span class="download-sublinks">`;
+		download += `<a class="xlink" target="_blank" href="https://verovio.humdrum.org/?file=jrp:${jrpid}">VHV</a>`;
+		download += `<span class="download-separator"> · </span>`;
+		download += `<a class="xlink" target="_blank" href="${githubUrl}">GitHub</a>`;
+		download += `</span>`;
 
-	download += "</div></li>\n";
+		download += "</div></li>\n";
+	}
 
 	download += "</ul>\n</div>\n";
 
 	/* ================= MIDDLE COLUMN ================= */
 	download += "<div class=\"col\">\n<ul>\n";
 
-	// ❗ MuseData — legacy only (no clean modern endpoint)
-	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=musedata&f=${jrpid}">MuseData</a></li>\n`;
+	// MuseData
+	if (hasAsset(jrpid, "musedata")) {
+		download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "musedata")}">MuseData</a></li>\n`;
+	}
 
 	// MusicXML
-	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "musicxml")}">MusicXML</a></li>\n`;
+	if (hasAsset(jrpid, "musicxml")) {
+		download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "musicxml")}">MusicXML</a></li>\n`;
+	}
 
 	// MIDI
-	download += `<li><a class="icon-midi" target="_blank" href="${getJosquinDataUrl(jrpid, "midi")}">MIDI</a></li>\n`;
+	if (hasAsset(jrpid, "midi")) {
+		download += `<li><a class="icon-midi" target="_blank" href="${getJosquinDataUrl(jrpid, "midi")}">MIDI</a></li>\n`;
+	}
 
 	// MP3 (modern)
-	download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "mp3")}">MP3</a></li>\n`;
+	if (hasAsset(jrpid, "mp3")) {
+		download += `<li><a class="icon-list" target="_blank" href="${getJosquinDataUrl(jrpid, "mp3")}">MP3</a></li>\n`;
+	}
 
 	download += "</ul>\n</div>\n";
 
@@ -993,10 +1246,14 @@ function showDownloadArea(jrpid, stitle) {
 	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=notearrayraw&f=${jrpid}">NoteArray</a></li>\n`;
 
 	// ❗ Piano roll — legacy viewer
-	download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">JSON Piano Roll</a></li>\n`;
+	if (hasAsset(jrpid, "humdrum")) {
+		download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">JSON Piano Roll</a></li>\n`;
+	}
 
 	// ❗ Timemap (used internally; still valuable)
-	download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}${jrpid}-timemap.json">Timemap (JSON)</a></li>\n`;
+	if (hasAsset(jrpid, "timemap")) {
+		download += `<li><a class="icon-list" target="_blank" href="${JOSQUIN_DATA}${jrpid}-timemap.json">Timemap (JSON)</a></li>\n`;
+	}
 
 	download += "</ul>\n</div>\n";
 
@@ -1015,6 +1272,14 @@ function showDownloadArea(jrpid, stitle) {
 function displayHumdrumIncipit(jrpid, sections) {
 	var area = document.getElementById("music-area");
 	if (!area) {
+		return;
+	}
+	if (!hasScorePreviewAsset(jrpid)) {
+		clearHumdrumScoreEntries(WORKscoreSourcePrefix);
+		area.innerHTML = "";
+		area.style.height = "0";
+		area.style.marginBottom = "0";
+		updateScoreToggleButton();
 		return;
 	}
 
@@ -1054,7 +1319,7 @@ function displayHumdrumIncipit(jrpid, sections) {
 	toolbar.innerHTML = "<div class=\"work-score-toolbar-left\">"
 		+ getRangeToggleButtonHtml()
 		+ "</div>";
-	if (!WORKscoreExpanded) {
+	if (!WORKscoreExpanded && hasCompleteScoreAsset(jrpid)) {
 		toolbar.innerHTML += "<div class=\"work-score-toolbar-right\">"
 			+ "<span class=\"btn btn-brown btn-small\" "
 			+ "onclick=\"toggleCompleteScore();\">Show complete score</span>"
@@ -1223,7 +1488,11 @@ function toggleCompleteScore() {
 // getScoreToggleActionHtml -- Button shown in the title action row.
 //
 
-function getScoreToggleActionHtml() {
+function getScoreToggleActionHtml(jrpid) {
+	jrpid = jrpid || sessionStorage.WORKjrpid || JRPID;
+	if (!hasCompleteScoreAsset(jrpid)) {
+		return "";
+	}
 	var html = "";
 	html += "<li class=\"work-title-score-toggle is-hidden\">";
 	html += "<button type=\"button\" id=\"work-score-toggle\" ";
@@ -1593,6 +1862,14 @@ function prepareRangeArea(jrpid, sections) {
 	var out = "";
 	var workid  = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 
+	if (!hasRangeAsset(jrpid)) {
+		WORKrangesVisible = false;
+		area.innerHTML = "";
+		area.style.display = "none";
+		area.style.height = "0";
+		return;
+	}
+
 	out += "<div id=\"work-range-panel\" class=\"work-range-panel";
 	if (!WORKrangesVisible) {
 		out += " is-hidden";
@@ -1635,6 +1912,9 @@ function prepareRangeArea(jrpid, sections) {
 //
 
 function getRangeToggleButtonHtml() {
+	if (!hasRangeAsset(sessionStorage.WORKjrpid || JRPID)) {
+		return "";
+	}
 	var expanded = WORKrangesVisible ? "true" : "false";
 	var label = WORKrangesVisible ? "Hide vocal ranges" : "Show vocal ranges";
 	var html = "";
@@ -3020,6 +3300,20 @@ function displayAllWorksRepertoryAnalyses() {
 
 function displayThisWorkRepertoryAnalyses() {
 	var content = "";
+	var jrpid = sessionStorage.WORKjrpid;
+	var analysisSectionId = getWorkAnalysisSectionId(jrpid);
+
+	function addWorkAnalysisButton(analysistype, title, subtitle) {
+		content += '<li><span onclick="showWorkAnalysis(\'' + analysistype + '\');" ';
+		content += 'style="cursor:pointer;" ';
+		content += 'class="btn btn-brown btn-medium">';
+		content += '<span class="anatitle">' + title + '</span> ';
+		if (subtitle) {
+			content += '<small>' + subtitle + '</small>';
+		}
+		content += '</span></li>\n';
+	}
+
 	// content += '<li><span onclick="localStorage.RIBBONjrpid=';
 	// content += 'sessionStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
 	// content += 'style="cursor:pointer;" ';
@@ -3031,29 +3325,15 @@ function displayThisWorkRepertoryAnalyses() {
 	content += '<span class="anatitle">Ribbon</span> ';
 	content += '<small>formal analysis</small></span></li>\n';
 
-	content += '<li><span onclick="showWorkAnalysis(\'activity\');" ';
-	content += 'style="cursor:pointer;" ';
-	content += 'class="btn btn-brown btn-medium">';
-	content += '<span class="anatitle">Activity</span> ';
-	content += '<small>attacks per measure</small></span></li>\n';
+	if (hasActivityAsset(jrpid)) {
+		addWorkAnalysisButton("activity", "Activity", "attacks per measure");
+	}
 
-	content += '<li><span onclick="showWorkAnalysis(\'dissonant\');" ';
-	content += 'style="cursor:pointer;" ';
-	content += 'class="btn btn-brown btn-medium">';
-	content += '<span class="anatitle">Dissonant</span> ';
-	content += '<small>all dissonances labeled</small></span></li>\n';
-
-	content += '<li><span onclick="showWorkAnalysis(\'cadence\');" ';
-	content += 'style="cursor:pointer;" ';
-	content += 'class="btn btn-brown btn-medium">';
-	content += '<span class="anatitle">Cadences</span> ';
-	content += '<small>cadential voice functions marked</small></span></li>\n';
-
-	content += '<li><span onclick="showWorkAnalysis(\'imitation\');" ';
-	content += 'style="cursor:pointer;" ';
-	content += 'class="btn btn-brown btn-medium">';
-	content += '<span class="anatitle">Imitation</span> ';
-	content += '<small>all imitations marked</small></span></li>\n';
+	if (hasAsset(analysisSectionId, "humdrum")) {
+		addWorkAnalysisButton("dissonant", "Dissonant", "all dissonances labeled");
+		addWorkAnalysisButton("cadence", "Cadences", "cadential voice functions marked");
+		addWorkAnalysisButton("imitation", "Imitation", "all imitations marked");
+	}
 
 	content += '<li><span onclick="showWorkAnalysis(\'parallel\');" ';
 	content += 'style="cursor:pointer;" ';
@@ -3061,11 +3341,9 @@ function displayThisWorkRepertoryAnalyses() {
 	content += '<span class="anatitle">Parallel</span> ';
 	content += '<small>parallel perfect intervals</span></a></li>\n';
 
-	content += '<li><span onclick="showWorkAnalysis(\'proll\');" ';
-	content += 'style="cursor:pointer;" ';
-	content += 'class="btn btn-brown btn-medium">';
-	content += '<span class="anatitle">Piano Roll</span> ';
-	content += '</span></a></li>\n';
+	if (hasAsset(analysisSectionId, "humdrum")) {
+		addWorkAnalysisButton("proll", "Piano Roll", "");
+	}
 
 	var ul = document.getElementById("analysis-list");
 	ul.innerHTML = content;

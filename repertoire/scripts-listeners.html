@@ -220,22 +220,48 @@ function removeAccents(str) {
 	return output.toLowerCase();
 }
 
-const WORKS_INDEX = WORKS.map(w => ({
-  ...w,
+function buildWorksIndex(works) {
+	const byBaseId = new Map();
 
-  // normalized search string
-  _search: normalize([
-    w.WORK_ID,
-    w.Title,
-    w.Subtitle,
-    w.Composer,
-    w.Genre
-  ].join(" ")),
+	for (const w of works) {
+		if (!w.WORK_ID || !w.Title) {
+			continue;
+		}
 
-  	// check if texted
-   _isTexted: w.Texted === "yes" || w.Texted === "Yes"
+		const baseId = getBaseWorkId(w.WORK_ID);
+		if (!byBaseId.has(baseId)) {
+			byBaseId.set(baseId, {
+				...w,
+				WORK_ID: baseId,
+				baseId: baseId,
+				sectionIds: [],
+				sectionSubtitles: [],
+				_searchParts: []
+			});
+		}
 
-}));
+		const entry = byBaseId.get(baseId);
+		entry.sectionIds.push(w.WORK_ID);
+		if (w.Subtitle) {
+			entry.sectionSubtitles.push(w.Subtitle);
+		}
+		entry._searchParts.push([
+			w.WORK_ID,
+			w.Title,
+			w.Subtitle,
+			w.Composer,
+			w.Genre
+		].join(" "));
+	}
+
+	return Array.from(byBaseId.values()).map(w => ({
+		...w,
+		_search: normalize(w._searchParts.join(" ")),
+		_isTexted: w.Texted === "yes" || w.Texted === "Yes"
+	}));
+}
+
+const WORKS_INDEX = buildWorksIndex(WORKS);
 
 //////////////////////////////
 //

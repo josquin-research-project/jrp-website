@@ -9,9 +9,18 @@
 #SID for JRP Metadata
 SID = AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1L6drL9Th7PR-jARwDKP6kZEhED56w
 
+AVAILABILITY_ARGS ?=
+AVAILABILITY_MAX_AGE_DAYS ?= 30
+
 all: download
 
-download: works composers sources editions
+download: works composers sources editions availability-monthly
+
+availability:
+	node ../../tools/generate-asset-availability.mjs $(AVAILABILITY_ARGS)
+
+availability-monthly:
+	node ../../tools/run-asset-availability-monthly.mjs --max-age-days $(AVAILABILITY_MAX_AGE_DAYS) -- $(AVAILABILITY_ARGS)
 
 works:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=works" > works.json

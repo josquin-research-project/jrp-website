@@ -174,7 +174,7 @@
 		"Gihub URL": "https://github.com/josquin-research-project/Agr/blob/main/Agr3028-Jay_beau_heur.krn",
 		"Note count": "413",
 		"Date added": "2026/05/07",
-		"Date changed": "2026/05/07"
+		"Date changed": "2026/05/11"
 	},
 	{
 		"WORK_ID": "Agr3051",
@@ -4876,7 +4876,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303a",
-		"Title": "In honorem sancti spiritus",
+		"Title": "In honorem sancti spiritus cycle",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Spiritus domini",
@@ -4892,7 +4892,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303b",
-		"Title": "In honorem sancti spiritus",
+		"Title": "In honorem sancti spiritus cycle",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Veni, sancte spiritus",
@@ -4908,7 +4908,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303c",
-		"Title": "In honorem sancti spiritus",
+		"Title": "In honorem sancti spiritus cycle",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Beata gens",
@@ -4924,7 +4924,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303d",
-		"Title": "In honorem sancti spiritus",
+		"Title": "In honorem sancti spiritus cycle",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Confirma hoc, deus",
@@ -4940,23 +4940,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303e",
-		"Title": "In honorem sancti spiritus",
-		"COMPOSER_ID": "Gas",
-		"Composer": "{Gaspar} van Weerbeke",
-		"Subtitle": "Ave regina caelorum mater",
-		"Genre": "motet",
-		"Subgenre": "motetti misales",
-		"Filename": "Gas0303e-In_honorem_sancti_spiritus-Loquebantur_variis_linguis.krn",
-		"Voices": "4",
-		"Extant voices": "4",
-		"Texted": "yes",
-		"Gihub URL": "https://github.com/josquin-research-project/Gas/blob/main/Gas0303e-In_honorem_sancti_spiritus-Loquebantur_variis_linguis.krn",
-		"Note count": "699",
-		"Date changed": "2021/11/25"
-	},
-	{
-		"WORK_ID": "Gas0303e",
-		"Title": "In honorem sancti spiritus",
+		"Title": "In honorem sancti spiritus cycle",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Loquebantur variis linguis",
@@ -4972,7 +4956,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303e.2",
-		"Title": "In honorem sancti spiritus",
+		"Title": "In honorem sancti spiritus cycle",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Sancti spiritus adsit nobis",
@@ -4988,7 +4972,7 @@
 	},
 	{
 		"WORK_ID": "Gas0303f",
-		"Title": "In honorem sancti spiritus",
+		"Title": "In honorem sancti spiritus cycle",
 		"COMPOSER_ID": "Gas",
 		"Composer": "{Gaspar} van Weerbeke",
 		"Subtitle": "Factus est repente",
@@ -10663,7 +10647,7 @@
 		"Gihub URL": "https://github.com/josquin-research-project/Jos/blob/main/Jos2514-Vultum_tuum_deprecabuntur.krn",
 		"Note count": "3998",
 		"Date added": "2011/07/11",
-		"Date changed": "2012/04/22"
+		"Date changed": "2024/03/08"
 	},
 	{
 		"WORK_ID": "Jos2601",
