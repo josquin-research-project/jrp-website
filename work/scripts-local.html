@@ -61,6 +61,7 @@ if (sessionStorage.WORKallranges == "true") {
 
 var WORKrangesVisible = false;
 var WORKscoreSourcePrefix = "work-score-source";
+var WORKscoreFetchTimeoutMs = 5000;
 
 
 
@@ -1166,8 +1167,7 @@ function showDownloadArea(jrpid, stitle) {
 		filename = section.filename || "";
 	}
 
-	const cshort = jrpid.match(/^([A-Z][a-z][a-z])/)[1];
-	const githubUrl = "https://github.com/josquin-research-project/" + cshort + "/blob/main/" + filename;
+	const githubUrl = getGithubHumdrumPageUrl(filename);
 	const legacyBase = JOSQUIN_LEGACY.replace(/\/+$/, "");
 
 	let download = "";
@@ -1562,7 +1562,7 @@ async function loadHumdrumScoreFromCandidates(candidates) {
 
 	for (var i=0; i<candidates.length; i++) {
 		try {
-			var response = await fetch(candidates[i].url, { cache: "no-cache" });
+			var response = await fetchHumdrumCandidate(candidates[i]);
 			if (!response.ok) {
 				continue;
 			}
@@ -1580,6 +1580,45 @@ async function loadHumdrumScoreFromCandidates(candidates) {
 	}
 
 	return null;
+}
+
+
+
+async function fetchHumdrumCandidate(candidate) {
+	var options = { cache: "no-cache" };
+	var controller = null;
+	var timeout = null;
+	var fallbackTimeout = null;
+
+	if (typeof AbortController === "function") {
+		controller = new AbortController();
+		options.signal = controller.signal;
+		timeout = window.setTimeout(function() {
+			controller.abort();
+		}, WORKscoreFetchTimeoutMs);
+	}
+
+	try {
+		var request = fetch(candidate.url, options);
+		if (!controller) {
+			request = Promise.race([
+				request,
+				new Promise(function(resolve, reject) {
+					fallbackTimeout = window.setTimeout(function() {
+						reject(new Error("Timed out loading Humdrum score"));
+					}, WORKscoreFetchTimeoutMs);
+				})
+			]);
+		}
+		return await request;
+	} finally {
+		if (timeout) {
+			window.clearTimeout(timeout);
+		}
+		if (fallbackTimeout) {
+			window.clearTimeout(fallbackTimeout);
+		}
+	}
 }
 
 
@@ -1708,7 +1747,7 @@ function getCompleteScoreMovementLabel(work, section) {
 
 //////////////////////////////
 //
-// getHumdrumScoreCandidates -- Data endpoint first, then GitHub metadata file.
+// getHumdrumScoreCandidates -- Data endpoint first, then GitHub direct score.
 //
 
 function getHumdrumScoreCandidates(jrpid) {
@@ -1790,13 +1829,45 @@ function getHumdrumSectionInfo(jrpid) {
 
 
 function getGithubHumdrumUrl(filename) {
-	var matches = filename.match(/^([A-Z][a-z][a-z])/);
+	var path = getGithubHumdrumPath(filename);
+	if (!path) {
+		return "";
+	}
+
+	return "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/" + path;
+}
+
+
+
+function getGithubHumdrumPageUrl(filename) {
+	var path = getGithubHumdrumPath(filename);
+	if (!path) {
+		return "https://github.com/josquin-research-project/jrp-scores";
+	}
+
+	return "https://github.com/josquin-research-project/jrp-scores/blob/main/" + path;
+}
+
+
+
+function getGithubHumdrumPath(filename) {
+	if (!filename) {
+		return "";
+	}
+
+	var path = filename.replace(/^\/+/, "");
+	var matches = path.match(/^([A-Z][a-z][a-z])/);
 	if (!matches) {
 		return "";
 	}
 
-	return "https://raw.githubusercontent.com/josquin-research-project/"
-		+ matches[1] + "/main/" + filename.split("/").map(encodeURIComponent).join("/");
+	var composer = matches[1];
+	path = path.replace(new RegExp("^" + composer + "/kern/"), composer + "/");
+	if (path.indexOf(composer + "/") !== 0) {
+		path = composer + "/" + path;
+	}
+
+	return path.split("/").map(encodeURIComponent).join("/");
 }
 
 

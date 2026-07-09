@@ -12,7 +12,7 @@ const DEFAULT_OUTPUT = path.join(REPO_ROOT, "_includes", "metadata", "asset-avai
 
 const DATA_BASE = "https://data.josqu.in/";
 const PDF_BACKUP_BASE = "https://cdn.jsdelivr.net/gh/benory/jrp-scores-backup@main/";
-const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/josquin-research-project/";
+const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/";
 
 const DEFAULT_CONCURRENCY = 10;
 const DEFAULT_TIMEOUT_MS = 12000;
@@ -137,14 +137,32 @@ function backupPdfUrl(jrpid, version) {
 }
 
 function githubHumdrumUrl(filename) {
+	const scorePath = githubHumdrumPath(filename);
+	if (!scorePath) {
+		return "";
+	}
+
+	return `${GITHUB_RAW_BASE}${scorePath}`;
+}
+
+function githubHumdrumPath(filename) {
 	if (!filename) {
 		return "";
 	}
-	const match = filename.match(/^([A-Z][a-z][a-z])/);
+
+	let scorePath = filename.replace(/^\/+/, "");
+	const match = scorePath.match(/^([A-Z][a-z][a-z])/);
 	if (!match) {
 		return "";
 	}
-	return `${GITHUB_RAW_BASE}${match[1]}/main/${filename.split("/").map(encodeURIComponent).join("/")}`;
+
+	const composer = match[1];
+	scorePath = scorePath.replace(new RegExp(`^${composer}/kern/`), `${composer}/`);
+	if (!scorePath.startsWith(`${composer}/`)) {
+		scorePath = `${composer}/${scorePath}`;
+	}
+
+	return scorePath.split("/").map(encodeURIComponent).join("/");
 }
 
 function hasHtmlContentType(contentType) {

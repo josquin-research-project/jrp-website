@@ -13,6 +13,8 @@
 // Description:   JavaScript management for the JRP homepage.
 //
 
+var HOMEPAGEscoreFetchTimeoutMs = 5000;
+
 
 //////////////////////////////
 //
@@ -127,25 +129,183 @@ function displayRandomExample(worklist) {
 	sampleMusic.style.minHeight = "300px";
 	sampleMusic.innerHTML = output;
 
-	let matches = filename.match(/^([A-Z][a-z][a-z])/);
-	if (matches) {
-		comcode = matches[1];
-	}
-	let url = 'https://raw.githubusercontent.com/josquin-research-project/';
-	url += `${comcode}/master/${filename}`;
+	loadHomepageHumdrumScore(jrpid, filename).then(function(score) {
+		if (!score) {
+			console.warn("Homepage random Humdrum score unavailable", jrpid);
+			return;
+		}
 
-	displayHumdrum({
-		incipit: "true",
-		source: "random-music",
-		autoResize: "true",
-		scale: 35,
-		// spacingLinear: 0.18,
-		// spacingNonLinear: 0.45,
-		evenNoteSpacing: "true",
-		postFunction: resetHeight,
-		url: url
+		let script = document.getElementById("random-music");
+		if (!script) {
+			console.warn("Cannot find #random-music");
+			return;
+		}
+
+		script.textContent = score.text;
+		displayHumdrum({
+			incipit: "true",
+			source: "random-music",
+			autoResize: "true",
+			scale: 35,
+			// spacingLinear: 0.18,
+			// spacingNonLinear: 0.45,
+			evenNoteSpacing: "true",
+			postFunction: resetHeight
+		});
+	}).catch(function(error) {
+		console.error("Unable to render homepage random Humdrum score", error);
 	});
 
+}
+
+
+
+//////////////////////////////
+//
+// loadHomepageHumdrumScore -- Try data.josqu.in first, then GitHub raw fallback.
+//
+
+async function loadHomepageHumdrumScore(jrpid, filename) {
+	return await loadHomepageHumdrumScoreFromCandidates(getHomepageHumdrumScoreCandidates(jrpid, filename));
+}
+
+
+
+function getHomepageHumdrumScoreCandidates(jrpid, filename) {
+	let candidates = [];
+
+	addHomepageHumdrumCandidate(candidates, {
+		source: "data",
+		url: getJosquinDataUrl(jrpid, "humdrum")
+	});
+
+	addHomepageHumdrumCandidate(candidates, {
+		source: "github",
+		url: getHomepageGithubHumdrumUrl(filename)
+	});
+
+	return candidates;
+}
+
+
+
+function addHomepageHumdrumCandidate(candidates, candidate) {
+	if (!candidate.url) {
+		return;
+	}
+	for (let i=0; i<candidates.length; i++) {
+		if (candidates[i].url === candidate.url) {
+			return;
+		}
+	}
+	candidates.push(candidate);
+}
+
+
+
+async function loadHomepageHumdrumScoreFromCandidates(candidates) {
+	if (!Array.isArray(candidates)) {
+		return null;
+	}
+
+	for (let i=0; i<candidates.length; i++) {
+		try {
+			let response = await fetchHomepageHumdrumCandidate(candidates[i]);
+			if (!response.ok) {
+				continue;
+			}
+			let text = await response.text();
+			if (isHomepageHumdrumScoreText(text)) {
+				return {
+					source: candidates[i].source,
+					url: candidates[i].url,
+					text: text
+				};
+			}
+		} catch (error) {
+			console.warn("Could not load homepage Humdrum candidate", candidates[i].url, error);
+		}
+	}
+
+	return null;
+}
+
+
+
+async function fetchHomepageHumdrumCandidate(candidate) {
+	let options = { cache: "no-cache" };
+	let controller = null;
+	let timeout = null;
+	let fallbackTimeout = null;
+
+	if (typeof AbortController === "function") {
+		controller = new AbortController();
+		options.signal = controller.signal;
+		timeout = window.setTimeout(function() {
+			controller.abort();
+		}, HOMEPAGEscoreFetchTimeoutMs);
+	}
+
+	try {
+		let request = fetch(candidate.url, options);
+		if (!controller) {
+			request = Promise.race([
+				request,
+				new Promise(function(resolve, reject) {
+					fallbackTimeout = window.setTimeout(function() {
+						reject(new Error("Timed out loading homepage Humdrum score"));
+					}, HOMEPAGEscoreFetchTimeoutMs);
+				})
+			]);
+		}
+		return await request;
+	} finally {
+		if (timeout) {
+			window.clearTimeout(timeout);
+		}
+		if (fallbackTimeout) {
+			window.clearTimeout(fallbackTimeout);
+		}
+	}
+}
+
+
+
+function getHomepageGithubHumdrumUrl(filename) {
+	let path = getHomepageGithubHumdrumPath(filename);
+	if (!path) {
+		return "";
+	}
+
+	return "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/" + path;
+}
+
+
+
+function getHomepageGithubHumdrumPath(filename) {
+	if (!filename) {
+		return "";
+	}
+
+	let path = filename.replace(/^\/+/, "");
+	let matches = path.match(/^([A-Z][a-z][a-z])/);
+	if (!matches) {
+		return "";
+	}
+
+	let composer = matches[1];
+	path = path.replace(new RegExp("^" + composer + "/kern/"), composer + "/");
+	if (path.indexOf(composer + "/") !== 0) {
+		path = composer + "/" + path;
+	}
+
+	return path.split("/").map(encodeURIComponent).join("/");
+}
+
+
+
+function isHomepageHumdrumScoreText(text) {
+	return !!(text && text.match(/\*\*kern/));
 }
 
 
