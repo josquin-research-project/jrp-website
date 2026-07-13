@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("error-form");
   const statusEl = document.getElementById("status");
   const targetEl = document.getElementById("error_target");
+  const submitButton = form.querySelector('[type="submit"]');
 
   function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -25,44 +26,69 @@ document.addEventListener("DOMContentLoaded", function () {
     targetEl.value = sourceUrl;
   }
 
-  form.addEventListener("submit", function (event) {
+  function setStatus(message, modifier) {
+    statusEl.className = modifier
+      ? "feedback-status feedback-status--" + modifier
+      : "feedback-status";
+    statusEl.textContent = message;
+  }
+
+  function resetTurnstile() {
+    if (window.turnstile && typeof window.turnstile.reset === "function") {
+      window.turnstile.reset();
+    }
+  }
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+
     const description = form.querySelector("#error_description").value.trim();
     const email = form.querySelector("#error_email").value.trim();
-    const humanCheck = form.querySelector("#error_human").value.trim();
+    const turnstileToken = form.querySelector('[name="cf-turnstile-response"]')?.value.trim();
     const reportedTarget = targetEl.value.trim() || window.location.href;
 
-    if (!description || !email || !humanCheck) {
-      event.preventDefault();
-      statusEl.className = "feedback-status feedback-status--error";
-      statusEl.textContent = "Please complete all required fields.";
+    if (!description || !email) {
+      setStatus("Please complete all required fields.", "error");
       return;
     }
 
     if (!isValidEmail(email)) {
-      event.preventDefault();
-      statusEl.className = "feedback-status feedback-status--error";
-      statusEl.textContent = "Please enter a valid email address.";
+      setStatus("Please enter a valid email address.", "error");
       return;
     }
 
-    if (humanCheck.toLowerCase() !== "josquin") {
-      event.preventDefault();
-      statusEl.className = "feedback-status feedback-status--error";
-      statusEl.textContent = "Please complete the human check.";
+    if (!turnstileToken) {
+      setStatus("Please complete the verification.", "error");
       return;
     }
 
     form.querySelector('[name="entry.270859303"]').value = reportedTarget;
     form.querySelector('[name="entry.2136692707"]').value = navigator.userAgent;
 
-    statusEl.className = "feedback-status";
-    statusEl.textContent = "Submitting error report...";
+    setStatus("Submitting error report...");
+    submitButton.disabled = true;
 
-    setTimeout(() => {
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Submission failed");
+      }
+
       form.reset();
-      statusEl.className = "feedback-status feedback-status--success";
-      statusEl.textContent = "Thank you for your report.";
-    }, 300);
+      resetTurnstile();
+      setStatus("Thank you for your report.", "success");
+    } catch (error) {
+      resetTurnstile();
+      setStatus("Sorry, your report could not be submitted. Please try again.", "error");
+    } finally {
+      submitButton.disabled = false;
+    }
   });
 });
 </script>

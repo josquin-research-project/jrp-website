@@ -6,8 +6,7 @@ permalink: /contact/
 
 {% include_relative styles-local.html %}
 {% include_relative scripts-local.html %}
-
-<iframe name="hidden_iframe" style="display:none;"></iframe>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <article class="about">
   <h2 class="brown-heading">Contact Information</h2>
@@ -27,9 +26,8 @@ permalink: /contact/
   <form
     id="feedback-form"
     class="feedback-form"
-    action="https://docs.google.com/forms/d/e/1FAIpQLSftVWciboaVu-J2sf0Y0wMTX-6cU2uE4JItfzovCfD69f-wvg/formResponse"
+    action="https://jrp-contact-turnstile.benjaminory.workers.dev/"
     method="POST"
-    target="hidden_iframe"
   >
 
     <!-- Category -->
@@ -79,17 +77,11 @@ permalink: /contact/
       >
     </div>
 
-    <!-- Human check -->
-    <div class="form-group">
-      <label for="feedback_human">Human check: type Josquin *</label>
-      <input
-        id="feedback_human"
-        type="text"
-        required
-        autocomplete="off"
-        spellcheck="false"
-        placeholder="Josquin"
-      >
+    <div class="form-group form-group--turnstile">
+      <div
+        class="cf-turnstile"
+        data-sitekey="0x4AAAAAAD1Dq7eklfy2d51u"
+      ></div>
     </div>
 
     <!-- Hidden metadata -->
