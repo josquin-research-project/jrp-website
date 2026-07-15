@@ -1,16 +1,3 @@
-//
-// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
-// Creation Date:	Mon Nov 17 23:25:21 PST 2014
-// Last Modified:	Mon Nov 17 23:25:24 PST 2014
-// Filename:		.../scripts/reference.js
-// Web Address:	http://josquin.stanford.edu/scripts/references.js
-// Syntax:			JavaScript 1.8/ECMAScript 5; jQuery 2.0
-// vim:				ts=3: ft=javascript
-//
-// Description:	Display reference information.
-//
-
-
 //////////////////////////////
 //
 // DisplayReferences --

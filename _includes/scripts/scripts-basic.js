@@ -1,17 +1,3 @@
-//
-// Programmer:		Craig Stuart Sapp <craig@ccrma.stanford.edu>
-// Creation Date:	Sun Oct 26 12:24:23 PDT 2014
-// Last Modified:	Sun Oct 26 15:26:44 PDT 2014
-// Filename:		.../scripts/scripts-basic.js
-// Web Address:	https://josquin.stanford.edu/scripts-local.html
-// Syntax:			JavaScript 1.8/ECMAScript 5; jQuery 2.0
-// vim:				ts=3: ft=javascript
-//
-// Description:	Basic JavaScript utility functions for JRP pages
-// 					which is loaded on all pages.
-//
-
-
 //////////////////////////////
 //
 // DOMContentLoaded event listener -- Things to do on a page after 

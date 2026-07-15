@@ -1,14 +1,3 @@
-//
-// Programmer:    Craig Stuart Sapp <craig@ccrma.stanford.edu>
-// Creation Date: Thu Aug 21 12:59:01 PDT 2014
-// Last Modified: Mon Sep  1 22:01:13 PDT 2014
-// Filename:      _includes/scripts/scripts-common.js
-// Syntax:        JavaScript 1.8/ECMAScript 5
-// vim:				ts=3: ft=javascript
-//
-// Description:   JRP-specific JavaScript functions common to all pages.
-//
-
 // GLOBAL VARIABLES:
 var WORKLIST;										 // Master index of works in JRP database.
 var WORKLISTrecent = [];						 // List of works reverse sorted by add date.
