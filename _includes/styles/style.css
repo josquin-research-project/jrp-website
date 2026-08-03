@@ -159,6 +159,11 @@ body {
 	text-align: left;
 }
 
+.work-page.container {
+	width: calc(100% - 20px);
+	max-width: 1100px;
+}
+
 .form-control {
 	display: block;
 	border: 1px solid #bbbbbb;
@@ -1495,6 +1500,16 @@ header.simple nav#primary-nav ul {
 	margin-left: 0;
 }
 
+.work-page header.simple nav#primary-nav ul {
+	justify-content: space-between;
+	gap: 0;
+}
+
+.work-page header.simple nav#primary-nav ul:after {
+	content: "";
+	flex: 0 0 0;
+}
+
 nav.main-page ul li.logo {
 	padding-left: 0 !important;
 	margin-left: 0 !important;
@@ -1876,6 +1891,24 @@ aside.search-filter #tools .form-group.border-dotted {
 	float: none;
 	width: auto;
 	flex: 0 0 220px;
+}
+
+.work-page #repertoire > aside {
+	flex-basis: 180px;
+}
+
+.work-page aside.search-filter #search .form-group,
+.work-page aside.search-filter #tools .form-group {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.work-page aside.search-filter #search .form-group.border-dotted,
+.work-page aside.search-filter #tools .form-group.border-dotted {
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 #work > aside {
