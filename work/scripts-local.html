@@ -390,10 +390,9 @@ function displayMultisectionWork(jrpid) {
 	if (jrpid.match(/[a-z]$/)) {
 		showSectionDownloads(jrpid);
 	} else {
-      // force the first section to display if the full work is being 
-      // displayed.
-      showSectionDownloads(SECTIONS[0].id);
-   }
+		showDownloadArea(jrpid, "Complete Work");
+		printErrorReportButton(jrpid);
+	}
 }
 
 
@@ -2970,7 +2969,8 @@ function displaySection(workid) {
 	if ((!SECTIONS) || (sectionindex >= 0)) {
 		showSectionDownloads(workid);
 	} else if (SECTIONS && SECTIONS.length > 0) {
-		showSectionDownloads(SECTIONS[0].id);
+		showDownloadArea(workid, "Complete Work");
+		printErrorReportButton(workid);
 	}
 }
 
