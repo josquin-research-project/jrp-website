@@ -118,8 +118,8 @@ function renderRangeSection(sectionId) {
   const label = getRangeLabel(sectionId);
   const attackSvg = getJosquinDataUrl(sectionId, "prange-attack");
   const durationSvg = getJosquinDataUrl(sectionId, "prange-duration");
-  const attackFallbacks = getLegacyPlotFallbackList(sectionId, "prange-attack").join("||");
-  const durationFallbacks = getLegacyPlotFallbackList(sectionId, "prange-duration").join("||");
+  const attackFallbacks = [getJosquinDataFallbackUrl(sectionId, "prange-attack")].concat(getLegacyPlotFallbackList(sectionId, "prange-attack")).join("||");
+  const durationFallbacks = [getJosquinDataFallbackUrl(sectionId, "prange-duration")].concat(getLegacyPlotFallbackList(sectionId, "prange-duration")).join("||");
 
   let html = "";
   html += "<section data-analysis-entry=\"range\" data-analysis-page=\"range\" data-entry-label=\"" + label.replace(/"/g, "&quot;") + "\" data-required-assets=\"2\" style=\"margin: 0 0 2rem 0; display:none;\">";

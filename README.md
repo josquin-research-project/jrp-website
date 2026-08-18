@@ -70,8 +70,10 @@ Google Apps Script endpoint defined in `_includes/metadata/Makefile`.
 
 ### data.josqu.in
 
-`data.josqu.in` is the main static data host for score-related assets. The base
-URL is configured in `_config.yml` and used by `_includes/scripts/scripts-common.js`.
+`data.josqu.in` is the preferred static data host for score-related assets. If
+an individual asset is missing or unreachable there, the site retries it from
+the Stanford mirror at `data2.josqu.in`. Both URLs are configured in
+`_config.yml` and used by `_includes/scripts/scripts-common.js`.
 
 The site expects assets such as:
 

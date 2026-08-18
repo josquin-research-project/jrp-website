@@ -135,6 +135,15 @@
     const audio = document.getElementById("proll-audio");
     audio.pause();
     audio.removeAttribute("src");
+    audio.onerror = function () {
+      if (audio.getAttribute("data-mirror-tried") === "true") {
+        return;
+      }
+      audio.setAttribute("data-mirror-tried", "true");
+      audio.src = getJosquinDataFallbackUrl(jrpid, "mp3");
+      audio.load();
+    };
+    audio.setAttribute("data-mirror-tried", "false");
     audio.src = getJosquinDataUrl(jrpid, "mp3");
     audio.load();
   }

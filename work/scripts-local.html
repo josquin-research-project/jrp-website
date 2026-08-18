@@ -1246,6 +1246,7 @@ function showDownloadArea(jrpid, stitle) {
 	download += "</ul>\n</div>\n";
 
 	document.getElementById("downloads").innerHTML = download;
+	resolveJosquinDataLinks(document.getElementById("downloads"));
 }
 
 
@@ -1746,11 +1747,19 @@ function getHumdrumScoreCandidates(jrpid) {
 		source: "data",
 		url: getJosquinDataUrl(jrpid, "humdrum")
 	});
+	addHumdrumCandidate(candidates, {
+		source: "data-mirror",
+		url: getJosquinDataFallbackUrl(jrpid, "humdrum")
+	});
 
 	if (section.id && section.id !== jrpid) {
 		addHumdrumCandidate(candidates, {
 			source: "data",
 			url: getJosquinDataUrl(section.id, "humdrum")
+		});
+		addHumdrumCandidate(candidates, {
+			source: "data-mirror",
+			url: getJosquinDataFallbackUrl(section.id, "humdrum")
 		});
 	}
 
@@ -2981,7 +2990,7 @@ function displaySection(workid) {
 // getRangeAsync --
 //
 
-function getRangeAsync(jrpid) {
+async function getRangeAsync(jrpid) {
 	if (shouldShowAllRangePlots(jrpid)) {
 		if (WORKrangesVisible) {
 			showAllRanges();
@@ -3007,14 +3016,24 @@ function getRangeAsync(jrpid) {
 	if (!area) {
 		return;
 	}
+	area.setAttribute("data-range-state", "loading");
 
 	if (!RANGES[jrpid]) {
-		RANGES[jrpid] = getRangePlotHtml(jrpid);
+		RANGES[jrpid] = await getRangePlotHtml(jrpid);
+	}
+
+	if (!RANGES[jrpid]) {
+		area.innerHTML = "";
+		area.setAttribute("data-range-state", "missing");
+		updateRangeAvailabilityVisibility();
+		return;
 	}
 
 	showRangeSection();
 	area.style.height = "";
 	area.innerHTML = RANGES[jrpid];
+	area.setAttribute("data-range-state", "loaded");
+	updateRangeAvailabilityVisibility();
 }
 
 
@@ -3024,9 +3043,14 @@ function getRangeAsync(jrpid) {
 // getRangePlotHtml -- Work pages use the static range plots on data.josqu.in.
 //
 
-function getRangePlotHtml(jrpid) {
+async function getRangePlotHtml(jrpid) {
 	var plotType = WORKrangedur ? "prange-duration" : "prange-attack";
-	var url = getJosquinDataUrl(jrpid, plotType);
+	var primaryUrl = getJosquinDataUrl(jrpid, plotType);
+	var fallbackUrl = getJosquinDataFallbackUrl(jrpid, plotType);
+	var url = await resolveJosquinAssetUrl(primaryUrl, fallbackUrl);
+	if (!url) {
+		return "";
+	}
 	var label = WORKrangedur ? "duration" : "note-count";
 	var plotLabel = getRangePlotLabel(jrpid);
 	var alt = "Vocal range " + label + " plot for " + jrpid;
@@ -3042,11 +3066,7 @@ function getRangePlotHtml(jrpid) {
 	html += "<object class=\"work-range-svg\" data=\"" + url + "\" ";
 	html += "type=\"image/svg+xml\" aria-label=\"" + escapeWorkHtml(alt) + "\" ";
 	html += "onload=\"showLoadedRangeImage(this);\" ";
-	html += "onerror=\"hideMissingRangeImage(this);\">";
-	html += "<a href=\"" + url + "\" target=\"_blank\" rel=\"noopener\">";
-	html += escapeWorkHtml(alt);
-	html += "</a>";
-	html += "</object>";
+	html += "onerror=\"hideMissingRangeImage(this);\"></object>";
 	html += "</div>";
 	html += "</div>\n";
 
@@ -3150,10 +3170,6 @@ function showLoadedRangeImage(img) {
 	showRangeSection();
 }
 
-
-
-//////////////////////////////
-//
 // hideMissingRangeImage -- Hide a missing static range plot without falling
 //     back to the old website.
 //
@@ -3165,6 +3181,37 @@ function hideMissingRangeImage(img) {
 	}
 	if (wrap) {
 		wrap.style.display = "none";
+	}
+	var area = img && img.closest ? img.closest("[id^='range_']") : null;
+	if (area) {
+		area.setAttribute("data-range-state", "missing");
+	}
+	updateRangeAvailabilityVisibility();
+}
+
+function updateRangeAvailabilityVisibility() {
+	var vocalRanges = document.getElementById("vocal-ranges");
+	if (!vocalRanges) {
+		return;
+	}
+	var areas = vocalRanges.querySelectorAll("[id^='range_']");
+	var hasLoading = false;
+	var hasLoaded = false;
+	for (var i=0; i<areas.length; i++) {
+		var state = areas[i].getAttribute("data-range-state");
+		hasLoading = hasLoading || state === "loading";
+		hasLoaded = hasLoaded || state === "loaded";
+	}
+	if (hasLoading || hasLoaded) {
+		return;
+	}
+	WORKrangesVisible = false;
+	vocalRanges.innerHTML = "";
+	vocalRanges.style.display = "none";
+	vocalRanges.style.height = "0";
+	var toggle = document.getElementById("work-range-toggle");
+	if (toggle) {
+		toggle.style.display = "none";
 	}
 }
 

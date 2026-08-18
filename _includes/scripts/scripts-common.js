@@ -8,7 +8,9 @@ var PDFTARGET      = TARGET;					 // Display PDF files in separate tab/window.
 var AUDIO          = null;						 // HTML5 audio interface ID.
 var AUDIOjrpid     = '';  						 // currently playing audio file.
 var AUDIOid        = '';                   // currently playing audio button.
-const JOSQUIN_DATA = "https://data.josqu.in/"; // data server
+const JOSQUIN_DATA_PRIMARY = "{{ site.data_url | default: 'https://data.josqu.in' | append: '/' }}";
+const JOSQUIN_DATA_FALLBACK = "{{ site.data_url_fallback | default: 'https://data2.josqu.in' | append: '/' }}";
+const JOSQUIN_DATA = JOSQUIN_DATA_PRIMARY;
 const JOSQUIN_LEGACY = "https://josquin.stanford.edu"; // old website
 
 // Backup Variables
@@ -158,36 +160,113 @@ function getBestPdfUrl(jrpid, version) {
 }
 
 
-function getJosquinDataUrl(jrpid, type) {
+function getJosquinDataUrl(jrpid, type, base) {
+  base = base || JOSQUIN_DATA_PRIMARY;
   switch (type) {
 
     // Core score formats
-    case "humdrum":  return `${JOSQUIN_DATA}${jrpid}.krn`;
-    case "musedata": return `${JOSQUIN_DATA}${jrpid}.mds`;
-    case "mei":      return `${JOSQUIN_DATA}${jrpid}.mei`;
-    case "musicxml": return `${JOSQUIN_DATA}${jrpid}.musicxml`;
-    case "midi":     return `${JOSQUIN_DATA}${jrpid}.mid`;
-    case "mp3":      return `${JOSQUIN_DATA}${jrpid}.mp3`;
+    case "humdrum":  return `${base}${jrpid}.krn`;
+    case "musedata": return `${base}${jrpid}.mds`;
+    case "mei":      return `${base}${jrpid}.mei`;
+    case "musicxml": return `${base}${jrpid}.musicxml`;
+    case "midi":     return `${base}${jrpid}.mid`;
+    case "mp3":      return `${base}${jrpid}.mp3`;
 
     // Notation & graphics
-    case "incipit":  return `${JOSQUIN_DATA}${jrpid}-incipit.svg`;
-    case "prange-attack":   return `${JOSQUIN_DATA}${jrpid}-prange-attack.svg`;
-    case "prange-duration": return `${JOSQUIN_DATA}${jrpid}-prange-duration.svg`;
+    case "incipit":  return `${base}${jrpid}-incipit.svg`;
+    case "prange-attack":   return `${base}${jrpid}-prange-attack.svg`;
+    case "prange-duration": return `${base}${jrpid}-prange-duration.svg`;
 
     // Activity plots
     case "activity-merged":
-      return `${JOSQUIN_DATA}${jrpid}-activity-merged.png`;
+      return `${base}${jrpid}-activity-merged.png`;
     case "activity-separate":
-      return `${JOSQUIN_DATA}${jrpid}-activity-separate.png`;
+      return `${base}${jrpid}-activity-separate.png`;
 
     // Lyrics
     case "lyrics":
-      return `${JOSQUIN_DATA}${jrpid}.lyrics`;
+      return `${base}${jrpid}.lyrics`;
     case "lyrics-modern":
-      return `${JOSQUIN_DATA}${jrpid}.lyrics-modern`;
+      return `${base}${jrpid}.lyrics-modern`;
 
     default:
       return "";
+  }
+}
+
+function getJosquinDataFallbackUrl(jrpid, type) {
+  return getJosquinDataUrl(jrpid, type, JOSQUIN_DATA_FALLBACK);
+}
+
+function getJosquinMirrorUrl(url) {
+  if (!url || url.indexOf(JOSQUIN_DATA_PRIMARY) !== 0) {
+    return "";
+  }
+  return JOSQUIN_DATA_FALLBACK + url.slice(JOSQUIN_DATA_PRIMARY.length);
+}
+
+async function resolveJosquinAssetUrl(primaryUrl, fallbackUrl) {
+  var candidates = [primaryUrl, fallbackUrl];
+  for (var i=0; i<candidates.length; i++) {
+    if (!candidates[i]) {
+      continue;
+    }
+    if (await canLoadJosquinImage(candidates[i])) {
+      return candidates[i];
+    }
+  }
+  return "";
+}
+
+function canLoadJosquinImage(url) {
+  return new Promise(function(resolve) {
+    var settled = false;
+    var image = new Image();
+    var timeout = window.setTimeout(function() {
+      if (!settled) {
+        settled = true;
+        resolve(false);
+      }
+    }, 5000);
+
+    function finish(result) {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      window.clearTimeout(timeout);
+      resolve(result);
+    }
+
+    image.onload = function() { finish(true); };
+    image.onerror = function() { finish(false); };
+    image.src = url;
+  });
+}
+
+async function resolveJosquinDataLinks(root) {
+  if (!root || typeof root.querySelectorAll !== "function") {
+    return;
+  }
+
+  var links = root.querySelectorAll("a[href^='" + JOSQUIN_DATA_PRIMARY + "']");
+  for (var i=0; i<links.length; i++) {
+    (async function(link) {
+      var primaryUrl = link.getAttribute("href");
+      var fallbackUrl = getJosquinMirrorUrl(primaryUrl);
+      if (!fallbackUrl) {
+        return;
+      }
+      try {
+        var response = await fetch(primaryUrl, { method: "HEAD", cache: "no-store" });
+        if (response.ok) {
+          return;
+        }
+      } catch (error) {
+        // A connection or CORS failure should use the mirror as well.
+      }
+      link.setAttribute("href", fallbackUrl);
+    })(links[i]);
   }
 }
 
@@ -810,7 +889,9 @@ function PlayAudioFile(jrpid, element) {
 
     // 🔹 MP3 from Josquin data server
     var source = '';
-    source += '<source src="' + JOSQUIN_DATA + jrpid + '.mp3" ';
+    source += '<source src="' + getJosquinDataUrl(jrpid, "mp3") + '" ';
+    source += 'type="audio/mpeg"/>\n';
+    source += '<source src="' + getJosquinDataFallbackUrl(jrpid, "mp3") + '" ';
     source += 'type="audio/mpeg"/>\n';
 
     AUDIO.innerHTML = source;

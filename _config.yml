@@ -21,8 +21,10 @@ google_analytics: "G-CWR44TKGGD"
 
 ### External URLs ##########################################
 
-# data (PDFs, MP3s, etc)
+# data (PDFs, MP3s, etc). Prefer NIFC and use the Stanford mirror if
+# the primary host cannot be reached.
 data_url: "https://data.josqu.in"
+data_url_fallback: "https://data2.josqu.in"
 
 jrp_url: "https://josquin.stanford.org"
 

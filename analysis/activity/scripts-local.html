@@ -72,10 +72,10 @@ function resetPageState() {
 }
 
 function renderActivitySection(sectionId) {
-  const mergedUrl = "https://data.josqu.in/" + sectionId + "-activity-merged-notitle.png";
-  const separateUrl = "https://data.josqu.in/" + sectionId + "-activity-separate-notitle.png";
-  const mergedFallbacks = getLegacyPlotFallbackList(sectionId, "activity-merged-notitle").join("||");
-  const separateFallbacks = getLegacyPlotFallbackList(sectionId, "activity-separate-notitle").join("||");
+  const mergedUrl = JOSQUIN_DATA + sectionId + "-activity-merged-notitle.png";
+  const separateUrl = JOSQUIN_DATA + sectionId + "-activity-separate-notitle.png";
+  const mergedFallbacks = [getJosquinMirrorUrl(mergedUrl)].concat(getLegacyPlotFallbackList(sectionId, "activity-merged-notitle")).join("||");
+  const separateFallbacks = [getJosquinMirrorUrl(separateUrl)].concat(getLegacyPlotFallbackList(sectionId, "activity-separate-notitle")).join("||");
   const label = getActivityLabel(sectionId);
 
   let html = "";
