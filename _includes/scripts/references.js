@@ -1,54 +1,71 @@
 //////////////////////////////
 //
-// DisplayReferences --
+// DisplayEditorCredit --
 //
 
-function DisplayReferences(jrpid, target) {
-/*
-   ReadFileAsync("http://{{site.dataurl}}/includes/references.json", function(responseText) {
-		var edition = GetReferenceEdition(jrpid, responseText);
-		if (edition.match(/^\s*$/)) {
-			return;
-		}
-	   var element = document.getElementById(target);
-		element.innerHTML = '<h3 class="brown-border">Modern Edition</h3>' + edition;
-	});
+function DisplayEditorCredit(jrpid, target) {
+	var element = document.getElementById(target);
+	if (!element) {
+		return;
+	}
 
-*/
+	element.textContent = "";
+
+	var editor = GetEditorCredit(jrpid);
+	if (!editor || !editor.text) {
+		return;
+	}
+
+	element.appendChild(document.createTextNode("Edited by "));
+
+	if (editor.link) {
+		var link = document.createElement("a");
+		link.href = editor.link;
+		link.target = "_blank";
+		link.rel = "noopener noreferrer";
+		link.textContent = editor.text;
+		element.appendChild(link);
+	} else {
+		element.appendChild(document.createTextNode(editor.text));
+	}
 }
 
 
 
 /////////////////////////////
 //
-// GetReferenceEdition --
+// GetEditorCredit --
 //
 
-function GetReferenceEdition(jrpid, referenceinfo) {
-/*
-   var refinfo = JSON.parse(referenceinfo);
-   var i;
-   var j;
-   var text = "";
-   var link = "";
-   for (i=0; i<refinfo.length; i++) {
-		var entry = refinfo[i];
-		for (j=0; j<entry.jrpid.length; j++) {
-			if (jrpid.match(entry.jrpid[j])) {
-				text = entry.text;
-				link = entry.link;
-			}
-		}
-   }
-
-   if (text.match(/^\s*$/)) {
-		return "";
+function GetEditorCredit(jrpid) {
+	if (!Array.isArray(WORKS)) {
+		return null;
 	}
 
-	var output = text;
-	if (!link.match(/^\s*$/)) {
-		output = '<a href="' + link + '" target="' + TARGET + '">' + text + '</a>';
+	var entry = WORKS.find(function(work) {
+		return work.WORK_ID === jrpid;
+	});
+
+	// Complete multi-movement works have a conceptual base ID but no
+	// corresponding metadata row. In that case, use the first movement's
+	// editor credit.
+	if (!entry) {
+		var baseId = getBaseWorkId(jrpid);
+		entry = WORKS.find(function(work) {
+			return getBaseWorkId(work.WORK_ID) === baseId &&
+				String(work["Edition source"] || "").trim();
+		});
 	}
-   return output;
-*/
+
+	if (!entry) {
+		return null;
+	}
+
+	var text = String(entry["Edition source"] || "").trim();
+	var link = String(entry["Edition URL"] || "").trim();
+	if (!text) {
+		return null;
+	}
+
+	return { text: text, link: link };
 }

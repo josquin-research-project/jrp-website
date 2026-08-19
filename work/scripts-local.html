@@ -1063,6 +1063,7 @@ function displayWork(jrpid) {
 	}
 
 	DisplayCriticalNotes(jrpid, "critical");
+	DisplayEditorCredit(jrpid, "editor-credit");
 
 	SECTIONS = null;
 
@@ -2925,6 +2926,8 @@ function displayNextRepertoryPage() {
 //
 
 function displaySection(workid) {
+	DisplayEditorCredit(workid, "editor-credit");
+
 	var sectionid = workid;
 	var sectionindex = -1;
 	var i;

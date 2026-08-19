@@ -2183,6 +2183,28 @@ table.search-results-table span.location span.point.point-green {
 	width: auto;
 }
 
+#primary-content.work-content .work-editor-credit {
+	color: #988a7e;
+	font-family: "Lusitana", "serif";
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 20px;
+	margin: -2px 30px 14px 76px;
+}
+#primary-content.work-content .work-editor-credit:empty {
+	display: none;
+}
+#primary-content.work-content .work-editor-credit a {
+	color: #0066cc;
+	font: inherit;
+	text-decoration: none;
+}
+#primary-content.work-content .work-editor-credit a:hover,
+#primary-content.work-content .work-editor-credit a:focus {
+	color: #0066cc;
+	text-decoration: underline;
+}
+
 #primary-content.work-content .work-movement-nav {
 	clear: both;
 	display: flex;
