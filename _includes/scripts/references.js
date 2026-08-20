@@ -34,6 +34,30 @@ function DisplayEditorCredit(jrpid, target) {
 
 /////////////////////////////
 //
+// FormatEditorNames -- Convert the metadata's semicolon-separated names to
+//    a natural-language list.
+//
+
+function FormatEditorNames(value) {
+	var names = String(value || "")
+		.split(";")
+		.map(function(name) { return name.trim(); })
+		.filter(Boolean);
+
+	if (names.length < 2) {
+		return names[0] || "";
+	}
+	if (names.length === 2) {
+		return names[0] + " and " + names[1];
+	}
+
+	return names.slice(0, -1).join(", ") + ", and " + names[names.length - 1];
+}
+
+
+
+/////////////////////////////
+//
 // GetEditorCredit --
 //
 
@@ -61,7 +85,7 @@ function GetEditorCredit(jrpid) {
 		return null;
 	}
 
-	var text = String(entry["Edition source"] || "").trim();
+	var text = FormatEditorNames(entry["Edition source"]);
 	var link = String(entry["Edition URL"] || "").trim();
 	if (!text) {
 		return null;
