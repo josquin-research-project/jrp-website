@@ -11,6 +11,7 @@ const DEFAULT_INPUT = path.join(REPO_ROOT, "_includes", "metadata", "works.json"
 const DEFAULT_OUTPUT = path.join(REPO_ROOT, "_includes", "metadata", "asset-availability.json");
 
 const DATA_BASE = "https://data.josqu.in/";
+const DATA_FALLBACK_BASE = "https://data2.josqu.in/";
 const PDF_BACKUP_BASE = "https://cdn.jsdelivr.net/gh/benory/jrp-scores-backup@main/";
 const GITHUB_RAW_BASE = "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/";
 
@@ -128,8 +129,8 @@ function composerId(jrpid) {
 	return match ? match[1] : "";
 }
 
-function dataUrl(jrpid, suffix) {
-	return `${DATA_BASE}${jrpid}${suffix}`;
+function dataUrl(jrpid, suffix, base = DATA_BASE) {
+	return `${base}${jrpid}${suffix}`;
 }
 
 function backupPdfUrl(jrpid, version) {
@@ -335,6 +336,38 @@ async function main() {
 		return checkCache.get(cacheKey);
 	}
 
+	async function checkDataServerAssets(id, base, serverKey) {
+		const checks = await Promise.all([
+			cached(`${serverKey}:humdrum`, dataUrl(id, ".krn", base), (url) => sampleCheck(url, options.timeoutMs, validateHumdrumSample)),
+			cached(`${serverKey}:mei`, dataUrl(id, ".mei", base), (url) => headCheck(url, options.timeoutMs, validateNonHtmlHead)),
+			cached(`${serverKey}:musedata`, dataUrl(id, ".mds", base), (url) => headCheck(url, options.timeoutMs, validateNonHtmlHead)),
+			cached(`${serverKey}:musicxml`, dataUrl(id, ".musicxml", base), (url) => headCheck(url, options.timeoutMs, validateNonHtmlHead)),
+			cached(`${serverKey}:midi`, dataUrl(id, ".mid", base), (url) => headCheck(url, options.timeoutMs, validateMidiHead)),
+			cached(`${serverKey}:mp3`, dataUrl(id, ".mp3", base), (url) => headCheck(url, options.timeoutMs, validateAudioHead)),
+			cached(`${serverKey}:svg`, dataUrl(id, "-incipit.svg", base), (url) => headCheck(url, options.timeoutMs, validateSvgHead)),
+			cached(`${serverKey}:svg`, dataUrl(id, "-prange-attack.svg", base), (url) => headCheck(url, options.timeoutMs, validateSvgHead)),
+			cached(`${serverKey}:svg`, dataUrl(id, "-prange-duration.svg", base), (url) => headCheck(url, options.timeoutMs, validateSvgHead)),
+			cached(`${serverKey}:png`, dataUrl(id, "-activity-merged.png", base), (url) => headCheck(url, options.timeoutMs, validateImageHead("image/png"))),
+			cached(`${serverKey}:png`, dataUrl(id, "-activity-separate.png", base), (url) => headCheck(url, options.timeoutMs, validateImageHead("image/png"))),
+			cached(`${serverKey}:json`, dataUrl(id, "-timemap.json", base), (url) => headCheck(url, options.timeoutMs, validateJsonHead))
+		]);
+
+		return {
+			humdrum: checks[0],
+			mei: checks[1],
+			musedata: checks[2],
+			musicxml: checks[3],
+			midi: checks[4],
+			mp3: checks[5],
+			incipit: checks[6],
+			rangeAttack: checks[7],
+			rangeDuration: checks[8],
+			activityMerged: checks[9],
+			activitySeparate: checks[10],
+			timemap: checks[11]
+		};
+	}
+
 	const works = JSON.parse(await fs.readFile(options.input, "utf8"));
 	const groups = groupWorks(works);
 	const selectedGroups = selectGroups(groups, options);
@@ -348,38 +381,21 @@ async function main() {
 		const id = section.id;
 		const filename = section.filename || "";
 		const githubUrl = githubHumdrumUrl(filename);
-		const humdrumDataPromise = cached("humdrum", dataUrl(id, ".krn"), (url) => sampleCheck(url, options.timeoutMs, validateHumdrumSample));
 
-		const [
+		const [primary, fallback,
 			pdfScore,
-			pdfEdited,
-			mei,
-			musedata,
-			musicxml,
-			midi,
-			mp3,
-			incipit,
-			rangeAttack,
-			rangeDuration,
-			activityMerged,
-			activitySeparate,
-			timemap
+			pdfEdited
 		] = await Promise.all([
+			checkDataServerAssets(id, DATA_BASE, "primary"),
+			checkDataServerAssets(id, DATA_FALLBACK_BASE, "fallback"),
 			cached("pdf", backupPdfUrl(id, "no_edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead)),
-			cached("pdf", backupPdfUrl(id, "edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead)),
-			cached("mei", dataUrl(id, ".mei"), (url) => headCheck(url, options.timeoutMs, validateNonHtmlHead)),
-			cached("musedata", dataUrl(id, ".mds"), (url) => headCheck(url, options.timeoutMs, validateNonHtmlHead)),
-			cached("musicxml", dataUrl(id, ".musicxml"), (url) => headCheck(url, options.timeoutMs, validateNonHtmlHead)),
-			cached("midi", dataUrl(id, ".mid"), (url) => headCheck(url, options.timeoutMs, validateMidiHead)),
-			cached("mp3", dataUrl(id, ".mp3"), (url) => headCheck(url, options.timeoutMs, validateAudioHead)),
-			cached("svg", dataUrl(id, "-incipit.svg"), (url) => headCheck(url, options.timeoutMs, validateSvgHead)),
-			cached("svg", dataUrl(id, "-prange-attack.svg"), (url) => headCheck(url, options.timeoutMs, validateSvgHead)),
-			cached("svg", dataUrl(id, "-prange-duration.svg"), (url) => headCheck(url, options.timeoutMs, validateSvgHead)),
-			cached("png", dataUrl(id, "-activity-merged.png"), (url) => headCheck(url, options.timeoutMs, validateImageHead("image/png"))),
-			cached("png", dataUrl(id, "-activity-separate.png"), (url) => headCheck(url, options.timeoutMs, validateImageHead("image/png"))),
-			cached("json", dataUrl(id, "-timemap.json"), (url) => headCheck(url, options.timeoutMs, validateJsonHead))
+			cached("pdf", backupPdfUrl(id, "edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead))
 		]);
-		const humdrumData = await humdrumDataPromise;
+		const combined = {};
+		for (const key of Object.keys(primary)) {
+			combined[key] = primary[key] || fallback[key];
+		}
+		const humdrumData = combined.humdrum;
 		const humdrumGithub = humdrumData
 			? false
 			: await cached("humdrum", githubUrl, (url) => sampleCheck(url, options.timeoutMs, validateHumdrumSample));
@@ -393,19 +409,19 @@ async function main() {
 			humdrum: humdrumData || humdrumGithub,
 			humdrumData,
 			humdrumGithub,
-			mei,
-			musedata,
-			musicxml,
-			midi,
-			mp3,
-			incipit,
-			rangeAttack,
-			rangeDuration,
-			range: rangeAttack || rangeDuration,
-			activityMerged,
-			activitySeparate,
-			activity: activityMerged || activitySeparate,
-			timemap
+			mei: combined.mei,
+			musedata: combined.musedata,
+			musicxml: combined.musicxml,
+			midi: combined.midi,
+			mp3: combined.mp3,
+			incipit: combined.incipit,
+			rangeAttack: combined.rangeAttack,
+			rangeDuration: combined.rangeDuration,
+			range: combined.rangeAttack || combined.rangeDuration,
+			activityMerged: combined.activityMerged,
+			activitySeparate: combined.activitySeparate,
+			activity: combined.activityMerged || combined.activitySeparate,
+			timemap: combined.timemap
 		};
 
 		completed++;
@@ -432,10 +448,11 @@ async function main() {
 			return;
 		}
 
-		const [pdfScore, pdfEdited, mp3] = await Promise.all([
+		const [pdfScore, pdfEdited, mp3Primary, mp3Fallback] = await Promise.all([
 			cached("pdf", backupPdfUrl(group.baseId, "no_edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead)),
 			cached("pdf", backupPdfUrl(group.baseId, "edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead)),
-			cached("mp3", dataUrl(group.baseId, ".mp3"), (url) => headCheck(url, options.timeoutMs, validateAudioHead))
+			cached("primary:mp3", dataUrl(group.baseId, ".mp3", DATA_BASE), (url) => headCheck(url, options.timeoutMs, validateAudioHead)),
+			cached("fallback:mp3", dataUrl(group.baseId, ".mp3", DATA_FALLBACK_BASE), (url) => headCheck(url, options.timeoutMs, validateAudioHead))
 		]);
 
 		assets[group.baseId] = {
@@ -448,7 +465,7 @@ async function main() {
 			genre: group.genre,
 			pdfScore,
 			pdfEdited,
-			mp3,
+			mp3: mp3Primary || mp3Fallback,
 			completeHumdrum: summarizeBoolean(sectionAssets, "humdrum", "all"),
 			anyHumdrum: summarizeBoolean(sectionAssets, "humdrum", "any"),
 			allHumdrum: summarizeBoolean(sectionAssets, "humdrum", "all"),
@@ -467,6 +484,8 @@ async function main() {
 		sources: {
 			metadata: path.relative(REPO_ROOT, options.input),
 			data: DATA_BASE,
+			dataPrimary: DATA_BASE,
+			dataFallback: DATA_FALLBACK_BASE,
 			pdfBackup: PDF_BACKUP_BASE,
 			githubRaw: GITHUB_RAW_BASE
 		},

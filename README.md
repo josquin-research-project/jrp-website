@@ -89,6 +89,10 @@ Work pages try to load Humdrum scores from `data.josqu.in` first. Some code
 also falls back to raw files in the `josquin-research-project` GitHub
 organization when the data host does not have the needed Kern file.
 
+The generated asset-availability manifest checks both `data.josqu.in` and
+`data2.josqu.in`. Its asset flags are true when either data server has the file;
+the browser then tries the primary URL before falling back to the mirror.
+
 ### VHV / Verovio
 
 The site uses Humdrum/Kern scores with Verovio-based rendering and analysis.
