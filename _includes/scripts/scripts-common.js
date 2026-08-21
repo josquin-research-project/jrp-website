@@ -887,18 +887,32 @@ function PlayAudioFile(jrpid, element) {
 
     AUDIOid = element.id;
 
-    // 🔹 MP3 from Josquin data server
-    var source = '';
-    source += '<source src="' + getJosquinDataUrl(jrpid, "mp3") + '" ';
-    source += 'type="audio/mpeg"/>\n';
-    source += '<source src="' + getJosquinDataFallbackUrl(jrpid, "mp3") + '" ';
-    source += 'type="audio/mpeg"/>\n';
-
-    AUDIO.innerHTML = source;
-
     AUDIOjrpid = jrpid;
+    AUDIO.innerHTML = '';
+    AUDIO.removeAttribute('src');
+    AUDIO.setAttribute('data-mirror-tried', 'false');
+    AUDIO.onerror = function() {
+      if (AUDIO.getAttribute('data-mirror-tried') === 'true') {
+        return;
+      }
+      AUDIO.setAttribute('data-mirror-tried', 'true');
+      AUDIO.src = getJosquinDataFallbackUrl(jrpid, "mp3");
+      AUDIO.load();
+      var fallbackPlayback = AUDIO.play();
+      if (fallbackPlayback && typeof fallbackPlayback.catch === 'function') {
+        fallbackPlayback.catch(function(error) {
+          console.warn('Could not play MP3 from the Stanford mirror.', error);
+        });
+      }
+    };
+    AUDIO.src = getJosquinDataUrl(jrpid, "mp3");
     AUDIO.load();
-    AUDIO.play();
+    var playback = AUDIO.play();
+    if (playback && typeof playback.catch === 'function') {
+      playback.catch(function() {
+        // A missing primary file triggers AUDIO.onerror and the mirror retry.
+      });
+    }
     AUDIO.setAttribute('controls', 'controls');
 
     var newelement = document.getElementById(AUDIOid);
