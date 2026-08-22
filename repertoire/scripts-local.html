@@ -67,7 +67,8 @@ function getRepertoireUrlState() {
 		composer: params.get("c") || "",
 		genre: params.get("g") || "",
 		voices: params.get("v") || "",
-		title: params.get("t") || ""
+		title: params.get("t") || "",
+		texted: params.get("texted") === "true" || params.get("texted") === "1"
 	};
 }
 
@@ -139,7 +140,7 @@ function displayRepertoireFromUrl(options) {
 		return;
 	}
 
-	if (!hasRepertoireUrlFilters(state) && options.useStoredFilters) {
+	if (!hasRepertoireUrlFilters(state) && !state.texted && options.useStoredFilters) {
 		state.composer = sessionStorage.REPERTOIREcomposers || "";
 		state.genre    = sessionStorage.REPERTOIREgenres || "";
 		state.voices   = sessionStorage.REPERTOIREvoices || "";
@@ -148,7 +149,7 @@ function displayRepertoireFromUrl(options) {
 
 	setRepertoireFilters(state);
 	StylizeFormElements();
-	OnlyText = 0;
+	OnlyText = state.texted ? 1 : 0;
 	sessionStorage.REPERTOIREpageview = hasRepertoireUrlFilters(state) ? "all" : "paged";
 
 	repertoireDisplay(1, { history: "replace" });
@@ -1295,6 +1296,9 @@ function updateRepertoireUrl(mode, view) {
 		}
 		if (sessionStorage.REPERTOIREtitlebox) {
 			params.set("t", sessionStorage.REPERTOIREtitlebox);
+		}
+		if (OnlyText) {
+			params.set("texted", "true");
 		}
 	}
 
