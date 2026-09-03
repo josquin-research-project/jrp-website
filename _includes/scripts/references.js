@@ -1,9 +1,9 @@
 //////////////////////////////
 //
-// DisplayEditorCredit --
+// DisplayScoreCredit --
 //
 
-function DisplayEditorCredit(jrpid, target) {
+function DisplayScoreCredit(jrpid, target) {
 	var element = document.getElementById(target);
 	if (!element) {
 		return;
@@ -11,22 +11,19 @@ function DisplayEditorCredit(jrpid, target) {
 
 	element.textContent = "";
 
-	var editor = GetEditorCredit(jrpid);
-	if (!editor || !editor.text) {
+	var entry = GetScoreCreditMetadata(jrpid);
+	if (!entry) {
 		return;
 	}
 
-	element.appendChild(document.createTextNode("Edited by "));
+	var editor = FormatCreditNames(entry["Edition source"]) ||
+		"the Josquin Research Project";
+	var editorLink = String(entry["Edition URL"] || "").trim();
+	AppendScoreCreditLine(element, "Edited by ", editor, editorLink);
 
-	if (editor.link) {
-		var link = document.createElement("a");
-		link.href = editor.link;
-		link.target = "_blank";
-		link.rel = "noopener noreferrer";
-		link.textContent = editor.text;
-		element.appendChild(link);
-	} else {
-		element.appendChild(document.createTextNode(editor.text));
+	var transcriber = FormatCreditNames(entry.Transcriber);
+	if (transcriber) {
+		AppendScoreCreditLine(element, "Transcribed by ", transcriber, "");
 	}
 }
 
@@ -34,11 +31,37 @@ function DisplayEditorCredit(jrpid, target) {
 
 /////////////////////////////
 //
-// FormatEditorNames -- Convert the metadata's semicolon-separated names to
+// AppendScoreCreditLine --
+//
+
+function AppendScoreCreditLine(container, label, value, url) {
+	var line = document.createElement("div");
+	line.className = "work-score-credit-line";
+	line.appendChild(document.createTextNode(label));
+
+	if (url) {
+		var link = document.createElement("a");
+		link.href = url;
+		link.target = "_blank";
+		link.rel = "noopener noreferrer";
+		link.textContent = value;
+		line.appendChild(link);
+	} else {
+		line.appendChild(document.createTextNode(value));
+	}
+
+	container.appendChild(line);
+}
+
+
+
+/////////////////////////////
+//
+// FormatCreditNames -- Convert the metadata's semicolon-separated names to
 //    a natural-language list.
 //
 
-function FormatEditorNames(value) {
+function FormatCreditNames(value) {
 	var names = String(value || "")
 		.split(";")
 		.map(function(name) { return name.trim(); })
@@ -58,10 +81,10 @@ function FormatEditorNames(value) {
 
 /////////////////////////////
 //
-// GetEditorCredit --
+// GetScoreCreditMetadata --
 //
 
-function GetEditorCredit(jrpid) {
+function GetScoreCreditMetadata(jrpid) {
 	if (!Array.isArray(WORKS)) {
 		return null;
 	}
@@ -72,24 +95,13 @@ function GetEditorCredit(jrpid) {
 
 	// Complete multi-movement works have a conceptual base ID but no
 	// corresponding metadata row. In that case, use the first movement's
-	// editor credit.
+	// score credit.
 	if (!entry) {
 		var baseId = getBaseWorkId(jrpid);
 		entry = WORKS.find(function(work) {
-			return getBaseWorkId(work.WORK_ID) === baseId &&
-				String(work["Edition source"] || "").trim();
+			return getBaseWorkId(work.WORK_ID) === baseId;
 		});
 	}
 
-	if (!entry) {
-		return null;
-	}
-
-	var text = FormatEditorNames(entry["Edition source"]);
-	var link = String(entry["Edition URL"] || "").trim();
-	if (!text) {
-		return null;
-	}
-
-	return { text: text, link: link };
+	return entry || null;
 }
