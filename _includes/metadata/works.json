@@ -1805,21 +1805,6 @@
 		"Date changed": "2014/08/15"
 	},
 	{
-		"WORK_ID": "Bru2012",
-		"Title": "Gloria laus et honor",
-		"COMPOSER_ID": "Bru",
-		"Composer": "Antoine {Brumel}",
-		"Genre": "motet",
-		"Filename": "Bru2012-Gloria_laus_et_honor.krn",
-		"Extant voices": "4",
-		"Texted": "no",
-		"Transcriber": "Megan K. Eagen",
-		"Gihub URL": "https://github.com/josquin-research-project/Bru/blob/main/Bru2012-Gloria_laus_et_honor.krn",
-		"Note count": "2339",
-		"Date added": "2014/02/22",
-		"Date changed": "2014/03/09"
-	},
-	{
 		"WORK_ID": "Bus1001a",
 		"Title": "Missa L'homme armé",
 		"COMPOSER_ID": "Bus",
@@ -8710,8 +8695,8 @@
 		"Voices": "4",
 		"Extant voices": "4",
 		"Texted": "no",
+		"Probable attribution": "Bru",
 		"Improbable attribution": "Jos",
-		"Implausible attrribution": "A.B.",
 		"Transcriber": "Jesse Rodin; Victoria Chang",
 		"Gihub URL": "https://github.com/josquin-research-project/Jos/blob/main/Jos1301-Credo_Chascun_me_crie.krn",
 		"Note count": "1741",
