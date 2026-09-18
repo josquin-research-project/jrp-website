@@ -55,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	displayWork(sessionStorage.WORKjrpid);
 	setupSearchOnEnter();
+	setupWorkToolPanels();
 
 	var analysisbutton1 = document.getElementById("this-work-analysis-button");
 	var analysisbutton2 = document.getElementById("all-works-analysis-button");
@@ -77,13 +78,50 @@ document.addEventListener("DOMContentLoaded", function() {
 		HideAnalysisRepertory();
 	}
 
-	// Hide the "All Works" reperotry select menu until the "All Works"
-	// radio button has been clicked.
-	HideAnalysisRepertory();
-
    setupTooltips();
 
 }, false);
+
+
+
+//////////////////////////////
+//
+// setupWorkToolPanels -- Reveal each tool panel without rebuilding its controls
+//     or interrupting the score.
+//
+
+function setupWorkToolPanels() {
+	var workBody = document.querySelector(".work-body");
+	var panels = [];
+
+	function updateToolLayout() {
+		var hasOpenTools = panels.some(function(panel) {
+			return !panel.hidden;
+		});
+		if (workBody) {
+			workBody.classList.toggle("has-open-tools", hasOpenTools);
+		}
+	}
+
+	["work-search-toggle", "work-analysis-toggle"].forEach(function(buttonId) {
+		var button = document.getElementById(buttonId);
+		if (!button) {
+			return;
+		}
+		var panel = document.getElementById(button.getAttribute("aria-controls"));
+		if (!panel) {
+			return;
+		}
+		panels.push(panel);
+		button.setAttribute("aria-expanded", String(!panel.hidden));
+		button.addEventListener("click", function() {
+			panel.hidden = !panel.hidden;
+			button.setAttribute("aria-expanded", String(!panel.hidden));
+			updateToolLayout();
+		});
+	});
+	updateToolLayout();
+}
 
 
 
@@ -119,9 +157,7 @@ function HideAnalysisRepertory() {
 	var hiddens = document.querySelectorAll(".analysis-hide");
 	var i;
 	for (i=0; i<hiddens.length; i++) {
-	   hiddens[i].style.visibility = 'hidden';
-		hiddens[i].style.height = 0;
-		hiddens[i].style.marginTop = '-40px';
+		hiddens[i].hidden = true;
 	}
 }
 
@@ -136,9 +172,7 @@ function ShowAnalysisRepertory() {
 	var hiddens = document.querySelectorAll(".analysis-hide");
 	var i;
 	for (i=0; i<hiddens.length; i++) {
-	   hiddens[i].style.visibility = '';
-		hiddens[i].style.height = '';
-		hiddens[i].style.marginTop = '-10px';
+		hiddens[i].hidden = false;
 	}
 }
 
@@ -150,6 +184,11 @@ function ShowAnalysisRepertory() {
 //
 
 window.addEventListener('keydown', function(event) {
+
+	if (event.target.closest && event.target.closest("button")) {
+		// Preserve native keyboard activation and focus behavior for buttons.
+		return;
+	}
 
 	if (event.metaKey) {
 		// Don't mess with meta key (command key in OS X)

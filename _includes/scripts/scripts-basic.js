@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
 //
 
 function StylizeFormElements() {
-	$('select').not('.tricky').select2({
+	// The movement download selector manages its own Select2 options.
+	$('select').not('.tricky, #download-section-select').select2({
 		width: 'off'
 	});
 

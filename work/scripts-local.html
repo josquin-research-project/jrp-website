@@ -218,80 +218,6 @@ function addListItem(items, html) {
 
 //////////////////////////////
 //
-// generateBreadcrumbs -- Set the breadcrumb area.
-//
-
-function generateBreadcrumbs(title, composer, workid) {
-	var bread = "<ul>\n";
-	bread += "<li>";
-
-	var referrer = document.referrer;
-	referrer = referrer.replace(/index\.html/, "");
-	var rtitle = "Back";
-	if (referrer.match(/\/browse/)) {
-		referrer = referrer.replace(/\/?\??home=true$/, "");
-		rtitle = "Browse";
-	} else if (referrer.match(/\/search/)) {
-		rtitle = "Search Results";
-	} else if (referrer.match(/https?:\/\/[^\/]+\/?$/)) {
-		rtitle = "Home";
-	}
-
-	bread += "<a href=\"";
-	bread += referrer;
-	bread += "\">" + rtitle + "</a>";
-
-	bread += "</li>\n";
-
-	bread += "<li style=\"margin-top:5px; font-size:100%;\">" + title;
-	if (composer != "Anonymous") {
-		bread += " (" + composer + ")"
-	}
-	bread += "</li>\n";
-	bread += "<ul>\n";
- 
-	return bread;
-}
-
-
-
-//////////////////////////////
-//
-// generateWorkPdfs --
-//
-
-function generateWorkPdfs(workid) {
-	if (!SECTIONS || SECTIONS < 2) {
-		return "";
-	} 
-
-	var wc = "";
-
-/*
-	wc += "<a style=\"line-height:14px;\" ";
-	wc += "class=\"work-orange\" target=\"" + PDFTARGET + "\" href=\"";
-	wc += "/data?a=notationNoEditText&f=" + workid;
-	wc += "\">";
-	wc += "<img title=\"Score of complete work\" src=/images/file-orange.png>";
-	wc += "</a>";
-	wc += "&nbsp;&nbsp;";
-	wc += "&nbsp;&nbsp;";
-	wc += "<a title=\"with editorial accidentals\" style=\"line-height:14px;\" class=\"work-ed-orange\" ";
-	wc += " target=\"" + PDFTARGET + "\" href=\"";
-	wc += "/data?a=notationEditText&f=" + workid;
-	wc += "\">"
-	wc += "<img src=/images/file-ed-orange.png>";
-	wc += "</a>";
-	wc += "&nbsp;&nbsp;";
-*/
-
-	return wc;
-}
-
-
-
-//////////////////////////////
-//
 // displayMultisectionWork --
 //
 
@@ -344,12 +270,6 @@ function displayMultisectionWork(jrpid) {
 
 	var title	 = work.title;
 	var composer = getComposerShortFromWork(work);
-
-	var bread = generateBreadcrumbs(title, composer, jrpid);
-	document.getElementById("breadcrumbs").innerHTML = bread;
-
-	var workpdfs = generateWorkPdfs(workid);
-	document.getElementById("workpdfs").innerHTML = workpdfs;
 
 
 	// Set the title line //////////////////////////////////////////////////
@@ -406,13 +326,17 @@ function getSectionHeaderTable(workid, sectionid) {
 	if (!sectionid) {
 		sectionid = workid;
 	}
+	var work = WORKLISTjrpid[getBaseWorkId(workid)];
+	if (!work) {
+		return "";
+	}
 	var tc = "";
-	tc += "<section style=\"margin-left:50px; padding-bottom:0; ";
+	tc += "<section style=\"padding-bottom:0; ";
 	tc += "padding-top:0\" id=\"recently-added\">\n";
 	tc += "<div>\n";
-	tc += "<h2>";
+	tc += "<h2 class=\"worktitle\">" + getComposerShortFromWork(work) + ", " + work.title + " (";
 	tc += "<span id=\"sectionid\">";
-	tc += sectionid + "</span></h2>\n";
+	tc += sectionid + "</span>)</h2>\n";
 	tc += printSectionTableHeader();
 	var i;
 	for (i=0; i<SECTIONS.length; i++) {
@@ -436,7 +360,7 @@ function printSectionEntries(entry, currentid) {
 		return "";
 	}
 
-	var stitle    = entry.stitle;
+	var stitle    = getMovementTitle(entry);
 	var sectionid = entry.id;
 
 	var out = "";
@@ -517,7 +441,7 @@ function printSectionTableFooter() {
 
 function printSectionTableHeader(workid) {
 
-	var out = "<table style=\"margin-top:-10px; width:400px;\">\n";
+	var out = "<table style=\"margin-top:12px; width:100%;\">\n";
 	out += "<thead>\n";
 	out += "<tr style=\"background:#eee; font-size:125%;\">\n";
 	out += "<td style=\"width:300px;\">Section title</td>\n";
@@ -607,12 +531,11 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	var actionid = workQ ? workid : sectionid;
 
 	pc += "<ul class=\"work-title-actions\">\n";
-	pc += getTitlePdfActionHtml(actionid, "no_edit", "file-orange WORKLINK", "Score");
+	pc += getTitlePdfActionHtml(actionid, "no_edit", "file-orange WORKLINK", "PDF");
 	pc += getTitlePdfActionHtml(actionid, "edit", "file-ed-orange WORKLINK",
-		"<span style=\"display:block;\">Score&nbsp;w/&nbsp;ed.&nbsp;<br>accidentals</span>");
+		"<span style=\"display:block;\">PDF&nbsp;w/&nbsp;ed.<br>accidentals</span>");
 	pc += getTitleMp3ActionHtml(actionid);
 
-	pc += getScoreToggleActionHtml(jrpid);
 	pc += "</ul>\n";
 
 	return tc + pc;
@@ -702,8 +625,8 @@ function showSectionDownloads(jrpid) {
 function printErrorReportButton(jrpid) {
 	var error   = document.getElementById("error");
 	var message = "<a onclick=\"sessionStorage.ERRORjrpid = '" + jrpid + "';\"";
-	message += " href=\"/error/?work=" + encodeURIComponent(jrpid) + "\" class=\"btn btn-brown\">";
-	message += "Report an error for this work</a>";
+	message += " href=\"/error/?work=" + encodeURIComponent(jrpid) + "\" class=\"work-view-toggle work-error-link\">";
+	message += "Report an error</a>";
 	error.innerHTML = message;
 }
 
@@ -1096,12 +1019,6 @@ function displayWork(jrpid) {
 	var title    = work.title;
 	var composer = work.composers || "Anonymous";
 
-	var bread = generateBreadcrumbs(title, composer);
-	document.getElementById("breadcrumbs").innerHTML = bread;
-
-	var workpdfs = generateWorkPdfs(workid);
-	document.getElementById("workpdfs").innerHTML = workpdfs;
-
 	// Set the title line //////////////////////////////////////////////////
 	var titleContent = "";
 	titleContent +=
@@ -1110,10 +1027,9 @@ function displayWork(jrpid) {
 
 	titleContent += "<ul class=\"work-title-actions\">\n";
 
-	titleContent += getTitlePdfActionHtml(jrpid, "no_edit", "file-orange", "Score");
-	titleContent += getTitlePdfActionHtml(jrpid, "edit", "file-ed-orange", "Score&nbsp;w/&nbsp;ed. accidentals");
+	titleContent += getTitlePdfActionHtml(jrpid, "no_edit", "file-orange", "PDF");
+	titleContent += getTitlePdfActionHtml(jrpid, "edit", "file-ed-orange", "PDF&nbsp;w/&nbsp;ed.<br>accidentals");
 	titleContent += getTitleMp3ActionHtml(jrpid);
-	titleContent += getScoreToggleActionHtml(jrpid);
 	titleContent += "</ul>\n";
 
 	document.getElementById("title").innerHTML = titleContent;
@@ -1141,13 +1057,34 @@ function displayWork(jrpid) {
 //
 
 function showDownloadArea(jrpid, stitle) {
+	var area = document.getElementById("downloads");
+	if (!area) {
+		return;
+	}
+	var heading = "<h3 class=\"brown-border\">Downloads";
+	if (stitle) {
+		heading += " (" + escapeWorkHtml(stitle) + ")";
+	}
+	heading += "</h3>\n";
+	area.innerHTML = heading + getDownloadLinksHtml(jrpid);
+	resolveJosquinDataLinks(area);
+	updateSectionDownloadPanel(jrpid);
+}
+
+
+
+//////////////////////////////
+//
+// getDownloadLinksHtml -- Build the same download columns for a work or section.
+//
+
+function getDownloadLinksHtml(jrpid) {
 
 	const baseId = getBaseWorkId(jrpid);
 	let work = WORKLISTjrpid[baseId];
 
 	if (!work) {
-		console.log("PROBLEM FINDING WORK", jrpid);
-		return;
+		return "";
 	}
 
 	let filename = work.filename || "";
@@ -1160,10 +1097,6 @@ function showDownloadArea(jrpid, stitle) {
 	const legacyBase = JOSQUIN_LEGACY.replace(/\/+$/, "");
 
 	let download = "";
-
-	download += "<h3 class=\"brown-border\">Downloads";
-	if (stitle) download += " (" + stitle + ")";
-	download += "</h3>\n";
 
 	/* ================= LEFT COLUMN ================= */
 	download += "<div class=\"col first-col\">\n<ul>\n";
@@ -1246,8 +1179,81 @@ function showDownloadArea(jrpid, stitle) {
 
 	download += "</ul>\n</div>\n";
 
-	document.getElementById("downloads").innerHTML = download;
-	resolveJosquinDataLinks(document.getElementById("downloads"));
+	return download;
+}
+
+
+
+//////////////////////////////
+//
+// updateSectionDownloadPanel -- Complete-work views also offer downloads for
+//     individual sections without changing the selected work or score.
+//
+
+function updateSectionDownloadPanel(jrpid) {
+	var panel = document.getElementById("section-downloads");
+	var select = document.getElementById("download-section-select");
+	var links = document.getElementById("section-download-links");
+	if (!panel || !select || !links) {
+		return;
+	}
+
+	var useSelect2 = typeof $ !== "undefined" && $.fn && $.fn.select2;
+	if (useSelect2 && $(select).data("select2")) {
+		$(select).select2("destroy");
+	}
+	select.innerHTML = "";
+	links.innerHTML = "";
+	panel.hidden = true;
+	panel.removeAttribute("data-work-id");
+
+	var baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId];
+	if (jrpid !== baseId || !work || !Array.isArray(work.sections) || work.sections.length < 2) {
+		return;
+	}
+	var sections = work.sections.filter(function(section) {
+		return section && section.id && section.id !== baseId;
+	});
+	if (!sections.length) {
+		return;
+	}
+
+	select.innerHTML = sections.map(function(section) {
+		return '<option value="' + escapeWorkHtml(section.id) + '">'
+			+ escapeWorkHtml(getMovementTitle(section)) + '</option>';
+	}).join("\n");
+	select.value = sections[0].id;
+	panel.setAttribute("data-work-id", baseId);
+	panel.hidden = false;
+	if (useSelect2) {
+		$(select).select2({ width: "128px", dropdownCssClass: "work-download-dropdown" });
+	}
+	showSelectedSectionDownloads(select.value);
+}
+
+
+
+//////////////////////////////
+//
+// showSelectedSectionDownloads -- Update only the additional download links.
+//
+
+function showSelectedSectionDownloads(jrpid) {
+	var panel = document.getElementById("section-downloads");
+	var links = document.getElementById("section-download-links");
+	if (!panel || panel.hidden || !links) {
+		return;
+	}
+	var baseId = panel.getAttribute("data-work-id");
+	var work = WORKLISTjrpid[baseId];
+	if (!work || !Array.isArray(work.sections) || !work.sections.some(function(section) {
+		return section && section.id === jrpid && section.id !== baseId;
+	})) {
+		return;
+	}
+	links.innerHTML = getDownloadLinksHtml(jrpid);
+	resolveJosquinDataLinks(links);
 }
 
 
@@ -1269,7 +1275,7 @@ function displayHumdrumIncipit(jrpid, sections) {
 		area.innerHTML = "";
 		area.style.height = "0";
 		area.style.marginBottom = "0";
-		updateScoreToggleButton();
+		updateScoreToggleButton(jrpid);
 		return;
 	}
 
@@ -1288,7 +1294,7 @@ function displayHumdrumIncipit(jrpid, sections) {
 	area.style.height = "";
 	area.style.marginRight = "0";
 	area.style.marginTop = "0";
-	area.style.marginBottom = WORKscoreExpanded ? "20px" : "-45px";
+	area.style.marginBottom = "0";
 
 	var panel = document.createElement("div");
 	panel.className = WORKscoreExpanded
@@ -1301,24 +1307,8 @@ function displayHumdrumIncipit(jrpid, sections) {
 	status.textContent = "Loading score...";
 	panel.appendChild(status);
 
-	var toolbar = document.createElement("div");
-	toolbar.className = "work-score-toolbar text-right";
-	toolbar.style.display = "none";
-	toolbar.style.marginRight = "63px";
-	toolbar.style.marginTop = "0";
-	toolbar.innerHTML = "<div class=\"work-score-toolbar-left\">"
-		+ getRangeToggleButtonHtml()
-		+ "</div>";
-	if (!WORKscoreExpanded && hasCompleteScoreAsset(jrpid)) {
-		toolbar.innerHTML += "<div class=\"work-score-toolbar-right\">"
-			+ "<span class=\"btn btn-brown btn-small\" "
-			+ "onclick=\"toggleCompleteScore();\">Show complete score</span>"
-			+ "</div>";
-	}
-
 	area.appendChild(panel);
-	area.appendChild(toolbar);
-	updateScoreToggleButton();
+	updateScoreToggleButton(jrpid);
 
 	if (completeWork && WORKscoreExpanded) {
 		loadCompleteHumdrumScores(completeWork).then(function(scores) {
@@ -1332,7 +1322,6 @@ function displayHumdrumIncipit(jrpid, sections) {
 			}
 			status.textContent = "";
 			status.style.display = "none";
-			toolbar.style.display = "flex";
 			renderCompleteHumdrumScore(panel, scores, completeWork);
 		}).catch(function(error) {
 			if (token !== WORKscoreRequestToken) {
@@ -1363,7 +1352,6 @@ function displayHumdrumIncipit(jrpid, sections) {
 		}
 		status.textContent = "";
 		status.style.display = "none";
-		toolbar.style.display = "flex";
 		script.textContent = score.text;
 		renderHumdrumScore(sourceId);
 	}).catch(function(error) {
@@ -1475,28 +1463,6 @@ function toggleCompleteScore() {
 
 //////////////////////////////
 //
-// getScoreToggleActionHtml -- Button shown in the title action row.
-//
-
-function getScoreToggleActionHtml(jrpid) {
-	jrpid = jrpid || sessionStorage.WORKjrpid || JRPID;
-	if (!hasCompleteScoreAsset(jrpid)) {
-		return "";
-	}
-	var html = "";
-	html += "<li class=\"work-title-score-toggle is-hidden\">";
-	html += "<button type=\"button\" id=\"work-score-toggle\" ";
-	html += "class=\"btn btn-brown btn-small\" ";
-	html += "onclick=\"toggleCompleteScore();\">";
-	html += getScoreToggleLabel();
-	html += "</button></li>\n";
-	return html;
-}
-
-
-
-//////////////////////////////
-//
 // getScoreToggleLabel -- Text for the score preview/full-score toggle.
 //
 
@@ -1508,22 +1474,17 @@ function getScoreToggleLabel() {
 
 //////////////////////////////
 //
-// updateScoreToggleButton -- Keep the title-row score toggle synchronized
+// updateScoreToggleButton -- Keep the persistent score toggle synchronized
 //     when the score area re-renders.
 //
 
-function updateScoreToggleButton() {
+function updateScoreToggleButton(jrpid) {
+	jrpid = jrpid || sessionStorage.WORKjrpid || JRPID;
 	var button = document.getElementById("work-score-toggle");
 	if (button) {
 		button.textContent = getScoreToggleLabel();
-		var item = button.parentNode;
-		if (item) {
-			if (WORKscoreExpanded) {
-				item.className = item.className.replace(/\bis-hidden\b/g, "").trim();
-			} else if (!item.className.match(/\bis-hidden\b/)) {
-				item.className += " is-hidden";
-			}
-		}
+		button.hidden = !hasCompleteScoreAsset(jrpid);
+		button.setAttribute("aria-expanded", String(!button.hidden && WORKscoreExpanded));
 	}
 }
 
@@ -1928,6 +1889,10 @@ function prepareIncipitArea(jrpid, sections) {
 
 function prepareRangeArea(jrpid, sections) {
 	var area = document.getElementById("vocal-ranges");
+	var control = document.getElementById("work-range-control");
+	if (control) {
+		control.innerHTML = getRangeToggleButtonHtml(jrpid);
+	}
 	var out = "";
 	var workid  = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 
@@ -1983,15 +1948,16 @@ function prepareRangeArea(jrpid, sections) {
 // getRangeToggleButtonHtml -- Button that expands/collapses work-page ranges.
 //
 
-function getRangeToggleButtonHtml() {
-	if (!hasRangeAsset(sessionStorage.WORKjrpid || JRPID)) {
+function getRangeToggleButtonHtml(jrpid) {
+	jrpid = jrpid || sessionStorage.WORKjrpid || JRPID;
+	if (!hasRangeAsset(jrpid)) {
 		return "";
 	}
 	var expanded = WORKrangesVisible ? "true" : "false";
 	var label = WORKrangesVisible ? "Hide vocal ranges" : "Show vocal ranges";
 	var html = "";
 	html += "<button type=\"button\" id=\"work-range-toggle\"";
-	html += " class=\"btn btn-brown work-range-toggle\"";
+	html += " class=\"work-view-toggle work-range-toggle\"";
 	html += " aria-expanded=\"" + expanded + "\"";
 	html += " aria-controls=\"work-range-panel\"";
 	html += " onclick=\"return toggleRangePanel();\">";
@@ -2638,7 +2604,7 @@ function buildComposerSelect() {
 
 	var out = "<select id=\"composers\">";
 	out += "<option label=\"default\">All Composers</option>\n";
-	var clist = GetComposerOptions();
+	var clist = GetComposerOptions(WORKS);
 	out += clist;
 	out += "</select>\n";
 	composerselect.innerHTML = out;
@@ -2660,7 +2626,7 @@ function buildRepertorySelect() {
 	}
 
 	var out  = "<select style=\"width:220px;\" id=\"repertory\">\n";
-	var clist = GetComposerOptions();
+	var clist = GetComposerOptions(WORKS);
 	out += clist;
 	out += "</select>\n";
 	repsel.innerHTML = out;
@@ -2715,9 +2681,33 @@ function buildGenreSelect() {
 //
 
 function showPopupHelp(url, title) {
-	var newwindow = window.open(url, title,
-		'left=20,top=20,width=620,height=830,resizable=no,scrollbars=no,directories=no,location=no,status=no,toolbar=no');
-	if (window.focus) {newwindow.focus()}
+	// Use an in-page popup so help does not depend on browser popup permissions.
+	var dialog = document.getElementById("work-help-dialog");
+	if (!dialog) {
+		dialog = document.createElement("dialog");
+		dialog.id = "work-help-dialog";
+		dialog.className = "work-help-dialog";
+		var closeButton = document.createElement("button");
+		closeButton.type = "button";
+		closeButton.className = "work-help-close";
+		closeButton.textContent = "Close";
+		closeButton.onclick = function () { dialog.close(); };
+		dialog.appendChild(closeButton);
+		var frame = document.createElement("iframe");
+		frame.onload = function () {
+			var pageClose = frame.contentDocument.querySelector("button");
+			if (pageClose) {
+				pageClose.onclick = function () { dialog.close(); };
+			}
+		};
+		dialog.appendChild(frame);
+		document.body.appendChild(dialog);
+	}
+	dialog.setAttribute("aria-label", title);
+	var helpFrame = dialog.querySelector("iframe");
+	helpFrame.title = title;
+	helpFrame.src = url;
+	dialog.showModal();
 	return false;
 }
 
@@ -3212,9 +3202,9 @@ function updateRangeAvailabilityVisibility() {
 	vocalRanges.innerHTML = "";
 	vocalRanges.style.display = "none";
 	vocalRanges.style.height = "0";
-	var toggle = document.getElementById("work-range-toggle");
-	if (toggle) {
-		toggle.style.display = "none";
+	var control = document.getElementById("work-range-control");
+	if (control) {
+		control.innerHTML = "";
 	}
 }
 
