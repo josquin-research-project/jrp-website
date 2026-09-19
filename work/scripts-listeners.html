@@ -16,20 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 document.addEventListener("DOMContentLoaded", function() {
 
-	AUDIO = document.getElementById("audio");
-	AUDIO.addEventListener('ended', function(e) {
-		AUDIO.setAttribute("controls", "");
-		AUDIO.currentTime = 0;
-		AUDIO.pause();
-		var pauseelem = document.getElementById(AUDIOid);
-		if (!!pauseelem) {
-			if (pauseelem.className.match(/mp3/)) {
-				pauseelem.className = "mp3play";
-			} else {
-				pauseelem.className = "play";
-			}
-		}
-	}, false);
+	SetupAudioPlayback();
 
 	sessionStorage.ERRORsubmitting  = "false";
 
@@ -422,7 +409,7 @@ window.addEventListener('keydown', function(event) {
 			}
 			event.preventDefault();
 			event.stopPropagation();
-			PlayAudioFile(sessionStorage.WORKjrpid, document.getElementById("audio_" + sessionStorage.WORKjrpid));
+			playCurrentWorkAudio();
 			break;
 
 		case SpaceKey:
@@ -433,32 +420,10 @@ window.addEventListener('keydown', function(event) {
 			}
 			event.preventDefault();
 			event.stopPropagation();
-			if (!AUDIO) {
-				break;
-			}
-			if (!AUDIOid) {
-				break;
-			}
-			if (AUDIO.paused) {
-				var audiobutton = document.getElementById(AUDIOid);
-				if (!!audiobutton) {
-					if (audiobutton.className.match(/mp3/)) {
-						audiobutton.className = "mp3pause";
-					} else {
-						audiobutton.className = "pause";
-					}
-				}
-				AUDIO.play();
+			if (AUDIO && AUDIOjrpid) {
+				PlayAudioFile(AUDIOjrpid, document.getElementById(AUDIOid));
 			} else {
-				var audiobutton = document.getElementById(AUDIOid);
-				if (!!audiobutton) {
-					if (audiobutton.className.match(/mp3/)) {
-						audiobutton.className = "mp3play";
-					} else {
-						audiobutton.className = "play";
-					}
-				}
-				AUDIO.pause();
+				playCurrentWorkAudio();
 			}
 			return false;
 			break;

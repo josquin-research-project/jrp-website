@@ -2,29 +2,33 @@
 	<div id="title" class="title"></div>
 	<div class="work-tool-toggles" role="group" aria-label="Work tools">
 		<div class="work-tool-control">
-			<button type="button" id="work-search-toggle" class="work-tool-toggle" aria-controls="search" aria-expanded="false">Search</button>
+			<button type="button" id="work-search-toggle" class="work-tool-toggle" aria-label="Search" aria-controls="search" aria-expanded="false">Search</button>
 			<button type="button" id="search-help" class="work-tool-help" aria-haspopup="dialog" aria-label="Search help" onclick="return showPopupHelp('search-help.html', 'Search Help');">Search help</button>
 		</div>
 		<div class="work-tool-control">
-			<button type="button" id="work-analysis-toggle" class="work-tool-toggle" aria-controls="tools" aria-expanded="false">Analysis tools</button>
+			<button type="button" id="work-analysis-toggle" class="work-tool-toggle" aria-label="Analysis tools" aria-controls="tools" aria-expanded="false">Analysis tools</button>
 			<button type="button" id="analysis-help" class="work-tool-help" aria-haspopup="dialog" aria-label="Analysis tools help" onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');">Analysis tools help</button>
 		</div>
 	</div>
-	<div class="work-heading-utilities">
+	<div class="work-action-bar">
+		<ul id="work-pdf-actions" class="work-title-actions" aria-label="PDF downloads"></ul>
+		<button type="button" id="work-play-toggle" class="work-view-toggle work-play-toggle" onclick="playCurrentWorkAudio();" disabled>
+			<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+				<path class="work-play-symbol" d="M7 4v16l14-8z" fill="currentColor"/>
+				<g class="work-pause-symbol" fill="currentColor"><rect x="5" y="4" width="5" height="16"/><rect x="14" y="4" width="5" height="16"/></g>
+			</svg>
+			<span data-audio-label>Play</span>
+		</button>
 		<div id="work-range-control" class="work-range-control"></div>
 		<div id="error" class="work-error-report text-right"></div>
 	</div>
 </div>
 
 <div class="work-body">
-	<aside id="work-tool-sidebar" class="search-filter">
-		{% include_relative aside-work.html %}
-	</aside>
-
 	<div class="work-score-content">
 		<div class="work-score-header">
-			<div id="score-credit" class="work-score-credit"></div>
 			<button type="button" id="work-score-toggle" class="work-view-toggle work-score-toggle" aria-controls="music-area" aria-expanded="false" onclick="toggleCompleteScore();" hidden>Show complete score</button>
+			<div id="score-credit" class="work-score-credit"></div>
 		</div>
 		<div id="work-search-results"></div>
 
@@ -32,7 +36,7 @@
 			<div style="height:250px"></div>
 		</div>
 
-		<a name="incipit"> </a>
+		<a id="incipit" class="work-incipit-anchor"></a>
 		<div style="height:200px;" id="music-area" class="music-area">
 			<div style="height:300px"></div>
 		</div>
@@ -51,4 +55,8 @@
 			<div id="section-download-links" class="downloads"></div>
 		</section>
 	</div>
+
+	<aside id="work-tool-sidebar" class="search-filter">
+		{% include_relative aside-work.html %}
+	</aside>
 </div>

@@ -842,133 +842,119 @@ function UpdateEzMark() {
 // PlayAudioFile -- play/pause an audio file.
 //
 
+// All controls follow the audio element, including its native controls.
+var AUDIOplayRequested = false;
+var AUDIOrequestSerial = 0;
+
+function SyncAudioControls() {
+  var playing = AUDIO && !AUDIO.paused && !AUDIO.ended && !AUDIO.error;
+  var buttons = document.querySelectorAll('[data-audio-id], [id^="audio_"]');
+  Array.prototype.forEach.call(buttons, function(button) {
+    var id = button.getAttribute('data-audio-id') || button.id.replace(/^audio_/, '');
+    var active = !!playing && id === AUDIOjrpid;
+    if (button.classList.contains('work-play-toggle')) {
+      button.setAttribute('data-playing', String(active));
+      var label = button.querySelector('[data-audio-label]');
+      if (label) label.textContent = active ? 'Pause' : 'Play';
+      var title = button.disabled ? 'Audio unavailable' :
+        (active ? 'Pause ' : 'Play ') + button.getAttribute('data-audio-title');
+      button.setAttribute('aria-label', title);
+      button.title = title;
+    } else {
+      var prefix = /mp3/.test(button.className) ? 'mp3' : '';
+      button.classList.remove('play', 'pause', 'mp3play', 'mp3pause');
+      button.classList.add(prefix + (active ? 'pause' : 'play'));
+    }
+  });
+}
+
+function SetupAudioPlayback() {
+  if (!AUDIO) AUDIO = document.getElementById('audio');
+  if (!AUDIO) {
+    AUDIO = document.createElement('audio');
+    AUDIO.id = 'audio';
+    document.body.appendChild(AUDIO);
+  }
+  if (AUDIO.hasAttribute('data-playback-bound')) return;
+  AUDIO.setAttribute('data-playback-bound', 'true');
+  AUDIO.setAttribute('aria-label', 'Audio playback');
+  AUDIO.addEventListener('play', function() {
+    if (!AUDIO.paused) AUDIOplayRequested = true;
+    SyncAudioControls();
+  });
+  AUDIO.addEventListener('pause', function() {
+    // A queued pause from switching sources must not cancel the new play request.
+    if (AUDIO.paused) AUDIOplayRequested = false;
+    SyncAudioControls();
+  });
+  AUDIO.addEventListener('ended', function() {
+    AUDIOplayRequested = false;
+    SyncAudioControls();
+  });
+  AUDIO.addEventListener('error', SyncAudioControls);
+}
+
+function StartAudioPlayback() {
+  AUDIOplayRequested = true;
+  var request = AUDIOrequestSerial;
+  var playback = AUDIO.play();
+  if (playback && typeof playback.catch === 'function') {
+    playback.catch(function(error) {
+      if (request !== AUDIOrequestSerial) return;
+      // Network failures are retried by onerror; a deliberate pause aborts play.
+      if (error.name !== 'AbortError' && !AUDIO.error) AUDIOplayRequested = false;
+      SyncAudioControls();
+    });
+  }
+  SyncAudioControls();
+}
+
 function PlayAudioFile(jrpid, element) {
-
-  // Ensure audio element exists
-  if (!AUDIO) {
-    AUDIO = document.getElementById('audio');
-  }
-  if (!AUDIO) {
-    document.body.innerHTML += '<audio id="audio"></audio>\n';
-    AUDIO = document.getElementById('audio');
-  }
-  if (!AUDIO) {
-    console.log('Error: could not set up audio interface');
-    return false;
-  }
-
+  if (!jrpid) return false;
+  SetupAudioPlayback();
   AUDIO.setAttribute('controls', 'controls');
   AUDIO.style.position = 'fixed';
   AUDIO.style.bottom = '0';
   AUDIO.style.right = '0';
-  AUDIO.style.zIndex = '1';
+  // Keep native play/pause/seek controls above download columns and the footer.
+  AUDIO.style.zIndex = '1000';
+  if (element) element.setAttribute('data-audio-id', jrpid);
 
-  var audiobutton;
-
-  // ------------------------------------------------------------
-  // NEW FILE (or first playback)
-  // ------------------------------------------------------------
   if (jrpid !== AUDIOjrpid) {
-
-    // Reset previous button
-    if (AUDIOid) {
-      audiobutton = document.getElementById(AUDIOid);
-      if (audiobutton && audiobutton.className) {
-        if (audiobutton.className.match(/mp3/)) {
-          audiobutton.className = 'mp3play';
-        } else {
-          audiobutton.className = 'play';
-        }
-      }
-    }
-
+    var request = ++AUDIOrequestSerial;
+    AUDIO.onerror = null;
     AUDIO.pause();
-    AUDIO.removeAttribute('controls');
-
-    AUDIOid = element.id;
-
     AUDIOjrpid = jrpid;
+    AUDIOid = element ? element.id : '';
+    AUDIOplayRequested = true;
     AUDIO.innerHTML = '';
-    AUDIO.removeAttribute('src');
     AUDIO.setAttribute('data-mirror-tried', 'false');
     AUDIO.onerror = function() {
+      if (request !== AUDIOrequestSerial) return;
       if (AUDIO.getAttribute('data-mirror-tried') === 'true') {
+        AUDIOplayRequested = false;
+        SyncAudioControls();
         return;
       }
+      var resume = AUDIOplayRequested;
       AUDIO.setAttribute('data-mirror-tried', 'true');
-      AUDIO.src = getJosquinDataFallbackUrl(jrpid, "mp3");
+      AUDIO.src = getJosquinDataFallbackUrl(jrpid, 'mp3');
       AUDIO.load();
-      var fallbackPlayback = AUDIO.play();
-      if (fallbackPlayback && typeof fallbackPlayback.catch === 'function') {
-        fallbackPlayback.catch(function(error) {
-          console.warn('Could not play MP3 from the Stanford mirror.', error);
-        });
-      }
+      // Loading an alternate source must never restart explicitly paused audio.
+      if (resume) StartAudioPlayback();
     };
-    AUDIO.src = getJosquinDataUrl(jrpid, "mp3");
+    AUDIO.src = getJosquinDataUrl(jrpid, 'mp3');
     AUDIO.load();
-    var playback = AUDIO.play();
-    if (playback && typeof playback.catch === 'function') {
-      playback.catch(function() {
-        // A missing primary file triggers AUDIO.onerror and the mirror retry.
-      });
-    }
-    AUDIO.setAttribute('controls', 'controls');
-
-    var newelement = document.getElementById(AUDIOid);
-    if (newelement) {
-      if (newelement.className.match(/mp3/)) {
-        newelement.className = 'mp3pause';
-      } else {
-        newelement.className = 'pause';
-      }
-    }
-    return;
-  }
-
-  // ------------------------------------------------------------
-  // SAME FILE → toggle play / pause
-  // ------------------------------------------------------------
-  if (AUDIO.paused) {
-
-    audiobutton = document.getElementById(AUDIOid);
-    if (!audiobutton) return;
-
-    if (audiobutton.className.match(/mp3/)) {
-      audiobutton.className = 'mp3play';
-    } else {
-      audiobutton.className = 'play';
-    }
-
-    if (element.className.match(/mp3/)) {
-      element.className = 'mp3pause';
-    } else {
-      element.className = 'pause';
-    }
-
-    AUDIO.play();
-    AUDIO.setAttribute('controls', 'controls');
-
-  } else {
-
-    audiobutton = document.getElementById(AUDIOid);
-    if (!audiobutton) return;
-
-    if (audiobutton.className.match(/mp3/)) {
-      audiobutton.className = 'mp3pause';
-    } else {
-      audiobutton.className = 'pause';
-    }
-
-    if (element.className.match(/mp3/)) {
-      element.className = 'mp3play';
-    } else {
-      element.className = 'play';
-    }
-
+    StartAudioPlayback();
+  } else if (!AUDIO.paused || AUDIOplayRequested) {
+    AUDIOplayRequested = false;
     AUDIO.pause();
-    AUDIO.removeAttribute('controls');
+    SyncAudioControls();
+  } else {
+    if (element) AUDIOid = element.id;
+    StartAudioPlayback();
   }
+  return false;
 }
 
 

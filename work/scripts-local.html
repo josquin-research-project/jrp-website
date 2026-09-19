@@ -286,6 +286,7 @@ function displayMultisectionWork(jrpid) {
 
 	sessionStorage.WORKjrpid = sectionid;
 	jrpid = sectionid;
+	updateWorkActions(jrpid);
 
 	// Set the incipit image ///////////////////////////////////////////////
 	// prepareIncipitArea(jrpid, SECTIONS);
@@ -310,7 +311,7 @@ function displayMultisectionWork(jrpid) {
 	if (jrpid.match(/[a-z]$/)) {
 		showSectionDownloads(jrpid);
 	} else {
-		showDownloadArea(jrpid, "Complete Work");
+		showDownloadArea(jrpid, "complete work");
 		printErrorReportButton(jrpid);
 	}
 }
@@ -334,7 +335,7 @@ function getSectionHeaderTable(workid, sectionid) {
 	tc += "<section style=\"padding-bottom:0; ";
 	tc += "padding-top:0\" id=\"recently-added\">\n";
 	tc += "<div>\n";
-	tc += "<h2 class=\"worktitle\">" + getComposerShortFromWork(work) + ", " + work.title + " (";
+	tc += "<h2 class=\"worktitle\">" + getComposerShortFromWork(work) + ", <i>" + work.title + "</i> (";
 	tc += "<span id=\"sectionid\">";
 	tc += sectionid + "</span>)</h2>\n";
 	tc += printSectionTableHeader();
@@ -398,7 +399,7 @@ function printSectionEntries(entry, currentid) {
 
 	out += "<td style=\"padding-left:30px;\">";
 
-	if (sectionid == AUDIOjrpid) {
+	if (sectionid == AUDIOjrpid && AUDIO && !AUDIO.paused && !AUDIO.ended) {
 		out += "<span id=\"audio_" + sectionid + "\"";
 		out += "style=\"cursor:hand; cursor:pointer;\" ";
 		out += "onclick=\"PlayAudioFile('" + sectionid + "', this);\" ";
@@ -477,22 +478,37 @@ function getTitlePdfActionHtml(jrpid, version, className, label) {
 
 //////////////////////////////
 //
-// getTitleMp3ActionHtml -- Top work-page MP3 icon/link.
+// updateWorkActions -- Keep the toolbar independent of title/score rendering.
 //
 
-function getTitleMp3ActionHtml(jrpid) {
-	if (!hasAsset(jrpid, "mp3")) {
-		return "";
+function updateWorkActions(jrpid) {
+	var pdfs = document.getElementById("work-pdf-actions");
+	if (pdfs) {
+		pdfs.innerHTML = getTitlePdfActionHtml(jrpid, "no_edit", "file-orange", "PDF score")
+			+ getTitlePdfActionHtml(jrpid, "edit", "file-ed-orange", "PDF score w/<br> ed. accidentals");
+		resolveJosquinDataLinks(pdfs);
 	}
 
-	var html = "";
-	var audioClass = jrpid == AUDIOjrpid ? "mp3pause" : "mp3play";
-	html += "<li><a style=\"cursor:hand; cursor:pointer; display:block;\" ";
-	html += "id=\"audio_" + jrpid + "\" class=\"" + audioClass + "\" ";
-	html += "onclick=\"getMp3('" + jrpid + "', this);\" ";
-	html += "name=\"{{site.jrp-data-url}}?a=mp3&f=";
-	html += jrpid + "\">MP3</a></li>\n";
-	return html;
+	var button = document.getElementById("work-play-toggle");
+	if (!button) return;
+	var baseId = getBaseWorkId(jrpid);
+	var work = WORKLISTjrpid[baseId];
+	var sections = work && Array.isArray(work.sections) ? work.sections : [];
+	var section = jrpid === baseId
+		? sections.find(function(item) { return item.id && item.id !== baseId; })
+		: sections.find(function(item) { return item.id === jrpid; });
+	var audioId = section ? section.id : jrpid;
+	button.setAttribute("data-audio-id", audioId);
+	button.setAttribute("data-audio-title", section ? getMovementTitle(section) : "this work");
+	button.disabled = !hasAsset(audioId, "mp3");
+	SyncAudioControls();
+}
+
+function playCurrentWorkAudio() {
+	var button = document.getElementById("work-play-toggle");
+	if (button && !button.disabled) {
+		PlayAudioFile(button.getAttribute("data-audio-id"), button);
+	}
 }
 
 
@@ -511,34 +527,20 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	// - sectionid should be the actual id currently being viewed (jrpid),
 	//   not something derived from subtitle.
 	const sectionid = jrpid;
-	const workid    = baseId;
 
 	var title    = work.title;
 	var composer = getComposerShortFromWork(work);
-
-	var workQ = (baseId === jrpid);
 
 	// list of sections underneath JRPID:
 	var tc = "";
 
 	tc += "<h2 class=\"worktitle\"> " + composer + ", ";
-	tc += title + " (<span id=\"sectionid\">";
+	tc += "<i>" + title + "</i> (<span id=\"sectionid\">";
 	tc += sectionid + "</span>)</h2>\n";
 
 	tc += getMovementNavHtml(sectionid, "work-movement-nav--title");
 
-	var pc = "";
-	var actionid = workQ ? workid : sectionid;
-
-	pc += "<ul class=\"work-title-actions\">\n";
-	pc += getTitlePdfActionHtml(actionid, "no_edit", "file-orange WORKLINK", "PDF");
-	pc += getTitlePdfActionHtml(actionid, "edit", "file-ed-orange WORKLINK",
-		"<span style=\"display:block;\">PDF&nbsp;w/&nbsp;ed.<br>accidentals</span>");
-	pc += getTitleMp3ActionHtml(actionid);
-
-	pc += "</ul>\n";
-
-	return tc + pc;
+	return tc;
 }
 
 
@@ -1023,16 +1025,10 @@ function displayWork(jrpid) {
 	var titleContent = "";
 	titleContent +=
 		"<h2 style=\"margin-bottom:0;\">" +
-		composer + ", " + title + " (" + jrpid + ")</h2>\n";
-
-	titleContent += "<ul class=\"work-title-actions\">\n";
-
-	titleContent += getTitlePdfActionHtml(jrpid, "no_edit", "file-orange", "PDF");
-	titleContent += getTitlePdfActionHtml(jrpid, "edit", "file-ed-orange", "PDF&nbsp;w/&nbsp;ed.<br>accidentals");
-	titleContent += getTitleMp3ActionHtml(jrpid);
-	titleContent += "</ul>\n";
+		composer + ", <i>" + title + "</i> (" + jrpid + ")</h2>\n";
 
 	document.getElementById("title").innerHTML = titleContent;
+	updateWorkActions(jrpid);
 
 	// Set the incipit image ///////////////////////////////////////////////
 	displayHumdrumIncipit(jrpid, SECTIONS);
@@ -1111,7 +1107,7 @@ function getDownloadLinksHtml(jrpid) {
 	if (hasAsset(jrpid, "pdfEdited")) {
 		download += `<li><a class="icon-file-ed" target="${PDFTARGET}"
 			href="${getBestPdfUrl(jrpid, "edit")}">
-			PDF w/ ed. accidentals</a></li>\n`;
+			PDF score w/ ed. accidentals</a></li>\n`;
 	}
 
 	// MEI (modern)
@@ -2950,6 +2946,7 @@ function displaySection(workid) {
 	}
 
 	sessionStorage.WORKjrpid = workid;
+	updateWorkActions(workid);
 	//document.getElementById("sectionid").innerHTML = workid;
 	SECTIONID = workid;
 
@@ -2971,7 +2968,7 @@ function displaySection(workid) {
 	if ((!SECTIONS) || (sectionindex >= 0)) {
 		showSectionDownloads(workid);
 	} else if (SECTIONS && SECTIONS.length > 0) {
-		showDownloadArea(workid, "Complete Work");
+		showDownloadArea(workid, "complete work");
 		printErrorReportButton(workid);
 	}
 }
