@@ -1,0 +1,73 @@
+[
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Turin 27",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1503/",
+		"Fols./pp./no.": "fol. 19r",
+		"Attribution": "anonymous"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Bologna Q16",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1387/",
+		"Fols./pp./no.": "fols. 13v–14r",
+		"Attribution": "anonymous"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Florence 2794",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1418/",
+		"Fols./pp./no.": "fols. 41v–42r",
+		"Attribution": "anonymous"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Florence 229",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1410/",
+		"Fols./pp./no.": "fols. 20v–21r",
+		"Attribution": "anonymous"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Florence 178",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1409/",
+		"Fols./pp./no.": "fols. 19v–20r",
+		"Attribution": "Alexander"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Egenolff, Cantiones selectissimae LXVIII. Vocum (after 1536)",
+		"RISM link": "https://rism.online/sources/993114959",
+		"Fols./pp./no.": "no. 62",
+		"Attribution": "anonymous",
+		"Notes": "Titled \"Robert\""
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Petrucci, Odhecaton (1501)",
+		"RISM link": "https://rism.online/sources/993103756",
+		"Fols./pp./no.": "no. 96",
+		"Attribution": "Agricola"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Segovia s.s.",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2020/",
+		"Fols./pp./no.": "fol. 182r",
+		"Attribution": "Loysette Compe[re]"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Verona 757",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/971/",
+		"Fols./pp./no.": "fols. 8v–9r",
+		"Attribution": "Agricola"
+	},
+	{
+		"COMMENTARY_ID": "Agr3028",
+		"Source": "Zwickau 1622–1647",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2770/",
+		"Fols./pp./no.": "fols. 33v–34v [D]; fols. 28r–29v [T]",
+		"Attribution": "Agricola"
+	}
+]

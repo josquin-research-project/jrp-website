@@ -4,6 +4,7 @@
 //
 
 function DisplayScoreCredit(jrpid, target) {
+	DisplayWorkCommentary(jrpid);
 	var element = document.getElementById(target);
 	if (!element) {
 		return;
@@ -104,4 +105,119 @@ function GetScoreCreditMetadata(jrpid) {
 	}
 
 	return entry || null;
+}
+
+
+// Source formatting shared with The 1520s Project.
+function escapeCommentaryText(value) {
+	return String(value || "").trim().replace(/[&<>"']/g, character => ({
+		"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+	}[character]));
+}
+
+function formatCommentarySource(source, diamm, rism) {
+	let name = String(source || "").trim();
+	// Printed sources use the editors' convention: Printer, Title (date).
+	let print = name.match(/^([^,]+),\s*(.+?)(\s+\([^()]*\))$/);
+	let label = print
+		? `${escapeCommentaryText(print[1])}, <i>${escapeCommentaryText(print[2])}</i> ${escapeCommentaryText(print[3])}`
+		: escapeCommentaryText(name);
+	let links = [diamm, rism].map(value => String(value || "").trim());
+	let link = links.find(value => /^https?:\/\//i.test(value));
+	if (!link) {
+		return label;
+	}
+	let output = `<a target="_blank" rel="noopener noreferrer" href="${escapeCommentaryText(link)}">${label}</a>`;
+	if (link === links[0] && /^https?:\/\//i.test(links[1]) && links[1] !== link) {
+		output += ` (<a target="_blank" rel="noopener noreferrer" href="${escapeCommentaryText(links[1])}">RISM</a>)`;
+	}
+	return output;
+}
+
+function formatCommentaryMovements(value, workinfo) {
+	let movements = String(value || "").trim();
+	if (!movements || /^all$/i.test(movements)) {
+		return "";
+	}
+	let names = {K: "Kyrie", G: "Gloria", C: "Credo", S: "Sanctus", A: "Agnus"};
+	if (workinfo.Genre === "mass" && /requiem/i.test(workinfo.Title || "")) {
+		names = {I: "Introit", K: "Kyrie", G: "Gradual", R: "Responsorium", V: "Versus", O: "Offertory", S: "Sanctus", A: "Agnus", C: "Communion"};
+	}
+	let codes = Array.from(movements);
+	if (!codes.every(code => names[code])) {
+		// Preserve edited prose or unrecognized abbreviations as entered.
+		return movements;
+	}
+	let labels = codes.map(code => names[code]);
+	let last = labels.pop();
+	return `${labels.length ? labels.join(", ") + " and " : ""}${last}, only`;
+}
+
+function formatCommentaryDetails(entry, workinfo, includeMovements = true) {
+	let details = [];
+	let attribution = String(entry.Attribution || "").trim();
+	if (attribution && !/^anonymous$/i.test(attribution)) {
+		details.push(`attribution: ${attribution}`);
+	}
+	if (includeMovements) {
+		let movements = formatCommentaryMovements(entry.Movements, workinfo);
+		if (movements) details.push(movements);
+	}
+	return details.length ? ` (${escapeCommentaryText(details.join("; "))})` : "";
+}
+
+function formatCommentaryNotes(entry) {
+	let notes = escapeCommentaryText(entry.Notes);
+	return notes ? `<span class="commentary-notes">${notes}</span>` : "";
+}
+
+function compareCommentarySources(a, b) {
+	let [left, right] = [a, b].map(entry => {
+		let name = String(entry.Source || "").trim();
+		// Printed sources follow Printer, Title (date); use the date, not the title.
+		let print = name.match(/^([^,]+),\s*(.+?)\s+\(([^()]*)\)$/);
+		let year = print && print[3].match(/\b\d{4}\b/);
+		return {name, group: print ? print[1].trim() : name, year: year ? Number(year[0]) : Infinity};
+	});
+	let options = {sensitivity: "base", numeric: true, ignorePunctuation: true};
+	return left.group.localeCompare(right.group, "en", options)
+		|| left.year - right.year
+		|| left.name.localeCompare(right.name, "en", options);
+}
+
+
+function DisplayWorkCommentary(jrpid) {
+	var element = document.getElementById("work-commentary");
+	if (!element) return;
+	element.innerHTML = "";
+	var work = GetScoreCreditMetadata(jrpid);
+	if (!work || typeof COMMENTARY === "undefined" || !Array.isArray(COMMENTARY)) return;
+	var id = String(work["Commentary ID"] || "").trim();
+	if (!id) return;
+	// Retain every occurrence; JRP has no separate earliest-source list.
+	var entries = COMMENTARY.filter(entry =>
+		String(entry.COMMENTARY_ID || entry["Commentary ID"] || "").trim() === id && String(entry.Source || "").trim()
+	).sort(compareCommentarySources);
+	if (!entries.length) return;
+	var sourceLabel = entries.length === 1 ? "Source" : "Sources";
+	var heading = String(work.Subtitle || "").trim()
+		? `${sourceLabel} for <i>${escapeCommentaryText(work.Title)}</i>:` : `${sourceLabel}:`;
+	var sources = entries.map((entry, index) => {
+		var source = formatCommentarySource(entry.Source, entry["DIAMM link"], entry["RISM link"]);
+		var folios = escapeCommentaryText(entry["Fols./pp./no."]);
+		return `<li class="commentary-source"${index >= 3 ? " hidden" : ""}>${source}${folios ? ", " + folios : ""}${formatCommentaryDetails(entry, work)}${formatCommentaryNotes(entry)}</li>`;
+	}).join("");
+	var toggle = entries.length > 3
+		? '<button type="button" class="commentary-toggle work-view-toggle work-score-toggle" aria-expanded="false" aria-controls="commentary-source-list" onclick="toggleCommentarySources(this)">See more</button>' : "";
+	element.innerHTML = `<div class="commentary-sources"><span>${heading}</span><ul id="commentary-source-list" class="commentary-source-list" role="list">${sources}</ul>${toggle}</div>`;
+}
+
+function toggleCommentarySources(button) {
+	let expanded = button.getAttribute("aria-expanded") !== "true";
+	let sources = button.closest(".commentary-sources").querySelectorAll(".commentary-source");
+	sources.forEach((source, index) => {
+		if (index >= 3) source.hidden = !expanded;
+	});
+	button.setAttribute("aria-expanded", String(expanded));
+	button.textContent = expanded ? "See fewer sources" : "See more";
 }

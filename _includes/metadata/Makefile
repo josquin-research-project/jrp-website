@@ -7,14 +7,14 @@
 
 
 #SID for JRP Metadata
-SID = AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1L6drL9Th7PR-jARwDKP6kZEhED56w
+SID = AKfycbxcZCQAja8UuLu0z-LtHN0B0gmzX56nKw253sXofw1uD81Yn00DIzSnZuoWK1RfUmBdBg
 
 AVAILABILITY_ARGS ?=
 AVAILABILITY_MAX_AGE_DAYS ?= 30
 
 all: download
 
-download: works composers sources editions availability-monthly
+download: works composers commentary sources editions availability-monthly
 
 availability:
 	node ../../tools/generate-asset-availability.mjs $(AVAILABILITY_ARGS)
@@ -27,6 +27,9 @@ works:
 
 composers:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=composers" > composers.json
+
+commentary:
+	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=commentary" > commentary.json
 
 sources:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=sources" > sources.json

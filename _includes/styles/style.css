@@ -3444,3 +3444,51 @@ table.census th:not(:first-child) {
 	font-style: italic;
 }
 
+
+/* Match the edition and transcription credits. */
+#primary-content.work-content .work-commentary {
+	flex: 1 1 0;
+	min-width: 0;
+	padding: 0 55px;
+	box-sizing: border-box;
+	color: #988a7e;
+	font-family: "Lusitana", "serif";
+	font-size: 15px;
+	font-weight: 400;
+	line-height: 20px;
+	text-align: left;
+	overflow-wrap: anywhere;
+}
+#primary-content.work-content .work-commentary:empty { display: none; }
+#primary-content.work-content .commentary-sources {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	column-gap: 0.35em;
+	align-items: baseline;
+}
+#primary-content.work-content .commentary-sources > span { max-width: 10em; }
+#primary-content.work-content .commentary-source-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#primary-content.work-content .commentary-source {
+	margin: 0 0 5px;
+	padding-left: 1em;
+	text-indent: -1em;
+}
+#primary-content.work-content .commentary-source[hidden] { display: none; }
+#primary-content.work-content .commentary-notes { display: block; text-indent: 0; }
+/* Inline links avoid applying the hanging indent a second time. */
+#primary-content.work-content .work-commentary a {
+	display: inline;
+	font: inherit;
+	color: #0066cc;
+	text-decoration: none;
+}
+#primary-content.work-content .commentary-toggle {
+	grid-column: 2;
+	justify-self: start;
+}
+#primary-content.work-content .work-commentary a:hover { text-decoration: underline; }
+#primary-content.work-content .work-score-header .work-score-credit { flex-shrink: 0; }
