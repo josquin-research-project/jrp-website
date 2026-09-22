@@ -3466,7 +3466,7 @@ table.census th:not(:first-child) {
 	column-gap: 0.35em;
 	align-items: baseline;
 }
-#primary-content.work-content .commentary-sources > span { max-width: 10em; }
+#primary-content.work-content .commentary-sources > span { max-width: 10em; font-weight: 700; }
 #primary-content.work-content .commentary-source-list {
 	list-style: none;
 	margin: 0;
@@ -3492,3 +3492,34 @@ table.census th:not(:first-child) {
 }
 #primary-content.work-content .work-commentary a:hover { text-decoration: underline; }
 #primary-content.work-content .work-score-header .work-score-credit { flex-shrink: 0; }
+
+/* Edited text beneath the score, matching the Sources typography. */
+#primary-content.work-content .work-text {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.35em;
+  row-gap: 5px;
+  align-items: baseline;
+  width: 33.333333%;
+  margin: 20px 0 24px;
+  color: #988a7e;
+  font-family: "Lusitana", "serif";
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  text-align: left;
+}
+#primary-content.work-content .work-text[hidden] { display: none; }
+.work-text-content { grid-column: 2; }
+#primary-content.work-content .work-text > span:first-child { font-weight: 700; }
+.work-text-line {
+  display: block;
+  min-height: 20px;
+  padding-left: 1em;
+  text-indent: -1em;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  #primary-content.work-content .work-text { width: 100%; }
+}

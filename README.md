@@ -132,3 +132,15 @@ Several pages are driven by query parameters:
 - `/repertoire/?v=4` filters by number of voices.
 - `/repertoire/?home=census` opens the Repertoire page at the Statistics/Census
   section.
+
+## Work Texts
+
+Edited texts live in `josquin-research-project/jrp-scores` under
+`texts/`, named with the work ID followed by a hyphen and title
+(for example, `texts/Agr/Agr3028-Jay_beau_heur.txt`).
+Run `make` (or `make texts`) here to refresh `_includes/metadata/texts.json`
+when adding, renaming, or removing text files, then publish the updated index.
+Existing texts load directly from the scores repository, so editing their
+contents does not require refreshing the index. Work pages show four lines
+below the score, with a See more button for the full text. Original line and
+stanza breaks are preserved, with hanging indents for wrapped lines.
