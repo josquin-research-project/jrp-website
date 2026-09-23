@@ -82,13 +82,8 @@ var WORKrangedur        = false;
 var JRPID               = sessionStorage.WORKjrpid;
 var QUERY					= "";
 
-if (typeof sessionStorage.WORKslist === 'undefined') {
-	sessionStorage.WORKslist = "false";
-}
-var WORKslist = true;
-if (sessionStorage.WORKslist == "false") {
-	WORKslist = false;
-}
+// Discard the retired movement-table preference from earlier visits.
+sessionStorage.removeItem("WORKslist");
 
 var WORKallincipits;
 if (sessionStorage.WORKallincipits == "true") {
@@ -335,12 +330,7 @@ function displayMultisectionWork(jrpid) {
 	// Set the title line //////////////////////////////////////////////////
 
 	var titlelem = document.getElementById("title");
-	if (WORKslist) {
-		//titlelem.innerHTML = getSectionHeaderTable(sectionid, sectionid);
-		displaySection(sectionid);
-	} else {
-		titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
-	}
+	titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
 	$('select#select-section').prop('selectedIndex', MENUINDEX);
 	StylizeFormElements();
 
@@ -374,145 +364,6 @@ function displayMultisectionWork(jrpid) {
 		showDownloadArea(jrpid, "complete work");
 		printErrorReportButton(jrpid);
 	}
-}
-
-
-
-//////////////////////////////
-//
-// getSectionHeaderTable -- For a multi-sectioned work.
-//
-
-function getSectionHeaderTable(workid, sectionid) {
-	if (!sectionid) {
-		sectionid = workid;
-	}
-	var work = WORKLISTjrpid[getBaseWorkId(workid)];
-	if (!work) {
-		return "";
-	}
-	var tc = "";
-	tc += "<section style=\"padding-bottom:0; ";
-	tc += "padding-top:0\" id=\"recently-added\">\n";
-	tc += "<div>\n";
-	tc += "<h2 class=\"worktitle\">" + getComposerShortFromWork(work) + ", <i>" + work.title + "</i> (";
-	tc += "<span id=\"sectionid\">";
-	tc += sectionid + "</span>)</h2>\n";
-	tc += printSectionTableHeader();
-	var i;
-	for (i=0; i<SECTIONS.length; i++) {
-		tc += printSectionEntries(SECTIONS[i], sectionid);
-	}
-	tc += printSectionTableFooter();
-	tc += "</div>\n";
-	tc += "</section>\n";
-	return tc;
-}
-
-
-
-///////////////////////////////
-//
-// printWorklistRecentEntry -- Create the recently added work list.
-//
-
-function printSectionEntries(entry, currentid) {
-	if (!entry) {
-		return "";
-	}
-
-	var stitle    = getMovementTitle(entry);
-	var sectionid = entry.id;
-
-	var out = "";
-
-	if (currentid == sectionid) {
-		out = "<tr style=\"background:#f7f7f7;\">\n";
-	} else {
-		out = "<tr>\n";
-	}
-
-	// Title:
-	out += "<td><a style=\"width:200px; cursor:hand; cursor:pointer;\" name=\"";
-	out += "/work?id=" + sectionid;
-	out += "\" onclick=\"displayWork('" + sectionid + "');\"";
-	out += " class=\"text-link\">";
-	out += stitle;
-	out += "</a></td>\n";
-
-	// Scores
-	out += "<td align=center>\n";
-	if (hasAsset(sectionid, "pdfScore")) {
-		out += "<a title=\"Score for section\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-		out += getBestPdfUrl(sectionid, "no_edit");
-		out += "\" class=\"orange-file\"><img src=/images/file-orange.png></a>\n";
-	}
-	out += "</td>\n";
-
-	out += "<td>\n";
-	if (hasAsset(sectionid, "pdfEdited")) {
-		out += "<a title=\"Score w/ editorial accidentals\" style=\"float:center; margin-top:4px;\" target=\"" + PDFTARGET + "\" href=\"";
-		out += getBestPdfUrl(sectionid, "edit");
-		out += "\" class=\"orange-ed-file\"><img src=/images/file-ed-orange.png></a>\n";
-	}
-	out += "</td>\n";
-
-	out += "<td style=\"padding-left:30px;\">";
-
-	if (sectionid == AUDIOjrpid && AUDIO && !AUDIO.paused && !AUDIO.ended) {
-		out += "<span id=\"audio_" + sectionid + "\"";
-		out += "style=\"cursor:hand; cursor:pointer;\" ";
-		out += "onclick=\"PlayAudioFile('" + sectionid + "', this);\" ";
-		out += "href=\"\" class=\"pause\">play</span>";
-	} else {
-		out += "<span id=\"audio_" + sectionid + "\"";
-		out += "style=\"cursor:hand; cursor:pointer;\" ";
-		out += "onclick=\"PlayAudioFile('" + sectionid + "', this);\" ";
-		out += "href=\"\" class=\"play\">play</span>";
-	}
-
-	out += "</td>\n";
-
-	out += "</tr>\n";
-
-	return out;
-}
-
-
-
-//////////////////////////////
-//
-// printSectionTableFooter -- Print the table footer for the recently added
-//		works.
-//
-
-function printSectionTableFooter() {
-	var out = "</tbody>\n";
-	out += "</table>\n";
-	return out;
-}
-
-
-
-//////////////////////////////
-//
-// printSectionTableHeader -- Print the table header for the recently added
-//		works.
-//
-
-function printSectionTableHeader(workid) {
-
-	var out = "<table style=\"margin-top:12px; width:100%;\">\n";
-	out += "<thead>\n";
-	out += "<tr style=\"background:#eee; font-size:125%;\">\n";
-	out += "<td style=\"width:300px;\">Section title</td>\n";
-	out += "<td>Score</td>\n";
-	out += "<td>w/&nbsp;ed.&nbsp;acc.</td>\n";
-	out += "<td style=\"padding-left:30px; padding-right:10px;\">MP3</td>\n";
-	out += "</tr>\n";
-	out += "</thead>\n";
-	out += "</tbody>\n";
-	return out;
 }
 
 
@@ -2093,44 +1944,6 @@ function showRangeButtons() {
 
 //////////////////////////////
 //
-// toggleTitleType --
-//
-
-function toggleTitleType() {
-	if (!SECTIONS || SECTIONS < 2) {
-		// don't toggle title display when looking at single-section works.
-		return;
-	}
-
-	WORKslist = !WORKslist;
-	sessionStorage.WORKslist = WORKslist;
-
-	var workid    = sessionStorage.WORKjrpid;
-	var sectionid = SECTIONID;
-	var sectionindex = MENUINDEX;
-
-	var titlelem = document.getElementById("title");
-	if (WORKslist) {
-		titlelem.innerHTML = getSectionHeaderTable(workid, sectionid);
-	} else {
-		titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
-		$('select#select-section').prop('selectedIndex', MENUINDEX);
-		if (SECTIONS && (MENUINDEX == 0)) {
-			var downloads = document.getElementById("downloads");
-			if (downloads) {
-           	// now keeping the downloads section all of the time [20150428]:
-				// downloads.textContent = "";
-			}
-		}
-		StylizeFormElements();
-	}
-
-}
-
-
-
-//////////////////////////////
-//
 // toggleIncipitDisplay --
 //
 
@@ -2992,20 +2805,9 @@ function displaySection(workid) {
 	MENUINDEX = menuindex;
 
 	var titlelem = document.getElementById("title");
-	if (WORKslist == true) {
-		titlelem.innerHTML = getSectionHeaderTable(sectionid);
-	} else {
-		titlelem.innerHTML = getSectionHeaderMenu(sectionid, menuindex);
-		$('select#select-section').prop('selectedIndex', menuindex);
-		if (SECTIONS && (menuindex == 0)) {
-			var downloads = document.getElementById("downloads");
-			if (downloads) {
-           	// now keeping the downloads section all of the time [20150428]:
-				// downloads.textContent = "";
-			}
-		}
-		StylizeFormElements();
-	}
+	titlelem.innerHTML = getSectionHeaderMenu(sectionid, menuindex);
+	$('select#select-section').prop('selectedIndex', menuindex);
+	StylizeFormElements();
 
 	sessionStorage.WORKjrpid = workid;
 	updateWorkActions(workid);

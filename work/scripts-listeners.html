@@ -195,8 +195,7 @@ window.addEventListener('keydown', function(event) {
 		case DKey:
 			if (($(event.target).is('input') && event.ctrlKey) || 
 					!$(event.target).is('input')) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				event.preventDefault();
 				event.stopPropagation();
 				toggleRangeByDuration();
@@ -206,8 +205,7 @@ window.addEventListener('keydown', function(event) {
 		case IKey:
 			if (($(event.target).is('input') && event.ctrlKey) || 
 					!$(event.target).is('input')) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				event.preventDefault();
 				event.stopPropagation();
 				toggleIncipitDisplay();
@@ -217,22 +215,10 @@ window.addEventListener('keydown', function(event) {
 		case RKey:
 			if (($(event.target).is('input') && event.ctrlKey) || 
 					!$(event.target).is('input')) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				event.preventDefault();
 				event.stopPropagation();
 				toggleRangeDisplay();
-			}
-			break;
-
-		case SKey:
-			if (($(event.target).is('input') && event.ctrlKey) || 
-					!$(event.target).is('input')) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				event.preventDefault();
-				event.stopPropagation();
-				toggleTitleType();
 			}
 			break;
 
@@ -305,8 +291,7 @@ window.addEventListener('keydown', function(event) {
 
 		case OneKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -316,8 +301,7 @@ window.addEventListener('keydown', function(event) {
 
 		case TwoKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -327,8 +311,7 @@ window.addEventListener('keydown', function(event) {
 
 		case ThreeKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -338,8 +321,7 @@ window.addEventListener('keydown', function(event) {
 
 		case FourKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -349,8 +331,7 @@ window.addEventListener('keydown', function(event) {
 
 		case FiveKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -360,8 +341,7 @@ window.addEventListener('keydown', function(event) {
 
 		case SixKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -371,8 +351,7 @@ window.addEventListener('keydown', function(event) {
 
 		case SevenKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -382,8 +361,7 @@ window.addEventListener('keydown', function(event) {
 
 		case EightKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -393,8 +371,7 @@ window.addEventListener('keydown', function(event) {
 
 		case NineKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
@@ -404,29 +381,12 @@ window.addEventListener('keydown', function(event) {
 
 		case PKey:
 			if ($(event.target).is('input') && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
+				// Ignore this shortcut while typing in an input
 				return;
 			}
 			event.preventDefault();
 			event.stopPropagation();
 			playCurrentWorkAudio();
-			break;
-
-		case SpaceKey:
-			if ($(event.target).is('input') && (!event.shiftKey) && (!event.ctrlKey)) {
-				// Ignore space command if typing input
-				// Use shift-space in that case to stop.
-				return;
-			}
-			event.preventDefault();
-			event.stopPropagation();
-			if (AUDIO && AUDIOjrpid) {
-				PlayAudioFile(AUDIOjrpid, document.getElementById(AUDIOid));
-			} else {
-				playCurrentWorkAudio();
-			}
-			return false;
 			break;
 
 		case HomeKey:
