@@ -333,6 +333,9 @@ window.addEventListener("keydown", function (event) {
 	// Ignore command-key combos
 	if (CommandKeyState) return;
 
+	// Let the help popup handle keyboard input without changing the repertoire.
+	if (document.getElementById("keyboard-shortcuts-dialog")?.open) return;
+
 	const titlebox = document.getElementById("titlebox");
 	const inInput  = document.activeElement === titlebox;
 

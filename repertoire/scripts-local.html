@@ -2,6 +2,10 @@
 
 <script>
 
+document.querySelector('.keyboard-shortcuts-trigger').addEventListener('click', function () {
+	document.getElementById('keyboard-shortcuts-dialog').showModal();
+});
+
 
 //////////////////////////////
 //
@@ -395,13 +399,24 @@ function fillInAboutComposerList() {
     const comdatesRaw = entry.comdates || "";
     const isJosNotSecure = repid === "Jos?";
     const isJosSpurious = repid === "Jos_spurious";
-    let label = comlong;
+    // Link only the established short name, leaving given names and dates plain.
+    const shortName = comlong.includes(",")
+      ? comlong.split(",")[0]
+      : (entry.comshort || comlong);
+    const nameStart = comlong.indexOf(shortName);
+    let namePrefix = nameStart >= 0 ? comlong.slice(0, nameStart) : "";
+    let linkedName = nameStart >= 0 ? shortName : comlong.split(",")[0];
+    let nameSuffix = comlong.slice(namePrefix.length + linkedName.length);
     if (isJosNotSecure) {
-      label = "Josquin (doubtful)";
+      namePrefix = "";
+      linkedName = "Josquin";
+      nameSuffix = " (doubtful)";
     } else if (isJosSpurious) {
-      label = "Not Josquin (spurious)";
+      namePrefix = "Not ";
+      linkedName = "Josquin";
+      nameSuffix = " (spurious)";
     } else if (comdatesRaw) {
-      label +=
+      nameSuffix +=
         ", <span style='font-size:90%; letter-spacing:-0.5px;'>" +
         comdatesRaw +
         "</span>";
@@ -425,12 +440,17 @@ function fillInAboutComposerList() {
 		}
 
     columns[col] += ">";
+    if (isJosNotSecure || isJosSpurious) {
+      columns[col] += "<span style='padding-left:1.5em; display:inline-block;'>";
+    }
     columns[col] +=
+      namePrefix +
       "<span onclick='showComposer(\"" + repid + "\");' " +
-      ((isJosNotSecure || isJosSpurious) ? " style='padding-left:1.5em; display:inline-block;'" : "") +
       "class='composer-link2'>" +
-      label +
+      linkedName +
       "</span>" +
+      nameSuffix +
+      ((isJosNotSecure || isJosSpurious) ? "</span>" : "") +
       (isJosNotSecure
         ? " (category III, " + count + (count === 1 ? " work" : " works") + ")"
         : isJosSpurious

@@ -18,10 +18,16 @@
 	</p>
 
 	<p style="margin-top: 20px;">
-	See the <a class="composer-link2" target="_blank" href=/about/keyboard-shortcuts/#repertoire>keyboard shorcuts</a> page for
+	See the <button type="button" class="composer-link2 keyboard-shortcuts-trigger" aria-haspopup="dialog" aria-controls="keyboard-shortcuts-dialog">keyboard shortcuts</button> for
 	a list of keyboard shortcuts which work on the repertoire page.
 	</p>
 </article>
 
 <div style="margin-bottom:50px;"></div>
 </section>
+<dialog id="keyboard-shortcuts-dialog" aria-labelledby="keyboard-shortcuts-title">
+    <form method="dialog" class="keyboard-shortcuts-close">
+        <button type="submit" autofocus>Close</button>
+    </form>
+    {% include keyboard-shortcuts.html %}
+</dialog>
