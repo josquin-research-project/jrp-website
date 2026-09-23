@@ -134,6 +134,21 @@ function formatCommentarySource(source, diamm, rism) {
 	return output;
 }
 
+function formatRepertoireSourceSuffix(jrpid) {
+	if (typeof COMMENTARY === "undefined" || !Array.isArray(COMMENTARY)) return "";
+	const id = String(jrpid || "").trim();
+	if (!id) return "";
+	const names = new Set(COMMENTARY.filter(entry => {
+		const entryId = String(entry.WORK_ID || "").trim();
+		return entryId === id || entryId === id.slice(0, 7);
+	}).map(entry => String(entry.Source || "").trim()).filter(Boolean));
+	// Multiple occurrences in one source still represent a single source.
+	if (names.size !== 1) return "";
+	const label = formatCommentarySource([...names][0])
+		.replace(/<\/i>\s+\(([^()]*)\)$/, "</i>, $1");
+	return ` (${label})`;
+}
+
 function formatCommentaryMovements(value, workinfo) {
 	let movements = String(value || "").trim();
 	if (!movements || /^all$/i.test(movements)) {
@@ -192,16 +207,19 @@ function DisplayWorkCommentary(jrpid) {
 	element.innerHTML = "";
 	var work = GetScoreCreditMetadata(jrpid);
 	if (!work || typeof COMMENTARY === "undefined" || !Array.isArray(COMMENTARY)) return;
-	var id = String(work["Commentary ID"] || "").trim();
+	var id = String(jrpid || "").trim();
 	if (!id) return;
+	var baseId = id.slice(0, 7);
 	// Retain every occurrence; JRP has no separate earliest-source list.
-	var entries = COMMENTARY.filter(entry =>
-		String(entry.COMMENTARY_ID || entry["Commentary ID"] || "").trim() === id && String(entry.Source || "").trim()
-	).sort(compareCommentarySources);
+	// A base WORK_ID applies to the whole work and each movement/version.
+	// A full WORK_ID applies only to that exact movement/version.
+	var entries = COMMENTARY.filter(entry => {
+		var entryId = String(entry.WORK_ID || "").trim();
+		return (entryId === id || entryId === baseId) && String(entry.Source || "").trim();
+	}).sort(compareCommentarySources);
 	if (!entries.length) return;
 	var sourceLabel = entries.length === 1 ? "Source" : "Sources";
-	var heading = String(work.Subtitle || "").trim()
-		? `${sourceLabel} for <i>${escapeCommentaryText(work.Title)}</i>:` : `${sourceLabel}:`;
+	var heading = `${sourceLabel}:`;
 	var sources = entries.map((entry, index) => {
 		var source = formatCommentarySource(entry.Source, entry["DIAMM link"], entry["RISM link"]);
 		var folios = escapeCommentaryText(entry["Fols./pp./no."]);

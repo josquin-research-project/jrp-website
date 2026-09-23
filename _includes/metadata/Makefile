@@ -14,7 +14,7 @@ AVAILABILITY_MAX_AGE_DAYS ?= 30
 
 all: download
 
-download: works composers commentary sources editions availability-monthly
+download: works composers commentary editions availability-monthly
 
 availability:
 	node ../../tools/generate-asset-availability.mjs $(AVAILABILITY_ARGS)
@@ -30,9 +30,6 @@ composers:
 
 commentary:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=commentary" > commentary.json
-
-sources:
-	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=sources" > sources.json
 
 editions:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=editions" > editions.json

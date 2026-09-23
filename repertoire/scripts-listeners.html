@@ -31,6 +31,7 @@ var HtmlAccentRemovalMap = [
 
 let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
+let COMMENTARY = {% include metadata/commentary.json %};
 
 function parseNoteCount(value) {
 	const n = parseInt(String(value || "0").replace(/[^\d]/g, ""), 10);

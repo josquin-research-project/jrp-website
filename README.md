@@ -59,12 +59,27 @@ Core site metadata lives in `_includes/metadata/`:
 
 - `works.json`
 - `composers.json`
-- `sources.json`
+- `commentary.json`
 - `editions.json`
 
 These files are checked into the repo so the site can build without a live
 database. They are generated from the project's metadata spreadsheet through a
 Google Apps Script endpoint defined in `_includes/metadata/Makefile`.
+
+Source references live in the Commentary tab (`commentary.json`), with one row
+per work–source pairing. `WORK_ID` matches either the page's exact work ID or
+its first seven characters: `Agr1004` appears on the complete-work page and
+every movement/version, while `Agr1004a` appears only on that movement's page.
+A movement displays both shared and exact-ID entries. Works need no separate
+Source or Commentary ID columns.
+
+Use a readable manuscript shorthand in `Source`, or `Printer, Title (date)`
+for a print (for example, `Petrucci, Odhecaton (1501)`). DIAMM/RISM links,
+folios/pages/item numbers, attribution, movements, notes, and catalogue sigla
+are optional. Catalogue sigla are retained as editorial metadata; source names
+and links are displayed on work pages. The former Sources tab is hidden as an
+archive, and `sources.json` is retained as a historical snapshot, excluded from
+metadata refreshes.
 
 ## External Services
 
