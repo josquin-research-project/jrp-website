@@ -26,6 +26,13 @@ function DisplayScoreCredit(jrpid, target) {
 	if (transcriber) {
 		AppendScoreCreditLine(element, "Transcribed by ", transcriber, "");
 	}
+
+	var citationTemplate = document.getElementById("citation-button-template");
+	if (citationTemplate) {
+		var citationButton = citationTemplate.content.firstElementChild.cloneNode(true);
+		citationButton.addEventListener("click", function() { showWorkCitation(jrpid); });
+		element.appendChild(citationButton);
+	}
 }
 
 

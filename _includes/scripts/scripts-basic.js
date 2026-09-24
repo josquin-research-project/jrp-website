@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
 //
 
 function StylizeFormElements() {
-	// The movement download selector manages its own Select2 options.
-	$('select').not('.tricky, #download-section-select').select2({
+	// Movement downloads manage Select2; the citation dialog uses a native select.
+	$('select').not('.tricky, #download-section-select, #citation-format').select2({
 		width: 'off'
 	});
 
