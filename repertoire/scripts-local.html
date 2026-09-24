@@ -408,13 +408,13 @@ function fillInAboutComposerList() {
     let linkedName = nameStart >= 0 ? shortName : comlong.split(",")[0];
     let nameSuffix = comlong.slice(namePrefix.length + linkedName.length);
     if (isJosNotSecure) {
-      namePrefix = "";
-      linkedName = "Josquin";
-      nameSuffix = " (doubtful)";
+      namePrefix = "Josquin (";
+      linkedName = "doubtful";
+      nameSuffix = ")";
     } else if (isJosSpurious) {
-      namePrefix = "Not ";
-      linkedName = "Josquin";
-      nameSuffix = " (spurious)";
+      namePrefix = "Not Josquin (";
+      linkedName = "spurious";
+      nameSuffix = ")";
     } else if (comdatesRaw) {
       nameSuffix +=
         ", <span style='font-size:90%; letter-spacing:-0.5px;'>" +
