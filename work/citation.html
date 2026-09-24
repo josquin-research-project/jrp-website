@@ -12,7 +12,7 @@
     </div>
     <div class="citation-format-control">
         <select id="citation-format" class="button" aria-label="Citation format">
-            <option value="note" selected>Chicago note format</option>
+            <option value="note" selected>Chicago footnote format</option>
             <option value="bibliography">Chicago bibliography format</option>
         </select>
     </div>
@@ -40,7 +40,8 @@
         if (!work) return;
         const title = document.createElement("i");
         title.textContent = [work.Title, work.WORK_ID === id ? work.Subtitle : ""].filter(Boolean).join(": ");
-        const editor = FormatCreditNames(work["Edition source"]) || "the Josquin Research Project";
+        const editor = (FormatCreditNames(work["Edition source"]) || "Josquin Research Project")
+            .replace(/^the Josquin Research Project$/i, "Josquin Research Project");
         const isNote = format.value === "note";
         const composer = String(work.Composer || "Anonymous").trim();
         const naturalName = composer.replace(/[{}]/g, "");
@@ -49,8 +50,8 @@
             ? [surname[2] + surname[3], surname[1].replace(/[{}]/g, "").trim()].filter(Boolean).join(", ")
             : naturalName;
         const separator = isNote ? ", " : ". ";
-        const publisher = editor === "the Josquin Research Project" ? "" : `${separator}Josquin Research Project`;
-        const accessed = new Intl.DateTimeFormat("en-US", {
+        const publisher = editor === "Josquin Research Project" ? "" : `${separator}Josquin Research Project`;
+        const accessed = new Intl.DateTimeFormat("en-GB", {
             year: "numeric", month: "long", day: "numeric"
         }).format(new Date());
         const url = document.createElement("a");
@@ -59,9 +60,9 @@
         citation.replaceChildren(
             document.createTextNode(`${composerName}${separator}`),
             title,
-            document.createTextNode(`${separator}${isNote ? "ed." : "Edited by"} ${editor}${publisher}${separator}${id}${separator}${isNote ? "accessed" : "Accessed"} ${accessed}${separator}`),
+            document.createTextNode(`${separator}${isNote ? "ed." : "Edited by"} ${editor}${publisher}${separator}${id}${separator}`),
             url,
-            document.createTextNode(".")
+            document.createTextNode(` (accessed ${accessed}).`)
         );
         status.textContent = "";
     }
