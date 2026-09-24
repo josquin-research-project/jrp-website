@@ -145,7 +145,7 @@ function formatWorkAlias(jrpid, workHeading = false) {
 	const metadata = GetScoreCreditMetadata(jrpid);
 	const alias = String(metadata && metadata.Alias || "").trim();
 	if (!alias) return "";
-	const label = `(${escapeCommentaryText(alias)})`;
+	const label = `(<i>${escapeCommentaryText(alias)}</i>)`;
 	return workHeading ? `<span class="work-alias">${label}</span>` : ` ${label}`;
 }
 
