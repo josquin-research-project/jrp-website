@@ -1323,10 +1323,23 @@ h2.blue-bar {
 
 h2.sample-title {
 	border-bottom: 1px solid #e1e1e1;
-	display: inline-block;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+h2.sample-title .sample-title-text {
+	flex: 1;
+	min-width: 0;
+}
+
+h2.sample-title .sample-title-play {
+	flex: none;
+	margin-right: 10px;
 }
 
 h2.sample-title a.sw {
+	white-space: nowrap;
 	color: #9f9187;
 	font-size: 24px;
 	font-weight: 700;
@@ -1344,7 +1357,7 @@ h2.sample-title a.sw:hover span {
 }
 
 h2.sample-title a.sw span {
-	font-size: 24px;
+	font-size: inherit;
 	font-weight: 400;
 	color: #0066cc;
 }

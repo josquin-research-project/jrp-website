@@ -3,6 +3,27 @@
 <script>
 
 var HOMEPAGEscoreFetchTimeoutMs = 5000;
+var HOMEPAGEsampleTitleObserver;
+
+function fitSampleTitle() {
+	const slot = document.querySelector(".sample-title-text");
+	const link = slot && slot.querySelector("a.sw");
+	if (!link || !slot.clientWidth) return;
+
+	// Start at the normal size so shorter titles and wider windows can grow back.
+	link.style.fontSize = "";
+	let upper = parseFloat(getComputedStyle(link).fontSize);
+	if (link.getBoundingClientRect().width <= slot.clientWidth) return;
+
+	let lower = 0;
+	while (upper - lower > 0.1) {
+		const size = (lower + upper) / 2;
+		link.style.fontSize = size + "px";
+		if (link.getBoundingClientRect().width > slot.clientWidth) upper = size;
+		else lower = size;
+	}
+	link.style.fontSize = lower + "px";
+}
 
 
 //////////////////////////////
@@ -83,8 +104,7 @@ function displayRandomExample(worklist) {
 
 	let output = '<h2 style="width:100%;" class="sample-title">\n';
 
-	output += '<table width=100%><tr><td>';
-	output += '<span style="float:left;"><a href="';
+	output += '<span class="sample-title-text"><a href="';
 	output += '/work?id=' + jrpid;
 	output += '" class="sw"><span style="color:#9f9187; word-spacing:-2px;';
 	output += ' letter-spacing:-0.75px;">Sample Work:</span> ';
@@ -92,9 +112,7 @@ function displayRandomExample(worklist) {
 	output += composer + ', ' + title;
 	output += '</span></a></span>\n';
 
-	output += '</td><td>';
-
-	output += '<span style="float:right; margin-right:10px;">';
+	output += '<span class="sample-title-play">';
 
 	output += `<span id="audio2_${jrpid}" `;
 	output += 'style="cursor:hand; cursor:pointer;" ';
@@ -102,8 +120,6 @@ function displayRandomExample(worklist) {
 	output += 'href="" class="play">play</span>';
 
 	output += '</span>\n';
-
-	output += '</td></tr></table>';
 
 	output += '</h2>\n';
 	output += '<scr';
@@ -117,6 +133,11 @@ function displayRandomExample(worklist) {
 	}
 	sampleMusic.style.minHeight = "300px";
 	sampleMusic.innerHTML = output;
+	if (HOMEPAGEsampleTitleObserver) HOMEPAGEsampleTitleObserver.disconnect();
+	fitSampleTitle();
+	HOMEPAGEsampleTitleObserver = new ResizeObserver(fitSampleTitle);
+	HOMEPAGEsampleTitleObserver.observe(sampleMusic.querySelector(".sample-title-text"));
+	document.fonts.ready.then(fitSampleTitle);
 
 	loadHomepageHumdrumScore(jrpid, filename).then(function(score) {
 		if (!score) {
