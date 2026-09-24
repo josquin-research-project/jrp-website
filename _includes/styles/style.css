@@ -2625,6 +2625,7 @@ table.search-results-table span.location span.point.point-green {
 .work-play-toggle[data-playing="true"]::before {
 	background-image: url(../images/mp3-orange-pause.png);
 }
+#primary-content.work-content .work-alias,
 #primary-content.work-content .work-score-credit {
 	color: #988a7e;
 	font-family: "Lusitana", "serif";
@@ -3657,4 +3658,11 @@ table.census th:not(:first-child) {
 }
 @media (max-width: 700px) {
   #primary-content.work-content .work-text { width: 100%; }
+}
+
+#primary-content.work-content .work-alias {
+	display: block;
+	margin: 4px 0 0;
+	font-style: normal;
+	letter-spacing: normal;
 }

@@ -209,7 +209,7 @@ function renderBrowseResults() {
 	      <td>
 	        <a href="/work?id=${w.WORK_ID}">
 	          ${w.Title}
-	        </a>${formatRepertoireSourceSuffix(w.WORK_ID)}
+	        </a>${formatWorkAlias(w.WORK_ID)}${formatRepertoireSourceSuffix(w.WORK_ID)}
 	      </td>
 	      <td>${w.Genre}</td>
 	      <td>${w.Voices}</td>
@@ -709,6 +709,7 @@ function generateComposerWorkEntries(worklist, index, seenBaseIds) {
 		titlelink  = "<a style='word-spacing:1.5px; letter-spacing:-0.5px;' class='text-link' href='";
 		titlelink += "/work?id=" + jrpid + "'>";
 		titlelink += title + "</a>";
+		titlelink += formatWorkAlias(jrpid);
 		titlelink += formatRepertoireSourceSuffix(jrpid);
 		if (fragment == true) {
 			titlelink += " <span style=\"font-size:90%; letter-spacing:-0.5px;\">[fragment]</span>";

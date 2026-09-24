@@ -141,6 +141,14 @@ function formatCommentarySource(source, diamm, rism) {
 	return output;
 }
 
+function formatWorkAlias(jrpid, workHeading = false) {
+	const metadata = GetScoreCreditMetadata(jrpid);
+	const alias = String(metadata && metadata.Alias || "").trim();
+	if (!alias) return "";
+	const label = `(${escapeCommentaryText(alias)})`;
+	return workHeading ? `<span class="work-alias">${label}</span>` : ` ${label}`;
+}
+
 function formatRepertoireSourceSuffix(jrpid) {
 	if (typeof COMMENTARY === "undefined" || !Array.isArray(COMMENTARY)) return "";
 	const id = String(jrpid || "").trim();

@@ -447,7 +447,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 
 	tc += "<h2 class=\"worktitle\"> " + composer + ", ";
 	tc += "<i>" + title + "</i> (<span id=\"sectionid\">";
-	tc += sectionid + "</span>)</h2>\n";
+	tc += sectionid + "</span>)" + formatWorkAlias(sectionid, true) + "</h2>\n";
 
 	tc += getMovementNavHtml(sectionid, "work-movement-nav--title");
 
@@ -937,7 +937,8 @@ function displayWork(jrpid) {
 	var titleContent = "";
 	titleContent +=
 		"<h2 style=\"margin-bottom:0;\">" +
-		composer + ", <i>" + title + "</i> (" + jrpid + ")</h2>\n";
+		composer + ", <i>" + title + "</i> (" + jrpid + ")" +
+		formatWorkAlias(jrpid, true) + "</h2>\n";
 
 	document.getElementById("title").innerHTML = titleContent;
 	updateWorkActions(jrpid);
