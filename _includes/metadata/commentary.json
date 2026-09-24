@@ -1,313 +1,10 @@
 [
 	{
-		"WORK_ID": "Jos9915",
-		"Source": "Correa de Arauxo, Facultad organica (1626)",
-		"RISM link": "https://rism.online/sources/990011332"
-	},
-	{
-		"WORK_ID": "Jos2001",
-		"Source": "Berlin 40021",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1579",
-		"CC or RISM sigla": "BerlS 40021"
-	},
-	{
-		"WORK_ID": "Jos1909",
-		"Source": "Berlin 40026"
-	},
-	{
-		"WORK_ID": "Jos1911",
-		"Source": "Berlin 7",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2691/",
-		"CC or RISM sigla": "WrocS 7"
-	},
-	{
 		"WORK_ID": "Agr3028",
 		"Source": "Bologna Q16",
 		"DIAMM link": "https://www.diamm.ac.uk/sources/1387/",
 		"Fols./pp./no.": "fols. 13v–14r",
 		"Attribution": "anonymous"
-	},
-	{
-		"WORK_ID": "Ano3097",
-		"Source": "Bologna Q16",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1387",
-		"CC or RISM sigla": "BolC Q16"
-	},
-	{
-		"WORK_ID": "Ano3101",
-		"Source": "Bologna Q16",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1387",
-		"CC or RISM sigla": "BolC Q16"
-	},
-	{
-		"WORK_ID": "Ano3111",
-		"Source": "Bologna Q16",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1387",
-		"CC or RISM sigla": "BolC Q16"
-	},
-	{
-		"WORK_ID": "Ano3117",
-		"Source": "Bologna Q16",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1387",
-		"CC or RISM sigla": "BolC Q16"
-	},
-	{
-		"WORK_ID": "Jos1810",
-		"Source": "Bologna Q34",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2826",
-		"CC or RISM sigla": "BolC Q34"
-	},
-	{
-		"WORK_ID": "Ano3001",
-		"Source": "Brussels 228",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1628",
-		"CC or RISM sigla": "BrusBR 228"
-	},
-	{
-		"WORK_ID": "Jos2402",
-		"Source": "Brussels 9126",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1632",
-		"CC or RISM sigla": "BrusBR 9126"
-	},
-	{
-		"WORK_ID": "Ano2006",
-		"Source": "Cappella Sistina 15",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/805",
-		"CC or RISM sigla": "VatS 15"
-	},
-	{
-		"WORK_ID": "Jos2403",
-		"Source": "Cappella Sistina 15",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/805",
-		"CC or RISM sigla": "VatS 15"
-	},
-	{
-		"WORK_ID": "Ano1025",
-		"Source": "Cappella Sistina 51",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1479",
-		"CC or RISM sigla": "VatS 51"
-	},
-	{
-		"WORK_ID": "Ano3106",
-		"Source": "Copenhagen Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1700",
-		"CC or RISM sigla": "CopKB 291"
-	},
-	{
-		"WORK_ID": "Ano3119",
-		"Source": "Copenhagen Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1700",
-		"CC or RISM sigla": "CopKB 291"
-	},
-	{
-		"WORK_ID": "Ano3019",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3024",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3029",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3030",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3032",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3035",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3036",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3093",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3097",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3098",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3099",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3101",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3104",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3105",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3106",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3109",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3110",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3111",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3112",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3113",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3115",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3116",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3117",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3118",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3119",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3120",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3123",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3150",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3151",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3152",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3154",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3155",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Ano3156",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Bus3051",
-		"Source": "Dijon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1705",
-		"CC or RISM sigla": "DijBM 517"
-	},
-	{
-		"WORK_ID": "Jos2012",
-		"Source": "Dresden 1/D/505",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1713/",
-		"CC or RISM sigla": "DresSL 1/D/505"
 	},
 	{
 		"WORK_ID": "Agr3028",
@@ -316,90 +13,6 @@
 		"Fols./pp./no.": "no. 62",
 		"Attribution": "anonymous",
 		"Notes": "Titled \"Robert\""
-	},
-	{
-		"WORK_ID": "Ano3003",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3015",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3023",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3025",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3026",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3027",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3028",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3033",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3034",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3037",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3116",
-		"Source": "Escorial IV.a.24 \"B\"",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/792",
-		"CC or RISM sigla": "EscSL IV.a.24"
-	},
-	{
-		"WORK_ID": "Ano3112",
-		"Source": "Florence 176",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1408",
-		"CC or RISM sigla": "FlorBN Magl. 176"
-	},
-	{
-		"WORK_ID": "Ano3115",
-		"Source": "Florence 176",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1408",
-		"CC or RISM sigla": "FlorBN Magl. 176"
-	},
-	{
-		"WORK_ID": "Ano3116",
-		"Source": "Florence 176",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1408",
-		"CC or RISM sigla": "FlorBN Magl. 176"
 	},
 	{
 		"WORK_ID": "Agr3028",
@@ -416,18 +29,6 @@
 		"Attribution": "anonymous"
 	},
 	{
-		"WORK_ID": "Ano3099",
-		"Source": "Florence 229",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1410",
-		"CC or RISM sigla": "FlorBN BR 229"
-	},
-	{
-		"WORK_ID": "Ano3110",
-		"Source": "Florence 229",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1410",
-		"CC or RISM sigla": "FlorBN BR 229"
-	},
-	{
 		"WORK_ID": "Agr3028",
 		"Source": "Florence 2794",
 		"DIAMM link": "https://www.diamm.ac.uk/sources/1418/",
@@ -435,10 +36,209 @@
 		"Attribution": "anonymous"
 	},
 	{
-		"WORK_ID": "Ano3239.1",
-		"Source": "Florence Panciatichi 27",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1400",
-		"CC or RISM sigla": "FlorBN Panc. 27"
+		"WORK_ID": "Agr3028",
+		"Source": "Petrucci, Odhecaton (1501)",
+		"RISM link": "https://rism.online/sources/993103756",
+		"Fols./pp./no.": "no. 96",
+		"Attribution": "Agricola"
+	},
+	{
+		"WORK_ID": "Agr3028",
+		"Source": "Segovia s.s.",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2020/",
+		"Fols./pp./no.": "fol. 182r",
+		"Attribution": "Loysette Compe[re]"
+	},
+	{
+		"WORK_ID": "Agr3028",
+		"Source": "Turin 27",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1503/",
+		"Fols./pp./no.": "fol. 19r",
+		"Attribution": "anonymous"
+	},
+	{
+		"WORK_ID": "Agr3028",
+		"Source": "Verona 757",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/971/",
+		"Fols./pp./no.": "fols. 8v–9r",
+		"Attribution": "Agricola"
+	},
+	{
+		"WORK_ID": "Agr3028",
+		"Source": "Zwickau 1622–1647",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2770/",
+		"Fols./pp./no.": "fols. 33v–34v [D]; fols. 28r–29v [T]",
+		"Attribution": "Agricola"
+	},
+	{
+		"WORK_ID": "Ano1001",
+		"Source": "Jena 32",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1232"
+	},
+	{
+		"WORK_ID": "Ano1002",
+		"Source": "Munich 3154",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/797"
+	},
+	{
+		"WORK_ID": "Ano1025",
+		"Source": "Cappella Sistina 51",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1479"
+	},
+	{
+		"WORK_ID": "Ano1026",
+		"Source": "Trent 89",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/809"
+	},
+	{
+		"WORK_ID": "Ano2002",
+		"Source": "Trent 90",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/810"
+	},
+	{
+		"WORK_ID": "Ano2006",
+		"Source": "Cappella Sistina 15",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/805"
+	},
+	{
+		"WORK_ID": "Ano2073",
+		"Source": "Munich 41",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2198"
+	},
+	{
+		"WORK_ID": "Ano3001",
+		"Source": "Brussels 228",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1628"
+	},
+	{
+		"WORK_ID": "Ano3003",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3004",
+		"Source": "Laborde Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2057"
+	},
+	{
+		"WORK_ID": "Ano3005",
+		"Source": "Verona 757",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/971"
+	},
+	{
+		"WORK_ID": "Ano3015",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3019",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3020",
+		"Source": "Pixérécourt Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/818"
+	},
+	{
+		"WORK_ID": "Ano3023",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3024",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3025",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3026",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3027",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3028",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3029",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3030",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3031",
+		"Source": "Pixérécourt Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/818"
+	},
+	{
+		"WORK_ID": "Ano3032",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3033",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3034",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3035",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3036",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3037",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3093",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3093",
+		"Source": "Nivelle Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2374"
+	},
+	{
+		"WORK_ID": "Ano3097",
+		"Source": "Bologna Q16",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1387"
+	},
+	{
+		"WORK_ID": "Ano3097",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3098",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
 	},
 	{
 		"WORK_ID": "Ano3098",
@@ -446,50 +246,262 @@
 		"DIAMM link": "https://www.diamm.ac.uk/sources/1569"
 	},
 	{
-		"WORK_ID": "Ano1001",
-		"Source": "Jena 32",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1232",
-		"CC or RISM sigla": "JenaU 32"
+		"WORK_ID": "Ano3098",
+		"Source": "Seville Chansonnier"
 	},
 	{
-		"WORK_ID": "Jos9905",
-		"Source": "Kirchner, Mvsicæ practicæ elementa in vsum Scholæ Magdeburgensis edita (1571)"
+		"WORK_ID": "Ano3099",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
 	},
 	{
-		"WORK_ID": "Jos2609",
-		"Source": "Kriesstein, Selectissimae necnon familiarissimae cantiones (1540)",
-		"RISM link": "https://rism.online/sources/993104292",
-		"CC or RISM sigla": "1540|7"
+		"WORK_ID": "Ano3099",
+		"Source": "Florence 229",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1410"
 	},
 	{
-		"WORK_ID": "Ano3004",
-		"Source": "Laborde Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2057",
-		"CC or RISM sigla": "WashLC L25"
+		"WORK_ID": "Ano3099",
+		"Source": "Seville Chansonnier"
+	},
+	{
+		"WORK_ID": "Ano3101",
+		"Source": "Bologna Q16",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1387"
+	},
+	{
+		"WORK_ID": "Ano3101",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3101",
+		"Source": "Mellon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1085"
+	},
+	{
+		"WORK_ID": "Ano3101",
+		"Source": "Pavia 362",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1454"
+	},
+	{
+		"WORK_ID": "Ano3104",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
 	},
 	{
 		"WORK_ID": "Ano3104",
 		"Source": "Laborde Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2057",
-		"CC or RISM sigla": "WashLC L25"
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2057"
+	},
+	{
+		"WORK_ID": "Ano3104",
+		"Source": "Wolfenbüttel Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2016"
+	},
+	{
+		"WORK_ID": "Ano3105",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
 	},
 	{
 		"WORK_ID": "Ano3105",
 		"Source": "Laborde Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2057",
-		"CC or RISM sigla": "WashLC L25"
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2057"
+	},
+	{
+		"WORK_ID": "Ano3105",
+		"Source": "Nivelle Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2374"
+	},
+	{
+		"WORK_ID": "Ano3105",
+		"Source": "Wolfenbüttel Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2016"
+	},
+	{
+		"WORK_ID": "Ano3106",
+		"Source": "Copenhagen Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1700"
+	},
+	{
+		"WORK_ID": "Ano3106",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
 	},
 	{
 		"WORK_ID": "Ano3106",
 		"Source": "Laborde Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2057",
-		"CC or RISM sigla": "WashLC L25"
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2057"
+	},
+	{
+		"WORK_ID": "Ano3109",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3110",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3110",
+		"Source": "Florence 229",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1410"
+	},
+	{
+		"WORK_ID": "Ano3110",
+		"Source": "Pixérécourt Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/818"
+	},
+	{
+		"WORK_ID": "Ano3111",
+		"Source": "Bologna Q16",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1387"
+	},
+	{
+		"WORK_ID": "Ano3111",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3112",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3112",
+		"Source": "Florence 176",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1408"
+	},
+	{
+		"WORK_ID": "Ano3113",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3113",
+		"Source": "Nivelle Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2374"
+	},
+	{
+		"WORK_ID": "Ano3115",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3115",
+		"Source": "Florence 176",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1408"
 	},
 	{
 		"WORK_ID": "Ano3115",
 		"Source": "Laborde Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2057",
-		"CC or RISM sigla": "WashLC L25"
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2057"
+	},
+	{
+		"WORK_ID": "Ano3115",
+		"Source": "Nivelle Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2374"
+	},
+	{
+		"WORK_ID": "Ano3116",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3116",
+		"Source": "Escorial IV.a.24 \"B\"",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792"
+	},
+	{
+		"WORK_ID": "Ano3116",
+		"Source": "Florence 176",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1408"
+	},
+	{
+		"WORK_ID": "Ano3117",
+		"Source": "Bologna Q16",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1387"
+	},
+	{
+		"WORK_ID": "Ano3117",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3118",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3118",
+		"Source": "Wolfenbüttel Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2016"
+	},
+	{
+		"WORK_ID": "Ano3119",
+		"Source": "Copenhagen Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1700"
+	},
+	{
+		"WORK_ID": "Ano3119",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3120",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3120",
+		"Source": "Nivelle Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2374"
+	},
+	{
+		"WORK_ID": "Ano3123",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3123",
+		"Source": "Perugia 1013",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1456"
+	},
+	{
+		"WORK_ID": "Ano3123",
+		"Source": "Wolfenbüttel Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2016"
+	},
+	{
+		"WORK_ID": "Ano3150",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3151",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3152",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3154",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3155",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Ano3156",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
 	},
 	{
 		"WORK_ID": "Ano3225",
@@ -522,10 +534,53 @@
 		"DIAMM link": "https://www.diamm.ac.uk/sources/4735"
 	},
 	{
-		"WORK_ID": "Ano3101",
-		"Source": "Mellon Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1085",
-		"CC or RISM sigla": "NHavY 91"
+		"WORK_ID": "Ano3237",
+		"Source": "Perugia G.20",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1455"
+	},
+	{
+		"WORK_ID": "Ano3238.1",
+		"Source": "Razzi, Libro Primo delle laudi spirituali (1563)",
+		"RISM link": "https://rism.online/sources/1000000577"
+	},
+	{
+		"WORK_ID": "Ano3239.1",
+		"Source": "Florence Panciatichi 27",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1400"
+	},
+	{
+		"WORK_ID": "Bus3051",
+		"Source": "Dijon Chansonnier",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705"
+	},
+	{
+		"WORK_ID": "Jos1406",
+		"Source": "Verona 758",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/972"
+	},
+	{
+		"WORK_ID": "Jos1810",
+		"Source": "Bologna Q34",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2826"
+	},
+	{
+		"WORK_ID": "Jos1909",
+		"Source": "Berlin 40026"
+	},
+	{
+		"WORK_ID": "Jos1911",
+		"Source": "Berlin 7",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2691/"
+	},
+	{
+		"WORK_ID": "Jos2001",
+		"Source": "Berlin 40021",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1579"
+	},
+	{
+		"WORK_ID": "Jos2012",
+		"Source": "Dresden 1/D/505",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1713/"
 	},
 	{
 		"WORK_ID": "Jos2015",
@@ -533,184 +588,33 @@
 		"DIAMM link": "https://www.diamm.ac.uk/sources/3928"
 	},
 	{
-		"WORK_ID": "Ano1002",
-		"Source": "Munich 3154",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/797",
-		"CC or RISM sigla": "MunBS 3154"
+		"WORK_ID": "Jos2402",
+		"Source": "Brussels 9126",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1632"
 	},
 	{
-		"WORK_ID": "Ano2073",
-		"Source": "Munich 41",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2198",
-		"CC or RISM sigla": "MunBS 41"
-	},
-	{
-		"WORK_ID": "Ano3093",
-		"Source": "Nivelle Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2374",
-		"CC or RISM sigla": "ParisBN 57"
-	},
-	{
-		"WORK_ID": "Ano3105",
-		"Source": "Nivelle Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2374",
-		"CC or RISM sigla": "ParisBN 57"
-	},
-	{
-		"WORK_ID": "Ano3113",
-		"Source": "Nivelle Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2374",
-		"CC or RISM sigla": "ParisBN 57"
-	},
-	{
-		"WORK_ID": "Ano3115",
-		"Source": "Nivelle Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2374",
-		"CC or RISM sigla": "ParisBN 57"
-	},
-	{
-		"WORK_ID": "Ano3120",
-		"Source": "Nivelle Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2374",
-		"CC or RISM sigla": "ParisBN 57"
-	},
-	{
-		"WORK_ID": "Ano3101",
-		"Source": "Pavia 362",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1454",
-		"CC or RISM sigla": "PavU 362"
-	},
-	{
-		"WORK_ID": "Ano3123",
-		"Source": "Perugia 1013",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1456",
-		"CC or RISM sigla": "PerBC 1013"
-	},
-	{
-		"WORK_ID": "Ano3237",
-		"Source": "Perugia G.20",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1455",
-		"CC or RISM sigla": "PerBC 431"
-	},
-	{
-		"WORK_ID": "Jos2820",
-		"Source": "Petrucci, Canti C (1504)",
-		"RISM link": "https://rism.online/sources/993103783",
-		"CC or RISM sigla": "1504|3"
-	},
-	{
-		"WORK_ID": "Agr3028",
-		"Source": "Petrucci, Odhecaton (1501)",
-		"RISM link": "https://rism.online/sources/993103756",
-		"Fols./pp./no.": "no. 96",
-		"Attribution": "Agricola"
-	},
-	{
-		"WORK_ID": "Ano3020",
-		"Source": "Pixérécourt Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/818",
-		"CC or RISM sigla": "ParisBNF 15123"
-	},
-	{
-		"WORK_ID": "Ano3031",
-		"Source": "Pixérécourt Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/818",
-		"CC or RISM sigla": "ParisBNF 15123"
-	},
-	{
-		"WORK_ID": "Ano3110",
-		"Source": "Pixérécourt Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/818",
-		"CC or RISM sigla": "ParisBNF 15123"
-	},
-	{
-		"WORK_ID": "Ano3238.1",
-		"Source": "Razzi, Libro Primo delle laudi spirituali (1563)",
-		"RISM link": "https://rism.online/sources/1000000577",
-		"CC or RISM sigla": "1563|6"
+		"WORK_ID": "Jos2403",
+		"Source": "Cappella Sistina 15",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/805"
 	},
 	{
 		"WORK_ID": "Jos2602",
 		"Source": "Regensburg 76",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2438",
-		"CC or RISM sigla": "RegT 76"
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2438"
 	},
 	{
-		"WORK_ID": "Agr3028",
-		"Source": "Segovia s.s.",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2020/",
-		"Fols./pp./no.": "fol. 182r",
-		"Attribution": "Loysette Compe[re]"
+		"WORK_ID": "Jos2609",
+		"Source": "Kriesstein, Selectissimae necnon familiarissimae cantiones (1540)",
+		"RISM link": "https://rism.online/sources/993104292"
 	},
 	{
-		"WORK_ID": "Ano3098",
-		"Source": "Seville Chansonnier"
+		"WORK_ID": "Jos2820",
+		"Source": "Petrucci, Canti C (1504)",
+		"RISM link": "https://rism.online/sources/993103783"
 	},
 	{
-		"WORK_ID": "Ano3099",
-		"Source": "Seville Chansonnier"
-	},
-	{
-		"WORK_ID": "Ano1026",
-		"Source": "Trent 89",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/809",
-		"CC or RISM sigla": "TrentC 89"
-	},
-	{
-		"WORK_ID": "Ano2002",
-		"Source": "Trent 90",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/810",
-		"CC or RISM sigla": "TrentC 90"
-	},
-	{
-		"WORK_ID": "Agr3028",
-		"Source": "Turin 27",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/1503/",
-		"Fols./pp./no.": "fol. 19r",
-		"Attribution": "anonymous"
-	},
-	{
-		"WORK_ID": "Agr3028",
-		"Source": "Verona 757",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/971/",
-		"Fols./pp./no.": "fols. 8v–9r",
-		"Attribution": "Agricola"
-	},
-	{
-		"WORK_ID": "Ano3005",
-		"Source": "Verona 757",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/971",
-		"CC or RISM sigla": "VerBC 757"
-	},
-	{
-		"WORK_ID": "Jos1406",
-		"Source": "Verona 758",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/972",
-		"CC or RISM sigla": "VerBC 758"
-	},
-	{
-		"WORK_ID": "Ano3104",
-		"Source": "Wolfenbüttel Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2016",
-		"CC or RISM sigla": "WolfA 287"
-	},
-	{
-		"WORK_ID": "Ano3105",
-		"Source": "Wolfenbüttel Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2016",
-		"CC or RISM sigla": "WolfA 287"
-	},
-	{
-		"WORK_ID": "Ano3118",
-		"Source": "Wolfenbüttel Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2016",
-		"CC or RISM sigla": "WolfA 287"
-	},
-	{
-		"WORK_ID": "Ano3123",
-		"Source": "Wolfenbüttel Chansonnier",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2016",
-		"CC or RISM sigla": "WolfA 287"
+		"WORK_ID": "Jos9905",
+		"Source": "Kirchner, Mvsicæ practicæ elementa in vsum Scholæ Magdeburgensis edita (1571)"
 	},
 	{
 		"WORK_ID": "Jos9912",
@@ -721,10 +625,8 @@
 		"Source": "Zacconi, Prattica di musica (1592)"
 	},
 	{
-		"WORK_ID": "Agr3028",
-		"Source": "Zwickau 1622–1647",
-		"DIAMM link": "https://www.diamm.ac.uk/sources/2770/",
-		"Fols./pp./no.": "fols. 33v–34v [D]; fols. 28r–29v [T]",
-		"Attribution": "Agricola"
+		"WORK_ID": "Jos9915",
+		"Source": "Correa de Arauxo, Facultad organica (1626)",
+		"RISM link": "https://rism.online/sources/990011332"
 	}
 ]
