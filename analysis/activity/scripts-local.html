@@ -74,8 +74,8 @@ function resetPageState() {
 function renderActivitySection(sectionId) {
   const mergedUrl = JOSQUIN_DATA + sectionId + "-activity-merged-notitle.png";
   const separateUrl = JOSQUIN_DATA + sectionId + "-activity-separate-notitle.png";
-  const mergedFallbacks = [getJosquinMirrorUrl(mergedUrl)].concat(getLegacyPlotFallbackList(sectionId, "activity-merged-notitle")).join("||");
-  const separateFallbacks = [getJosquinMirrorUrl(separateUrl)].concat(getLegacyPlotFallbackList(sectionId, "activity-separate-notitle")).join("||");
+  const mergedFallbacks = ASSET_DELIVERY.candidates(mergedUrl).slice(1).concat(getLegacyPlotFallbackList(sectionId, "activity-merged-notitle")).join("||");
+  const separateFallbacks = ASSET_DELIVERY.candidates(separateUrl).slice(1).concat(getLegacyPlotFallbackList(sectionId, "activity-separate-notitle")).join("||");
   const label = getActivityLabel(sectionId);
 
   let html = "";

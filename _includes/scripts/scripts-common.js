@@ -1,3 +1,8 @@
+{% include scripts/asset-delivery.js %}
+const ASSET_DELIVERY = createAssetDelivery(
+  {{ site.asset_base_url | jsonify }},
+  {% include metadata/cloudflare-assets.json %},
+  ["https://data.josqu.in/", "https://data2.josqu.in/"]);
 // GLOBAL VARIABLES:
 var WORKLIST;										 // Master index of works in JRP database.
 var WORKLISTrecent = [];						 // List of works reverse sorted by add date.
@@ -10,7 +15,7 @@ var AUDIOjrpid     = '';  						 // currently playing audio file.
 var AUDIOid        = '';                   // currently playing audio button.
 const JOSQUIN_DATA_PRIMARY = "{{ site.data_url | default: 'https://data.josqu.in' | append: '/' }}";
 const JOSQUIN_DATA_FALLBACK = "{{ site.data_url_fallback | default: 'https://data2.josqu.in' | append: '/' }}";
-const JOSQUIN_DATA = JOSQUIN_DATA_PRIMARY;
+const JOSQUIN_DATA = ASSET_DELIVERY.base + "mirror-assets/";
 const JOSQUIN_LEGACY = "https://josquin.stanford.edu"; // old website
 
 // Backup Variables
@@ -153,6 +158,11 @@ function getBackupPdfUrl(jrpid, version) {
 }
 
 function getBestPdfUrl(jrpid, version) {
+  const name = `${jrpid}-${version}.pdf`;
+  if (Object.hasOwn(ASSET_DELIVERY.index.pdfs, name)) {
+    const key = ASSET_DELIVERY.index.pdfs[name];
+    return key ? ASSET_DELIVERY.base + key : '#unavailable-score';
+  }
   if (isJosquinLegacyUpCached()) {
     return getLegacyPdfUrl(jrpid, version);
   }
@@ -161,7 +171,7 @@ function getBestPdfUrl(jrpid, version) {
 
 
 function getJosquinDataUrl(jrpid, type, base) {
-  base = base || JOSQUIN_DATA_PRIMARY;
+  base = base || JOSQUIN_DATA;
   switch (type) {
 
     // Core score formats
@@ -195,10 +205,11 @@ function getJosquinDataUrl(jrpid, type, base) {
 }
 
 function getJosquinDataFallbackUrl(jrpid, type) {
-  return getJosquinDataUrl(jrpid, type, JOSQUIN_DATA_FALLBACK);
+  return getJosquinDataUrl(jrpid, type, JOSQUIN_DATA_PRIMARY);
 }
 
 function getJosquinMirrorUrl(url) {
+  if (url && url.startsWith(JOSQUIN_DATA)) return JOSQUIN_DATA_PRIMARY + url.slice(JOSQUIN_DATA.length);
   if (!url || url.indexOf(JOSQUIN_DATA_PRIMARY) !== 0) {
     return "";
   }
@@ -206,7 +217,7 @@ function getJosquinMirrorUrl(url) {
 }
 
 async function resolveJosquinAssetUrl(primaryUrl, fallbackUrl) {
-  var candidates = [primaryUrl, fallbackUrl];
+  var candidates = [...new Set(ASSET_DELIVERY.candidates(primaryUrl).concat(fallbackUrl || []))];
   for (var i=0; i<candidates.length; i++) {
     if (!candidates[i]) {
       continue;
@@ -249,26 +260,33 @@ async function resolveJosquinDataLinks(root) {
     return;
   }
 
-  var links = root.querySelectorAll("a[href^='" + JOSQUIN_DATA_PRIMARY + "']");
-  for (var i=0; i<links.length; i++) {
-    (async function(link) {
-      var primaryUrl = link.getAttribute("href");
-      var fallbackUrl = getJosquinMirrorUrl(primaryUrl);
-      if (!fallbackUrl) {
-        return;
-      }
-      try {
-        var response = await fetch(primaryUrl, { method: "HEAD", cache: "no-store" });
-        if (response.ok) {
-          return;
-        }
-      } catch (error) {
-        // A connection or CORS failure should use the mirror as well.
-      }
-      link.setAttribute("href", fallbackUrl);
-    })(links[i]);
+  for (const link of root.querySelectorAll('a[href]')) {
+    if (link.dataset.assetResolved) continue;
+    const url = link.getAttribute('href');
+    if (url === '#unavailable-score') {
+      link.removeAttribute('href');
+      link.setAttribute('aria-disabled', 'true');
+      link.title = 'PDF unavailable: blank pages detected';
+      continue;
+    }
+    if (!ASSET_DELIVERY.candidates(url)[0]?.startsWith(ASSET_DELIVERY.base)) continue;
+    link.dataset.assetResolved = 'true';
+    link.href = ASSET_DELIVERY.preferred(url);
+    ASSET_DELIVERY.fetch(url, {method:'HEAD'}).then(response => {
+      link.href = response.url;
+    }).catch(() => { link.removeAttribute('href'); link.setAttribute('aria-disabled', 'true'); });
   }
 }
+
+// Resolve dynamically rendered download links as well as work-page downloads.
+document.addEventListener('DOMContentLoaded', () => {
+  resolveJosquinDataLinks(document);
+  new MutationObserver(records => {
+    for (const record of records) for (const node of record.addedNodes) {
+      if (node.nodeType === 1) resolveJosquinDataLinks(node.parentElement || node);
+    }
+  }).observe(document.body, {childList:true, subtree:true});
+});
 
 // Composer lookup indexed by COMPOSER_ID
 var COMPOSER_INDEX = null;
@@ -928,22 +946,21 @@ function PlayAudioFile(jrpid, element) {
     AUDIOid = element ? element.id : '';
     AUDIOplayRequested = true;
     AUDIO.innerHTML = '';
-    AUDIO.setAttribute('data-mirror-tried', 'false');
+    const urls = ASSET_DELIVERY.candidates(getJosquinDataUrl(jrpid, 'mp3'));
+    let candidate = 0;
     AUDIO.onerror = function() {
       if (request !== AUDIOrequestSerial) return;
-      if (AUDIO.getAttribute('data-mirror-tried') === 'true') {
+      if (++candidate >= urls.length) {
         AUDIOplayRequested = false;
         SyncAudioControls();
         return;
       }
-      var resume = AUDIOplayRequested;
-      AUDIO.setAttribute('data-mirror-tried', 'true');
-      AUDIO.src = getJosquinDataFallbackUrl(jrpid, 'mp3');
+      const resume = AUDIOplayRequested;
+      AUDIO.src = urls[candidate];
       AUDIO.load();
-      // Loading an alternate source must never restart explicitly paused audio.
       if (resume) StartAudioPlayback();
     };
-    AUDIO.src = getJosquinDataUrl(jrpid, 'mp3');
+    AUDIO.src = urls[0];
     AUDIO.load();
     StartAudioPlayback();
   } else if (!AUDIO.paused || AUDIOplayRequested) {

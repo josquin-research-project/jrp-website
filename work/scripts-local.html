@@ -143,6 +143,10 @@ function getAssetEntry(jrpid) {
 //
 
 function hasAsset(jrpid, key) {
+  if (key === 'pdfScore' || key === 'pdfEdited') {
+    const name = jrpid + (key === 'pdfEdited' ? '-edit.pdf' : '-no_edit.pdf');
+    if (Object.hasOwn(ASSET_DELIVERY.index.pdfs, name)) return !!ASSET_DELIVERY.index.pdfs[name];
+  }
 	var entry = getAssetEntry(jrpid);
 	if (!entry) {
 		return !hasAssetManifest();
@@ -1641,7 +1645,7 @@ function getHumdrumScoreCandidates(jrpid) {
 		});
 	}
 
-	return candidates;
+	return candidates.flatMap(candidate => ASSET_DELIVERY.candidates(candidate.url).map(url => ({...candidate, url})));
 }
 
 
