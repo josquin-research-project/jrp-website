@@ -15,7 +15,7 @@ var AUDIOjrpid     = '';  						 // currently playing audio file.
 var AUDIOid        = '';                   // currently playing audio button.
 const JOSQUIN_DATA_PRIMARY = "{{ site.data_url | default: 'https://data.josqu.in' | append: '/' }}";
 const JOSQUIN_DATA_FALLBACK = "{{ site.data_url_fallback | default: 'https://data2.josqu.in' | append: '/' }}";
-const JOSQUIN_DATA = ASSET_DELIVERY.base + "mirror-assets/";
+const JOSQUIN_DATA = ASSET_DELIVERY.base + "score-assets/";
 const JOSQUIN_LEGACY = "https://josquin.stanford.edu"; // old website
 
 // Backup Variables

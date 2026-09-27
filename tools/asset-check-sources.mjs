@@ -7,9 +7,9 @@ export function assetCandidates(source, {base, index, servers}) {
   let key = index.sources?.[source];
   if (name.endsWith('.pdf') && index.pdfs?.[name]) key = index.pdfs[name];
   if (source.startsWith(base)) key = source.slice(base.length);
-  for (const server of servers) if (!key && source.startsWith(server)) key = 'mirror-assets/' + source.slice(server.length);
+  for (const server of servers) if (!key && source.startsWith(server)) key = 'score-assets/' + source.slice(server.length);
   const urls = key ? [base + key] : [];
-  if (key?.startsWith('mirror-assets/')) urls.push(...servers.map(s => s + key.slice(14)));
+  if (key?.startsWith('score-assets/')) urls.push(...servers.map(s => s + key.slice('score-assets/'.length)));
   if (key) for (const [url, value] of Object.entries(index.sources || {})) if (value === key) urls.push(url);
   urls.push(source);
   return [...new Set(urls)].filter(url => !(index.blocked || []).includes(url));

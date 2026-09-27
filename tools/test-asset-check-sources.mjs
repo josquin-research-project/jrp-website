@@ -6,7 +6,7 @@ const old='https://data.test/';
 const routing={base,index:{},servers:[old]};
 test('R2 first, legacy only if needed',async()=>{
  const urls=assetCandidates(old+'A.mp3',routing), seen=[];
- assert.deepEqual(urls,[base+'mirror-assets/A.mp3',old+'A.mp3']);
+ assert.deepEqual(urls,[base+'score-assets/A.mp3',old+'A.mp3']);
  assert.equal(await firstAvailable(urls,async u=>{seen.push(u);return true;}),urls[0]);
  assert.equal(seen.length,1);
  assert.equal(await firstAvailable(urls,async u=>u===urls[1]),urls[1]);

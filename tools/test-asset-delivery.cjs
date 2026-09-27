@@ -12,12 +12,12 @@ function delivery(fetch, data = index) {
 test('successful R2 read does not contact legacy servers', async () => {
  const seen=[]; const d=delivery(async url=>{seen.push(url);return new Response('**kern\n*-',{headers:{'Content-Type':'text/plain'}})});
  assert.equal(await (await d.fetch('https://data.josqu.in/Agr1001a.krn')).text(),'**kern\n*-');
- assert.deepEqual(seen,['https://assets.example/jrp/mirror-assets/Agr1001a.krn']);
+ assert.deepEqual(seen,['https://assets.example/jrp/score-assets/Agr1001a.krn']);
 });
 test('404, HTML error and network failure follow ordered fallback', async () => {
  const seen=[]; const d=delivery(async url=>{seen.push(url);if(seen.length===1) return new Response('',{status:404});if(seen.length===2) return new Response('<html>',{headers:{'Content-Type':'text/html'}});return new Response('score')});
  assert.equal(await (await d.fetch('https://data.josqu.in/Agr1001a.mei')).text(),'score');
- assert.deepEqual(seen,['https://assets.example/jrp/mirror-assets/Agr1001a.mei','https://data.josqu.in/Agr1001a.mei','https://data2.josqu.in/Agr1001a.mei']);
+ assert.deepEqual(seen,['https://assets.example/jrp/score-assets/Agr1001a.mei','https://data.josqu.in/Agr1001a.mei','https://data2.josqu.in/Agr1001a.mei']);
  const n=delivery(async url=>{if(url.startsWith('https://assets.')) throw new TypeError('network');return new Response('fallback')});
  assert.equal(await (await n.fetch('https://data.josqu.in/Agr1001a.mei')).text(),'fallback');
 });
@@ -26,9 +26,9 @@ test('repository PDFs map to uploaded keys, then original repository',()=>{
  assert.deepEqual(Array.from(d.candidates(source)),['https://assets.example/jrp/pdfs/Agr/Agr1001a-edit.pdf',source]);
 });
 test('held PDFs cannot become fallback candidates',()=>{
- const d=delivery();assert.equal(d.candidates(index.blocked[0]).length,0);
+ const d=delivery();const held=index.blocked.find(url=>url.endsWith('/Duf1004c-no_edit.pdf'));assert.ok(held);assert.equal(d.candidates(held).length,0);
  assert.equal(d.candidates('#unavailable-score').length,0);
- assert.equal(index.pdfs['Agr1004b-no_edit.pdf'],null);
+ assert.equal(index.pdfs['Duf1004c-no_edit.pdf'],null);
 });
 test('media retries once per source and does not restart paused playback',()=>{
  const d=delivery(); let play=0;const media={paused:true,load(){},play(){play++;return Promise.resolve()}};

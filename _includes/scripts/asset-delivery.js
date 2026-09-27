@@ -11,11 +11,11 @@ function createAssetDelivery(base, index, servers) {
     let key = index.sources[source];
     if (source.startsWith(base)) key = source.slice(base.length);
     for (const server of servers) {
-      if (source.startsWith(server)) key = 'mirror-assets/' + source.slice(server.length);
+      if (source.startsWith(server)) key = 'score-assets/' + source.slice(server.length);
     }
     const urls = key ? [base + key] : [];
-    if (key?.startsWith('mirror-assets/')) {
-      urls.push(...servers.map(server => server + key.slice(14)));
+    if (key?.startsWith('score-assets/')) {
+      urls.push(...servers.map(server => server + key.slice('score-assets/'.length)));
     }
     if (key) urls.push(...(reverse[key] || []));
     urls.push(source);
