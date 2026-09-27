@@ -36394,7 +36394,7 @@
 			"composerId": "Bru",
 			"genre": "mass",
 			"pdfScore": true,
-			"pdfEdited": false,
+			"pdfEdited": true,
 			"mp3": false,
 			"completeHumdrum": true,
 			"anyHumdrum": true,
