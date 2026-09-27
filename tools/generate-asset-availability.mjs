@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import fs from "node:fs/promises";
+import {assetCandidates, firstAvailable} from "./asset-check-sources.mjs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -195,15 +196,16 @@ async function headCheck(url, timeoutMs, validator) {
 	try {
 		const response = await fetchWithTimeout(url, { method: "HEAD", cache: "no-store" }, timeoutMs);
 		if (!response.ok) {
-			return false;
+			if ([404, 410].includes(response.status)) return false;
+			throw new Error(`HTTP ${response.status}: ${url}`);
 		}
 		const headers = {
 			contentLength: response.headers.get("content-length") || "",
 			contentType: response.headers.get("content-type") || ""
 		};
 		return validator(headers);
-	} catch (_error) {
-		return false;
+	} catch (error) {
+		throw error;
 	}
 }
 
@@ -218,14 +220,15 @@ async function sampleCheck(url, timeoutMs, validator, byteLimit = 4096) {
 			headers: { Range: `bytes=0-${byteLimit - 1}` }
 		}, timeoutMs);
 		if (!response.ok) {
-			return false;
+			if ([404, 410].includes(response.status)) return false;
+			throw new Error(`HTTP ${response.status}: ${url}`);
 		}
 		const contentType = response.headers.get("content-type") || "";
 		const buffer = Buffer.from(await response.arrayBuffer());
 		const text = buffer.toString("utf8");
 		return validator({ contentType, buffer, text });
-	} catch (_error) {
-		return false;
+	} catch (error) {
+		throw error;
 	}
 }
 
@@ -327,13 +330,21 @@ async function main() {
 	const options = parseArgs(process.argv.slice(2));
 	const limit = createLimiter(options.concurrency);
 	const checkCache = new Map();
-
-	function cached(key, url, checker) {
-		const cacheKey = `${key}:${url}`;
-		if (!checkCache.has(cacheKey)) {
-			checkCache.set(cacheKey, limit(() => checker(url)));
-		}
-		return checkCache.get(cacheKey);
+	const index = JSON.parse(await fs.readFile(path.join(REPO_ROOT, "_includes/metadata/cloudflare-assets.json"), "utf8"));
+	const config = await fs.readFile(path.join(REPO_ROOT, "_config.yml"), "utf8");
+	const base = config.match(/^asset_base_url:\s*["']?([^\s"'#]+)/m)?.[1];
+	if (!base || !base.startsWith("https://")) throw new Error("Missing HTTPS asset_base_url");
+	const routing = {base, index, servers: [DATA_BASE, DATA_FALLBACK_BASE]};
+	if ((options.ids.length || options.limit !== null) && options.output === DEFAULT_OUTPUT) {
+		throw new Error("Use --output with a limited scan to preserve the complete website index");
+	}
+	async function cached(key, url, checker) {
+		const found = await firstAvailable(assetCandidates(url, routing), candidate => {
+			const cacheKey = `${key.split(":").pop()}:${candidate}`;
+			if (!checkCache.has(cacheKey)) checkCache.set(cacheKey, limit(() => checker(candidate)));
+			return checkCache.get(cacheKey);
+		});
+		return !!found;
 	}
 
 	async function checkDataServerAssets(id, base, serverKey) {
@@ -382,19 +393,11 @@ async function main() {
 		const filename = section.filename || "";
 		const githubUrl = githubHumdrumUrl(filename);
 
-		const [primary, fallback,
-			pdfScore,
-			pdfEdited
-		] = await Promise.all([
-			checkDataServerAssets(id, DATA_BASE, "primary"),
-			checkDataServerAssets(id, DATA_FALLBACK_BASE, "fallback"),
+		const [combined, pdfScore, pdfEdited] = await Promise.all([
+			checkDataServerAssets(id, DATA_BASE, "asset"),
 			cached("pdf", backupPdfUrl(id, "no_edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead)),
 			cached("pdf", backupPdfUrl(id, "edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead))
 		]);
-		const combined = {};
-		for (const key of Object.keys(primary)) {
-			combined[key] = primary[key] || fallback[key];
-		}
 		const humdrumData = combined.humdrum;
 		const humdrumGithub = humdrumData
 			? false
@@ -448,11 +451,10 @@ async function main() {
 			return;
 		}
 
-		const [pdfScore, pdfEdited, mp3Primary, mp3Fallback] = await Promise.all([
+		const [pdfScore, pdfEdited, mp3Primary] = await Promise.all([
 			cached("pdf", backupPdfUrl(group.baseId, "no_edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead)),
 			cached("pdf", backupPdfUrl(group.baseId, "edit"), (url) => headCheck(url, options.timeoutMs, validatePdfHead)),
-			cached("primary:mp3", dataUrl(group.baseId, ".mp3", DATA_BASE), (url) => headCheck(url, options.timeoutMs, validateAudioHead)),
-			cached("fallback:mp3", dataUrl(group.baseId, ".mp3", DATA_FALLBACK_BASE), (url) => headCheck(url, options.timeoutMs, validateAudioHead))
+			cached("primary:mp3", dataUrl(group.baseId, ".mp3", DATA_BASE), (url) => headCheck(url, options.timeoutMs, validateAudioHead))
 		]);
 
 		assets[group.baseId] = {
@@ -465,7 +467,7 @@ async function main() {
 			genre: group.genre,
 			pdfScore,
 			pdfEdited,
-			mp3: mp3Primary || mp3Fallback,
+			mp3: mp3Primary,
 			completeHumdrum: summarizeBoolean(sectionAssets, "humdrum", "all"),
 			anyHumdrum: summarizeBoolean(sectionAssets, "humdrum", "any"),
 			allHumdrum: summarizeBoolean(sectionAssets, "humdrum", "all"),
@@ -482,6 +484,8 @@ async function main() {
 		generatedAt: new Date().toISOString(),
 		generator: "tools/generate-asset-availability.mjs",
 		sources: {
+			r2: base,
+			checkOrder: "R2 first; legacy only when unavailable",
 			metadata: path.relative(REPO_ROOT, options.input),
 			data: DATA_BASE,
 			dataPrimary: DATA_BASE,
@@ -499,7 +503,8 @@ async function main() {
 	};
 
 	await fs.mkdir(path.dirname(options.output), { recursive: true });
-	await fs.writeFile(options.output, JSON.stringify(output, null, options.pretty ? "\t" : 0) + "\n");
+	await fs.writeFile(options.output + ".tmp", JSON.stringify(output, null, options.pretty ? "\t" : 0) + "\n");
+	await fs.rename(options.output + ".tmp", options.output);
 	console.error(`Wrote ${path.relative(REPO_ROOT, options.output)}`);
 }
 
