@@ -32,4 +32,4 @@ Full-repertoire verification uses a saved reference of 21,531 matches across 1,3
 
 Release verification: revision `jrp-search-pilot-00003-z55`, image digest `sha256:9154e187c2d40b34d77c0e8324d9c2bcac655306656e8c1df075e0d069682c38`. Full-corpus hosted results exactly matched the reference in 12.816 seconds; the other three queries returned 353, 5, and 4 matches in 0.610, 0.814, and 0.558 seconds. Allowed-origin CORS headers verified on all responses. Results: `output/cloud-run-search-release-verification.json`.
 
-Public invocation was blocked by automatic approval review pending explicit authorization for `allUsers` / `roles/run.invoker` on this service. The website is built and ready but has not been published, avoiding an endpoint visitors cannot yet access.
+Public invocation (`allUsers` / `roles/run.invoker` on this service only) was explicitly approved and enabled. Anonymous API access and CORS passed. The website preview returned 353 Agricola matches and 143 within-work matches for Agr1001, with correct movement labels, measure lists, and ordinary R2 PDF links.
