@@ -1,7 +1,8 @@
 <script>
 (function () {
   const DEFAULT_JRPID = "Jos2721";
-  const PROLL_ENDPOINT = JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp";
+  const PROLL_ASSETS = {% include metadata/piano-roll-assets.json %};
+  let loadVersion = 0;
 
   let currentJrpid = "";
   let currentSvg = null;
@@ -93,6 +94,7 @@
   }
 
   function loadPianoRoll(jrpid) {
+    const version = ++loadVersion;
     currentJrpid = jrpid;
     localStorage.PIANOROLLjrpid = jrpid;
     localStorage.PROLLjrpid = jrpid;
@@ -106,13 +108,20 @@
     document.getElementById("proll-voices").innerHTML = "";
     document.getElementById("svg-container").innerHTML = "";
     setStatus("Loading piano roll...");
-    setupAudio(jrpid);
-
-    const params = new URLSearchParams();
-    params.set("a", "prollsvg");
-    params.set("id", jrpid);
-
-    fetch(PROLL_ENDPOINT + "?" + params.toString(), { cache: "no-store" })
+    const audio = document.getElementById("proll-audio");
+    audio.pause();
+    audio.removeAttribute("src");
+    audio.load();
+    audio.hidden = true;
+    const asset = PROLL_ASSETS[jrpid];
+    if (!asset) {
+      setStatus("A validated piano roll is not yet available for this score.");
+      return;
+    }
+    audio.hidden = !asset.audioVerified;
+    if (asset.audioVerified) setupAudio(jrpid);
+    const url = ASSET_DELIVERY.base + "score-assets/" + encodeURIComponent(jrpid) + "-piano-roll.svg?v=" + asset.sha256;
+    fetch(url)
       .then(function (response) {
         if (!response.ok) {
           throw new Error("Piano roll request failed: " + response.status);
@@ -120,12 +129,15 @@
         return response.text();
       })
       .then(function (svgText) {
+        if (version !== loadVersion) return;
         if (!svgText || !svgText.match(/<svg[\s>]/i)) {
           throw new Error("The piano roll SVG was empty.");
         }
         displaySvg(svgText);
+        if (!asset.audioVerified) setStatus("Piano roll available; synchronized audio is awaiting verification.");
       })
       .catch(function (error) {
+        if (version !== loadVersion) return;
         console.error(error);
         setStatus("Piano roll is temporarily unavailable.", "error");
       });
@@ -135,7 +147,7 @@
     const audio = document.getElementById("proll-audio");
     audio.pause();
     audio.removeAttribute("src");
-    ASSET_DELIVERY.media(audio, getJosquinDataUrl(jrpid, "mp3"));
+    audio.src = ASSET_DELIVERY.base + "score-assets/" + encodeURIComponent(jrpid) + ".mp3";
     audio.load();
   }
 
@@ -199,7 +211,8 @@
       });
 
       label.appendChild(checkbox);
-      label.appendChild(document.createTextNode("Voice " + track));
+      const partnames = PROLL_ASSETS[currentJrpid].partnames || [];
+      label.appendChild(document.createTextNode(partnames[partnames.length - track] || ("Voice " + track)));
       container.appendChild(label);
     }
   }
@@ -261,7 +274,7 @@
 
     for (let i = 0; i < timemap.length; i++) {
       const note = timemap[i];
-      const isActive = now >= note.on && now <= note.off;
+      const isActive = now >= note.on && now < note.off;
       setSvgClass(note.element, "proll-highlight", isActive);
       if (isActive) {
         active.push(note.element);
@@ -281,7 +294,7 @@
 
   function followActiveNote(now) {
     const follow = document.getElementById("proll-follow");
-    if (!follow.checked || !highlighted.length || now - lastFollowAt < 0.45) {
+    if (!follow.checked || !highlighted.length || (now >= lastFollowAt && now - lastFollowAt < 0.45)) {
       return;
     }
 
@@ -296,8 +309,10 @@
   }
 
   function displayVoice(state, track) {
-    setVisibility(".track-" + track, state);
-    setVisibility(".note-background-" + track, state);
+    if (!currentSvg) return;
+    currentSvg.querySelectorAll(".track-" + track + ", .note-background-" + track).forEach(function (element) {
+      element.style.display = state ? "" : "none";
+    });
   }
 
   function displayStafflines(state) {
