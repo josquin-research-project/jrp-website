@@ -3,7 +3,7 @@ let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
 
 const SEARCH_RESULTS_PAGE_SIZE = 20;
-const SEARCH_ENDPOINT = JOSQUIN_LEGACY.replace(/\/+$/, "") + "/cgi-bin/jrp";
+const SEARCH_ENDPOINT = JRP_SEARCH_API;
 
 let QUERY = null;
 let SEARCHLIST = null;
@@ -94,14 +94,13 @@ function runSearch(query) {
   const url = buildSearchUrl(query);
 
   fetch(url, { cache: "no-store" })
-    .then(function (response) {
-      if (!response.ok) {
-        throw new Error("Search request failed: " + response.status);
-      }
-      return response.text();
+    .then(async function (response) {
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Search is temporarily unavailable.");
+      return result;
     })
-    .then(function (text) {
-      SEARCHLIST = JSON.parse(text);
+    .then(function (result) {
+      SEARCHLIST = result;
       SEARCHLIST.locations = filterLocationsByVoice(SEARCHLIST.locations || [], query.voice);
       sessionStorage.SEARCHLIST = JSON.stringify(SEARCHLIST);
       sessionStorage.QUERY = "";
@@ -110,7 +109,7 @@ function runSearch(query) {
     })
     .catch(function (error) {
       console.error(error);
-      showSearchMessage("Search is temporarily unavailable.");
+      showSearchMessage(error.message || "Search is temporarily unavailable.");
     })
     .finally(function () {
       document.body.style.cursor = "default";
@@ -123,6 +122,7 @@ function buildSearchUrl(query) {
 
   addParam(params, "composer", cleanFilterValue(query.composer));
   addParam(params, "genre", cleanFilterValue(query.genre));
+  addParam(params, "voice", cleanFilterValue(query.voice));
   addParam(params, "pitch", query.pitch);
   addParam(params, "rhythm", query.rhythm);
   addParam(params, "interval", query.interval);
