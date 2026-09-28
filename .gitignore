@@ -5,3 +5,4 @@ _site
 website-jrp2
 vendor
 .bundle
+.legacy-archive/

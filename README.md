@@ -83,6 +83,146 @@ metadata refreshes.
 
 ## External Services
 
+### Local preservation archive
+
+`tools/archive-legacy-assets.py` copies local source scores and PDF backups,
+recovers missing PDFs from the legacy site, and downloads static assets from
+the Stanford mirror. Its default destination is `.legacy-archive/`, excluded
+from Git and website publication by its leading dot. Run phases sequentially:
+
+```sh
+python3 tools/archive-legacy-assets.py --phase local
+python3 tools/archive-legacy-assets.py --phase pdfs
+python3 tools/archive-legacy-assets.py --phase assets
+```
+
+Local inputs default to `~/jrp-scores` and `~/jrp-scores-backup/scores`; override
+them with `--scores` and `--pdf-backup`. Use `--ids Jos2721,Agr1001a` for a pilot.
+Each successful file has a SHA-256 checksum and provenance recorded in
+`journal.jsonl`. Resuming checks saved hashes and skips completed files.
+Use `--retry-failed` to retry recorded failures. The default is six concurrent
+requests; `--workers` changes that limit. No files are uploaded or deleted from
+the original repositories. `summary.json` records totals and unresolved failures.
+
+Validation checks file signatures, XML/JSON parsing, and selected end markers;
+it is not a full musical, PDF-rendering, or audio-decoding comparison. The archive
+preserves the server responses without claiming they match the latest local
+score revision. The data-server phase covers 14 formats/plot variants for each
+current metadata ID; dynamic search, critical notes, and legacy analysis endpoints
+require separate preservation work.
+
+**A structurally valid PDF can be completely blank.** Never interpret a saved
+PDF or an `ok` journal status as a usable score. Run the separate page-rendering
+audit with a Python environment containing `pypdfium2` and `numpy`:
+
+```sh
+python3 tools/audit-archived-pdfs.py
+```
+
+The audit renders every page and records blank documents, documents containing
+blank pages, rendering failures, and visible content that still needs review in
+`pdf-audit-all.json`. `--recovered-only` checks only PDFs downloaded from Stanford.
+Keep blank/error PDFs as preservation evidence, but exclude them from future
+publication. Nonblank pages still require checks for correct and complete music.
+
+For The 1520s Project, use `--project 1520s --phase local` followed by
+`--project 1520s --phase assets`. This reads the sibling `1520s-project-scores`
+and `1520s-project-website` repositories without modifying them, and writes into
+`.legacy-archive/1520s/`. The local phase also preserves MusicXML, Sibelius,
+MuseScore, and text originals. Proprietary/editor source files are copied and
+checksummed, not application-validated. Run the PDF audit with
+`--archive .legacy-archive/1520s`. The JRP-specific remote PDF phase is disabled
+for this project. Neither project's filenames alone establish shared content;
+compare hashes and provenance before deduplicating for R2.
+
+### R2 upload planning
+
+The shared R2 bucket is `digital-library-music`. To prepare local review
+manifests and an eight-file pilot (four files from each project), run:
+
+```sh
+python3 tools/prepare-r2-manifests.py
+python3 -m unittest discover -s tools -p 'test_prepare_r2_manifests.py'
+```
+
+Plans are written to `.legacy-archive/r2-plan/`, including a readable `README.md`,
+separate project manifests, and `pilot.json`. The generator checks every saved
+file against its journal hash and size. Publication holds apply to both paths
+and matching file hashes across projects. PDFs need a current matching page
+audit. Failed downloads, private metadata, and notation-editor/text originals
+are excluded. Each candidate still requires content review; source-to-derivative
+revision matching is unverified. No deduplication is performed.
+
+These are private local proposals, not public website manifests: they contain
+local paths and provenance. The script has no network or upload capability.
+The generated plans default to no upload or publication approval. The eight-file
+private pilot was subsequently uploaded and retrieved successfully; all eight
+SHA-256 checksums and sizes matched. Its result is recorded locally in
+`.legacy-archive/r2-plan/pilot-upload-result.json`. The pilot verification token
+and its temporary local credential file were removed.
+
+#### Bulk uploader
+
+`tools/upload-r2-assets.py` defaults to a local-only dry run. It checks manifests
+against current archive journals, PDF audits and holds, then verifies file hashes:
+
+```sh
+python3 tools/upload-r2-assets.py \
+  --manifest .legacy-archive/r2-plan/jrp-manifest.json \
+  --manifest .legacy-archive/r2-plan/1520s-manifest.json
+python3 -m unittest discover -s tools -p 'test_*r2*.py'
+```
+
+No SDK or credentials are needed for a dry run. `--limit N` checks only the first
+N candidates; `--manifest .legacy-archive/r2-plan/pilot.json` selects the pilot.
+
+Actual transfers require explicit `--execute`, a Python 3.10+ environment with
+`tools/requirements-r2.txt` installed, and `R2_ACCESS_KEY_ID` and
+`R2_SECRET_ACCESS_KEY` supplied securely in the process environment. Do not put
+credentials in Git, manifests, command arguments, or shell history. Use an
+Object Read & Write token restricted to `digital-library-music`. The endpoint
+and bucket are fixed to this project's Cloudflare account. Confirm that the
+bucket is still private before execution: the object-only token cannot verify
+bucket access configuration. `--execute` authorizes private transfers for that
+invocation; it does not change the review status in the manifests.
+
+The uploader downloads and hashes existing objects before skipping them. New
+objects use conditional PUT (`If-None-Match: *`), explicit content types, and
+checksum metadata, then are downloaded and checked. Conflicting content is never
+overwritten. Existing metadata differences are recorded without modifying the
+object, including the pilot's `.krn` files uploaded by the dashboard as
+`application/octet-stream`.
+
+Progress is flushed to `.legacy-archive/r2-plan/upload-journal.jsonl`. Use
+`--workers 1` through `--workers 8` to control concurrency (default 4). The first
+failure stops new transfers; already-running transfers finish and are recorded.
+After resolving it, rerun the same command; remote bytes
+are checked again rather than trusting an earlier journal entry. A local lock
+prevents overlapping uploader runs against the same archive. SDK request retries
+are bounded, with up to three per-file attempts for temporary connection, proxy,
+or service errors. Each retry checks remote bytes before deciding whether to
+write. Interrupted body transfers can also be recovered by rerunning. Files
+larger than 128 MiB require a separate multipart workflow. Changes to archive
+journals or PDF policy files stop a running transfer pass.
+
+The full private transfer is complete: 32,297 objects totaling 12,762,936,996 bytes
+were downloaded and checksum-verified in R2. A final complete bucket listing
+matched the manifests exactly; none of the 112 held PDFs were present. See
+`.legacy-archive/r2-plan/BULK-TRANSFER-RESULT.md` and its JSON counterpart for
+reconciliation details. Public access remains disabled and website asset URLs
+are unchanged. The transfer's temporary local credential file was removed.
+
+The bulk uploader passed a full local dry run and a live ten-file test: eight
+existing objects were verified, two new MEI objects were uploaded and verified,
+then a repeat run verified all ten without uploading again. The test used boto3
+1.42.97; results are in `.legacy-archive/r2-plan/uploader-live-test-result.json`.
+The test environment's Python 3.9 produced an SDK deprecation warning, so use
+Python 3.10+ for ongoing transfers. It cannot create buckets, change public
+access, delete remote objects, or modify website URLs. Bulk execution and public
+publication remain separate decisions. SDK setup follows
+[Cloudflare's boto3 example](https://developers.cloudflare.com/r2/examples/aws/boto3/)
+and [S3 compatibility documentation](https://developers.cloudflare.com/r2/api/s3/api/).
+
 ### data.josqu.in
 
 `data.josqu.in` is the preferred static data host for score-related assets. If
@@ -159,3 +299,7 @@ Existing texts load directly from the scores repository, so editing their
 contents does not require refreshing the index. Work pages show four lines
 below the score, with a See more button for the full text. Original line and
 stanza breaks are preserved, with hanging indents for wrapped lines.
+
+### Cloudflare asset delivery
+
+`asset_base_url` selects the project prefix in the shared R2 bucket. The browser tries Cloudflare first, then the existing data server(s) and repository URLs. `cloudflare-assets.json` maps preserved repository/PDF files to their uploaded object keys; it is a snapshot of the verified September 2026 transfer, not a claim of current source revision. Refresh it when publishing a new archive. Known blank JRP PDFs remain blocked. The identical `asset-delivery.js` helpers in both websites implement bounded request timeouts and reject HTML error responses. The bucket needs read-only GET/HEAD CORS for browser score and download requests. Dynamic legacy CGI services remain separate.
