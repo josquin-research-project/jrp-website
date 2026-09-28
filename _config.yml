@@ -6,6 +6,14 @@ main_subtitle: "Search, browse, and analyze complete scores of polyphonic music,
 
 local: false
 
+# Local asset builds live directly in ../digital-library-build.
+# Never copy build outputs, scratch files, or build tools into the public site.
+exclude:
+  - output
+  - tmp
+  - .legacy-archive
+  - tools
+
 markdown: kramdown
 
 kramdown:

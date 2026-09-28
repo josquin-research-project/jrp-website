@@ -1007,7 +1007,6 @@ function getDownloadLinksHtml(jrpid) {
 	}
 
 	const githubUrl = getGithubHumdrumPageUrl(filename);
-	const legacyBase = JOSQUIN_LEGACY.replace(/\/+$/, "");
 
 	let download = "";
 
@@ -1077,12 +1076,9 @@ function getDownloadLinksHtml(jrpid) {
 	/* ================= RIGHT COLUMN ================= */
 	download += "<div class=\"col\">\n<ul>\n";
 
-	// ❗ NoteArray — legacy only
-	download += `<li><a class="icon-list" target="_blank" href="${legacyBase}/data?a=notearrayraw&f=${jrpid}">NoteArray</a></li>\n`;
-
-	// ❗ Piano roll — legacy viewer
+	// Piano roll viewer
 	if (hasAsset(jrpid, "humdrum")) {
-		download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">JSON Piano Roll</a></li>\n`;
+		download += `<li><a class="icon-list" target="_blank" href="/proll/?id=${jrpid}">Piano roll</a></li>\n`;
 	}
 
 	// ❗ Timemap (used internally; still valuable)

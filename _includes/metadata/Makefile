@@ -17,10 +17,10 @@ all: download
 download: works composers commentary editions availability-monthly
 
 availability:
-	node ../../tools/generate-asset-availability.mjs $(AVAILABILITY_ARGS)
+	node ../../../digital-library-build/tools/generate-asset-availability.mjs $(AVAILABILITY_ARGS)
 
 availability-monthly:
-	node ../../tools/run-asset-availability-monthly.mjs --max-age-days $(AVAILABILITY_MAX_AGE_DAYS) -- $(AVAILABILITY_ARGS)
+	node ../../../digital-library-build/tools/run-asset-availability-monthly.mjs --max-age-days $(AVAILABILITY_MAX_AGE_DAYS) -- $(AVAILABILITY_ARGS)
 
 works:
 	curl -L "https://script.google.com/macros/s/$(SID)/exec?sheet=works" > works.json

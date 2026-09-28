@@ -85,15 +85,15 @@ metadata refreshes.
 
 ### Local preservation archive
 
-`tools/archive-legacy-assets.py` copies local source scores and PDF backups,
+`../digital-library-build/tools/archive-legacy-assets.py` copies local source scores and PDF backups,
 recovers missing PDFs from the legacy site, and downloads static assets from
-the Stanford mirror. Its default destination is `.legacy-archive/`, excluded
+the Stanford mirror. Its default destination is `../digital-library-build/jrp/legacy-archive/`, excluded
 from Git and website publication by its leading dot. Run phases sequentially:
 
 ```sh
-python3 tools/archive-legacy-assets.py --phase local
-python3 tools/archive-legacy-assets.py --phase pdfs
-python3 tools/archive-legacy-assets.py --phase assets
+python3 ../digital-library-build/tools/archive-legacy-assets.py --phase local
+python3 ../digital-library-build/tools/archive-legacy-assets.py --phase pdfs
+python3 ../digital-library-build/tools/archive-legacy-assets.py --phase assets
 ```
 
 Local inputs default to `~/jrp-scores` and `~/jrp-scores-backup/scores`; override
@@ -116,7 +116,7 @@ PDF or an `ok` journal status as a usable score. Run the separate page-rendering
 audit with a Python environment containing `pypdfium2` and `numpy`:
 
 ```sh
-python3 tools/audit-archived-pdfs.py
+python3 ../digital-library-build/tools/audit-archived-pdfs.py
 ```
 
 The audit renders every page and records blank documents, documents containing
@@ -128,10 +128,10 @@ publication. Nonblank pages still require checks for correct and complete music.
 For The 1520s Project, use `--project 1520s --phase local` followed by
 `--project 1520s --phase assets`. This reads the sibling `1520s-project-scores`
 and `1520s-project-website` repositories without modifying them, and writes into
-`.legacy-archive/1520s/`. The local phase also preserves MusicXML, Sibelius,
+`../digital-library-build/jrp/legacy-archive/1520s/`. The local phase also preserves MusicXML, Sibelius,
 MuseScore, and text originals. Proprietary/editor source files are copied and
 checksummed, not application-validated. Run the PDF audit with
-`--archive .legacy-archive/1520s`. The JRP-specific remote PDF phase is disabled
+`--archive ../digital-library-build/jrp/legacy-archive/1520s`. The JRP-specific remote PDF phase is disabled
 for this project. Neither project's filenames alone establish shared content;
 compare hashes and provenance before deduplicating for R2.
 
@@ -141,11 +141,11 @@ The shared R2 bucket is `digital-library-music`. To prepare local review
 manifests and an eight-file pilot (four files from each project), run:
 
 ```sh
-python3 tools/prepare-r2-manifests.py
+python3 ../digital-library-build/tools/prepare-r2-manifests.py
 python3 -m unittest discover -s tools -p 'test_prepare_r2_manifests.py'
 ```
 
-Plans are written to `.legacy-archive/r2-plan/`, including a readable `README.md`,
+Plans are written to `../digital-library-build/jrp/legacy-archive/r2-plan/`, including a readable `README.md`,
 separate project manifests, and `pilot.json`. The generator checks every saved
 file against its journal hash and size. Publication holds apply to both paths
 and matching file hashes across projects. PDFs need a current matching page
@@ -158,26 +158,26 @@ local paths and provenance. The script has no network or upload capability.
 The generated plans default to no upload or publication approval. The eight-file
 private pilot was subsequently uploaded and retrieved successfully; all eight
 SHA-256 checksums and sizes matched. Its result is recorded locally in
-`.legacy-archive/r2-plan/pilot-upload-result.json`. The pilot verification token
+`../digital-library-build/jrp/legacy-archive/r2-plan/pilot-upload-result.json`. The pilot verification token
 and its temporary local credential file were removed.
 
 #### Bulk uploader
 
-`tools/upload-r2-assets.py` defaults to a local-only dry run. It checks manifests
+`../digital-library-build/tools/upload-r2-assets.py` defaults to a local-only dry run. It checks manifests
 against current archive journals, PDF audits and holds, then verifies file hashes:
 
 ```sh
-python3 tools/upload-r2-assets.py \
-  --manifest .legacy-archive/r2-plan/jrp-manifest.json \
-  --manifest .legacy-archive/r2-plan/1520s-manifest.json
+python3 ../digital-library-build/tools/upload-r2-assets.py \
+  --manifest ../digital-library-build/jrp/legacy-archive/r2-plan/jrp-manifest.json \
+  --manifest ../digital-library-build/jrp/legacy-archive/r2-plan/1520s-manifest.json
 python3 -m unittest discover -s tools -p 'test_*r2*.py'
 ```
 
 No SDK or credentials are needed for a dry run. `--limit N` checks only the first
-N candidates; `--manifest .legacy-archive/r2-plan/pilot.json` selects the pilot.
+N candidates; `--manifest ../digital-library-build/jrp/legacy-archive/r2-plan/pilot.json` selects the pilot.
 
 Actual transfers require explicit `--execute`, a Python 3.10+ environment with
-`tools/requirements-r2.txt` installed, and `R2_ACCESS_KEY_ID` and
+`../digital-library-build/tools/requirements-r2.txt` installed, and `R2_ACCESS_KEY_ID` and
 `R2_SECRET_ACCESS_KEY` supplied securely in the process environment. Do not put
 credentials in Git, manifests, command arguments, or shell history. Use an
 Object Read & Write token restricted to `digital-library-music`. The endpoint
@@ -193,7 +193,7 @@ overwritten. Existing metadata differences are recorded without modifying the
 object, including the pilot's `.krn` files uploaded by the dashboard as
 `application/octet-stream`.
 
-Progress is flushed to `.legacy-archive/r2-plan/upload-journal.jsonl`. Use
+Progress is flushed to `../digital-library-build/jrp/legacy-archive/r2-plan/upload-journal.jsonl`. Use
 `--workers 1` through `--workers 8` to control concurrency (default 4). The first
 failure stops new transfers; already-running transfers finish and are recorded.
 After resolving it, rerun the same command; remote bytes
@@ -208,14 +208,14 @@ journals or PDF policy files stop a running transfer pass.
 The full private transfer is complete: 32,297 objects totaling 12,762,936,996 bytes
 were downloaded and checksum-verified in R2. A final complete bucket listing
 matched the manifests exactly; none of the 112 held PDFs were present. See
-`.legacy-archive/r2-plan/BULK-TRANSFER-RESULT.md` and its JSON counterpart for
+`../digital-library-build/jrp/legacy-archive/r2-plan/BULK-TRANSFER-RESULT.md` and its JSON counterpart for
 reconciliation details. Public access remains disabled and website asset URLs
 are unchanged. The transfer's temporary local credential file was removed.
 
 The bulk uploader passed a full local dry run and a live ten-file test: eight
 existing objects were verified, two new MEI objects were uploaded and verified,
 then a repeat run verified all ten without uploading again. The test used boto3
-1.42.97; results are in `.legacy-archive/r2-plan/uploader-live-test-result.json`.
+1.42.97; results are in `../digital-library-build/jrp/legacy-archive/r2-plan/uploader-live-test-result.json`.
 The test environment's Python 3.9 produced an SDK deprecation warning, so use
 Python 3.10+ for ongoing transfers. It cannot create buckets, change public
 access, delete remote objects, or modify website URLs. Bulk execution and public

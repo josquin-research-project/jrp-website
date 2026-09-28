@@ -1,4 +1,4 @@
-// Shared by JRP and The 1520s Project. Keep both copies in sync.
+// JRP asset routing. PDFs use only the verified R2 index.
 function createAssetDelivery(base, index, servers) {
   base = base.replace(/\/$/, '') + '/';
   const reverse = {};
@@ -7,6 +7,12 @@ function createAssetDelivery(base, index, servers) {
   }
   function candidates(source) {
     if (!source || source === '#unavailable-score') return [];
+    // Published JRP PDFs come only from the verified R2 index.
+    const pdfName = source.split('/').pop();
+    if (pdfName.endsWith('.pdf')) {
+      const pdfKey = index.pdfs?.[pdfName];
+      return pdfKey ? [base + pdfKey] : [];
+    }
     source = source.replace(/^https:\/\/github\.com\/([^/]+\/[^/]+)\/(?:tree|blob)\//, 'https://raw.githubusercontent.com/$1/');
     let key = index.sources[source];
     if (source.startsWith(base)) key = source.slice(base.length);

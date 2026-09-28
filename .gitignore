@@ -6,3 +6,6 @@ website-jrp2
 vendor
 .bundle
 .legacy-archive/
+output
+tmp
+.legacy-archive
