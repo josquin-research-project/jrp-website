@@ -3,7 +3,6 @@ let WORKS = {% include metadata/works.json %};
 let COMPOSERS = {% include metadata/composers.json %};
 
 const SEARCH_RESULTS_PAGE_SIZE = 20;
-const SEARCH_ENDPOINT = JRP_SEARCH_API;
 
 let QUERY = null;
 let SEARCHLIST = null;
@@ -87,48 +86,33 @@ function hasMusicalQuery(query) {
   );
 }
 
-function runSearch(query) {
-  showSearchMessage("Searching...");
+let SEARCH_PENDING = false;
+async function runSearch(query) {
+  if (SEARCH_PENDING) return;
+  SEARCH_PENDING = true;
+  const retry = document.getElementById("search-retry");
+  retry.hidden = true;
+  showSearchMessage("Verifying...");
   document.body.style.cursor = "wait";
-
-  const url = buildSearchUrl(query);
-
-  fetch(url, { cache: "no-store" })
-    .then(async function (response) {
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Search is temporarily unavailable.");
-      return result;
-    })
-    .then(function (result) {
-      SEARCHLIST = result;
-      SEARCHLIST.locations = filterLocationsByVoice(SEARCHLIST.locations || [], query.voice);
-      sessionStorage.SEARCHLIST = JSON.stringify(SEARCHLIST);
-      sessionStorage.QUERY = "";
-      SEARCH_RESULTS_PAGE = 1;
-      displaySearchResults(SEARCH_RESULTS_PAGE);
-    })
-    .catch(function (error) {
-      console.error(error);
-      showSearchMessage(error.message || "Search is temporarily unavailable.");
-    })
-    .finally(function () {
-      document.body.style.cursor = "default";
-    });
+  const params = new URLSearchParams({a: "search"});
+  for (const key of ["composer", "genre", "voice"]) addParam(params, key, cleanFilterValue(query[key]));
+  for (const key of ["pitch", "rhythm", "interval"]) addParam(params, key, query[key]);
+  try {
+    SEARCHLIST = await requestJrpSearch(params, document.getElementById("search-verification"), () => showSearchMessage("Searching..."));
+    SEARCHLIST.locations = filterLocationsByVoice(SEARCHLIST.locations || [], query.voice);
+    sessionStorage.SEARCHLIST = JSON.stringify(SEARCHLIST);
+    sessionStorage.QUERY = "";
+    SEARCH_RESULTS_PAGE = 1;
+    displaySearchResults(1);
+  } catch (error) {
+    showSearchMessage(error.message || "Search is temporarily unavailable.");
+    retry.hidden = false;
+  } finally {
+    SEARCH_PENDING = false;
+    document.body.style.cursor = "default";
+  }
 }
 
-function buildSearchUrl(query) {
-  const params = new URLSearchParams();
-  params.set("a", "search");
-
-  addParam(params, "composer", cleanFilterValue(query.composer));
-  addParam(params, "genre", cleanFilterValue(query.genre));
-  addParam(params, "voice", cleanFilterValue(query.voice));
-  addParam(params, "pitch", query.pitch);
-  addParam(params, "rhythm", query.rhythm);
-  addParam(params, "interval", query.interval);
-
-  return SEARCH_ENDPOINT + "?" + params.toString();
-}
 
 function addParam(params, key, value) {
   value = String(value || "").trim();

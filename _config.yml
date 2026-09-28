@@ -33,3 +33,4 @@ ribbon_url: "https://ribbon.stanford.edu"
 # Shared R2 assets; change only this base when JRP gets its own hostname.
 asset_base_url: "https://assets.1520s-project.org/jrp"
 search_api_url: "https://jrp-search-pilot-384288870841.us-central1.run.app/api/search"
+search_turnstile_sitekey: "0x4AAAAAAFF4aPmktwEjBw2b"

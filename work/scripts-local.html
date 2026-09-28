@@ -2373,55 +2373,30 @@ function doSearch() {
 // 	results on the current page.
 //
 
-function doWorkSearch(query) {
-	var pitch     = query.pitch;
-	var interval  = query.interval;
-	var rhythm    = query.rhythm;
-	var composers = query.composer;
-	var genres    = query.genre;
-	var work      = query.jrpid;
-
-	var searchparam = "";
-	if (composers != "") {
-		searchparam += "&composer=" + encodeURIComponent(composers);
-	}
-	if (genres != "") {
-		searchparam += "&genre=" + encodeURIComponent(genres);
-	}
-	if (pitch != "") {
-		searchparam += "&pitch=" + encodeURIComponent(pitch);
-	}
-	if (rhythm != "") {
-		searchparam += "&rhythm=" + encodeURIComponent(rhythm);
-	}
-	if (interval != "") {
-		searchparam += "&interval=" + encodeURIComponent(interval);
-	}
-	if (work != "") {
-		searchparam += "&work=" + encodeURIComponent(work);
-	}
-
-	$("body").css("cursor", "wait");
-
-	var dataloc = JRP_SEARCH_API;
-
-	var request = new XMLHttpRequest();
-	request.open('GET', dataloc + "?a=searchwork" + searchparam, true);
- request.timeout = 125000;
- function searchError(message) {
-   document.body.style.cursor = "default";
-   document.getElementById("work-search-results").textContent = message;
- }
- request.addEventListener('load', function() {
-   try {
-     const result = JSON.parse(this.responseText);
-     if (this.status !== 200) { searchError(result.error || "Search is temporarily unavailable."); return; }
-     displayWorkSearch(this.responseText);
-   } catch (error) { searchError("Search is temporarily unavailable."); }
- });
- request.addEventListener('error', () => searchError("Search is temporarily unavailable."));
- request.addEventListener('timeout', () => searchError("Search took too long; please narrow the query."));
-	request.send();
+let WORK_SEARCH_PENDING = false;
+async function doWorkSearch(query) {
+  if (WORK_SEARCH_PENDING) return;
+  WORK_SEARCH_PENDING = true;
+  const area = document.getElementById("work-search-results");
+  area.textContent = "Verifying...";
+  document.body.style.cursor = "wait";
+  const params = new URLSearchParams({a: "searchwork"});
+  for (const key of ["pitch", "interval", "rhythm", "composer", "genre"]) {
+    if (query[key]) params.set(key, query[key]);
+  }
+  if (query.jrpid) params.set("work", query.jrpid);
+  try {
+    const result = await requestJrpSearch(params, area, () => {
+      // Preserve the widget until the request completes.
+      area.firstChild.textContent = "Searching...";
+    });
+    displayWorkSearch(JSON.stringify(result));
+  } catch (error) {
+    area.textContent = error.message || "Search is temporarily unavailable. Please try again.";
+  } finally {
+    WORK_SEARCH_PENDING = false;
+    document.body.style.cursor = "default";
+  }
 }
 
 

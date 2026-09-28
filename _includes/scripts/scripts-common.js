@@ -18,6 +18,8 @@ const JOSQUIN_DATA_FALLBACK = "{{ site.data_url_fallback | default: 'https://dat
 const JOSQUIN_DATA = ASSET_DELIVERY.base + "score-assets/";
 const JOSQUIN_LEGACY = "https://josquin.stanford.edu"; // old website
 const JRP_SEARCH_API = {{ site.search_api_url | jsonify }};
+const JRP_SEARCH_SITEKEY = {{ site.search_turnstile_sitekey | default: "" | jsonify }};
+{% include scripts/search-verification.js %}
 
 // Backup Variables
 const JOSQUIN_PDF_BACKUP = "https://cdn.jsdelivr.net/gh/benory/jrp-scores-backup@main/"

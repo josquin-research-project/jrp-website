@@ -7,7 +7,7 @@ OUT=ROOT/'output/cloud-run-search'
 SCORES=Path('/Users/benjaminory/jrp-scores')
 if OUT.exists():raise SystemExit('Build context already exists; review it before replacing.')
 OUT.mkdir(parents=True)
-for name in ('Dockerfile','app.py'):shutil.copy2(HERE/name,OUT/name)
+for name in ('Dockerfile','app.py','turnstile.py'):shutil.copy2(HERE/name,OUT/name)
 shutil.copy2(ROOT/'tools/jrp-search-local.py',OUT/'engine.py')
 metadata=OUT/'_includes/metadata';metadata.mkdir(parents=True)
 shutil.copy2(ROOT/'_includes/metadata/works.json',metadata/'works.json')

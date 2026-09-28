@@ -18,6 +18,9 @@ permalink: /search-results/
 
   <p class="grey">Musical search is in beta. PDF links open standard scores without highlighted matches.</p>
 
+  <div id="search-verification" aria-live="polite"></div>
+  <button id="search-retry" class="btn btn-brown" type="button" onclick="runSearch(QUERY)" hidden>Try search again</button>
+
   <div id="query-info" class="search-query-info"></div>
   <div id="match-counts" class="grey"></div>
   <span class="pagination" id="page-list"></span>
