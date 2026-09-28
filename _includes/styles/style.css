@@ -3666,3 +3666,13 @@ table.census th:not(:first-child) {
 	font-style: normal;
 	letter-spacing: normal;
 }
+
+/* Homepage: 5% narrower Quick Browse; enlarge notation without reflow. */
+#home-page #content > aside {
+  flex: 0 0 299.25px;
+  width: 299.25px;
+}
+#home-page .sample-incipit {
+  transform: scale(1.05);
+  transform-origin: center top;
+}
