@@ -23,7 +23,7 @@
 	<td>{{{matchlocations this}}}</td>
 	<td>{{{sectiontitle id}}}</td>
 	<td>{{{listmeasures this}}}</td>
-	<td>{{{matchscore id}}}</td>
+	<td>{{{matchscore this}}}</td>
 </tr>
 {{/each}}
 </tbody>
@@ -54,7 +54,7 @@
 <tr valign="top">
 	<td style="width:100px; text-align:left;">{{{matchlocations this}}}</td>
 	<td style="width:500px; text-align:left;">{{{listmeasures this}}}</td>
-	<td style="text-align:left;">{{{matchscore id}}}</td>
+	<td style="text-align:left;">{{{matchscore this}}}</td>
 </tr>
 {{/each}}
 </tbody>
@@ -81,9 +81,10 @@
 //
 
 
-Handlebars.registerHelper('matchscore', function(jrpid) {
+Handlebars.registerHelper('matchscore', function(entry) {
+ const jrpid = entry.id;
  return '<a class="file" target="_blank" rel="noopener" title="PDF score" href="' + getBestPdfUrl(jrpid, 'no_edit') + '">file</a>' +
- '<a class="file-ed" target="_blank" rel="noopener" title="PDF with editorial accidentals" href="' + getBestPdfUrl(jrpid, 'edit') + '">Ed. file</a>';
+ '<a class="file-ed" target="_blank" rel="noopener" title="PDF with editorial accidentals" href="' + getBestPdfUrl(jrpid, 'edit') + '">Ed. file</a>' + (entry.highlightPdf ? '<br>' + highlightedSearchPdfLink(entry) : '');
 });
 
 

@@ -118,8 +118,6 @@ function renderRangeSection(sectionId) {
   const label = getRangeLabel(sectionId);
   const attackSvg = getJosquinDataUrl(sectionId, "prange-attack");
   const durationSvg = getJosquinDataUrl(sectionId, "prange-duration");
-  const attackFallbacks = ASSET_DELIVERY.candidates(attackSvg).slice(1).concat(getLegacyPlotFallbackList(sectionId, "prange-attack")).join("||");
-  const durationFallbacks = ASSET_DELIVERY.candidates(durationSvg).slice(1).concat(getLegacyPlotFallbackList(sectionId, "prange-duration")).join("||");
 
   let html = "";
   html += "<section data-analysis-entry=\"range\" data-analysis-page=\"range\" data-entry-label=\"" + label.replace(/"/g, "&quot;") + "\" data-required-assets=\"2\" style=\"margin: 0 0 2rem 0; display:none;\">";
@@ -127,11 +125,11 @@ function renderRangeSection(sectionId) {
   html += "<div style=\"display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:0.75rem; align-items:start;\">";
   html += "<a href=\"" + attackSvg + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
   html += "<img src=\"" + attackSvg + "\" alt=\"Pitch range by attack for " + label + "\" style=\"width:100%; height:auto;\"";
-  html += " data-fallbacks=\"" + attackFallbacks + "\" data-fallback-index=\"0\" onload=\"markAnalysisAssetLoaded(this);\" onerror=\"useLegacyPlotFallback(this);\">";
+  html += " onload=\"markAnalysisAssetLoaded(this);\" onerror=\"this.onerror=null;markAnalysisAssetFailure(this);\">";
   html += "</a>";
   html += "<a href=\"" + durationSvg + "\" target=\"_blank\" rel=\"noopener\" style=\"display:block;\">";
   html += "<img src=\"" + durationSvg + "\" alt=\"Pitch range by duration for " + label + "\" style=\"width:100%; height:auto;\"";
-  html += " data-fallbacks=\"" + durationFallbacks + "\" data-fallback-index=\"0\" onload=\"markAnalysisAssetLoaded(this);\" onerror=\"useLegacyPlotFallback(this);\">";
+  html += " onload=\"markAnalysisAssetLoaded(this);\" onerror=\"this.onerror=null;markAnalysisAssetFailure(this);\">";
   html += "</a>";
   html += "</div>";
   html += "</section>";

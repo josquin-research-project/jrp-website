@@ -208,7 +208,7 @@ function printSearchResultRow(entry) {
   output += "<td>" + escapeHtml(composer) + "</td>\n";
   output += "<td><a class=\"text-link\" href=\"/work/?id=" + encodeURIComponent(entry.id) + "\">" + title + "</a></td>\n";
   output += "<td>" + escapeHtml(voices) + "</td>\n";
-  output += "<td>" + formatScoreLinks(entry.id) + "</td>\n";
+  output += "<td>" + formatScoreLinks(entry.id, entry) + "</td>\n";
   output += "<td>" + formatAudioLink(entry.id) + "</td>\n";
   output += "</tr>\n";
   return output;
@@ -281,11 +281,11 @@ function printLocationThumbnail(entry, work) {
   return output;
 }
 
-function formatScoreLinks(jrpid) {
+function formatScoreLinks(jrpid, entry) {
   return "<a class=\"file\" target=\"" + PDFTARGET + "\" title=\"PDF score\" href=\"" +
     getBestPdfUrl(jrpid, "no_edit") + "\">file</a>" +
     "<a class=\"file-ed\" target=\"" + PDFTARGET + "\" title=\"PDF with editorial accidentals\" href=\"" +
-    getBestPdfUrl(jrpid, "edit") + "\">Ed. file</a>";
+    getBestPdfUrl(jrpid, "edit") + "\">Ed. file</a>" + (entry && entry.highlightPdf ? "<br>" + highlightedSearchPdfLink(entry) : "");
 }
 
 function formatAudioLink(jrpid) {

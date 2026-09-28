@@ -13,8 +13,6 @@ var PDFTARGET      = TARGET;					 // Display PDF files in separate tab/window.
 var AUDIO          = null;						 // HTML5 audio interface ID.
 var AUDIOjrpid     = '';  						 // currently playing audio file.
 var AUDIOid        = '';                   // currently playing audio button.
-const JOSQUIN_DATA_PRIMARY = "{{ site.data_url | default: 'https://data.josqu.in' | append: '/' }}";
-const JOSQUIN_DATA_FALLBACK = "{{ site.data_url_fallback | default: 'https://data2.josqu.in' | append: '/' }}";
 const JOSQUIN_DATA = ASSET_DELIVERY.base + "score-assets/";
 const JOSQUIN_LEGACY = "https://josquin.stanford.edu"; // old website
 const JRP_SEARCH_API = {{ site.search_api_url | jsonify }};
@@ -143,20 +141,8 @@ function getJosquinDataUrl(jrpid, type, base) {
   }
 }
 
-function getJosquinDataFallbackUrl(jrpid, type) {
-  return getJosquinDataUrl(jrpid, type, JOSQUIN_DATA_PRIMARY);
-}
-
-function getJosquinMirrorUrl(url) {
-  if (url && url.startsWith(JOSQUIN_DATA)) return JOSQUIN_DATA_PRIMARY + url.slice(JOSQUIN_DATA.length);
-  if (!url || url.indexOf(JOSQUIN_DATA_PRIMARY) !== 0) {
-    return "";
-  }
-  return JOSQUIN_DATA_FALLBACK + url.slice(JOSQUIN_DATA_PRIMARY.length);
-}
-
-async function resolveJosquinAssetUrl(primaryUrl, fallbackUrl) {
-  var candidates = [...new Set(ASSET_DELIVERY.candidates(primaryUrl).concat(fallbackUrl || []))];
+async function resolveJosquinAssetUrl(primaryUrl) {
+  var candidates = [...new Set(ASSET_DELIVERY.candidates(primaryUrl))];
   for (var i=0; i<candidates.length; i++) {
     if (!candidates[i]) {
       continue;
@@ -926,41 +912,6 @@ function audioStoppedAction(event) {
 }
 
 
-
-//////////////////////////////
-//
-// DisplayCriticalNotes --
-//
-
-function DisplayCriticalNotes(jrpid, target) {
-   ReadFileAsync(JOSQUIN_LEGACY + "/data?id=" + jrpid + "&a=critical", function(responseText) {
-		if (responseText.match(/^\s*$/)) {
-			return;
-		}
-	   var element = document.getElementById(target);
-		if (!element) {
-			return;
-		}
-
-		element.innerHTML = responseText;
-
-		var i;
-		var content;
-
-		var h4s = element.querySelectorAll("h2");
-		for (i=0; i<h4s.length; i++) {
-			content = h4s[i].innerHTML;
-		 	h4s[i].outerHTML = '<h4>' + content + '</h4>';
-		}
-
-		var h3s = element.querySelectorAll("h1");
-		for (i=0; i<h3s.length; i++) {
-			content = h3s[i].innerHTML;
-		 	h3s[i].outerHTML = '<h3 class="brown-border">' + content + '</h3>';
-		}
-
-	});
-}
 
 function getBaseWorkId(workId) {
   const match = String(workId || "").match(/^([A-Z][a-z][a-z]\d{4}(?:\.\d+)?)(?:[a-z](?:\.[A-Za-z0-9]+)?|\.[A-Za-z])?$/);

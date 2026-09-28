@@ -903,7 +903,6 @@ function displayWork(jrpid) {
 		search.textContent = "";
 	}
 
-	DisplayCriticalNotes(jrpid, "critical");
 	DisplayScoreCredit(jrpid, "score-credit");
 
 	SECTIONS = null;
@@ -1401,7 +1400,7 @@ function updateScoreToggleButton(jrpid) {
 
 //////////////////////////////
 //
-// loadHumdrumScore -- Try data.josqu.in first, then GitHub raw fallback.
+// loadHumdrumScore -- Try R2 first, then GitHub raw fallback.
 //
 
 async function loadHumdrumScore(jrpid) {
@@ -1618,19 +1617,11 @@ function getHumdrumScoreCandidates(jrpid) {
 		source: "data",
 		url: getJosquinDataUrl(jrpid, "humdrum")
 	});
-	addHumdrumCandidate(candidates, {
-		source: "data-mirror",
-		url: getJosquinDataFallbackUrl(jrpid, "humdrum")
-	});
 
 	if (section.id && section.id !== jrpid) {
 		addHumdrumCandidate(candidates, {
 			source: "data",
 			url: getJosquinDataUrl(section.id, "humdrum")
-		});
-		addHumdrumCandidate(candidates, {
-			source: "data-mirror",
-			url: getJosquinDataFallbackUrl(section.id, "humdrum")
 		});
 	}
 
@@ -2879,14 +2870,13 @@ async function getRangeAsync(jrpid) {
 
 //////////////////////////////
 //
-// getRangePlotHtml -- Work pages use the static range plots on data.josqu.in.
+// getRangePlotHtml -- Work pages use the static range plots on R2.
 //
 
 async function getRangePlotHtml(jrpid) {
 	var plotType = WORKrangedur ? "prange-duration" : "prange-attack";
 	var primaryUrl = getJosquinDataUrl(jrpid, plotType);
-	var fallbackUrl = getJosquinDataFallbackUrl(jrpid, plotType);
-	var url = await resolveJosquinAssetUrl(primaryUrl, fallbackUrl);
+	var url = await resolveJosquinAssetUrl(primaryUrl);
 	if (!url) {
 		return "";
 	}

@@ -223,30 +223,14 @@ publication remain separate decisions. SDK setup follows
 [Cloudflare's boto3 example](https://developers.cloudflare.com/r2/examples/aws/boto3/)
 and [S3 compatibility documentation](https://developers.cloudflare.com/r2/api/s3/api/).
 
-### data.josqu.in
+### R2 score assets
 
-`data.josqu.in` is the preferred static data host for score-related assets. If
-an individual asset is missing or unreachable there, the site retries it from
-the Stanford mirror at `data2.josqu.in`. Both URLs are configured in
-`_config.yml` and used by `_includes/scripts/scripts-common.js`.
-
-The site expects assets such as:
-
-- Humdrum/Kern files: `https://data.josqu.in/Jos2012.krn`
-- MEI files: `https://data.josqu.in/Jos2012.mei`
-- MusicXML files: `https://data.josqu.in/Jos2012.musicxml`
-- MIDI files: `https://data.josqu.in/Jos2012.mid`
-- MP3 files: `https://data.josqu.in/Jos2012.mp3`
-- incipit SVGs: `https://data.josqu.in/Jos2012-incipit.svg`
-- analysis graphics and timemap JSON files.
-
-Work pages try to load Humdrum scores from `data.josqu.in` first. Some code
-also falls back to raw files in the `josquin-research-project` GitHub
-organization when the data host does not have the needed Kern file.
-
-The generated asset-availability manifest checks both `data.josqu.in` and
-`data2.josqu.in`. Its asset flags are true when either data server has the file;
-the browser then tries the primary URL before falling back to the mirror.
+Score assets are served from `https://assets.1520s-project.org/jrp/`.
+Generated formats, audio, incipits, analysis graphics and timemaps live under
+`score-assets/`; PDF routes come from the verified Cloudflare asset index.
+Missing assets do not retry the retired data servers. Work pages retain a
+raw GitHub fallback for the Humdrum source only. Availability checks use R2,
+with the same source-only GitHub fallback.
 
 ### VHV / Verovio
 

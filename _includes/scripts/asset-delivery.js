@@ -1,10 +1,6 @@
 // JRP asset routing. PDFs use only the verified R2 index.
 function createAssetDelivery(base, index, servers) {
   base = base.replace(/\/$/, '') + '/';
-  const reverse = {};
-  for (const [source, key] of Object.entries(index.sources)) {
-    (reverse[key] ||= []).push(source);
-  }
   function candidates(source) {
     if (!source || source === '#unavailable-score') return [];
     // Published JRP PDFs come only from the verified R2 index.
@@ -19,12 +15,11 @@ function createAssetDelivery(base, index, servers) {
     for (const server of servers) {
       if (source.startsWith(server)) key = 'score-assets/' + source.slice(server.length);
     }
+    // Old URLs are accepted only as lookup keys, never as network fallbacks.
     const urls = key ? [base + key] : [];
-    if (key?.startsWith('score-assets/')) {
-      urls.push(...servers.map(server => server + key.slice('score-assets/'.length)));
-    }
-    if (key) urls.push(...(reverse[key] || []));
-    urls.push(source);
+    const legacy = servers.some(server => source.startsWith(server)) ||
+      /^https?:\/\/josquin\.stanford\.edu\/(?:data(?:[/?]|$)|cgi-bin\/)/.test(source);
+    if (!legacy && (!key || /^https:\/\/raw\.githubusercontent\.com\/.*\.krn$/.test(source))) urls.push(source);
     return [...new Set(urls)].filter(url => !index.blocked.includes(url));
   }
   function preferred(url) { return candidates(url)[0] || '#unavailable-score'; }

@@ -92,3 +92,12 @@ async function requestJrpSearch(params, token) {
       throw error;
     } finally { clearTimeout(timer); }
 }
+
+// Signed PDF links are returned only after a verified search.
+function highlightedSearchPdfLink(entry) {
+  if (!entry || typeof entry.highlightPdf !== 'string') return '';
+  const api = new URL(JRP_SEARCH_API);
+  const url = new URL(entry.highlightPdf, api);
+  if (url.origin !== api.origin || url.pathname !== '/api/highlight-pdf' || !url.searchParams.get('ticket')) return '';
+  return '<a target="_blank" rel="noopener noreferrer" href="' + url.href.replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '">Highlighted PDF</a>';
+}
