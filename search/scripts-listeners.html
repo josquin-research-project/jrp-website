@@ -5,6 +5,12 @@ document.addEventListener("DOMContentLoaded", function() {
   buildComposerSelect();
   buildGenreSelect();
   buildVoiceSelect();
+  const query = new URLSearchParams(window.location.search);
+  for (const name of ['pitch', 'interval', 'rhythm', 'composers', 'genres', 'voices']) {
+    const key = {composers:'composer', genres:'genre', voices:'voice'}[name] || name;
+    if (query.has(key)) document.getElementById(name).value = query.get(key);
+  }
+  StylizeFormElements();
   setupSearchOnEnter();
   setupTooltips();
 });

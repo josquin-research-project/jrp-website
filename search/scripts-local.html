@@ -74,6 +74,9 @@ function doSearch() {
     requestTime: new Date().getTime() / 1000
   };
 
+  const token = takeJrpSearchToken();
+  if (!token) return false;
+  storeJrpSearchToken(token);
   sessionStorage.QUERY = JSON.stringify(QUERY);
   window.location.href = "/search-results/";
   return false;

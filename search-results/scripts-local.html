@@ -90,23 +90,29 @@ let SEARCH_PENDING = false;
 async function runSearch(query) {
   if (SEARCH_PENDING) return;
   SEARCH_PENDING = true;
-  const retry = document.getElementById("search-retry");
-  retry.hidden = true;
-  showSearchMessage("Verifying...");
+  const token = consumeJrpSearchToken();
+  const formParams = new URLSearchParams();
+  for (const key of ['composer','genre','voice','pitch','rhythm','interval']) {
+    if (query[key]) formParams.set(key, query[key]);
+  }
+  const formUrl = '/search/?' + formParams.toString();
+  document.getElementById('search-retry').href = formUrl;
+  if (!token) { window.location.replace(formUrl); return; }
+  showSearchMessage("Searching...");
   document.body.style.cursor = "wait";
   const params = new URLSearchParams({a: "search"});
   for (const key of ["composer", "genre", "voice"]) addParam(params, key, cleanFilterValue(query[key]));
   for (const key of ["pitch", "rhythm", "interval"]) addParam(params, key, query[key]);
   try {
-    SEARCHLIST = await requestJrpSearch(params, document.getElementById("search-verification"), () => showSearchMessage("Searching..."));
+    SEARCHLIST = await requestJrpSearch(params, token);
     SEARCHLIST.locations = filterLocationsByVoice(SEARCHLIST.locations || [], query.voice);
     sessionStorage.SEARCHLIST = JSON.stringify(SEARCHLIST);
-    sessionStorage.QUERY = "";
+    sessionStorage.QUERY = JSON.stringify(query);
     SEARCH_RESULTS_PAGE = 1;
     displaySearchResults(1);
   } catch (error) {
     showSearchMessage(error.message || "Search is temporarily unavailable.");
-    retry.hidden = false;
+    document.getElementById("search-retry").hidden = false;
   } finally {
     SEARCH_PENDING = false;
     document.body.style.cursor = "default";

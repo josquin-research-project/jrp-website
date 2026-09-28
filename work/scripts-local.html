@@ -2355,14 +2355,17 @@ function doSearch() {
 			query.jrpid = JRPID.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
 		}
 	}
+	const token = takeJrpSearchToken();
+	if (!token) return;
 	sessionStorage.QUERY = JSON.stringify(query);
 	QUERY = query;
 
 	if (scope === 'repertory') {
+		storeJrpSearchToken(token);
 		window.location.href = "/search-results/";
 		return;
 	} else {
-		doWorkSearch(QUERY);
+		doWorkSearch(QUERY, token);
 	}
 }
 
@@ -2374,11 +2377,11 @@ function doSearch() {
 //
 
 let WORK_SEARCH_PENDING = false;
-async function doWorkSearch(query) {
+async function doWorkSearch(query, token) {
   if (WORK_SEARCH_PENDING) return;
   WORK_SEARCH_PENDING = true;
   const area = document.getElementById("work-search-results");
-  area.textContent = "Verifying...";
+  area.textContent = "Searching...";
   document.body.style.cursor = "wait";
   const params = new URLSearchParams({a: "searchwork"});
   for (const key of ["pitch", "interval", "rhythm", "composer", "genre"]) {
@@ -2386,14 +2389,12 @@ async function doWorkSearch(query) {
   }
   if (query.jrpid) params.set("work", query.jrpid);
   try {
-    const result = await requestJrpSearch(params, area, () => {
-      // Preserve the widget until the request completes.
-      area.firstChild.textContent = "Searching...";
-    });
+    const result = await requestJrpSearch(params, token);
     displayWorkSearch(JSON.stringify(result));
   } catch (error) {
     area.textContent = error.message || "Search is temporarily unavailable. Please try again.";
   } finally {
+    resetJrpSearchVerification();
     WORK_SEARCH_PENDING = false;
     document.body.style.cursor = "default";
   }

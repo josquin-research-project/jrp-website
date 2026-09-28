@@ -22,36 +22,60 @@ function loadJrpTurnstile() {
   return jrpTurnstileLoad;
 }
 
-async function requestJrpSearch(params, container, onVerified) {
-  if (!JRP_SEARCH_SITEKEY) throw new Error('Search verification is temporarily unavailable.');
-  const api = await loadJrpTurnstile();
-  const holder = document.createElement('div');
-  container.appendChild(holder);
-  let widget;
+// Verification belongs to the form, before the visitor submits a search.
+let jrpFormWidget, jrpFormToken = '', jrpFormApi;
+async function initializeJrpSearchVerification() {
+  const holder = document.getElementById('search-verification');
+  if (!holder || jrpFormWidget !== undefined) return;
+  const status = document.getElementById('search-verification-status');
   try {
-    const token = await new Promise((resolve, reject) => {
-      let settled = false;
-      const finish = (error, value) => {
-        if (settled) return;
-        settled = true;
-        clearTimeout(timer);
-        error ? reject(new Error(error)) : resolve(value);
-      };
-      const timer = setTimeout(() => finish('Verification timed out. Please try again.'), 120000);
-      try {
-        widget = api.render(holder, {
-          sitekey: JRP_SEARCH_SITEKEY, action: 'jrp-search',
-          execution: 'execute', appearance: 'interaction-only', size: 'flexible',
-          'response-field': false, retry: 'never',
-          callback: value => finish(null, value),
-          'error-callback': () => { finish('Verification failed. Please try again.'); return true; },
-          'expired-callback': () => finish('Verification expired. Please try again.'),
-          'timeout-callback': () => finish('Verification timed out. Please try again.')
-        });
-        api.execute(widget);
-      } catch (error) { finish('Verification could not start. Please try again.'); }
+    jrpFormApi = await loadJrpTurnstile();
+    jrpFormWidget = jrpFormApi.render(holder, {
+      sitekey: JRP_SEARCH_SITEKEY, action: 'jrp-search',
+      appearance: 'always', size: 'flexible', 'response-field': false,
+      callback: token => { jrpFormToken = token; status.textContent = ''; },
+      'expired-callback': () => { jrpFormToken = ''; status.textContent = 'Verification expired. Please verify again.'; },
+      'error-callback': () => { jrpFormToken = ''; status.textContent = 'Verification failed. Please reload to try again.'; return true; }
     });
-    if (onVerified) onVerified();
+  } catch (error) { status.textContent = error.message; }
+}
+function takeJrpSearchToken() {
+  if (!jrpFormToken) {
+    document.getElementById('search-verification-status').textContent = 'Please complete verification before searching.';
+    return '';
+  }
+  const token = jrpFormToken;
+  jrpFormToken = '';
+  return token;
+}
+function resetJrpSearchVerification() {
+  jrpFormToken = '';
+  if (jrpFormApi && jrpFormWidget !== undefined) jrpFormApi.reset(jrpFormWidget);
+}
+function storeJrpSearchToken(token) {
+  sessionStorage.setItem('jrp-search-verification', JSON.stringify({token, time: Date.now()}));
+}
+function consumeJrpSearchToken() {
+  const raw = sessionStorage.getItem('jrp-search-verification');
+  sessionStorage.removeItem('jrp-search-verification');
+  try {
+    const value = JSON.parse(raw);
+    return value && Date.now() - value.time < 240000 ? value.token : '';
+  } catch (_) { return ''; }
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const holder = document.getElementById('search-verification');
+  if (!holder) return;
+  const observer = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      observer.disconnect();
+      initializeJrpSearchVerification();
+    }
+  });
+  observer.observe(holder);
+});
+async function requestJrpSearch(params, token) {
+  if (!token) throw new Error('Please return to the search form and complete verification.');
     const body = new URLSearchParams(params);
     body.set('cf-turnstile-response', token);
     const controller = new AbortController();
@@ -67,8 +91,4 @@ async function requestJrpSearch(params, container, onVerified) {
       if (error.name === 'AbortError') throw new Error('Search took too long. Please narrow the query.');
       throw error;
     } finally { clearTimeout(timer); }
-  } finally {
-    if (widget !== undefined) api.remove(widget);
-    holder.remove();
-  }
 }
