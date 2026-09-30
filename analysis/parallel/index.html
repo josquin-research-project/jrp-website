@@ -3,12 +3,16 @@ layout: repertoire
 title: Parallel Analysis
 permalink: /analysis/parallel/
 ---
-
-<article style="padding-left:60px;" class="about">
-  <h2 style="padding-top:10px;" class="brown-heading">Parallel fifths, octaves/unisons</h2>
-  <div style="display:block; width:400px;" id="repertory-select" class="form-group"></div>
-  <div id="analysis-content"></div>
-</article>
-
 {% include_relative styles-local.html %}
+<article style="padding-left:60px;padding-right:40px" class="about parallel-page">
+<h2 style="padding-top:10px" class="brown-heading">Parallel fifths, octaves/unisons</h2>
+<div style="display:block;width:400px" id="repertory-select" class="form-group">
+<table><tr valign="baseline"><td><span class="grey text" style="white-space:nowrap">Choose repertory</span></td><td><select style="width:230px" id="composer" aria-label="Choose repertory"></select></td></tr></table>
+</div>
+
+<details class="review-rules"><summary>How matches are counted</summary><p>Two voices move in the same direction into another diatonic fifth or perfect octave/unison, with simultaneous destination attacks. <b>Hard</b>: both initial notes also began together. <b>Soft</b>: initial notes began at different times. Rests and double barlines break the chain; tied continuations are not fresh attacks. Fifth qualities are shown separately. Compound intervals are reduced; repeated notes, contrary motion, and voice crossings are excluded. Ambiguous chords or overlapping subvoices are skipped and reported.</p><p>Pitch spellings include the source's editorial accidentals. Excerpts show the source score without analysis highlighting.</p></details>
+<div class="review-filters" id="review-filters" hidden><label>Work <select id="work"></select></label><label>Attack <select id="attack"><option value="">All</option><option>hard</option><option>soft</option></select></label><label>Interval <select id="kind"><option value="">All</option><option>fifths</option><option>octaves/unisons</option></select></label></div>
+<p id="status">Loading analysis…</p><div id="detail" hidden><b id="detail-title"></b><p id="notes"></p><p><a id="full-score" target="_blank" rel="noopener">Open complete score</a></p><iframe id="score" title="Score excerpt"></iframe></div>
+<table class="results" id="results-table" hidden><thead><tr><th>Work</th><th>Arrival measure</th><th>Voices</th><th>Interval</th><th>Attack</th><th>Score</th></tr></thead><tbody id="rows"></tbody></table>
+</article>
 {% include_relative scripts-local.html %}

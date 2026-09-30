@@ -1,71 +1,34 @@
 <script>
-let WORKS = {% include metadata/works.json %};
-let COMPOSERS = {% include metadata/composers.json %};
-</script>
-<script src="/analysis/scripts-common.js"></script>
-<script>
-function displayContents(repertory) {
-  if (typeof repertory === "undefined" || repertory === null) {
-    repertory = localStorage.ANALYSISrepertory || "";
-  }
-  buildRepertorySelect();
-  $("#repertory").val(repertory);
-  StylizeFormElements();
-  showRepertory(repertory);
+(function(){
+
+let data;const $=id=>document.getElementById(id);
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function options(id,values,first){$(id).innerHTML=(first?'<option value="">'+first+'</option>':'')+values.map(v=>'<option>'+esc(v)+'</option>').join('')}
+function changeComposer(){try{localStorage.ANALYSISrepertory=$('composer').value}catch(e){};options('work',Object.keys(data.works).filter(k=>k.startsWith($('composer').value)),'All works');render()}
+function render(){
+ const chosen=Boolean($('composer').value);
+ $('review-filters').hidden=!chosen;$('results-table').hidden=!chosen;
+ if(!chosen){$('status').textContent="Choose a repertory from the above menu to view its parallel analysis.";$('detail').hidden=true;return;}
+ const works=Object.values(data.works).filter(w=>w.id.startsWith($('composer').value)&&(!$('work').value||w.id.startsWith($('work').value)));
+ let rows=[];for(const w of works)w.hits.forEach((h,i)=>{if((!$('attack').value||h.attack===$('attack').value)&&(!$('kind').value||h.kind===$('kind').value))rows.push({w,h,i})});
+ const omitted=works.reduce((n,w)=>n+(w.unresolvedMatchesSkipped||0),0);
+ $('status').textContent=works.length+(works.length===1?' score · ':' scores · ')+rows.length+(rows.length===1?' match':' matches')+(omitted?' · '+omitted+' candidate matches omitted because their notes could not be identified unambiguously.':'');
+ $('rows').innerHTML=rows.map(({w,h,i})=>'<tr><td><a target="_blank" rel="noopener" href="https://www.josqu.in/work/?id='+encodeURIComponent(w.id)+'">'+esc(w.id)+'</a><br><small>'+esc(w.title)+'</small></td><td>'+esc(h.measure)+'<br><small>+'+esc(h.offset)+' quarter-note units</small></td><td>'+h.voices.map(esc).join(' / ')+'</td><td>'+esc(h.quality)+'</td><td>'+esc(h.attack)+'</td><td><button data-work="'+esc(w.id)+'" data-hit="'+i+'">'+(h.excerpt?'Show score':'View notes')+'</button></td></tr>').join('')||'<tr><td colspan="6">No matches under these rules.</td></tr>';
+ $('detail').hidden=true;
 }
+$('rows').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const w=data.works[b.dataset.work],h=w.hits[Number(b.dataset.hit)];$('detail-title').textContent=w.id+' · '+h.voices.join(' / ')+' · '+h.quality+' · '+h.attack;
+$('notes').textContent=h.voices.map((v,i)=>v+': '+h.notes[i].pitch+' (m. '+h.notes[i].measure+') → '+h.notes[i+2].pitch+' (m. '+h.notes[i+2].measure+')').join('; ');
+$('full-score').href='/work/?id='+encodeURIComponent(w.id);$('score').hidden=!h.excerpt;if(h.excerpt)$('score').src='https://assets.1520s-project.org/'+h.excerpt;$('detail').hidden=false;$('detail').scrollIntoView({behavior:'smooth'});});
+if(window.jQuery){jQuery('#composer').on('change',changeComposer)}else{$('composer').onchange=changeComposer;}for(const id of ['work','attack','kind'])$(id).onchange=render;
+Promise.all(['/analysis/parallel/data.json','/analysis/parallel/composers.json'].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('Analysis unavailable');return r.json()}))).then(([d,composers])=>{
+ if(window.jQuery&&jQuery.fn.select2){for(const id of ['work','attack','kind']){const menu=jQuery('#'+id);if(menu.data('select2'))menu.select2('destroy')}}
+ data=d;const names=Object.fromEntries(composers.map(c=>[c.COMPOSER_ID,c['Display Long']||c.Name.replace(/[{}]/g,'')]));
+ const ids=[...new Set(Object.keys(d.works).map(k=>k.slice(0,3)))].sort((a,b)=>(names[a]||a).localeCompare(names[b]||b));
+ $('composer').innerHTML='<option value="">Select a repertory</option>'+ids.map(id=>'<option value="'+esc(id)+'">'+esc(names[id]||id)+'</option>').join('');
+ const params=new URLSearchParams(location.search);let selected=params.get('repertory')||params.get('composer');try{selected=selected||localStorage.ANALYSISrepertory}catch(e){};if(ids.includes(selected))$('composer').value=selected;
+ if(window.jQuery&&jQuery.fn.select2)jQuery('#composer').select2({minimumResultsForSearch:10});
+ changeComposer();const work=new URLSearchParams(location.search).get('work');if(work&&work.startsWith($('composer').value)&&Object.keys(data.works).some(id=>id.startsWith(work))){if(!data.works[work])$('work').insertAdjacentHTML('afterbegin','<option>'+esc(work)+'</option>');$('work').value=work;render()}
+}).catch(e=>$('status').textContent=e.message);
 
-function showRepertory(repertory) {
-  if (typeof repertory === "undefined" || repertory === null) {
-    repertory = document.getElementById("repertory") ? document.getElementById("repertory").value : "";
-  }
-
-  localStorage.ANALYSISrepertory = repertory || "";
-
-  var maincontent = document.getElementById("analysis-content");
-  if (!maincontent) {
-    return;
-  }
-
-  if (!repertory) {
-    maincontent.innerHTML = "Choose a repertory from the above menu to view its parallel analysis.";
-    return;
-  }
-
-  maincontent.innerHTML = "Processing...";
-  $("body").css("cursor", "wait");
-
-  ReadFileAsync(analysisDataUrl("parallel", repertory), function(responseText) {
-    var target = document.getElementById("analysis-content");
-    if (!target) {
-      return;
-    }
-    target.innerHTML = responseText;
-    $("body").css("cursor", "default");
-
-    $(".d5p5").qtip({
-      content: {
-        text: "diminished fifth\nfollowed by a\nperfect fifth"
-      }
-    });
-
-    $(".p5d5").qtip({
-      content: {
-        text: "perfect fifth\nfollowed by a\ndiminished fifth"
-      }
-    });
-
-    $(".d5d5").qtip({
-      content: {
-        text: "diminished fifth\nfollowed by a\ndiminished fifth"
-      }
-    });
-  });
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-  ensureAnalysisState();
-  loadCgiParameters();
-  window.addEventListener("keydown", analysisKeyDownFunction, false);
-  displayContents(localStorage.ANALYSISrepertory || "");
-});
+})();
 </script>

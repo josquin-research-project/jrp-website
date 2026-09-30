@@ -2575,7 +2575,7 @@ function showRepertoryAnalysis(analysistype) {
 	}
 	localStorage.ANALYSISgenre = "";
 
-	window.location.href = "/analysis/" + analysistype;
+	window.location.href = "/analysis/" + analysistype + (analysistype === "parallel" ? "/?composer=" + encodeURIComponent(repertory) + (scope === "work" ? "&work=" + encodeURIComponent(sessionStorage.WORKjrpid) : "") : "");
 	return false;
 }
 
@@ -2601,7 +2601,7 @@ function showWorkAnalysis(analysistype) {
 	} else if (analysistype === "imitation") {
 		url = "https://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
 	} else if (analysistype === "parallel") {
-		url = "https://josquin.stanford.edu/cgi-bin/jrp?a=parallelnofictapdf&id=" + sectionid;
+		url = "/analysis/parallel/?composer=" + encodeURIComponent(repertory) + "&work=" + encodeURIComponent(sessionStorage.WORKjrpid);
 	} else if (analysistype === "activity") {
 		localStorage.ANALYSISrepertory = repertory;
 		localStorage.ANALYSISgenre		 = "";
