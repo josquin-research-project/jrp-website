@@ -77,12 +77,14 @@ function storeBrowseParameters() {
 //
 
 function displayRandomExample(worklist) {
-	// InitializeWorklistFlat();
+	// Restrict the sample only; browsing and recent additions use the full list.
+	const textedWorks = (worklist || []).filter(
+		work => String(work.Texted || "").trim().toLowerCase() === "yes"
+	);
+	if (!textedWorks.length) return;
 
-	if (!worklist || !worklist.length) return;
-
-	let randomindex = Math.floor(Math.random() * worklist.length);
-	let randomwork  = worklist[randomindex];
+	let randomindex = Math.floor(Math.random() * textedWorks.length);
+	let randomwork  = textedWorks[randomindex];
 	
 	// composer display (supports multiple composers)
 	let composer = getComposerDisplayFromWork(randomwork);
