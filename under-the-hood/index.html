@@ -11,12 +11,13 @@ permalink: /under-the-hood/
 <h2 class="brown-heading">Under the Hood</h2>
 
 <p>
-The Josquin Research Project consists of two primary components:
+The Josquin Research Project combines three components:
 </p>
 
 <ol class="process-steps">
 <li>The website</li>
-<li>The data server and digital score files</li>
+<li>Digital score files and generated assets stored in Cloudflare R2</li>
+<li>A separate musical search service</li>
 </ol>
 
 <p>
@@ -54,56 +55,58 @@ The following JavaScript libraries are used on the website:
 
 <article class="about">
 
-<h3 class="brown-heading">The Data Server</h3>
+<h3 class="brown-heading">Digital Scores and Cloudflare R2</h3>
 
 <p>
-The Josquin Research Project operates a separate <b>data server</b> to manage digital scores, format translations, and prepared analytical data:
+The authoritative musical sources are Humdrum files maintained in the
+<a href="https://github.com/josquin-research-project/jrp-scores">JRP scores repository</a>.
+A shared set of local tools, used by both the Josquin Research Project and
+<a href="https://1520s-project.org/">The 1520s Project</a>, generates the files used for display, playback, downloads, and analysis.
 </p>
 
-<span class="indented-block">
-<a href="https://data.josqu.in">https://data.josqu.in</a>
-</span>
-
-<p>
-The server provides API endpoints for retrieving musical data in various formats, including:
-</p>
+<p>The generated assets include:</p>
 
 <ul>
-<li>Humdrum, the primary archival format used for encoding musical scores</li>
-<li>MEI</li>
-<li>MusicXML</li>
-<li>MIDI</li>
-<li>analytical graphics</li>
+<li>PDF scores, with and without editorial accidentals</li>
+<li>MEI and MusicXML scores</li>
+<li>MIDI and MP3 audio, with timemaps for synchronized playback</li>
+<li>Score incipits, vocal-range plots, and activity plots</li>
 </ul>
 
 <p>
-The authoritative files for all encoded scores are maintained in the repository:
+These files, together with published copies of the Humdrum sources, are stored in
+Cloudflare R2 and served through <a href="https://assets.1520s-project.org/">assets.1520s-project.org</a>.
+The two projects share storage, with separate paths for their assets.
+The hostname serves individual files; it is not a browsable directory.
 </p>
-
-<span class="indented-block">
-<a href="https://github.com/josquin-research-project/jrp-scores">
-https://github.com/josquin-research-project/jrp-scores
-</a>
-</span>
 
 <p>
-The data server automatically imports the contents of this repository into its internal framework.
-The server-side infrastructure that performs this processing is maintained in the repository:
-</p>
-
-<span class="indented-block">
-<a href="https://github.com/craigsapp/jrp-data-server">
-https://github.com/craigsapp/jrp-data-server
-</a>
-</span>
-
-<p>This software handles data indexing, format conversion, API responses, and generation of derived files such as incipits and analytical datasets. Further documentation is available in the repository README file.
+When a score or relevant publication metadata changes, the local build workflow
+generates its assets, validates them, and uploads them to R2. Successfully published
+files are recorded so unchanged scores can be skipped on subsequent runs.
+Visitors retrieve prepared files directly, rather than requesting conversions from
+the Humdrum data. Existing JRP PDFs are retained until a replacement is published.
 </p>
 
 </article>
 
 <hr class="doc-divider">
 
+
+<article class="about">
+
+<h3 class="brown-heading">Musical Search</h3>
+
+<p>
+Pitch, interval, and rhythm searches are handled by a separate service running on
+Google Cloud Run. The website sends search requests to this service and displays
+the results. Cloudflare Turnstile provides a human check before submission to help
+limit automated abuse.
+</p>
+
+</article>
+
+<hr class="doc-divider">
 
 <article class="about">
 
@@ -116,8 +119,8 @@ Each musical work uses a structured identifier, consisting of a three-letter com
 <p>Example incipit file:</p>
 
 <span class="indented-block">
-<a href="https://data.josqu.in/Agr1001a-incipit.svg">
-https://data.josqu.in/Agr1001a-incipit.svg
+<a href="https://assets.1520s-project.org/jrp/score-assets/Agr1001a-incipit.svg">
+https://assets.1520s-project.org/jrp/score-assets/Agr1001a-incipit.svg
 </a>
 </span>
 
@@ -165,14 +168,8 @@ Topics include conventions for voice names, mensural notation, editorial acciden
 <h3 class="brown-heading">Master Metadata Index</h3>
 
 <p>
-Metadata is maintained in a master spreadsheet:
+Metadata is maintained in a <a href="https://docs.google.com/spreadsheets/d/1KBXyuyE4pfJ61UtQBEfEwLp-vjoyFO_fbUU03DOsiGU/edit">master spreadsheet</a>.
 </p>
-
-<span class="indented-block">
-<a href="https://bit.ly/renaissance-metadata">
-https://bit.ly/renaissance-metadata
-</a>
-</span>
 
 <p>This spreadsheet catalogues information such as composers, work titles, manuscript sources, catalogue numbers, work scoring, and editorial metadata. A Google Apps Script converts the spreadsheet into JSON data used by the website:
 </p>
@@ -184,7 +181,7 @@ https://script.google.com/macros/s/AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1
 </span>
 
 <p>
-The website loads this JSON file dynamically to power metadata search, composer browsing, work listings, and catalog navigation. This setup enables the project to maintain one authoritative metadata source.
+The update workflow retrieves this data and saves local JSON snapshots with the website. These snapshots power metadata search, composer browsing, work listings, and catalog navigation, while the spreadsheet remains the authoritative metadata source.
 </p>
 
 </article>
