@@ -57,7 +57,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Agr1004c": {
     "sha256": "812916b56d2746866292fffecab7569d0e276bd0f9b9edfc035567ce3aaad122",
@@ -115,7 +115,7 @@
       "Contratenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ano0207a": {
     "sha256": "d099af79574e57926de484a58bdf71fe8df480eca44e20934120ec4daf9c0294",
@@ -499,7 +499,7 @@
       "Contratenor",
       "Tenor"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ano3026": {
     "sha256": "7b5535ce28a8e30f11df2751772098cc3eb6d26519eacfa79b32ed647934bcdd",
@@ -689,7 +689,7 @@
       "Tenor",
       "Contra"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ano3104": {
     "sha256": "64053a8abf34fe01e3de492a87c6a9b3d4a999cd92ee8de1d0162217f64cb73a",
@@ -878,7 +878,7 @@
       "Tenor",
       "Contra"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ano3155": {
     "sha256": "81d61617f7051168f4b8014c3fdf4c9c3711661f7cbb4517902cab1813c7458f",
@@ -923,7 +923,7 @@
       "Tenor",
       "Contra"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ano3230": {
     "sha256": "b56b3e1a6c720792e3279787b2d80062317e15bb663697312f1d01d4ce4f4b5b",
@@ -1154,7 +1154,7 @@
       "Tenor",
       "Contratenor Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Bus1001b": {
     "sha256": "b454be4152c6cfd06714bb138ba53c1f734770a29188e11ac430c5d3d16fb054",
@@ -1164,7 +1164,7 @@
       "Tenor",
       "Contratenor Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Bus1001c": {
     "sha256": "a5687d30aebb1c9a711af937c3ba65c72cb0487f4c09d96c83016e486d814869",
@@ -1298,7 +1298,7 @@
       "Tenor",
       "Contratenor"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Bus3009": {
     "sha256": "3eab73f2109ab1ac4dfdd19d547e578fea3db4c549a5c7348403f6f34c8dc951",
@@ -1529,7 +1529,7 @@
       "Tenor",
       "Contra"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Bus3038": {
     "sha256": "158b28f96c88de853b812270b666c3bfc30f476f9bfe16523b66a9bbf119f8a3",
@@ -1830,7 +1830,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Com1002d": {
     "sha256": "3144a4e651474cd493aa2c494c4e12d6f878eecee46088cea6cd3a9562def838",
@@ -1850,7 +1850,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Com2002a": {
     "sha256": "bd41791b500fec6e762707250c490a3ae3686be618b09cf7ecc4a7bc92873f96",
@@ -1860,7 +1860,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Com3001": {
     "sha256": "776e0334c1996d74786ca1f3df94d07868f46044826f5c7d4b6596e7780f1bfb",
@@ -2173,7 +2173,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Duf1002b": {
     "sha256": "2f759bafc6b8827afdced63e246447ff0401c3b058c08bf146b832323f564d8f",
@@ -2223,7 +2223,7 @@
       "Tenor1",
       "Tenor2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Duf1003b": {
     "sha256": "d0d3aacd47c1bfae390e5be5d5fcffe355f0c85918b86d213fb6d4a018e0286a",
@@ -2263,7 +2263,7 @@
       "Tenor1",
       "Tenor2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Duf1004a": {
     "sha256": "d412c8407b4e1b57155d8eb09e4ad721b5cbd2a031f8aa7ee3d2ca1c864fbfc7",
@@ -2313,7 +2313,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Duf1005a": {
     "sha256": "6de4a35dc4016c95f54b2664481d993fedba87eb0403194e879ff412b51280f5",
@@ -2399,7 +2399,7 @@
       "Tenor2",
       "Tenor1"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Duf3007.2": {
     "sha256": "50ff8956c5bf7e15349537fb8dafe3fa5c25da23d5fc9e2972d0e175d47b0338",
@@ -2480,7 +2480,7 @@
       "Contratenor",
       "Tenor"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Duf3069": {
     "sha256": "b13bed6e9fdd29466a7b918c019174cc138115dd6c9bbed7dc09bb5c1531010e",
@@ -2684,7 +2684,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Gas0103a": {
     "sha256": "30b435f838e0a55839b3fd9496e8d8f60348de5b0dce7de9f811185ae14b8b53",
@@ -2964,7 +2964,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Gas0204d": {
     "sha256": "a88b4104e1163c41b81115b7b2d2a28641f615fbd6b21071bc9ce32bf71710d2",
@@ -3721,7 +3721,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jap3009": {
     "sha256": "5ad440426d2511cb5106e95539249e5f176c4dc7a05ed85a449fb16ce161c094",
@@ -3780,7 +3780,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jap3015": {
     "sha256": "6ba1c44847986d10f21b5b9839250688d882a2c23bce35415865cb61c46f689e",
@@ -4146,7 +4146,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0403a": {
     "sha256": "8b761de5c23ccce1bd545c098f93733f3930bbce54a11f0ff928a4eda7b9394d",
@@ -4416,7 +4416,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0501d": {
     "sha256": "30cad5596ffc83d54ede7663b0b668f4fb1b44066f596e8db7d761224c6cf29e",
@@ -4456,7 +4456,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0502c": {
     "sha256": "78678945a50160c7d0f57aa5560658224fe8cc4fab8b7db72d0e85b5c7672f44",
@@ -4466,7 +4466,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0502d": {
     "sha256": "fa0b5191c8d4fbe4e8b583b6c98ab447c0ad1c0106cb1df4e9346e2c65bb8d42",
@@ -4598,7 +4598,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0603b": {
     "sha256": "f6f0a82784b08f92808c608107e877a7254b5471f7a350ad004f05fb5e6044d3",
@@ -4608,7 +4608,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0603c": {
     "sha256": "f0549a66f12bd3c1c290e38afc7ff6c40a2b94209718ba907553643d4b01fa08",
@@ -4618,7 +4618,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0603d": {
     "sha256": "8cf249add4ea3450debd96a60d081890ba129a9f81ebd6bf1df88b95eaaa4706",
@@ -4631,7 +4631,7 @@
       "Bassus",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0603e": {
     "sha256": "0054a94ebecd2f8ae322d1994a0cfc7fd102f66e6a3591876fc2474f3e3dc7bd",
@@ -4741,7 +4741,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0703a": {
     "sha256": "f4b38ac417c5284d09b3c4bde821ca5f5e4f6e92a4b2d257bc63fffe1b478e39",
@@ -4831,7 +4831,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0801d": {
     "sha256": "b5907ab7eb6ca756002cce64b273ae4729fa5fc71bfa214ec99c11ee8826d1c2",
@@ -4861,7 +4861,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0802b": {
     "sha256": "bfb7297c6363b7659bb0107d44aea3a22fa932a58cf7302616cc0387ef9b3695",
@@ -4931,7 +4931,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0901d": {
     "sha256": "51a76a74e8e84053f4729870879275bb7c16c9b060381210a03f0fbfb1aa4e9b",
@@ -5013,7 +5013,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0903c": {
     "sha256": "e38e509bd57a4210bded9e97ad26d6bb82aa0d008f3673379d9fbde6044d895f",
@@ -5023,7 +5023,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0903d": {
     "sha256": "1a44e632bb29e762bb3a40025a4cf35e315f4b1e8e1e4d9f0635afba0e96ef82",
@@ -5043,7 +5043,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0904a": {
     "sha256": "4a34ab999276131c65255eda9a09e85b3a1d7c68827960a3d632e0d6659e423c",
@@ -5445,7 +5445,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1202e": {
     "sha256": "214d74d82f9a097e115b3b059d25c5e77629a802aaaf600bc89ff98afb9b2f47",
@@ -5465,7 +5465,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1302": {
     "sha256": "44a6034fdd627507881648f1554bbf5b7c6e2b9732946bed2e8846c84fc8b4c2",
@@ -5496,7 +5496,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1305": {
     "sha256": "aa853fadf6addc7da1cf685e079626b522570c96d8628ba390ff2c8baba806bb",
@@ -5526,7 +5526,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1308": {
     "sha256": "8ad6d1615fae6e781909fee7c634eb6b85e52eb589da3e6a44ed111f33030537",
@@ -5774,7 +5774,7 @@
       "Vagans",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1505": {
     "sha256": "72d18312e3c025550912dfc501c51c868555e99f4c3d161533bd887ff6aed218",
@@ -5970,7 +5970,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1611": {
     "sha256": "365f4730cac148126e212c4ba10324acbc1ae2ad5b182bbeda8dc9c3f13a5a7f",
@@ -6030,7 +6030,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1705": {
     "sha256": "6412a0e751d66048d28625b7583e14b45418309baab4e526a42fd00ad6b1a1cd",
@@ -6208,7 +6208,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1808": {
     "sha256": "181c924a553502417c1fa84e5f10db682aab629974f5a57ebc14ae115619e0f0",
@@ -6285,7 +6285,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos1901": {
     "sha256": "4301557939000304c7af762deaa9eb971a95b2614deecbc757710ff181fc8184",
@@ -6589,7 +6589,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2102": {
     "sha256": "a1fcb985385e55fb079cb02c735cbd146bdf96828733fb256899c8baa71f7b3e",
@@ -6630,7 +6630,7 @@
       "Bassus1",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2105.2": {
     "sha256": "4f305995a38f4e9873f265e890a5be5bbb511126b201f10d5e0c30325a4b2ac1",
@@ -6642,7 +6642,7 @@
       "Bassus1",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2106": {
     "sha256": "875bdd0921e1ae8aec1e5aa0fa625eff4d74ab370fac4cec7da9ee9ae568a064",
@@ -6870,7 +6870,7 @@
       "Bassus1",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2312": {
     "sha256": "b1ff6e62bfaaa06613d8d63f89805f6fd21ca97bd208284ed34b99d1c41ce3b1",
@@ -7132,7 +7132,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2511": {
     "sha256": "fed8de79f309cdf9a7bd1f90a1d36ae0a24def077403cd7e161cf88c7fd20bd1",
@@ -7236,7 +7236,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2607": {
     "sha256": "4d9cbf3a45d4410d5140cf7d9ee4fca07aadeb8cb2e307ad3e60fbf3737e21fb",
@@ -7257,7 +7257,7 @@
       "Tenor",
       "Baryphonus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2609": {
     "sha256": "0ec155afeea535e97bf89203aae6275cb18de52c275ef156ef13b104b15ded1d",
@@ -7333,7 +7333,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2616": {
     "sha256": "8dc5dd6adfe3ebfc717bddf3e78cb78ab06cfb675a24ea765d688cdafef371e5",
@@ -7564,7 +7564,7 @@
       "Tenor",
       "Contra"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2723": {
     "sha256": "0093881db18bf4a444cce6f108b49ff9170804c33eb2ac7d062146b3db74fb86",
@@ -7970,7 +7970,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos2829": {
     "sha256": "0a02426cc856d750f24fa9e5e4f65e03a72204f11b8d5592ad1e713a82198776",
@@ -8555,7 +8555,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos9902": {
     "sha256": "1ef90083902ae06922878485497de656eb39004b9fa05a56591b9e0662a0361e",
@@ -8890,7 +8890,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1004b": {
     "sha256": "cab53009d8c8f7850a5c0235f0722c486860a98505de8310c69e78765f1e23d5",
@@ -8900,7 +8900,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1004c": {
     "sha256": "a0577228ef934b7aa39d04ac7608c4b83986e208278d133bbde7af3b7ecc5573",
@@ -8910,7 +8910,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1004d": {
     "sha256": "117e6a50c6d84c2172376d19ea65bc10d398ef79859ff5a6e5bb30fff274eaba",
@@ -8920,7 +8920,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1004e": {
     "sha256": "51b39c5246ff5a2d59e3e1c49c41eeb88ddc1f36848f3caf99fb329829fb3055",
@@ -8930,7 +8930,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1006a": {
     "sha256": "43b83166b8dc9b09438c4d09eb18627dae6a76cb3e4817302e34fba204233d29",
@@ -9015,7 +9015,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1009b": {
     "sha256": "c5e96136d3fb57c1668bde1eee11f2542210dec9764bc296709fd1fd69f6d546",
@@ -9025,7 +9025,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1009c": {
     "sha256": "0f67e5e0e100f01df8adca5b531eb61b847b13d4655dc489c99a26f2518e59a1",
@@ -9035,7 +9035,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1009d": {
     "sha256": "39932afa3a19c25f03aa4fd745ea49bb07ae730b581902df1857e18dc856397b",
@@ -9045,7 +9045,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1009e": {
     "sha256": "c4df87e48a2ad85bf580fa6846db069a9b8e8fb51dea0273390b1d0f2fbc0318",
@@ -9095,7 +9095,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar1010e": {
     "sha256": "13b691312993a7c9eaf2eb8d8ed6fb530a534ce820b413c302e3befa8cdd7420",
@@ -9651,7 +9651,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Mar3001": {
     "sha256": "3eed064d6a74be107b5a5a04fce6533d91fc50f9ca420e720e03ef62a6eb46ed",
@@ -10096,7 +10096,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Obr2018": {
     "sha256": "29ce45ec0fb0280bf9335441f0608ce4c0ea11eedff3751636c1694e0d67538c",
@@ -10106,7 +10106,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Obr2028": {
     "sha256": "9f7d8da9f14e7452f1be425496d3c2f684a5496b67d7d2c7eee04a360542aaaf",
@@ -10410,7 +10410,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1005c": {
     "sha256": "4cfe2d011d14704240f0fd944f553e629dd6ffe33d4a441326c90379bec8a9c8",
@@ -10430,7 +10430,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1005e": {
     "sha256": "5b101924e186dbe97436e806a6a6e928d9df33c210125ef4d9e09d50486c51b6",
@@ -10533,7 +10533,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1008b": {
     "sha256": "f15a3446925dc1b5a3d3931072a336b6715e2040d74f66a9ad368a7cce0398ac",
@@ -10543,7 +10543,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1008c": {
     "sha256": "b8d86ddbb60a2bab3b96237e625bb1140ee735cf851252a1dc81cd166c3cee79",
@@ -10553,7 +10553,7 @@
       "Bassus",
       "Tenor"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1008d": {
     "sha256": "a96eef2e80fa132801e6ea28cbdad359a8ea5f876ab4c7ef6215c62e4b0a2ad2",
@@ -10563,7 +10563,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1008e": {
     "sha256": "4f48e133fdaee65bd7d186a4141a6f9a4fae2a25826892312e7329bb5d6949b3",
@@ -10573,7 +10573,7 @@
       "Bassus",
       "Tenor"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1009a": {
     "sha256": "e3160d90141aed472fccae71d5e381f14c0c7dba4e048b8ea571c67fb74c30fa",
@@ -10791,7 +10791,7 @@
       "Tenor",
       "Contrabassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke1014": {
     "sha256": "39846b5789e47a9d5ef56523cd3c05e18e610984cc78d1b4e721098fd6ea4801",
@@ -10906,7 +10906,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke3007.2": {
     "sha256": "4c52ea11047af590fe0717b39d9024852311d4ff22edb9c94015e0bcc5fd3d54",
@@ -10916,7 +10916,7 @@
       "Contra",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke3008": {
     "sha256": "11114f291763574c5f3b7fc1456ef21523ff247cadfaf414ac064b06a0550956",
@@ -10952,7 +10952,7 @@
       "Tenor",
       "Contra"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Oke3012": {
     "sha256": "f6495f4b446658074c786286cb13385a6d6fdeb4324c898d96c3d4459cf06d73",
@@ -11272,7 +11272,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ort1005d": {
     "sha256": "f858bed607b9d2aaf9c32825e626d0d8e2235bb3b1f0314efeb7656914768975",
@@ -11322,7 +11322,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ort1006d": {
     "sha256": "7681bf182780dcf4bbe605ea20f47b12ceb726870c83d7f83b3742aee5347e01",
@@ -11362,7 +11362,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Ort1009": {
     "sha256": "50443c7d48947f1d7e16e0426995c222e9577f23e2e20178d50865e75c6b30ce",
@@ -11684,7 +11684,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1002d": {
     "sha256": "168e6ef19dc9a2a9204da519ec1e5377d758d327ff6a7d1ab0e870b583e274a9",
@@ -11694,7 +11694,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1002e": {
     "sha256": "9e37154e6b92addde47fc8ec9c8fa41eeb20775b28fec3c2d113c12b95c01dce",
@@ -11785,7 +11785,7 @@
       "Tenor2",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1004d": {
     "sha256": "3ada9f8ebb7f795d27002529d43a9f3f63309957f2739edd2aabb298af0586a2",
@@ -11841,7 +11841,7 @@
       "Bassus1",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1005d": {
     "sha256": "972ce9b9e0b7a67cb533c9ec8030bc2f71d045e5003f420f4ba54d7f9e530c2e",
@@ -12065,7 +12065,7 @@
       "Tenor2",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1009d": {
     "sha256": "d8a30dea746f03092fc9efaff35c4c4b1e03c25a964d8ed9756b086e98641a60",
@@ -12109,7 +12109,7 @@
       "Tenor2",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1011c": {
     "sha256": "0ba7f63a0d42831403c8c507458dfd8871575f4c642627a8041388a97e50fa22",
@@ -12264,7 +12264,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1014c": {
     "sha256": "92f54b84ee8968a362417cfb8d7e72f8b06c27171511ecadc922e71f0146a3f8",
@@ -12369,7 +12369,7 @@
       "Bassus1",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1016c": {
     "sha256": "a29a5c831e73df2dd7878dbe66c9729cb2f979dac1b7dec3eb96f9fd913b0ce3",
@@ -12380,7 +12380,7 @@
       "Bassus1",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1016d": {
     "sha256": "e1af681c8b4662f25db98ccd2afb4296cf85385c9262efdf15b4f20073b7c96a",
@@ -12690,7 +12690,7 @@
       "Tenor2",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1023d": {
     "sha256": "32a3cc12832fa767897dde65ee6fe784e188e8dfb6cb080d7a87bdba222aa493",
@@ -12722,7 +12722,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1024b": {
     "sha256": "5e1aa3a66c3a9955a10f02c20f4fe7e4a726171dc153bcf9d728968b083ea96f",
@@ -12743,7 +12743,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1024d": {
     "sha256": "6bc8fb8d9d47944d048392dd35bcb1189fa3e6609206b87c459056d64f92527d",
@@ -12754,7 +12754,7 @@
       "Tenor2",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1024e": {
     "sha256": "e4819b51b2bb3500f90d34acc31bc8ebe80d23db7dde347ffdfdb704e7aebfb9",
@@ -12786,7 +12786,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1024g.a": {
     "sha256": "3b4bfe7020781c0b3c145d480b3fd5a4c5451888c47eccad975f960448f0efd7",
@@ -12796,7 +12796,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1024g.b": {
     "sha256": "6b9668a16f3775a703655019e5c5b94d285cee5aa4278ea3b4c7bd0aa21d5a70",
@@ -13046,7 +13046,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1030e": {
     "sha256": "8d903e40f3056f0ea1f07d45bc8f015407e46d0709eadc537374767815875092",
@@ -13116,7 +13116,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1033": {
     "sha256": "43779434520fdab25d1c6ee64c8157393ec3b6f4f2e16a8dc1650e14e3f97511",
@@ -13126,7 +13126,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1034": {
     "sha256": "7ff8d2b9ae047dbb1df1bfbe8c5cb3dae8359e549bd0b8dfa9f3dbb99aee94b2",
@@ -13211,7 +13211,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue2001": {
     "sha256": "261d40f8a52605e908745e92569bc943bab5dd6289cf7776e507e5df88e775c5",
@@ -13251,7 +13251,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue2005": {
     "sha256": "8d2d7d95dd845dff10cff98dc94c6e70d7716223facd8fbf018ff97cd4b19287",
@@ -13314,7 +13314,7 @@
       "Quintus",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue2014": {
     "sha256": "1947f7db8aff0e9d784d49425b494cbda3531ae84a569b76c194384610f74f26",
@@ -13624,7 +13624,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Tin1001b": {
     "sha256": "381fc6f7ba08e911348fc803dbf386eca606abac3302da974cb53908767bb7d9",
@@ -13654,7 +13654,7 @@
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Tin1001e": {
     "sha256": "7b8d6d8a9daa61ce35f4d77145986ac837bce30c23ab2d2744ef1a5238e00c2c",
