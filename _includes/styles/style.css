@@ -2752,6 +2752,45 @@ table.search-results-table span.location span.point.point-green {
 	font-size: 14px;
 	padding: 72px 0 24px 77px;
 }
+#primary-content.work-content .work-score-analysis-controls {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	width: fit-content;
+	gap: 4px;
+	padding: 6px 9px;
+	border-radius: 3px;
+	background: #f8e9df;
+	margin: -7px 0 8px;
+	font-family: "Lato";
+	font-size: 14px;
+}
+#primary-content.work-content .work-score-analysis-label {
+	color: #9d4728;
+	font-size: 14px;
+}
+#primary-content.work-content .work-score-analysis-clear {
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: #0068d6;
+	font: inherit;
+	cursor: pointer;
+}
+#primary-content.work-content .work-score-analysis-clear:hover {
+	text-decoration: underline;
+}
+#primary-content.work-content [data-score-analysis][aria-pressed="true"] {
+	outline: 2px solid #9d4728;
+	outline-offset: 2px;
+}
+#primary-content.work-content .work-score-render-status {
+	margin: 12px 0;
+	font-family: "Lato";
+	font-size: 14px;
+	color: #97897d;
+}
 #primary-content.work-content .work-score-status--error {
 	color: #c86843;
 }

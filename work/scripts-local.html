@@ -93,6 +93,12 @@ if (sessionStorage.WORKallincipits == "true") {
 }
 
 var WORKscoreExpanded = false;
+var WORKscoreAnalysis = "";
+var WORKscoreAnalysisFilters = {
+	dissonant: {label: "Dissonant", command: "dissonant --color"},
+	cadence: {label: "Cadences", command: "extract -ikern | dissonant -V"},
+	imitation: {label: "Imitation", command: "extract -ikern | imitation -q"}
+};
 var WORKscoreCurrentId = "";
 var WORKscoreRequestToken = 0;
 
@@ -1190,7 +1196,7 @@ function displayHumdrumIncipit(jrpid, sections) {
 	var completeWork = getCompleteHumdrumWork(jrpid);
 
 	if (WORKscoreCurrentId !== jrpid) {
-		WORKscoreExpanded = false;
+		WORKscoreExpanded = Boolean(WORKscoreAnalysis);
 		WORKscoreCurrentId = jrpid;
 	}
 
@@ -1215,7 +1221,23 @@ function displayHumdrumIncipit(jrpid, sections) {
 	status.textContent = "Loading score...";
 	panel.appendChild(status);
 
+	if (WORKscoreAnalysis) {
+		var analysisControls = document.createElement("div");
+		analysisControls.className = "work-score-analysis-controls";
+		var analysisLabel = document.createElement("div");
+		analysisLabel.className = "work-score-analysis-label";
+		analysisLabel.textContent = WORKscoreAnalysisFilters[WORKscoreAnalysis].label + " analysis";
+		analysisControls.appendChild(analysisLabel);
+		var clearButton = document.createElement("button");
+		clearButton.type = "button";
+		clearButton.className = "work-view-toggle work-score-analysis-clear";
+		clearButton.textContent = "Show ordinary score";
+		clearButton.onclick = function() { setWorkScoreAnalysis(""); };
+		analysisControls.appendChild(clearButton);
+		area.appendChild(analysisControls);
+	}
 	area.appendChild(panel);
+	updateWorkAnalysisButtons();
 	updateScoreToggleButton(jrpid);
 
 	if (completeWork && WORKscoreExpanded) {
@@ -1260,7 +1282,7 @@ function displayHumdrumIncipit(jrpid, sections) {
 		}
 		status.textContent = "";
 		status.style.display = "none";
-		script.textContent = score.text;
+		script.textContent = getWorkAnalysisScore(score.text);
 		renderHumdrumScore(sourceId);
 	}).catch(function(error) {
 		if (token !== WORKscoreRequestToken) {
@@ -1332,11 +1354,30 @@ function clearHumdrumScoreEntries(sourcePrefix) {
 //
 
 function renderHumdrumScore(sourceId) {
-	if (typeof displayHumdrum !== "function") {
-		console.error("Humdrum notation plugin is not loaded.");
-		return;
+	var source = document.getElementById(sourceId);
+	if (!source) return;
+	var token = WORKscoreRequestToken;
+	var renderStatus = document.createElement("div");
+	renderStatus.className = "work-score-render-status";
+	renderStatus.setAttribute("role", "status");
+	renderStatus.textContent = WORKscoreAnalysis ? "Preparing analysis…" : "Rendering score…";
+	source.parentNode.insertBefore(renderStatus, source);
+
+	function failed() {
+		if (token !== WORKscoreRequestToken || !renderStatus.isConnected) return;
+		renderStatus.hidden = false;
+		renderStatus.className = "work-score-render-status work-score-status--error";
+		renderStatus.textContent = WORKscoreAnalysis
+			? "Analysis could not be rendered. Choose Show ordinary score to return to the score."
+			: "Score could not be rendered. Please try again.";
+		resetHeight();
 	}
 
+	if (typeof displayHumdrum !== "function") {
+		failed();
+		return;
+	}
+	var renderTimeout = setTimeout(failed, 30000);
 	var options = {
 		source: sourceId,
 		scale: 35,
@@ -1349,12 +1390,28 @@ function renderHumdrumScore(sourceId) {
 		spacingSystem: WORKscoreExpanded ? 10 : 4,
 		mnumInterval: 5,
 		autoResize: "true",
-		postFunction: resetHeight
+		postFunction: function() {
+			clearTimeout(renderTimeout);
+			if (token !== WORKscoreRequestToken) return;
+			renderStatus.hidden = true;
+			resetHeight();
+		},
+		postFunctionHumdrum: function() {
+			var output = document.getElementById(sourceId + "-svg");
+			if (token === WORKscoreRequestToken && (!output || !output.querySelector("svg"))) {
+				clearTimeout(renderTimeout);
+				failed();
+			}
+		}
 	};
-
-	displayHumdrum(options);
+	try {
+		displayHumdrum(options);
+	} catch (error) {
+		clearTimeout(renderTimeout);
+		failed();
+		console.error("Unable to render work score", error);
+	}
 }
-
 
 
 //////////////////////////////
@@ -1576,7 +1633,7 @@ function renderCompleteHumdrumScore(panel, entries, work) {
 		var script = document.createElement("script");
 		script.type = "text/x-humdrum";
 		script.id = sourceId;
-		script.textContent = entry.score.text;
+		script.textContent = getWorkAnalysisScore(entry.score.text);
 		movement.appendChild(script);
 
 		panel.appendChild(movement);
@@ -2586,6 +2643,31 @@ function showRepertoryAnalysis(analysistype) {
 // showWorkAnalysis --
 //
 
+function getWorkAnalysisScore(text) {
+	var filter = WORKscoreAnalysisFilters[WORKscoreAnalysis];
+	return filter ? text + "\n!!!filter: " + filter.command + "\n" : text;
+}
+
+function setWorkScoreAnalysis(type) {
+	var analysisToggle = document.getElementById("work-analysis-toggle");
+	if (type && analysisToggle && analysisToggle.getAttribute("aria-expanded") === "true") {
+		analysisToggle.click();
+	}
+	WORKscoreAnalysis = type;
+	WORKscoreExpanded = true;
+	displayHumdrumIncipit(sessionStorage.WORKjrpid, SECTIONS);
+}
+
+function updateWorkAnalysisButtons() {
+	var buttons = document.querySelectorAll("[data-score-analysis]");
+	for (var i = 0; i < buttons.length; i++) {
+		var type = buttons[i].getAttribute("data-score-analysis");
+		if (!WORKscoreAnalysisFilters[type]) continue;
+		var selected = type === WORKscoreAnalysis;
+		buttons[i].setAttribute("aria-pressed", String(selected));
+	}
+}
+
 function showWorkAnalysis(analysistype) {
 	var sectionid = sessionStorage.WORKjrpid;
 	var workid  = sectionid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
@@ -2595,25 +2677,20 @@ function showWorkAnalysis(analysistype) {
 		sectionid = SECTIONS[0].id;
 	}
 
+	if (WORKscoreAnalysisFilters[analysistype]) {
+		setWorkScoreAnalysis(WORKscoreAnalysis === analysistype ? "" : analysistype);
+		return;
+	}
 	var url = "";
-	if (analysistype === "dissonant") {
-		url = "https://verovio.humdrum.org/?k=ey&filter=dissonant%20--color&file=jrp:" + sectionid;
-	} else if (analysistype === "imitation") {
-		url = "https://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cimitation&file=jrp:" + sectionid;
-	} else if (analysistype === "parallel") {
+	if (analysistype === "parallel") {
 		url = "/analysis/parallel/?composer=" + encodeURIComponent(repertory) + "&work=" + encodeURIComponent(sessionStorage.WORKjrpid);
 	} else if (analysistype === "activity") {
 		localStorage.ANALYSISrepertory = repertory;
-		localStorage.ANALYSISgenre		 = "";
-		localStorage.ANALYSISwork		 = sessionStorage.WORKjrpid;
+		localStorage.ANALYSISgenre = "";
+		localStorage.ANALYSISwork = sessionStorage.WORKjrpid;
 		url = "/analysis/activity";
 	} else if (analysistype === "proll") {
-		// url = "/data?a=proll&id=" + sectionid;
 		url = "/proll/?id=" + sectionid;
-//	} else if (analysistype === "suspension") {
-//		url = "/data?a=suspensionpdf&id=" + sectionid;
-   } else if (analysistype === "cadence") {
-		url = "https://verovio.humdrum.org/?k=ey&filter=extract%20-ikern%7cdissonant%20-V&file=jrp:" + sectionid;
 	}
 
 	if (!url.match(/^\s*$/)) {
@@ -3283,7 +3360,7 @@ function displayThisWorkRepertoryAnalyses() {
 	var analysisSectionId = getWorkAnalysisSectionId(jrpid);
 
 	function addWorkAnalysisButton(analysistype, title, subtitle) {
-		content += '<li><span onclick="showWorkAnalysis(\'' + analysistype + '\');" ';
+		content += '<li><span data-score-analysis="' + analysistype + '" onclick="showWorkAnalysis(\'' + analysistype + '\');" ';
 		content += 'style="cursor:pointer;" ';
 		content += 'class="btn btn-brown btn-medium">';
 		content += '<span class="anatitle">' + title + '</span> ';
@@ -3326,6 +3403,7 @@ function displayThisWorkRepertoryAnalyses() {
 
 	var ul = document.getElementById("analysis-list");
 	ul.innerHTML = content;
+	updateWorkAnalysisButtons();
 }
 
 function getComposerShortFromWork(work) {
