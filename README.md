@@ -241,8 +241,8 @@ Work pages link to VHV at:
 https://verovio.humdrum.org/
 ```
 
-Typical links pass a JRP work id with `file=jrp:Jos2012` and may also include
-Humdrum filters for tools such as dissonance, imitation, or cadence extraction.
+VHV links pass a JRP work id with `file=jrp:Jos2012`. Dissonance, cadence, and
+imitation analysis now use the current score directly on the JRP work page.
 
 The local work-page score preview uses the Humdrum notation plugin loaded from:
 
@@ -252,14 +252,16 @@ https://plugin.humdrum.org/scripts/humdrum-notation-plugin-worker.js
 
 ### Ribbon
 
-Ribbon analysis is hosted separately at:
+Ribbon analysis runs on the website at `/ribbon/?id=Jos2721`. It reads verified
+static derivatives from Cloudflare R2 and provides the preserved ribbon interface,
+including smoothing windows, standard-deviation and quartile bands, and the note
+view. Work-page links open the current work; multi-movement works offer a movement
+selector. The calculation uses duration-weighted diatonic pitch statistics from
+the published Humdrum source. Its precision rules match the preserved Jos2721
+reference; broader agreement with Craig's unavailable service remains unverified.
 
-```text
-https://ribbon.stanford.edu
-```
-
-The URL is configured in `_config.yml` as `ribbon_url`. Work-page analysis links
-open Ribbon with the current JRP work id.
+The shared `digital-library-build/tools/publication/publish-ribbon.py` publisher
+handles new or changed published scores independently of PDF and audio recipes.
 
 ## URL Parameters
 

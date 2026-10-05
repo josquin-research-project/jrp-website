@@ -34,7 +34,7 @@ google_analytics: "G-CWR44TKGGD"
 
 jrp_url: "https://josquin.stanford.org"
 
-ribbon_url: "https://ribbon.stanford.edu"
+ribbon_url: "/ribbon"
 
 # Shared R2 assets; change only this base when JRP gets its own hostname.
 asset_base_url: "https://assets.1520s-project.org/jrp"
