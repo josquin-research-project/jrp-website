@@ -1,64 +1,41 @@
 ---
-layout: null
+layout: repertoire
+title: Ribbon Analysis
+permalink: /ribbon/
 ---
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <title>Ribbon Visualization</title>
-  <meta charset="utf-8" />
-</head>
 <script src="{{ site.baseurl }}/ribbon/d3.v3.min.js"></script>
 <script src="{{ site.baseurl }}/ribbon/colorbrewer.js"></script>
 <script src="{{ site.baseurl }}/ribbon/queue.js"></script>
 
 
 <style>
-  #toolbar{position:fixed;top:20px;left:10px;z-index:5} #workinfo{padding-top:55px;font:16px Georgia} #vizcontainer{height:calc(100vh - 95px)!important} body{margin:8px} button{z-index:5}
-  body, html {
-    width:100%;
-    height:100%;
-  }
-  #vizcontainer {
-    width:100%;
-    height:100%;
-  }
-  svg {
-    width: 100%;
-    height: 100%;
-  }
-  line {
-    shape-rendering: crispEdges;
-  }
-
-  path.domain {
-    fill: none;
-  }
-  g.tick > line {
-    stroke: gray;
-    stroke-width: 1px;
-  }
-  button {
-    position: fixed;
-    top: 20px;
-  }
-  #hoverDetails {
-    position: fixed;
-    z-index: 3;
-    bottom: 20px;
-    left: 20px;
-  }
-  rect.bg {
-    fill-opacity: 0.02;
-  }
+.ribbon-page { padding: 0 24px 34px !important; }
+.ribbon-page .brown-heading { margin-bottom: 16px; }
+.ribbon-page #toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-bottom: 12px; }
+.ribbon-page #toolbar label { margin: 0; display: inline-flex; align-items: center; gap: 7px; color: #736960; font-family: "Lato", sans-serif; font-size: 14px; }
+.ribbon-page select { height: 30px; max-width: 340px; border: 1px solid #cfc7bd; border-radius: 3px; background: white; color: #736960; font: 14px "Lato", sans-serif; padding: 0 6px; }
+.ribbon-page #ribbon-view-controls { display: inline-flex; gap: 6px; }
+.ribbon-page #ribbon-view-controls button { height: 30px; padding: 0 10px; border: 1px solid #cfc7bd; border-radius: 3px; background: #f7f4ef; color: #736960; font: 14px "Lato", sans-serif; cursor: pointer; }
+.ribbon-page #ribbon-view-controls button:hover { background: #eee7dc; }
+.ribbon-page #workinfo { margin: 4px 0 14px; color: #736960; font: 700 15px "Lato", sans-serif; }
+.ribbon-page #vizcontainer { width: 100%; height: 600px; border-top: 1px solid #e1e1e1; border-bottom: 1px solid #e1e1e1; background: white; overflow: hidden; }
+.ribbon-page #vizcontainer svg { display: block; width: 100%; height: 100%; }
+.ribbon-page #vizcontainer line { shape-rendering: crispEdges; }
+.ribbon-page #vizcontainer path.domain { fill: none; }
+.ribbon-page #vizcontainer g.tick > line { stroke: gray; stroke-width: 1px; }
+.ribbon-page #hoverDetails { color: #736960; font: 14px "Lato", sans-serif; }
+.ribbon-page #vizcontainer rect.bg { fill-opacity: 0.02; }
 </style>
 <script id="ribbon-assets" type="application/json">{% include metadata/ribbon-assets.json %}</script>
 <script id="ribbon-works" type="application/json">{% include metadata/works.json %}</script>
-<body onload="ribbonTest1(1, 0, 'standardDeviation', 'vizcontainer');">
+<article class="about ribbon-page">
+<h2 class="brown-heading">Ribbon Analysis</h2>
 
-<div id="toolbar"><a href="{{ site.baseurl }}/" style="margin-right:12px">JRP</a><label>Movement <select id="score" onchange="location.search='?id='+encodeURIComponent(this.value)"></select></label> <label>Window <select id="smooth" onchange="refresh()"><option value="0">20 beats</option><option value="1" selected>40 beats</option><option value="2">60 beats</option><option value="3">80 beats</option><option value="4">100 beats</option></select></label> <select id="band" onchange="refresh()"><option value="standardDeviation">Standard deviation</option><option value="quartiles">Quartiles</option></select></div><div id="workinfo"></div><script>function refresh(){ribbonTest1(+document.getElementById('smooth').value,0,document.getElementById('band').value,'vizcontainer')}</script>
+<div id="toolbar"><label>Movement <select id="score" onchange="location.search='?id='+encodeURIComponent(this.value)"></select></label> <label>Window <select id="smooth" onchange="refresh()"><option value="0">20 beats</option><option value="1" selected>40 beats</option><option value="2">60 beats</option><option value="3">80 beats</option><option value="4">100 beats</option></select></label> <label>Bands <select id="band" onchange="refresh()"><option value="standardDeviation">Standard deviation</option><option value="quartiles">Quartiles</option></select></label><span id="ribbon-view-controls" aria-label="Ribbon view controls"></span></div><div id="workinfo"></div><script>function refresh(){ribbonTest1(+document.getElementById('smooth').value,0,document.getElementById('band').value,'vizcontainer')}</script>
 <div id="vizcontainer">
 </div>
 <div id="hoverDetails"></div>
-  <footer>
+
 <script>
 
   function ribbonTest1(setSmooth, prollBuffer, ribbonType, divID) {
@@ -199,7 +176,7 @@ layout: null
       .style("stroke-width", function() {return x == 0 ? "2px" : "2px"})
 //      .style("display", "none")
 
-    d3.select("defs").append("clipPath").attr("id", "clip" + x).append("path");
+    svg.select("defs").append("clipPath").attr("id", "clip" + x).append("path");
 
     }
     ribbonZoom = d3.behavior.zoom().on("zoom", zoomUpdate).on("zoomstart", zoomStart).on("zoomend", zoomEnd);
@@ -208,17 +185,17 @@ layout: null
     annotationBar();
     redraw();
   
-  d3.select("svg").call(ribbonZoom);
-  d3.select("svg").on("mousemove",scoreOver).insert("rect", "g").attr("height", 10000).attr("width", 10000).attr("x", -5000).attr("y",-5000).attr("class","bg").style("pointer-events", "auto");
+  svg.call(ribbonZoom);
+  svg.on("mousemove",scoreOver).insert("rect", "g").attr("height", 10000).attr("width", 10000).attr("x", -5000).attr("y",-5000).attr("class","bg").style("pointer-events", "auto");
   window.onresize = function() {
     redraw();
   }
   function redraw(optionalDuration) {
     var tTime = optionalDuration || 0;
     var s = ribbonZoom.scale();
-    vizHeight = parseFloat(d3.select("svg").node().clientHeight || d3.select("svg").node().parentNode.clientHeight) - 100;
-    vizWidth = parseFloat(d3.select("svg").node().clientWidth || d3.select("svg").node().parentNode.clientWidth) - 50;
-    scaledVizWidth = s * parseFloat(d3.select("svg").node().clientWidth || d3.select("svg").node().parentNode.clientWidth) - 50;
+    vizHeight = parseFloat(svg.node().clientHeight || svg.node().parentNode.clientHeight) - 100;
+    vizWidth = parseFloat(svg.node().clientWidth || svg.node().parentNode.clientWidth) - 50;
+    scaledVizWidth = s * parseFloat(svg.node().clientWidth || svg.node().parentNode.clientWidth) - 50;
     xScale.range([0,vizWidth])
     scaledXScale.range([0,scaledVizWidth])
 
@@ -354,7 +331,7 @@ layout: null
 
     d3.select(this).attr("d", pitchsdArea(d));
     
-    d3.select("defs").select("#clip" + _part).select("path").attr("d", pitchsdArea(d));
+    svg.select("defs").select("#clip" + _part).select("path").attr("d", pitchsdArea(d));
   })
   
     d3.selectAll("path.pitchLine")
@@ -424,9 +401,9 @@ layout: null
     }
   
   
-  d3.select("#vizcontainer").selectAll("button").remove();
-  d3.select("#vizcontainer").append("button").on("click", combineRibbons).html("combine").style("left", "620px")
-  d3.select("#vizcontainer").append("button").on("click", separateRibbons).html("separate").style("left", "690px")
+  d3.select("#ribbon-view-controls").selectAll("button").remove();
+  d3.select("#ribbon-view-controls").append("button").attr("type", "button").on("click", combineRibbons).text("Combine")
+  d3.select("#ribbon-view-controls").append("button").attr("type", "button").on("click", separateRibbons).text("Separate")
 
 
   function combineRibbons() {
@@ -549,7 +526,6 @@ function zoomEnd() {
   }
   
 
+ribbonTest1(1, 0, "standardDeviation", "vizcontainer");
 </script>
-  </footer>
-</body>
-</html>
+</article>
