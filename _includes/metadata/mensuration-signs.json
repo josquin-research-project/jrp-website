@@ -1,0 +1,112 @@
+{
+  "C|": {
+    "file": "c-pipe.svg",
+    "width": 518,
+    "height": 767
+  },
+  "O": {
+    "file": "o.svg",
+    "width": 555,
+    "height": 555
+  },
+  "C": {
+    "file": "c.svg",
+    "width": 518,
+    "height": 555
+  },
+  "3": {
+    "file": "n3.svg",
+    "width": 318,
+    "height": 527
+  },
+  "C2": {
+    "file": "c-2.svg",
+    "width": 885,
+    "height": 555
+  },
+  "O|": {
+    "file": "o-pipe.svg",
+    "width": 555,
+    "height": 767
+  },
+  "C|3": {
+    "file": "c-pipe-3.svg",
+    "width": 847,
+    "height": 767
+  },
+  "O/3": {
+    "file": "o-over-3.svg",
+    "width": 501.9,
+    "height": 959.1
+  },
+  "O2": {
+    "file": "o-2.svg",
+    "width": 884,
+    "height": 555
+  },
+  "C3": {
+    "file": "c-3.svg",
+    "width": 848,
+    "height": 555
+  },
+  "C.": {
+    "file": "c-dot.svg",
+    "width": 518,
+    "height": 555
+  },
+  "O.": {
+    "file": "o-dot.svg",
+    "width": 555,
+    "height": 555
+  },
+  "3/2": {
+    "file": "n3-over-2.svg",
+    "width": 321.9,
+    "height": 966.3
+  },
+  "O3": {
+    "file": "o-3.svg",
+    "width": 847,
+    "height": 555
+  },
+  "C|2": {
+    "file": "c-pipe-2.svg",
+    "width": 884,
+    "height": 767
+  },
+  "2": {
+    "file": "n2.svg",
+    "width": 355,
+    "height": 527
+  },
+  "O|3": {
+    "file": "o-pipe-3.svg",
+    "width": 847,
+    "height": 767
+  },
+  "C.|": {
+    "file": "c-dot-pipe.svg",
+    "width": 518,
+    "height": 767
+  },
+  "Cr": {
+    "file": "c-reverse.svg",
+    "width": 519,
+    "height": 555
+  },
+  "C|/3": {
+    "file": "c-pipe-over-3.svg",
+    "width": 394.5,
+    "height": 922.5
+  },
+  "C|/2": {
+    "file": "c-pipe-over-2.svg",
+    "width": 394.5,
+    "height": 922.5
+  },
+  "C|r": {
+    "file": "c-pipe-reverse.svg",
+    "width": 519,
+    "height": 767
+  }
+}
