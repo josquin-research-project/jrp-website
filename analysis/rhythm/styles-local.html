@@ -1,22 +1,24 @@
 <style>
-@import url("/assets/scripts/external/qtip/jquery.qtip.min.css");
-
-article.about {
-  padding-left: 24px !important;
-  padding-right: 24px !important;
-}
-
-#analysis-content {
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: visible;
-}
-
-#analysis-content table {
-  max-width: none;
-}
-
-#analysis-content svg {
-  flex: 0 0 auto;
-}
+.rhythm-page { padding: 0 24px 34px !important; }
+.rhythm-page .brown-heading { margin-bottom: 16px; }
+.rhythm-page .rhythm-repertory { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+.rhythm-page label { margin:0; color:#736960; font:14px "Lato",sans-serif; }
+.rhythm-page select { font:14px "Lato",sans-serif; max-width:280px; }
+.rhythm-page .controls { display:flex; flex-wrap:wrap; gap:12px 18px; padding:12px; background:#f7f4ef; margin-bottom:18px; }
+.rhythm-page .controls label { display:flex; flex-direction:column; gap:6px; }
+.rhythm-page details p { max-width:850px; font-size:15px; line-height:1.5; }
+.rhythm-page summary { cursor:pointer; color:#915330; }
+.rhythm-page #summary { font:15px "Lato",sans-serif; margin:18px 0; }
+.rhythm-page #status { font:14px "Lato",sans-serif; color:#9b3525; }
+.rhythm-page .scroll { overflow:auto; }
+.rhythm-page table { width:100%; border-collapse:collapse; }
+.rhythm-page td,.rhythm-page th { text-align:left; padding:10px; border-bottom:1px solid #ddd; vertical-align:top; }
+.rhythm-page th { font:14px "Lato",sans-serif; color:#736960; }
+.rhythm-page img { width:240px; height:58px; object-fit:contain; object-position:left; }
+.rhythm-page code { display:block; font-size:12px; color:#736960; max-width:260px; overflow-wrap:anywhere; }
+.rhythm-page li { margin-bottom:7px; }
+.rhythm-page #pagination { display:flex; gap:12px; align-items:center; margin:20px 0; font:14px "Lato",sans-serif; }
+.rhythm-page button { padding:6px 12px; border:1px solid #cfc7bd; border-radius:3px; background:#f7f4ef; color:#736960; font:14px "Lato",sans-serif; cursor:pointer; }
+.rhythm-page small { font:13px "Lato",sans-serif; color:#736960; }
+.rhythm-page [hidden] { display:none !important; }
 </style>

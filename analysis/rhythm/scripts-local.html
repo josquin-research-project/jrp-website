@@ -1,62 +1,31 @@
 <script>
-let WORKS = {% include metadata/works.json %};
-let COMPOSERS = {% include metadata/composers.json %};
-</script>
-<script src="/analysis/scripts-common.js"></script>
-<script>
-function displayContents(repertory) {
-  if (typeof repertory === "undefined" || repertory === null) {
-    repertory = localStorage.ANALYSISrepertory || "";
-  }
-  buildRepertorySelect();
-  $("#repertory").val(repertory);
-  StylizeFormElements();
-  showRepertory(repertory);
+(()=>{
+
+let data,page=0,groups=[],request=0;const assetBase="{{ site.asset_base_url }}/analysis/rhythm";const index=JSON.parse(document.getElementById("rhythm-assets").textContent);const composers=JSON.parse(document.getElementById("rhythm-composers").textContent);const $=id=>document.getElementById(id);const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function code(events){return events.map(([kind,value])=>{let n=value.split('/').map(Number),d=n[0]/(n[1]||1),name;for(let dots=0;dots<4;dots++){const base=d/(2-1/2**dots);name=({16:'l',8:'b',4:'w',2:'m',1:'q',.5:'e',.25:'s'})[base];if(name){name+='d'.repeat(dots);break;}}name=name||value+'q';return (kind.startsWith('held')?'t':'')+name+(kind==='rest'?'r':'')+(kind.endsWith('-out')?'~':'');}).join('_');}
+function filter(){if(!data)return;page=0;const counts=new Map(),totals=new Map();let omitted=0;for(const r of data.records){if($('mensuration').value && r.mensuration!==$('mensuration').value)continue;if(($('crossing').value==='exclude'&&r.crossing)||($('rests').value==='exclude'&&r.silent)||($('complete').value==='complete'&&!r.complete)){omitted++;continue;}let category=JSON.stringify([r.mensuration,r.quarterNotes]),key=category+r.pattern;totals.set(category,(totals.get(category)||0)+1);if(!counts.has(key))counts.set(key,{...r,category,occurrences:[]});counts.get(key).occurrences.push(r);}groups=[...counts.values()].sort((a,b)=>b.occurrences.length-a.occurrences.length||a.category.localeCompare(b.category)||a.pattern.localeCompare(b.pattern));for(const g of groups)g.percent=100*g.occurrences.length/totals.get(g.category);$('summary').textContent=`${data.scores} scores · ${groups.length} patterns · ${groups.reduce((n,g)=>n+g.occurrences.length,0).toLocaleString()} occurrences · ${omitted.toLocaleString()} omitted by selected rules`;$('status').textContent=Object.entries(data.excluded).map(([k,v])=>`${v} ${k}`).concat(data.failures.map(f=>`${f.work}: ${f.reason}`)).join('; ');render();}
+function render(){const start=page*30; $('patterns').innerHTML=groups.slice(start,start+30).map((g,i)=>{const p=data.patterns[g.pattern];return `<tr><td>${start+i+1}</td><td>${p.image ? `<img src="${esc(assetBase+'/'+p.image)}" alt="${esc(code(p.events))}" loading="lazy">` : `<small>Notation preview unavailable</small>`}<code>${esc(code(p.events))}</code></td><td>${esc(g.mensuration)}<br><small>${esc(g.quarterNotes)} quarter notes</small></td><td><details><summary>${g.occurrences.length.toLocaleString()}</summary><ul>${g.occurrences.map(o=>`<li><a href="https://www.josqu.in/work/?id=${encodeURIComponent(o.work)}" target="_blank" rel="noopener">${esc(o.work)}</a> · m. ${esc(o.measure)} · ${esc(o.voice)}</li>`).join('')}</ul></details></td><td>${g.percent.toFixed(2)}%</td></tr>`}).join('');$('previous').disabled=!page;$('next').disabled=start+30>=groups.length;$('page').textContent=`Page ${page+1} of ${Math.max(1,Math.ceil(groups.length/30))}`;}
+for(const id of ['mensuration','crossing','rests','complete']){if(window.jQuery)jQuery('#'+id).on('change',filter);else $(id).addEventListener('change',filter);}$('previous').onclick=()=>{page--;render()};$('next').onclick=()=>{page++;render()};async function loadComposer(){
+ const composer=$('rhythm-composer').value,token=++request;data=null;
+ for(const id of ['mensuration','crossing','rests','complete'])$(id).disabled=true;
+ $('patterns').innerHTML='';$('pagination').hidden=true;$('status').textContent='';
+ if(!composer){$('summary').textContent='Choose a repertory to view its rhythmic patterns.';return;}
+ localStorage.ANALYSISrepertory=composer;$('summary').textContent='Loading rhythmic patterns…';
+ try{
+  const response=await fetch(assetBase+'/'+encodeURIComponent(composer)+'.json?v='+index[composer].sha256);
+  if(!response.ok)throw Error('Could not load rhythmic patterns. Please try again.');
+  const report=await response.json();if(token!==request)return;data=report;
+  $('mensuration').innerHTML='<option value="">All, kept separate</option>';
+  for(const m of [...new Set(data.records.map(r=>r.mensuration))].sort()){let o=document.createElement('option');o.value=m;o.textContent=m;$('mensuration').appendChild(o);}
+  for(const id of ['mensuration','crossing','rests','complete'])$(id).disabled=false;
+  $('pagination').hidden=false;filter();
+ }catch(e){if(token===request){$('status').textContent=e.message;$('summary').textContent='Rhythmic patterns unavailable';}}
 }
+$('rhythm-composer').innerHTML='<option value="">Select a repertory</option>'+composers.filter(c=>index[c.COMPOSER_ID]).sort((a,b)=>(a['Display Long']||a.Name).localeCompare(b['Display Long']||b.Name)).map(c=>'<option value="'+esc(c.COMPOSER_ID)+'">'+esc(c['Display Long']||c.Name.replace(/[{}]/g,''))+'</option>').join('');
+const params=new URLSearchParams(location.search);const initial=params.get('composer')||params.get('repertory')||localStorage.ANALYSISrepertory||'';
+$('rhythm-composer').value=index[initial]?initial:'';
+if(window.jQuery){jQuery('#rhythm-composer').on('change',loadComposer);}else{$('rhythm-composer').onchange=loadComposer;}
+loadComposer();
 
-function showRepertory(repertory) {
-  if (typeof repertory === "undefined" || repertory === null) {
-    repertory = document.getElementById("repertory") ? document.getElementById("repertory").value : "";
-  }
-
-  localStorage.ANALYSISrepertory = repertory || "";
-
-  var maincontent = document.getElementById("analysis-content");
-  if (!maincontent) {
-    return;
-  }
-
-  if (!repertory) {
-    maincontent.innerHTML = "Choose a repertory from the above menu to view its rhythm patterns.";
-    return;
-  }
-
-  maincontent.innerHTML = "Processing...";
-  $("body").css("cursor", "wait");
-
-  ReadFileAsync(analysisDataUrl("rhythm", repertory), function(responseText) {
-    var target = document.getElementById("analysis-content");
-    if (!target) {
-      return;
-    }
-    target.innerHTML = responseText;
-    $("body").css("cursor", "default");
-  });
-}
-
-function showPopupInfo(url) {
-  var title = "Rhythm pattern info";
-  var newwindow = window.open(url, title);
-  if (window.focus && newwindow) {
-    newwindow.focus();
-  }
-  return false;
-}
-
-document.addEventListener("DOMContentLoaded", function() {
-  ensureAnalysisState();
-  loadCgiParameters();
-  window.addEventListener("keydown", analysisKeyDownFunction, false);
-  displayContents(localStorage.ANALYSISrepertory || "");
-});
+})();
 </script>
