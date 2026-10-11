@@ -29,7 +29,7 @@ permalink: /ribbon/
 <script id="ribbon-assets" type="application/json">{% include metadata/ribbon-assets.json %}</script>
 <script id="ribbon-works" type="application/json">{% include metadata/works.json %}</script>
 <article class="about ribbon-page">
-<h2 class="brown-heading">Ribbon Analysis</h2>
+<h1 class="brown-heading">Ribbon Analysis</h1>
 
 <div id="toolbar"><label>Movement <select id="score" onchange="location.search='?id='+encodeURIComponent(this.value)"></select></label> <label>Window <select id="smooth" onchange="refresh()"><option value="0">20 beats</option><option value="1" selected>40 beats</option><option value="2">60 beats</option><option value="3">80 beats</option><option value="4">100 beats</option></select></label> <label>Bands <select id="band" onchange="refresh()"><option value="standardDeviation">Standard deviation</option><option value="quartiles">Quartiles</option></select></label><span id="ribbon-view-controls" aria-label="Ribbon view controls"></span></div><div id="workinfo"></div><script>function refresh(){ribbonTest1(+document.getElementById('smooth').value,0,document.getElementById('band').value,'vizcontainer')}</script>
 <div id="vizcontainer">

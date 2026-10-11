@@ -341,6 +341,7 @@ function displayMultisectionWork(jrpid) {
 
 	var titlelem = document.getElementById("title");
 	titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
+	updateWorkDocumentTitle();
 	$('select#select-section').prop('selectedIndex', MENUINDEX);
 	StylizeFormElements();
 
@@ -455,9 +456,9 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 	// list of sections underneath JRPID:
 	var tc = "";
 
-	tc += "<h2 class=\"worktitle\"> " + composer + ", ";
+	tc += "<h1 class=\"worktitle\"> " + composer + ", ";
 	tc += "<i>" + title + "</i> (<span id=\"sectionid\">";
-	tc += sectionid + "</span>)" + formatWorkAlias(sectionid, true) + "</h2>\n";
+	tc += sectionid + "</span>)" + formatWorkAlias(sectionid, true) + "</h1>\n";
 
 	tc += getMovementNavHtml(sectionid, "work-movement-nav--title");
 
@@ -925,7 +926,7 @@ function displayWork(jrpid) {
 	var pieces = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)([a-z]*.*)/);
 	if (!pieces) {
 		document.getElementById("title").innerHTML =
-			"<p>Invalid work ID: " + jrpid + "</p>";
+			"<h1 class=\"visually-hidden\">Work</h1><p>Invalid work ID: " + jrpid + "</p>";
 		return;
 	}
 
@@ -935,7 +936,7 @@ function displayWork(jrpid) {
 	var work = WORKLISTjrpid[baseId];
 	if (!work) {
 		document.getElementById("title").innerHTML =
-			"<p>Unknown work ID: " + jrpid + "</p>";
+			"<h1 class=\"visually-hidden\">Work</h1><p>Unknown work ID: " + jrpid + "</p>";
 		return;
 	}
 
@@ -945,11 +946,12 @@ function displayWork(jrpid) {
 	// Set the title line //////////////////////////////////////////////////
 	var titleContent = "";
 	titleContent +=
-		"<h2 style=\"margin-bottom:0;\">" +
+		"<h1 style=\"margin-bottom:0;\">" +
 		composer + ", <i>" + title + "</i> (" + jrpid + ")" +
-		formatWorkAlias(jrpid, true) + "</h2>\n";
+		formatWorkAlias(jrpid, true) + "</h1>\n";
 
 	document.getElementById("title").innerHTML = titleContent;
+	updateWorkDocumentTitle();
 	updateWorkActions(jrpid);
 
 	// Set the incipit image ///////////////////////////////////////////////
@@ -979,11 +981,11 @@ function showDownloadArea(jrpid, stitle) {
 	if (!area) {
 		return;
 	}
-	var heading = "<h3 class=\"brown-border\">Downloads";
+	var heading = "<h2 class=\"brown-border section-heading\">Downloads";
 	if (stitle) {
 		heading += " (" + escapeWorkHtml(stitle) + ")";
 	}
-	heading += "</h3>\n";
+	heading += "</h2>\n";
 	area.innerHTML = heading + getDownloadLinksHtml(jrpid);
 	resolveJosquinDataLinks(area);
 	updateSectionDownloadPanel(jrpid);
@@ -1142,6 +1144,7 @@ function updateSectionDownloadPanel(jrpid) {
 	panel.hidden = false;
 	if (useSelect2) {
 		$(select).select2({ width: "128px", dropdownCssClass: "work-download-dropdown" });
+		LabelFormSelects();
 	}
 	showSelectedSectionDownloads(select.value);
 }
@@ -1218,6 +1221,7 @@ function displayHumdrumIncipit(jrpid, sections) {
 	var status = document.createElement("div");
 	status.id = statusId;
 	status.className = "work-score-status";
+	status.setAttribute("role", "status");
 	status.textContent = "Loading score...";
 	panel.appendChild(status);
 
@@ -1937,7 +1941,7 @@ function showIncipitButton() {
 
 	var ib = "<div ";
 	ib += "style=\"margin-top:0px; " + MARGINRIGHT + "\" ";
-	ib += "class=\"text-right\"><span ";
+	ib += "class=\"text-right\"><span role=\"button\" tabindex=\"0\" ";
 	ib += "style=\"cursor:hand; cursor:pointer;\" ";
 	ib += "onclick=\"toggleIncipitDisplay();\" ";
 	ib += "class=\"btn btn-brown btn-small\">";
@@ -1970,7 +1974,7 @@ function showRangeButtons() {
 		ib += " is-active";
 	}
 	ib += "\">Note counts</span>";
-	ib += "<input type=\"checkbox\" ";
+	ib += "<input aria-label=\"Weight vocal ranges by note duration\" type=\"checkbox\" ";
 	if (WORKrangedur) {
 		ib += "checked ";
 	}
@@ -2462,7 +2466,7 @@ function displayWorkSearch(searchresults) {
  	var content = "";
 
    var heading = "";
-   heading = "<h3 class='search-header'>";
+   heading = "<h2 class='search-header section-heading'>";
 	if (SR.matchcount == 0) {
 		heading += "No matches";
 	} else {
@@ -2471,7 +2475,7 @@ function displayWorkSearch(searchresults) {
 			heading += "es";
 		}
 	}
-	heading += "</h3>";
+	heading += "</h2>";
 
 	var template;
 	var content = "";
@@ -2505,7 +2509,7 @@ function buildComposerSelect() {
 		return;
 	}
 
-	var out = "<select id=\"composers\">";
+	var out = "<select id=\"composers\" aria-label=\"Composer\">";
 	out += "<option label=\"default\">All Composers</option>\n";
 	var clist = GetComposerOptions(WORKS);
 	out += clist;
@@ -2528,7 +2532,7 @@ function buildRepertorySelect() {
 		return;
 	}
 
-	var out  = "<select style=\"width:220px;\" id=\"repertory\">\n";
+	var out  = "<select style=\"width:220px;\" id=\"repertory\" aria-label=\"Repertory\">\n";
 	var clist = GetComposerOptions(WORKS);
 	out += clist;
 	out += "</select>\n";
@@ -2568,7 +2572,7 @@ function buildGenreSelect() {
 		return;
 	}
 
-	var out = "<select id=\"genres\"";
+	var out = "<select id=\"genres\" aria-label=\"Genre\"";
 	out += " data-placeholder=\"All Genres\">\n";
 	out += "<option label=\"default\">All Genres</option>\n";
 	out += GetGenreBrowseOptions();
@@ -2649,6 +2653,9 @@ function getWorkAnalysisScore(text) {
 }
 
 function setWorkScoreAnalysis(type) {
+	var focusedControl = document.activeElement;
+	var restoreFocus = focusedControl && focusedControl.closest &&
+		(focusedControl.closest('#work-analysis-panel') || focusedControl.matches('.work-score-analysis-clear'));
 	var analysisToggle = document.getElementById("work-analysis-toggle");
 	if (type && analysisToggle && analysisToggle.getAttribute("aria-expanded") === "true") {
 		analysisToggle.click();
@@ -2656,6 +2663,10 @@ function setWorkScoreAnalysis(type) {
 	WORKscoreAnalysis = type;
 	WORKscoreExpanded = true;
 	displayHumdrumIncipit(sessionStorage.WORKjrpid, SECTIONS);
+	if (restoreFocus) {
+		var nextControl = document.querySelector('.work-score-analysis-clear') || document.getElementById('work-score-toggle');
+		if (nextControl) nextControl.focus({ preventScroll: true });
+	}
 }
 
 function updateWorkAnalysisButtons() {
@@ -2859,6 +2870,7 @@ function displaySection(workid) {
 
 	var titlelem = document.getElementById("title");
 	titlelem.innerHTML = getSectionHeaderMenu(sectionid, menuindex);
+	updateWorkDocumentTitle();
 	$('select#select-section').prop('selectedIndex', menuindex);
 	StylizeFormElements();
 
@@ -3319,29 +3331,29 @@ function displaySectionNumber(sectionnum) {
 function displayAllWorksRepertoryAnalyses() {
 	var content = "";
 
-	content += '<li><span onclick="showRepertoryAnalysis(\'activity\');" ';
+	content += '<li><span role="button" tabindex="0" onclick="showRepertoryAnalysis(\'activity\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Activity</span> ';
 	content += '<small>attacks per measure</small></span></li>\n';
 
-	content += '<li><span onclick="showRepertoryAnalysis(\'parallel\');" ';
+	content += '<li><span role="button" tabindex="0" onclick="showRepertoryAnalysis(\'parallel\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Parallel</span> ';
-	content += '<small>parallel perfect intervals</small></span></a></li>\n';
+	content += '<small>parallel perfect intervals</small></span></li>\n';
 
-	content += '<li><span onclick="showRepertoryAnalysis(\'rhythm\');" ';
+	content += '<li><span role="button" tabindex="0" onclick="showRepertoryAnalysis(\'rhythm\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Rhythm</span> ';
-	content += '<small>measure-long patterns</small></span></a></li>\n';
+	content += '<small>measure-long patterns</small></span></li>\n';
 
-	content += '<li><span onclick="showRepertoryAnalysis(\'range\');" ';
+	content += '<li><span role="button" tabindex="0" onclick="showRepertoryAnalysis(\'range\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Range</span> ';
-	content += '<small>vocal ranges</small></span></a></li>\n';
+	content += '<small>vocal ranges</small></span></li>\n';
 
 	var ul = document.getElementById("analysis-list");
 	ul.innerHTML = content;
@@ -3360,7 +3372,7 @@ function displayThisWorkRepertoryAnalyses() {
 	var analysisSectionId = getWorkAnalysisSectionId(jrpid);
 
 	function addWorkAnalysisButton(analysistype, title, subtitle) {
-		content += '<li><span data-score-analysis="' + analysistype + '" onclick="showWorkAnalysis(\'' + analysistype + '\');" ';
+		content += '<li><span role="button" tabindex="0" data-score-analysis="' + analysistype + '" onclick="showWorkAnalysis(\'' + analysistype + '\');" ';
 		content += 'style="cursor:pointer;" ';
 		content += 'class="btn btn-brown btn-medium">';
 		content += '<span class="anatitle">' + title + '</span> ';
@@ -3374,7 +3386,7 @@ function displayThisWorkRepertoryAnalyses() {
 	// content += 'sessionStorage.WORKjrpid; var url = \'/ribbon\'; window.open(url, \'_blank\'); console.log(url);" ';
 	// content += 'style="cursor:pointer;" ';
 	// content += 'class="btn btn-brown btn-medium">';
-	content += '<li><span onclick="var url = \'{{ site.ribbon_url }}/?id=\' + sessionStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
+	content += '<li><span role="button" tabindex="0" onclick="var url = \'{{ site.ribbon_url }}/?id=\' + sessionStorage.WORKjrpid; window.open(url, \'_blank\'); console.log(url);" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 
@@ -3391,11 +3403,11 @@ function displayThisWorkRepertoryAnalyses() {
 		addWorkAnalysisButton("imitation", "Imitation", "all imitations marked");
 	}
 
-	content += '<li><span onclick="showWorkAnalysis(\'parallel\');" ';
+	content += '<li><span role="button" tabindex="0" onclick="showWorkAnalysis(\'parallel\');" ';
 	content += 'style="cursor:pointer;" ';
 	content += 'class="btn btn-brown btn-medium">';
 	content += '<span class="anatitle">Parallel</span> ';
-	content += '<small>parallel perfect intervals</span></a></li>\n';
+	content += '<small>parallel perfect intervals</small></span></li>\n';
 
 	if (hasAsset(analysisSectionId, "humdrum")) {
 		addWorkAnalysisButton("proll", "Piano Roll", "");
@@ -3415,6 +3427,13 @@ function getComposerShortFromWork(work) {
 	}
 
 	return "Anonymous";
+}
+
+function updateWorkDocumentTitle() {
+	var heading = document.querySelector("#title h1");
+	if (heading) {
+		document.title = heading.textContent.trim() + " | " + {{ site.title | jsonify }};
+	}
 }
 
 </script>

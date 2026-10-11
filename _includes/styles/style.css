@@ -41,14 +41,7 @@ a {
 	background-color: black;
 } /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
 
-h1 {
-	font-size: 2em;
-	margin-top: 0.67em;
-	margin-bottom: 0.67em;
-	font-weight: bold;
-}
-
-h2 {
+:is(h1, h2) {
 	font-size: 1.5em;
 	margin-top: 0.83em;
 	margin-bottom: 0.83em;
@@ -56,6 +49,14 @@ h2 {
 }
 
 h3 {
+	font-size: 1.17em;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	font-weight: bold;
+}
+
+/* Heading levels are semantic; preserve the existing subsection typography. */
+h2:where(.section-heading) {
 	font-size: 1.17em;
 	margin-top: 1em;
 	margin-bottom: 1em;
@@ -1308,7 +1309,7 @@ h1 {
 	margin-bottom: 2px;
 }
 
-h2.blue-bar {
+:is(h1, h2).blue-bar {
 	height: 36px;
 	background: #2b75af;
 	font-size: 16px;
@@ -1321,24 +1322,24 @@ h2.blue-bar {
 	letter-spacing: 3px;
 }
 
-h2.sample-title {
+:is(h1, h2).sample-title {
 	border-bottom: 1px solid #e1e1e1;
 	display: flex;
 	align-items: center;
 	gap: 10px;
 }
 
-h2.sample-title .sample-title-text {
+:is(h1, h2).sample-title .sample-title-text {
 	flex: 1;
 	min-width: 0;
 }
 
-h2.sample-title .sample-title-play {
+:is(h1, h2).sample-title .sample-title-play {
 	flex: none;
 	margin-right: 10px;
 }
 
-h2.sample-title a.sw {
+:is(h1, h2).sample-title a.sw {
 	white-space: nowrap;
 	color: #9f9187;
 	font-size: 24px;
@@ -1348,21 +1349,21 @@ h2.sample-title a.sw {
 	text-decoration: none;
 }
 
-h2.sample-title a.sw:hover {
+:is(h1, h2).sample-title a.sw:hover {
 	text-decoration: underline;
 }
 
-h2.sample-title a.sw:hover span {
+:is(h1, h2).sample-title a.sw:hover span {
 	text-decoration: underline;
 }
 
-h2.sample-title a.sw span {
+:is(h1, h2).sample-title a.sw span {
 	font-size: inherit;
 	font-weight: 400;
 	color: #0066cc;
 }
 
-h2.brown-heading {
+:is(h1, h2).brown-heading {
 	color: #d7ab5b;
 	font-family: "Lusitana", "serif";
 	font-size: 24px;
@@ -1371,7 +1372,8 @@ h2.brown-heading {
 	margin-bottom: 31px;
 }
 
-h3.brown-heading {
+h3.brown-heading,
+h2.section-heading.brown-heading {
 	color: #d7ab5b;
 	font-family: "Lusitana", "serif";
 	font-size: 18px;
@@ -1380,7 +1382,7 @@ h3.brown-heading {
 	margin-bottom: 12px;
 }
 
-h3.brown-border {
+:is(h2, h3).brown-border {
 	font-size: 18px;
 	color: #d8ab5c;
 	padding-bottom: 5px;
@@ -1460,7 +1462,7 @@ header nav#primary-nav ul li.active a {
 header #banner {
 	width: 100%;
 	height: 228px;
-	background: url(../images/banner.jpg) no-repeat 0 0;
+	position: relative;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -1584,7 +1586,7 @@ aside {
 	text-align: left;
 }
 
-aside h2 {
+aside :is(h1, h2) {
 	margin-top: 0;
 	margin-bottom: 0;
 }
@@ -1639,7 +1641,7 @@ aside.search-filter #search, aside.search-filter #tools {
 	padding: 0;
 	margin: 0;
 }
-aside.search-filter #search h2, aside.search-filter #tools h2 {
+aside.search-filter #search :is(h1, h2), aside.search-filter #tools :is(h1, h2) {
 	margin-bottom: 27px;
 }
 aside.search-filter #search .radio-wrap.form-group, aside.search-filter #tools .radio-wrap.form-group {
@@ -1723,7 +1725,7 @@ aside.search-filter #tools .form-group.border-dotted {
 #home-page #primary-content {
 	padding-top: 20px;
 }
-#primary-content h2 {
+#primary-content :is(h1, h2):not(.section-heading) {
 	margin-top: 0;
 }
 #primary-content div.music-area img {
@@ -1733,7 +1735,7 @@ aside.search-filter #tools .form-group.border-dotted {
 	padding-top: 53px;
 	padding-bottom: 70px;
 }
-#primary-content #recently-added h2.blue-bar {
+#primary-content #recently-added :is(h1, h2).blue-bar {
 	text-align: left;
 	padding-left: 21px;
 	letter-spacing: 2px;
@@ -1818,7 +1820,7 @@ aside.search-filter #tools .form-group.border-dotted {
 	padding-right: 12px;
 }
 
-#primary-content.repertoire-content h3.brown-border {
+#primary-content.repertoire-content :is(h2, h3).brown-border {
 	padding-bottom: 2px;
 }
 #primary-content.repertoire-content article.repertoire p {
@@ -1831,14 +1833,14 @@ aside.search-filter #tools .form-group.border-dotted {
 #primary-content.repertoire-content article.repertoire p + h4 {
 	margin-top: 10px;
 }
-#primary-content.repertoire-content article.repertoire.voices h3 {
+#primary-content.repertoire-content article.repertoire.voices :is(h2, h3) {
 	padding-top: 15px;
 }
-#primary-content.repertoire-content article.repertoire.composer h3 {
+#primary-content.repertoire-content article.repertoire.composer :is(h2, h3) {
 	padding-top: 10px;
 	margin-bottom: 5px;
 }
-#primary-content.repertoire-content article.repertoire.composer + article.repertoire h3 {
+#primary-content.repertoire-content article.repertoire.composer + article.repertoire :is(h2, h3) {
 	padding-top: 20px;
 }
 
@@ -1937,7 +1939,7 @@ aside.search-filter #tools .form-group.border-dotted {
     color: white;
     cursor: pointer;
 }
-#keyboard-shortcuts-dialog h2 {
+#keyboard-shortcuts-dialog :is(h1, h2) {
     margin-top: 0;
     padding-top: 0;
 }
@@ -2445,7 +2447,7 @@ table.search-results-table span.location span.point.point-green {
 #primary-content.work-content .title {
 	display: contents;
 }
-#primary-content.work-content .title > h2,
+#primary-content.work-content .title > :is(h1, h2),
 #primary-content.work-content .title > section,
 #primary-content.work-content .title > p {
 	grid-column: 1;
@@ -2468,7 +2470,7 @@ table.search-results-table span.location span.point.point-green {
 	height: 0px;
 	clear: both;
 }
-#primary-content.work-content .title h2 {
+#primary-content.work-content .title :is(h1, h2) {
 	float: none;
 	font-size: 22px;
 	line-height: 1.35;
@@ -2546,7 +2548,7 @@ table.search-results-table span.location span.point.point-green {
 	width: 220px;
 	float: left;
 }
-#primary-content.work-content .title .fl h2 {
+#primary-content.work-content .title .fl :is(h1, h2) {
 	float: none;
 	padding-top: 7px;
 	margin-top: 0;
@@ -2801,13 +2803,13 @@ table.search-results-table span.location span.point.point-green {
 	margin-right: 0;
 }
 
-#primary-content.work-content h3.brown-border {
+#primary-content.work-content :is(h2, h3).brown-border {
 	color: #988a7e;
 	font-size: 22px;
 	font-weight: 700;
 }
 
-#primary-content.work-content .vocal-ranges > h3.brown-border {
+#primary-content.work-content .vocal-ranges > :is(h2, h3).brown-border {
 	padding-top: 44px;
 }
 
@@ -2934,7 +2936,7 @@ table.search-results-table span.location span.point.point-green {
 	position: relative;
 	z-index: 1;
 }
-#primary-content.work-content .downloads h3 {
+#primary-content.work-content .downloads :is(h2, h3) {
 	grid-column: 1 / -1;
 	margin-top: 0;
 	padding-top: 0;
@@ -2954,7 +2956,7 @@ table.search-results-table span.location span.point.point-green {
 	padding-bottom: 9px;
 	border-bottom: 1px solid #e1e1e1;
 }
-#primary-content.work-content .work-section-downloads-heading h3 {
+#primary-content.work-content .work-section-downloads-heading :is(h2, h3) {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -3233,7 +3235,7 @@ article.about {
 	text-align: left;
 	padding: 0 150px;
 }
-article.about h2, article.about h3 {
+article.about :is(h1, h2), article.about h3 {
 	margin-top: 0;
 }
 article.about p, article.about li {
@@ -3254,7 +3256,7 @@ article.about ul li {
 	display: block;
 	margin-bottom: 8px;
 }
-article.about h3.brown-border + ul {
+article.about :is(h2, h3).brown-border + ul {
 	margin-top: 28px;
 }
 article.about .process-steps {
@@ -3297,10 +3299,10 @@ article.about .donor-list {
 	margin-top: 8px;
 	padding-left: 28px;
 }
-article.about.board h3 {
+article.about.board :is(h2, h3) {
 	padding-top: 21px;
 }
-article.about.board h3 + ul {
+article.about.board :is(h2, h3) + ul {
 	margin-top: 18px;
 }
 article.about .team-container {
@@ -3383,7 +3385,7 @@ article.about .team-container + p {
 	padding-right: 87px;
 	border-right: 1px solid #e1e1e1;
 }
-#search h2 {
+#search :is(h1, h2) {
 	margin-top: 0;
 	margin-bottom: 65px;
 }
@@ -3400,7 +3402,7 @@ article.about .team-container + p {
 	padding-left: 93px;
 	padding-right: 71px;
 }
-#tools h2 {
+#tools :is(h1, h2) {
 	margin-top: 0;
 	margin-bottom: 65px;
 }
@@ -3592,7 +3594,7 @@ table.census th:not(:first-child) {
 
 /* Critical notes for work pages */
 
-.critical article h2 {
+.critical article :is(h1, h2) {
 	padding-top: 20px;
 	padding-bottom: 0px;
 	color: red;
@@ -3714,4 +3716,63 @@ table.census th:not(:first-child) {
 #home-page .sample-incipit {
   transform: scale(1.05);
   transform-origin: center top;
+}
+
+/* Accessible page structure without changing the visible layout. */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: 12px;
+    z-index: 10000;
+    padding: 10px 16px;
+    background: white;
+    color: #174e7b;
+    font: 16px "Lato", sans-serif;
+}
+.skip-link:focus {
+    top: 12px;
+    outline: 2px solid #174e7b;
+}
+header #banner .banner-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: left top;
+}
+
+/* Focus indicators appear only during keyboard navigation. */
+[role="button"][tabindex="0"]:focus-visible,
+.select2-container:has(.select2-focusser:focus-visible) .select2-choice,
+.ez-checkbox:has(input:focus-visible),
+.ez-radio:has(input:focus-visible) {
+	outline: 2px solid #2b75af;
+	outline-offset: 3px;
+}
+
+/* The legacy design hides the option filter. Keep it focusable offscreen so
+   Select2 can receive arrow keys and Enter without adding a visible field. */
+.select2-drop-active .select2-search {
+	display: block !important;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
 }

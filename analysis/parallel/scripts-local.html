@@ -26,7 +26,7 @@ Promise.all(['/analysis/parallel/data.json','/analysis/parallel/composers.json']
  const ids=[...new Set(Object.keys(d.works).map(k=>k.slice(0,3)))].sort((a,b)=>(names[a]||a).localeCompare(names[b]||b));
  $('composer').innerHTML='<option value="">Select a repertory</option>'+ids.map(id=>'<option value="'+esc(id)+'">'+esc(names[id]||id)+'</option>').join('');
  const params=new URLSearchParams(location.search);let selected=params.get('repertory')||params.get('composer');try{selected=selected||localStorage.ANALYSISrepertory}catch(e){};if(ids.includes(selected))$('composer').value=selected;
- if(window.jQuery&&jQuery.fn.select2)jQuery('#composer').select2({minimumResultsForSearch:10});
+ if(window.jQuery&&jQuery.fn.select2){jQuery('#composer').select2({minimumResultsForSearch:10});LabelFormSelects();}
  changeComposer();const work=new URLSearchParams(location.search).get('work');if(work&&work.startsWith($('composer').value)&&Object.keys(data.works).some(id=>id.startsWith(work))){if(!data.works[work])$('work').insertAdjacentHTML('afterbegin','<option>'+esc(work)+'</option>');$('work').value=work;render()}
 }).catch(e=>$('status').textContent=e.message);
 

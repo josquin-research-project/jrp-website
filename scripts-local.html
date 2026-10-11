@@ -114,7 +114,7 @@ function displayRandomExample(worklist) {
 
 	output += '<span class="sample-title-play">';
 
-	output += `<span id="audio2_${jrpid}" `;
+	output += `<span role="button" tabindex="0" aria-label="Play audio" id="audio2_${jrpid}" `;
 	output += 'style="cursor:hand; cursor:pointer;" ';
 	output += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 	output += 'href="" class="play">play</span>';
@@ -314,7 +314,7 @@ function printWorklistRecentEntry(entry) {
 
 	// MP3 playback button
 	output += "<td style=\"padding-left:30px;\">";
-	output += "<span id=\"audio_" + jrpid + "\"";
+	output += "<span role=\"button\" tabindex=\"0\" aria-label=\"Play audio\" id=\"audio_" + jrpid + "\"";
 	output += "style=\"cursor:hand; cursor:pointer;\" ";
 	output += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 	output += "href=\"\" class=\"play\">play</span>";

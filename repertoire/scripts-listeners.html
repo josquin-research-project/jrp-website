@@ -76,7 +76,7 @@ const NOTE_TABLE_TEMPLATE = `{% raw %}
 {{#each this}}
 <tr>
 	<td>
-		<span class="text-link"
+		<span role="button" tabindex="0" class="text-link"
 			title="{{comlong}} {{#if comdates}}({{comdates}}){{/if}}"
 			onclick="showComposer('{{repid}}');">{{{censuslabel this}}}</span>
 	</td>
@@ -330,6 +330,8 @@ window.addEventListener("keydown", function (event) {
 
 	// Ignore command-key combos
 	if (CommandKeyState) return;
+
+	if (event.defaultPrevented || (event.target.closest && event.target.closest('button, [role="button"], select, textarea, .select2-container, .select2-drop, a[href]'))) return;
 
 	// Let the help popup handle keyboard input without changing the repertoire.
 	if (document.getElementById("keyboard-shortcuts-dialog")?.open) return;

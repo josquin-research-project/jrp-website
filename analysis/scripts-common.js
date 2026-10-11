@@ -290,14 +290,14 @@ function printAnalysisPageList(currentPage, totalPages, storagePrefix, rerenderF
     previousPage = totalPages;
   }
 
-  output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+  output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
   output += " onclick=\"analysisRenderPage('" + storagePrefix + "', " + previousPage + ", '" + rerenderFunction + "');\">";
   output += leftArrow + "</span></li>\n";
 
   if (currentPage === 1) {
     output += "<li class=\"active\">1</li>\n";
   } else {
-    output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+    output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
     output += " onclick=\"analysisRenderPage('" + storagePrefix + "', 1, '" + rerenderFunction + "');\">1</span></li>\n";
   }
 
@@ -322,7 +322,7 @@ function printAnalysisPageList(currentPage, totalPages, storagePrefix, rerenderF
     }
 
     if (needPreDots) {
-      output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+      output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
       output += " onclick=\"analysisRenderPage('" + storagePrefix + "', " + (currentPage - 1) + ", '" + rerenderFunction + "');\">";
       output += ellipsis + "</span></li>\n";
     }
@@ -332,7 +332,7 @@ function printAnalysisPageList(currentPage, totalPages, storagePrefix, rerenderF
     }
 
     if (needPostDots) {
-      output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+      output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
       output += " onclick=\"analysisRenderPage('" + storagePrefix + "', " + (currentPage + 1) + ", '" + rerenderFunction + "');\">";
       output += ellipsis + "</span></li>\n";
     }
@@ -341,7 +341,7 @@ function printAnalysisPageList(currentPage, totalPages, storagePrefix, rerenderF
   if (currentPage === totalPages) {
     output += "<li class=\"active\">" + currentPage + "</li>\n";
   } else {
-    output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+    output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
     output += " onclick=\"analysisRenderPage('" + storagePrefix + "', " + totalPages + ", '" + rerenderFunction + "');\">";
     output += totalPages + "</span></li>\n";
   }
@@ -351,12 +351,12 @@ function printAnalysisPageList(currentPage, totalPages, storagePrefix, rerenderF
     nextPage = 1;
   }
 
-  output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+  output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
   output += " onclick=\"analysisRenderPage('" + storagePrefix + "', " + nextPage + ", '" + rerenderFunction + "');\">";
   output += rightArrow + "</span></li>\n";
 
   output += "<li>";
-  output += "<span style=\"cursor:hand; cursor:pointer; letter-spacing:-0.5px;\"";
+  output += "<span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer; letter-spacing:-0.5px;\"";
   output += " onclick=\"analysisSetPageView('" + storagePrefix + "', 'all', '" + rerenderFunction + "');\">view all</span>";
   output += "</li>\n";
   output += "</ul>\n";
@@ -378,7 +378,7 @@ function printAnalysisPageListAll(totalPages, storagePrefix, rerenderFunction) {
   }
 
   output += "<ul><li>";
-  output += "<span style=\"cursor:hand; cursor:pointer; letter-spacing:-0.5px;\"";
+  output += "<span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer; letter-spacing:-0.5px;\"";
   output += " onclick=\"analysisSetPageView('" + storagePrefix + "', 'paged', '" + rerenderFunction + "');\">paged view</span>";
   output += "</li></ul>\n";
   pagelist.innerHTML = output;
@@ -477,7 +477,7 @@ function buildRepertorySelect() {
 
   let output = "";
   output += '<table><tr valign="baseline"><td><span align="left" class="grey" style="margin-top:-36px;" class="text">Choose&nbsp;repertory&nbsp;&nbsp;</span></td><td>';
-  output += '<select style="width:230px;" id="repertory" onchange="analyzeRepertory();">\n';
+  output += '<select style="width:230px;" id="repertory" aria-label="Repertory" onchange="analyzeRepertory();">\n';
   output += '<option value="">Select a repertory</option>\n';
   output += GetComposerOptions(WORKS || []);
   output += "</select></td></tr></table>\n";
@@ -492,7 +492,7 @@ function buildGenreSelect() {
 
   let output = "";
   output += '<table><tr valign="baseline"><td><span align="left" class="grey" style="margin-top:-36px;" class="text">&nbsp;genre&nbsp;&nbsp;</span></td><td>';
-  output += '<select style="width:120px;" id="genre" onchange="analyzeGenre();">\n';
+  output += '<select style="width:120px;" id="genre" aria-label="Genre" onchange="analyzeGenre();">\n';
   output += '<option value="">All genres</option>\n';
   output += getAnalysisGenreOptions(localStorage.ANALYSISrepertory || "");
   output += "</select></td></tr></table>\n";
@@ -507,7 +507,7 @@ function buildWorkSelect(repertory, genre) {
 
   let output = "";
   output += '<table><tr valign="baseline"><td><span align="left" class="grey" style="margin-top:-36px;" class="text">&nbsp;work&nbsp;&nbsp;</span></td><td>';
-  output += '<select style="width:320px;" id="work" onchange="analyzeWork();">\n';
+  output += '<select style="width:320px;" id="work" aria-label="Work" onchange="analyzeWork();">\n';
   output += '<option value="">All works</option>\n';
   output += GetWorkOptions(repertory, genre || "");
   output += "</select></td></tr></table>\n";

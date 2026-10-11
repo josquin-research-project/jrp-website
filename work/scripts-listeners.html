@@ -170,7 +170,7 @@ function ShowAnalysisRepertory() {
 
 window.addEventListener('keydown', function(event) {
 
-	if (event.target.closest && event.target.closest("button")) {
+	if (event.defaultPrevented || (event.target.closest && event.target.closest("button, [role=button], select, textarea, a[href]"))) {
 		// Preserve native keyboard activation and focus behavior for buttons.
 		return;
 	}

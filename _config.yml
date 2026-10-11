@@ -13,6 +13,8 @@ exclude:
   - tmp
   - .legacy-archive
   - tools
+  - images/README.md
+  - images/mensuration/README.md
 
 markdown: kramdown
 

@@ -89,7 +89,7 @@ function buildComposerSelect() {
   }
 
   var clist = GetComposerOptions(WORKS || []);
-  var output = "<select id=\"composers\" data-placeholder=\"All Composers\">\n";
+  var output = "<select id=\"composers\" aria-label=\"Composer\" data-placeholder=\"All Composers\">\n";
   output += "<option label=\"default\">All Composers</option>\n";
   output += clist;
   output += "</select>\n";
@@ -97,7 +97,7 @@ function buildComposerSelect() {
 
   var repsel = document.getElementById("repertory-select");
   if (repsel) {
-    var repout = "<select style=\"width:230px;\" id=\"repertory\">\n";
+    var repout = "<select style=\"width:230px;\" id=\"repertory\" aria-label=\"Repertory\">\n";
     repout += clist;
     repout += "</select>\n";
     repsel.innerHTML = repout;
@@ -118,7 +118,7 @@ function buildGenreSelect() {
     return;
   }
 
-  var output = "<select id=\"genres\" data-placeholder=\"All Genres\">\n";
+  var output = "<select id=\"genres\" aria-label=\"Genre\" data-placeholder=\"All Genres\">\n";
   output += "<option label=\"default\">All Genres</option>\n";
   output += GetGenreBrowseOptions();
   output += "</select>\n";
@@ -132,7 +132,7 @@ function buildVoiceSelect() {
     return;
   }
 
-  var output = "<select id=\"voices\" data-placeholder=\"All Voices\">\n";
+  var output = "<select id=\"voices\" aria-label=\"Number of voices\" data-placeholder=\"All Voices\">\n";
   output += "<option label=\"default\">All Voices</option>\n";
   output += GetVoiceOptions();
   output += "</select>\n";

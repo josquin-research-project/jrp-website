@@ -1,20 +1,20 @@
 <section id="search">
-  <h2 class="blue-bar">
+  <h1 class="blue-bar">
     Search
-    <span id="search-help" onclick="return showPopupHelp('search-help.html', 'Search Help');" class="info">info</span>
-  </h2>
+    <span role="button" tabindex="0" aria-label="Search help (opens a new window)" id="search-help" onclick="return showPopupHelp('search-help.html', 'Search Help');" class="info">info</span>
+  </h1>
 
   <form action="#" onsubmit="doSearch(); return false;">
     <div class="form-group">
-      <input id="pitch" type="text" class="form-control" placeholder="Enter Pitch">
+      <input id="pitch" type="text" class="form-control" placeholder="Enter Pitch" aria-label="Pitch">
     </div>
 
     <div class="form-group">
-      <input id="interval" type="text" class="form-control" placeholder="Enter Interval">
+      <input id="interval" type="text" class="form-control" placeholder="Enter Interval" aria-label="Interval">
     </div>
 
     <div class="form-group">
-      <input id="rhythm" type="text" class="form-control" placeholder="Enter Rhythm">
+      <input id="rhythm" type="text" class="form-control" placeholder="Enter Rhythm" aria-label="Rhythm">
     </div>
 
     <div id="composers-select" class="form-group"></div>
@@ -24,7 +24,7 @@
     <div id="search-verification" style="min-height:65px; margin:12px 0;"></div>
 <p id="search-verification-status" role="status"></p>
 <div class="form-group text-center border-dotted">
-      <span style="cursor:pointer;" onclick="doSearch();" class="btn btn-brown">Search</span>
+      <span role="button" tabindex="0" style="cursor:pointer;" onclick="doSearch();" class="btn btn-brown">Search</span>
     </div>
   </form>
 </section>
@@ -32,7 +32,7 @@
 <section id="tools">
   <h2 class="blue-bar">
     ANALYSIS TOOLS
-    <span id="analysis-help" onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class="info">info</span>
+    <span role="button" tabindex="0" aria-label="Analysis tools help (opens a new window)" id="analysis-help" onclick="return showPopupHelp('analysis-help.html', 'Analysis Help');" class="info">info</span>
   </h2>
 
   <table><tr><td>

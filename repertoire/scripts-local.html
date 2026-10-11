@@ -445,7 +445,7 @@ function fillInAboutComposerList() {
     }
     columns[col] +=
       namePrefix +
-      "<span onclick='showComposer(\"" + repid + "\");' " +
+      "<span role='button' tabindex='0' onclick='showComposer(\"" + repid + "\");' " +
       "class='composer-link2'>" +
       linkedName +
       "</span>" +
@@ -729,12 +729,12 @@ function generateComposerWorkEntries(worklist, index, seenBaseIds) {
 		//mp3link	+= "?a=mp3&f=" + jrpid + "'>play</a>";
 
 	   if (AUDIOjrpid == jrpid) {
-			mp3link = "<a id=\"audio_" + jrpid + "\" ";
+			mp3link = "<a role=\"button\" tabindex=\"0\" aria-label=\"Play audio\" id=\"audio_" + jrpid + "\" ";
 			mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
 			mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 			mp3link += "class=\"pause\">play</a>";
 		} else {
-			mp3link = "<a id=\"audio_" + jrpid + "\" ";
+			mp3link = "<a role=\"button\" tabindex=\"0\" aria-label=\"Play audio\" id=\"audio_" + jrpid + "\" ";
 			mp3link += "name=\"\" style=\"cursor:hand; cursor:pointer;\" ";
 			mp3link += "onclick=\"PlayAudioFile('" + jrpid + "', this);\" ";
 			mp3link += "class=\"play\">play</a>";
@@ -921,7 +921,7 @@ function printPageList(currentpage, totalpages) {
 	}
 
 	// print left arrow 
-	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
 	output += " onclick=\"repertoireDisplay(";
 	output += previouspage;
 	output += ");\">";
@@ -931,7 +931,7 @@ function printPageList(currentpage, totalpages) {
 	if (currentpage == 1) {
 		output += "<li class=\"active\">1</li>\n";
 	} else {
-		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
 		output += " onclick=\"repertoireDisplay(1);\">";
 		output += "1</span></li>\n";
 	}
@@ -957,7 +957,7 @@ function printPageList(currentpage, totalpages) {
 		}
 	
 		if (needpredots) {
-			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
 			output += " onclick=\"repertoireDisplay(";
 			output += (currentpage - 1) + ");\">";
 			output += elipsis + "</span></li>\n";
@@ -968,7 +968,7 @@ function printPageList(currentpage, totalpages) {
 		}
 	
 		if (needpostdots) {
-			output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+			output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
 			output += " onclick=\"repertoireDisplay(";
 			output += (currentpage + 1) + ");\">";
 			output += elipsis + "</span></li>\n";
@@ -979,7 +979,7 @@ function printPageList(currentpage, totalpages) {
 	if (currentpage == totalpages) {
 		output += "<li class=\"active\">" + currentpage + "</li>\n";
 	} else {
-		output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+		output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
 		output += " onclick=\"repertoireDisplay(";
 		output += totalpages;
 		output += ");\">";
@@ -992,13 +992,13 @@ function printPageList(currentpage, totalpages) {
 	}
 
 	// print right arrow gray if on page one otherwise blue.
-	output += "<li><span style=\"cursor:hand; cursor:pointer;\"";
+	output += "<li><span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;\"";
 	output += " onclick=\"repertoireDisplay(";
 	output += nextpage + ");\">";
 	output += rightarrow + "</span></li>\n";
 
 	output += "<li>";
-	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += "<span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:=-0.5px;\"";
 	output += " onclick=\"sessionStorage.REPERTOIREpageview='all';";
 	output += " repertoireDisplay(1);\">view all</span>";
@@ -1027,7 +1027,7 @@ function printPageListAll(totalpages) {
 	}
 
 	output += "<ul><li>";
-	output += "<span style=\"cursor:hand; cursor:pointer;";
+	output += "<span role=\"button\" tabindex=\"0\" style=\"cursor:hand; cursor:pointer;";
 	output += " letter-spacing:-0.5px;\"";
 	output += " onclick=\"sessionStorage.REPERTOIREpageview='paged';";
 	output += " repertoireDisplay(1);\">paged view</span>";
@@ -1349,7 +1349,7 @@ function buildComposerSelect() {
 		return;
 	}
 
-	var output = "<select id=\"composers\"";
+	var output = "<select id=\"composers\" aria-label=\"Composer\"";
 	output += " onchange=\"repertoireDisplay(1);\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"All Composers\">All Composers</option>\n";
@@ -1374,7 +1374,7 @@ function buildGenreSelect() {
 		return;
 	}
 
-	var output = "<select id=\"genres\"";
+	var output = "<select id=\"genres\" aria-label=\"Genre\"";
 	output += " onchange=\"repertoireDisplay(1);\"";
 	output += " data-placeholder=\"All Genres\">\n";
 	output += "<option value=\"\" label=\"default\">All Genres</option>\n";
@@ -1399,7 +1399,7 @@ function buildVoiceSelect() {
 		return;
 	}
 
-	var output = "<select id=\"voices\"";
+	var output = "<select id=\"voices\" aria-label=\"Number of voices\"";
 	output += " onchange=\"repertoireDisplay(1);\"";
 	output += " data-placeholder=\"All Composers\">\n";
 	output += "<option value=\"\" label=\"default\">All Voices</option>\n";

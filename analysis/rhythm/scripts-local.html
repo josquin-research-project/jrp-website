@@ -12,6 +12,7 @@ function styleMensurationSelector(){
  const selector=jQuery('#mensuration');if(selector.data('select2'))selector.select2('destroy');
  const format=option=>option.id?mensurationSign(option.id,.026):esc(option.text);
  selector.select2({width:'off',formatResult:format,formatSelection:format});
+ LabelFormSelects();
 }
 document.addEventListener('DOMContentLoaded',styleMensurationSelector);
 function code(events){return events.map(([kind,value])=>{let n=value.split('/').map(Number),d=n[0]/(n[1]||1),name;for(let dots=0;dots<4;dots++){const base=d/(2-1/2**dots);name=({16:'l',8:'b',4:'w',2:'m',1:'q',.5:'e',.25:'s'})[base];if(name){name+='d'.repeat(dots);break;}}name=name||value+'q';return (kind.startsWith('held')?'t':'')+name+(kind==='rest'?'r':'')+(kind.endsWith('-out')?'~':'');}).join('_');}

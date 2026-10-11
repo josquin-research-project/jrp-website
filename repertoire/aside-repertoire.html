@@ -14,7 +14,7 @@
           type="text"
           class="form-control"
           placeholder="Enter Title"
-        >
+         aria-label="Title">
       </div>
 
       <!-- Action buttons -->
@@ -25,7 +25,7 @@
           <span
             class="btn btn-brown"
             onclick="repertoireDisplayAll();"
-            role="button"
+            role="button" tabindex="0"
           >
             View Complete Repertory
           </span>
@@ -34,7 +34,7 @@
           <span
             class="btn btn-brown"
             onclick="showAllTextedWorks();"
-            role="button"
+            role="button" tabindex="0"
           >
             All Texted Works
           </span>
@@ -43,13 +43,13 @@
           <span
             class="btn btn-brown"
             onclick="showCensusInfo();"
-            role="button"
+            role="button" tabindex="0"
           >
             Statistics
           </span>
         </div>
         <div id="home-button" class="form-group" style="display:none;">
-          <span class="btn btn-brown" onclick="displayAboutRepertoire();" role="button">
+          <span class="btn btn-brown" onclick="displayAboutRepertoire();" role="button" tabindex="0">
             Repertoire Home
           </span>
         </div>

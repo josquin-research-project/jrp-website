@@ -791,9 +791,9 @@ var AUDIOrequestSerial = 0;
 
 function SyncAudioControls() {
   var playing = AUDIO && !AUDIO.paused && !AUDIO.ended && !AUDIO.error;
-  var buttons = document.querySelectorAll('[data-audio-id], [id^="audio_"]');
+  var buttons = document.querySelectorAll('[data-audio-id], [id^="audio_"], [id^="audio2_"]');
   Array.prototype.forEach.call(buttons, function(button) {
-    var id = button.getAttribute('data-audio-id') || button.id.replace(/^audio_/, '');
+    var id = button.getAttribute('data-audio-id') || button.id.replace(/^audio2?_/, '');
     var active = !!playing && id === AUDIOjrpid;
     if (button.classList.contains('work-play-toggle')) {
       button.setAttribute('data-playing', String(active));
@@ -804,6 +804,7 @@ function SyncAudioControls() {
       button.setAttribute('aria-label', title);
       button.title = title;
     } else {
+      button.setAttribute('aria-label', (active ? 'Pause audio for ' : 'Play audio for ') + id);
       var prefix = /mp3/.test(button.className) ? 'mp3' : '';
       button.classList.remove('play', 'pause', 'mp3play', 'mp3pause');
       button.classList.add(prefix + (active ? 'pause' : 'play'));

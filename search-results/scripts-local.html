@@ -290,7 +290,7 @@ function formatScoreLinks(jrpid, entry) {
 
 function formatAudioLink(jrpid) {
   const id = "audio_" + jrpid.replace(/[^\w.-]/g, "_");
-  return "<a id=\"" + id + "\" style=\"cursor:pointer;\" onclick=\"PlayAudioFile('" +
+  return "<a role=\"button\" tabindex=\"0\" aria-label=\"Play audio\" id=\"" + id + "\" style=\"cursor:pointer;\" onclick=\"PlayAudioFile('" +
     escapeJs(jrpid) + "', this);\" class=\"play\">play</a>";
 }
 
@@ -334,7 +334,7 @@ function printPageLink(page, label, disabled, active) {
   if (disabled) {
     return "<li" + className + "><span>" + label + "</span></li>";
   }
-  return "<li" + className + "><span onclick=\"displaySearchResults(" + page + ");\">" + label + "</span></li>";
+  return "<li" + className + "><span role=\"button\" tabindex=\"0\" aria-label=\"Results page " + page + "\" onclick=\"displaySearchResults(" + page + ");\">" + label + "</span></li>";
 }
 
 function sumMatches(locations) {
