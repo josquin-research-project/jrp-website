@@ -1310,6 +1310,9 @@ function displayHumdrumIncipit(jrpid, sections) {
 function clearHumdrumScoreEntry(sourceId) {
 	var entry = window.HNP && HNP.entries ? HNP.entries[sourceId] : null;
 	if (entry) {
+		if (entry._scObserver) {
+			entry._scObserver.disconnect();
+		}
 		if (entry._resizeObserver) {
 			entry._resizeObserver.disconnect();
 		}
@@ -1384,6 +1387,7 @@ function renderHumdrumScore(sourceId) {
 	var renderTimeout = setTimeout(failed, 30000);
 	var options = {
 		source: sourceId,
+		prepareData: JRPsignum.prepareData,
 		scale: 35,
 		pageHeight: WORKscoreExpanded ? 60000 : 650,
 		pageMarginTop: 20,
@@ -1397,6 +1401,15 @@ function renderHumdrumScore(sourceId) {
 		postFunction: function() {
 			clearTimeout(renderTimeout);
 			if (token !== WORKscoreRequestToken) return;
+			var output = document.getElementById(sourceId + "-svg");
+			JRPsignum.patch(output);
+			var entry = window.HNP && HNP.entries ? HNP.entries[sourceId] : null;
+			if (output && entry && !entry._scObserver) {
+				entry._scObserver = new MutationObserver(function() {
+					if (token === WORKscoreRequestToken) JRPsignum.patch(output);
+				});
+				entry._scObserver.observe(output, {childList: true, subtree: true});
+			}
 			renderStatus.hidden = true;
 			resetHeight();
 		},
