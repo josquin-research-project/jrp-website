@@ -18,7 +18,9 @@
         if (!token.startsWith("!LO:TX:")) return token;
         const match = token.match(/:t=(\[sc\]|\[\[sc\]\]|\[sc-below\])$/);
         if (!match) return token;
-        const tag = match[1] === "[sc-below]" ? "jrp-sc-down" : "jrp-sc-up";
+        const hidden = /:color=transparent(?=:|$)/.test(token);
+        const tag = (match[1] === "[sc-below]" ? "jrp-sc-down" : "jrp-sc-up") +
+          (hidden ? "" : " jrp-sc-reserve");
         let prefix = token.slice(0, match.index);
         if (/:type=/.test(prefix)) {
           prefix = prefix.replace(/:type=([^:]*)/, (field, value) =>
@@ -36,8 +38,10 @@
           break;
         }
         // Intentionally hidden signs should not reserve extra display space.
-        const symbol = /:color=transparent(?=:|$)/.test(prefix)
-          ? match[0] : match[0].replace(/sc(?:-below)?/, "segno");
+        // Reserve a taller placeholder for clearance from lyrics above. The
+        // displayed historical sign is restored to its normal size in patch().
+        const symbol = hidden
+          ? match[0] : match[0].replace(/sc(?:-below)?/, "segno|150%");
         return prefix + symbol;
       }).join("\t");
     }).join("\n");
@@ -86,6 +90,10 @@
         direction.querySelectorAll(".symbol tspan[font-family]").forEach(span => {
           const glyph = span.textContent.trim();
           if (glyph && glyph !== "\uE047") return;
+          if (direction.classList.contains("jrp-sc-reserve")) {
+            const size = parseFloat(span.getAttribute("font-size"));
+            if (Number.isFinite(size)) span.setAttribute("font-size", Math.ceil(size / 1.5) + "px");
+          }
           span.setAttribute("font-family", FONT);
           span.textContent = direction.classList.contains("jrp-sc-down") ? "\uEA01" : "\uEA00";
           filled = true;

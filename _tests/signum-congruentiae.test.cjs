@@ -8,8 +8,8 @@ test('SC rendering labels preserve staff columns, placement, visibility and brac
     '1c\tNe\t1r\n!LO:TX:b:t=[sc-below]\t!\t!\n*-\t*-\t*-\n';
   const prepared = prepareData('score', data);
   assert.equal(prepared, data.replace(':t=[sc]', ':type=jrp-sc-up jrp-sc-target-L3F1:t=[sc]')
-    .replace(':t=[[sc]]', ':type=jrp-sc-up jrp-sc-target-L3F3:t=[[segno]]')
-    .replace(':t=[sc-below]', ':type=jrp-sc-down:t=[segno]'));
+    .replace(':t=[[sc]]', ':type=jrp-sc-up jrp-sc-reserve jrp-sc-target-L3F3:t=[[segno|150%]]')
+    .replace(':t=[sc-below]', ':type=jrp-sc-down jrp-sc-reserve:t=[segno|150%]'));
   assert.equal(prepareData('score', prepared), prepared);
 });
 
@@ -20,7 +20,7 @@ test('ordinary symbols, prose and global comments are untouched', () => {
 
 test('existing direction types are retained', () => {
   assert.equal(prepareData('score', '!LO:TX:a:type=editorial:t=[sc]'),
-    '!LO:TX:a:type=editorial jrp-sc-up:t=[segno]');
+    '!LO:TX:a:type=editorial jrp-sc-up jrp-sc-reserve:t=[segno|150%]');
 });
 
 function drawing(symbols) {
@@ -32,7 +32,7 @@ function drawing(symbols) {
   }));
   const directions = spans.map(span => ({
     attrs: {},
-    classList: {contains() { return Boolean(span.down); }},
+    classList: {contains(name) { return name === 'jrp-sc-down' && Boolean(span.down); }},
     querySelectorAll() { return [span]; },
     querySelector() { return span; },
     getAttribute(key) { return this.attrs[key] || null; },
@@ -112,4 +112,16 @@ test('historical ink centers on attached noteheads and rests without accumulatin
     patch(d.container);
     assert.equal(direction.attrs.transform, transform);
   }
+});
+
+test('taller layout placeholders restore the displayed size and clearance once', () => {
+  const d = drawing([{text: '\uE047'}]);
+  d.spans[0].attrs['font-size'] = '1079px'; // Verovio rounds its percentage-sized placeholder.
+  d.directions[0].classList = {contains: name => name === 'jrp-sc-reserve'};
+  patch(d.container);
+  assert.equal(d.spans[0].attrs['font-size'], '720px');
+  assert.equal(d.directions[0].attrs.transform, ' translate(0,-90)');
+  patch(d.container);
+  assert.equal(d.spans[0].attrs['font-size'], '720px');
+  assert.equal(d.directions[0].attrs.transform, ' translate(0,-90)');
 });
