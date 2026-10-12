@@ -11,9 +11,10 @@
   // A supported segno reserves space before we substitute the historical glyph.
   // An empty [sc] otherwise has no height for Verovio's collision avoidance.
   function prepareData(baseId, text) {
-    return text.split("\n").map(line => {
+    const lines = text.split("\n");
+    return lines.map((line, index) => {
       if (!line.startsWith("!") || line.startsWith("!!")) return line;
-      return line.split("\t").map(token => {
+      return line.split("\t").map((token, field) => {
         if (!token.startsWith("!LO:TX:")) return token;
         const match = token.match(/:t=(\[sc\]|\[\[sc\]\]|\[sc-below\])$/);
         if (!match) return token;
@@ -25,12 +26,54 @@
         } else {
           prefix += ":type=" + tag;
         }
+        // Retain the exact Humdrum attachment across layout and redraws.
+        for (let next = index + 1; !/\bjrp-sc-target-L\d+F\d+\b/.test(prefix) && next < lines.length; next++) {
+          if (!lines[next] || /^[!* =]/.test(lines[next])) continue;
+          const event = lines[next].split("\t")[field];
+          if (!event || event === ".") continue;
+          prefix = prefix.replace(/:type=([^:]*)/, "$& jrp-sc-target-L" +
+            (next + 1) + "F" + (field + 1));
+          break;
+        }
         // Intentionally hidden signs should not reserve extra display space.
         const symbol = /:color=transparent(?=:|$)/.test(prefix)
           ? match[0] : match[0].replace(/sc(?:-below)?/, "segno");
         return prefix + symbol;
       }).join("\t");
     }).join("\n");
+  }
+
+  function centerSign(svg, direction) {
+    if (direction.getAttribute("data-jrp-sc-centered")) return;
+    const span = direction.querySelector('.symbol tspan[font-family="' + FONT + '"]');
+    const attachment = (direction.getAttribute("class") || "").match(/\bjrp-sc-target-(L\d+F\d+)\b/);
+    if (!span || !attachment || !direction.getCTM) return;
+    const id = attachment[1];
+    const target = svg.querySelector('[id="chord-' + id + '"]') ||
+      svg.querySelector('[id="note-' + id + '"]') ||
+      svg.querySelector('[id="rest-' + id + '"]');
+    if (!target) return;
+    const shape = target.querySelector(".notehead") || target;
+    try {
+      const box = shape.getBBox();
+      const matrix = direction.getCTM();
+      if (!matrix || !box.width) return; // Hidden/unfinished render: retry later.
+      const point = svg.createSVGPoint();
+      point.x = box.x + box.width / 2;
+      point.y = box.y + box.height / 2;
+      const targetCenter = point.matrixTransform(shape.getCTM()).matrixTransform(matrix.inverse());
+      const start = span.getStartPositionOfChar(0);
+      // Both embedded Bravura outlines span x=0..285 in a 1000-unit em.
+      // Use ink width, rather than the text advance or the old segno's box.
+      point.x = start.x + parseFloat(span.getAttribute("font-size")) * 0.1425;
+      point.y = start.y;
+      const glyphCenter = point.matrixTransform(span.getCTM()).matrixTransform(matrix.inverse());
+      const shift = targetCenter.x - glyphCenter.x;
+      if (!Number.isFinite(shift)) return;
+      direction.setAttribute("transform", (direction.getAttribute("transform") || "") +
+        " translate(" + shift + ",0)");
+      direction.setAttribute("data-jrp-sc-centered", "true");
+    } catch (_) { /* Detached SVGs will be retried after insertion. */ }
   }
 
   // Substitute only labeled SC placeholders. Verovio retains control of staff,
@@ -59,6 +102,7 @@
             direction.setAttribute("data-jrp-sc-clearance", "true");
           }
         }
+        centerSign(svg, direction);
       });
       if (filled && !svg.querySelector("style[data-jrp-historical-signs]")) {
         const style = svg.ownerDocument.createElementNS(NS, "style");

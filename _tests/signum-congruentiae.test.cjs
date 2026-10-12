@@ -7,8 +7,8 @@ test('SC rendering labels preserve staff columns, placement, visibility and brac
     '!LO:TX:a:color=transparent:t=[sc]\t!\t!LO:TX:Z=8:t=[[sc]]\n' +
     '1c\tNe\t1r\n!LO:TX:b:t=[sc-below]\t!\t!\n*-\t*-\t*-\n';
   const prepared = prepareData('score', data);
-  assert.equal(prepared, data.replace(':t=[sc]', ':type=jrp-sc-up:t=[sc]')
-    .replace(':t=[[sc]]', ':type=jrp-sc-up:t=[[segno]]')
+  assert.equal(prepared, data.replace(':t=[sc]', ':type=jrp-sc-up jrp-sc-target-L3F1:t=[sc]')
+    .replace(':t=[[sc]]', ':type=jrp-sc-up jrp-sc-target-L3F3:t=[[segno]]')
     .replace(':t=[sc-below]', ':type=jrp-sc-down:t=[segno]'));
   assert.equal(prepareData('score', prepared), prepared);
 });
@@ -78,4 +78,38 @@ test('clearance scales with the score and does not accumulate on redraw', () => 
   patch(d.container);
   assert.equal(d.directions[0].attrs.transform, 'translate(20,30) translate(0,-90)');
   assert.equal(d.directions[1].attrs.transform, ' translate(0,100)');
+});
+
+test('attachments skip null events, comments and barlines in their own spine', () => {
+  const data = '**kern\t**kern\n!LO:TX:a:t=[sc]\t!\n.\t4e\n=1\t=1\n!\t!\n1c\t.\n';
+  assert.match(prepareData('score', data), /jrp-sc-target-L6F1/);
+});
+
+test('historical ink centers on attached noteheads and rests without accumulating', () => {
+  for (const [width, expected] of [[291, 42.9], [90, -57.6]]) {
+    const d = drawing([{text: '\uE047'}]);
+    const direction = d.directions[0];
+    direction.attrs.class = 'dir jrp-sc-up jrp-sc-target-L87F5';
+    const matrix = {inverse() { return this; }};
+    direction.getCTM = () => matrix;
+    d.spans[0].getCTM = () => matrix;
+    d.spans[0].getStartPositionOfChar = () => ({x: 1000, y: 600});
+    const shape = {getBBox: () => ({x: 1000, y: 700, width, height: 100}),
+      getCTM: () => matrix};
+    const svg = d.container.querySelectorAll()[0];
+    const originalQuery = svg.querySelector;
+    svg.querySelector = selector => selector === '[id="note-L87F5"]' && width === 291
+      ? {querySelector: () => shape}
+      : selector === '[id="rest-L87F5"]' && width === 90
+        ? {...shape, querySelector: () => null} : originalQuery();
+    svg.createSVGPoint = () => ({x: 0, y: 0, matrixTransform() { return {...this}; }});
+    patch(d.container);
+    assert.equal(direction.attrs['data-jrp-sc-centered'], 'true');
+    const shift = Number(direction.attrs.transform.match(/translate\(([^,]+),0\)/)[1]);
+    assert.ok(Math.abs(shift - expected) < 1e-9);
+    assert.match(direction.attrs.transform, /translate\(0,-90\)/);
+    const transform = direction.attrs.transform;
+    patch(d.container);
+    assert.equal(direction.attrs.transform, transform);
+  }
 });
