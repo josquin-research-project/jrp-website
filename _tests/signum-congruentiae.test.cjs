@@ -125,3 +125,17 @@ test('taller layout placeholders restore the displayed size and clearance once',
   assert.equal(d.spans[0].attrs['font-size'], '720px');
   assert.equal(d.directions[0].attrs.transform, ' translate(0,-90)');
 });
+
+
+test('SC glyphs and editorial brackets are upright, including on redraw', () => {
+  const d = drawing([{text: '\uE047'}]);
+  const bracket = {attrs: {'font-style':'italic'}, setAttribute(key,value) { this.attrs[key]=value; }};
+  const original = d.directions[0].querySelectorAll;
+  d.directions[0].querySelectorAll = selector => selector === 'text, tspan'
+    ? [bracket, ...d.spans] : original();
+  patch(d.container);
+  assert.equal(bracket.attrs['font-style'], 'normal');
+  assert.equal(d.spans[0].attrs['font-style'], 'normal');
+  patch(d.container);
+  assert.equal(bracket.attrs['font-style'], 'normal');
+});

@@ -87,6 +87,9 @@
     container.querySelectorAll("svg").forEach(svg => {
       let filled = false;
       svg.querySelectorAll("g.dir.jrp-sc-up, g.dir.jrp-sc-down").forEach(direction => {
+        // Editorial brackets belong to the sign, rather than italic direction text.
+        direction.querySelectorAll("text, tspan").forEach(node =>
+          node.setAttribute("font-style", "normal"));
         direction.querySelectorAll(".symbol tspan[font-family]").forEach(span => {
           const glyph = span.textContent.trim();
           if (glyph && glyph !== "\uE047") return;
