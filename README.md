@@ -44,6 +44,15 @@ Humdrum scores are maintained in the separate JRP scores repository. Website met
 
 The separate **digital-library-build** toolkit supports both the JRP and The 1520s Project. It generates PDFs, MEI, MusicXML, MIDI, MP3 audio, timemaps, incipits, vocal-range plots, and activity plots from Humdrum scores. Build tools and generated files are maintained outside this website repository.
 
+Metadata downloads now use direct Google Sheets CSV exports through
+`digital-library-build/tools/metadata`, including normal `make` and metadata-only
+targets. Verified source tab IDs, headers and boundaries are configured in
+`digital-library-build/config/sheets/jrp.json`. Text values, field omission and
+commentary ordering are preserved; empty editions is explicitly supported.
+All downloads validate before replacing website data. JRP does not depend on
+Mapping's helper or the desktop widget. See the metadata helper README for
+every-field comparison commands against the former exports.
+
 Verovio provides browser-based notation rendering. Analysis tools combine score processing with interactive displays on the website.
 
 ## Hosting and services
