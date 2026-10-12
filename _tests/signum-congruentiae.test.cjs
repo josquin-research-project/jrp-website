@@ -1,15 +1,15 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const {prepareData, patch} = require('../_includes/scripts/signum-congruentiae.js');
+const {prepareData, prepareMEI, fontOptions, patch} = require('../_includes/scripts/signum-congruentiae.js');
 
 test('SC rendering labels preserve staff columns, placement, visibility and brackets', () => {
   const data = '**kern\t**text\t**kern\n' +
     '!LO:TX:a:color=transparent:t=[sc]\t!\t!LO:TX:Z=8:t=[[sc]]\n' +
     '1c\tNe\t1r\n!LO:TX:b:t=[sc-below]\t!\t!\n*-\t*-\t*-\n';
   const prepared = prepareData('score', data);
-  assert.equal(prepared, data.replace(':t=[sc]', ':type=jrp-sc-up jrp-sc-target-L3F1:t=[sc]')
-    .replace(':t=[[sc]]', ':type=jrp-sc-up jrp-sc-reserve jrp-sc-target-L3F3:t=[[segno|150%]]')
-    .replace(':t=[sc-below]', ':type=jrp-sc-down jrp-sc-reserve:t=[segno|150%]'));
+  assert.equal(prepared, data.replace(':t=[sc]', ':type=jrp-sc-up jrp-sc-hidden jrp-sc-target-L3F1:t=[sc]')
+    .replace(':t=[[sc]]', ':type=jrp-sc-up jrp-sc-target-L3F3:t=[[sc]]')
+    .replace(':t=[sc-below]', ':type=jrp-sc-down:t=[sc-below]'));
   assert.equal(prepareData('score', prepared), prepared);
 });
 
@@ -20,13 +20,13 @@ test('ordinary symbols, prose and global comments are untouched', () => {
 
 test('existing direction types are retained', () => {
   assert.equal(prepareData('score', '!LO:TX:a:type=editorial:t=[sc]'),
-    '!LO:TX:a:type=editorial jrp-sc-up jrp-sc-reserve:t=[segno|150%]');
+    '!LO:TX:a:type=editorial jrp-sc-up:t=[sc]');
 });
 
 function drawing(symbols) {
   const styles = [];
   const spans = symbols.map(({text, down}) => ({
-    textContent: text, attrs: {'font-family': 'Leipzig', 'font-size': '720px'}, down,
+    textContent: text, attrs: {'font-family': 'JRPRenaissance', 'font-size': '720px'}, down,
     setAttribute(key, value) { this.attrs[key] = value; },
     getAttribute(key) { return this.attrs[key] || null; },
   }));
@@ -49,17 +49,11 @@ function drawing(symbols) {
   return {container: {querySelectorAll() { return [svg]; }}, spans, styles, directions};
 }
 
-test('SC placeholders receive an embedded font; native glyphs and size survive', () => {
-  const d = drawing([{text: '\uE047'}, {text: '', down: true}, {text: '\uEA00'}]);
-  patch(d.container);
-  assert.deepEqual(d.spans.map(s => s.textContent), ['\uEA00', '\uEA01', '\uEA00']);
-  assert.deepEqual(d.spans.map(s => s.attrs['font-family']),
-    ['JRP Historical Signs', 'JRP Historical Signs', 'Leipzig']);
-  assert.ok(d.spans.every(s => s.attrs['font-size'] === '720px'));
-  assert.equal(d.styles.length, 1);
-  assert.match(d.styles[0].textContent, /data:font\/woff2;base64,/);
-  patch(d.container);
-  assert.equal(d.styles.length, 1);
+test('native font resources are supplied before rendering', () => {
+  const options = fontOptions();
+  assert.equal(options.font, 'JRPRenaissance');
+  assert.equal(options.fontFallback, 'Leipzig');
+  assert.equal(Buffer.from(options.fontAddCustom[0], 'base64').subarray(0, 2).toString(), 'PK');
 });
 
 test('native-only scores receive no fallback font', () => {
@@ -69,7 +63,7 @@ test('native-only scores receive no fallback font', () => {
 });
 
 test('clearance scales with the score and does not accumulate on redraw', () => {
-  const d = drawing([{text: '\uE047'}, {text: '\uE047', down: true}]);
+  const d = drawing([{text: '\uEA00'}, {text: '\uEA01', down: true}]);
   d.spans[1].attrs['font-size'] = '800px';
   d.directions[0].attrs.transform = 'translate(20,30)';
   patch(d.container);
@@ -87,7 +81,7 @@ test('attachments skip null events, comments and barlines in their own spine', (
 
 test('historical ink centers on attached noteheads and rests without accumulating', () => {
   for (const [width, expected] of [[291, 42.9], [90, -57.6]]) {
-    const d = drawing([{text: '\uE047'}]);
+    const d = drawing([{text: '\uEA00'}]);
     const direction = d.directions[0];
     direction.attrs.class = 'dir jrp-sc-up jrp-sc-target-L87F5';
     const matrix = {inverse() { return this; }};
@@ -114,28 +108,18 @@ test('historical ink centers on attached noteheads and rests without accumulatin
   }
 });
 
-test('taller layout placeholders restore the displayed size and clearance once', () => {
-  const d = drawing([{text: '\uE047'}]);
-  d.spans[0].attrs['font-size'] = '1079px'; // Verovio rounds its percentage-sized placeholder.
-  d.directions[0].classList = {contains: name => name === 'jrp-sc-reserve'};
-  patch(d.container);
-  assert.equal(d.spans[0].attrs['font-size'], '720px');
-  assert.equal(d.directions[0].attrs.transform, ' translate(0,-90)');
-  patch(d.container);
-  assert.equal(d.spans[0].attrs['font-size'], '720px');
-  assert.equal(d.directions[0].attrs.transform, ' translate(0,-90)');
-});
-
-
-test('SC glyphs and editorial brackets are upright, including on redraw', () => {
-  const d = drawing([{text: '\uE047'}]);
-  const bracket = {attrs: {'font-style':'italic'}, setAttribute(key,value) { this.attrs[key]=value; }};
-  const original = d.directions[0].querySelectorAll;
-  d.directions[0].querySelectorAll = selector => selector === 'text, tspan'
-    ? [bracket, ...d.spans] : original();
-  patch(d.container);
-  assert.equal(bracket.attrs['font-style'], 'normal');
-  assert.equal(d.spans[0].attrs['font-style'], 'normal');
-  patch(d.container);
-  assert.equal(bracket.attrs['font-style'], 'normal');
+test('native MEI symbols get explicit glyph numbers and upright brackets before layout', () => {
+  const mei = '<dir xml:id="d" type="editorial jrp-sc-up" staff="2" tstamp="1" place="above">' +
+    '<rend fontstyle="italic">[</rend><symbol glyph.auth="smufl" glyph.name="mensuralSignumUp" />]</dir>' +
+    '<dir type="jrp-sc-down" color="red"><symbol glyph.name="mensuralSignumDown" /></dir>' +
+    '<dir type="jrp-sc-up jrp-sc-hidden" color="transparent"><symbol glyph.name="mensuralSignumUp" /></dir>' +
+    '<dir><symbol glyph.name="segno" /></dir>';
+  const result = prepareMEI(mei);
+  assert.match(result, /glyph.num="U\+EA00"/);
+  assert.match(result, /glyph.num="U\+EA01"/);
+  assert.match(result, /staff="2" tstamp="1" place="above"/);
+  assert.match(result, /<rend fontstyle="normal">\[<\/rend>/);
+  assert.match(result, /<dir><symbol glyph.name="segno" \/><\/dir>/);
+  assert.match(result, /<dir type="jrp-sc-up jrp-sc-hidden" color="transparent"><symbol glyph.name="mensuralSignumUp" \/><\/dir>/);
+  assert.equal(prepareMEI(result), result);
 });

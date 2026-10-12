@@ -1,15 +1,14 @@
-// Historical SC fallback, using EA00/EA01 from Bravura (SIL OFL 1.1).
+// Native historical SC font resources, using Bravura EA00/EA01 (SIL OFL 1.1).
 // Font copyright and license: /images/historical-signs/OFL.txt.
 // Only the font subset below is covered by that license.
 (function(root) {
   "use strict";
-  const FONT = "JRP Historical Signs";
-  const FONT_DATA = "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";
-  const NS = "http://www.w3.org/2000/svg";
+  const FONT = "JRPRenaissance";
+  // Original Bravura outlines; bounding boxes also reserve editorial clearance.
+  const FONT_ZIP = "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";
 
   // Label SC directions in the rendering copy; the stored score stays standard.
-  // A supported segno reserves space before we substitute the historical glyph.
-  // An empty [sc] otherwise has no height for Verovio's collision avoidance.
+  // The stored score stays standard; native font resources reserve layout space.
   function prepareData(baseId, text) {
     const lines = text.split("\n");
     return lines.map((line, index) => {
@@ -20,11 +19,11 @@
         if (!match) return token;
         const hidden = /:color=transparent(?=:|$)/.test(token);
         const tag = (match[1] === "[sc-below]" ? "jrp-sc-down" : "jrp-sc-up") +
-          (hidden ? "" : " jrp-sc-reserve");
+          (hidden ? " jrp-sc-hidden" : "");
         let prefix = token.slice(0, match.index);
         if (/:type=/.test(prefix)) {
           prefix = prefix.replace(/:type=([^:]*)/, (field, value) =>
-            ":type=" + [...new Set(value.split(/\s+/).filter(Boolean).concat(tag))].join(" "));
+            ":type=" + [...new Set(value.split(/\s+/).filter(Boolean).concat(tag.split(/\s+/)))].join(" "));
         } else {
           prefix += ":type=" + tag;
         }
@@ -37,12 +36,7 @@
             (next + 1) + "F" + (field + 1));
           break;
         }
-        // Intentionally hidden signs should not reserve extra display space.
-        // Reserve a taller placeholder for clearance from lyrics above. The
-        // displayed historical sign is restored to its normal size in patch().
-        const symbol = hidden
-          ? match[0] : match[0].replace(/sc(?:-below)?/, "segno|150%");
-        return prefix + symbol;
+        return prefix + match[0];
       }).join("\t");
     }).join("\n");
   }
@@ -80,31 +74,41 @@
     } catch (_) { /* Detached SVGs will be retried after insertion. */ }
   }
 
-  // Substitute only labeled SC placeholders. Verovio retains control of staff,
-  // time, size, color and editorial brackets. Ordinary segnos survive.
+  // Convert only tagged SC directions in Verovio-generated MEI before layout.
+  // Custom fonts do not extend Verovio's built-in glyph-name lookup table.
+  function prepareMEI(mei) {
+    return mei.replace(/<dir\b([^>]*)>([\s\S]*?)<\/dir>/g, (whole, attrs, content) => {
+      if (!/\bjrp-sc-(?:up|down)\b/.test(attrs)) return whole;
+      // Previously hidden signs had no glyph or reserved height. Leave them
+      // unresolved so the native font does not add invisible layout padding.
+      if (/\bjrp-sc-hidden\b/.test(attrs) || /color="transparent"/.test(attrs)) return whole;
+      content = content.replace(/<symbol\b([^>]*)\/>/g, (symbol, fields) => {
+        const name = fields.match(/glyph\.name="(mensuralSignumUp|mensuralSignumDown)"/);
+        if (!name) return symbol;
+        fields = fields.replace(/\s+glyph\.num="[^"]*"/g, "");
+        return '<symbol' + fields + ' glyph.num="U+' +
+          (name[1] === "mensuralSignumUp" ? "EA00" : "EA01") + '" />';
+      });
+      if (/jrp-sc-native/.test(attrs)) return '<dir' + attrs + '>' + content + '</dir>';
+      attrs = attrs.replace(/type="([^"]*)"/, 'type="$1 jrp-sc-native"');
+      content = content.replace(/<rend\b([^>]*)>/g, (_, fields) =>
+        '<rend' + fields.replace(/\s+fontstyle="[^"]*"/g, "") + ' fontstyle="normal">');
+      return '<dir' + attrs + '><rend fontstyle="normal">' + content + '</rend></dir>';
+    });
+  }
+
+  function fontOptions() {
+    return {font: FONT, fontFallback: "Leipzig", fontAddCustom: [FONT_ZIP]};
+  }
+
+  // Retain the approved ink centering and half-staff-space clearance. Glyph
+  // selection, font embedding, size and bracket layout are native to Verovio.
   function patch(container) {
     if (!container) return;
     container.querySelectorAll("svg").forEach(svg => {
-      let filled = false;
       svg.querySelectorAll("g.dir.jrp-sc-up, g.dir.jrp-sc-down").forEach(direction => {
-        // Editorial brackets belong to the sign, rather than italic direction text.
-        direction.querySelectorAll("text, tspan").forEach(node =>
-          node.setAttribute("font-style", "normal"));
-        direction.querySelectorAll(".symbol tspan[font-family]").forEach(span => {
-          const glyph = span.textContent.trim();
-          if (glyph && glyph !== "\uE047") return;
-          if (direction.classList.contains("jrp-sc-reserve")) {
-            const size = parseFloat(span.getAttribute("font-size"));
-            if (Number.isFinite(size)) span.setAttribute("font-size", Math.ceil(size / 1.5) + "px");
-          }
-          span.setAttribute("font-family", FONT);
-          span.textContent = direction.classList.contains("jrp-sc-down") ? "\uEA01" : "\uEA00";
-          filled = true;
-        });
-        // Half a staff-space is one eighth of the music font's em. Move the
-        // whole direction so editorial brackets retain their alignment.
         if (!direction.getAttribute("data-jrp-sc-clearance")) {
-          const span = direction.querySelector(".symbol tspan[font-family]");
+          const span = direction.querySelector('.symbol tspan[font-family="' + FONT + '"]');
           const size = span && parseFloat(span.getAttribute("font-size"));
           if (Number.isFinite(size)) {
             const shift = size / 8 * (direction.classList.contains("jrp-sc-down") ? 1 : -1);
@@ -115,17 +119,10 @@
         }
         centerSign(svg, direction);
       });
-      if (filled && !svg.querySelector("style[data-jrp-historical-signs]")) {
-        const style = svg.ownerDocument.createElementNS(NS, "style");
-        style.setAttribute("data-jrp-historical-signs", "");
-        style.textContent = '@font-face{font-family:"' + FONT + '";src:url("data:font/woff2;base64,' +
-          FONT_DATA + '") format("woff2");font-weight:normal;font-style:normal}';
-        svg.insertBefore(style, svg.firstChild);
-      }
     });
   }
 
-  const api = {prepareData, patch};
+  const api = {prepareData, prepareMEI, fontOptions, patch};
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.JRPsignum = api;
 })(typeof window !== "undefined" ? window : globalThis);
