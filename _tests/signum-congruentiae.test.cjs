@@ -28,19 +28,25 @@ function drawing(symbols) {
   const spans = symbols.map(({text, down}) => ({
     textContent: text, attrs: {'font-family': 'Leipzig', 'font-size': '720px'}, down,
     setAttribute(key, value) { this.attrs[key] = value; },
+    getAttribute(key) { return this.attrs[key] || null; },
+  }));
+  const directions = spans.map(span => ({
+    attrs: {},
+    classList: {contains() { return Boolean(span.down); }},
+    querySelectorAll() { return [span]; },
+    querySelector() { return span; },
+    getAttribute(key) { return this.attrs[key] || null; },
+    setAttribute(key, value) { this.attrs[key] = value; },
   }));
   const svg = {
     ownerDocument: {createElementNS() {
       return {attrs: {}, setAttribute(key, value) { this.attrs[key] = value; }};
     }},
-    querySelectorAll() { return spans.map(span => ({
-      classList: {contains() { return Boolean(span.down); }},
-      querySelectorAll() { return [span]; },
-    })); },
+    querySelectorAll() { return directions; },
     querySelector() { return styles[0] || null; },
     insertBefore(style) { styles.push(style); },
   };
-  return {container: {querySelectorAll() { return [svg]; }}, spans, styles};
+  return {container: {querySelectorAll() { return [svg]; }}, spans, styles, directions};
 }
 
 test('SC placeholders receive an embedded font; native glyphs and size survive', () => {
@@ -60,4 +66,16 @@ test('native-only scores receive no fallback font', () => {
   const d = drawing([{text: '\uEA00'}]);
   patch(d.container);
   assert.equal(d.styles.length, 0);
+});
+
+test('clearance scales with the score and does not accumulate on redraw', () => {
+  const d = drawing([{text: '\uE047'}, {text: '\uE047', down: true}]);
+  d.spans[1].attrs['font-size'] = '800px';
+  d.directions[0].attrs.transform = 'translate(20,30)';
+  patch(d.container);
+  assert.equal(d.directions[0].attrs.transform, 'translate(20,30) translate(0,-90)');
+  assert.equal(d.directions[1].attrs.transform, ' translate(0,100)');
+  patch(d.container);
+  assert.equal(d.directions[0].attrs.transform, 'translate(20,30) translate(0,-90)');
+  assert.equal(d.directions[1].attrs.transform, ' translate(0,100)');
 });

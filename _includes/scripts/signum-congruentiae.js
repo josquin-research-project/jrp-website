@@ -34,7 +34,7 @@
   }
 
   // Substitute only labeled SC placeholders. Verovio retains control of staff,
-  // time, size, baseline, color and editorial brackets. Ordinary segnos survive.
+  // time, size, color and editorial brackets. Ordinary segnos survive.
   function patch(container) {
     if (!container) return;
     container.querySelectorAll("svg").forEach(svg => {
@@ -47,6 +47,18 @@
           span.textContent = direction.classList.contains("jrp-sc-down") ? "\uEA01" : "\uEA00";
           filled = true;
         });
+        // Half a staff-space is one eighth of the music font's em. Move the
+        // whole direction so editorial brackets retain their alignment.
+        if (!direction.getAttribute("data-jrp-sc-clearance")) {
+          const span = direction.querySelector(".symbol tspan[font-family]");
+          const size = span && parseFloat(span.getAttribute("font-size"));
+          if (Number.isFinite(size)) {
+            const shift = size / 8 * (direction.classList.contains("jrp-sc-down") ? 1 : -1);
+            direction.setAttribute("transform", (direction.getAttribute("transform") || "") +
+              " translate(0," + shift + ")");
+            direction.setAttribute("data-jrp-sc-clearance", "true");
+          }
+        }
       });
       if (filled && !svg.querySelector("style[data-jrp-historical-signs]")) {
         const style = svg.ownerDocument.createElementNS(NS, "style");
