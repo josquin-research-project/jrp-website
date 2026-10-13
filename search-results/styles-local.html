@@ -1,4 +1,51 @@
 <style>
+  #copy-search-link[hidden], #search-share-url[hidden] { display: none; }
+  #search-revise, #copy-search-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #c5bbb3;
+    border-radius: 4px;
+    background: #faf8f6;
+    color: #65584e;
+    padding: 5px 9px;
+    font: 15px "Lusitana", serif;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  #search-revise { background: #c86843; border-color: #c86843; color: #fff; text-decoration: none; }
+  #copy-search-link { margin-left: 0; }
+  #copy-search-link svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+  #search-revise:focus-visible, #copy-search-link:focus-visible { outline: 2px solid #0066cc; outline-offset: 3px; }
+  #search-share-status { display: inline-block; margin-left: 0.75rem; }
+  #search-share-url { display: block; width: 100%; margin-top: 0.75rem; }
+  /* Columns: match graph, highlighted PDFs, composer, title, voices, audio. */
+  #search-results-table .search-results-table th:nth-child(n),
+  #search-results-table .search-results-table td:nth-child(n) {
+    text-align: center;
+    text-indent: 0;
+    width: auto;
+  }
+  #search-results-table .search-results-table th:nth-child(1),
+  #search-results-table .search-results-table td:nth-child(1) { width: 135px; }
+  #search-results-table .search-results-table th:nth-child(2),
+  #search-results-table .search-results-table td:nth-child(2) { width: 145px; white-space: nowrap; }
+  #search-results-table .search-results-table th:nth-child(3),
+  #search-results-table .search-results-table td:nth-child(3) { width: 115px; text-align: left; }
+  #search-results-table .search-results-table th:nth-child(4),
+  #search-results-table .search-results-table td:nth-child(4) { width: 312px; text-align: left; }
+  #search-results-table .search-results-table th:nth-child(5),
+  #search-results-table .search-results-table td:nth-child(5) { width: 60px; }
+  #search-results-table .highlighted-scores a { vertical-align: middle; }
   #search-retry[hidden] {
     display: none;
   }
@@ -13,6 +60,14 @@
     margin: 0.75rem 0;
   }
 
+  .search-results-status:empty { display: none; }
+
+  .search-pdf-note {
+    color: #97897d;
+    font-size: 14px;
+    margin: 0 0 1rem;
+  }
+
   .search-query-info {
     color: #97897d;
     font-weight: 700;
@@ -20,7 +75,12 @@
   }
 
   .search-results-actions {
-    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
   }
 
   .search-match-count {

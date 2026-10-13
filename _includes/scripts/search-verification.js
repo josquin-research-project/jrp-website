@@ -1,3 +1,20 @@
+// Share the query and filters, never verification tokens or expiring PDF tickets.
+const JRP_SEARCH_QUERY_KEYS = ['composer', 'genre', 'voice', 'pitch', 'interval', 'rhythm'];
+function jrpSearchParams(query) {
+  const params = new URLSearchParams();
+  for (const key of JRP_SEARCH_QUERY_KEYS) {
+    const value = String(query[key] || '');
+    if (!value.trim()) continue;
+    if (['composer', 'genre', 'voice'].includes(key) && /^all(?:\s+(?:composers|genres|voices))?$/i.test(value.trim())) continue;
+    params.set(key, value);
+  }
+  return params;
+}
+function jrpSearchUrl(query, path = '/search-results/') {
+  const params = jrpSearchParams(query).toString();
+  return path + (params ? '?' + params : '');
+}
+
 // Load Turnstile only when a musical search actually runs.
 let jrpTurnstileLoad;
 function loadJrpTurnstile() {
@@ -95,9 +112,14 @@ async function requestJrpSearch(params, token) {
 
 // Signed PDF links are returned only after a verified search.
 function highlightedSearchPdfLink(entry) {
-  if (!entry || typeof entry.highlightPdf !== 'string') return '';
+  if (!entry) return '';
   const api = new URL(JRP_SEARCH_API);
-  const url = new URL(entry.highlightPdf, api);
-  if (url.origin !== api.origin || url.pathname !== '/api/highlight-pdf' || !url.searchParams.get('ticket')) return '';
-  return '<a target="_blank" rel="noopener noreferrer" href="' + url.href.replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '">Highlighted PDF</a>';
+  return [['highlightPdf', 'file', 'Highlighted score without editorial accidentals'],
+          ['highlightPdfEdited', 'file-ed', 'Highlighted score with editorial accidentals']].map(([key, icon, label]) => {
+    if (typeof entry[key] !== 'string') return '';
+    let url;
+    try { url = new URL(entry[key], api); } catch (_) { return ''; }
+    if (url.origin !== api.origin || url.pathname !== '/api/highlight-pdf' || !url.searchParams.get('ticket')) return '';
+    return '<a class="' + icon + '" target="_blank" rel="noopener noreferrer" title="' + label + '" aria-label="' + label + '" href="' + url.href.replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '">' + label + '</a>';
+  }).join('');
 }

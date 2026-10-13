@@ -60,9 +60,10 @@ function doSearch() {
     return false;
   }
 
-  var c = /All/i.test(composerValue) ? "" : composerValue;
-  var g = /All/i.test(genreValue) ? "" : genreValue;
-  var v = /All/i.test(voiceValue) ? "" : voiceValue;
+  const filters = jrpSearchParams({composer: composerValue, genre: genreValue, voice: voiceValue});
+  var c = filters.get('composer') || '';
+  var g = filters.get('genre') || '';
+  var v = filters.get('voice') || '';
 
   var QUERY = {
     composer: c,
@@ -78,7 +79,7 @@ function doSearch() {
   if (!token) return false;
   storeJrpSearchToken(token);
   sessionStorage.QUERY = JSON.stringify(QUERY);
-  window.location.href = "/search-results/";
+  window.location.href = jrpSearchUrl(QUERY);
   return false;
 }
 

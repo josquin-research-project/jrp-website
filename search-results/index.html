@@ -16,16 +16,24 @@ permalink: /search-results/
     Searching...
   </div>
 
-  <p class="grey">Musical search is in beta. Highlighted PDFs mark matching notes in red and may take a moment to generate. Links expire after 15 minutes; AND searches highlight the matching patterns present in each score.</p>
-
   <a id="search-retry" class="btn btn-brown" href="/search/" hidden>Return to search</a>
 
   <div id="query-info" class="search-query-info"></div>
   <div id="match-counts" class="grey"></div>
+  <p class="search-results-actions">
+    <a id="search-revise" class="search-revise-button" href="/search/">Revise search</a>
+    <button id="copy-search-link" type="button" class="search-copy-button" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>
+      Copy search link
+    </button>
+    <span id="search-share-status" role="status"></span>
+    <input id="search-share-url" type="text" readonly hidden aria-label="Search link to copy">
+  </p>
+
+  <p class="search-pdf-note">Matching passages are highlighted in the PDFs. PDF links expire after 15 minutes.</p>
+
   <span class="pagination" id="page-list"></span>
   <div id="search-results-table"></div>
 
-  <p class="search-results-actions">
-    <a class="btn btn-brown" href="/search/">Revise search</a>
-  </p>
+
 </section>

@@ -8,22 +8,22 @@
 	--   Each section is listed in a separate row of the table.
 	--}}
 
-<table class="search-results-table">
+<table class="search-results-table work-search-results-table">
 <thead>
 <tr>
 	<th class="sortable">Match&nbsp;Locations&nbsp;&nbsp;</th>
+	<th class="sortable">Highlighted Scores</th>
 	<th style="text-align:left; padding:5px;" class="sortable">Section</th>
 	<th class="sortable">Measures</th>
-	<th class="sortable">Scores</th>
 </tr>
 </thead>
 <tbody>
 {{#each this.locations}}
 <tr valign="top">
 	<td>{{{matchlocations this}}}</td>
+	<td>{{{matchscore this}}}</td>
 	<td>{{{sectiontitle id}}}</td>
 	<td>{{{listmeasures this}}}</td>
-	<td>{{{matchscore this}}}</td>
 </tr>
 {{/each}}
 </tbody>
@@ -43,18 +43,18 @@
 	--		allow multiple rows).
 	--}}
 
-<table style="border-left: 0;" class="search-results-table">
+<table style="border-left: 0;" class="search-results-table work-search-results-table">
 <tbody>
 <tr>
 	<td style="width:100px; padding-right:30px;">Match&nbsp;Locations&nbsp;&nbsp;</td>
+	<td>Highlighted Scores</td>
 	<td style="width:500px; text-align:left;" class="sortable">Measures</td>
-	<td>Scores</td>
 </tr>
 {{#each this.locations}}
 <tr valign="top">
 	<td style="width:100px; text-align:left;">{{{matchlocations this}}}</td>
+	<td>{{{matchscore this}}}</td>
 	<td style="width:500px; text-align:left;">{{{listmeasures this}}}</td>
-	<td style="text-align:left;">{{{matchscore this}}}</td>
 </tr>
 {{/each}}
 </tbody>
@@ -82,9 +82,7 @@
 
 
 Handlebars.registerHelper('matchscore', function(entry) {
- const jrpid = entry.id;
- return '<a class="file" target="_blank" rel="noopener" title="PDF score" href="' + getBestPdfUrl(jrpid, 'no_edit') + '">file</a>' +
- '<a class="file-ed" target="_blank" rel="noopener" title="PDF with editorial accidentals" href="' + getBestPdfUrl(jrpid, 'edit') + '">Ed. file</a>' + (entry.highlightPdf ? '<br>' + highlightedSearchPdfLink(entry) : '');
+ return highlightedSearchPdfLink(entry);
 });
 
 

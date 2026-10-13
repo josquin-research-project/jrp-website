@@ -11,6 +11,8 @@ This repository contains the public website, built with Jekyll and published thr
 
 The website provides a repertoire browser, individual work pages, musical scores, downloadable editions, audio playback, and musical analysis tools. Search supports pitch, interval, and rhythm queries, with score excerpts and highlighted PDFs among the results.
 
+Search-results addresses preserve the exact musical query and composer, genre, and voice filters. The results page offers a Copy search link button; shared links recreate the query after verification, rather than sharing expiring highlighted-PDF tickets. Revise search retains the same query and filters.
+
 Work pages bring together attribution, editorial credits, source references, texts, movements, and available downloads. Analysis features include piano roll, ribbon, vocal ranges, activity plots, parallel motion, rhythmic patterns, dissonance, cadences, and imitation.
 
 ## Repository structure

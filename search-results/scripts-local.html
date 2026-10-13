@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
     return;
   }
 
+  updateSearchLinks(QUERY);
+  document.getElementById('copy-search-link').addEventListener('click', copySearchLink);
   runSearch(QUERY);
 });
 
@@ -62,7 +64,7 @@ function readSearchQuery() {
     requestTime: Date.now() / 1000
   };
 
-  if (hasMusicalQuery(fromParams)) {
+  if (JRP_SEARCH_QUERY_KEYS.some(key => params.has(key))) {
     return fromParams;
   }
 
@@ -86,16 +88,35 @@ function hasMusicalQuery(query) {
   );
 }
 
+function updateSearchLinks(query) {
+  window.history.replaceState(null, '', jrpSearchUrl(query));
+  document.getElementById('search-revise').href = jrpSearchUrl(query, '/search/');
+  document.getElementById('copy-search-link').hidden = false;
+}
+
+async function copySearchLink() {
+  const url = new URL(jrpSearchUrl(QUERY), window.location.origin).href;
+  const status = document.getElementById('search-share-status');
+  const field = document.getElementById('search-share-url');
+  try {
+    await navigator.clipboard.writeText(url);
+    field.hidden = true;
+    status.textContent = 'Search link copied.';
+  } catch (_) {
+    field.value = url;
+    field.hidden = false;
+    field.focus();
+    field.select();
+    status.textContent = 'Copy the selected search link.';
+  }
+}
+
 let SEARCH_PENDING = false;
 async function runSearch(query) {
   if (SEARCH_PENDING) return;
   SEARCH_PENDING = true;
   const token = consumeJrpSearchToken();
-  const formParams = new URLSearchParams();
-  for (const key of ['composer','genre','voice','pitch','rhythm','interval']) {
-    if (query[key]) formParams.set(key, query[key]);
-  }
-  const formUrl = '/search/?' + formParams.toString();
+  const formUrl = jrpSearchUrl(query, '/search/');
   document.getElementById('search-retry').href = formUrl;
   if (!token) { window.location.replace(formUrl); return; }
   showSearchMessage("Searching...");
@@ -127,7 +148,7 @@ function addParam(params, key, value) {
 
 function cleanFilterValue(value) {
   value = String(value || "").trim();
-  return /all/i.test(value) ? "" : value;
+  return /^all(?:\s+(?:composers|genres|voices))?$/i.test(value) ? "" : value;
 }
 
 function filterLocationsByVoice(locations, voice) {
@@ -158,7 +179,7 @@ function displaySearchResults(page) {
 
   counts.innerHTML = printCount(matchCount, "match", "matches") +
     " in " + printCount(workCount, "work", "works") +
-    "/" + printCount(locations.length, "movement", "movements");
+    " / " + printCount(locations.length, "movement", "movements");
 
   if (!locations.length) {
     table.innerHTML = "<p>No matches found.</p>";
@@ -185,15 +206,17 @@ function displaySearchResults(page) {
 
 function formatQueryInfo(query) {
   const parts = [];
-  if (query.pitch) parts.push("Pitch: \"" + escapeHtml(query.pitch) + "\"");
-  if (query.interval) parts.push("Interval: \"" + escapeHtml(query.interval) + "\"");
-  if (query.rhythm) parts.push("Rhythm: \"" + escapeHtml(query.rhythm) + "\"");
-  if (cleanFilterValue(query.composer)) parts.push("Composer: " + escapeHtml(query.composer));
+  const composerId = cleanFilterValue(query.composer);
+  if (composerId) {
+    const composer = COMPOSERS.find(item => item.COMPOSER_ID === composerId);
+    parts.push(escapeHtml(composer ? composer["Display Short"] : composerId));
+  }
   if (cleanFilterValue(query.genre)) parts.push("Genre: " + escapeHtml(query.genre));
   if (cleanFilterValue(query.voice)) parts.push("Voices: " + escapeHtml(query.voice));
-
-  if (!parts.length) return "";
-  return "Search results for " + parts.join(" ");
+  if (query.pitch) parts.push("Pitch: " + escapeHtml(query.pitch));
+  if (query.interval) parts.push("Interval: " + escapeHtml(query.interval));
+  if (query.rhythm) parts.push("Rhythm: " + escapeHtml(query.rhythm));
+  return parts.join(" · ");
 }
 
 function printSearchResultRow(entry) {
@@ -205,10 +228,10 @@ function printSearchResultRow(entry) {
 
   let output = "<tr>\n";
   output += "<td><nobr>" + formatMatchLocation(entry, work || base) + "</nobr></td>\n";
+  output += "<td class=\"highlighted-scores\">" + formatScoreLinks(entry.id, entry) + "</td>\n";
   output += "<td>" + escapeHtml(composer) + "</td>\n";
   output += "<td><a class=\"text-link\" href=\"/work/?id=" + encodeURIComponent(entry.id) + "\">" + title + "</a></td>\n";
   output += "<td>" + escapeHtml(voices) + "</td>\n";
-  output += "<td>" + formatScoreLinks(entry.id, entry) + "</td>\n";
   output += "<td>" + formatAudioLink(entry.id) + "</td>\n";
   output += "</tr>\n";
   return output;
@@ -220,10 +243,10 @@ function printSearchTableHeader() {
   output += "<thead>\n";
   output += "<tr>\n";
   output += "<th>Match Locations</th>\n";
+  output += "<th>Highlighted Scores</th>\n";
   output += "<th>Composer</th>\n";
   output += "<th>Title</th>\n";
   output += "<th>Voices</th>\n";
-  output += "<th>Scores</th>\n";
   output += "<th>MP3</th>\n";
   output += "</tr>\n";
   output += "</thead>\n";
@@ -282,10 +305,7 @@ function printLocationThumbnail(entry, work) {
 }
 
 function formatScoreLinks(jrpid, entry) {
-  return "<a class=\"file\" target=\"" + PDFTARGET + "\" title=\"PDF score\" href=\"" +
-    getBestPdfUrl(jrpid, "no_edit") + "\">file</a>" +
-    "<a class=\"file-ed\" target=\"" + PDFTARGET + "\" title=\"PDF with editorial accidentals\" href=\"" +
-    getBestPdfUrl(jrpid, "edit") + "\">Ed. file</a>" + (entry && entry.highlightPdf ? "<br>" + highlightedSearchPdfLink(entry) : "");
+  return highlightedSearchPdfLink(entry);
 }
 
 function formatAudioLink(jrpid) {
