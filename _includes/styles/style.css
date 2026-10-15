@@ -2143,7 +2143,7 @@ table.search-results-table span.location span.point.point-blue {
 table.search-results-table span.location span.point.point-green {
 	background: #00f700;
 }
-/* Keep the footer visible, with its space reserved in the page layout. */
+/* Fill short pages; keep the footer below the content on longer pages. */
 .page {
 	--site-footer-height: 80.5px;
 	display: flex;
@@ -2158,12 +2158,9 @@ table.search-results-table span.location span.point.point-green {
 	flex-shrink: 0;
 }
 .page > footer {
-	position: sticky;
-	bottom: 0;
 	flex-shrink: 0;
 	height: var(--site-footer-height);
 	min-height: 0;
-	z-index: 10;
 	display: flex;
 	align-items: center;
 }
@@ -2177,9 +2174,6 @@ table.search-results-table span.location span.point.point-green {
 	.page {
 		min-height: 0;
 		padding-bottom: 0;
-	}
-	.page > footer {
-		position: static;
 	}
 }
 .work-page > #content {
