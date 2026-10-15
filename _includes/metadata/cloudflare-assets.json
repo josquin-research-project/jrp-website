@@ -1329,7 +1329,17 @@
     "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Tin/Tin3006-Le_souvenir_I.krn": "score-assets/Tin3006.krn",
     "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Tin/Tin3007-Le_souvenir_II.krn": "score-assets/Tin3007.krn",
     "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Tin/Tin3008-O_invida_fortuna.krn": "score-assets/Tin3008.krn",
-    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Tin/Tin3010-Vostre_regart.krn": "score-assets/Tin3010.krn"
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Tin/Tin3010-Vostre_regart.krn": "score-assets/Tin3010.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Bus/Bus1001c-Missa_Lhomme_arme-Credo.krn": "score-assets/Bus1001c.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Duf/Duf1002c-Missa_Ave_regina_celorum-Credo.krn": "score-assets/Duf1002c.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Duf/Duf2012-Ave_regina_celorum_III.krn": "score-assets/Duf2012.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Jos/Jos0303b-Missa_De_beata_virgine-Gloria.krn": "score-assets/Jos0303b.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Jos/Jos0303c-Missa_De_beata_virgine-Credo.krn": "score-assets/Jos0303c.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Jos/Jos0603e-Missa_Lhomme_arme_super_voces_musicales-Agnus.krn": "score-assets/Jos0603e.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Jos/Jos0801b-Missa_Faisant_regretz-Gloria.krn": "score-assets/Jos0801b.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Ort/Ort2004-Domine_non_secundum_peccata_nostra.krn": "score-assets/Ort2004.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Rue/Rue1017b-Missa_Inviolata-Gloria.krn": "score-assets/Rue1017b.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Tin/Tin1001c-Missa_Lhomme_arme-Credo.krn": "score-assets/Tin1001c.krn"
   },
   "pdfs": {
     "Agr1001-edit.pdf": "pdfs/Agr/Agr1001-edit.pdf",
