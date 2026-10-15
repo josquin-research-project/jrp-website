@@ -2143,8 +2143,10 @@ table.search-results-table span.location span.point.point-blue {
 table.search-results-table span.location span.point.point-green {
 	background: #00f700;
 }
-/* Fill short pages to the viewport; long pages keep the footer below content. */
+/* Reserve room for the footer, which stays at the bottom of the viewport. */
 .page {
+	--site-footer-height: 80.5px;
+	padding-bottom: var(--site-footer-height);
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
@@ -2153,9 +2155,34 @@ table.search-results-table span.location span.point.point-green {
 .page > #content {
 	flex: 1 0 auto;
 }
-.page > header,
-.page > footer {
+.page > header {
 	flex-shrink: 0;
+}
+.page > footer {
+	position: fixed;
+	bottom: 0;
+	width: inherit;
+	max-width: inherit;
+	height: var(--site-footer-height);
+	min-height: 0;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+}
+.page > footer > nav {
+	width: 100%;
+}
+.page > footer ul {
+	padding-top: 0;
+}
+@media print {
+	.page {
+		min-height: 0;
+		padding-bottom: 0;
+	}
+	.page > footer {
+		position: static;
+	}
 }
 .work-page > #content {
 	padding-bottom: 64px;
