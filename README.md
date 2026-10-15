@@ -33,7 +33,6 @@ Work pages bring together attribution, editorial credits, source references, tex
 | `contact/`, `error/` | Feedback and error-reporting pages |
 | `images/` | Website graphics |
 | `census/` | Compatibility routes for the earlier census pages |
-| `_tests/` | Website checks |
 | `Makefile` | Metadata and asset maintenance tasks |
 | `Gemfile`, `Gemfile.lock` | Jekyll dependencies |
 | `CNAME` | GitHub Pages custom domain |
@@ -67,10 +66,14 @@ Verovio provides browser-based notation rendering. Analysis tools combine score 
 
 ## Maintenance and local development
 
-The `Makefile` connects the website to the shared digital tools. The default `make` workflow refreshes metadata, identifies changed or missing assets, generates them, and verifies their upload to R2. It requires the separately configured toolkit and storage access; it does not deploy the website.
+For a local website preview, install dependencies with `bundle install`, then run `bundle exec jekyll serve`.
 
-Additional targets support planning, availability checks, metadata refreshes, and text indexing.
+Maintenance commands use the separately configured `digital-library-build` toolkit. Asset uploads require storage credentials; search deployment also requires an authenticated Google Cloud CLI.
 
-For a local website preview, install the dependencies with `bundle install`, then run `bundle exec jekyll serve`. Generated website output appears in `_site/`.
+- `make`: refresh metadata, rebuild changed or missing assets, and update the search service when its inputs have changed.
+- `make assets-plan`: preview the asset work needed.
+- `make assets ASSET_IDS="Jos0603c"`: update assets for selected works.
+- `make search-plan`: preview search updates.
+- `make search-update`: update the search service independently of asset generation.
 
-For project information or feedback, please use the website’s About and Contact pages.
+The website itself is published through GitHub Pages.

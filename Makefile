@@ -1,4 +1,4 @@
-# Default: refresh metadata, build changed/missing assets, and verify R2 uploads.
+# Default: refresh assets, then synchronize the highlighted-PDF search service.
 .DEFAULT_GOAL := all
 ASSET_TOOL_DIR ?= ../digital-library-build
 ASSET_PYTHON ?= $(ASSET_TOOL_DIR)/.venv/bin/python
@@ -6,8 +6,16 @@ ASSET_IDS ?=
 ASSET_ARGS ?=
 WORKFLOW = $(ASSET_PYTHON) "$(ASSET_TOOL_DIR)/tools/website/fast-assets.py" --project jrp --website "$(CURDIR)" $(if $(ASSET_IDS),--ids "$(ASSET_IDS)")
 
-.PHONY: all assets assets-plan assets-audit download texts
+.PHONY: all assets assets-plan assets-audit download texts search-update search-plan
 all: assets
+	$(if $(strip $(ASSET_ARGS) $(ASSET_IDS)),@echo "Partial/special asset run: skipping search deployment.",$(MAKE) search-update)
+
+SEARCH_ARGS ?=
+search-update:
+	$(ASSET_PYTHON) scripts/update-search-service.py --toolkit "$(ASSET_TOOL_DIR)" $(SEARCH_ARGS)
+
+search-plan:
+	$(ASSET_PYTHON) scripts/update-search-service.py --toolkit "$(ASSET_TOOL_DIR)" --plan
 
 assets:
 	$(WORKFLOW) $(ASSET_ARGS)

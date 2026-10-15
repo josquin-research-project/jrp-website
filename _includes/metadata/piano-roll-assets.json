@@ -1,6 +1,6 @@
 {
   "Agr1001a": {
-    "sha256": "84570ca8691c1b9e87d1d64171671585144d34bb8df3daf77098e2a03b127e44",
+    "sha256": "96e2ce029aec6694cd9115edf6b7b158984b51e758a13b9c88985d2a681f55d0",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -50,7 +50,7 @@
     "audioVerified": true
   },
   "Agr1004b": {
-    "sha256": "c99928777da2a82d58115e661c15d5fd9bd30410e0d8bc24148253a97ebc65d9",
+    "sha256": "b2124b1a53c5cc384c1c56143f93bedc1cce0c00b9d89cc6c0cf85b395416e8e",
     "partnames": [
       "Superius",
       "Altus",
@@ -108,7 +108,7 @@
     "audioVerified": true
   },
   "Agr3051": {
-    "sha256": "fa5d5cb1aa744c06eb88d46c6b30745b3939657f923d9481fc83dcc36c7bbc51",
+    "sha256": "b72ca755d263277e280a856146ef1b41b6ebd9677f078c45503757f1d96fb7ef",
     "partnames": [
       "Superius",
       "Tenor",
@@ -493,7 +493,7 @@
     "audioVerified": true
   },
   "Ano3025": {
-    "sha256": "ac76b038faf9bf1c31784f2b9e315026f7813b987e47b56c12913154d1a52cb8",
+    "sha256": "48d005faa1c6489294edd23f9e801635be68cff28add1863c062e58984819e77",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -1073,7 +1073,7 @@
     "audioVerified": true
   },
   "Bru1008c": {
-    "sha256": "5ffa12f8f659126a5041d3079728bba724191281a29362b469e82f79773c8a68",
+    "sha256": "6799ff667c1ed5ecf15cdfd6b12bcc2a4ad8fe46a74fe7cfaf72bfdee566bada",
     "partnames": [
       "Discantus1",
       "Discantus2",
@@ -1147,7 +1147,7 @@
     "audioVerified": true
   },
   "Bus1001a": {
-    "sha256": "0965d906a81873b70b9412bcc2e6d039ad824a7ae93b23259971efac165235d8",
+    "sha256": "67039525fb2bca13bb0f5273bc8013c3aa12172e9fec7ac8b09811ea47f67d8c",
     "partnames": [
       "Superius",
       "Contratenor   Altus",
@@ -1157,7 +1157,7 @@
     "audioVerified": true
   },
   "Bus1001b": {
-    "sha256": "b454be4152c6cfd06714bb138ba53c1f734770a29188e11ac430c5d3d16fb054",
+    "sha256": "01319e9ac76a83ceaf4cdd2bf45c4a8042249b01d81861f91fb5a8fb99530498",
     "partnames": [
       "Superius",
       "Contratenor Altus",
@@ -1177,7 +1177,7 @@
     "audioVerified": false
   },
   "Bus1001d": {
-    "sha256": "d217584f32ca3c6a140e79bd9f1f25694044514b229c7ada1d93b82ea1cc8d17",
+    "sha256": "c2f50a3be93afaa820c18690dded7581db867cec57b24af6afa7c13900315c4f",
     "partnames": [
       "Superius",
       "Contratenor Altus",
@@ -1187,7 +1187,7 @@
     "audioVerified": true
   },
   "Bus1001e": {
-    "sha256": "27ea191817bfde99b469c002a89dd048a58e7e7fcedd9f6041ed7e1d845bf41d",
+    "sha256": "00a95507374d69c64117a0e0ed6da51106e5cc3a2f7e298004fef820d2f26f85",
     "partnames": [
       "Superius",
       "Contratenor1",
@@ -1823,7 +1823,7 @@
     "audioVerified": true
   },
   "Com1002c": {
-    "sha256": "a427435f1ff025a5dbe1933eb5e8c181ae4d135302e7a7d077807935239a1398",
+    "sha256": "d0e9d2f967fc004166486fad82cceeac0a87a50ffaa7324c2fce97d8711575bf",
     "partnames": [
       "Superius",
       "Altus",
@@ -1843,7 +1843,7 @@
     "audioVerified": true
   },
   "Com1002e": {
-    "sha256": "69e6262657eefef5e1ce6d64d1bdaad1e200e10fff04a27b878f6dc2df192b7f",
+    "sha256": "b1492b34cd5b855f6f9c8516065396a4864fd31b950148962eddcc81ec7de16d",
     "partnames": [
       "Superius",
       "Altus",
@@ -1853,7 +1853,7 @@
     "audioVerified": true
   },
   "Com2002a": {
-    "sha256": "bd41791b500fec6e762707250c490a3ae3686be618b09cf7ecc4a7bc92873f96",
+    "sha256": "9b773dea86d9121b49c76140c9379b6188d1506fdd28a91c1d161d571831c492",
     "partnames": [
       "Superius",
       "Altus",
@@ -2256,7 +2256,7 @@
     "audioVerified": true
   },
   "Duf1003e": {
-    "sha256": "b8b0a392c243b7893dfc26368549a4c6ef93357681615ea68b0193880895b57d",
+    "sha256": "a6c49b21834f87e61abbd8c2b1a25d188dfa08eb66eeb8fc71cce3095bb94679",
     "partnames": [
       "Cantus",
       "Contratenor",
@@ -2392,7 +2392,7 @@
     "audioVerified": true
   },
   "Duf2054": {
-    "sha256": "56c18a1f229e2175aa3ddfe89ffc681706057231d172112af338622f841f7f29",
+    "sha256": "a8683c8cc38d0d1674d5cfb3b1abe7438e6bb9f0868d2ecaf8bd673d16ddefd1",
     "partnames": [
       "Discantus",
       "Contratenor",
@@ -2647,7 +2647,7 @@
     "audioVerified": true
   },
   "Gas0102b": {
-    "sha256": "6231350c7f2c68e14a3ee36342aa821749b1d051667db3196d30fdfda6f16bea",
+    "sha256": "3dbfdb43efdfebc2a39b336e3e27676cdb16ddfc48dc67dd4e5e18a616e5431d",
     "partnames": [
       "Superius",
       "Altus",
@@ -2667,7 +2667,7 @@
     "audioVerified": true
   },
   "Gas0102d": {
-    "sha256": "1f8865ad68f16c78007ce77fa3c8a198ba1ba3cc445eea8c79752d88cd837895",
+    "sha256": "beebbb2712ad41ce79f211ba828b5e1c4b303e872213f2c45d370b266ca4ff29",
     "partnames": [
       "Superius",
       "Altus",
@@ -2677,7 +2677,7 @@
     "audioVerified": true
   },
   "Gas0102e": {
-    "sha256": "135140d95d08faeba6d9a210a19d8738bd71bd8601e01e693506467ad7abbfff",
+    "sha256": "824374c436e4fa9a0bc4eaa6850d0c9d8b2a73e8b841a9c876cfed9bf3053712",
     "partnames": [
       "Superius",
       "Altus",
@@ -2857,7 +2857,7 @@
     "audioVerified": true
   },
   "Gas0202c": {
-    "sha256": "93029a398fbab7e9f4c677c36a39fdab460bdf4d6ed5b62167e729d357a1c048",
+    "sha256": "b74a50842e6537d1ba7b18291cda0ec7ae1ef7f07d9fde85f8c6d1bf570f70e9",
     "partnames": [
       "Superius",
       "Altus",
@@ -2957,7 +2957,7 @@
     "audioVerified": true
   },
   "Gas0204c": {
-    "sha256": "5d94bb28fb0d781091e1a6e876b5d05d5cba68e638489be5d41e54b889d39d3f",
+    "sha256": "9298ebeb9606aaf649c3a125c99f6f54883652f9336e70e0b705da40b8b223b1",
     "partnames": [
       "Cantus",
       "Altus",
@@ -3157,7 +3157,7 @@
     "audioVerified": true
   },
   "Gas0302h": {
-    "sha256": "aaa257d7367d0627031b0a875cee0efc199deb3719714feac45e9eaf052c3f24",
+    "sha256": "267558a557ba26d1c59cde265e5a39568f63f5e9286935327cd3dbbde0816687",
     "partnames": [
       "Cantus",
       "Altus",
@@ -3734,7 +3734,7 @@
     "audioVerified": true
   },
   "Jap3010": {
-    "sha256": "5a690d9e85cd7bbcd4a2043c66fc04ca5279cfbb167cced57e2b95dbdb82b6d1",
+    "sha256": "c38d7352b5bb1a990e853b936bf91afa7c4cdd18a3f87d6530686bb2e03b2aa3",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -4118,7 +4118,7 @@
     "audioVerified": true
   },
   "Jos0402c": {
-    "sha256": "5030cf61c3c7e2298945e758758a17a3b619cf54a43b461bad3e723e3ae63527",
+    "sha256": "42b8394ed470d34a8395cd3d4712118e585c23fa622896d7f519ade101f16504",
     "partnames": [
       "Superius",
       "Altus",
@@ -4344,7 +4344,7 @@
     "audioVerified": true
   },
   "Jos0406b": {
-    "sha256": "3ca0e935477df3a20fdebc841ef552cc9ad63360e87975ffe09ea412e02b2e41",
+    "sha256": "a8d533024a1d30a57af20186be11ee67fa624346d45f51b153deed78e6fd1151",
     "partnames": [
       "Superius",
       "Altus",
@@ -4355,7 +4355,7 @@
     "audioVerified": true
   },
   "Jos0406c": {
-    "sha256": "0d7778eb5dbf602fe63c2fb039ad9b6f17f3f91f05177bb0585d4d01267d5429",
+    "sha256": "55afe96038f0dddd9d429c288958fbc9100f801479a3be72773a8e1cec4922f1",
     "partnames": [
       "Superius",
       "Altus",
@@ -4366,7 +4366,7 @@
     "audioVerified": true
   },
   "Jos0406d": {
-    "sha256": "dee222e4017e55200b9a77615888d3b177071c437653fd0638c54ae315340850",
+    "sha256": "75d41fb88de7e22f44a061d2f93c4aabfe64e03cab767c00147b1739e87d840a",
     "partnames": [
       "Superius1",
       "Superius2",
@@ -4409,7 +4409,7 @@
     "audioVerified": true
   },
   "Jos0501c": {
-    "sha256": "454d4e6621d9db4d675eac8ab6470f71c561ed58b93148cd690104c7b51b13be",
+    "sha256": "a5cc3938e646ca1ac4d4215b27f3ace08b5fc2f8fa87dd019c05fde5fed20230",
     "partnames": [
       "Superius",
       "Altus",
@@ -4419,7 +4419,7 @@
     "audioVerified": true
   },
   "Jos0501d": {
-    "sha256": "30cad5596ffc83d54ede7663b0b668f4fb1b44066f596e8db7d761224c6cf29e",
+    "sha256": "4c0d527db11b25358000f55f9e96f6fd07d958a0032998a62b73b83dec3091c9",
     "partnames": [
       "Superius",
       "Altus",
@@ -4449,7 +4449,7 @@
     "audioVerified": true
   },
   "Jos0502b": {
-    "sha256": "c1ea1f3e3cb8880dd62e0eaf759282f9a2798b4584450c09854d1dc6a2107a4d",
+    "sha256": "2175e7ad0289bddc14fc42749e93b30dac85f0520e2837737d514af5c4477aea",
     "partnames": [
       "Superius",
       "Altus",
@@ -4459,7 +4459,7 @@
     "audioVerified": true
   },
   "Jos0502c": {
-    "sha256": "78678945a50160c7d0f57aa5560658224fe8cc4fab8b7db72d0e85b5c7672f44",
+    "sha256": "e7232d5235abf6fb9c6e5e54ffe04504296a2eafc91a9dd76b20a04013e65c47",
     "partnames": [
       "Superius",
       "Altus",
@@ -4591,7 +4591,7 @@
     "audioVerified": true
   },
   "Jos0603a": {
-    "sha256": "df6a91b8d3bd55d00e584d41b4e4786485dcd56e7a82f5541e90a2dc7aa02bf5",
+    "sha256": "2b070a6612fe237f59ae72b2d3e4d460bb00cbbfff5f835baae16061035afb87",
     "partnames": [
       "Superius",
       "Altus",
@@ -4601,7 +4601,7 @@
     "audioVerified": true
   },
   "Jos0603b": {
-    "sha256": "f6f0a82784b08f92808c608107e877a7254b5471f7a350ad004f05fb5e6044d3",
+    "sha256": "f2720fd1a8253e38de1b55630cc214f419dc41553c1cc78e1f69699fbc93fc13",
     "partnames": [
       "Superius",
       "Altus",
@@ -4611,7 +4611,7 @@
     "audioVerified": true
   },
   "Jos0603c": {
-    "sha256": "f0549a66f12bd3c1c290e38afc7ff6c40a2b94209718ba907553643d4b01fa08",
+    "sha256": "dc7e08eb78401904fa0b0cc6185c41253378a81aeb6f41b0ec550da4209c75bc",
     "partnames": [
       "Superius",
       "Altus",
@@ -4621,7 +4621,7 @@
     "audioVerified": true
   },
   "Jos0603d": {
-    "sha256": "8cf249add4ea3450debd96a60d081890ba129a9f81ebd6bf1df88b95eaaa4706",
+    "sha256": "f05a8a09a8058d11000a38042ac6cb144fd62b8f166ce1534451067a94da57c7",
     "partnames": [
       "Superius",
       "Superius2",
@@ -4704,7 +4704,7 @@
     "audioVerified": true
   },
   "Jos0702b": {
-    "sha256": "759180d6cc556a4d1e3b7018c516ad754199d84c373100c55b46f50232d702df",
+    "sha256": "7b08cb800d3a0c06ddd7641fe09fa929d1a569fdfa311745ac07d04e63242cf6",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -4714,7 +4714,7 @@
     "audioVerified": true
   },
   "Jos0702c": {
-    "sha256": "1a5ba95fcfe2c54946623b00ccd519a2f376ff8819b336085e721ea95e257355",
+    "sha256": "155a04b49c0c94062fd5e361276ef1bee00cec0335bba7ec5772c941070b784c",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -4724,7 +4724,7 @@
     "audioVerified": true
   },
   "Jos0702d": {
-    "sha256": "4ca029d8e1536f886eb9f9f656bd606355075a915cb177308a02adddea5c2d3c",
+    "sha256": "921d2cdeff4255a79e70c57cce07e83b34a70cbb05990dc32d43ea632c1686ff",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -4734,7 +4734,7 @@
     "audioVerified": true
   },
   "Jos0702e": {
-    "sha256": "705ceba1e61cbbf60d8afda5d88341b2bb083b55c635df6e0ed8c53543bb9109",
+    "sha256": "c1ba2d159ee234afe632a932030353bdeeda57b3562a80b98e68c7073e7e7bae",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -4824,7 +4824,7 @@
     "audioVerified": false
   },
   "Jos0801c": {
-    "sha256": "5934a23d8509095f24a2dc89bbc31caf2adc18741ffd0983ec51fcb4ef67842c",
+    "sha256": "67f91c5148458f551417de3b6470d02db87e63bd94dfa9051bf583c4b918d094",
     "partnames": [
       "Superius",
       "Altus",
@@ -4854,7 +4854,7 @@
     "audioVerified": true
   },
   "Jos0802a": {
-    "sha256": "e2aadfcf945eb8551116c882631c8c32aba1750b380ac86d734c3a46ae327507",
+    "sha256": "3fb55afe8fa5c75f48a78f0b19c2b5476032e274883275c6c27ce91f3287356f",
     "partnames": [
       "Superius",
       "Altus",
@@ -4874,7 +4874,7 @@
     "audioVerified": true
   },
   "Jos0802c": {
-    "sha256": "273c73ffa5f9c3b6ce41826b7ac8ec4be1de194f9bd8a73ebd2d6efcc933d343",
+    "sha256": "04b5034b35cdb1fadd457cedbf2ded403b87879fd556e142e17dfbf941266bfd",
     "partnames": [
       "Superius",
       "Altus",
@@ -4924,7 +4924,7 @@
     "audioVerified": true
   },
   "Jos0901c": {
-    "sha256": "c9c92cb8e8a6536621ef7e1b59b4984f4219693be66759d39146db19f75bcdce",
+    "sha256": "47d1bed378ddea04d87cc7bd8b1d22aa8c586768a54fe00304a3bbf20df91de1",
     "partnames": [
       "Superius",
       "Altus",
@@ -5016,7 +5016,7 @@
     "audioVerified": true
   },
   "Jos0903c": {
-    "sha256": "e38e509bd57a4210bded9e97ad26d6bb82aa0d008f3673379d9fbde6044d895f",
+    "sha256": "5701b5d33babe9784b96e69c2ee6117f136a2fb8f0fd2e596765bb8ed6243f31",
     "partnames": [
       "Superius",
       "Altus",
@@ -5036,7 +5036,7 @@
     "audioVerified": true
   },
   "Jos0903e": {
-    "sha256": "ae6ca458e2d328e8f5720752dc5d1c82640dadee5286064decb3decffadc3653",
+    "sha256": "11a56278dd817f2a62e24c7d2dbbc3ac1f81b8f7a6713de6c14338416bbb38cc",
     "partnames": [
       "Superius",
       "Altus",
@@ -5060,7 +5060,7 @@
     "audioVerified": true
   },
   "Jos0904c": {
-    "sha256": "39beb30b5378ca9ae8224700bede40f11fab3afacca09272b71205a785626c83",
+    "sha256": "705a9eb7e9e670ae5f194807c847d8c8a2adf35784180303fa73c71639e71e78",
     "partnames": [
       "Superius",
       "Altus",
@@ -5084,7 +5084,7 @@
     "audioVerified": true
   },
   "Jos1001a": {
-    "sha256": "03b905dd33986a6c2f7d8778cd5116c245ac8f2cb9e60581e4c5a016fd8ce612",
+    "sha256": "0e3464fe1ea43c4ec80d65721dab5059fdd00eedc9bb1f5b02f5263287804024",
     "partnames": [
       "Altus2",
       "Altus1",
@@ -5428,7 +5428,7 @@
     "audioVerified": true
   },
   "Jos1202c": {
-    "sha256": "7ec42e608ba7e70417da9494436d637aba824fc242f17cf951112a4d9c025b53",
+    "sha256": "d75ba2cc339f05678aeea0c1078aeaef44dd0f31b1fdce70da383bf157eb597d",
     "partnames": [
       "Superius",
       "Altus",
@@ -5438,7 +5438,7 @@
     "audioVerified": true
   },
   "Jos1202d": {
-    "sha256": "2d5d08908056e8ab186c7e1bd5225930a9da655cead4f7e378947f4303fbfd65",
+    "sha256": "7d3284937d076f45792ffbc094e47a96aa49c6612fde7f043e37af89228fa919",
     "partnames": [
       "Superius",
       "Altus",
@@ -5458,7 +5458,7 @@
     "audioVerified": true
   },
   "Jos1301": {
-    "sha256": "9c0a7da6d7def07a897279cad6478a3a19b9ea4101d98408c2e200ba20968fca",
+    "sha256": "00946c3c47d7ba7aee666c0100aa307ee26fe3b6a897829e8c5225ef4346365a",
     "partnames": [
       "Superius",
       "Altus",
@@ -5489,7 +5489,7 @@
     "audioVerified": true
   },
   "Jos1304": {
-    "sha256": "8e4763506c47a9d960ec8ba6bc56b9ad62403da557ce88a79082a0e09e992d91",
+    "sha256": "386262f4e0a585e26770638043101b59801cf95fdfb5933e46cfbb045b283b16",
     "partnames": [
       "Superius",
       "Altus",
@@ -5622,7 +5622,7 @@
     "audioVerified": true
   },
   "Jos1404": {
-    "sha256": "6a5229e54875ba589499215f125be24e97a76739a84673704819e48d352d06b7",
+    "sha256": "860b6c90cf5dd51e5034cc2afc01eab7cf3a6e31f49a1f74cc36c67115885903",
     "partnames": [
       "Superius",
       "Altus",
@@ -5766,7 +5766,7 @@
     "audioVerified": true
   },
   "Jos1504": {
-    "sha256": "11c0103e889815eff8d8b97578c1acbcf2a19884d7efc61bcac3f9ce9c084dc4",
+    "sha256": "d8d1effae2bb04884f88f0782828d04fe8917c18d74e5c7f55ba5ceb36730713",
     "partnames": [
       "Discantus",
       "Altus",
@@ -5963,7 +5963,7 @@
     "audioVerified": true
   },
   "Jos1610": {
-    "sha256": "6c9ba0ca27f007d1300e61ce60f4c52c665908de6e8e7a6c6a37dd0aeba0fdf6",
+    "sha256": "9c7bafa332221e0fb6dfa66a2a684ad0bbb1b7c620acb3d8a087cf6fd307dd17",
     "partnames": [
       "Superius",
       "Altus",
@@ -6023,7 +6023,7 @@
     "audioVerified": true
   },
   "Jos1704": {
-    "sha256": "0dcc2fd741cc80fb45ba8f611d25553ed9abdc86b48ec6012277e9aa2e209be7",
+    "sha256": "84d870e51159d5c659a95e7f6b3252e696615fbe754e8996a67ad24ff519481e",
     "partnames": [
       "Superius",
       "Altus",
@@ -6201,7 +6201,7 @@
     "audioVerified": true
   },
   "Jos1807": {
-    "sha256": "8712fe2e146b4258581e9a4a64fd77c5a3bb0e1043e1001b4925ffc62382d534",
+    "sha256": "6d4134f06adc7748db1d2c83db957c1d67bf29f30911648efe3957b8917c22ac",
     "partnames": [
       "Superius",
       "Altus",
@@ -6278,7 +6278,7 @@
     "audioVerified": true
   },
   "Jos1812": {
-    "sha256": "e14b7e42030e50fa33f0b63e94084f217c5fe3b03acd09b96278d8198830c1d5",
+    "sha256": "a02226d8eb04024ea80e77933a4ca3307879fdd45a6b6cebb9beddb9336a39b1",
     "partnames": [
       "Superius",
       "Altus",
@@ -6417,7 +6417,7 @@
     "audioVerified": true
   },
   "Jos1913": {
-    "sha256": "df53b43e4a17bee145d6855376da8ebb4dbb0cfd646fa3599dae88d5e51e5386",
+    "sha256": "c915c0120b8bec6f6e2783d623e788a1f1d679f2bfcab09d42cf92d05ddb767d",
     "partnames": [
       "Discantus",
       "Altus",
@@ -6582,7 +6582,7 @@
     "audioVerified": true
   },
   "Jos2101": {
-    "sha256": "206c2a045bc250e2311a0b21fef9512d9e1d27c6dcf3df0c3ef990dc4d929488",
+    "sha256": "743bd856b9ea143a37f3d096144bc3b77de499736179b2fe49105a261970be87",
     "partnames": [
       "Superius",
       "Contra",
@@ -6622,7 +6622,7 @@
     "audioVerified": true
   },
   "Jos2105": {
-    "sha256": "0f9c7f358fb6ce596aabc5debc21b671ba3baaede4aba271582e1b404f29a2b7",
+    "sha256": "d7bfb28564831f575281b3e8454faafe3d6e11ac4f58d7c084c03f8224694672",
     "partnames": [
       "Discantus",
       "Altus",
@@ -6633,7 +6633,7 @@
     "audioVerified": true
   },
   "Jos2105.2": {
-    "sha256": "4f305995a38f4e9873f265e890a5be5bbb511126b201f10d5e0c30325a4b2ac1",
+    "sha256": "15a38813456dce20a8cd7bc30490f3c639de795130033543adea97ac275eea89",
     "partnames": [
       "Discantus",
       "Altus",
@@ -6655,7 +6655,7 @@
     "audioVerified": true
   },
   "Jos2107": {
-    "sha256": "a6cc9b2e0913d8b8f9c608ff3dd3b7f639e492fb50656d3d163f06099c8dd1c3",
+    "sha256": "26e5a1936e1f8e56e35c507195a9473e945d1cd4cd7103b34c4a458688782965",
     "partnames": [
       "Superius",
       "Altus",
@@ -6715,7 +6715,7 @@
     "audioVerified": true
   },
   "Jos2204": {
-    "sha256": "41094cb207360e7aea69e7043f698a944cba18ab7369e54d393a9a87be442aad",
+    "sha256": "1d2f3266f92bfe84b0753f51fe89dce47a8dfae7e88ff2f9e6979f9b21a62739",
     "partnames": [
       "[Discantus]",
       "[Contra acutus]",
@@ -6861,7 +6861,7 @@
     "audioVerified": true
   },
   "Jos2311": {
-    "sha256": "d6b901b3572df07223f34e65f147dd9e16740d7cc054c1dbed75870cf3bc103a",
+    "sha256": "1a832689f999ea860b4ff7094f96a3219e74c11adb95ed5f67acea6affdf30fa",
     "partnames": [
       "Superius",
       "Altus1",
@@ -6911,7 +6911,7 @@
     "audioVerified": true
   },
   "Jos2402": {
-    "sha256": "d168d384b39dfa22c77f14c792d22f067e10670524b6432daab8dbde82ef334d",
+    "sha256": "e79306eedac90bacd2d048a1c921a383283ef046edc252744f3ce1aaef4743dd",
     "partnames": [
       "Superius",
       "Altus",
@@ -7219,7 +7219,7 @@
     "audioVerified": true
   },
   "Jos2605": {
-    "sha256": "b1c56ab69ce2b193cfba75598c78a8a95f1337ec1d0e304f6b8e5e1dda85d046",
+    "sha256": "f5315b86734cd2a29768aa67b0c104b19a5a9169ad4b6ae47ebb44c0f79f3285",
     "partnames": [
       "Superius",
       "Altus",
@@ -7229,7 +7229,7 @@
     "audioVerified": true
   },
   "Jos2606": {
-    "sha256": "ce1916ab381695460461f73e7612d64edb56209c3860014ecfb8cdff165f4c42",
+    "sha256": "472461e28ba9a718feac8a492555089bc7b7e806ebfbc7045a4c156e6aa8baf0",
     "partnames": [
       "Superius",
       "Altus",
@@ -7326,7 +7326,7 @@
     "audioVerified": true
   },
   "Jos2615": {
-    "sha256": "f160d8c980dd28ee4572d9e40ab462865d8cab1754959f164a96c2742edf8570",
+    "sha256": "130f5ce7fde7f0c2635bb2ffd1d613bd5644e58c3188176f889957c98c6734f2",
     "partnames": [
       "Discantus",
       "Contratenor",
@@ -7504,7 +7504,7 @@
     "audioVerified": true
   },
   "Jos2716": {
-    "sha256": "f062bc80c0e0278eb0a25d4e358ecd32ecf82b205f15aff18672606eee5dff6f",
+    "sha256": "47f17150472de6188deeb04fb9ccd63f61297179836a4d9dad7f24aeb2777b32",
     "partnames": [
       "Superius",
       "Tenor",
@@ -8591,63 +8591,63 @@
     "audioVerified": true
   },
   "Jos9905": {
-    "sha256": "4202ca85ee26554ec0eea5256ec1db4ea0fc271c51957de70884d36d0351577c",
+    "sha256": "dfeb6fcc70ea086d88af4e322c7bb1a70be6a99575686e7a039a4bd235c7cf9c",
     "partnames": [
       "part 1"
     ],
     "audioVerified": true
   },
   "Jos9906": {
-    "sha256": "8cc0aaa6fbdaeac0f18935cdf6166be6ffd916e6c56688b4c14f0658a8c663c7",
+    "sha256": "5973d8eb925561c468423db533b260792a9562b786b42224336635a4deca9e18",
     "partnames": [
       "Superius"
     ],
     "audioVerified": true
   },
   "Jos9907a": {
-    "sha256": "165d05a15bfd8d5eb2d95a6f775675d9622a8ffe51dbe29973179a4ee21c8fe3",
+    "sha256": "ec69b868d1954cbdfbe0a876b8377fd3ef79fe6557c813077b193fcc388cc423",
     "partnames": [
       "Superius"
     ],
     "audioVerified": true
   },
   "Jos9907b": {
-    "sha256": "1f8c66898184cfb5601429416d219f4950dc59de359f1257edf73636fee00ada",
+    "sha256": "6cc72c8582ca481052a95ad87e334af0ebc4f3efc5989e7cdae64c4aa801f71d",
     "partnames": [
       "Altus"
     ],
     "audioVerified": true
   },
   "Jos9908": {
-    "sha256": "80eabc0d0f03d7387e302e0795a2ebbfe425a5230d03d7701946131facf31aad",
+    "sha256": "f578ab5359c5e9c15ec94dbd8ba23f7c76c2c900b70ef1d37e6e9acd4e3a7994",
     "partnames": [
       "Superius"
     ],
     "audioVerified": true
   },
   "Jos9909": {
-    "sha256": "491c58b84a0e2b687b92fe716be268e8a9e0fd0a15833eac6a19611aa1a9e772",
+    "sha256": "d294d2668861002b751cf9d52ee34b69a903eec2ba17008a0121f1d4f60de1f0",
     "partnames": [
       "Altus"
     ],
     "audioVerified": true
   },
   "Jos9910": {
-    "sha256": "80a7352865ba027dc17860771fc2be2f09963e04dc2d08f85ba55fdeab81b3f8",
+    "sha256": "d91d64409f4fb9d12b5ca750e0b8beae45de07af4c6ceffa51b5c95fb584de2f",
     "partnames": [
       "Altus"
     ],
     "audioVerified": true
   },
   "Jos9911": {
-    "sha256": "57d8f7b8bb6ee2cd13ddf36067bafe7d6861e76feb25fd450547f352cda2afec",
+    "sha256": "eec96eb9a3e48335565ccfd60afb9e0f9767341abebf1aeee5458072d19e1c94",
     "partnames": [
       "Bassus"
     ],
     "audioVerified": true
   },
   "Jos9912": {
-    "sha256": "7eb64fb462cfb4ded4c29843e97dbc3bbdb06235e6cc968eeb518673b16e20a2",
+    "sha256": "67ac7397303c9a2dc32f38c511f9530601f3d112d13890cb4fec6c44789e9371",
     "partnames": [
       "part 1"
     ],
@@ -8666,7 +8666,7 @@
     "audioVerified": true
   },
   "Jos9914": {
-    "sha256": "e809bb4d9a4c95f3e2c28ee6da9a9312b715d15680e90d5f5ea9171b65029eeb",
+    "sha256": "88e55a4ed5f3e4d397082b55db373ae4114c1268dfbc6697b4ba079de592c9a3",
     "partnames": [
       "part 1"
     ],
@@ -8883,7 +8883,7 @@
     "audioVerified": true
   },
   "Mar1004a": {
-    "sha256": "f0d226bfa1647535ad0e39288ed885e1d4c7616d52db477e5554cab57801fb2f",
+    "sha256": "9e0018decea6bdb3c77dc8287b55cd5fa4ecada209ba8a95b37244dd1f5e647c",
     "partnames": [
       "Superius",
       "Contra",
@@ -8903,7 +8903,7 @@
     "audioVerified": true
   },
   "Mar1004c": {
-    "sha256": "a0577228ef934b7aa39d04ac7608c4b83986e208278d133bbde7af3b7ecc5573",
+    "sha256": "55ca789862083a43f977db7a647d4ce495cae4b73ccfbc2ff9b60d147302b622",
     "partnames": [
       "Superius",
       "Contra",
@@ -8913,7 +8913,7 @@
     "audioVerified": true
   },
   "Mar1004d": {
-    "sha256": "117e6a50c6d84c2172376d19ea65bc10d398ef79859ff5a6e5bb30fff274eaba",
+    "sha256": "b4df2211e2b75482055860865c869a8d21641d530c98c4f6d7658cfb4c5aa4e6",
     "partnames": [
       "Superius",
       "Contra",
@@ -8923,7 +8923,7 @@
     "audioVerified": true
   },
   "Mar1004e": {
-    "sha256": "51b39c5246ff5a2d59e3e1c49c41eeb88ddc1f36848f3caf99fb329829fb3055",
+    "sha256": "4e72de589d2e2e296a94c08d3afa16a8ad0d5f7be06dd42772933074635c0adb",
     "partnames": [
       "Superius",
       "Contra",
@@ -9018,7 +9018,7 @@
     "audioVerified": true
   },
   "Mar1009b": {
-    "sha256": "c5e96136d3fb57c1668bde1eee11f2542210dec9764bc296709fd1fd69f6d546",
+    "sha256": "5b04d1e8450db8f2d8b2e08f07ab63eb33f8a8c8c3bc02f1c69f99aa79333f65",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -9028,7 +9028,7 @@
     "audioVerified": true
   },
   "Mar1009c": {
-    "sha256": "0f67e5e0e100f01df8adca5b531eb61b847b13d4655dc489c99a26f2518e59a1",
+    "sha256": "39fd634c9cc125606e8aca14a0ffda60adf864ff861186257c2cc180c908e282",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -9038,7 +9038,7 @@
     "audioVerified": true
   },
   "Mar1009d": {
-    "sha256": "39932afa3a19c25f03aa4fd745ea49bb07ae730b581902df1857e18dc856397b",
+    "sha256": "f6fcad02d170700cad4f2a0ac3840dfd777db33813ead0d5cf227133de42e4a4",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -9048,7 +9048,7 @@
     "audioVerified": true
   },
   "Mar1009e": {
-    "sha256": "c4df87e48a2ad85bf580fa6846db069a9b8e8fb51dea0273390b1d0f2fbc0318",
+    "sha256": "eb4541dc145b0b2fb3cab64f0f0b5bac3d9539b927eb5debe4051fea23326acf",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -9088,7 +9088,7 @@
     "audioVerified": true
   },
   "Mar1010d": {
-    "sha256": "d36a412f191c5359c7412ac8cb8e3f9f1ff12bb85338f82d66b68b84bf91a2c0",
+    "sha256": "77769fadd8ed91f634b4735abff41586ddd93838c650455f5389cb4cbb156e83",
     "partnames": [
       "Superius",
       "Contratenor",
@@ -9588,7 +9588,7 @@
     "audioVerified": true
   },
   "Mar2085": {
-    "sha256": "f55cf7718809012069b67cfc02a4d466bfcdae235a5170eb4150e01f02fe0c0e",
+    "sha256": "d9f09984f1790be21942717f2ab9686d9d78d0e0fcce5dea41d248da584d443e",
     "partnames": [
       "Superius",
       "Altus",
@@ -9644,7 +9644,7 @@
     "audioVerified": true
   },
   "Mar2097": {
-    "sha256": "f8c494723bb2dae4d1dd02679cadea353fbd10bc8e8f5bec4aedf268c09ce71e",
+    "sha256": "e319a2f3fb3ea598a53cc11294d1fd1ccadb35999ed0baf263d18ae5e7d2f88c",
     "partnames": [
       "Superius",
       "Altus",
@@ -10018,7 +10018,7 @@
     "audioVerified": true
   },
   "Obr1002a": {
-    "sha256": "b7ba40cf00ef4af96f1637b621c38e2ba22fc545bf45e317834589a8e6459a01",
+    "sha256": "3fbcaa146808b634f2bb8f6c28074003f569d2dff1e0fb34157c360d7c51edb9",
     "partnames": [
       "Discantus",
       "Altus",
@@ -10089,7 +10089,7 @@
     "audioVerified": true
   },
   "Obr2012": {
-    "sha256": "4c555b43cc684aadbc514551e9d2562e80eec153a222b67b0822c0fe277ab6cc",
+    "sha256": "404fb1da744aff8fcaa23d306b8141f5e151bcdaa326b49032088f9f4f08ded9",
     "partnames": [
       "Discantus",
       "Altus",
@@ -10099,7 +10099,7 @@
     "audioVerified": true
   },
   "Obr2018": {
-    "sha256": "29ce45ec0fb0280bf9335441f0608ce4c0ea11eedff3751636c1694e0d67538c",
+    "sha256": "1a78e9ce4265be4555372c61206959fcc06fc270ebceff323450f1f02858ee76",
     "partnames": [
       "Discantus",
       "Altus",
@@ -10403,7 +10403,7 @@
     "audioVerified": true
   },
   "Oke1005b": {
-    "sha256": "d748a8dd624f634c7c36e6f0bd1b7997c7ca3a1c1aa07274098e605f7188960d",
+    "sha256": "e4626a7a45f58005792ed793ea7f3dd36fcc72453aa91234b72e1a8e75e06535",
     "partnames": [
       "Superius",
       "Altus",
@@ -10423,7 +10423,7 @@
     "audioVerified": true
   },
   "Oke1005d": {
-    "sha256": "d50a64d4ffb94a92ad37172a24c1094ba8bd6e5685237c8942e47d0b8dc37b58",
+    "sha256": "5f9b246edc5d9253dd1b48731a32e4caeb87a39a94beee7611ef1a52c90418a0",
     "partnames": [
       "Superius",
       "Altus",
@@ -10526,7 +10526,7 @@
     "audioVerified": true
   },
   "Oke1008a": {
-    "sha256": "f529f85f6c9138d685df515330fd845e898b6bb4571fa6da18c4a331af6c6521",
+    "sha256": "7f9b98feda08029fd9c2926b5f46604e88fce8a8958b960773693b153b89db2f",
     "partnames": [
       "Superius",
       "Altus",
@@ -10536,7 +10536,7 @@
     "audioVerified": true
   },
   "Oke1008b": {
-    "sha256": "f15a3446925dc1b5a3d3931072a336b6715e2040d74f66a9ad368a7cce0398ac",
+    "sha256": "321ab4a2cecba0a64a2d0bb5123121ce57951a65eedba52f11207646bb65bf85",
     "partnames": [
       "Superius",
       "Altus",
@@ -10546,7 +10546,7 @@
     "audioVerified": true
   },
   "Oke1008c": {
-    "sha256": "b8d86ddbb60a2bab3b96237e625bb1140ee735cf851252a1dc81cd166c3cee79",
+    "sha256": "9867357195fb0b0043a43481e9a27382fb61972fab4093f37403bbcad2834f5c",
     "partnames": [
       "Superius",
       "Altus",
@@ -10556,7 +10556,7 @@
     "audioVerified": true
   },
   "Oke1008d": {
-    "sha256": "a96eef2e80fa132801e6ea28cbdad359a8ea5f876ab4c7ef6215c62e4b0a2ad2",
+    "sha256": "58dcd083d5a525c4f220c3de8bf6a304f6cba328ee4ce134ea76b1705dcaadaf",
     "partnames": [
       "Superius",
       "Altus",
@@ -10566,7 +10566,7 @@
     "audioVerified": true
   },
   "Oke1008e": {
-    "sha256": "4f48e133fdaee65bd7d186a4141a6f9a4fae2a25826892312e7329bb5d6949b3",
+    "sha256": "3b05c313d43030e8def55e84f571db19eaa1a42490dcb8ca8fe56f53ddfb2cec",
     "partnames": [
       "Superius",
       "Altus",
@@ -10686,7 +10686,7 @@
     "audioVerified": true
   },
   "Oke1011e": {
-    "sha256": "dc2b9f49102649af69bbd23f1abcf28126a2d0035ab010a24de735e35924389f",
+    "sha256": "7ec94a2760d30c053a32d9237f9829d33a9966e1d10a7dd87f93da3fb571e654",
     "partnames": [
       "Discantus1",
       "Discantus2",
@@ -10928,7 +10928,7 @@
     "audioVerified": true
   },
   "Oke3009": {
-    "sha256": "fff71f5bec0f8fa7127b196882a0acb0851b0f3e0c76397ea944cedf2718eb25",
+    "sha256": "70db1f53fa326d73cd358faa2e73b0500eb6feb2e6c49c796351ca6d8310647b",
     "partnames": [
       "Superius",
       "Tenor",
@@ -11235,7 +11235,7 @@
     "audioVerified": true
   },
   "Ort1003e": {
-    "sha256": "cd16cfa707d4f0465812942eb9c4a4308d99e382e679198a2e26f980373ce572",
+    "sha256": "44ad5f6a65934eb7cf47b979999fe7c5fa5502a14f8f473aa324d8e65198dd5d",
     "partnames": [
       "Superius",
       "Altus",
@@ -11265,7 +11265,7 @@
     "audioVerified": true
   },
   "Ort1005c": {
-    "sha256": "8fbe6897ac18b7a506a6c852220b34d0ae493913a056f4f5700a409028fa238b",
+    "sha256": "752c7ccc0395b09fe452f5f4ca1a432965bd597f5fc13e0187b58d1ade3f4b0b",
     "partnames": [
       "Discantus",
       "Altus",
@@ -11315,7 +11315,7 @@
     "audioVerified": true
   },
   "Ort1006c": {
-    "sha256": "99a712a5ac36913015bc3a20043cf9e8bf68e27d0a43fe5c320ba49081362d99",
+    "sha256": "8b6659cb34df44a3572eb43e285f3c60657c201ea65a0cb3b237c12b03bf20dc",
     "partnames": [
       "Discantus",
       "Altus",
@@ -11365,7 +11365,7 @@
     "audioVerified": true
   },
   "Ort1009": {
-    "sha256": "50443c7d48947f1d7e16e0426995c222e9577f23e2e20178d50865e75c6b30ce",
+    "sha256": "376383dbc2b47a4e23ac9908f1740a6525a9c4a5ac515875bf8c32b4b7a0ecf8",
     "partnames": [
       "Superius",
       "Altus",
@@ -11437,7 +11437,7 @@
     "audioVerified": true
   },
   "Ort2008": {
-    "sha256": "ec68e38c15d81f3f992e1aa0ea502b2d2ce3d2ef282ff439b0cdb4bb22f19f23",
+    "sha256": "1cee8b75d4d80776160b4614a84c0b6df9919546811991a2c6b5a6ed7cfa8f8d",
     "partnames": [
       "Superius",
       "Contra",
@@ -11635,7 +11635,7 @@
     "audioVerified": false
   },
   "Rue1001a": {
-    "sha256": "ce8599d1284bff9d7f6bdaf4b54e6caa05d46a60d8377b784a91af42e1c68cfc",
+    "sha256": "b0849352dc25f3f5afdf22f9f1ec6c269b4258be9b3c57ddff7470c55b7a8574",
     "partnames": [
       "Discantus",
       "Cantus",
@@ -11646,7 +11646,7 @@
     "audioVerified": true
   },
   "Rue1001b": {
-    "sha256": "4832575869e216ff8e0a9b39c38e9b7d80ccc0c0b3989f5ec1301f9324d9eabc",
+    "sha256": "9c368ed9b0855f770dcfa734c50625f24b9a02d31a255705e4746765f61ff665",
     "partnames": [
       "Discantus",
       "Cantus",
@@ -11677,7 +11677,7 @@
     "audioVerified": true
   },
   "Rue1002c": {
-    "sha256": "3237539c49b74714c6baf9a2205da88b8d129c10065571ad8c244fdadb9ba6ad",
+    "sha256": "1131812938c1be63c695fbce9973df0e38e375c65b9b9163fe48640575f812bc",
     "partnames": [
       "Discantus",
       "Contra",
@@ -11687,7 +11687,7 @@
     "audioVerified": true
   },
   "Rue1002d": {
-    "sha256": "168e6ef19dc9a2a9204da519ec1e5377d758d327ff6a7d1ab0e870b583e274a9",
+    "sha256": "bc6d020a3c18f54ee90287b0d3d079da90e72bb93c70d634be9da5615484e3ea",
     "partnames": [
       "Discantus",
       "Contra",
@@ -11777,7 +11777,7 @@
     "audioVerified": true
   },
   "Rue1004c": {
-    "sha256": "50df7deb6ec240a5226929feefc4727fec160aafeb6bd1e10787e8c834848a60",
+    "sha256": "29ab9cc1699db9635297a587e97e9a666cbe47347dfab056de92addd85647800",
     "partnames": [
       "Discantus",
       "Contra",
@@ -11832,7 +11832,7 @@
     "audioVerified": true
   },
   "Rue1005c": {
-    "sha256": "439365d5620d3ff3411d6608891fbc14bdbe027165634cb118670d81992d40fb",
+    "sha256": "440918eb409cbe60e483a6398047ab632140deab3413972efbb02925607cc0fe",
     "partnames": [
       "Discantus1",
       "Discantus2",
@@ -11975,7 +11975,7 @@
     "audioVerified": true
   },
   "Rue1007e": {
-    "sha256": "b883fb15d55c961524e807e6801af7e908f2b0e4bc01b25661252b4ec572b666",
+    "sha256": "a4006709ebd9b2806936416e6b6dc2131c40234f1a625d1cd888f816c5b688f7",
     "partnames": [
       "Superius",
       "Altus",
@@ -12057,7 +12057,7 @@
     "audioVerified": true
   },
   "Rue1009c": {
-    "sha256": "2526ee67a6b5b64b4f065efe686b67b32d29c4f69aa95031f13dda59e059a7b3",
+    "sha256": "a8682f3b0d2e6e140a16add0515715dd1674e82ceacedad1164c8f785dd9a21d",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12101,7 +12101,7 @@
     "audioVerified": true
   },
   "Rue1011b": {
-    "sha256": "fbf566e8ac64f18ff1efd5de4b77c652672935da5c24184180ef0442d903c4a9",
+    "sha256": "95cd828abc709e2f937a9f0703b9404cdbe50dcba13dee3a8de788aaf7ff63cc",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12256,7 +12256,7 @@
     "audioVerified": true
   },
   "Rue1014b": {
-    "sha256": "4ecdf7a01b42752bb2461bce1e0a4c1cf2555fdac9d233780f86191acbc4f47c",
+    "sha256": "11908ff3d9a72cfbba8fe0b5bdb1fb59f333cf909f465898ac2b9ad0ef026a49",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12361,7 +12361,7 @@
     "audioVerified": true
   },
   "Rue1016b": {
-    "sha256": "a8413a44936948bc13276a6d25439881393d89852684b6a566837bc683df0e1c",
+    "sha256": "12e89899616923383a6c74425dff3f90a76138e9cd0df1401e7a09f9f15a33ff",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12372,7 +12372,7 @@
     "audioVerified": true
   },
   "Rue1016c": {
-    "sha256": "a29a5c831e73df2dd7878dbe66c9729cb2f979dac1b7dec3eb96f9fd913b0ce3",
+    "sha256": "424b37592e9cbc9544de24d9687e6944cda5911ece127b150393d0f74bab8d53",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12682,7 +12682,7 @@
     "audioVerified": true
   },
   "Rue1023c": {
-    "sha256": "ee619ba29b031120e473f3210ee2437fc8c0dcea0a996aeb0b6b64fced470daa",
+    "sha256": "d403ff8f771139fe5008513e7b9f9713c7085a6827a1d6461590dba6569546a4",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12736,7 +12736,7 @@
     "audioVerified": true
   },
   "Rue1024c": {
-    "sha256": "da42d82f21893bbc17a2a2549cc86b2d7128aa1d534222219c2362072863d4db",
+    "sha256": "dc4a22e48f515e13f7b5d6377273aeefe2d4743fab483545a3b80874ca263174",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12746,7 +12746,7 @@
     "audioVerified": true
   },
   "Rue1024d": {
-    "sha256": "6bc8fb8d9d47944d048392dd35bcb1189fa3e6609206b87c459056d64f92527d",
+    "sha256": "7fab440321af5ef6e115e122ec11af91a0a969cff8a5580046c005d4725f5f3d",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12779,7 +12779,7 @@
     "audioVerified": true
   },
   "Rue1024g": {
-    "sha256": "10969c083af508958708fec9cc333d89e5649a829418de0c3c39f215edb231f3",
+    "sha256": "b8c62b3dc7bcdcef14fe79e5b79b27a3809778b5a41ed413b3922aa8f59a453f",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12789,7 +12789,7 @@
     "audioVerified": true
   },
   "Rue1024g.a": {
-    "sha256": "3b4bfe7020781c0b3c145d480b3fd5a4c5451888c47eccad975f960448f0efd7",
+    "sha256": "5825f8b805e8c573ebb51295b47e455768b3b3f2edf46853c86aaf6e78f04b76",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12799,7 +12799,7 @@
     "audioVerified": true
   },
   "Rue1024g.b": {
-    "sha256": "6b9668a16f3775a703655019e5c5b94d285cee5aa4278ea3b4c7bd0aa21d5a70",
+    "sha256": "2b84562461ed8375a00f5e4257492d8ebaca4962f6b8f3c3bdf82165c23aca63",
     "partnames": [
       "Discantus",
       "Contra",
@@ -12959,7 +12959,7 @@
     "audioVerified": true
   },
   "Rue1029a": {
-    "sha256": "55b3da5b877ce51f3efbfbd5bde6a1668fb065bc95a55323b92a4bbc3031d89b",
+    "sha256": "b9043b537ac214b7226ab682cbf170102f59ce359797117bff1450f2fcae822d",
     "partnames": [
       "Superius",
       "Altus",
@@ -13039,7 +13039,7 @@
     "audioVerified": true
   },
   "Rue1030d": {
-    "sha256": "3ed6b0d836b633d469461135d71c8f27a06ac87798b59e1c0bdc075b013f644b",
+    "sha256": "2fee862a28039c6f64a4cdb1f6907d349ff35b648ba565a66816da951f1ef7c9",
     "partnames": [
       "Discantus",
       "Contra",
@@ -13109,7 +13109,7 @@
     "audioVerified": true
   },
   "Rue1032": {
-    "sha256": "47332459f330d0d2564e64a338a75fb743ec73c658c55d0b058fa436a3e44c01",
+    "sha256": "e6d167d6abd467d03309b0dfa720b36f8bad7430d8ca122cb113fafc4d537d32",
     "partnames": [
       "Discantus",
       "Contra",
@@ -13119,7 +13119,7 @@
     "audioVerified": true
   },
   "Rue1033": {
-    "sha256": "43779434520fdab25d1c6ee64c8157393ec3b6f4f2e16a8dc1650e14e3f97511",
+    "sha256": "945f54964d1b31b9c66669c0dd9bdb55a15df9ade9675eb5c71abb920354a688",
     "partnames": [
       "Discantus",
       "Contra",
@@ -13244,7 +13244,7 @@
     "audioVerified": true
   },
   "Rue2004": {
-    "sha256": "a57f279f6d365737995350c7f601334bad4267eb771231f80ff253a694697576",
+    "sha256": "6505dbcf3d83196cacae9f3770bb30c8b9850fdbe04b08b7005c371f47bd3072",
     "partnames": [
       "Discantus",
       "Contra",
@@ -13304,7 +13304,7 @@
     "audioVerified": true
   },
   "Rue2012": {
-    "sha256": "5634db598b5057c5272df8d76ee71c61c69fdbc6e9438f0fb54ac6c299d8cf3c",
+    "sha256": "36c907c10a15044c475b35535ae8c9b231b0ed8e589348ceb2742a9b69b82e45",
     "partnames": [
       "Discantus1",
       "Discantus2",
@@ -13647,7 +13647,7 @@
     "audioVerified": false
   },
   "Tin1001d": {
-    "sha256": "b0d077f1448667fb4457aa0393b81a9415046bf7048b68b58c244c06090255c8",
+    "sha256": "723e37c69efb6c4f2a6878fcfd04fc14197650eb9a950000f237ab2238dfcc5c",
     "partnames": [
       "Discantus",
       "Altus",
@@ -13657,7 +13657,7 @@
     "audioVerified": true
   },
   "Tin1001e": {
-    "sha256": "7b8d6d8a9daa61ce35f4d77145986ac837bce30c23ab2d2744ef1a5238e00c2c",
+    "sha256": "6fd74000ceb205f3bef99923e013cf46a8fa5f34929ac803e2e3089aa1a216df",
     "partnames": [
       "Discantus",
       "Altus",
