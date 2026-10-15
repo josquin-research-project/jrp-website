@@ -102,7 +102,11 @@ async function requestJrpSearch(params, token) {
         method: 'POST', body, signal: controller.signal, cache: 'no-store', credentials: 'omit'
       });
       const result = await response.json();
-      if (!response.ok) throw new Error(result.error || 'Search is temporarily unavailable.');
+      if (!response.ok) {
+        const error = new Error(result.error || 'Search is temporarily unavailable.');
+        error.status = response.status;
+        throw error;
+      }
       return result;
     } catch (error) {
       if (error.name === 'AbortError') throw new Error('Search took too long. Please narrow the query.');

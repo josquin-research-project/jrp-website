@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateSearchLinks(QUERY);
   document.getElementById('copy-search-link').addEventListener('click', copySearchLink);
+  document.getElementById("search-verify-retry").addEventListener("click", () => runSearch(QUERY));
   runSearch(QUERY);
 });
 
@@ -111,28 +112,66 @@ async function copySearchLink() {
   }
 }
 
+// Shared URLs verify here, then continue directly to their results.
+async function verifySearchResults() {
+  const holder = document.getElementById('search-results-verification');
+  holder.hidden = false;
+  document.getElementById('search-results-content').hidden = true;
+  showSearchMessage('Please verify to view these search results.');
+  const api = await loadJrpTurnstile();
+  let widget;
+  try {
+    return await new Promise((resolve, reject) => {
+      widget = api.render(holder, {
+        sitekey: JRP_SEARCH_SITEKEY, action: 'jrp-search',
+        appearance: 'always', size: 'flexible', 'response-field': false,
+        callback: resolve,
+        'expired-callback': () => reject(new Error('Verification expired. Please try again.')),
+        'error-callback': () => { reject(new Error('Verification failed. Please try again.')); return true; },
+        'timeout-callback': () => reject(new Error('Verification timed out. Please try again.'))
+      });
+    });
+  } finally {
+    if (widget !== undefined) api.remove(widget);
+    holder.hidden = true;
+  }
+}
+
 let SEARCH_PENDING = false;
 async function runSearch(query) {
   if (SEARCH_PENDING) return;
   SEARCH_PENDING = true;
-  const token = consumeJrpSearchToken();
-  const formUrl = jrpSearchUrl(query, '/search/');
-  document.getElementById('search-retry').href = formUrl;
-  if (!token) { window.location.replace(formUrl); return; }
-  showSearchMessage("Searching...");
-  document.body.style.cursor = "wait";
+  document.getElementById('search-verify-retry').hidden = true;
+  document.getElementById('search-retry').hidden = true;
+  document.getElementById('search-retry').href = jrpSearchUrl(query, '/search/');
   const params = new URLSearchParams({a: "search"});
   for (const key of ["composer", "genre", "voice"]) addParam(params, key, cleanFilterValue(query[key]));
   for (const key of ["pitch", "rhythm", "interval"]) addParam(params, key, query[key]);
   try {
-    SEARCHLIST = await requestJrpSearch(params, token);
+    let token = consumeJrpSearchToken() || await verifySearchResults();
+    showSearchMessage("Searching...");
+    document.body.style.cursor = "wait";
+    try {
+      SEARCHLIST = await requestJrpSearch(params, token);
+    } catch (error) {
+      if (error.status !== 403) throw error;
+      // A stored token may have been consumed or rejected; get a fresh one once.
+      document.body.style.cursor = "default";
+      token = await verifySearchResults();
+      showSearchMessage("Searching...");
+      document.body.style.cursor = "wait";
+      SEARCHLIST = await requestJrpSearch(params, token);
+    }
     SEARCHLIST.locations = filterLocationsByVoice(SEARCHLIST.locations || [], query.voice);
     sessionStorage.SEARCHLIST = JSON.stringify(SEARCHLIST);
     sessionStorage.QUERY = JSON.stringify(query);
     SEARCH_RESULTS_PAGE = 1;
+    document.getElementById('search-results-content').hidden = false;
     displaySearchResults(1);
   } catch (error) {
+    document.getElementById('search-results-verification').hidden = true;
     showSearchMessage(error.message || "Search is temporarily unavailable.");
+    document.getElementById('search-verify-retry').hidden = false;
     document.getElementById("search-retry").hidden = false;
   } finally {
     SEARCH_PENDING = false;
