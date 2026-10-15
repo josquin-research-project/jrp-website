@@ -63,37 +63,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 		});
 	}
 
-	// ----------------------------------
-	// 1) Prefer local works.json
-	// ----------------------------------
-	if (Array.isArray(WORKS) && WORKS.length > 0) {
-		console.log("Using local works.json");
-		initializeHomepage(WORKS);
-		return;
-	}
-
-	// ----------------------------------
-	// 2) Fallback: fetch Google Sheet
-	// ----------------------------------
-	console.warn("Local works.json unavailable, fetching remote data");
-
-	const macroid = "AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1L6drL9Th7PR-jARwDKP6kZEhED56w";
-	let url = `https://script.google.com/macros/s/${macroid}/exec`;
-	url += "?sheet=works&format=json";
-
-	fetch(url)
-		.then(response => {
-			if (!response.ok) {
-				throw new Error("Request failed with status " + response.status);
-			}
-			return response.json();
-		})
-		.then(data => {
-			initializeHomepage(data);
-		})
-		.catch(error => {
-			console.error("Homepage initialization failed:", error);
-		});
+	// Metadata is bundled with the website during the update workflow.
+	initializeHomepage(WORKS);
 
 });
 

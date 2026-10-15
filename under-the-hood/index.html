@@ -141,17 +141,10 @@ https://assets.1520s-project.org/jrp/score-assets/Agr1001a-incipit.svg
 <h2 class="brown-heading section-heading">Master Metadata Index</h2>
 
 <p>
-Metadata is maintained in a <a href="https://docs.google.com/spreadsheets/d/1KBXyuyE4pfJ61UtQBEfEwLp-vjoyFO_fbUU03DOsiGU/edit">master spreadsheet</a>.
+Metadata is maintained in a <a href="https://docs.google.com/spreadsheets/d/11apuRwRGCNVdyErVqoUs_-ljfiokjdqiS-AEcMVTTqU/edit">master spreadsheet</a>.
 </p>
 
-<p>This spreadsheet catalogues information such as composers, work titles, manuscript sources, catalogue numbers, work scoring, and editorial metadata. A Google Apps Script converts the spreadsheet into JSON data used by the website:
-</p>
-
-<span class="indented-block">
-<a href="https://script.google.com/macros/s/AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1L6drL9Th7PR-jARwDKP6kZEhED56w/exec?sheet=works">
-https://script.google.com/macros/s/AKfycbwuWnQ6O9AGgbBT7B2rLPwEQw9i7NRHtkA2Jq8A1L6drL9Th7PR-jARwDKP6kZEhED56w/exec?sheet=works
-</a>
-</span>
+<p>This spreadsheet catalogues information such as composers, work titles, manuscript sources, catalogue numbers, work scoring, and editorial metadata. The update workflow downloads its tabs directly as CSV and converts them into JSON data used by the website.</p>
 
 <p>
 The update workflow retrieves this data and saves local JSON snapshots with the website. These snapshots power metadata search, composer browsing, work listings, and catalog navigation, while the spreadsheet remains the authoritative metadata source.
