@@ -2143,19 +2143,22 @@ table.search-results-table span.location span.point.point-blue {
 table.search-results-table span.location span.point.point-green {
 	background: #00f700;
 }
-.work-page {
+/* Fill short pages to the viewport; long pages keep the footer below content. */
+.page {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
 	min-height: 100dvh;
 }
-.work-page > #content {
+.page > #content {
 	flex: 1 0 auto;
-	padding-bottom: 64px;
 }
-.work-page > header,
-.work-page > footer {
+.page > header,
+.page > footer {
 	flex-shrink: 0;
+}
+.work-page > #content {
+	padding-bottom: 64px;
 }
 .work-page .work-heading {
 	display: grid;
