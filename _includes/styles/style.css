@@ -2143,10 +2143,9 @@ table.search-results-table span.location span.point.point-blue {
 table.search-results-table span.location span.point.point-green {
 	background: #00f700;
 }
-/* Reserve room for the footer, which stays at the bottom of the viewport. */
+/* Keep the footer visible, with its space reserved in the page layout. */
 .page {
 	--site-footer-height: 80.5px;
-	padding-bottom: var(--site-footer-height);
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
@@ -2159,10 +2158,9 @@ table.search-results-table span.location span.point.point-green {
 	flex-shrink: 0;
 }
 .page > footer {
-	position: fixed;
+	position: sticky;
 	bottom: 0;
-	width: inherit;
-	max-width: inherit;
+	flex-shrink: 0;
 	height: var(--site-footer-height);
 	min-height: 0;
 	z-index: 10;
