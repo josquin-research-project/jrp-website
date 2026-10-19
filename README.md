@@ -4,7 +4,7 @@ The Josquin Research Project (JRP) supports searching, browsing, downloading, an
 
 This repository contains the public website, built with Jekyll and published through GitHub Pages.
 
-- [Website](https://www.josqu.in/)
+- [Website](https://josquin.stanford.edu/)
 - [Humdrum scores](https://github.com/josquin-research-project/jrp-scores)
 
 ## Website features

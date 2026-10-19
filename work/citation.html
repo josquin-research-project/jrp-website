@@ -55,7 +55,7 @@
             year: "numeric", month: "long", day: "numeric"
         }).format(new Date());
         const url = document.createElement("a");
-        url.href = `https://www.josqu.in/work/?id=${encodeURIComponent(id)}`;
+        url.href = `https://josquin.stanford.edu/work/?id=${encodeURIComponent(id)}`;
         url.textContent = url.href;
         citation.replaceChildren(
             document.createTextNode(`${composerName}${separator}`),

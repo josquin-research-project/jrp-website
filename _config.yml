@@ -34,7 +34,7 @@ google_analytics: "G-CWR44TKGGD"
 # data (PDFs, MP3s, etc). Prefer NIFC and use the Stanford mirror if
 # the primary host cannot be reached.
 
-jrp_url: "https://josquin.stanford.org"
+jrp_url: "https://josquin.stanford.edu"
 
 ribbon_url: "/ribbon"
 
