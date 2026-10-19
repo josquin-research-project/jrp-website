@@ -91,6 +91,7 @@ function hasMusicalQuery(query) {
 
 function updateSearchLinks(query) {
   window.history.replaceState(null, '', jrpSearchUrl(query));
+  window.updateJrpCanonicalUrl?.();
   document.getElementById('search-revise').href = jrpSearchUrl(query, '/search/');
   document.getElementById('copy-search-link').hidden = false;
 }

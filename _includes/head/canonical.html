@@ -1,0 +1,37 @@
+{% assign canonical_path = page.canonical_path | default: page.url %}
+{% assign query_pages = '/work/|/repertoire/|/search/|/search-results/|/proll/|/ribbon/|/analysis/|/analysis/activity/|/analysis/range/|/analysis/rhythm/|/analysis/parallel/' | split: '|' %}
+{% unless query_pages contains page.url %}
+<link rel="canonical" href="{{ canonical_path | absolute_url | escape }}">
+{% endunless %}
+<script>
+function updateJrpCanonicalUrl() {
+  const url = new URL({{ canonical_path | absolute_url | jsonify }});
+  const keys = {
+    '/work/': ['id'],
+    '/repertoire/': ['home', 'c', 'g', 'v', 't', 'texted'],
+    '/search/': ['composer', 'genre', 'voice', 'pitch', 'interval', 'rhythm'],
+    '/search-results/': ['composer', 'genre', 'voice', 'pitch', 'interval', 'rhythm'],
+    '/proll/': ['id'],
+    '/ribbon/': ['id'],
+    '/analysis/': ['repertory', 'genre', 'work'],
+    '/analysis/activity/': ['repertory', 'genre', 'work'],
+    '/analysis/range/': ['repertory', 'genre', 'work'],
+    '/analysis/rhythm/': ['composer', 'repertory'],
+    '/analysis/parallel/': ['composer', 'repertory']
+  }[url.pathname] || [];
+  const params = new URLSearchParams(window.location.search);
+  for (const key of keys) {
+    const value = params.get(key) || (key === 'id' && url.pathname === '/proll/' ? params.get('f') : '');
+    if (value) url.searchParams.set(key, value);
+  }
+  let link = document.querySelector('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.rel = 'canonical';
+    document.head.appendChild(link);
+  }
+  link.href = url.href;
+}
+updateJrpCanonicalUrl();
+window.addEventListener('popstate', updateJrpCanonicalUrl);
+</script>

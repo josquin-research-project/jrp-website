@@ -1334,6 +1334,7 @@ function updateRepertoireUrl(mode, view) {
 
 	const method = (mode === "replace") ? "replaceState" : "pushState";
 	window.history[method]({ repertoire: true }, document.title, url);
+	window.updateJrpCanonicalUrl?.();
 }
 
 

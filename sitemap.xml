@@ -1,0 +1,16 @@
+---
+layout: null
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{% assign public_layouts = 'default|homepage|repertoire|work' | split: '|' %}
+{% assign parameter_pages = '/error/|/work/|/proll/|/ribbon/|/search-results/' | split: '|' %}
+{% assign public_pages = site.pages | sort: 'url' %}
+{% for entry in public_pages %}
+{% if public_layouts contains entry.layout %}
+{% unless parameter_pages contains entry.url %}
+  <url><loc>{{ entry.canonical_path | default: entry.url | absolute_url | xml_escape }}</loc></url>
+{% endunless %}
+{% endif %}
+{% endfor %}
+</urlset>

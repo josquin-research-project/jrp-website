@@ -806,6 +806,7 @@ function updateMovementSectionUrl(sectionid) {
 		return;
 	}
 	window.history.replaceState(null, "", getMovementSectionHref(sectionid));
+	window.updateJrpCanonicalUrl?.();
 }
 
 
