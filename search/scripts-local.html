@@ -104,9 +104,9 @@ function buildComposerSelect() {
     repsel.innerHTML = repout;
 
     if (typeof localStorage.ANALYSISrepertory !== "undefined" && localStorage.ANALYSISrepertory !== "") {
-      $("#repertory").val(localStorage.ANALYSISrepertory);
+      document.getElementById("repertory").value = localStorage.ANALYSISrepertory;
     } else {
-      $("#repertory").val("Jos");
+      document.getElementById("repertory").value = "Jos";
     }
   }
 

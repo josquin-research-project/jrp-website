@@ -331,7 +331,7 @@ window.addEventListener("keydown", function (event) {
 	// Ignore command-key combos
 	if (CommandKeyState) return;
 
-	if (event.defaultPrevented || (event.target.closest && event.target.closest('button, [role="button"], select, textarea, .select2-container, .select2-drop, a[href]'))) return;
+	if (event.defaultPrevented || (event.target.closest && event.target.closest('button, [role="button"], select, textarea, .jrp-select, .jrp-select-drop, a[href]'))) return;
 
 	// Let the help popup handle keyboard input without changing the repertoire.
 	if (document.getElementById("keyboard-shortcuts-dialog")?.open) return;

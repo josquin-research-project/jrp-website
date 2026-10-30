@@ -342,7 +342,7 @@ function displayMultisectionWork(jrpid) {
 	var titlelem = document.getElementById("title");
 	titlelem.innerHTML = getSectionHeaderMenu(sectionid, MENUINDEX);
 	updateWorkDocumentTitle();
-	$('select#select-section').prop('selectedIndex', MENUINDEX);
+	setSelectIndex("select-section", MENUINDEX);
 	StylizeFormElements();
 
 	sessionStorage.WORKjrpid = sectionid;
@@ -474,7 +474,7 @@ function getSectionHeaderMenu(jrpid, menuindex) {
 
 function getMp3(jrpid, element) {
 	if (!jrpid) {
-		$('#mp3').prop('selectedIndex', 0);
+		setSelectIndex("mp3", 0);
 		PlayAudioFile(SECTIONID, element);
 		StylizeFormElements();
 	} else {
@@ -490,7 +490,7 @@ function getMp3(jrpid, element) {
 //
 
 function getScoreNoEditText(jrpid) {
-	$('#score').prop('selectedIndex', 0);
+	setSelectIndex("score", 0);
 	StylizeFormElements();
 	window.open("{{site.jrp-data-url}}?a=notationNoEditText&id=" + jrpid, "new");
 }
@@ -503,7 +503,7 @@ function getScoreNoEditText(jrpid) {
 //
 
 function getScoreEditText(jrpid) {
-	$('#accidentals').prop('selectedIndex', 0);
+	setSelectIndex("accidentals", 0);
 	StylizeFormElements();
 	window.open("{{site.jrp-data-url}}?a=notationEditText&id=" + jrpid, "new");
 }
@@ -856,25 +856,7 @@ function escapeJs(value) {
 // Setup enter key to start search.
 //
 
-function setupSearchOnEnter() {
 
-	$("#pitch")   .focus(function() { $(this).data("hasfocus", true);});
-	$("#interval").focus(function() { $(this).data("hasfocus", true);});
-	$("#rhythm")  .focus(function() { $(this).data("hasfocus", true);});
-
-	$("#pitch")   .blur(function()  { $(this).data("hasfocus", false);});
-	$("#interval").blur(function()  { $(this).data("hasfocus", false);});
-	$("#rhythm")  .blur(function()  { $(this).data("hasfocus", false);});
-
-	$(document.body).keyup(function(ev) {
-		if (ev.which === EnterKey) {
-			if      ($("#pitch")   .data("hasfocus")) { doSearch(); }
-			else if ($("#interval").data("hasfocus")) { doSearch(); }
-			else if ($("#rhythm")  .data("hasfocus")) { doSearch(); }
-		}
-	});
-
-}
 
 
 
@@ -1115,10 +1097,7 @@ function updateSectionDownloadPanel(jrpid) {
 		return;
 	}
 
-	var useSelect2 = typeof $ !== "undefined" && $.fn && $.fn.select2;
-	if (useSelect2 && $(select).data("select2")) {
-		$(select).select2("destroy");
-	}
+	JRPDropdowns.destroy(select);
 	select.innerHTML = "";
 	links.innerHTML = "";
 	panel.hidden = true;
@@ -1143,10 +1122,7 @@ function updateSectionDownloadPanel(jrpid) {
 	select.value = sections[0].id;
 	panel.setAttribute("data-work-id", baseId);
 	panel.hidden = false;
-	if (useSelect2) {
-		$(select).select2({ width: "128px", dropdownCssClass: "work-download-dropdown" });
-		LabelFormSelects();
-	}
+	JRPDropdowns.enhance(select, {width: "128px", dropdownClass: "work-download-dropdown"});
 	showSelectedSectionDownloads(select.value);
 }
 
@@ -2031,10 +2007,7 @@ function toggleIncipitDisplay() {
 	}
 	showIncipitButton();
 	if (!WORKallincipits) {
-		$('html, body').animate({
-//			scrollTop: $('#music-area').offset().top-200
-			scrollTop: $('body').offset().top
-		}, 300);
+		scrollPageTo(0);
 	}
 }
 
@@ -2072,10 +2045,10 @@ function toggleRangeDisplay() {
 	showRangeButtons();
 	if (!WORKallranges) {
 		if (WORKallincipits && !SECTIONS) {
-			$('html, body').animate({scrollTop: $('body').offset().top}, 300);
+			scrollPageTo(0);
 		} else {
-			$('html, body')
-				.animate({scrollTop: $('#vocal-ranges').offset().top-200}, 300);
+			var rangeArea = document.getElementById("vocal-ranges");
+			if (rangeArea) scrollPageTo(rangeArea.getBoundingClientRect().top + window.scrollY - 200);
 		}
 	}
 }
@@ -2394,8 +2367,7 @@ function doSearch() {
 		if (inputs[i].getAttribute('value') !== "work") {
 			continue;
 		}
-		var paren = inputs[i].parentNode;
-		if (paren.className.match("ez-selected")) {
+		if (inputs[i].checked) {
 			scope = 'work';
 		}
 	}
@@ -2470,7 +2442,7 @@ async function doWorkSearch(query, token) {
 //
 
 function displayWorkSearch(searchresults) {
-	$("body").css("cursor", "default");
+	document.body.style.cursor = "default";
 	var SR = JSON.parse(searchresults);
 
    var resultsarea = document.getElementById("work-search-results");
@@ -2565,9 +2537,9 @@ function buildRepertorySelect() {
 		document.getElementById("repertory").value = selectedRepertory;
 	} else if ((typeof localStorage.ANALYSISrepertory !== 'undefined') &&
 			(localStorage.ANALYSISrepertory != "")) {
-		$('#repertory').val(localStorage.ANALYSISrepertory);
+		document.getElementById("repertory").value = localStorage.ANALYSISrepertory;
 	} else {
-		$('#repertory').val("Jos");
+		document.getElementById("repertory").value = "Jos";
 	}
 
 	StylizeFormElements();
@@ -2640,7 +2612,7 @@ function showPopupHelp(url, title) {
 //
 
 function showRepertoryAnalysis(analysistype) {
-	var scope = $('input[name="analysisscope"]:checked').val();
+	var scope = document.querySelector('input[name="analysis-scope"]:checked')?.value;
 	var repertory = sessionStorage.WORKjrpid.match(/^([A-Z][a-z][a-z])/)[1];
 	localStorage.ANALYSISrepertory = repertory;
 	if (scope == "work") {
@@ -2885,7 +2857,7 @@ function displaySection(workid) {
 	var titlelem = document.getElementById("title");
 	titlelem.innerHTML = getSectionHeaderMenu(sectionid, menuindex);
 	updateWorkDocumentTitle();
-	$('select#select-section').prop('selectedIndex', menuindex);
+	setSelectIndex("select-section", menuindex);
 	StylizeFormElements();
 
 	sessionStorage.WORKjrpid = workid;
@@ -3276,15 +3248,16 @@ function displayNextSection() {
 	
 	if (si < 0) {
 		// display next section of multisection work
-		ocount = $('select#select-section option').length;
-		current = $('select#select-section option:selected').index();
+		var sectionMenu = document.getElementById("select-section");
+		ocount = sectionMenu ? sectionMenu.options.length : SECTIONS.length;
+		current = sectionMenu ? sectionMenu.selectedIndex : -1;
 	}
 	current++;
 	if (current > ocount-1) {
 		current = 0;
 	}
 	var sectionid = SECTIONS[current].id;
-	$('select#select-section').prop('selectedIndex', current);
+	setSelectIndex("select-section", current);
 	if (SECTIONS && (MENUINDEX == 0)) {
 		var downloads = document.getElementById("downloads");
 		if (downloads) {
@@ -3317,14 +3290,15 @@ function displaySectionNumber(sectionnum) {
 
 	if (si < 0) {
 		// display next section of multisection work
-		ocount = $('select#select-section option').length;
-		si = $('select#select-section option:selected').index();
+		var sectionMenu = document.getElementById("select-section");
+		ocount = sectionMenu ? sectionMenu.options.length : SECTIONS.length;
+		si = sectionMenu ? sectionMenu.selectedIndex : -1;
 	}
 	if (si > ocount-1) {
 		si = 0;
 	}
 	var sectionid = SECTIONS[si].id;
-	$('select#select-section').prop('selectedIndex', si);
+	setSelectIndex("select-section", si);
 	if (SECTIONS && (MENUINDEX == 0)) {
 		var downloads = document.getElementById("downloads");
 		if (downloads) {

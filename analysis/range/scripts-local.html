@@ -90,7 +90,7 @@ function displayContents(repertory) {
     repertory = localStorage.ANALYSISrepertory || "";
   }
   buildRepertorySelect();
-  $("#repertory").val(repertory);
+  document.getElementById("repertory").value = repertory;
   StylizeFormElements();
   showRepertory(repertory);
 }

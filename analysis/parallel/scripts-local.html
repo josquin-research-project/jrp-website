@@ -19,14 +19,13 @@ function render(){
 $('rows').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const w=data.works[b.dataset.work],h=w.hits[Number(b.dataset.hit)];$('detail-title').textContent=w.id+' · '+h.voices.join(' / ')+' · '+h.quality+' · '+h.attack;
 $('notes').textContent=h.voices.map((v,i)=>v+': '+h.notes[i].pitch+' (m. '+h.notes[i].measure+') → '+h.notes[i+2].pitch+' (m. '+h.notes[i+2].measure+')').join('; ');
 $('full-score').href='/work/?id='+encodeURIComponent(w.id);$('score').hidden=!h.excerpt;if(h.excerpt)$('score').src='https://assets.1520s-project.org/'+h.excerpt;$('detail').hidden=false;$('detail').scrollIntoView({behavior:'smooth'});});
-if(window.jQuery){jQuery('#composer').on('change',changeComposer)}else{$('composer').onchange=changeComposer;}for(const id of ['work','attack','kind'])$(id).onchange=render;
+$('composer').onchange=changeComposer;for(const id of ['work','attack','kind'])$(id).onchange=render;
 Promise.all(['/analysis/parallel/data.json','/analysis/parallel/composers.json'].map(url=>fetch(url).then(r=>{if(!r.ok)throw Error('Analysis unavailable');return r.json()}))).then(([d,composers])=>{
- if(window.jQuery&&jQuery.fn.select2){for(const id of ['work','attack','kind']){const menu=jQuery('#'+id);if(menu.data('select2'))menu.select2('destroy')}}
  data=d;const names=Object.fromEntries(composers.map(c=>[c.COMPOSER_ID,c['Display Long']||c.Name.replace(/[{}]/g,'')]));
  const ids=[...new Set(Object.keys(d.works).map(k=>k.slice(0,3)))].sort((a,b)=>(names[a]||a).localeCompare(names[b]||b));
  $('composer').innerHTML='<option value="">Select a repertory</option>'+ids.map(id=>'<option value="'+esc(id)+'">'+esc(names[id]||id)+'</option>').join('');
  const params=new URLSearchParams(location.search);let selected=params.get('repertory')||params.get('composer');try{selected=selected||localStorage.ANALYSISrepertory}catch(e){};if(ids.includes(selected))$('composer').value=selected;
- if(window.jQuery&&jQuery.fn.select2){jQuery('#composer').select2({minimumResultsForSearch:10});LabelFormSelects();}
+ if(window.JRPDropdowns)JRPDropdowns.enhance($('composer'));
  changeComposer();const work=new URLSearchParams(location.search).get('work');if(work&&work.startsWith($('composer').value)&&Object.keys(data.works).some(id=>id.startsWith(work))){if(!data.works[work])$('work').insertAdjacentHTML('afterbegin','<option>'+esc(work)+'</option>');$('work').value=work;render()}
 }).catch(e=>$('status').textContent=e.message);
 

@@ -16,9 +16,9 @@ document.addEventListener("DOMContentLoaded", function() {
   buildRepertorySelect();
 
   if (localStorage.ANALYSISrepertory) {
-    $("#repertory").val(localStorage.ANALYSISrepertory);
+    document.getElementById("repertory").value = localStorage.ANALYSISrepertory;
   } else {
-    $("#repertory").val("Jos");
+    document.getElementById("repertory").value = "Jos";
   }
 
   StylizeFormElements();

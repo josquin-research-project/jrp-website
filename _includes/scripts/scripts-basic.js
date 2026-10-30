@@ -1,3 +1,4 @@
+{% include scripts/native-controls.js %}
 //////////////////////////////
 //
 // DOMContentLoaded event listener -- Things to do on a page after 
@@ -13,30 +14,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //////////////////////////////
 //
-// StylizeFormElements -- Apply CSS styling to form-like elements which
-// 	are handled by the select2 and ezmark JavaScript libraries.
+// StylizeFormElements -- Enhance dropdowns while retaining their native values.
 //
 
 function StylizeFormElements() {
-	LabelFormSelects();
-	// Movement downloads manage Select2; the citation dialog uses a native select.
-	$('select').not('.tricky, #download-section-select, #citation-format').select2({
-		width: 'off'
+	if (!window.JRPDropdowns) return;
+	document.querySelectorAll('select').forEach(function(select) {
+		if (!select.matches('#download-section-select, #citation-format, [data-native-select]')) {
+			JRPDropdowns.enhance(select);
+		}
 	});
-
-	$('select.tricky').select2({
-		width: "off",
-		containerCssClass: 'tricky-choice',
-		dropdownCssClass: 'tricky-dropdown',
-		dropdownAutoWidth: true
-	});
-
-	LabelFormSelects();
-	$('input[type=checkbox]').ezMark();
-	$('input[type=radio]').ezMark();
 }
-
-
 
 ///////////////////////////////
 //
@@ -64,34 +52,6 @@ function MakeNewLinkTargets() {
 
 
 
-
-// Name both the native select and the focusable controls created by Select2.
-function LabelFormSelects() {
-	$('select').each(function() {
-		var name = this.getAttribute('aria-label');
-		if (!name && this.labels && this.labels.length) {
-			var label = this.labels[0].cloneNode(true);
-			label.querySelectorAll('select, input, button').forEach(function(control) {
-				control.remove();
-			});
-			name = label.textContent.trim();
-			if (name) this.setAttribute('aria-label', name);
-		}
-		var widget = $(this).data('select2');
-		if (!name || !widget) return;
-		if (widget.focusser && widget.focusser.length) {
-			// Retain the selected option in the name along with the field label.
-			widget.focusser.prev('label').text(name);
-			var labelId = widget.focusser.attr('id') + '-label';
-			widget.focusser.prev('label').attr('id', labelId);
-			var chosenId = widget.selection.find('.select2-chosen').attr('id');
-			widget.focusser.attr('aria-labelledby', labelId + (chosenId ? ' ' + chosenId : ''));
-		}
-		if (widget.search && widget.search.length) {
-			widget.search.attr('aria-label', 'Filter options: ' + name);
-		}
-	});
-}
 
 // Keep legacy controls visually identical while supporting Enter and Space.
 document.addEventListener('keydown', function(event) {

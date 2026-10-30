@@ -9,7 +9,7 @@
 	
 
 html {
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 a {
@@ -18,28 +18,6 @@ a {
 	font-size: 18px;
 	text-decoration: none;
 }
-
-/* http://webdesign.tutsplus.com/articles/quick-tip-styling-scrollbars-to-match-your-ui-design--webdesign-9430 */
-
-::-webkit-scrollbar {
-	width: 15px;
-} /* this targets the default scrollbar (compulsory) */
-
-::-webkit-scrollbar-track {
-	background-color: #656672;
-} /* the new scrollbar will have a flat appearance with the set background color */
-	
-::-webkit-scrollbar-thumb {
-	background-color: rgba(0, 0, 0, 0.2); 
-} /* this will style the thumb, ignoring the track */
-	
-::-webkit-scrollbar-button {
-	background-color: #7c2929;
-} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
-	
-::-webkit-scrollbar-corner {
-	background-color: black;
-} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
 
 :is(h1, h2) {
 	font-size: 1.5em;
@@ -341,7 +319,7 @@ ul.grey-list li .pr {
 	text-align: center;
 	margin-bottom: 25px;
 }
-.form-group .select2-container {
+.form-group .jrp-select {
 	text-align: left;
 }
 
@@ -514,790 +492,34 @@ span.grey {
 	font-size: 16px;
 }
 
-/* custom select styles */
-/*
-Version: 3.4.6 Timestamp: Sat Mar 22 22:30:15 EDT 2014
-*/
-.select2-container {
-	margin: 0;
-	position: relative;
-	display: block;
-	/* inline-block for ie7 */
-	zoom: 1;
-	*display: inline;
-	vertical-align: middle;
-	/*
-	Force border-box so that % widths fit the parent
-	container without overlap because of margin/padding.
-	More Info : http://www.quirksmode.org/css/box.html
-	*/
-	-webkit-box-sizing: border-box;
-	/* webkit */
-	-moz-box-sizing: border-box;
-	/* firefox */
-	box-sizing: border-box;
-	/* css3 */
-}
+{% include styles/dropdowns.css %}
 
-.select2-drop {
-	/*
-	Force border-box so that % widths fit the parent
-	container without overlap because of margin/padding.
-	More Info : http://www.quirksmode.org/css/box.html
-	*/
-	-webkit-box-sizing: border-box;
-	/* webkit */
-	-moz-box-sizing: border-box;
-	/* firefox */
-	box-sizing: border-box;
-	/* css3 */
-}
-
-.select2-search {
-	/*
-	Force border-box so that % widths fit the parent
-	container without overlap because of margin/padding.
-	More Info : http://www.quirksmode.org/css/box.html
-	*/
-	-webkit-box-sizing: border-box;
-	/* webkit */
-	-moz-box-sizing: border-box;
-	/* firefox */
-	box-sizing: border-box;
-	/* css3 */
-}
-.select2-search input {
-	/*
-	Force border-box so that % widths fit the parent
-	container without overlap because of margin/padding.
-	More Info : http://www.quirksmode.org/css/box.html
-	*/
-	-webkit-box-sizing: border-box;
-	/* webkit */
-	-moz-box-sizing: border-box;
-	/* firefox */
-	box-sizing: border-box;
-	/* css3 */
-}
-
-.select2-container .select2-choice {
-	display: block;
-	height: 25px;
-	padding: 0 0 0 8px;
-	overflow: hidden;
-	position: relative;
-	border: 1px solid #cccccc;
-	white-space: nowrap;
-	line-height: 23px;
-	color: #444;
-	text-decoration: none;
-	border-radius: 2px;
-	background-clip: padding-box;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	background-color: #f7f7f7;
-	font-family: "Lato", sans-serif;
-}
-.select2-container.select2-drop-above .select2-choice {
-	border-bottom-color: #aaa;
-	border-radius: 0 0 2px 2px;
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #eeeeee), color-stop(0.9, white));
-	background-image: -webkit-linear-gradient(center bottom, #eeeeee 0%, white 90%);
-	background-image: -moz-linear-gradient(center bottom, #eeeeee 0%, white 90%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0);
-	background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 90%);
-}
-.select2-container.select2-allowclear .select2-choice .select2-chosen {
-	margin-right: 42px;
-}
-.select2-container .select2-choice > .select2-chosen {
-	margin-right: 26px;
-	display: block;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	float: none;
-	width: auto;
-	color: #333;
-	font-family: "Lato";
-	font-size: 14px;
-}
-.select2-container .select2-choice abbr {
-	display: none;
-	width: 12px;
-	height: 12px;
-	position: absolute;
-	right: 24px;
-	top: 8px;
-	font-size: 1px;
-	text-decoration: none;
+/* Style native radio inputs with the existing artwork. */
+input[type="radio"] {
+	-webkit-appearance: none;
+	appearance: none;
+	background: transparent url("/images/radio.png") 0 1px no-repeat;
 	border: 0;
-	background: url("/images/select2.png") right top no-repeat;
-	cursor: pointer;
-	outline: 0;
-}
-.select2-container.select2-allowclear .select2-choice abbr {
-	display: inline-block;
-}
-.select2-container .select2-choice abbr:hover {
-	background-position: right -11px;
-	cursor: pointer;
-}
-
-.select2-drop-mask {
-	border: 0;
-	margin: 0;
-	padding: 0;
-	position: fixed;
-	left: 0;
-	top: 0;
-	min-height: 100%;
-	min-width: 100%;
-	height: auto;
-	width: auto;
-	opacity: 0;
-	z-index: 9998;
-	/* styles required for IE to work */
-	background-color: #fff;
-	filter: alpha(opacity=0);
-}
-
-.select2-drop {
-	width: 100%;
-	margin-top: -1px;
-	position: absolute;
-	z-index: 9999;
-	top: 100%;
-	background: #fff;
-	color: #000;
-	border: 1px solid #aaa;
-	border-top: 0;
-	border-radius: 0 0 4px 4px;
-	-webkit-box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 4px 5px rgba(0, 0, 0, 0.15);
-}
-.select2-drop.select2-drop-above {
-	margin-top: 1px;
-	border-top: 1px solid #aaa;
-	border-bottom: 0;
-	border-radius: 4px 4px 0 0;
-	-webkit-box-shadow: 0 -4px 5px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 -4px 5px rgba(0, 0, 0, 0.15);
-}
-
-.select2-drop-active {
-	border: 1px solid #5897fb;
-	border-top: none;
-}
-
-.select2-drop.select2-drop-above.select2-drop-active {
-	border-top: 1px solid #5897fb;
-}
-
-.select2-drop-auto-width {
-	border-top: 1px solid #aaa;
-	width: auto;
-}
-.select2-drop-auto-width .select2-search {
-	padding-top: 4px;
-}
-
-.select2-container .select2-choice .select2-arrow {
-	display: inline-block;
-	width: 18px;
-	height: 100%;
-	position: absolute;
-	right: 0;
-	top: 0;
-	border-radius: 0 4px 4px 0;
-	background-clip: padding-box;
-}
-.select2-container .select2-choice .select2-arrow b {
-	display: block;
-	width: 100%;
-	height: 100%;
-	background: url("../images/arrows.png") no-repeat 0 7px;
-}
-
-.select2-search {
-	display: none;
-	width: 100%;
-	min-height: 26px;
-	margin: 0;
-	padding-left: 4px;
-	padding-right: 4px;
-	position: relative;
-	z-index: 10000;
-	white-space: nowrap;
-}
-.select2-search input {
-	width: 100%;
-	height: auto !important;
-	min-height: 26px;
-	padding: 4px 20px 4px 5px;
-	margin: 0;
-	outline: 0;
-	font-family: sans-serif;
-	font-size: 1em;
-	border: 1px solid #aaa;
 	border-radius: 0;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	background: white url("/images/select2.png") no-repeat 100% -22px;
-	background: url("/images/select2.png") no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
-	background: url("/images/select2.png") no-repeat 100% -22px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-	background: url("/images/select2.png") no-repeat 100% -22px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-	background: url("/images/select2.png") no-repeat 100% -22px, linear-gradient(to bottom, #ffffff 85%, #eeeeee 99%) 0 0;
-}
-
-.select2-drop.select2-drop-above .select2-search input {
-	margin-top: 4px;
-}
-
-.select2-search input.select2-active {
-	background: white url("select2-spinner.gif") no-repeat 100%;
-	background: url("select2-spinner.gif") no-repeat 100%, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
-	background: url("select2-spinner.gif") no-repeat 100%, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-	background: url("select2-spinner.gif") no-repeat 100%, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
-	background: url("select2-spinner.gif") no-repeat 100%, linear-gradient(to bottom, #ffffff 85%, #eeeeee 99%) 0 0;
-}
-
-.select2-container-active .select2-choice, .select2-container-active .select2-choices {
-	border: 1px solid #5897fb;
-	outline: none;
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-
-.select2-dropdown-open .select2-choice {
-	border-bottom-color: transparent;
-	-webkit-box-shadow: 0 1px 0 #fff inset;
-	box-shadow: 0 1px 0 #fff inset;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	background-color: #eee;
-	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, white), color-stop(0.5, #eeeeee));
-	background-image: -webkit-linear-gradient(center bottom, white 0%, #eeeeee 50%);
-	background-image: -moz-linear-gradient(center bottom, white 0%, #eeeeee 50%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff', GradientType=0);
-	background-image: linear-gradient(to top, #ffffff 0%, #eeeeee 50%);
-}
-.select2-dropdown-open.select2-drop-above .select2-choice, .select2-dropdown-open.select2-drop-above .select2-choices {
-	border: 1px solid #5897fb;
-	border-top-color: transparent;
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, white), color-stop(0.5, #eeeeee));
-	background-image: -webkit-linear-gradient(center top, white 0%, #eeeeee 50%);
-	background-image: -moz-linear-gradient(center top, white 0%, #eeeeee 50%);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#ffffff', GradientType=0);
-	background-image: linear-gradient(to bottom, #ffffff 0%, #eeeeee 50%);
-}
-.select2-dropdown-open .select2-choice .select2-arrow {
-	background: transparent;
-	border-left: none;
-	filter: none;
-}
-
-.select2-hidden-accessible {
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
 	padding: 0;
-	position: absolute;
-	width: 1px;
-}
-
-/* results */
-.select2-results {
-	max-height: 200px;
-	padding: 0 0 0 4px;
-	margin: 4px 4px 4px 0;
-	position: relative;
-	overflow-x: hidden;
-	overflow-y: auto;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-.select2-results ul.select2-result-sub {
-	margin: 0;
-	padding-left: 0;
-}
-.select2-results ul.select2-result-sub > li .select2-result-label {
-	padding-left: 20px;
-}
-.select2-results ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
-	padding-left: 40px;
-}
-.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
-	padding-left: 60px;
-}
-.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
-	padding-left: 80px;
-}
-.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
-	padding-left: 100px;
-}
-.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
-	padding-left: 110px;
-}
-.select2-results ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub ul.select2-result-sub > li .select2-result-label {
-	padding-left: 120px;
-}
-.select2-results li {
-	list-style: none;
-	display: list-item;
-	background-image: none;
-	font-size: 14px;
-	font-family: "Lato";
-}
-.select2-results li.select2-result-with-children > .select2-result-label {
-	font-weight: bold;
-}
-.select2-results .select2-result-label {
-	padding: 3px 7px 4px;
-	margin: 0;
-	cursor: pointer;
-	min-height: 1em;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-.select2-results .select2-highlighted {
-	background: #3875d7;
-	color: #fff;
-}
-.select2-results li em {
-	background: #feffde;
-	font-style: normal;
-}
-.select2-results .select2-highlighted em {
-	background: transparent;
-}
-.select2-results .select2-highlighted ul {
-	background: #fff;
-	color: #000;
-}
-.select2-results .select2-no-results, .select2-results .select2-searching, .select2-results .select2-selection-limit {
-	background: #f4f4f4;
-	display: list-item;
-	padding-left: 5px;
-}
-.select2-results .select2-disabled {
-	background: #f4f4f4;
-	display: list-item;
-	cursor: default;
-}
-.select2-results .select2-disabled.select2-highlighted {
-	color: #666;
-	background: #f4f4f4;
-	display: list-item;
-	cursor: default;
-}
-.select2-results .select2-selected {
-	display: none;
-}
-
-/*
-disabled look for disabled choices in the results dropdown
-*/
-.select2-more-results {
-	background: #f4f4f4;
-	display: list-item;
-}
-.select2-more-results.select2-active {
-	background: #f4f4f4 url("select2-spinner.gif") no-repeat 100%;
-}
-
-/* disabled styles */
-.select2-container.select2-container-disabled .select2-choice {
-	background-color: #f4f4f4;
-	background-image: none;
-	border: 1px solid #ddd;
-	cursor: default;
-}
-.select2-container.select2-container-disabled .select2-choice .select2-arrow {
-	background-color: #f4f4f4;
-	background-image: none;
-	border-left: 0;
-}
-.select2-container.select2-container-disabled .select2-choice abbr {
-	display: none;
-}
-
-/* multiselect */
-.select2-container-multi .select2-choices {
-	height: auto !important;
-	height: 1%;
-	margin: 0;
-	padding: 0;
-	position: relative;
-	border: 1px solid #aaa;
-	cursor: text;
-	overflow: hidden;
-	background-color: #fff;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(1%, #eeeeee), color-stop(15%, white));
-	background-image: -webkit-linear-gradient(top, #eeeeee 1%, white 15%);
-	background-image: -moz-linear-gradient(top, #eeeeee 1%, white 15%);
-	background-image: linear-gradient(to bottom, #eeeeee 1%, #ffffff 15%);
-}
-
-.select2-locked {
-	padding: 3px 5px 3px 5px !important;
-}
-
-.select2-container-multi .select2-choices {
-	min-height: 26px;
-}
-.select2-container-multi.select2-container-active .select2-choices {
-	border: 1px solid #5897fb;
-	outline: none;
-	-webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-}
-.select2-container-multi .select2-choices li {
-	float: left;
-	list-style: none;
-}
-
-html[dir="rtl"] .select2-container-multi .select2-choices li {
-	float: right;
-}
-
-.select2-container-multi .select2-choices .select2-search-field {
-	margin: 0;
-	padding: 0;
-	white-space: nowrap;
-}
-.select2-container-multi .select2-choices .select2-search-field input {
-	padding: 5px;
-	margin: 1px 0;
-	font-family: sans-serif;
-	font-size: 100%;
-	color: #666;
-	outline: 0;
-	border: 0;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	background: transparent !important;
-}
-.select2-container-multi .select2-choices .select2-search-field input.select2-active {
-	background: white url("select2-spinner.gif") no-repeat 100% !important;
-}
-
-.select2-default {
-	color: #999 !important;
-}
-
-.select2-container-multi .select2-choices .select2-search-choice {
-	padding: 3px 5px 3px 18px;
-	margin: 3px 0 3px 5px;
-	position: relative;
-	line-height: 13px;
-	color: #333;
-	cursor: default;
-	border: 1px solid #aaaaaa;
-	border-radius: 3px;
-	-webkit-box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-	box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
-	background-clip: padding-box;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	background-color: #e4e4e4;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eeeeee', endColorstr='#f4f4f4', GradientType=0);
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
-	background-image: -webkit-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-	background-image: -moz-linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-	background-image: linear-gradient(to top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
-}
-
-html[dir="rtl"] .select2-container-multi .select2-choices .select2-search-choice {
-	margin-left: 0;
-	margin-right: 5px;
-}
-
-.select2-container-multi .select2-choices .select2-search-choice .select2-chosen {
-	cursor: default;
-}
-.select2-container-multi .select2-choices .select2-search-choice-focus {
-	background: #d4d4d4;
-}
-
-.select2-search-choice-close {
-	display: block;
-	width: 12px;
-	height: 13px;
-	position: absolute;
-	right: 3px;
-	top: 4px;
-	font-size: 1px;
-	outline: none;
-	background: url("/images/select2.png") right top no-repeat;
-}
-
-html[dir="rtl"] .select2-search-choice-close {
-	right: auto;
-	left: 3px;
-}
-
-.select2-container-multi .select2-search-choice-close {
-	left: 3px;
-}
-.select2-container-multi .select2-choices .select2-search-choice .select2-search-choice-close:hover, .select2-container-multi .select2-choices .select2-search-choice-focus .select2-search-choice-close {
-	background-position: right -11px;
-}
-.select2-container-multi.select2-container-disabled .select2-choices {
-	background-color: #f4f4f4;
-	background-image: none;
-	border: 1px solid #ddd;
-	cursor: default;
-}
-.select2-container-multi.select2-container-disabled .select2-choices .select2-search-choice {
-	padding: 3px 5px 3px 5px;
-	border: 1px solid #ddd;
-	background-image: none;
-	background-color: #f4f4f4;
-}
-.select2-container-multi.select2-container-disabled .select2-choices .select2-search-choice .select2-search-choice-close {
-	display: none;
-	background: none;
-}
-
-/* disabled styles */
-/* end multiselect */
-.select2-result-selectable .select2-match, .select2-result-unselectable .select2-match {
-	text-decoration: underline;
-}
-
-.select2-offscreen {
-	clip: rect(0 0 0 0) !important;
-	width: 1px !important;
-	height: 1px !important;
-	border: 0 !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	overflow: hidden !important;
-	position: absolute !important;
-	outline: 0 !important;
-	left: 0px !important;
-	top: 0px !important;
-}
-.select2-offscreen:focus {
-	clip: rect(0 0 0 0) !important;
-	width: 1px !important;
-	height: 1px !important;
-	border: 0 !important;
-	margin: 0 !important;
-	padding: 0 !important;
-	overflow: hidden !important;
-	position: absolute !important;
-	outline: 0 !important;
-	left: 0px !important;
-	top: 0px !important;
-}
-
-.select2-display-none {
-	display: none;
-}
-
-.select2-measure-scrollbar {
-	position: absolute;
-	top: -10000px;
-	left: -10000px;
-	width: 100px;
-	height: 100px;
-	overflow: scroll;
-}
-
-/* Retina-ize icons */
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 2dppx) {
-	.select2-search input, .select2-search-choice-close {
-	background-image: url("/images/select2.png") !important;
-	background-repeat: no-repeat !important;
-	background-size: 60px 40px !important;
-	}
-
-	.select2-container .select2-choice abbr, .select2-container .select2-choice .select2-arrow b {
-	background-image: url("/images/select2.png") !important;
-	background-repeat: no-repeat !important;
-	background-size: 60px 40px !important;
-	}
-
-	.select2-search input {
-	background-position: 100% -21px !important;
-	}
-}
-.tricky-choice .select2-choice {
-	display: block;
-	height: auto;
-	padding: 0;
-	overflow: visible;
-	position: relative;
-	border: none;
-	white-space: normal;
-	text-decoration: none;
-	border-radius: none;
-	background-clip: padding-box;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	background-color: transparent;
-	color: #97897d;
-	font-family: 'PT Sans', sans-serif;
-	font-size: 14px;
-	text-decoration: none;
-	text-align: center;
-	padding-right: 5px;
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	box-shadow: none !important;
-	border: none !important;
-}
-.tricky-choice .select2-choice .select2-chosen {
-	white-space: normal;
-	font-family: 'PT Sans', sans-serif;
-	font-size: 13px;
-	color: #97897d;
-	margin-right: 0;
-	padding-right: 3px;
-	line-height: 17px;
-	border-right: 1px solid #e1e1e1;
-	display: inline-block;
-	text-align: left;
-}
-.tricky-choice .select2-choice .select2-arrow {
-	display: block;
-	width: 11px;
-	height: 6px;
-	background: url(../images/arrow-bottom.png) no-repeat 0 0;
-	position: absolute;
-	right: 6px;
-	top: 7px;
-}
-.tricky-choice .select2-choice:focus {
-	background: red;
-}
-
-#s2id_accidentals .select2-arrow {
-	right: -12px !important;
-}
-
-.tricky-dropdown {
-	margin-top: -9px;
-}
-.tricky-dropdown .select2-search {
-	display: none !important;
-}
-
-.tricky-choice.select2-container-active.select2-dropdown-open .select2-choice, .tricky-choice.select2-container-active.select2-dropdown-open .select2-choices {
-	border: none;
-	outline: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	background: transparent;
-}
-
-.tricky-choice.tricky-only-arrow {
-	display: inline-block;
-}
-.tricky-choice.tricky-only-arrow .select2-choice {
-	text-decoration: none;
-	text-align: left;
-	padding-right: 15px;
-	-webkit-box-shadow: none !important;
-	-moz-box-shadow: none !important;
-	box-shadow: none !important;
-	border: none !important;
-}
-.tricky-choice.tricky-only-arrow .select2-choice .select2-chosen {
-	white-space: normal;
-	color: #97897d;
-	font-family: "Lato";
-	font-size: 16px;
-	margin-right: 0;
-	padding-right: 3px;
-	line-height: 17px;
-	display: inline-block;
-	border-right: none;
-	text-align: left;
-}
-.tricky-choice.tricky-only-arrow .select2-choice .select2-arrow {
-	display: block;
-	width: 11px;
-	height: 6px;
-	background: url(../images/arrow-bottom.png) no-repeat 0 0;
-	position: absolute;
-	right: 0;
-	top: 7px;
-}
-
-.tricky .select2-choice:hover .select2-chosen, .tricky.select2-dropdown-open .select2-choice .select2-chosen {
-	color: #685f57;
-}
-.tricky .select2-choice:hover .select2-arrow, .tricky.select2-dropdown-open .select2-choice .select2-arrow {
-	background-position: 0 -6px;
-}
-
-#s2id_accidentals {
-	height: 26px;
-}
-
-/* custom checkbox styles */
-/**
-	* CSS File for ezMark jQuery Plugin
-	*
-	**/
-.ez-hide {
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-
-.ez-checkbox {
-	background: transparent url("../images/checkbox.png") 0 0px no-repeat;
-	display: inline-block;
-	width: 20px;
-	height: 23px;
-	margin-right: 5px;
-	position: relative;
-	top: -1px;
-	cursor: pointer;
-}
-
-.checkbox-small .ez-checkbox {
-	background: transparent url("../images/checkbox-small.png") 0 0px no-repeat;
-	width: 14px;
-	height: 14px;
-	top: 2px;
-}
-
-.checkbox-small .ez-checkbox.ez-checked {
-	background-position: 0 -15px;
-}
-
-.ez-radio {
-	background: transparent url("../images/radio.png") 0 1px no-repeat;
 	display: inline-block;
 	cursor: pointer;
-	margin-right: 5px;
+	margin: 0 5px 0 0;
 	width: 16px;
 	height: 16px;
+	flex-shrink: 0;
 }
 
-.ez-selected {
+input[type="radio"]:checked {
 	background-position: 0 -19px;
 }
 
-.ez-checked {
-	background-position: 0 -22px;
+@media (forced-colors: active) {
+	input[type="radio"] {
+		-webkit-appearance: auto;
+		appearance: auto;
+		background: none;
+	}
 }
 
 /* typography styles */
@@ -2447,7 +1669,7 @@ table.search-results-table span.location span.point.point-green {
 	border-radius: 3px;
 }
 .work-page #work-tool-sidebar .form-control,
-.work-page #work-tool-sidebar .select2-container {
+.work-page #work-tool-sidebar .jrp-select {
 	box-sizing: border-box;
 	width: 100%;
 }
@@ -2999,10 +2221,10 @@ table.search-results-table span.location span.point.point-green {
 	clip-path: inset(50%);
 	white-space: nowrap;
 }
-#primary-content.work-content .work-download-section-picker .select2-container {
+#primary-content.work-content .work-download-section-picker .jrp-select {
 	margin: 0;
 }
-#primary-content.work-content .work-download-section-picker .select2-choice {
+#primary-content.work-content .work-download-section-picker .jrp-select-choice {
 	height: 34px;
 	padding: 0 28px 0 12px;
 	border: 0;
@@ -3018,24 +2240,24 @@ table.search-results-table span.location span.point.point-green {
 	text-transform: uppercase;
 	text-shadow: none;
 }
-#primary-content.work-content .work-download-section-picker .select2-choice > .select2-chosen {
+#primary-content.work-content .work-download-section-picker .jrp-select-choice > .jrp-select-chosen {
 	margin-right: 0;
 	color: inherit;
 	font: inherit;
 }
-#primary-content.work-content .work-download-section-picker .select2-choice:hover,
-#primary-content.work-content .work-download-section-picker .select2-dropdown-open .select2-choice {
+#primary-content.work-content .work-download-section-picker .jrp-select-choice:hover,
+#primary-content.work-content .work-download-section-picker .jrp-select-open .jrp-select-choice {
 	background: #205b8a;
 }
-#primary-content.work-content .work-download-section-picker .select2-arrow {
+#primary-content.work-content .work-download-section-picker .jrp-select-arrow {
 	width: 26px;
 	border: 0;
 	background: transparent;
 }
-#primary-content.work-content .work-download-section-picker .select2-arrow b {
+#primary-content.work-content .work-download-section-picker .jrp-select-arrow b {
 	background: none;
 }
-#primary-content.work-content .work-download-section-picker .select2-arrow b::after {
+#primary-content.work-content .work-download-section-picker .jrp-select-arrow b::after {
 	content: "";
 	position: absolute;
 	top: 12px;
@@ -3046,15 +2268,15 @@ table.search-results-table span.location span.point.point-green {
 	border-bottom: 1px solid white;
 	transform: rotate(45deg);
 }
-#primary-content.work-content .work-download-section-picker .select2-dropdown-open .select2-arrow b::after {
+#primary-content.work-content .work-download-section-picker .jrp-select-open .jrp-select-arrow b::after {
 	top: 15px;
 	transform: rotate(225deg);
 }
-#primary-content.work-content .work-download-section-picker .select2-container-active .select2-choice {
+#primary-content.work-content .work-download-section-picker .jrp-select-active .jrp-select-choice {
 	outline: 2px solid #2b75af;
 	outline-offset: 3px;
 }
-.work-download-dropdown.select2-drop {
+.work-download-dropdown.jrp-select-drop {
 	margin-top: 3px;
 	padding: 3px;
 	border: 1px solid #2b75af;
@@ -3065,14 +2287,14 @@ table.search-results-table span.location span.point.point-green {
 	font-family: "Lato", sans-serif;
 	font-size: 14px;
 }
-.work-download-dropdown .select2-results {
+.work-download-dropdown .jrp-select-results {
 	margin: 0;
 	padding: 0;
 }
-.work-download-dropdown .select2-result-label {
+.work-download-dropdown .jrp-select-result-label {
 	padding: 6px 8px;
 }
-.work-download-dropdown .select2-highlighted {
+.work-download-dropdown .jrp-select-highlighted {
 	background: #2b75af;
 	color: white;
 }
@@ -3778,23 +3000,14 @@ header #banner .banner-image {
 
 /* Focus indicators appear only during keyboard navigation. */
 [role="button"][tabindex="0"]:focus-visible,
-.select2-container:has(.select2-focusser:focus-visible) .select2-choice,
-.ez-checkbox:has(input:focus-visible),
-.ez-radio:has(input:focus-visible) {
+.jrp-select .jrp-select-choice:focus-visible,
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
 	outline: 2px solid #2b75af;
 	outline-offset: 3px;
 }
 
-/* The legacy design hides the option filter. Keep it focusable offscreen so
-   Select2 can receive arrow keys and Enter without adding a visible field. */
-.select2-drop-active .select2-search {
-	display: block !important;
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	min-height: 0;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	clip-path: inset(50%);
+#primary-content.work-content .work-range-mode-toggle input:focus-visible + .work-range-mode-switch {
+	outline: 2px solid #2b75af;
+	outline-offset: 3px;
 }

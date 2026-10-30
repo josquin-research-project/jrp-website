@@ -112,29 +112,6 @@ function setupWorkToolPanels() {
 
 //////////////////////////////
 //
-// setupTooltips --
-//
-
-function setupTooltips() {
-
-	$('#analysis-help').qtip({
-		content: {
-			text: 'Click for a short description of the analysis tools.'
-		}
-	});
-
-	$('#search-help').qtip({
-		content: {
-			text: 'Click for help on expressing search queries.'
-		}
-	});
-
-}
-
-
-
-//////////////////////////////
-//
 // HideAnalysisRepertory --
 //
 
@@ -180,18 +157,20 @@ window.addEventListener('keydown', function(event) {
 		return;
 	}
 
+	var typingInput = Boolean(event.target.matches && event.target.matches('input'));
+
 	switch (event.keyCode) {
 
 		case CKey:
-			if (($(event.target).is('input') && event.ctrlKey) || 
-					!$(event.target).is('input')) {
+			if ((typingInput && event.ctrlKey) ||
+					!typingInput) {
 				ClearWorklist();
 			}
 			break;
 
 		case DKey:
-			if (($(event.target).is('input') && event.ctrlKey) || 
-					!$(event.target).is('input')) {
+			if ((typingInput && event.ctrlKey) ||
+					!typingInput) {
 				// Ignore this shortcut while typing in an input
 				event.preventDefault();
 				event.stopPropagation();
@@ -200,8 +179,8 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case IKey:
-			if (($(event.target).is('input') && event.ctrlKey) || 
-					!$(event.target).is('input')) {
+			if ((typingInput && event.ctrlKey) ||
+					!typingInput) {
 				// Ignore this shortcut while typing in an input
 				event.preventDefault();
 				event.stopPropagation();
@@ -210,8 +189,8 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case RKey:
-			if (($(event.target).is('input') && event.ctrlKey) || 
-					!$(event.target).is('input')) {
+			if ((typingInput && event.ctrlKey) ||
+					!typingInput) {
 				// Ignore this shortcut while typing in an input
 				event.preventDefault();
 				event.stopPropagation();
@@ -259,15 +238,16 @@ window.addEventListener('keydown', function(event) {
 
 				// display previous section of multisection work
 				if (si < 0) {
-					var ocount = $('select#select-section option').length;
-					var current = $('select#select-section option:selected').index();
+					var sectionMenu = document.getElementById("select-section");
+					var ocount = sectionMenu ? sectionMenu.options.length : SECTIONS.length;
+					var current = sectionMenu ? sectionMenu.selectedIndex : -1;
 				}
 				current--;
 				if (current < 0) {
 					current = ocount - 1;
 				}
 				var sectionid = SECTIONS[current].id;
-				$('select#select-section').prop('selectedIndex', current);
+				setSelectIndex("select-section", current);
 				if (SECTIONS && (MENUINDEX == 0)) {
 					var downloads = document.getElementById("downloads");
 					if (downloads) {
@@ -287,7 +267,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case OneKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -297,7 +277,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case TwoKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -307,7 +287,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case ThreeKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -317,7 +297,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case FourKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -327,7 +307,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case FiveKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -337,7 +317,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case SixKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -347,7 +327,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case SevenKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -357,7 +337,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case EightKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -367,7 +347,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case NineKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}
@@ -377,7 +357,7 @@ window.addEventListener('keydown', function(event) {
 			break;
 
 		case PKey:
-			if ($(event.target).is('input') && (!event.ctrlKey)) {
+			if (typingInput && (!event.ctrlKey)) {
 				// Ignore this shortcut while typing in an input
 				return;
 			}

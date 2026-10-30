@@ -574,8 +574,10 @@ function analysisKeyDownFunction(event) {
     case DownArrowKey:
     case RightArrowKey:
       if (event.ctrlKey || event.shiftKey) {
-        $('#repertory option:selected').next().attr('selected', 'selected');
-        localStorage.ANALYSISrepertory = $('#repertory').val();
+        var repertory = document.getElementById("repertory");
+        if (!repertory) return;
+        setSelectIndex("repertory", Math.min(repertory.options.length - 1, repertory.selectedIndex + 1));
+        localStorage.ANALYSISrepertory = repertory.value;
         displayContents(localStorage.ANALYSISrepertory);
       }
       break;
@@ -583,8 +585,10 @@ function analysisKeyDownFunction(event) {
     case UpArrowKey:
     case LeftArrowKey:
       if (event.ctrlKey || event.shiftKey) {
-        $('#repertory option:selected').prev().attr('selected', 'selected');
-        localStorage.ANALYSISrepertory = $('#repertory').val();
+        var repertory = document.getElementById("repertory");
+        if (!repertory) return;
+        setSelectIndex("repertory", Math.max(0, repertory.selectedIndex - 1));
+        localStorage.ANALYSISrepertory = repertory.value;
         displayContents(localStorage.ANALYSISrepertory);
       }
       break;
