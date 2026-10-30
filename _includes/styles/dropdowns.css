@@ -53,13 +53,7 @@
 	display: block;
 	width: 100%;
 	height: 100%;
-	background: url("/images/arrows.png") no-repeat 0 7px;
-}
-@media (min-resolution: 1.5dppx) {
-	.jrp-select .jrp-select-arrow b {
-		background-image: url("/images/dropdown-arrows.png");
-		background-size: 60px 40px;
-	}
+	background: url("/images/arrows.png") no-repeat center center;
 }
 .jrp-select-active .jrp-select-choice {
 	border-color: #5897fb;
