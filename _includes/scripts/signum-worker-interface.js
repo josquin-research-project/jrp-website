@@ -6,7 +6,7 @@ vrvInterface.prototype.createWorkerInterface = function(onReady) {
   this.resolvedIdx = 0;
   this.renderDataPending = 0;
   this.renderDataWaiting = null;
-  this.worker = new Worker('/scripts/signum-congruentiae-worker.js');
+  this.worker = new Worker('/scripts/signum-congruentiae-worker.js?v=20261101-meter');
   this.worker.addEventListener('message', function(event) {
     if (event.data.method === 'ready') {
       vrv.initialized = true;
