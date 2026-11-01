@@ -95,7 +95,7 @@ if (sessionStorage.WORKallincipits == "true") {
 var WORKscoreExpanded = false;
 var WORKscoreAnalysis = "";
 var WORKscoreAnalysisFilters = {
-	dissonant: {label: "Dissonant", command: "dissonant --color"},
+	dissonant: {label: "Dissonant", command: "extract -ikern | dissonant --color"},
 	cadence: {label: "Cadences", command: "extract -ikern | dissonant -V"},
 	imitation: {label: "Imitation", command: "extract -ikern | imitation -q"}
 };

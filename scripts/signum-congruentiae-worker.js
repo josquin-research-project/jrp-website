@@ -27,7 +27,21 @@ const initialize = verovio.module.onRuntimeInitialized;
 verovio.module.onRuntimeInitialized = () => {
   initialize();
   const render = methods.renderData;
+  // Keep a small cache of prepared analysis/sign scores for repeated views.
+  const prepared = new Map();
+  let preparedSize = 0;
   methods.renderData = function(options, data, page, force) {
+    const key = JSON.stringify(options) + '\n' + data;
+    const cached = prepared.get(key);
+    if (cached) {
+      prepared.delete(key);
+      prepared.set(key, cached);
+      const svg = render.call(this, Object.assign({}, cached.options, {inputFrom: 'mei'}),
+        cached.mei, page, force);
+      this.vrvToolkit.setOptions({inputFrom: options.inputFrom || 'auto'});
+      this.humdrumOutput = cached.humdrum;
+      return svg;
+    }
     const historicalSigns = /\bjrp-sc-(?:up|down)\b/.test(data);
     // Apply analysis filters during Humdrum import once. Retain their processed
     // Humdrum output for the plugin, then repair MEI before re-layout if needed.
@@ -36,8 +50,11 @@ verovio.module.onRuntimeInitialized = () => {
     const svg = render.call(this, historicalSigns
       ? Object.assign({}, options, JRPsignum.fontOptions()) : options, data, page, force);
     if (!historicalSigns && !/^\s*[!*]/.test(data)) return svg;
-    const humdrum = this.vrvToolkit.getHumdrum();
     const originalMEI = this.vrvToolkit.getMEI();
+    // Ordinary notation does not need timestamp-based analysis-label repairs.
+    // Avoid importing and laying out the entire score a second time for it.
+    if (!historicalSigns && !/<harm\b[^>]*\btstamp=/.test(originalMEI)) return svg;
+    const humdrum = this.vrvToolkit.getHumdrum();
     let mei = restoreHumdrumMeters(originalMEI, humdrum);
     if (!historicalSigns && mei === originalMEI) return svg;
     if (historicalSigns) mei = JRPsignum.prepareMEI(mei);
@@ -52,6 +69,17 @@ verovio.module.onRuntimeInitialized = () => {
     this.page = page || this.page || 1;
     if (this.page > this.pageCount) this.page = 1;
     this.humdrumOutput = humdrum;
+    const entry = {mei, humdrum, options: this.vrvToolkit.getOptions(),
+      size: key.length + mei.length + humdrum.length};
+    if (entry.size <= 8000000) {
+      prepared.set(key, entry);
+      preparedSize += entry.size;
+      while (prepared.size > 4 || preparedSize > 8000000) {
+        const oldest = prepared.keys().next().value;
+        preparedSize -= prepared.get(oldest).size;
+        prepared.delete(oldest);
+      }
+    }
     return this.vrvToolkit.renderToSVG(this.page);
   };
 };
