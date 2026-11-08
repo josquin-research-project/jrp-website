@@ -110,13 +110,13 @@ async function showCurrentRangePlot() {
 	}
 	if (!isCurrent()) return;
 
-	const label = getRangePlotLabel(jrpid);
+	const { title: workTitle, movement } = getRangePlotTitleParts(jrpid);
 	const title = document.createElement("h3");
 	title.className = "work-range-plot-title";
-	title.textContent = label;
+	setWorkMovementHeading(title, workTitle, movement, jrpid);
 	const plot = document.createElement("iframe");
 	plot.className = "work-range-svg";
-	plot.title = label + " vocal ranges by " + measurement;
+	plot.title = title.textContent + " vocal ranges by " + measurement;
 	plot.setAttribute("sandbox", "allow-same-origin");
 	plot.style.visibility = "hidden";
 	plot.addEventListener("load", () => {

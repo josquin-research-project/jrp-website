@@ -1594,7 +1594,7 @@ function renderCompleteHumdrumScore(panel, entries, work) {
 
 		var title = document.createElement("div");
 		title.className = "work-score-movement-title";
-		title.textContent = getCompleteScoreMovementLabel(work, section);
+		setWorkMovementHeading(title, work?.title, getMovementTitle(section), section.id);
 		movement.appendChild(title);
 
 		var sourceId = WORKscoreSourcePrefix + "-" + i;
@@ -1613,18 +1613,19 @@ function renderCompleteHumdrumScore(panel, entries, work) {
 
 //////////////////////////////
 //
-// getCompleteScoreMovementLabel -- Match the range-page pattern:
-//     "Work title, Movement title".
+// setWorkMovementHeading -- Italicize the work title in score and range headings.
 //
 
-function getCompleteScoreMovementLabel(work, section) {
-	var title = work && work.title ? String(work.title).trim() : "";
-	var movement = getMovementTitle(section);
-
-	if (title && movement) {
-		return title + ", " + movement;
+function setWorkMovementHeading(heading, workTitle, movement, fallback = "") {
+	const title = String(workTitle || "").trim();
+	if (!title) {
+		heading.textContent = movement || fallback;
+		return;
 	}
-	return title || movement || (section && section.id) || "";
+	const name = document.createElement("i");
+	name.textContent = title;
+	heading.replaceChildren(name);
+	if (movement) heading.append(", " + movement);
 }
 
 
@@ -2498,13 +2499,13 @@ function displaySection(workid) {
 
 //////////////////////////////
 //
-// getRangePlotLabel -- Match the range analysis page: "Title, Movement".
+// getRangePlotTitleParts -- Keep the work title and movement label separate.
 //
 
-function getRangePlotLabel(jrpid) {
+function getRangePlotTitleParts(jrpid) {
 	var baseId = getBaseWorkId(jrpid);
 	var work = WORKLISTjrpid[baseId] || WORKLISTjrpid[jrpid];
-	var title = work && work.title ? String(work.title).trim() : "";
+	var title = work?.title;
 	var movement = "";
 
 	if (work && Array.isArray(work.sections)) {
@@ -2516,10 +2517,7 @@ function getRangePlotLabel(jrpid) {
 		}
 	}
 
-	if (title && movement) {
-		return title + ", " + movement;
-	}
-	return title || movement || jrpid;
+	return { title, movement };
 }
 
 

@@ -1984,11 +1984,13 @@ table.search-results-table span.location span.point.point-green {
 #primary-content.work-content .work-score-movement:last-child {
 	margin-bottom: 0;
 }
-#primary-content.work-content .work-score-movement-title {
-	color: #000;
+#primary-content.work-content :is(.work-score-movement-title, .work-range-plot-title) {
+	color: #736960;
 	font-family: "Lusitana", "serif";
-	font-size: 18px;
 	font-weight: 400;
+}
+#primary-content.work-content .work-score-movement-title {
+	font-size: 18px;
 	line-height: 22px;
 	margin: 18px 0 8px 77px;
 }
@@ -2137,10 +2139,7 @@ table.search-results-table span.location span.point.point-green {
 	transform: translateX(20px);
 }
 #primary-content.work-content .work-range-plot-title {
-	color: #000;
-	font-family: "Lusitana", "serif";
 	font-size: 16px;
-	font-weight: 400;
 	line-height: 20px;
 	margin: 0 0 6px;
 	padding-top: 0;
