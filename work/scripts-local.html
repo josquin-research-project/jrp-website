@@ -1,4 +1,5 @@
 {% include_relative scripts-listeners.html %}
+{% include_relative scripts-ranges.html %}
 
 <script>
 
@@ -65,20 +66,11 @@ async function displayWorkText(id) {
 // Global variables:
 var INCIPITS            = {};  // local Incipit image cache
 
-// Display style for Vocal Ranges section
-var RANGESnotelabeled   = {};
-var RANGESnoteunlabeled	= {};
-var RANGESdurlabeled    = {};
-var RANGESdurunlabeled	= {};
-var RANGES				   = RANGESnoteunlabeled;
-var RANGENULLHEIGHT     = "110px";
-
 var SECTIONS            = [];
 var SECTIONID				= "";
 var SECTIONINDEX        = 0;
 var MENUINDEX           = -1;
 var MARGINRIGHT         = "margin-right: 50px";
-var WORKrangedur        = false;
 var JRPID               = sessionStorage.WORKjrpid;
 var QUERY					= "";
 
@@ -102,14 +94,6 @@ var WORKscoreAnalysisFilters = {
 var WORKscoreCurrentId = "";
 var WORKscoreRequestToken = 0;
 
-var WORKallranges;
-if (sessionStorage.WORKallranges == "true") {
-	WORKallranges = true;
-} else {
-	WORKallranges = false;
-}
-
-var WORKrangesVisible = false;
 var WORKscoreSourcePrefix = "work-score-source";
 var WORKscoreFetchTimeoutMs = 5000;
 
@@ -214,7 +198,7 @@ function hasCompleteScoreAsset(jrpid) {
 
 //////////////////////////////
 //
-// hasRangeAsset -- Work-level views can show any available section plot.
+// hasRangeAsset -- Older manifests summarize complete works by movement availability.
 //
 
 function hasRangeAsset(jrpid) {
@@ -223,7 +207,7 @@ function hasRangeAsset(jrpid) {
 		return !hasAssetManifest();
 	}
 	if (isCompleteWorkAssetView(jrpid)) {
-		return !!entry.anyRange;
+		return !!(entry.range ?? entry.anyRange);
 	}
 	return !!entry.range;
 }
@@ -355,12 +339,7 @@ function displayMultisectionWork(jrpid) {
 	displayHumdrumIncipit(jrpid, SECTIONS)
 
 	// Set the vocal range  image //////////////////////////////////////////
-	prepareRangeArea(jrpid, SECTIONS);
-	if (WORKrangesVisible) {
-		showCurrentRangePlots();
-	} else {
-		getRangeAsyncMultiple(jrpid, SECTIONS);
-	}
+	prepareRangeArea(jrpid, false);
 
 
 	var downloads = document.getElementById("downloads");
@@ -941,12 +920,7 @@ function displayWork(jrpid) {
 	displayHumdrumIncipit(jrpid, SECTIONS);
 
 	// Set the vocal range image ///////////////////////////////////////////
-	prepareRangeArea(jrpid);
-	if (WORKrangesVisible) {
-		showCurrentRangePlots();
-	} else {
-		getRangeAsync(jrpid);
-	}
+	prepareRangeArea(jrpid, false);
 
 	showDownloadArea(jrpid);
 	printErrorReportButton(jrpid);
@@ -1835,92 +1809,6 @@ function prepareIncipitArea(jrpid, sections) {
 
 //////////////////////////////
 //
-// prepareRangeArea --
-//
-
-function prepareRangeArea(jrpid, sections) {
-	var area = document.getElementById("vocal-ranges");
-	var control = document.getElementById("work-range-control");
-	if (control) {
-		control.innerHTML = getRangeToggleButtonHtml(jrpid);
-	}
-	var out = "";
-	var workid  = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
-
-	if (!hasRangeAsset(jrpid)) {
-		WORKrangesVisible = false;
-		area.innerHTML = "";
-		area.style.display = "none";
-		area.style.height = "0";
-		return;
-	}
-
-	out += "<div id=\"work-range-panel\" class=\"work-range-panel";
-	if (!WORKrangesVisible) {
-		out += " is-hidden";
-	}
-	out += "\">\n";
-	out += "<div id=\"range-button\" class=\"work-range-controls\"></div>\n";
-	out += "<span class=\"orange-text\">Mouse-over";
-	out += " to see note ";
-	if (WORKrangedur) {
-		out += "durations";
-	} else {
-		out += "counts";
-	}
-	out += "</span>\n";
-	if (!sections || sections.length < 2) {
-		// set up single incipit display
-		out += "<div id=\"range_" + jrpid + "\"></div>\n";
-	} else {
-		out += "<div style=\"height:0;\" id=\"range_" + workid + "\"></div>\n";
-		// set up multiple incipit display
-		for (var i=0; i<sections.length; i++) {
-			if (!hasRangeAsset(sections[i].id)) {
-				continue;
-			}
-			out += "<div style=\"height:0;\" id=\"range_";
-			out += sections[i].id + "\"></div>\n";
-		}
-		// out += "<div id=\"range-button\"></div>\n";
-	}
-	out += "</div>\n";
-	area.innerHTML = out;
-	area.style.display = "";
-	area.style.height = "";
-	showRangeButtons();
-	updateRangePanelVisibility();
-}
-
-
-
-//////////////////////////////
-//
-// getRangeToggleButtonHtml -- Button that expands/collapses work-page ranges.
-//
-
-function getRangeToggleButtonHtml(jrpid) {
-	jrpid = jrpid || sessionStorage.WORKjrpid || JRPID;
-	if (!hasRangeAsset(jrpid)) {
-		return "";
-	}
-	var expanded = WORKrangesVisible ? "true" : "false";
-	var label = WORKrangesVisible ? "Hide vocal ranges" : "Show vocal ranges";
-	var html = "";
-	html += "<button type=\"button\" id=\"work-range-toggle\"";
-	html += " class=\"work-view-toggle work-range-toggle\"";
-	html += " aria-expanded=\"" + expanded + "\"";
-	html += " aria-controls=\"work-range-panel\"";
-	html += " onclick=\"return toggleRangePanel();\">";
-	html += label + "</button>\n";
-
-	return html;
-}
-
-
-
-//////////////////////////////
-//
 // showIncipitButton --
 //
 
@@ -1945,42 +1833,6 @@ function showIncipitButton() {
 	var buttonarea = document.getElementById("incipit-button");
 	buttonarea.innerHTML = ib;
 
-}
-
-
-
-//////////////////////////////
-//
-// showRangeButtons --
-//
-
-function showRangeButtons() {
-
-	var ib = "";
-
-	ib += "<label class=\"work-range-mode-toggle\">";
-	ib += "<span class=\"work-range-mode-label";
-	if (!WORKrangedur) {
-		ib += " is-active";
-	}
-	ib += "\">Note counts</span>";
-	ib += "<input aria-label=\"Weight vocal ranges by note duration\" type=\"checkbox\" ";
-	if (WORKrangedur) {
-		ib += "checked ";
-	}
-	ib += "onchange=\"setRangeByDuration(this.checked);\">";
-	ib += "<span class=\"work-range-mode-switch\" aria-hidden=\"true\"></span>";
-	ib += "<span class=\"work-range-mode-label";
-	if (WORKrangedur) {
-		ib += " is-active";
-	}
-	ib += "\">Durations</span>";
-	ib += "</label>\n";
-
-	var buttonarea = document.getElementById("range-button");
-	if (buttonarea) {
-		buttonarea.innerHTML = ib;
-	}
 }
 
 
@@ -2015,218 +1867,12 @@ function toggleIncipitDisplay() {
 
 //////////////////////////////
 //
-// toggleRangeDisplay --
-//
-
-function toggleRangeDisplay() {
-	if (!SECTIONS || SECTIONS < 2) {
-		// don't toggle title display when looking at single-section works.
-		return;
-	}
-	WORKallranges = !WORKallranges;
-	sessionStorage.WORKallranges = WORKallranges;
-	if (WORKallranges) {
-		if (WORKrangedur) {
-			RANGES = RANGESdurlabeled;
-		} else {
-			RANGES = RANGESnotelabeled;
-		}
-		clearAllRanges();
-		showAllRanges();
-	} else {
-		if (WORKrangedur) {
-			RANGES = RANGESdurunlabeled;
-		} else {
-			RANGES = RANGESnoteunlabeled;
-		}
-		clearAllRanges();
-	  	getRangeAsync(sessionStorage.WORKjrpid);
-	}
-	showRangeButtons();
-	if (!WORKallranges) {
-		if (WORKallincipits && !SECTIONS) {
-			scrollPageTo(0);
-		} else {
-			var rangeArea = document.getElementById("vocal-ranges");
-			if (rangeArea) scrollPageTo(rangeArea.getBoundingClientRect().top + window.scrollY - 200);
-		}
-	}
-}
-
-
-
-//////////////////////////////
-//
-// toggleRangePanel -- Show/hide the vocal ranges panel.
-//
-
-function toggleRangePanel() {
-	WORKrangesVisible = !WORKrangesVisible;
-	updateRangePanelVisibility();
-
-	if (WORKrangesVisible) {
-		showCurrentRangePlots();
-	}
-
-	return false;
-}
-
-
-
-//////////////////////////////
-//
-// toggleRangeByDuration --
-//
-
-function toggleRangeByDuration() {
-	return setRangeByDuration(!WORKrangedur);
-}
-
-
-
-//////////////////////////////
-//
-// setRangeByDuration -- Switch between note-count and duration plots.
-//
-
-function setRangeByDuration(showDuration) {
-	WORKrangedur = !!showDuration;
-	sessionStorage.WORKrangedur = WORKrangedur;
-
-	prepareRangeArea(sessionStorage.WORKjrpid, SECTIONS);
-
-	if (WORKrangedur) {
-		RANGES = RANGESdurunlabeled;
-	} else {
-		RANGES = RANGESnoteunlabeled;
-	}
-
-	if (WORKrangesVisible) {
-		showCurrentRangePlots();
-	}
-
-	showRangeButtons();
-	return false;
-}
-
-
-
-//////////////////////////////
-//
 // showAllIncipits();
 //
 
 function showAllIncipits() {
 	// getIncipitAsyncMultiple(sessionStorage.WORKjrpid, SECTIONS);
 	displayHumdrumIncipit(sessionStorage.WORKjrpid, SECTIONS)
-}
-
-
-
-//////////////////////////////
-//
-// showAllRanges --
-//
-
-function showAllRanges() {
-	if (!SECTIONS || SECTIONS.length < 2) {
-		getRangeAsync(sessionStorage.WORKjrpid);
-		return;
-	}
-	for (var i=0; i<SECTIONS.length; i++) {
-		if (!hasRangeAsset(SECTIONS[i].id)) {
-			continue;
-		}
-		getRangeAsync(SECTIONS[i].id);
-	}
-}
-
-
-
-//////////////////////////////
-//
-// showCurrentRangePlots -- Complete-work selection shows every movement;
-//     section selection shows only that movement.
-//
-
-function showCurrentRangePlots() {
-	clearRangeContainers();
-
-	if (shouldShowAllRangePlots(sessionStorage.WORKjrpid)) {
-		showAllRanges();
-		return;
-	}
-
-	getRangeAsync(getCurrentRangePlotId(sessionStorage.WORKjrpid));
-}
-
-
-
-//////////////////////////////
-//
-// shouldShowAllRangePlots -- Complete works show all movement plots.
-//
-
-function shouldShowAllRangePlots(jrpid) {
-	return !!(SECTIONS && SECTIONS.length > 1 && jrpid === getBaseWorkId(jrpid));
-}
-
-
-
-//////////////////////////////
-//
-// getCurrentRangePlotId -- Pick the section-level plot for the current view.
-//
-
-function getCurrentRangePlotId(jrpid) {
-	if (!SECTIONS || SECTIONS.length < 2) {
-		return jrpid;
-	}
-
-	for (var i=0; i<SECTIONS.length; i++) {
-		if (SECTIONS[i].id === jrpid) {
-			return hasRangeAsset(jrpid) ? jrpid : "";
-		}
-	}
-
-	return getFirstAvailableRangeSectionId();
-}
-
-
-
-//////////////////////////////
-//
-// getFirstAvailableRangeSectionId -- Complete works may have only some section
-//     range plots, so choose the first section represented in the manifest.
-//
-
-function getFirstAvailableRangeSectionId() {
-	if (!SECTIONS || SECTIONS.length < 1) {
-		return sessionStorage.WORKjrpid || JRPID || "";
-	}
-
-	for (var i=0; i<SECTIONS.length; i++) {
-		if (hasRangeAsset(SECTIONS[i].id)) {
-			return SECTIONS[i].id;
-		}
-	}
-	return "";
-}
-
-
-
-//////////////////////////////
-//
-// clearRangeContainers -- Remove already-rendered range plots before switching
-//     range mode or selection.
-//
-
-function clearRangeContainers() {
-	var containers = document.querySelectorAll("#vocal-ranges [id^='range_']");
-	for (var i=0; i<containers.length; i++) {
-		containers[i].innerHTML = "";
-		containers[i].style.height = "0";
-	}
 }
 
 
@@ -2252,39 +1898,6 @@ function clearAllIncipits() {
 	}
 	// clear work-level incipit if multi-sectioned work.
 	document.getElementById("incipit_" + jrpid).innerHTML = "";
-}
-
-
-
-//////////////////////////////
-//
-// clearAllRanges --
-//
-
-function clearAllRanges() {
-	var jrpid = sessionStorage.WORKjrpid;
-	if (!SECTIONS || SECTIONS.length < 2) {
-  		getRangeAsync(jrpid);
-		return;
-	}
-	for (var i=0; i<SECTIONS.length; i++) {
-		if (!hasRangeAsset(SECTIONS[i].id)) {
-			continue;
-		}
-		if (SECTIONS[i].id != jrpid) {
-			var sectionRange = document.getElementById("range_" + SECTIONS[i].id);
-			if (sectionRange) {
-				sectionRange.innerHTML = "";
-			}
-		} else {
-	  		getRangeAsync(SECTIONS[i].id);
-		}
-	}
-	// clear work-level incipit if multi-sectioned work.
-	var workRange = document.getElementById("range_" + jrpid);
-	if (workRange) {
-		workRange.innerHTML = "";
-	}
 }
 
 
@@ -2871,14 +2484,7 @@ function displaySection(workid) {
 		displayHumdrumIncipit(workid, SECTIONS)
 	}
 
-	if (!WORKallranges) {
-		prepareRangeArea(workid, SECTIONS);
-		if (WORKrangesVisible) {
-			showCurrentRangePlots();
-		} else if (!shouldShowAllRangePlots(workid)) {
-			getRangeAsync(workid);
-		}
-	}
+	prepareRangeArea(workid);
 
 	if ((!SECTIONS) || (sectionindex >= 0)) {
 		showSectionDownloads(workid);
@@ -2886,95 +2492,6 @@ function displaySection(workid) {
 		showDownloadArea(workid, "complete work");
 		printErrorReportButton(workid);
 	}
-}
-
-
-
-//////////////////////////////
-//
-// getRangeAsync --
-//
-
-async function getRangeAsync(jrpid) {
-	if (shouldShowAllRangePlots(jrpid)) {
-		if (WORKrangesVisible) {
-			showAllRanges();
-		}
-		return;
-	}
-
-	if (!jrpid || !hasRangeAsset(jrpid)) {
-		return;
-	}
-
-	var workid = jrpid.match(/^([A-Z][a-z][a-z]\d{4}[.\d]*)/)[1];
-	if (!WORKallranges) {
-		// if not showing all ranges
-		if ((jrpid != sessionStorage.WORKjrpid) &&
-				(workid != sessionStorage.WORKjrpid)) {
-			// not the range to show, so don't do anything
-			return;
-		}
-	}
-
-	var area = document.getElementById("range_" + jrpid);
-	if (!area) {
-		return;
-	}
-	area.setAttribute("data-range-state", "loading");
-
-	if (!RANGES[jrpid]) {
-		RANGES[jrpid] = await getRangePlotHtml(jrpid);
-	}
-
-	if (!RANGES[jrpid]) {
-		area.innerHTML = "";
-		area.setAttribute("data-range-state", "missing");
-		updateRangeAvailabilityVisibility();
-		return;
-	}
-
-	showRangeSection();
-	area.style.height = "";
-	area.innerHTML = RANGES[jrpid];
-	area.setAttribute("data-range-state", "loaded");
-	updateRangeAvailabilityVisibility();
-}
-
-
-
-//////////////////////////////
-//
-// getRangePlotHtml -- Work pages use the static range plots on R2.
-//
-
-async function getRangePlotHtml(jrpid) {
-	var plotType = WORKrangedur ? "prange-duration" : "prange-attack";
-	var primaryUrl = getJosquinDataUrl(jrpid, plotType);
-	var url = await resolveJosquinAssetUrl(primaryUrl);
-	if (!url) {
-		return "";
-	}
-	var label = WORKrangedur ? "duration" : "note-count";
-	var plotLabel = getRangePlotLabel(jrpid);
-	var alt = "Vocal range " + label + " plot for " + jrpid;
-	var html = "";
-
-	html += "<div class=\"work-range-plot\">";
-	if (plotLabel) {
-		html += "<h3 class=\"work-range-plot-title\">";
-		html += escapeWorkHtml(plotLabel);
-		html += "</h3>";
-	}
-	html += "<div class=\"vocal-wrap\">";
-	html += "<object class=\"work-range-svg\" data=\"" + url + "\" ";
-	html += "type=\"image/svg+xml\" aria-label=\"" + escapeWorkHtml(alt) + "\" ";
-	html += "onload=\"showLoadedRangeImage(this);\" ";
-	html += "onerror=\"hideMissingRangeImage(this);\"></object>";
-	html += "</div>";
-	html += "</div>\n";
-
-	return html;
 }
 
 
@@ -3003,120 +2520,6 @@ function getRangePlotLabel(jrpid) {
 		return title + ", " + movement;
 	}
 	return title || movement || jrpid;
-}
-
-
-
-//////////////////////////////
-//
-// showRangeSection -- Keep the work-page vocal range area available while
-//     respecting the collapsed/expanded panel state.
-//
-
-function showRangeSection() {
-	var vrange = document.querySelector("#vocal-ranges");
-	if (vrange) {
-		vrange.style.display = "";
-		vrange.style.height = "";
-	}
-	var rangebutton = document.querySelector("#range-button");
-	if (rangebutton) {
-		rangebutton.style.display = "";
-	}
-	updateRangePanelVisibility();
-}
-
-
-
-//////////////////////////////
-//
-// updateRangePanelVisibility -- Sync the panel and toggle button.
-//
-
-function updateRangePanelVisibility() {
-	var panel = document.getElementById("work-range-panel");
-	if (panel) {
-		if (WORKrangesVisible) {
-			panel.className = panel.className.replace(/\bis-hidden\b/g, "").trim();
-			panel.style.display = "";
-		} else {
-			if (!panel.className.match(/\bis-hidden\b/)) {
-				panel.className += " is-hidden";
-			}
-			panel.style.display = "none";
-		}
-	}
-
-	var toggle = document.getElementById("work-range-toggle");
-	if (toggle) {
-		if (WORKrangesVisible) {
-			if (!toggle.className.match(/\bis-active\b/)) {
-				toggle.className += " is-active";
-			}
-			toggle.textContent = "Hide vocal ranges";
-			toggle.setAttribute("aria-expanded", "true");
-		} else {
-			toggle.className = toggle.className.replace(/\bis-active\b/g, "").trim();
-			toggle.textContent = "Show vocal ranges";
-			toggle.setAttribute("aria-expanded", "false");
-		}
-	}
-}
-
-
-
-//////////////////////////////
-//
-// showLoadedRangeImage -- Keep the range section visible when the SVG loads.
-//
-
-function showLoadedRangeImage(img) {
-	showRangeSection();
-}
-
-// hideMissingRangeImage -- Hide a missing static range plot without falling
-//     back to the old website.
-//
-
-function hideMissingRangeImage(img) {
-	var wrap = img && img.closest ? img.closest(".work-range-plot") : null;
-	if (!wrap && img && img.closest) {
-		wrap = img.closest(".vocal-wrap");
-	}
-	if (wrap) {
-		wrap.style.display = "none";
-	}
-	var area = img && img.closest ? img.closest("[id^='range_']") : null;
-	if (area) {
-		area.setAttribute("data-range-state", "missing");
-	}
-	updateRangeAvailabilityVisibility();
-}
-
-function updateRangeAvailabilityVisibility() {
-	var vocalRanges = document.getElementById("vocal-ranges");
-	if (!vocalRanges) {
-		return;
-	}
-	var areas = vocalRanges.querySelectorAll("[id^='range_']");
-	var hasLoading = false;
-	var hasLoaded = false;
-	for (var i=0; i<areas.length; i++) {
-		var state = areas[i].getAttribute("data-range-state");
-		hasLoading = hasLoading || state === "loading";
-		hasLoaded = hasLoaded || state === "loaded";
-	}
-	if (hasLoading || hasLoaded) {
-		return;
-	}
-	WORKrangesVisible = false;
-	vocalRanges.innerHTML = "";
-	vocalRanges.style.display = "none";
-	vocalRanges.style.height = "0";
-	var control = document.getElementById("work-range-control");
-	if (control) {
-		control.innerHTML = "";
-	}
 }
 
 
@@ -3189,35 +2592,6 @@ return;
 	}
 	if (sections && (sections.length > 0) && (counter == 0)) {
 		getIncipitAsync(sections[0].id);
-	}
-}
-
-
-
-//////////////////////////////
-//
-// getRangeAsyncMultiple --
-//
-
-function getRangeAsyncMultiple(jrpid, sections) {
-	if (!sections || sections.length < 2) {
-		getRangeAsync(jrpid);
-	}
-	var counter = 0;
-	for (var i=0; i<sections.length; i++) {
-		if (!hasRangeAsset(sections[i].id)) {
-			continue;
-		}
-		if (WORKallranges) {
-			getRangeAsync(sections[i].id);
-			counter++;
-		} else if (jrpid == sections[i].id) {
-			getRangeAsync(sections[i].id);
-			counter++;
-		}
-	}
-	if (sections && (sections.length > 0) && (counter == 0)) {
-		getRangeAsync(getFirstAvailableRangeSectionId());
 	}
 }
 

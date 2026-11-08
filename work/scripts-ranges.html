@@ -1,0 +1,156 @@
+<script>
+let workRangesVisible = false;
+let workRangeByDuration = false;
+let workRangeRequest = 0;
+const workRangeSvgs = new Map();
+
+function prepareRangeArea(jrpid, expanded = workRangesVisible) {
+	const area = document.getElementById("vocal-ranges");
+	const control = document.getElementById("work-range-control");
+
+	area.replaceChildren();
+	control.replaceChildren();
+	workRangesVisible = expanded;
+	if (!hasRangeAsset(jrpid)) return;
+
+	const toggle = document.createElement("button");
+	toggle.type = "button";
+	toggle.className = "work-view-toggle work-range-toggle";
+	toggle.id = "work-range-toggle";
+	toggle.setAttribute("aria-controls", "work-range-panel");
+	toggle.addEventListener("click", toggleRangePanel);
+	control.append(toggle);
+
+	area.innerHTML = '<section id="work-range-panel" class="work-range-panel" aria-label="Vocal ranges" hidden>' +
+		'<label class="work-range-mode-toggle">' +
+			'<span class="work-range-mode-label">Note counts</span>' +
+			'<input type="checkbox" aria-label="Weight vocal ranges by note duration">' +
+			'<span class="work-range-mode-switch" aria-hidden="true"></span>' +
+			'<span class="work-range-mode-label">Durations</span>' +
+		'</label>' +
+		'<div id="work-range-chart"></div>' +
+		'<p id="work-range-hint" class="work-range-hint" hidden></p>' +
+		'<p id="work-range-status" class="work-range-status" role="status"></p>' +
+		'</section>';
+
+	document.querySelector(".work-range-mode-toggle input").addEventListener("change", event => {
+		workRangeByDuration = event.currentTarget.checked;
+		updateRangeWeighting();
+		showCurrentRangePlot();
+	});
+	updateRangeWeighting();
+	updateRangePanelVisibility();
+	if (workRangesVisible) showCurrentRangePlot();
+}
+
+function updateRangeWeighting() {
+	const toggle = document.querySelector(".work-range-mode-toggle");
+	if (!toggle) return;
+	toggle.querySelector("input").checked = workRangeByDuration;
+	const labels = toggle.querySelectorAll(".work-range-mode-label");
+	labels[0].classList.toggle("is-active", !workRangeByDuration);
+	labels[1].classList.toggle("is-active", workRangeByDuration);
+}
+
+function toggleRangeByDuration() {
+	workRangeByDuration = !workRangeByDuration;
+	updateRangeWeighting();
+	if (workRangesVisible) showCurrentRangePlot();
+}
+
+function toggleRangePanel() {
+	if (!document.getElementById("work-range-panel")) return;
+	workRangesVisible = !workRangesVisible;
+	updateRangePanelVisibility();
+	if (workRangesVisible) showCurrentRangePlot();
+}
+
+function updateRangePanelVisibility() {
+	const panel = document.getElementById("work-range-panel");
+	const toggle = document.getElementById("work-range-toggle");
+	panel.hidden = !workRangesVisible;
+	toggle.classList.toggle("is-active", workRangesVisible);
+	toggle.textContent = workRangesVisible ? "Hide vocal ranges" : "Show vocal ranges";
+	toggle.setAttribute("aria-expanded", String(workRangesVisible));
+}
+
+async function showCurrentRangePlot() {
+	const chart = document.getElementById("work-range-chart");
+	if (!chart) return;
+	const request = ++workRangeRequest;
+	const jrpid = sessionStorage.WORKjrpid;
+	const type = workRangeByDuration ? "prange-duration" : "prange-attack";
+	const measurement = workRangeByDuration ? "note durations" : "note counts";
+	const status = document.getElementById("work-range-status");
+	const hint = document.getElementById("work-range-hint");
+	const primaryUrl = getJosquinDataUrl(jrpid, type);
+
+	chart.replaceChildren();
+	hint.hidden = true;
+	status.textContent = "Loading vocal ranges…";
+
+	const showMissing = () => {
+		chart.replaceChildren();
+		hint.hidden = true;
+		status.textContent = isCompleteWorkAssetView(jrpid)
+			? "The complete-work histogram is unavailable. Choose a movement to see its range."
+			: "This vocal range histogram is unavailable.";
+	};
+	const isCurrent = () => request === workRangeRequest && chart.isConnected;
+	let source = workRangeSvgs.get(primaryUrl);
+	try {
+		if (!source) {
+			const response = await ASSET_DELIVERY.fetch(primaryUrl);
+			source = await response.text();
+			workRangeSvgs.set(primaryUrl, source);
+		}
+	} catch (error) {
+		if (isCurrent()) showMissing();
+		return;
+	}
+	if (!isCurrent()) return;
+
+	const label = getRangePlotLabel(jrpid);
+	const title = document.createElement("h3");
+	title.className = "work-range-plot-title";
+	title.textContent = label;
+	const plot = document.createElement("iframe");
+	plot.className = "work-range-svg";
+	plot.title = label + " vocal ranges by " + measurement;
+	plot.setAttribute("sandbox", "allow-same-origin");
+	plot.style.visibility = "hidden";
+	plot.addEventListener("load", () => {
+		if (!isCurrent()) return;
+		const svg = plot.contentDocument.querySelector("body > svg");
+		if (!svg) {
+			workRangeSvgs.delete(primaryUrl);
+			showMissing();
+			return;
+		}
+		fitWorkRangeSvg(svg, plot);
+		plot.style.visibility = "";
+		status.textContent = "";
+		hint.textContent = "Hover over or focus a bar to see " + measurement + ".";
+		hint.hidden = false;
+	}, { once: true });
+	plot.srcdoc = '<!doctype html><style>body{margin:0}svg{display:block;width:100%;height:auto}</style>' + source;
+	chart.append(title, plot);
+}
+
+function fitWorkRangeSvg(svg, frame) {
+	const viewBox = svg.viewBox.baseVal;
+	const drawing = svg.getBBox();
+	// Include strokes and keep the original margins wherever they already fit.
+	const padding = 2;
+	const left = Math.min(viewBox.x, Math.floor(drawing.x - padding));
+	const top = Math.min(viewBox.y, Math.floor(drawing.y - padding));
+	const right = Math.max(viewBox.x + viewBox.width, Math.ceil(drawing.x + drawing.width + padding));
+	const bottom = Math.max(viewBox.y + viewBox.height, Math.ceil(drawing.y + drawing.height + padding));
+	const width = right - left;
+	const height = bottom - top;
+	svg.setAttribute("viewBox", `${left} ${top} ${width} ${height}`);
+	svg.setAttribute("width", width);
+	svg.setAttribute("height", height);
+	frame.style.aspectRatio = `${width} / ${height}`;
+}
+</script>
