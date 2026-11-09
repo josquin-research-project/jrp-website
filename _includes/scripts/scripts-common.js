@@ -141,6 +141,10 @@ function getJosquinDataUrl(jrpid, type, base) {
   }
 }
 
+function getActivityPlotUrl(sectionId, type) {
+  return `${JOSQUIN_DATA}${sectionId}-activity-${type}-notitle.png`;
+}
+
 async function resolveJosquinAssetUrl(primaryUrl) {
   var candidates = [...new Set(ASSET_DELIVERY.candidates(primaryUrl))];
   for (var i=0; i<candidates.length; i++) {

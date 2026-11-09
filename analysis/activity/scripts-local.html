@@ -27,16 +27,15 @@ function collectActivitySectionIds(repertory, genre, workId) {
       if (genre && work.genre !== genre) {
         continue;
       }
-      if (workId && work.id !== workId) {
-        continue;
-      }
-
       const sections = Array.isArray(work.sections) && work.sections.length
         ? work.sections.map(section => section.id).filter(Boolean)
         : [work.id];
 
       for (let k = 0; k < sections.length; k++) {
         const id = sections[k];
+        if (workId && work.id !== workId && id !== workId) {
+          continue;
+        }
         if (!seen.has(id)) {
           seen.add(id);
           sectionIds.push(id);
@@ -72,8 +71,8 @@ function resetPageState() {
 }
 
 function renderActivitySection(sectionId) {
-  const mergedUrl = JOSQUIN_DATA + sectionId + "-activity-merged-notitle.png";
-  const separateUrl = JOSQUIN_DATA + sectionId + "-activity-separate-notitle.png";
+  const mergedUrl = getActivityPlotUrl(sectionId, "merged");
+  const separateUrl = getActivityPlotUrl(sectionId, "separate");
   const label = getActivityLabel(sectionId);
 
   let html = "";
@@ -128,6 +127,10 @@ document.addEventListener("DOMContentLoaded", function() {
   ensureAnalysisState();
   loadCgiParameters();
   window.addEventListener("keydown", analysisKeyDownFunction, false);
-  displayContents();
+  const { ANALYSISrepertory: repertory, ANALYSISgenre: genre, ANALYSISwork: workId } = localStorage;
+  const movement = workId && workId !== getBaseWorkId(workId) && collectActivitySectionIds(repertory, genre, workId).length
+    ? new Option(getActivityLabel(workId), workId)
+    : null;
+  displayContents(repertory, movement);
 });
 </script>

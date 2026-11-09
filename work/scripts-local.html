@@ -338,8 +338,7 @@ function displayMultisectionWork(jrpid) {
 	// getIncipitAsyncMultiple(jrpid, SECTIONS);
 	displayHumdrumIncipit(jrpid, SECTIONS)
 
-	// Set the vocal range  image //////////////////////////////////////////
-	prepareRangeArea(jrpid, false);
+	prepareWorkPlotArea(jrpid, "");
 
 
 	var downloads = document.getElementById("downloads");
@@ -919,8 +918,7 @@ function displayWork(jrpid) {
 	// Set the incipit image ///////////////////////////////////////////////
 	displayHumdrumIncipit(jrpid, SECTIONS);
 
-	// Set the vocal range image ///////////////////////////////////////////
-	prepareRangeArea(jrpid, false);
+	prepareWorkPlotArea(jrpid, "");
 
 	showDownloadArea(jrpid);
 	printErrorReportButton(jrpid);
@@ -2296,10 +2294,12 @@ function showWorkAnalysis(analysistype) {
 	if (analysistype === "parallel") {
 		url = "/analysis/parallel/?composer=" + encodeURIComponent(repertory) + "&work=" + encodeURIComponent(sessionStorage.WORKjrpid);
 	} else if (analysistype === "activity") {
-		localStorage.ANALYSISrepertory = repertory;
-		localStorage.ANALYSISgenre = "";
-		localStorage.ANALYSISwork = sessionStorage.WORKjrpid;
-		url = "/analysis/activity";
+		const selectedId = sessionStorage.WORKjrpid;
+		const baseId = getBaseWorkId(selectedId);
+		const matchingRepertories = WORKLIST.filter(rep => rep.works.some(work => work.id === baseId));
+		const matchingRepertory = matchingRepertories.find(rep => rep.repid === repertory) || matchingRepertories[0];
+		const filters = new URLSearchParams({ repertory: matchingRepertory?.repid || repertory, genre: "", work: selectedId });
+		url = "/analysis/activity/?" + filters;
 	} else if (analysistype === "proll") {
 		url = "/proll/?id=" + sectionid;
 	}
@@ -2485,7 +2485,7 @@ function displaySection(workid) {
 		displayHumdrumIncipit(workid, SECTIONS)
 	}
 
-	prepareRangeArea(workid);
+	prepareWorkPlotArea(workid);
 
 	if ((!SECTIONS) || (sectionindex >= 0)) {
 		showSectionDownloads(workid);
@@ -2499,10 +2499,10 @@ function displaySection(workid) {
 
 //////////////////////////////
 //
-// getRangePlotTitleParts -- Keep the work title and movement label separate.
+// getWorkPlotTitleParts -- Keep the work title and movement label separate.
 //
 
-function getRangePlotTitleParts(jrpid) {
+function getWorkPlotTitleParts(jrpid) {
 	var baseId = getBaseWorkId(jrpid);
 	var work = WORKLISTjrpid[baseId] || WORKLISTjrpid[jrpid];
 	var title = work?.title;

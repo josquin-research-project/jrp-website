@@ -1,28 +1,35 @@
 <script>
-let workRangesVisible = false;
+let workPlotMode = "";
 let workRangeByDuration = false;
+let workActivityByVoice = false;
 let workRangeRequest = 0;
 const workRangeSvgs = new Map();
+const workPlotLabels = { range: "vocal ranges", activity: "activity plots" };
 
-function prepareRangeArea(jrpid, expanded = workRangesVisible) {
+function prepareWorkPlotArea(jrpid, mode = workPlotMode) {
 	const area = document.getElementById("vocal-ranges");
 	const control = document.getElementById("work-range-control");
+	const hasRanges = hasRangeAsset(jrpid);
+	const hasActivity = hasActivityAsset(jrpid);
 
 	area.replaceChildren();
 	control.replaceChildren();
-	workRangesVisible = expanded;
-	if (!hasRangeAsset(jrpid)) return;
+	workPlotMode = "";
+	if (!hasRanges && !hasActivity) return;
 
-	const toggle = document.createElement("button");
-	toggle.type = "button";
-	toggle.className = "work-view-toggle work-range-toggle";
-	toggle.id = "work-range-toggle";
-	toggle.setAttribute("aria-controls", "work-range-panel");
-	toggle.addEventListener("click", toggleRangePanel);
-	control.append(toggle);
+	for (const [plotMode, available] of [["range", hasRanges], ["activity", hasActivity]]) {
+		if (!available) continue;
+		const toggle = document.createElement("button");
+		toggle.type = "button";
+		toggle.className = "work-view-toggle work-" + plotMode + "-toggle";
+		toggle.id = "work-" + plotMode + "-toggle";
+		toggle.setAttribute("aria-controls", "work-range-panel");
+		toggle.addEventListener("click", () => toggleWorkPlot(plotMode));
+		control.append(toggle);
+	}
 
-	area.innerHTML = '<section id="work-range-panel" class="work-range-panel" aria-label="Vocal ranges" hidden>' +
-		'<label class="work-range-mode-toggle">' +
+	area.innerHTML = '<section id="work-range-panel" class="work-range-panel" aria-label="Work plots" hidden>' +
+		'<label id="work-range-mode" class="work-range-mode-toggle">' +
 			'<span class="work-range-mode-label">Note counts</span>' +
 			'<input type="checkbox" aria-label="Weight vocal ranges by note duration">' +
 			'<span class="work-range-mode-switch" aria-hidden="true"></span>' +
@@ -31,47 +38,125 @@ function prepareRangeArea(jrpid, expanded = workRangesVisible) {
 		'<div id="work-range-chart"></div>' +
 		'<p id="work-range-hint" class="work-range-hint" hidden></p>' +
 		'<p id="work-range-status" class="work-range-status" role="status"></p>' +
+		'<label id="work-activity-mode" class="work-range-mode-toggle" hidden>' +
+			'<span class="work-range-mode-label">All voices</span>' +
+			'<input type="checkbox" aria-label="Show activity by voice">' +
+			'<span class="work-range-mode-switch" aria-hidden="true"></span>' +
+			'<span class="work-range-mode-label">By voice</span>' +
+		'</label>' +
+		'<div id="work-activity-chart" hidden></div>' +
 		'</section>';
 
-	document.querySelector(".work-range-mode-toggle input").addEventListener("change", event => {
+	document.querySelector("#work-range-mode input").addEventListener("change", event => {
 		workRangeByDuration = event.currentTarget.checked;
-		updateRangeWeighting();
+		updateWorkPlotSwitch("work-range-mode", workRangeByDuration);
 		showCurrentRangePlot();
 	});
-	updateRangeWeighting();
-	updateRangePanelVisibility();
-	if (workRangesVisible) showCurrentRangePlot();
+	document.querySelector("#work-activity-mode input").addEventListener("change", event => {
+		workActivityByVoice = event.currentTarget.checked;
+		updateWorkPlotSwitch("work-activity-mode", workActivityByVoice);
+		showCurrentActivityPlots();
+	});
+	updateWorkPlotSwitch("work-range-mode", workRangeByDuration);
+	updateWorkPlotSwitch("work-activity-mode", workActivityByVoice);
+	setWorkPlotMode(document.getElementById("work-" + mode + "-toggle") ? mode : "");
 }
 
-function updateRangeWeighting() {
-	const toggle = document.querySelector(".work-range-mode-toggle");
+function updateWorkPlotSwitch(id, checked) {
+	const toggle = document.getElementById(id);
 	if (!toggle) return;
-	toggle.querySelector("input").checked = workRangeByDuration;
+	toggle.querySelector("input").checked = checked;
 	const labels = toggle.querySelectorAll(".work-range-mode-label");
-	labels[0].classList.toggle("is-active", !workRangeByDuration);
-	labels[1].classList.toggle("is-active", workRangeByDuration);
+	labels[0].classList.toggle("is-active", !checked);
+	labels[1].classList.toggle("is-active", checked);
 }
 
 function toggleRangeByDuration() {
 	workRangeByDuration = !workRangeByDuration;
-	updateRangeWeighting();
-	if (workRangesVisible) showCurrentRangePlot();
+	updateWorkPlotSwitch("work-range-mode", workRangeByDuration);
+	if (workPlotMode === "range") showCurrentRangePlot();
 }
 
 function toggleRangePanel() {
-	if (!document.getElementById("work-range-panel")) return;
-	workRangesVisible = !workRangesVisible;
-	updateRangePanelVisibility();
-	if (workRangesVisible) showCurrentRangePlot();
+	toggleWorkPlot("range");
 }
 
-function updateRangePanelVisibility() {
+function toggleWorkPlot(mode) {
+	if (!document.getElementById("work-" + mode + "-toggle")) return;
+	setWorkPlotMode(workPlotMode === mode ? "" : mode);
+}
+
+function setWorkPlotMode(mode) {
+	workPlotMode = mode;
+	workRangeRequest++;
 	const panel = document.getElementById("work-range-panel");
-	const toggle = document.getElementById("work-range-toggle");
-	panel.hidden = !workRangesVisible;
-	toggle.classList.toggle("is-active", workRangesVisible);
-	toggle.textContent = workRangesVisible ? "Hide vocal ranges" : "Show vocal ranges";
-	toggle.setAttribute("aria-expanded", String(workRangesVisible));
+	const showRanges = mode === "range";
+	const showActivity = mode === "activity";
+	if (!showRanges) panel.style.removeProperty("--work-range-extra-width");
+	panel.hidden = !mode;
+	panel.setAttribute("aria-label", workPlotLabels[mode] || "Work plots");
+	panel.querySelector("#work-range-mode").hidden = !showRanges;
+	panel.querySelector("#work-range-chart").hidden = !showRanges;
+	panel.querySelector("#work-range-hint").hidden = true;
+	panel.querySelector("#work-range-status").hidden = !showRanges;
+	panel.querySelector("#work-activity-mode").hidden = !showActivity;
+	panel.querySelector("#work-activity-chart").hidden = !showActivity;
+
+	for (const [plotMode, label] of Object.entries(workPlotLabels)) {
+		const toggle = document.getElementById("work-" + plotMode + "-toggle");
+		if (!toggle) continue;
+		const expanded = mode === plotMode;
+		toggle.textContent = (expanded ? "Hide " : "Show ") + label;
+		toggle.setAttribute("aria-expanded", String(expanded));
+	}
+
+	if (showRanges) showCurrentRangePlot();
+	if (showActivity) showCurrentActivityPlots();
+}
+
+function showCurrentActivityPlots() {
+	const chart = document.getElementById("work-activity-chart");
+	const jrpid = sessionStorage.WORKjrpid;
+	const ids = jrpid === getBaseWorkId(jrpid) && SECTIONS?.length > 1
+		? SECTIONS.map(section => section.id).filter(hasActivityAsset)
+		: [jrpid];
+	const type = workActivityByVoice ? "separate" : "merged";
+	const label = workActivityByVoice ? "By voice" : "All voices";
+	chart.replaceChildren();
+
+	if (!ids.length) {
+		chart.textContent = "Activity plots are unavailable for this work.";
+		return;
+	}
+
+	for (const id of ids) {
+		const { title, movement } = getWorkPlotTitleParts(id);
+		const heading = document.createElement("h3");
+		heading.className = "work-range-plot-title";
+		setWorkMovementHeading(heading, title, movement === id ? "" : movement, id);
+		const plot = document.createElement("div");
+		const url = getActivityPlotUrl(id, type);
+		const link = document.createElement("a");
+		link.href = url;
+		link.target = "_blank";
+		link.rel = "noopener";
+		const image = document.createElement("img");
+		image.alt = label + " activity plot for " + heading.textContent;
+		image.loading = "lazy";
+		image.width = 1200;
+		image.height = 375;
+		image.addEventListener("error", () => {
+			const status = document.createElement("p");
+			status.className = "work-range-status";
+			status.textContent = "Plot unavailable.";
+			link.replaceWith(status);
+		}, { once: true });
+		image.src = url;
+		link.append(image);
+		if (SECTIONS?.length > 1) plot.append(heading);
+		plot.append(link);
+		chart.append(plot);
+	}
 }
 
 async function showCurrentRangePlot() {
@@ -110,7 +195,7 @@ async function showCurrentRangePlot() {
 	}
 	if (!isCurrent()) return;
 
-	const { title: workTitle, movement } = getRangePlotTitleParts(jrpid);
+	const { title: workTitle, movement } = getWorkPlotTitleParts(jrpid);
 	const title = document.createElement("h3");
 	title.className = "work-range-plot-title";
 	setWorkMovementHeading(title, workTitle, movement, jrpid);
@@ -127,6 +212,10 @@ async function showCurrentRangePlot() {
 			showMissing();
 			return;
 		}
+		const voices = [...svg.querySelectorAll("g > title")].filter(({textContent}) =>
+			textContent.includes(": lowest note of ") && !textContent.endsWith(" of all's range")
+		).length;
+		chart.parentElement.style.setProperty("--work-range-extra-width", `${Math.max(0, voices - 4) * 48}px`);
 		fitWorkRangeSvg(svg, plot);
 		plot.style.visibility = "";
 		status.textContent = "";
@@ -134,7 +223,8 @@ async function showCurrentRangePlot() {
 		hint.hidden = false;
 	}, { once: true });
 	plot.srcdoc = '<!doctype html><style>body{margin:0}svg{display:block;width:100%;height:auto}</style>' + source;
-	chart.append(title, plot);
+	if (SECTIONS?.length > 1) chart.append(title);
+	chart.append(plot);
 }
 
 function fitWorkRangeSvg(svg, frame) {
@@ -152,5 +242,9 @@ function fitWorkRangeSvg(svg, frame) {
 	svg.setAttribute("width", width);
 	svg.setAttribute("height", height);
 	frame.style.aspectRatio = `${width} / ${height}`;
+	if (svg.getAttribute("data-range-layout") === "compact") {
+		frame.style.maxWidth = `${Math.ceil(width * 1.25)}px`;
+		frame.style.marginInline = "auto";
+	}
 }
 </script>

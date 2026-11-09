@@ -433,7 +433,7 @@ function buildSelectionMenus() {
   buildWorkSelect(localStorage.ANALYSISrepertory, localStorage.ANALYSISgenre);
 }
 
-function displayContents(repertory) {
+function displayContents(repertory, extraWorkOption) {
   if (typeof repertory === "undefined" || repertory === null) {
     repertory = localStorage.ANALYSISrepertory || "";
   }
@@ -455,6 +455,7 @@ function displayContents(repertory) {
     genreElem.value = genre || "";
   }
   if (workElem) {
+    if (extraWorkOption) workElem.add(extraWorkOption);
     workElem.value = work || "";
   }
 
