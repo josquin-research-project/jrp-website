@@ -18,8 +18,7 @@
   }
 
   .feedback-form textarea,
-  .feedback-form input[type="email"],
-  .feedback-form input[type="text"] {
+  .feedback-form input[type="email"] {
     width: 100%;
     box-sizing: border-box;
     font: inherit;
@@ -47,15 +46,10 @@
     font-size: 0.95rem;
   }
 
-  .feedback-status--success {
-    color: #2f7d32;
-  }
-
   .feedback-status--error {
     color: #a02323;
   }
 
-  {% if include.popup %}
   .error-report-dialog {
     width: min(560px, calc(100% - 32px));
   }
@@ -91,5 +85,4 @@
   .error-report-dialog .feedback-status:empty {
     display: none;
   }
-  {% endif %}
 </style>

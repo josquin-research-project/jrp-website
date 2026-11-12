@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const statusEl = document.getElementById("error-report-status");
   const targetEl = document.getElementById("error_target");
   const submitButton = form.querySelector('[type="submit"]');
-  {% if include.popup %}
   const dialog = document.getElementById("error-report-dialog");
   const heading = document.getElementById("error-report-heading");
   const intro = document.getElementById("error-report-intro");
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const verification = document.getElementById("error-verification");
   let widgetId;
   let widgetLoading;
-  {% endif %}
 
   function isValidEmail(value) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -30,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function () {
     statusEl.textContent = message;
   }
 
-  {% if include.popup %}
   async function initializeVerification() {
     if (widgetId !== undefined || widgetLoading) return;
     widgetLoading = true;
@@ -88,21 +85,9 @@ document.addEventListener("DOMContentLoaded", function () {
   dialog.addEventListener("close", () => {
     if (!dialog.open) openButton.focus();
   });
-  {% else %}
-  const params = new URLSearchParams(window.location.search);
-  const workId = params.get("work") || sessionStorage.ERRORjrpid || "";
-  const sourceUrl = params.get("url") || document.referrer || "";
-  targetEl.value = workId ? workUrl(workId) : sourceUrl;
-  {% endif %}
 
   function resetTurnstile() {
-    {% if include.popup %}
     if (widgetId !== undefined) window.turnstile.reset(widgetId);
-    {% else %}
-    if (window.turnstile && typeof window.turnstile.reset === "function") {
-      window.turnstile.reset();
-    }
-    {% endif %}
   }
 
   form.addEventListener("submit", async function (event) {
@@ -149,16 +134,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       form.reset();
       resetTurnstile();
-      {% if include.popup %}
       heading.textContent = "Thank you for your report.";
       dialog.setAttribute("aria-describedby", success.id);
       intro.hidden = true;
       form.hidden = true;
       success.hidden = false;
       if (dialog.open) heading.focus();
-      {% else %}
-      setStatus("Thank you for your report.", "success");
-      {% endif %}
     } catch (error) {
       resetTurnstile();
       setStatus("Sorry, your report could not be submitted. Please try again.", "error");

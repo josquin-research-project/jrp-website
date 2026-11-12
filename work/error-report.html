@@ -1,4 +1,4 @@
-{% include error-report/styles.html popup=true %}
+{% include error-report/styles.html %}
 
 <dialog id="error-report-dialog" class="work-dialog error-report-dialog"
     aria-labelledby="error-report-heading" aria-describedby="error-report-intro">
@@ -7,8 +7,8 @@
     <button type="button" id="error-report-close" class="work-dialog-close" aria-label="Close error report">&times;</button>
   </div>
   <p id="error-report-intro">Use this form to report a problem with this work’s score, metadata, audio, downloads, or page display. Fields marked * are required.</p>
-  {% include error-report/form.html popup=true %}
+  {% include error-report/form.html %}
   <p id="error-report-success" hidden>Please close this popup to return to the work page.</p>
 </dialog>
 
-{% include error-report/script.html popup=true %}
+{% include error-report/script.html %}
