@@ -1,0 +1,170 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("error-form");
+  const statusEl = document.getElementById("error-report-status");
+  const targetEl = document.getElementById("error_target");
+  const submitButton = form.querySelector('[type="submit"]');
+  {% if include.popup %}
+  const dialog = document.getElementById("error-report-dialog");
+  const heading = document.getElementById("error-report-heading");
+  const intro = document.getElementById("error-report-intro");
+  const success = document.getElementById("error-report-success");
+  const openButton = document.getElementById("error-report-open");
+  const verification = document.getElementById("error-verification");
+  let widgetId;
+  let widgetLoading;
+  {% endif %}
+
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function workUrl(workId) {
+    return window.location.origin + "/work?id=" + encodeURIComponent(workId);
+  }
+
+  function setStatus(message, modifier) {
+    statusEl.className = modifier
+      ? "feedback-status feedback-status--" + modifier
+      : "feedback-status";
+    statusEl.textContent = message;
+  }
+
+  {% if include.popup %}
+  async function initializeVerification() {
+    if (widgetId !== undefined || widgetLoading) return;
+    widgetLoading = true;
+    try {
+      const api = await loadJrpTurnstile();
+      widgetId = api.render(verification, {
+        sitekey: verification.dataset.sitekey,
+        size: "flexible"
+      });
+    } catch (error) {
+      setStatus("Verification could not load. Close and reopen the report to try again.", "error");
+    } finally {
+      widgetLoading = false;
+    }
+  }
+
+  openButton.addEventListener("click", () => {
+    if (dialog.open) return;
+    if (!submitButton.disabled) {
+      const workId = openButton.dataset.workId;
+      if (targetEl.value !== workUrl(workId)) {
+        form.reset();
+        resetTurnstile();
+      }
+      targetEl.value = workUrl(workId);
+
+      const work = GetScoreCreditMetadata(workId);
+      const target = document.getElementById("error_target_display");
+      const composer = work?.Composer?.replace(/[{}]/g, "");
+      const title = document.createElement("i");
+      title.textContent = work?.Title || "";
+      const subtitle = work?.WORK_ID === workId ? work.Subtitle : "";
+      target.replaceChildren(composer ? composer + ", " : "", title,
+        subtitle ? ", " + subtitle : "", work ? " (" + workId + ")" : workId);
+
+      heading.textContent = "Report an error";
+      dialog.setAttribute("aria-describedby", intro.id);
+      intro.hidden = false;
+      form.hidden = false;
+      success.hidden = true;
+      setStatus("");
+    }
+    dialog.showModal();
+    initializeVerification();
+  });
+
+  document.getElementById("error-report-close").addEventListener("click", () => dialog.close());
+  document.getElementById("error-report-cancel").addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", event => {
+    if (event.target !== dialog) return;
+    const bounds = dialog.getBoundingClientRect();
+    if (event.clientX < bounds.left || event.clientX > bounds.right ||
+        event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+  });
+  dialog.addEventListener("close", () => {
+    if (!dialog.open) openButton.focus();
+  });
+  {% else %}
+  const params = new URLSearchParams(window.location.search);
+  const workId = params.get("work") || sessionStorage.ERRORjrpid || "";
+  const sourceUrl = params.get("url") || document.referrer || "";
+  targetEl.value = workId ? workUrl(workId) : sourceUrl;
+  {% endif %}
+
+  function resetTurnstile() {
+    {% if include.popup %}
+    if (widgetId !== undefined) window.turnstile.reset(widgetId);
+    {% else %}
+    if (window.turnstile && typeof window.turnstile.reset === "function") {
+      window.turnstile.reset();
+    }
+    {% endif %}
+  }
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    if (submitButton.disabled) return;
+
+    const description = form.querySelector("#error_description").value.trim();
+    const email = form.querySelector("#error_email").value.trim();
+    const turnstileToken = form.querySelector('[name="cf-turnstile-response"]')?.value.trim();
+    const reportedTarget = targetEl.value.trim() || window.location.href;
+
+    if (!description || !email) {
+      setStatus("Please complete all required fields.", "error");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      setStatus("Please enter a valid email address.", "error");
+      return;
+    }
+
+    if (!turnstileToken) {
+      setStatus("Please complete the verification.", "error");
+      return;
+    }
+
+    form.querySelector('[name="entry.270859303"]').value = reportedTarget;
+    form.querySelector('[name="entry.2136692707"]').value = navigator.userAgent;
+
+    setStatus("Submitting error report...");
+    submitButton.disabled = true;
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || !result.ok) {
+        throw new Error(result.error || "Submission failed");
+      }
+
+      form.reset();
+      resetTurnstile();
+      {% if include.popup %}
+      heading.textContent = "Thank you for your report.";
+      dialog.setAttribute("aria-describedby", success.id);
+      intro.hidden = true;
+      form.hidden = true;
+      success.hidden = false;
+      if (dialog.open) heading.focus();
+      {% else %}
+      setStatus("Thank you for your report.", "success");
+      {% endif %}
+    } catch (error) {
+      resetTurnstile();
+      setStatus("Sorry, your report could not be submitted. Please try again.", "error");
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+});
+</script>

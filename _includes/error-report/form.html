@@ -1,0 +1,74 @@
+  <form
+    id="error-form"
+    class="feedback-form"
+    action="https://jrp-contact-turnstile.benjaminory.workers.dev/"
+    method="POST"
+  >
+    <!-- Backend category -->
+    <input type="hidden" name="entry.594716763" value="Data problem">
+
+    <div class="form-group">
+      {% if include.popup %}
+      <span class="error-report-target-label">Work or page being reported</span>
+      <p id="error_target_display"></p>
+      <input id="error_target" type="hidden">
+      {% else %}
+      <label for="error_target">Work or page being reported</label>
+      <input
+        id="error_target"
+        type="text"
+        autocomplete="off"
+        placeholder="Jos2721 or https://josquin.stanford.edu/work/?id=Jos2721"
+      >
+      {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="error_description">Description *</label>
+      <textarea
+        id="error_description"
+        name="entry.1835674852"
+        rows="{% if include.popup %}5{% else %}10{% endif %}"
+        {% if include.popup %}autofocus{% endif %}
+        required
+        placeholder="Describe the problem..."
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="error_email">Email address *</label>
+      <input
+        id="error_email"
+        name="entry.590265142"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder="you@example.com"
+      >
+    </div>
+
+    <div class="form-group form-group--turnstile">
+      <div
+        {% unless include.popup %}class="cf-turnstile"{% endunless %}
+        id="error-verification"
+        data-sitekey="0x4AAAAAAD1Dq7eklfy2d51u"
+      ></div>
+    </div>
+
+    <!-- Hidden metadata -->
+    <input type="hidden" name="entry.270859303" value="">
+    <input type="hidden" name="entry.2136692707" value="">
+    <input type="hidden" name="fvv" value="1">
+    <input type="hidden" name="pageHistory" value="0">
+
+    {% if include.popup %}
+    <div class="error-report-actions">
+      <button type="button" class="button" id="error-report-cancel">Cancel</button>
+      <button type="submit" class="button">Submit report</button>
+    </div>
+    {% else %}
+    <button type="submit" class="btn btn-brown">Submit error report</button>
+    {% endif %}
+
+    <div id="error-report-status" class="feedback-status" aria-live="polite"></div>
+  </form>

@@ -351,7 +351,6 @@ function displayMultisectionWork(jrpid) {
 		showSectionDownloads(jrpid);
 	} else {
 		showDownloadArea(jrpid, "complete work");
-		printErrorReportButton(jrpid);
 	}
 }
 
@@ -382,6 +381,10 @@ function getTitlePdfActionHtml(jrpid, version, className, label) {
 //
 
 function updateWorkActions(jrpid) {
+	var reportButton = document.getElementById("error-report-open");
+	reportButton.dataset.workId = jrpid;
+	reportButton.hidden = false;
+
 	var pdfs = document.getElementById("work-pdf-actions");
 	if (pdfs) {
 		pdfs.innerHTML = getTitlePdfActionHtml(jrpid, "no_edit", "file-orange", "PDF score")
@@ -508,28 +511,10 @@ function showSectionDownloads(jrpid) {
 
 	SECTIONINDEX = sectionindex;
 
-	var sectionid = SECTIONS[sectionindex].id;
 	var stitle = SECTIONS[sectionindex].stitle;
 
 
    showDownloadArea(jrpid, stitle);
-	printErrorReportButton(sectionid);
-
-}
-
-
-
-//////////////////////////////
-//
-// printErrorReportButton --
-//
-
-function printErrorReportButton(jrpid) {
-	var error   = document.getElementById("error");
-	var message = "<a onclick=\"sessionStorage.ERRORjrpid = '" + jrpid + "';\"";
-	message += " href=\"/error/?work=" + encodeURIComponent(jrpid) + "\" class=\"work-view-toggle work-error-link\">";
-	message += "Report an error</a>";
-	error.innerHTML = message;
 }
 
 
@@ -921,7 +906,6 @@ function displayWork(jrpid) {
 	prepareWorkPlotArea(jrpid, "");
 
 	showDownloadArea(jrpid);
-	printErrorReportButton(jrpid);
 }
 
 
@@ -2491,7 +2475,6 @@ function displaySection(workid) {
 		showSectionDownloads(workid);
 	} else if (SECTIONS && SECTIONS.length > 0) {
 		showDownloadArea(workid, "complete work");
-		printErrorReportButton(workid);
 	}
 }
 

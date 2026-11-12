@@ -10,7 +10,8 @@
     margin-bottom: 1rem;
   }
 
-  .feedback-form label {
+  .feedback-form label,
+  .error-report-target-label {
     display: block;
     font-weight: 600;
     margin-top: 0.5rem;
@@ -53,4 +54,42 @@
   .feedback-status--error {
     color: #a02323;
   }
+
+  {% if include.popup %}
+  .error-report-dialog {
+    width: min(560px, calc(100% - 32px));
+  }
+
+  .error-report-dialog .feedback-form {
+    margin: 0;
+  }
+
+  .error-report-dialog textarea {
+    min-height: 6rem;
+  }
+
+  #error_target_display {
+    margin: 4px 0 0;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid #ddd5cf;
+    border-radius: 4px;
+    background: #faf8f6;
+    overflow-wrap: anywhere;
+  }
+
+  .error-report-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .error-report-actions .button:hover:not(:disabled) {
+    background: #f1ebe6;
+  }
+
+  .error-report-dialog .feedback-status:empty {
+    display: none;
+  }
+  {% endif %}
 </style>

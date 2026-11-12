@@ -4,8 +4,7 @@ title: Report an Error
 permalink: /error/
 ---
 
-{% include_relative styles-local.html %}
-{% include_relative scripts-local.html %}
+{% include error-report/styles.html %}
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <article class="about">
@@ -14,65 +13,7 @@ permalink: /error/
     Use this form to report a problem with a work, score, metadata record, download, or page. Fields marked * are required.
   </p>
 
-  <form
-    id="error-form"
-    class="feedback-form"
-    action="https://jrp-contact-turnstile.benjaminory.workers.dev/"
-    method="POST"
-  >
-    <!-- Backend category -->
-    <input type="hidden" name="entry.594716763" value="Data problem">
-
-    <div class="form-group">
-      <label for="error_target">Work or page being reported</label>
-      <input
-        id="error_target"
-        type="text"
-        autocomplete="off"
-        placeholder="Jos2721 or https://josquin.stanford.edu/work/?id=Jos2721"
-      >
-    </div>
-
-    <div class="form-group">
-      <label for="error_description">Description *</label>
-      <textarea
-        id="error_description"
-        name="entry.1835674852"
-        rows="10"
-        required
-        placeholder="Describe the problem..."
-      ></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="error_email">Email address *</label>
-      <input
-        id="error_email"
-        name="entry.590265142"
-        type="email"
-        required
-        autocomplete="email"
-        placeholder="you@example.com"
-      >
-    </div>
-
-    <div class="form-group form-group--turnstile">
-      <div
-        class="cf-turnstile"
-        data-sitekey="0x4AAAAAAD1Dq7eklfy2d51u"
-      ></div>
-    </div>
-
-    <!-- Hidden metadata -->
-    <input type="hidden" name="entry.270859303" value="">
-    <input type="hidden" name="entry.2136692707" value="">
-    <input type="hidden" name="fvv" value="1">
-    <input type="hidden" name="pageHistory" value="0">
-
-    <button type="submit" class="btn btn-brown">
-      Submit error report
-    </button>
-
-    <div id="status" class="feedback-status" aria-live="polite"></div>
-  </form>
+  {% include error-report/form.html %}
 </article>
+
+{% include error-report/script.html %}

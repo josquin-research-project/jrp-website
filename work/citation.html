@@ -5,10 +5,10 @@
     </button>
 </template>
 
-<dialog id="citation-dialog" class="citation-dialog" aria-labelledby="citation-heading">
-    <div class="citation-header">
+<dialog id="citation-dialog" class="work-dialog citation-dialog" aria-labelledby="citation-heading">
+    <div class="work-dialog-header">
         <h2 id="citation-heading">Suggested citation</h2>
-        <button type="button" id="citation-close" class="citation-close" aria-label="Close citation">&times;</button>
+        <button type="button" id="citation-close" class="work-dialog-close" aria-label="Close citation">&times;</button>
     </div>
     <div class="citation-format-control">
         <select id="citation-format" class="button" aria-label="Citation format">
@@ -122,7 +122,7 @@
     cursor: pointer;
 }
 .work-score-credit .citation-open:hover { color: #0066cc; text-decoration: underline; }
-.citation-open:focus-visible, .citation-dialog :focus-visible { outline: 2px solid #0066cc; outline-offset: 3px; }
+.citation-open:focus-visible, .work-dialog :focus-visible { outline: 2px solid #0066cc; outline-offset: 3px; }
 .citation-open svg, #citation-copy svg {
     width: 18px;
     height: 18px;
@@ -140,7 +140,7 @@
     /* Optically center the scroll artwork with Lusitana's visible letterforms. */
     transform: translateY(-2px);
 }
-.citation-dialog {
+.work-dialog {
     box-sizing: border-box;
     width: min(630px, calc(100% - 32px));
     max-height: calc(100vh - 48px);
@@ -155,12 +155,12 @@
     line-height: 1.5;
     text-align: left;
 }
-.citation-dialog::backdrop { background: rgba(40, 30, 20, 0.48); }
-.citation-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.citation-dialog #citation-heading { margin: 0; color: #65584e; font: bold 21px "Lusitana", serif; }
-.citation-close { border: 0; background: transparent; color: inherit; padding: 0 4px; font: 28px/1 "Lusitana", serif; cursor: pointer; }
+.work-dialog::backdrop { background: rgba(40, 30, 20, 0.48); }
+.work-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.work-dialog-header h2 { margin: 0; color: #65584e; font: bold 21px "Lusitana", serif; }
+.work-dialog-close { border: 0; background: transparent; color: inherit; padding: 0 4px; font: 28px/1 "Lusitana", serif; cursor: pointer; }
 .citation-format-control { margin-top: 16px; }
-.citation-dialog .button { border: 1px solid #c5bbb3; border-radius: 4px; background: #faf8f6; color: inherit; padding: 5px 9px; font: inherit; cursor: pointer; }
+.work-dialog .button { border: 1px solid #c5bbb3; border-radius: 4px; background: #faf8f6; color: inherit; padding: 5px 9px; font: inherit; cursor: pointer; }
 #citation-format { appearance: auto; max-width: 100%; }
 .citation-dialog .citation-text { font: inherit; line-height: 1.6; margin: 16px 0 18px; padding-left: 2em; text-indent: -2em; overflow-wrap: anywhere; user-select: text; }
 .citation-dialog .citation-text a { display: inline; color: #0066cc; font: inherit; text-decoration: none; }
