@@ -1,6 +1,6 @@
 {% include head/page-title.html %}
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=1010"/>
+<meta name="viewport" content="{% if page.responsive_viewport %}width=device-width, initial-scale=1{% else %}width=1010{% endif %}"/>
 {% include head/canonical.html %}
 <link rel="SHORTCUT ICON" href="/images/favicon.png"/>
 

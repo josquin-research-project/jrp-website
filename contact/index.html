@@ -3,26 +3,35 @@ layout: default
 dropdowns: true
 title: Contact
 permalink: /contact/
+responsive_viewport: true
 ---
 
 {% include_relative styles-local.html %}
 {% include_relative scripts-local.html %}
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-<article class="about">
+<div class="contact-page">
+<article class="about contact-details">
   <h1 class="brown-heading">Contact Information</h1>
-  <p>
-    Jesse Rodin, Project Director (<a href="mailto:jrodin@stanford.edu">jrodin@stanford.edu</a>)<br>
-    Craig Stuart Sapp, Technical Director (<a href="mailto:craigsapp@stanford.edu">craigsapp@stanford.edu</a>)<br>
-    Benjamin Ory, Director of Operations (<a href="mailto:benjaminory@gmail.com">benjaminory@gmail.com</a>)
-  </p>
+  <div class="contact-list">
+    <div class="contact-person">
+      <div><strong>Jesse Rodin</strong><span class="contact-role">Project Director</span></div>
+      <a href="mailto:jrodin@stanford.edu">jrodin@stanford.edu</a>
+    </div>
+    <div class="contact-person">
+      <div><strong>Craig Stuart Sapp</strong><span class="contact-role">Technical Director</span></div>
+      <a href="mailto:craigsapp@stanford.edu">craigsapp@stanford.edu</a>
+    </div>
+    <div class="contact-person">
+      <div><strong>Benjamin Ory</strong><span class="contact-role">Technical Director</span></div>
+      <a href="mailto:benjaminory@gmail.com">benjaminory@gmail.com</a>
+    </div>
+  </div>
 </article>
 
-<article class="about">
+<article class="about contact-feedback">
   <h2 class="brown-heading">Feedback</h2>
-  <p>
-    Choose a category and leave your feedback below. Fields marked * are required.
-  </p>
+  <div class="feedback-content">
 
   <form
     id="feedback-form"
@@ -31,9 +40,10 @@ permalink: /contact/
     method="POST"
   >
 
+    <div class="feedback-row">
     <!-- Category -->
     <div class="form-group">
-      <label for="feedback_category">Category *</label>
+      <label for="feedback_category">Category</label>
       <select
         id="feedback_category"
         name="entry.594716763"
@@ -53,21 +63,9 @@ permalink: /contact/
       </select>
     </div>
 
-    <!-- Description -->
-    <div class="form-group">
-      <label for="feedback_description">Description *</label>
-      <textarea
-        id="feedback_description"
-        name="entry.1835674852"
-        rows="10"
-        required
-        placeholder="Describe your feedback..."
-      ></textarea>
-    </div>
-
     <!-- Email -->
     <div class="form-group">
-      <label for="feedback_email">Email address *</label>
+      <label for="feedback_email">Email address</label>
       <input
         id="feedback_email"
         name="entry.590265142"
@@ -76,6 +74,20 @@ permalink: /contact/
         autocomplete="email"
         placeholder="you@example.com"
       >
+    </div>
+
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="feedback_description">Description</label>
+      <textarea
+        id="feedback_description"
+        name="entry.1835674852"
+        rows="4"
+        required
+        placeholder="Describe your feedback..."
+      ></textarea>
     </div>
 
     <div class="form-group form-group--turnstile">
@@ -98,7 +110,6 @@ permalink: /contact/
     <div id="status" class="feedback-status" aria-live="polite"></div>
   </form>
 
-  <p class="feedback-extra">
-    For more detailed feedback, email someone listed above directly.
-  </p>
+  </div>
 </article>
+</div>

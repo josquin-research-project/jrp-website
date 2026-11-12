@@ -1,72 +1,147 @@
 <style>
-  .feedback-form {
-    max-width: 550px;
-    margin-top: 0.5rem;
-    margin-bottom: 3rem;
-  }
-
-  .feedback-form .form-group {
+  .contact-page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 24px 48px;
     text-align: left;
-    margin-bottom: 1rem;
   }
 
-  .feedback-form label {
+  .contact-page article.about { padding: 0; }
+  .contact-page .brown-heading {
+    padding-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .contact-list {
+    margin: 0 0 26px 16px;
+    padding-left: 18px;
+    border-left: 2px solid #e9dcc7;
+    color: #736960;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .feedback-content {
+    margin-left: 16px;
+    padding-left: 18px;
+    border-left: 2px solid #e9dcc7;
+  }
+
+  .contact-person {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 7px 0;
+  }
+
+  .contact-person strong { font-weight: 700; }
+  .contact-role {
     display: block;
+    color: #736960;
+    font-size: 16px;
+  }
+  .contact-person a { overflow-wrap: anywhere; }
+
+  .contact-page article.contact-feedback {
+    border-top: 1px solid #e8e2dc;
+    padding-top: 16px;
+  }
+  .contact-page .contact-feedback .brown-heading { margin-bottom: 10px; }
+  .contact-page .contact-feedback p {
+    margin: 0 0 18px;
+    text-align: left;
+  }
+
+  .feedback-form { margin: 0; }
+  .feedback-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .feedback-form .form-group {
+    min-width: 0;
+    text-align: left;
+    margin-bottom: 16px;
+  }
+  .contact-page .feedback-form label {
+    display: block;
+    margin: 0 0 6px;
+    color: #736960;
+    font-family: "Lato", sans-serif;
+    font-size: 14px;
     font-weight: 600;
-    margin-top: 0.5rem;
   }
 
   .feedback-select,
   .feedback-form textarea,
-  .feedback-form input[type="email"],
-  .feedback-form input[type="text"] {
+  .feedback-form input[type="email"] {
     width: 100%;
     box-sizing: border-box;
     font: inherit;
-    padding: 0.5rem 0.6rem;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    padding: 9px 12px;
+    border: 1px solid #cfc6bd;
+    border-radius: 4px;
+    background: #fff;
+    color: #3a2e29;
   }
-
+  .feedback-form input[type="email"] { height: 42px; }
   .feedback-form textarea {
+    display: block;
     resize: vertical;
-    min-height: 8rem;
+    min-height: 110px;
+    line-height: 1.45;
   }
-
-  .form-group--turnstile {
-    min-height: 65px;
+  .feedback-form .jrp-select { width: 100% !important; }
+  .feedback-form .jrp-select.feedback-select { border: 0; padding: 0; }
+  .feedback-form .jrp-select .jrp-select-choice {
+    height: 42px;
+    padding: 0 12px;
+    line-height: 40px;
+    border: 1px solid #cfc6bd;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: none;
   }
-
-  .feedback-form button[disabled] {
-    opacity: 0.7;
-    cursor: wait;
+  .feedback-form .jrp-select .jrp-select-arrow {
+    border: 0;
+    background: transparent;
   }
-
-  .feedback-status {
-    margin-top: 1rem;
-    font-size: 0.95rem;
+  .feedback-form input:focus-visible,
+  .feedback-form textarea:focus-visible {
+    outline: 2px solid #2b75af;
+    outline-offset: 2px;
   }
-
-  .feedback-status--success {
-    color: #2f7d32;
+  .feedback-form .form-group--turnstile { min-height: 65px; }
+  .feedback-form button[disabled] { opacity: 0.7; cursor: wait; }
+  .feedback-status { font-size: 0.95rem; }
+  .feedback-status:not(:empty) { margin-top: 12px; }
+  .feedback-status--success { color: #2f7d32; }
+  .feedback-status--error { color: #a02323; }
+  .contact-page .contact-feedback .feedback-extra {
+    margin: 16px 0 0;
+    font-size: 16px;
   }
+  .feedback-select.feedback-placeholder { color: #777; }
 
-  .feedback-status--error {
-    color: #a02323;
-  }
-
-  .feedback-extra {
-    margin-top: 2rem;
-    margin-bottom: 4rem;
-  }
-
-  /* Placeholder styling: when no real value is chosen */
-  .feedback-select.feedback-placeholder {
-    color: #777;
-  }
-
-  /* Normal selected value */
-  .feedback-select {
-    color: #000;
+  @media (max-width: 700px) {
+    body:has(.contact-page) { min-width: 0; }
+    body:has(.contact-page) .page.container { width: 100%; }
+    body:has(.contact-page) header.simple nav#primary-nav ul {
+      gap: 4px;
+      flex-wrap: wrap;
+      padding-right: 8px;
+    }
+    body:has(.contact-page) header.simple nav#primary-nav ul li a {
+      font-size: 11px;
+      letter-spacing: 0.6px;
+      padding: 10px 4px;
+    }
+    body:has(.contact-page) header.simple nav#primary-nav ul li.logo a { padding: 0; }
+    body:has(.contact-page) footer ul { display: flex; flex-wrap: wrap; justify-content: center; }
+    .contact-page { padding: 24px; }
+    .feedback-row { grid-template-columns: 1fr; gap: 0; }
+    .contact-person { grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
+    .contact-list, .feedback-content { margin-left: 8px; padding-left: 14px; }
   }
 </style>
