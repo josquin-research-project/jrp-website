@@ -5,6 +5,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 import ssl
 from pathlib import Path
 import subprocess
@@ -93,9 +94,13 @@ def synchronize(context, signature, cloud, check=probe):
     if ready(active) and revision_fingerprint(active) == signature:
         print('Search scores and published PDF maps are unchanged; skipping build and deployment.', flush=True)
         return False
+    base_image = active['spec']['containers'][0].get('image', '')
+    if not re.fullmatch(r'[^\s@]+@sha256:[0-9a-f]{64}', base_image):
+        raise RuntimeError('The active search image does not have an immutable digest.')
     image = REPOSITORY + ':make-' + signature[:24]
     config = {'steps': [
-        {'name': 'gcr.io/cloud-builders/docker', 'args': ['build', '-t', image, '.']},
+        {'name': 'gcr.io/cloud-builders/docker', 'args': [
+            'build', '--build-arg', 'SEARCH_INDEX_BASE=' + base_image, '-t', image, '.']},
         {'name': 'gcr.io/cloud-builders/docker',
          'args': ['run', '--rm', '--entrypoint', 'python', image, '/app/search-build-check.py']}],
         'images': [image], 'timeout': '1800s'}
