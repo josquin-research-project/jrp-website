@@ -4,6 +4,7 @@ let workRangeByDuration = false;
 let workActivityByVoice = false;
 let workRangeRequest = 0;
 const workRangeSvgs = new Map();
+const workRangeAssetVersion = {{ site.time | date: "%s" | jsonify }};
 const workPlotLabels = { range: "vocal ranges", activity: "activity plots" };
 
 function prepareWorkPlotArea(jrpid, mode = workPlotMode) {
@@ -168,7 +169,7 @@ async function showCurrentRangePlot() {
 	const measurement = workRangeByDuration ? "note durations" : "note counts";
 	const status = document.getElementById("work-range-status");
 	const hint = document.getElementById("work-range-hint");
-	const primaryUrl = getJosquinDataUrl(jrpid, type);
+	const primaryUrl = `${getJosquinDataUrl(jrpid, type)}?v=${workRangeAssetVersion}`;
 
 	chart.replaceChildren();
 	hint.hidden = true;
