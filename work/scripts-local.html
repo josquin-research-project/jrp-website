@@ -2038,44 +2038,19 @@ async function doWorkSearch(query, token) {
 //
 
 function displayWorkSearch(searchresults) {
-	document.body.style.cursor = "default";
-	var SR = JSON.parse(searchresults);
-
-   var resultsarea = document.getElementById("work-search-results");
-   var debug = "<textarea rows=1 cols=1 style='font-size:75%;'>" 
-	debug += searchresults + "</textarea>";
-
- 	var content = "";
-
-   var heading = "";
-   heading = "<h2 class='search-header section-heading'>";
-	if (SR.matchcount == 0) {
-		heading += "No matches";
-	} else {
-		heading += SR.matchcount + " match";
-		if (parseInt(SR.matchcount) != 1) {
-			heading += "es";
-		}
-	}
-	heading += "</h2>";
-
-	var template;
-	var content = "";
-	var source = "";
-	if (SR.matchcount > 0) {
-		if (SECTIONS && SECTIONS.length > 0) {
-			source = document.getElementById("multi-search-results-table");
-		} else {
-			source = document.getElementById("single-search-results-table");
-		}
-		template = Handlebars.compile(source.textContent);
-		content = template(SR);
+	const results = JSON.parse(searchresults);
+	const area = document.getElementById("work-search-results");
+	if (results.matchcount <= 0) {
+		area.textContent = "No matches";
+		return;
 	}
 
-	// resultsarea.innerHTML = heading + content + debug;
-	resultsarea.innerHTML = heading + "<p>Musical search is in beta. Highlighted PDFs mark matching notes in red, including patterns from AND searches. Links expire after 15 minutes.</p>" + content;
-
-
+	const source = document.getElementById("work-search-results-template");
+	const template = Handlebars.compile(source.textContent);
+	area.innerHTML = template({
+		locations: results.locations,
+		showSections: Boolean(SECTIONS && SECTIONS.length)
+	});
 }
 
 

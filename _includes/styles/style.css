@@ -1433,6 +1433,78 @@ table.search-results-table span.location span.point.point-green {
 .work-page .work-score-content {
 	min-width: 0;
 }
+#work-search-results:not(:empty) {
+  margin: 12px 0 20px;
+}
+.work-search-table-scroll {
+  overflow-x: auto;
+}
+.work-search-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #302923;
+}
+.work-search-results-table th,
+.work-search-results-table td {
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #e1e1e1;
+}
+.work-search-results-table th {
+  font-size: 14px;
+}
+.work-search-match {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.work-search-location {
+  display: inline-block;
+  width: 125px;
+  height: 19px;
+  border: 1px solid #cbcbcb;
+  border-radius: 3px;
+  background: #f2f2f0;
+  position: relative;
+}
+.work-search-location > span {
+  position: absolute;
+  width: 2.5px;
+  height: 2.5px;
+  background: #302923;
+  transform: translate(-50%, -50%);
+}
+.work-search-results-table .work-search-pdfs {
+  text-align: center;
+  white-space: nowrap;
+}
+.work-search-pdfs .file,
+.work-search-pdfs .file-ed {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0 3px;
+  background-position: center;
+  background-size: 19px auto;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+.work-search-pdfs .file::after {
+  content: none;
+}
+.work-search-pdfs a:hover {
+  background-color: #f2f2f0;
+}
+#work-search-results .work-search-note {
+  margin: 8px 0 0;
+  color: #655c55;
+  font-size: 13px;
+  letter-spacing: normal;
+}
+
 .work-page #work-tool-sidebar #search {
 	margin-bottom: 12px;
 }

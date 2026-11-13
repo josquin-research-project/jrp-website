@@ -1,67 +1,30 @@
 {% raw %}
 
-<script id="multi-search-results-table" type="text/x-handlebars-template">
-{{!-- 
-	--	Handlebars template multi-search-results-table --
-	--		This template is used to display single-work search results on
-	--		work pages when there are multiple-sections contained in the work.
-	--   Each section is listed in a separate row of the table.
-	--}}
-
-<table class="search-results-table work-search-results-table">
-<thead>
-<tr>
-	<th class="sortable">Match&nbsp;Locations&nbsp;&nbsp;</th>
-	<th class="sortable">Highlighted Scores</th>
-	<th style="text-align:left; padding:5px;" class="sortable">Section</th>
-	<th class="sortable">Measures</th>
-</tr>
-</thead>
-<tbody>
-{{#each this.locations}}
-<tr valign="top">
-	<td>{{{matchlocations this}}}</td>
-	<td>{{{matchscore this}}}</td>
-	<td>{{{sectiontitle id}}}</td>
-	<td>{{{listmeasures this}}}</td>
-</tr>
-{{/each}}
-</tbody>
-</table>
+<script id="work-search-results-template" type="text/x-handlebars-template">
+<div class="work-search-table-scroll">
+	<table class="work-search-results-table">
+		<thead>
+			<tr>
+				<th scope="col">Match Locations</th>
+				<th scope="col" class="work-search-pdfs">Highlighted Scores</th>
+				{{#if showSections}}<th scope="col">Section</th>{{/if}}
+				<th scope="col">Measures</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each locations}}
+			<tr>
+				<td>{{{matchlocations this}}}</td>
+				<td class="work-search-pdfs">{{{matchscore this}}}</td>
+				{{#if ../showSections}}<td>{{{sectiontitle id}}}</td>{{/if}}
+				<td>{{{listmeasures this}}}</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>
+<p class="work-search-note">Highlighted PDFs mark matching notes in red, including patterns from AND searches. Links expire after 15 minutes.</p>
 </script>
-{% endraw %}
-
-
-
-{% raw %}
-<script id="single-search-results-table" type="text/x-handlebars-template">
-{{!-- 
-	--	Handlebars template single-search-results-table --
-	--		This template is used to display single-work search results on
-	--		work pages when there are not any sections contained in the work.
-	--   The search results is a single row (but template is set up to
-	--		allow multiple rows).
-	--}}
-
-<table style="border-left: 0;" class="search-results-table work-search-results-table">
-<tbody>
-<tr>
-	<td style="width:100px; padding-right:30px;">Match&nbsp;Locations&nbsp;&nbsp;</td>
-	<td>Highlighted Scores</td>
-	<td style="width:500px; text-align:left;" class="sortable">Measures</td>
-</tr>
-{{#each this.locations}}
-<tr valign="top">
-	<td style="width:100px; text-align:left;">{{{matchlocations this}}}</td>
-	<td>{{{matchscore this}}}</td>
-	<td style="width:500px; text-align:left;">{{{listmeasures this}}}</td>
-</tr>
-{{/each}}
-</tbody>
-</table>
-</script>
-
-
 
 <script>
 ///////////////////////////////////////////////////////////////////////////
@@ -155,16 +118,11 @@ Handlebars.registerHelper('listmeasures', function(searchentry) {
 
 //////////////////////////////
 //
-// Handlebars matchlocations function -- Draw a map of the match locations
-//   in a thumbnail for the work/section, adding a hyperlink to the 
-//   PDF which shows the matches highlighted in orange as well as a
-//   count of the matches in the work/section.
-// Global variables this function is execting:
-//		QUERY = The search query in JSON format.
-//
-
+// Handlebars matchlocations function -- Display the count and distribution.
 Handlebars.registerHelper('matchlocations', function(entry) {
- return entry.count + ' ' + printLocationThumbnail(entry);
+ const count = Handlebars.escapeExpression(entry.count);
+ return '<span class="work-search-match"><span>' + count + '</span>' +
+        printLocationThumbnail(entry) + '</span>';
 });
 
 
@@ -259,14 +217,7 @@ function createThemax(query) {
 
 //////////////////////////////
 //
-// printLocationThumbnail --
-//    <span class="location">
-//    <span class="point" style="top: 4px; left: 29px"></span>
-//    <span class="point point-blue" style="top: 2px; right: 22px"></span>
-//    </span>
-//  width of thumbnail: 100px;
-//  height of thumbnail: 13px;
-//  border: 2px solid #cbcbcb;
+// printLocationThumbnail -- Plot match positions by voice.
 //
 
 function printLocationThumbnail(match) {
@@ -279,7 +230,7 @@ function printLocationThumbnail(match) {
 	}
 	var work = WORKLISTjrpid[workid];
 	var movement = null;
-	var i, j;
+	var i;
 	if (work.sections) {
 		for (i=0; i<work.sections.length; i++) {
 			if (work.sections[i].id === jrpid) {
@@ -288,52 +239,23 @@ function printLocationThumbnail(match) {
 			}
 		}
 	}
-	var width  = 100;
-	var height = 13;
-	var percent;
-	var top;
-	var left;
-
 	var vcount = 0;
 	if (movement != null) {
 		vcount = parseInt(movement.v);
 	} else {
 		vcount = parseInt(work.voices);
 	}
-	if (vcount === 0) {
-		vcount = 4;
-	}
-	
-	var voice = 0;
-	var pieces;
-	var loc;
+	vcount = vcount || 4;
 
-	var output = "<span class=\"location\">";
-	for (i=0; i<match.loc.length; i++) {
-		voice = match.loc[i].ipart;
-		if (voice > vcount) {
-			voice = vcount;
-		}
-		top = height * (1.0 - voice / (vcount));
-		top = (top / height * 0.8 + 0.05) * height;
-		for (j=0; j<match.loc[i].loc.length; j++) {
-			loc = match.loc[i].loc[j];
-			pieces   = loc.match(/P([\d.]+)/);
-			if (pieces != null) {
-				percent = parseInt(pieces[1] + 0.5);
-				if (percent > 100) {
-					percent = 100;
-				}
-			} else {
-				continue;
-			}
-			left = percent /* * width/100 */;
-			left = left * 0.95;
-			if (left < 0) { left = 0; }
-			if (left > 100) { left = 100; }
-
-			output += "<span class=\"point\" style=\"background:black; left: ";
-			output += left + "px; top: " + top + "px;\"></span>";
+	let output = '<span class="work-search-location" aria-hidden="true">';
+	for (const part of match.loc) {
+		const voice = Math.min(part.ipart, vcount);
+		const top = (1 - voice / vcount) * 80 + 8;
+		for (const location of part.loc) {
+			const position = location.match(/P([\d.]+)/);
+			if (!position) continue;
+			const left = 2 + Math.min(100, Number(position[1])) * 0.96;
+			output += '<span style="left:' + left + '%;top:' + top + '%"></span>';
 		}
 	}
 
