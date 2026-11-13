@@ -38363,9 +38363,6 @@
 			"completeHumdrum": true,
 			"anyHumdrum": true,
 			"allHumdrum": true,
-			"rangeAttack": true,
-			"rangeDuration": true,
-			"range": true,
 			"anyRange": true,
 			"allRanges": true,
 			"anyActivity": true,
@@ -40363,7 +40360,7 @@
 		}
 	},
 	"lastIncrementalUpdate": {
-		"generatedAt": "2026-11-13T12:43:03.920Z",
+		"generatedAt": "2026-11-13T19:06:44.194Z",
 		"ids": [
 			"Agr1001",
 			"Agr1001a",
@@ -40462,6 +40459,12 @@
 			"Jos0903c",
 			"Jos0903d",
 			"Jos0903e",
+			"Jos1101",
+			"Jos1101a",
+			"Jos1101b",
+			"Jos1101c",
+			"Jos1101d",
+			"Jos1101e",
 			"Jos1102",
 			"Jos1102a",
 			"Jos1102b",
