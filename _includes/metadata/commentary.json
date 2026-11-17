@@ -652,5 +652,1025 @@
 		"WORK_ID": "Jos9915",
 		"Source": "Correa de Arauxo, Facultad organica (1626)",
 		"RISM link": "https://rism.online/sources/990011332"
+	},
+	{
+		"WORK_ID": "Bin3001",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 56v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3001",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 5v–6r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3001",
+		"Source": "Munich 14274",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/213/",
+		"Fols./pp./no.": "fol. 45v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3001",
+		"Source": "Escorial IV.a.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792/",
+		"Fols./pp./no.": "fol. 7r",
+		"Attribution": "Binchoys",
+		"Notes": "Tenor and Contra only"
+	},
+	{
+		"WORK_ID": "Bin3001",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 27v–28r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3001",
+		"Source": "Seville 5-1-43/Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fol. 64v",
+		"Attribution": "Binchoys",
+		"Notes": "Tenor only"
+	},
+	{
+		"WORK_ID": "Bin3002",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fols. X[verso]",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3002",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 29v–30r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3003",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 86v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3003",
+		"Source": "Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fols. 58v–59v",
+		"Attribution": "Binchoys",
+		"Notes": "D and Ct only"
+	},
+	{
+		"WORK_ID": "Bin3003",
+		"Source": "Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fo. 61r",
+		"Attribution": "Binchoys",
+		"Notes": "T only"
+	},
+	{
+		"WORK_ID": "Bin3003",
+		"Source": "Paris 4917",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/100/",
+		"Fols./pp./no.": "fol. 1r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3004",
+		"Source": "Munich 14274",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/213/",
+		"Fols./pp./no.": "fol. 86v",
+		"Attribution": "Binchoys",
+		"Notes": "Survives without text"
+	},
+	{
+		"WORK_ID": "Bin3005",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fol. 26r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3005",
+		"Source": "Strasbourg 222",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/109/",
+		"Fols./pp./no.": "fol. 53r",
+		"Attribution": "Binchoys",
+		"Notes": "Unique Ct; incipit 'Adieu ma tres belle' only. Source destriyed. Info from C. E. H. de Coussemaker's inventory and transcriptions from the lost MS (Br p. 36)"
+	},
+	{
+		"WORK_ID": "Bin3005",
+		"Source": "Trent 92",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/812/",
+		"Fols./pp./no.": "fol. 111v",
+		"Attribution": "Binchoys",
+		"Notes": "Ct (unique) stops after 11 bars, half a stanza of text"
+	},
+	{
+		"WORK_ID": "Bin3005",
+		"Source": "Munich 14274",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/213/",
+		"Fols./pp./no.": "fol. 5r",
+		"Attribution": "Binchoys",
+		"Notes": "Unique CT; Texted as 'Ave corpus Christi'"
+	},
+	{
+		"WORK_ID": "Bin3006",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 31v–32r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3006",
+		"Source": "Munich 14274",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/213/",
+		"Fols./pp./no.": "fols. 45v–46r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3006",
+		"Source": "Trent 87",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/807/",
+		"Fols./pp./no.": "fol. 92v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3008",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 82r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3008",
+		"Source": "Paris 4917",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/100/",
+		"Fols./pp./no.": "fol. 14v–15r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3009",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 30v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3010",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 72r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3011",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fols. 44r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3011",
+		"Source": "Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fols. 50v–52r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3012",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 78v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3013",
+		"Source": "Strasbourg 222",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/109/",
+		"Fols./pp./no.": "fol. 115r.",
+		"Attribution": "Binchoys",
+		"Notes": "Textless. MS destriyed in 1870. Info from C. E. H. de Coussemaker's inventory and transcription (Br p. 77)"
+	},
+	{
+		"WORK_ID": "Bin3014",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 34v–35r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3014",
+		"Source": "Munich 14274",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/213/",
+		"Fols./pp./no.": "fols. 127r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3014",
+		"Source": "Munich 14274",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/213/",
+		"Fols./pp./no.": "fol. 129r",
+		"Attribution": "Wintzois",
+		"Notes": "Texted as Virgo rosa venustatis"
+	},
+	{
+		"WORK_ID": "Bin3014",
+		"Source": "Leipzig 1084",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2000/",
+		"Fols./pp./no.": "fols. 229a–230",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit Virgo rosa only"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Cordiforme Chansonnier (Rothschild 2973)",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2387/",
+		"Fols./pp./no.": "fols. 38v–40r",
+		"Attribution": "Binchoys",
+		"Notes": "Unique Ct (apparently a reworking of the Ct that appears in all other sources)"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fols. 13v–14r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Dijon 517",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1705/",
+		"Fols./pp./no.": "fols. 41v–42r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Escorial IV.a.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792/",
+		"Fols./pp./no.": "fols. 131v–132r",
+		"Attribution": "Binchoys",
+		"Notes": "No clefs. One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Florence 176",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1408/",
+		"Fols./pp./no.": "fols. 123v–125r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Washington M2.1.L25 (\"Chansonnier Laborde\")",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2057/",
+		"Fols./pp./no.": "fol. 18r",
+		"Attribution": "Binchoys",
+		"Notes": "T and CT only"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Munich 9659",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2370/",
+		"Fols./pp./no.": "fol. 3v",
+		"Attribution": "Binchoys",
+		"Notes": "D and first half of T only. No clefs."
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "New Haven 91 (\"Mellon Chansonnier\")",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1085/",
+		"Fols./pp./no.": "fols. 32v–33r",
+		"Attribution": "Binchoys",
+		"Notes": "2 stanzas only"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Uppsala 76a",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2611/",
+		"Fols./pp./no.": "fols. 19v–20r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Leuven 1 (\"Leuven chansonnier\")",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/4735/",
+		"Fols./pp./no.": "fols. 25v–27r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Wolfenbüttel 287 (\"Wolfenbüttel Chansonnier\")",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2016/",
+		"Fols./pp./no.": "fols. 31v–32r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Source": "Cappella Giulia 27 (\"Medici Chansonnier\")",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/944/",
+		"Fols./pp./no.": "fols. 88v–89",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3016",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 39v–40r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3016",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 67v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3017",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 9v–10r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3017",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fol. 13r",
+		"Attribution": "Binchoys",
+		"Notes": "T and CT only"
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fol. 20v",
+		"Attribution": "Binchoys",
+		"Notes": "Half stanza starting with ''Deul\""
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 37v–38r",
+		"Attribution": "Binchoys",
+		"Notes": "3vv (with 'solus contratenor'); one stanza"
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Source": "Mancini",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/142/",
+		"Fols./pp./no.": "fols. 20v–21r",
+		"Attribution": "Binchoys",
+		"Notes": "Copied over an erased song by Bertolino da Padova"
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Source": "Escorial IV.a.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792/",
+		"Fols./pp./no.": "fols. 15v–17r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza"
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Source": "Munich 9659",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2370/",
+		"Fols./pp./no.": "fol. 5r",
+		"Attribution": "Binchoys",
+		"Notes": "CT: last 5 mm. only"
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Source": "Munich 14274",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/213/",
+		"Fols./pp./no.": "fol. 107r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 6v–7r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3018a",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 36v–37r",
+		"Attribution": "Binchoys",
+		"Notes": "4vv (with 'Contratenor concordans sequenti' and 'Contratenor concordans')"
+	},
+	{
+		"WORK_ID": "Bin3018a",
+		"Source": "Trent 88",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/808/",
+		"Fols./pp./no.": "fols. 204v–205r",
+		"Attribution": "Binchoys",
+		"Notes": "3vv and 4vv (that is, with 2 extra Cts, called 'secundus' and 'tertius' = 'Contratenor concordans sequenti' and 'Contratenor concordans' of EscA), texted 'Rerum conditor resp ice' (in different ink) with incipits 'De langwesus"
+	},
+	{
+		"WORK_ID": "Bin3019",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 80r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3020",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 12v–13r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3021",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 41v–42r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3021",
+		"Source": "Escorial IV.a.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792/",
+		"Fols./pp./no.": "fols. 19v–20r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3021",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 15v–16r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3021",
+		"Source": "Strasbourg 222",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/109/",
+		"Fols./pp./no.": "fol. 109r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3023",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 13v–14r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3024",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fols. 8v–9r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3025",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 50r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3026",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fol. 47r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3026a",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fols. 9v–10r",
+		"Attribution": "Binchoys",
+		"Notes": "Different ending"
+	},
+	{
+		"WORK_ID": "Bin3028",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 88r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3028",
+		"Source": "Stanford 1346",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/4778/",
+		"Fols./pp./no.": "fol. 2v",
+		"Attribution": "Binchoys",
+		"Notes": "Discantus and Tenor only. Facing page is lost. Seven lines of text only"
+	},
+	{
+		"WORK_ID": "Bin3028",
+		"Source": "Paris 4917",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/100/",
+		"Fols./pp./no.": "fols. 13v–14r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3028",
+		"Source": "Strasbourg 222",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/109/",
+		"Fols./pp./no.": "fols. 92v–93r",
+		"Attribution": "Binchoys",
+		"Notes": "Discantus opening only"
+	},
+	{
+		"WORK_ID": "Bin3028",
+		"Source": "Berlin 40613",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1593/",
+		"Fols./pp./no.": "fol. 44r",
+		"Attribution": "Binchoys",
+		"Notes": "Tenor only in modified stroke notation, down a 4th and embellished, headed \"Geloymors\""
+	},
+	{
+		"WORK_ID": "Bin3029",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 81v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3029",
+		"Source": "London Cotton Titus A. xxvi",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/795/",
+		"Fols./pp./no.": "fol. 5v",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3029",
+		"Source": "Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fol. 61r",
+		"Attribution": "Binchoys",
+		"Notes": "Tenor only"
+	},
+	{
+		"WORK_ID": "Bin3029",
+		"Source": "Trent 87",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/807/",
+		"Fols./pp./no.": "fols. 135v–136r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3030",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 2v–3r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3030",
+		"Source": "Escorial IV.a.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792/",
+		"Fols./pp./no.": "fols. 25v–26r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3030",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fol. 14v",
+		"Attribution": "Binchoys",
+		"Notes": "Discantus only. Facing page is lost"
+	},
+	{
+		"WORK_ID": "Bin3030",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 17v–18r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3031",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 78r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3033",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 49v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3034",
+		"Source": "Trent 87",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/807/",
+		"Fols./pp./no.": "fol. 88r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3035",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 50v–51r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3035",
+		"Source": "Strasbourg 222",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/109/",
+		"Fols./pp./no.": "fol. 88r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit \"La merchi\""
+	},
+	{
+		"WORK_ID": "Bin3036",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 69v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3037",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 15v–16r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3037",
+		"Source": "Bologna 2216",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/119/",
+		"Fols./pp./no.": "fol. 10r",
+		"Attribution": "Bichoys",
+		"Notes": "only one stanza opening with \"Leesse\""
+	},
+	{
+		"WORK_ID": "Bin3037",
+		"Source": "Bologna 2216",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/119/",
+		"Fols./pp./no.": "fol. 10r",
+		"Attribution": "Grossin",
+		"Notes": "only one stanza opening with \"Leesse\""
+	},
+	{
+		"WORK_ID": "Bin3037",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 79v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3037",
+		"Source": "Trent 87",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/807/",
+		"Fols./pp./no.": "fol. 166v",
+		"Attribution": "Grossin",
+		"Notes": "incipit only opening \"Lyesse\". \"Grossin\" in a different hand"
+	},
+	{
+		"WORK_ID": "Bin3038",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fols. 19v–20r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3039",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 42r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3040",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 52v–53r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3040",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fol. 7r",
+		"Attribution": "Binchoys",
+		"Notes": "T and Ct only as facing page is lost"
+	},
+	{
+		"WORK_ID": "Bin3040",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 19v–20r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3041",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 73v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3042",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 77v",
+		"Attribution": "Binchoys",
+		"Notes": "3 stanzas"
+	},
+	{
+		"WORK_ID": "Bin3043",
+		"Source": "Berlin 78.C.28 (\"Niccolini Chansonnier\")",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1594/",
+		"Fols./pp./no.": "fols. 7v–8r",
+		"Attribution": "Binchoys",
+		"Notes": "No lyrics. Initial, illuminated \"M\" only"
+	},
+	{
+		"WORK_ID": "Bin3043",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 10v–11r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only. \"Bunchoys\" almosy erased"
+	},
+	{
+		"WORK_ID": "Bin3043",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fols. 9v–10r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3043",
+		"Source": "Pavia Aldini 362",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1454/",
+		"Fols./pp./no.": "fols. 31v–32r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3044",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 21v–22r",
+		"Attribution": "Binchoys",
+		"Notes": "One and a half line survives"
+	},
+	{
+		"WORK_ID": "Bin3045",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 20v–21r",
+		"Attribution": "Binchoys",
+		"Notes": "No clefs"
+	},
+	{
+		"WORK_ID": "Bin3045",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 71v",
+		"Attribution": "Binchoys",
+		"Notes": "No clefs"
+	},
+	{
+		"WORK_ID": "Bin3047",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 30r",
+		"Attribution": "Binchoys",
+		"Notes": "Full text but one line missing"
+	},
+	{
+		"WORK_ID": "Bin3048",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 16v–17r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3048",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 66r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3049",
+		"Source": "Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fols. 22v–23r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3049",
+		"Source": "Escorial IV.a.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792/",
+		"Fols./pp./no.": "fols. 39v–40r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3049",
+		"Source": "Washington M2.1.L25 (\"Chansonnier Laborde\")",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/2057/",
+		"Fols./pp./no.": "fols. 69v–70r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3049",
+		"Source": "Pavia Aldini 362",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1454/",
+		"Fols./pp./no.": "fols. 29v–30r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3049",
+		"Source": "Paris 15123",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/818/",
+		"Fols./pp./no.": "fols. 87v–88r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3049",
+		"Source": "Paris 2794",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/1418/",
+		"Fols./pp./no.": "fols. 23v–24r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3049",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 18v–19r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3050",
+		"Source": "Paris 6771",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/101/",
+		"Fols./pp./no.": "fols. 101v–102r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3050",
+		"Source": "San Vito, mazzo 50",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/4839/",
+		"Fols./pp./no.": "verso",
+		"Attribution": "Binchoys",
+		"Notes": "Fragment of parchment reused as an envelope"
+	},
+	{
+		"WORK_ID": "Bin3051",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 66v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3052",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 76v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3052",
+		"Source": "Paris 4379",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/719/",
+		"Fols./pp./no.": "fol. 77v",
+		"Attribution": "Binchoys",
+		"Notes": "T only"
+	},
+	{
+		"WORK_ID": "Bin3053",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 14v–15r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3053",
+		"Source": "Trent 87",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/807/",
+		"Fols./pp./no.": "fol. 91v",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3054",
+		"Source": "Paris 6771",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/101/",
+		"Fols./pp./no.": "fols. 107v–108r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3055",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 8v–9r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3055",
+		"Source": "Trent 87",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/807/",
+		"Fols./pp./no.": "fol. 135r",
+		"Attribution": "Binchoys",
+		"Notes": "Incipit only"
+	},
+	{
+		"WORK_ID": "Bin3056",
+		"Source": "Escorial IV.a.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/792/",
+		"Fols./pp./no.": "fols. 28v–29r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3056",
+		"Source": "Vatican 55",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "fols. 20v–21r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
+	},
+	{
+		"WORK_ID": "Bin3057",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 125v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3058",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 61r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3059",
+		"Source": "Oxford 213",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/716/",
+		"Fols./pp./no.": "fol. 56v",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3060",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 10v–11r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3060",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "fols. 13v–14r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3061",
+		"Source": "Escorial V.III.24",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/793/",
+		"Fols./pp./no.": "fols. 6v–7r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3061",
+		"Source": "Munich 902",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/817/",
+		"Fols./pp./no.": "7v–8r",
+		"Attribution": "Binchoys"
+	},
+	{
+		"WORK_ID": "Bin3061",
+		"Source": "Vatican 1411",
+		"DIAMM link": "https://www.diamm.ac.uk/sources/819/",
+		"Fols./pp./no.": "16v–17r",
+		"Attribution": "Binchoys",
+		"Notes": "One stanza only"
 	}
 ]

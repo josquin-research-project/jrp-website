@@ -97,9 +97,9 @@
 	},
 	{
 		"COMPOSER_ID": "Bin",
-		"Name": "Gilles {Binchoys}",
+		"Name": "{Binchoys}",
 		"Display Short": "Binchoys",
-		"Display Long": "Binchoys, Gilles",
+		"Display Long": "Binchoys, Gilles de Binche dit",
 		"Death": "1460/09/20",
 		"RISM ID": "pe30020900",
 		"RISM": "https://rism.online/people/30020900",
@@ -165,9 +165,9 @@
 	},
 	{
 		"COMPOSER_ID": "Bus",
-		"Name": "Antoine {Busnoys}",
+		"Name": "{Busnoys}",
 		"Display Short": "Busnoys",
-		"Display Long": "Busnoys, Antoine",
+		"Display Long": "Busnoys, Antoine de Busnes dit",
 		"Death": "1492",
 		"RISM ID": "pe30016323",
 		"RISM": "https://rism.online/people/30016323",

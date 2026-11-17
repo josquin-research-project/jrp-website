@@ -7357,7 +7357,7 @@
     "audioVerified": true
   },
   "Jos2618": {
-    "sha256": "ec82ddd29c17821497f3b8155a61ae0710f4f49eeb40af5ef202d84d9246b2c9",
+    "sha256": "c3f88013df065917a57eb4e93c3855fc6d6dc3c9c5d86efe2ac403af4ae6ab05",
     "partnames": [
       "Superius",
       "Altus",
@@ -12969,7 +12969,7 @@
     "audioVerified": true
   },
   "Rue1029b": {
-    "sha256": "dfa76b39239775176650edd93ed07cd0c456cf578e9173d00f82d1f85312478d",
+    "sha256": "19a61de8a08cca232b163837171f51b3454adb0e22098628f4a7ff709f0902a2",
     "partnames": [
       "Superius",
       "Altus",
@@ -13786,6 +13786,160 @@
       "Superius",
       "Tenor",
       "Contra"
+    ],
+    "audioVerified": true
+  },
+  "Bin3003": {
+    "sha256": "19b5ea21cf6452452e134459bd501b56a8c37fb60677c05ff536d86ad6fa99b8",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3004": {
+    "sha256": "fdc24893f714fd0a6b050207557bd9008b3089d21c7ff5cefb7062cdf25a936d",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3005": {
+    "sha256": "b90bb7c46f83620fcb80cd9900c7b75b9217ccd568242b0d8f80bd774ca87084",
+    "partnames": [
+      "Superius",
+      "Tenor",
+      "Bassus"
+    ],
+    "audioVerified": true
+  },
+  "Bin3006": {
+    "sha256": "34b99063795cc623987a56fc1b8d226c6b414b8ca08227cc512e9a44fe21a25f",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3008": {
+    "sha256": "a5b05245f281de2ea0b2878dfdc1bdc054c180c580253477d7906a8e310d174e",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3009": {
+    "sha256": "81a37b2bd886586cccf25ddd0e7e1cfa15db46f8065c0eadfb2729b6f0b42392",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3010": {
+    "sha256": "1548c3c28f1f5ad69bee812247912974ed5213af3208b7b392477e01d8e113c0",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3011": {
+    "sha256": "bb899f27bb37c1bdadf056345dc3648b1dbba318f7819ae7830c3e391f42131f",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3012": {
+    "sha256": "abfd03d33d9167d077b06672ca7ee3da90617b1f2bbcb10377d5ce4f9cde2df4",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3013": {
+    "sha256": "0da322c540a8321e9494e589c3ce8ad291f5eb88c2a33b9dd1d56c98335962d9",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3014": {
+    "sha256": "20df376f72b54d5253d7e8fe7a8e763d21fe931ce73d2e155b894c6dd6a2ce5d",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3015": {
+    "sha256": "a5f09ae984ee8c7f0405c07e89ee44e43ed19a4f93ccaeb774ba0de6dc8c3a57",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3016": {
+    "sha256": "2364e06204232d043fa1c39cfb3cc86d648ce3dbbce1cdc1acfd22721329272f",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3017": {
+    "sha256": "e6c40e85f1673934055024148904d2b55442142ff2a1e8368f265b629ab94779",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3018": {
+    "sha256": "b067f0ae4a18c0f47f10d64d33a21e49524f118fd7200994a0f34865acd72ca4",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
+    ],
+    "audioVerified": true
+  },
+  "Bin3018a": {
+    "sha256": "4b1d21799f981a2d6f5d63df8459029a5f2cffa7df9d2d29d56bc54c405c4641",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor concordans sequenti",
+      "Contratenor concordans"
+    ],
+    "audioVerified": true
+  },
+  "Bin3019": {
+    "sha256": "ebd53dfe814a1233ae19c1bc77d20a6535f7cb35a5efd6d6f5d4049aa7de6c8d",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor"
     ],
     "audioVerified": true
   }

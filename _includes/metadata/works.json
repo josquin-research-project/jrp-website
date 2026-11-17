@@ -1685,20 +1685,292 @@
 		"GitHub URL": "https://github.com/josquin-research-project/Ano/blob/main/Ano3239.1-Jesu_Jesu_Jesu--Lauda_on_Visin_visin_visin.krn"
 	},
 	{
+		"WORK_ID": "Bin3003",
+		"Title": "Adieu m'amour et ma maistresse",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "186",
+		"Date added": "2025/10/26",
+		"Filename": "Bin3003-Adieu_mamour_et_ma_maistresse.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3003-Adieu_mamour_et_ma_maistresse.krn"
+	},
+	{
+		"WORK_ID": "Bin3004",
+		"Title": "Adieu ma dulce",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau?",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "258",
+		"Date added": "2025/10/26",
+		"Filename": "Bin3004-Adieu_ma_dulce.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3004-Adieu_ma_dulce.krn"
+	},
+	{
+		"WORK_ID": "Bin3005",
+		"Title": "Adieu mes tres belles amours",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "123",
+		"Date added": "2025/10/26",
+		"Filename": "Bin3005-Adieu_mes_tes_belles_amours.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3005-Adieu_mes_tes_belles_amours.krn"
+	},
+	{
+		"WORK_ID": "Bin3006",
+		"Title": "Adieu mon amoureuse joye",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "ballade",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "229",
+		"Date added": "2025/10/14",
+		"Filename": "Bin3006-Adieu_mon_amoureuse_joye.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3006-Adieu_mon_amoureuse_joye.krn"
+	},
+	{
+		"WORK_ID": "Bin3008",
+		"Title": "Amoureux suy et me vient toute joye",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "303",
+		"Date added": "2025/10/29",
+		"Filename": "Bin3008-Amoureux_suy_et_me_vient_toute_joye.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3008-Amoureux_suy_et_me_vient_toute_joye.krn"
+	},
+	{
+		"WORK_ID": "Bin3009",
+		"Title": "Amours et qu'as tu en pensé",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "158",
+		"Date added": "2025/10/29",
+		"Filename": "Bin3009-Amours_et_quas_tu_en_pense.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3009-Amours_et_quas_tu_en_pense.krn"
+	},
+	{
+		"WORK_ID": "Bin3010",
+		"Title": "Amours et souvenir de celle",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "179",
+		"Date added": "2025/11/01",
+		"Filename": "Bin3010-Amours_et_souvenir_de_celle.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3010-Amours_et_souvenir_de_celle.krn"
+	},
+	{
+		"WORK_ID": "Bin3011",
+		"Title": "Amours merchi de trestout mon pooir",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "ballade",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "313",
+		"Date added": "2025/11/03",
+		"Filename": "Bin3011-Amours_merchi_de_trestout_mon_pooir.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3011-Amours_merchi_de_trestout_mon_pooir.krn"
+	},
+	{
+		"WORK_ID": "Bin3012",
+		"Title": "Ay douloureux disant helas",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "305",
+		"Date added": "2025/11/05",
+		"Filename": "Bin3012-Ay_douloureux_disant_helas.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3012-Ay_douloureux_disant_helas.krn"
+	},
+	{
+		"WORK_ID": "Bin3013",
+		"Title": "Bien puist",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "202",
+		"Date added": "2025/11/06",
+		"Filename": "Bin3013-Bien_puist.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3013-Bien_puist.krn"
+	},
+	{
+		"WORK_ID": "Bin3014",
+		"Title": "C'est assez pour morir de dueil",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "213",
+		"Date added": "2025/11/07",
+		"Filename": "Bin3014-Cest_assez_pour_morir_de_dueil.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3014-Cest_assez_pour_morir_de_dueil.krn"
+	},
+	{
+		"WORK_ID": "Bin3015",
+		"Title": "Comme femme desconfortée",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "329",
+		"Date added": "2025/11/08",
+		"Filename": "Bin3015-Comme_femme_desconfortee.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3015-Comme_femme_desconfortee.krn"
+	},
+	{
+		"WORK_ID": "Bin3016",
+		"Title": "De plus en plus se renouvelle",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "226",
+		"Date added": "2025/11/09",
+		"Filename": "Bin3016-De_plus_en_plus_se_renouvelle.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3016-De_plus_en_plus_se_renouvelle.krn"
+	},
+	{
+		"WORK_ID": "Bin3017",
+		"Title": "Depuis le congié que je pris",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "278",
+		"Date added": "2025/11/11",
+		"Filename": "Bin3017-Depuis_le_congie_que_je_pris.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3017-Depuis_le_congie_que_je_pris.krn"
+	},
+	{
+		"WORK_ID": "Bin3018",
+		"Title": "Dueil angoisseus rage demeseuree",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "ballade",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "330",
+		"Date added": "2025/11/12",
+		"Filename": "Bin3018-Dueil_angoisseus_rage_demeseuree.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3018-Dueil_angoisseus_rage_demeseuree.krn"
+	},
+	{
+		"WORK_ID": "Bin3018a",
+		"Title": "Dueil angoisseus rage demeseuree",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "ballade",
+		"Voices": "4",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "4",
+		"Texted": "no",
+		"Note count": "448",
+		"Date added": "2025/11/12",
+		"Filename": "Bin3018a-Dueil_angoisseus_rage_demeseuree.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3018a-Dueil_angoisseus_rage_demeseuree.krn"
+	},
+	{
+		"WORK_ID": "Bin3019",
+		"Title": "En regardant vostre tres doulx maintieng",
+		"COMPOSER_ID": "Bin",
+		"Genre": "secular work",
+		"Subgenre": "rondeau",
+		"Voices": "3",
+		"Transcriber": "Lorenzo Tunesi",
+		"Extant voices": "3",
+		"Texted": "no",
+		"Note count": "189",
+		"Date added": "2025/11/15",
+		"Filename": "Bin3019-En_regardant_vostre_tres_doulx_maintieng.krn",
+		"Composer": "{Binchoys}",
+		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3019-En_regardant_vostre_tres_doulx_maintieng.krn"
+	},
+	{
 		"WORK_ID": "Bin3032",
 		"Title": "Je ne vis onques la pareille",
 		"COMPOSER_ID": "Bin",
 		"Genre": "secular work",
 		"Subgenre": "rondeau",
 		"Voices": "3",
-		"Probable attribution": "Duf",
+		"Improbable attribution": "Duf",
 		"Transcriber": "Jesse Rodin",
 		"Extant voices": "3",
 		"Texted": "yes",
 		"Note count": "275",
 		"Date added": "2011/04/01",
 		"Filename": "Bin3032-Je_ne_vis_onques_la_pareille.krn",
-		"Composer": "Gilles {Binchoys}",
+		"Composer": "{Binchoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bin/blob/main/Bin3032-Je_ne_vis_onques_la_pareille.krn"
 	},
 	{
@@ -1811,7 +2083,7 @@
 		"Note count": "636",
 		"Date added": "2012/10/29",
 		"Filename": "Bus1001a-Missa_Lhomme_arme-Kyrie.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus1001a-Missa_Lhomme_arme-Kyrie.krn"
 	},
 	{
@@ -1827,7 +2099,7 @@
 		"Note count": "1531",
 		"Date added": "2012/11/19",
 		"Filename": "Bus1001b-Missa_Lhomme_arme-Gloria.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus1001b-Missa_Lhomme_arme-Gloria.krn"
 	},
 	{
@@ -1843,7 +2115,7 @@
 		"Note count": "1668",
 		"Date added": "2013/12/19",
 		"Filename": "Bus1001c-Missa_Lhomme_arme-Credo.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus1001c-Missa_Lhomme_arme-Credo.krn"
 	},
 	{
@@ -1859,7 +2131,7 @@
 		"Note count": "1416",
 		"Date added": "2012/11/20",
 		"Filename": "Bus1001d-Missa_Lhomme_arme-Sanctus.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus1001d-Missa_Lhomme_arme-Sanctus.krn"
 	},
 	{
@@ -1875,7 +2147,7 @@
 		"Note count": "1147",
 		"Date added": "2014/02/22",
 		"Filename": "Bus1001e-Missa_Lhomme_arme-Agnus.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus1001e-Missa_Lhomme_arme-Agnus.krn"
 	},
 	{
@@ -1890,7 +2162,7 @@
 		"Note count": "983",
 		"Date added": "2013/04/29",
 		"Filename": "Bus2003-Anima_mea_liquefacta_est__Stirips_Jesse.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus2003-Anima_mea_liquefacta_est__Stirips_Jesse.krn"
 	},
 	{
@@ -1905,7 +2177,7 @@
 		"Note count": "1455",
 		"Date added": "2013/04/30",
 		"Filename": "Bus2004-Anthoni_usque_limina.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus2004-Anthoni_usque_limina.krn"
 	},
 	{
@@ -1920,7 +2192,7 @@
 		"Note count": "1699",
 		"Date added": "2015/12/06/ (text added)",
 		"Filename": "Bus2007-In_hydraulis.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus2007-In_hydraulis.krn"
 	},
 	{
@@ -1936,7 +2208,7 @@
 		"Note count": "458",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3001-Acordes_moy.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3001-Acordes_moy.krn"
 	},
 	{
@@ -1952,7 +2224,7 @@
 		"Note count": "350",
 		"Date added": "2015/10/29",
 		"Filename": "Bus3002-Advegne_que_venir_pourra.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3002-Advegne_que_venir_pourra.krn"
 	},
 	{
@@ -1968,7 +2240,7 @@
 		"Note count": "506",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3003-Amors_nous_traite__Je_men_voy.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3003-Amors_nous_traite__Je_men_voy.krn"
 	},
 	{
@@ -1984,7 +2256,7 @@
 		"Note count": "272",
 		"Date added": "2015/10/29",
 		"Filename": "Bus3004-A_qui_vens_tu_tes_coquilles.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3004-A_qui_vens_tu_tes_coquilles.krn"
 	},
 	{
@@ -2000,7 +2272,7 @@
 		"Note count": "265",
 		"Date added": "2015/11/05",
 		"Filename": "Bus3005-Au_gre_de_mes_ieulx.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3005-Au_gre_de_mes_ieulx.krn"
 	},
 	{
@@ -2016,7 +2288,7 @@
 		"Note count": "398",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3006-A_une_dame.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3006-A_une_dame.krn"
 	},
 	{
@@ -2032,7 +2304,7 @@
 		"Note count": "343",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3007-Au_povre_par_necessite.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3007-Au_povre_par_necessite.krn"
 	},
 	{
@@ -2048,7 +2320,7 @@
 		"Note count": "356",
 		"Date added": "2015/10/29",
 		"Filename": "Bus3008-A_vous_sans_aultre.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3008-A_vous_sans_aultre.krn"
 	},
 	{
@@ -2064,7 +2336,7 @@
 		"Note count": "271",
 		"Date added": "2013/08/16",
 		"Filename": "Bus3009-Bel_Acueil_le_sergent_dAmours.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3009-Bel_Acueil_le_sergent_dAmours.krn"
 	},
 	{
@@ -2080,7 +2352,7 @@
 		"Note count": "336",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3010-Bone_chere.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3010-Bone_chere.krn"
 	},
 	{
@@ -2096,7 +2368,7 @@
 		"Note count": "302",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3011-Ce_nest_pas_moy.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3011-Ce_nest_pas_moy.krn"
 	},
 	{
@@ -2112,7 +2384,7 @@
 		"Note count": "261",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3012-Cest_bien_malheur.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3012-Cest_bien_malheur.krn"
 	},
 	{
@@ -2128,7 +2400,7 @@
 		"Note count": "521",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3013-Cest_vous_en_qui_jay_esperance.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3013-Cest_vous_en_qui_jay_esperance.krn"
 	},
 	{
@@ -2144,7 +2416,7 @@
 		"Note count": "338",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3015-Con_tutta_gentileca.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3015-Con_tutta_gentileca.krn"
 	},
 	{
@@ -2160,7 +2432,7 @@
 		"Note count": "423",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3016-Corps_digne__Dieu_quel_mariage.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3016-Corps_digne__Dieu_quel_mariage.krn"
 	},
 	{
@@ -2176,7 +2448,7 @@
 		"Note count": "296",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3017-En_soustenant_vostre_querelle.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3017-En_soustenant_vostre_querelle.krn"
 	},
 	{
@@ -2192,7 +2464,7 @@
 		"Note count": "542",
 		"Date added": "2015/05/01",
 		"Filename": "Bus3018-En_tous_les_lieux.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3018-En_tous_les_lieux.krn"
 	},
 	{
@@ -2208,7 +2480,7 @@
 		"Note count": "333",
 		"Date added": "2015/05/03",
 		"Filename": "Bus3019-En_voyant_sa_dame.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3019-En_voyant_sa_dame.krn"
 	},
 	{
@@ -2224,7 +2496,7 @@
 		"Note count": "328",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3020-Estil_merchy.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3020-Estil_merchy.krn"
 	},
 	{
@@ -2240,7 +2512,7 @@
 		"Note count": "399",
 		"Date added": "2015/05/03",
 		"Filename": "Bus3021-Faites_de_moy.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3021-Faites_de_moy.krn"
 	},
 	{
@@ -2256,7 +2528,7 @@
 		"Note count": "551",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3022-Faulx_mesdisans.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3022-Faulx_mesdisans.krn"
 	},
 	{
@@ -2272,7 +2544,7 @@
 		"Note count": "272",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3023-Ha_que_ville_I.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3023-Ha_que_ville_I.krn"
 	},
 	{
@@ -2287,7 +2559,7 @@
 		"Note count": "258",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3024-Ha_que_ville_II.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3024-Ha_que_ville_II.krn"
 	},
 	{
@@ -2303,7 +2575,7 @@
 		"Note count": "540",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3025-In_myne_zynn.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3025-In_myne_zynn.krn"
 	},
 	{
@@ -2319,7 +2591,7 @@
 		"Note count": "365",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3026-Ja_que_li_ne_si_attende.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3026-Ja_que_li_ne_si_attende.krn"
 	},
 	{
@@ -2335,7 +2607,7 @@
 		"Note count": "448",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3027-Jay_mains_de_biens.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3027-Jay_mains_de_biens.krn"
 	},
 	{
@@ -2351,7 +2623,7 @@
 		"Note count": "310",
 		"Date added": "2015/10/29",
 		"Filename": "Bus3028-Je_mesbais_de_vous.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3028-Je_mesbais_de_vous.krn"
 	},
 	{
@@ -2367,7 +2639,7 @@
 		"Note count": "550",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3029-Je_ne_demande_aultre_degre.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3029-Je_ne_demande_aultre_degre.krn"
 	},
 	{
@@ -2383,7 +2655,7 @@
 		"Note count": "371",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3032-Joye_me_fuit.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3032-Joye_me_fuit.krn"
 	},
 	{
@@ -2398,7 +2670,7 @@
 		"Note count": "419",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3034-Lautrier_la_pieca.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3034-Lautrier_la_pieca.krn"
 	},
 	{
@@ -2413,7 +2685,7 @@
 		"Note count": "506",
 		"Date added": "2015/06/07",
 		"Filename": "Bus3035-Lautrier_que_passa.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3035-Lautrier_que_passa.krn"
 	},
 	{
@@ -2429,7 +2701,7 @@
 		"Note count": "347",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3036-Le_corps_sen_va.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3036-Le_corps_sen_va.krn"
 	},
 	{
@@ -2445,7 +2717,7 @@
 		"Note count": "387",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3037-Le_monde_est_tel.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3037-Le_monde_est_tel.krn"
 	},
 	{
@@ -2461,7 +2733,7 @@
 		"Note count": "317",
 		"Date added": "2015/05/05",
 		"Filename": "Bus3038-Ma_demoiselle_ma_maistresse.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3038-Ma_demoiselle_ma_maistresse.krn"
 	},
 	{
@@ -2477,7 +2749,7 @@
 		"Note count": "485",
 		"Date added": "2015/10/29",
 		"Filename": "Bus3039-Maintes_femmes.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3039-Maintes_femmes.krn"
 	},
 	{
@@ -2492,7 +2764,7 @@
 		"Note count": "419",
 		"Date added": "2015/04/13",
 		"Filename": "Bus3040-Ma_plus_quassez.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3040-Ma_plus_quassez.krn"
 	},
 	{
@@ -2508,7 +2780,7 @@
 		"Note count": "362",
 		"Date added": "2015/05/06",
 		"Filename": "Bus3041-Ma_tres_souveraine_princesse.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3041-Ma_tres_souveraine_princesse.krn"
 	},
 	{
@@ -2524,7 +2796,7 @@
 		"Note count": "575",
 		"Date added": "2015/04/13",
 		"Filename": "Bus3042-Ma_vostre_cueur.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3042-Ma_vostre_cueur.krn"
 	},
 	{
@@ -2540,7 +2812,7 @@
 		"Note count": "342",
 		"Date added": "2015/05/12",
 		"Filename": "Bus3043-Mon_mignault__Gracieuse_plaisante_muniere.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3043-Mon_mignault__Gracieuse_plaisante_muniere.krn"
 	},
 	{
@@ -2555,7 +2827,7 @@
 		"Note count": "344",
 		"Date added": "2015/06/07",
 		"Filename": "Bus3044-Mon_seul_et_cele_souvenir.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3044-Mon_seul_et_cele_souvenir.krn"
 	},
 	{
@@ -2571,7 +2843,7 @@
 		"Note count": "368",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3045-O_Fortune_trop_tu_es_dure.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3045-O_Fortune_trop_tu_es_dure.krn"
 	},
 	{
@@ -2587,7 +2859,7 @@
 		"Note count": "359",
 		"Date added": "2015/05/12",
 		"Filename": "Bus3046-On_a_grant_mal__On_est_bien_malade.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3046-On_a_grant_mal__On_est_bien_malade.krn"
 	},
 	{
@@ -2603,7 +2875,7 @@
 		"Note count": "391",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3047-Pour_entretenir_mes_amours.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3047-Pour_entretenir_mes_amours.krn"
 	},
 	{
@@ -2619,7 +2891,7 @@
 		"Note count": "255",
 		"Date added": "2015/05/12",
 		"Filename": "Bus3048-Pucellotte_que_dieu_vous_gart.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3048-Pucellotte_que_dieu_vous_gart.krn"
 	},
 	{
@@ -2635,7 +2907,7 @@
 		"Note count": "360",
 		"Date added": "2015/05/12",
 		"Filename": "Bus3049-Quant_jay_au_cueur.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3049-Quant_jay_au_cueur.krn"
 	},
 	{
@@ -2651,7 +2923,7 @@
 		"Note count": "225",
 		"Date added": "2015/10/29",
 		"Filename": "Bus3050-Quant_vous_me_ferez.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3050-Quant_vous_me_ferez.krn"
 	},
 	{
@@ -2667,7 +2939,7 @@
 		"Note count": "353",
 		"Date added": "2015/05/12",
 		"Filename": "Bus3051-Quelque_pauvre_homme_I.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3051-Quelque_pauvre_homme_I.krn"
 	},
 	{
@@ -2683,7 +2955,7 @@
 		"Note count": "386",
 		"Date added": "2015/05/13",
 		"Filename": "Bus3052-Quelque_pauvre_homme_II.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3052-Quelque_pauvre_homme_II.krn"
 	},
 	{
@@ -2699,7 +2971,7 @@
 		"Note count": "452",
 		"Date added": "2016/02/08",
 		"Filename": "Bus3053-Resjois_toy_terre_de_France__Rex_pacificus.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3053-Resjois_toy_terre_de_France__Rex_pacificus.krn"
 	},
 	{
@@ -2715,7 +2987,7 @@
 		"Note count": "487",
 		"Date added": "2016/02/08",
 		"Filename": "Bus3054-Seule_a_par_moy.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3054-Seule_a_par_moy.krn"
 	},
 	{
@@ -2731,7 +3003,7 @@
 		"Note count": "402",
 		"Date added": "2016/02/08",
 		"Filename": "Bus3055-Soudainement_mon_cueur_a_pris.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3055-Soudainement_mon_cueur_a_pris.krn"
 	},
 	{
@@ -2747,7 +3019,7 @@
 		"Note count": "520",
 		"Date added": "2015/11/01",
 		"Filename": "Bus3056-Terrible_dame.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3056-Terrible_dame.krn"
 	},
 	{
@@ -2763,7 +3035,7 @@
 		"Note count": "365",
 		"Date added": "2016/02/08",
 		"Filename": "Bus3057-Une_filleresse_destouppes__Sil_y_a_compagnon__Vostre_amour.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3057-Une_filleresse_destouppes__Sil_y_a_compagnon__Vostre_amour.krn"
 	},
 	{
@@ -2779,7 +3051,7 @@
 		"Note count": "420",
 		"Date added": "2016/02/08",
 		"Filename": "Bus3058-Ung_grand_povre_homme.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3058-Ung_grand_povre_homme.krn"
 	},
 	{
@@ -2795,7 +3067,7 @@
 		"Note count": "281",
 		"Date added": "2016/02/08",
 		"Filename": "Bus3059-Ung_que_plus_tous_I.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3059-Ung_que_plus_tous_I.krn"
 	},
 	{
@@ -2811,7 +3083,7 @@
 		"Note count": "281",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3060-Ung_plus_que_tous_II.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3060-Ung_plus_que_tous_II.krn"
 	},
 	{
@@ -2826,7 +3098,7 @@
 		"Note count": "375",
 		"Date added": "2015/05/13",
 		"Filename": "Bus3061-Vous_marchez__Marionnette.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3061-Vous_marchez__Marionnette.krn"
 	},
 	{
@@ -2842,7 +3114,7 @@
 		"Note count": "287",
 		"Date added": "2015/05/13",
 		"Filename": "Bus3062-Vostre_gracieuse_acointance.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3062-Vostre_gracieuse_acointance.krn"
 	},
 	{
@@ -2859,7 +3131,7 @@
 		"Note count": "349",
 		"Date added": "2013/10/18",
 		"Filename": "Bus3064-Armours_fait_moult_tant__Il_est_de_bonne_heure_ne__Tant_que_nostre_argent_dura.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3064-Armours_fait_moult_tant__Il_est_de_bonne_heure_ne__Tant_que_nostre_argent_dura.krn"
 	},
 	{
@@ -2875,7 +3147,7 @@
 		"Note count": "458",
 		"Date added": "2015/06/07",
 		"Filename": "Bus3069-Jay_pris_amours.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3069-Jay_pris_amours.krn"
 	},
 	{
@@ -2891,7 +3163,7 @@
 		"Note count": "432",
 		"Date added": "2015/02/20",
 		"Filename": "Bus3073-Quant_ce_viendra.krn",
-		"Composer": "Antoine {Busnoys}",
+		"Composer": "{Busnoys}",
 		"GitHub URL": "https://github.com/josquin-research-project/Bus/blob/main/Bus3073-Quant_ce_viendra.krn"
 	},
 	{
