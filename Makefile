@@ -4,6 +4,7 @@ ASSET_TOOL_DIR ?= ../digital-library-build
 ASSET_PYTHON ?= $(ASSET_TOOL_DIR)/.venv/bin/python
 ASSET_IDS ?=
 ASSET_ARGS ?=
+SEARCH_WORKFLOW = $(ASSET_PYTHON) "$(ASSET_TOOL_DIR)/tools/search/cloud_run/update.py" --project jrp --website "$(CURDIR)"
 WORKFLOW = $(ASSET_PYTHON) "$(ASSET_TOOL_DIR)/tools/website/fast-assets.py" --project jrp --website "$(CURDIR)" $(if $(ASSET_IDS),--ids "$(ASSET_IDS)")
 
 .PHONY: all assets assets-plan assets-audit download texts search-update search-plan
@@ -12,10 +13,10 @@ all: assets
 
 SEARCH_ARGS ?=
 search-update:
-	$(ASSET_PYTHON) scripts/update-search-service.py --toolkit "$(ASSET_TOOL_DIR)" $(SEARCH_ARGS)
+	$(SEARCH_WORKFLOW) $(SEARCH_ARGS)
 
 search-plan:
-	$(ASSET_PYTHON) scripts/update-search-service.py --toolkit "$(ASSET_TOOL_DIR)" --plan
+	$(SEARCH_WORKFLOW) --plan
 
 assets:
 	$(WORKFLOW) $(ASSET_ARGS)

@@ -2,7 +2,7 @@
 const ASSET_DELIVERY = createAssetDelivery(
   {{ site.asset_base_url | jsonify }},
   {% include metadata/cloudflare-assets.json %},
-  ["https://data.josqu.in/", "https://data2.josqu.in/"]);
+  []);
 // GLOBAL VARIABLES:
 var WORKLIST;										 // Master index of works in JRP database.
 var WORKLISTrecent = [];						 // List of works reverse sorted by add date.
