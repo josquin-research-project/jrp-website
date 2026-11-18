@@ -2420,7 +2420,7 @@
     "audioVerified": true
   },
   "Duf3015": {
-    "sha256": "e38927d83da4dd28b60a83ce6d544a53247ec8bcf8ea2d42b7bace123fe8ae2e",
+    "sha256": "99c25a1bc4f4b0a173695943a68e7d51cba50ad67b590c1767948d6ba7a1f781",
     "partnames": [
       "Cantus",
       "Tenor",
@@ -2510,7 +2510,7 @@
     "audioVerified": true
   },
   "Duf3080": {
-    "sha256": "5a650839e343558ee2e630c49f5b1da70c084fc917da840b3702d5d32cb76c87",
+    "sha256": "2e95b725d67f9ff489b0b77ede8ec8855f0e7c705cab19906773cb55f7ff89b2",
     "partnames": [
       "Cantus",
       "Contratenor",
@@ -10193,7 +10193,7 @@
     "audioVerified": true
   },
   "Oke1003a": {
-    "sha256": "e0343b15847cbc176acd03abfebd766d6e63abe428fd8ad1699530d6a768c00a",
+    "sha256": "4a6b856e62c54f4073767478db9d042fb051dcb7f6f4f0e9e85cdd1fa40cb603",
     "partnames": [
       "Discantus",
       "Contratenor",
@@ -10203,7 +10203,7 @@
     "audioVerified": true
   },
   "Oke1003b": {
-    "sha256": "a1d2cea46b66b35313301c63dc8793a942455388647520a78e785e065fd5b3ef",
+    "sha256": "ddf1831cf3aa61f99e9402f9c625306ed18e975b139d96b71e2a22447f405ba7",
     "partnames": [
       "Discantus",
       "Contratenor",
@@ -10213,7 +10213,7 @@
     "audioVerified": true
   },
   "Oke1003c": {
-    "sha256": "9c0e508fddde37d591ecf53f7a0e1b4662217cf05662e33667bfe2442c546407",
+    "sha256": "2bfd744146e90a42a1008615dd461dc4ecfdd13f227a72155e8eeecb3ecb3220",
     "partnames": [
       "Discantus",
       "Contratenor",
@@ -10223,7 +10223,7 @@
     "audioVerified": true
   },
   "Oke1003d": {
-    "sha256": "d7ca131d21e82def415e14eee339e487b0f8820e18caa49862b17b7fb8af5513",
+    "sha256": "38692598c085a47cea9c332de83af953921a248b2eb13feb192381e979bd1a7a",
     "partnames": [
       "Discantus",
       "Contratenor",
@@ -10233,7 +10233,7 @@
     "audioVerified": true
   },
   "Oke1003e": {
-    "sha256": "5b7d1c5066e24122c84f5f9acea6f492bb2f7fcd036683cd62cd0d4e080595ec",
+    "sha256": "b6c34259875e298ef27008d209d9f996611bacbeec8d27df041d06dc583a1213",
     "partnames": [
       "Discantus",
       "Contratenor",
@@ -10393,7 +10393,7 @@
     "audioVerified": true
   },
   "Oke1005a": {
-    "sha256": "96fb800df2d5bdd480ff44cb610f6aacd130861d3ef1f4e95f44e67651b73a75",
+    "sha256": "3b1f28721c65bfbb3e296dc3a86f320d390b9d1b686f061af75bfd3ec7f85283",
     "partnames": [
       "Superius",
       "Altus",
@@ -10413,7 +10413,7 @@
     "audioVerified": true
   },
   "Oke1005c": {
-    "sha256": "4cfe2d011d14704240f0fd944f553e629dd6ffe33d4a441326c90379bec8a9c8",
+    "sha256": "d876669f147edf1cc78c052890907a4cea8475ee43b8cd555dece9e1d2af58dd",
     "partnames": [
       "Superius",
       "Altus",
@@ -10433,7 +10433,7 @@
     "audioVerified": true
   },
   "Oke1005e": {
-    "sha256": "5b101924e186dbe97436e806a6a6e928d9df33c210125ef4d9e09d50486c51b6",
+    "sha256": "22ec8b1bd6a4b9eb2de3f8343d084c3ddb5271473fe682d7156e77efa840a449",
     "partnames": [
       "Superius",
       "Altus",
@@ -10596,7 +10596,7 @@
     "audioVerified": true
   },
   "Oke1010a": {
-    "sha256": "1b595d6e917fc157c3990c7690e979b27f50481098f2e771960c2f256f6bdbd4",
+    "sha256": "d8572343fcf230cc153ce431478a77f9a0985537e9b5b7c61c71da43e022e712",
     "partnames": [
       "Superius",
       "Altus",
@@ -10606,7 +10606,7 @@
     "audioVerified": true
   },
   "Oke1010b": {
-    "sha256": "1bbd0839554e6b7a3b764415d6c5d21aedf9b252af25eada6a36d40966a82631",
+    "sha256": "074b047264c536510d236f085bb30529a55f14ee41d197fcb959b82d347fc935",
     "partnames": [
       "Superius",
       "Altus",
@@ -10616,7 +10616,7 @@
     "audioVerified": true
   },
   "Oke1010c": {
-    "sha256": "2e5ae90ab6a292f20c20f7ad94b78b8a80d1d21b9c7002dda7015bfe689e841b",
+    "sha256": "089904a5925d034a639d005c43d0a46fab0778749943007116a9c9915a33ec8c",
     "partnames": [
       "Superius",
       "Altus",
@@ -10626,7 +10626,7 @@
     "audioVerified": true
   },
   "Oke1010d": {
-    "sha256": "552da10ba38541527bee80ace5a459d8df0303022904c677a5f84ef5544ca262",
+    "sha256": "f3cd37f80cfba34ba2f65bdaef0f85929584a27ffe1001acaffb563e9e1712ea",
     "partnames": [
       "Superius",
       "Altus",
@@ -10636,7 +10636,7 @@
     "audioVerified": true
   },
   "Oke1010e": {
-    "sha256": "65373f4a4e75ddd7adbe0579131543607a43f3303cccdec745a13656dbf5a7f9",
+    "sha256": "884eaf097512db4f4d9e29872ef6bf14b748c96380bec1cb1b8e7a1b8055699e",
     "partnames": [
       "Superius",
       "Altus",
@@ -11056,7 +11056,7 @@
     "audioVerified": true
   },
   "Oke3025": {
-    "sha256": "053f6df7ab95d3331a3457a158d5110cfdc7f6b24fa633875629a7c289a4f909",
+    "sha256": "fb7295930bb4d73147a049ff6c72fc2e61fdb71fb8c9be392166fb5fc758d086",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13790,7 +13790,7 @@
     "audioVerified": true
   },
   "Bin3003": {
-    "sha256": "1affbd683252b8ea927b42c8672e85a9a746082e8f276e0cc78673f1703242f5",
+    "sha256": "122f6f4685b49fc3a2e5d5109328c2e4046163b3cc339d53a9ca83662f1cd450",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13799,7 +13799,7 @@
     "audioVerified": true
   },
   "Bin3004": {
-    "sha256": "91a853b718a63d9a66b5fbe82517e5ebc6d268b57d1f6c339417506a6120136f",
+    "sha256": "bd94a4225391cc874079d16c3622ade168d1cc96b1a8d1cf34516e291ce485b8",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13808,7 +13808,7 @@
     "audioVerified": true
   },
   "Bin3005": {
-    "sha256": "2eba5e87a9bca9a0971f28a6cd2fe130d47428917addeb8dd8e8211b708e4896",
+    "sha256": "bf4cc6f7d3831f7f0457071b3ea48b10bd380541564c4ba61d0a129e0cbe1993",
     "partnames": [
       "Superius",
       "Tenor"
@@ -13816,7 +13816,7 @@
     "audioVerified": true
   },
   "Bin3006": {
-    "sha256": "6fa5a3d72a6650539f985c8212bda00e061d45f3ac17712382f78553c8b6b1c7",
+    "sha256": "1ba5a4217afe5899dbfbb5e668069c7834dcf881ad66e7f97f0e1dd7d53aba70",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13825,7 +13825,7 @@
     "audioVerified": true
   },
   "Bin3008": {
-    "sha256": "a9af3501c915ffc06e29fdfc8e77cd2d8eca66c060f62dd44099450c7dc5e35a",
+    "sha256": "eea44f64185e36b09009eb13e85c8565507e0f7ce7d8f5f0be10ea303a8907af",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13834,7 +13834,7 @@
     "audioVerified": true
   },
   "Bin3009": {
-    "sha256": "81a37b2bd886586cccf25ddd0e7e1cfa15db46f8065c0eadfb2729b6f0b42392",
+    "sha256": "6617e3cf297e5959c732ddd4ec62f1650790a57cdf6bb07d81f924c0d985e0e0",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13843,7 +13843,7 @@
     "audioVerified": true
   },
   "Bin3010": {
-    "sha256": "1548c3c28f1f5ad69bee812247912974ed5213af3208b7b392477e01d8e113c0",
+    "sha256": "2e761f955c8b5ff0d05de380e6ccf406568ee71a76eb8b418790290a4cb8852f",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13852,7 +13852,7 @@
     "audioVerified": true
   },
   "Bin3011": {
-    "sha256": "bb899f27bb37c1bdadf056345dc3648b1dbba318f7819ae7830c3e391f42131f",
+    "sha256": "05aa3a46b89cbe3fe53dab0a43db78e46719eb12f8d26fba34ccabd652bc7c10",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13861,7 +13861,7 @@
     "audioVerified": true
   },
   "Bin3012": {
-    "sha256": "abfd03d33d9167d077b06672ca7ee3da90617b1f2bbcb10377d5ce4f9cde2df4",
+    "sha256": "ef0a3f75b7d71735d0665361024843e2b244bc70941c5e57cd968e2ca5fb4030",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13870,7 +13870,7 @@
     "audioVerified": true
   },
   "Bin3013": {
-    "sha256": "0da322c540a8321e9494e589c3ce8ad291f5eb88c2a33b9dd1d56c98335962d9",
+    "sha256": "3319a797fdc6aba578c565f564db8b1cec1ca342a644ca357bb56ce64c027b4f",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13879,7 +13879,7 @@
     "audioVerified": true
   },
   "Bin3014": {
-    "sha256": "20df376f72b54d5253d7e8fe7a8e763d21fe931ce73d2e155b894c6dd6a2ce5d",
+    "sha256": "65bd785eebe60d03dfb1b41effe4db1bfbd39a8ef459a163f7a8760a3f7d776f",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13888,7 +13888,7 @@
     "audioVerified": true
   },
   "Bin3015": {
-    "sha256": "a5f09ae984ee8c7f0405c07e89ee44e43ed19a4f93ccaeb774ba0de6dc8c3a57",
+    "sha256": "2cf37acd14d4f1aa0155f2974eee754f9a3388e1b655971fed49bfd611555643",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13897,7 +13897,7 @@
     "audioVerified": true
   },
   "Bin3016": {
-    "sha256": "2364e06204232d043fa1c39cfb3cc86d648ce3dbbce1cdc1acfd22721329272f",
+    "sha256": "6802fea5aa6a5c811ddfb6cd3ff204e5d6247f0939b68ca080a6652589a6a31f",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13906,7 +13906,7 @@
     "audioVerified": true
   },
   "Bin3017": {
-    "sha256": "e6c40e85f1673934055024148904d2b55442142ff2a1e8368f265b629ab94779",
+    "sha256": "c0237afee1213106a2edbc6c6c69265d0040f4f7b0d5574416c0d21f8cd667d8",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13915,7 +13915,7 @@
     "audioVerified": true
   },
   "Bin3018": {
-    "sha256": "b067f0ae4a18c0f47f10d64d33a21e49524f118fd7200994a0f34865acd72ca4",
+    "sha256": "9083503e5588844b556c54e1b05e65e625666f37c8edc67dd2e75328d6cf87de",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13924,7 +13924,7 @@
     "audioVerified": true
   },
   "Bin3018a": {
-    "sha256": "4b1d21799f981a2d6f5d63df8459029a5f2cffa7df9d2d29d56bc54c405c4641",
+    "sha256": "897a3e687d6ad803ac12fde44da5541ad8bf3534d6d45e7d2639694e02eceb6b",
     "partnames": [
       "Discantus",
       "Tenor",
@@ -13934,7 +13934,7 @@
     "audioVerified": true
   },
   "Bin3019": {
-    "sha256": "ebd53dfe814a1233ae19c1bc77d20a6535f7cb35a5efd6d6f5d4049aa7de6c8d",
+    "sha256": "16b3fd8db300deb1c859deddd607521c38ad7c9b631d0d5a6dfc523e45fd49f6",
     "partnames": [
       "Discantus",
       "Tenor",
