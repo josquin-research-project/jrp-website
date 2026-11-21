@@ -1,22 +1,15 @@
 #!/usr/bin/env ruby
-# Generate the website's text index from the published scores repository.
+# Generate the website's text index from the local scores checkout.
 require 'json'
-require 'open3'
 require 'tempfile'
 
-def github_tree(ref, recursive: false)
-  url = "https://api.github.com/repos/josquin-research-project/jrp-scores/git/trees/#{ref}"
-  url += '?recursive=1' if recursive
-  body, status = Open3.capture2('curl', '--fail', '--silent', '--show-error',
-                               '--location', '--connect-timeout', '15',
-                               '--max-time', '90', url)
-  raise "Could not fetch text listing from GitHub" unless status.success?
+def local_text_entries(repo)
+  directory = File.join(repo, 'texts')
+  raise "Scores checkout has no texts directory: #{directory}" unless File.directory?(directory)
 
-  result = JSON.parse(body)
-  raise 'GitHub returned an incomplete text listing' if result['truncated']
-  raise 'GitHub returned an invalid text listing' unless result['tree'].is_a?(Array)
-
-  result['tree']
+  Dir.glob(File.join(directory, '**', '*')).select { |path| File.file?(path) }.map do |path|
+    { 'path' => path.delete_prefix(directory + File::SEPARATOR), 'type' => 'blob' }
+  end
 end
 
 def build_text_index(entries)
@@ -35,12 +28,10 @@ end
 
 if $PROGRAM_NAME == __FILE__
   begin
-    directory = github_tree('main').find { |entry| entry['path'] == 'texts' && entry['type'] == 'tree' }
-    raise 'The scores repository has no texts directory' unless directory
-
-    index = build_text_index(github_tree(directory.fetch('sha'), recursive: true))
+    repo = File.expand_path(ENV.fetch('JRP_SCORES_DIR', '../../../jrp-scores'), __dir__)
+    index = build_text_index(local_text_entries(repo))
     destination = File.join(__dir__, 'texts.json')
-    # Replace the index only after a complete, validated response.
+    # Replace the index only after a complete, validated local scan.
     Tempfile.create(['texts-', '.json'], __dir__) do |file|
       file.write(JSON.pretty_generate(index) + "\n")
       file.close
