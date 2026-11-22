@@ -1438,7 +1438,7 @@
     "audioVerified": true
   },
   "Bus3025": {
-    "sha256": "3d7514dd5a98c6740032cd57a530711eb22d0613e101bd1d56e325acad4da4f4",
+    "sha256": "f15abe99713e813fa3e31c0a93ba322946d9ccfd72a7a97d22b8f6e19d2ad98b",
     "partnames": [
       "Superius",
       "Altus",
@@ -3449,7 +3449,7 @@
     "audioVerified": true
   },
   "Gas0501b": {
-    "sha256": "4eb3f3b09ee4ba049ad27ed5a978c0b0453945dd39f7466afaaa272d7e13e071",
+    "sha256": "31cc649650dca247e11efa6a908c3c80cdc06ab90be672cb52db8e46caad12c5",
     "partnames": [
       "Superius",
       "Altus",
@@ -3469,7 +3469,7 @@
     "audioVerified": true
   },
   "Gas0501d": {
-    "sha256": "4ac0a1af1ff6b6b7bba43945249e100cbd873e18a46a34553c8c24a126c2a004",
+    "sha256": "3c486c221b2173193aa3fdbcc49478f61a7bc4ace04a72f24c6af3c39c99a382",
     "partnames": [
       "Superius",
       "Altus",
@@ -4549,7 +4549,7 @@
     "audioVerified": true
   },
   "Jos0602b": {
-    "sha256": "dbdb45d350b5b39a82681954ad26977b1497a02fc563690841d4f168253807e5",
+    "sha256": "5d3cada09f9c2f59c5a52a00231f84de80e1de3f657748d898813fa4f471de20",
     "partnames": [
       "Superius",
       "Altus",
@@ -4944,7 +4944,7 @@
     "audioVerified": true
   },
   "Jos0901e": {
-    "sha256": "0d0a651f9bcd7bcf92ddcd7c27efc006295e593aff465b664b00888b532cc36f",
+    "sha256": "19ce453821feedb45d9a430ed309160192b59b9c8f61c469f7db697fadc2ece9",
     "partnames": [
       "Superius",
       "Altus",
@@ -4953,7 +4953,7 @@
       "Bassus",
       "Bassus2"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Jos0902a": {
     "sha256": "ed2d0b49c74e6b8deae635ea77b3775aff86813499fe9593e7b7d8fa0136709c",
@@ -12215,14 +12215,14 @@
     "audioVerified": true
   },
   "Rue1013c": {
-    "sha256": "33b66196c9d1976e49ce377b59a3d4ca9ecbefc1698b9bfbf34315ba3530bf1d",
+    "sha256": "6902de96e27f93f6d88ccbafd55ba6cfa4e90388de8ee891bde9b1344e240e4a",
     "partnames": [
       "Discantus",
       "Contratenor",
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1013d": {
     "sha256": "0fabcc210883f848d4fc82fc4fe3eab2003320086f12a0d3435d71473062741a",
