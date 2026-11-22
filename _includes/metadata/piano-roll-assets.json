@@ -1147,32 +1147,32 @@
     "audioVerified": true
   },
   "Bus1001a": {
-    "sha256": "67039525fb2bca13bb0f5273bc8013c3aa12172e9fec7ac8b09811ea47f67d8c",
+    "sha256": "2669abf3f167c9e5c4f15ba3e2d3a239a455d8683de4a1973e5af40ba8db3d50",
     "partnames": [
       "Superius",
-      "Contratenor   Altus",
+      "Altus",
       "Tenor",
-      "Contratenor Bassus"
+      "Bassus"
     ],
     "audioVerified": true
   },
   "Bus1001b": {
-    "sha256": "01319e9ac76a83ceaf4cdd2bf45c4a8042249b01d81861f91fb5a8fb99530498",
+    "sha256": "b1ff8b34fc62c9fe877b03ee9bce1e225e5cfd6986570c0b8d85ff929bdcbcf4",
     "partnames": [
       "Superius",
-      "Contratenor Altus",
+      "Altus",
       "Tenor",
-      "Contratenor Bassus"
+      "Bassus"
     ],
     "audioVerified": true
   },
   "Bus1001c": {
-    "sha256": "a5687d30aebb1c9a711af937c3ba65c72cb0487f4c09d96c83016e486d814869",
+    "sha256": "244fd62e7d7c22f7b362c3a120e0374238485994593e3a2adf4786f59f02f634",
     "partnames": [
       "Superius",
-      "Contratenor1",
+      "Altus",
       "Tenor",
-      "Contratenor2"
+      "Bassus"
     ],
     "audioVerified": true
   },
@@ -2687,7 +2687,7 @@
     "audioVerified": true
   },
   "Gas0103a": {
-    "sha256": "30b435f838e0a55839b3fd9496e8d8f60348de5b0dce7de9f811185ae14b8b53",
+    "sha256": "fdb51e7c3454d5a04ab02864b4e8e4192fa15eb047a07b2ac81bf50b4fabb26b",
     "partnames": [
       "Superius",
       "Altus",
@@ -2717,7 +2717,7 @@
     "audioVerified": true
   },
   "Gas0103d": {
-    "sha256": "8c8d6b511fcec0aa9ee3dd0ddbe3a2b675edc4c17ca32b3ec1226bb20a406c3a",
+    "sha256": "ddff8e2a83cd0d8a0b53150b59eded7bd000b37f94806fe3cbd0ec2719432146",
     "partnames": [
       "Superius",
       "Altus",
@@ -2727,7 +2727,7 @@
     "audioVerified": true
   },
   "Gas0103e": {
-    "sha256": "4d43212cd84d9e545fd00675e7bfb8305527f75a3fd51cc490e62be19c7203b6",
+    "sha256": "598a0988a45c71a75b553a73e652aede8b7f495d36f56c041932e2f5d49c70bc",
     "partnames": [
       "Superius",
       "Altus",
@@ -2737,7 +2737,7 @@
     "audioVerified": true
   },
   "Gas0104a": {
-    "sha256": "46909f53cd09407f242819bf1a49341e48a34e0b54d45f85f54f9393719605c7",
+    "sha256": "436d3a51c511d4f6e7da782b429cbaf9b30ddddc3b0918fe5a1b152fddeb5c42",
     "partnames": [
       "Superius",
       "Altus",
@@ -10403,7 +10403,7 @@
     "audioVerified": true
   },
   "Oke1005b": {
-    "sha256": "e4626a7a45f58005792ed793ea7f3dd36fcc72453aa91234b72e1a8e75e06535",
+    "sha256": "9c951406c12932c320d361011418a3fd76238fa0e7b8a2a20b69e9009ec1b5ad",
     "partnames": [
       "Superius",
       "Altus",
@@ -10423,7 +10423,7 @@
     "audioVerified": true
   },
   "Oke1005d": {
-    "sha256": "5f9b246edc5d9253dd1b48731a32e4caeb87a39a94beee7611ef1a52c90418a0",
+    "sha256": "a8b61908ea5a6bdb78b23e447d1a071d6b11bb50a5ac0dc965e4706858ffcbe3",
     "partnames": [
       "Superius",
       "Altus",
@@ -13747,7 +13747,7 @@
     "audioVerified": true
   },
   "Tin3002": {
-    "sha256": "1ff921c49fc5cf00a76fed374304f250569939087f5e95745008eb12aa65ca47",
+    "sha256": "519cf2bb26d0d9a5c07916e051bc63531ec0716985ce19425186dcb179f5eea6",
     "partnames": [
       "Superius"
     ],
