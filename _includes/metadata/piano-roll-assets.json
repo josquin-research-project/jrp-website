@@ -2206,7 +2206,7 @@
     "audioVerified": true
   },
   "Duf1002e": {
-    "sha256": "002226e46295a11bfcafbe54ffa384f2a8b60e63d98532a9fb13a49ac0b50d71",
+    "sha256": "49cdc66b8f8b336479b30d91676a82e12bd196d7d507fb27fa45887917e10d1f",
     "partnames": [
       "Cantus",
       "Contratenor",
@@ -3714,7 +3714,7 @@
     "audioVerified": true
   },
   "Jap3008": {
-    "sha256": "f8894b1fb46afe8f15c3cc6cc67225af20005a55187421cb2f547b3be6e14974",
+    "sha256": "650e10b8f1bb3b86826b3b595cf276174f0c784505e685374b0d96a2fc961ecd",
     "partnames": [
       "Discantus",
       "Altus",
@@ -3773,7 +3773,7 @@
     "audioVerified": true
   },
   "Jap3014": {
-    "sha256": "2193d2fd9e2df21bec5f0aa59a5d30faf48591023f636fee9b79a3deed630e9c",
+    "sha256": "5c8b2154a2a0dfa8f36a9a4f17f3771839bc280c8ddbe840cdaea9212e45c6dc",
     "partnames": [
       "Discantus",
       "Contra",
@@ -6520,7 +6520,7 @@
     "audioVerified": true
   },
   "Jos2011": {
-    "sha256": "64f8026feb745d21217aa502cba57f0bea46bd95dab761c07597cc7db1d31f6f",
+    "sha256": "612fdcd0bcab773e3daa5db00c843dc309df8298aeeff49efa4f01da48be4c74",
     "partnames": [
       "Superius",
       "Altus1",
@@ -6675,7 +6675,7 @@
     "audioVerified": true
   },
   "Jos2109": {
-    "sha256": "237fc353a90b2e1fdc20c6f8b946eb1c656d7f17ecd2a0bc350c51fff936a7e0",
+    "sha256": "4d17af42d77c5767ae77dd9a67cb6d7041653aa2bc843044e36605e7ca2e57c0",
     "partnames": [
       "Superius",
       "Altus",
@@ -6705,7 +6705,7 @@
     "audioVerified": true
   },
   "Jos2203": {
-    "sha256": "5ca90d4d3e4be8f8678e384ca79c0096dc9d21d122250729b715c3cdbb9a8938",
+    "sha256": "ef65e408194a172c06f352df3d24c005746de911d87643fed7e5b2bc8a72fc3e",
     "partnames": [
       "Superius",
       "Altus",
@@ -12320,14 +12320,14 @@
     "audioVerified": true
   },
   "Rue1015c": {
-    "sha256": "2986bcca869fb759387beea03b8f18f7c4f8dcc4b98587b2fa1cf054829f922f",
+    "sha256": "e7044bf63adece1c1fc5d84ff1f564e2b9c805653632fa24d9309a48226251fd",
     "partnames": [
       "Discantus",
       "Contra",
       "Tenor",
       "Bassus"
     ],
-    "audioVerified": false
+    "audioVerified": true
   },
   "Rue1015d": {
     "sha256": "36756fa527ba5b06f0b54295b0f0e873482c990d97d9b5b2ec12bcbbba38b481",
@@ -13204,7 +13204,7 @@
     "audioVerified": true
   },
   "Rue1037": {
-    "sha256": "5b86d6257d7b494892e7473b73f49fc88ff23340d7f7c26f5c8132420d63c3ce",
+    "sha256": "e8fc830ebae9a5b73be5a0c68b67f2f3490fd8b4e4bdbf1c6f86992b1f831ecb",
     "partnames": [
       "Discantus",
       "Contra",
@@ -13224,7 +13224,7 @@
     "audioVerified": true
   },
   "Rue2002": {
-    "sha256": "91fe32a9f623edbffe2d3d003876d1a577b1b2c4ca919e6cf785510c44d551aa",
+    "sha256": "d0a1778c59f0dc04cd185080f909db4289fa46823ad4cd0185a19f552f2d5d68",
     "partnames": [
       "Discantus",
       "Contra",
