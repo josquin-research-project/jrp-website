@@ -13941,5 +13941,15 @@
       "Contratenor"
     ],
     "audioVerified": true
+  },
+  "Bin3018.2": {
+    "sha256": "fa96937f12d97ac062baacbf2894229b5e1ffc2c4b9e2fbf6a44c1e00fd5c7ae",
+    "partnames": [
+      "Discantus",
+      "Tenor",
+      "Contratenor concordans sequenti",
+      "Contratenor concordans"
+    ],
+    "audioVerified": true
   }
 }

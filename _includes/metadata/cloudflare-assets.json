@@ -1360,7 +1360,8 @@
     "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Bin/Bin3019-En_regardant_vostre_tres_doulx_maintieng.krn": "score-assets/Bin3019.krn",
     "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Jos/Jos0901e-Missa_Malheur_me_bat-Agnus.krn": "score-assets/Jos0901e.krn",
     "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Rue/Rue1013c-Missa_De_Sancto_Job-Credo.krn": "score-assets/Rue1013c.krn",
-    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Rue/Rue1015c-Missa_De_virginibus-Credo.krn": "score-assets/Rue1015c.krn"
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Rue/Rue1015c-Missa_De_virginibus-Credo.krn": "score-assets/Rue1015c.krn",
+    "https://raw.githubusercontent.com/josquin-research-project/jrp-scores/main/Bin/Bin3018.2-Dueil_angoisseus_rage_demeseuree.krn": "score-assets/Bin3018.2.krn"
   },
   "pdfs": {
     "Agr1001-edit.pdf": "pdfs/Agr/Agr1001-edit.pdf",
@@ -4325,7 +4326,9 @@
     "Bin3018a-no_edit.pdf": "pdfs/Bin/Bin3018a-no_edit.pdf",
     "Bin3018a-edit.pdf": "pdfs/Bin/Bin3018a-edit.pdf",
     "Bin3019-no_edit.pdf": "pdfs/Bin/Bin3019-no_edit.pdf",
-    "Bin3019-edit.pdf": "pdfs/Bin/Bin3019-edit.pdf"
+    "Bin3019-edit.pdf": "pdfs/Bin/Bin3019-edit.pdf",
+    "Bin3018.2-no_edit.pdf": "pdfs/Bin/Bin3018.2-no_edit.pdf",
+    "Bin3018.2-edit.pdf": "pdfs/Bin/Bin3018.2-edit.pdf"
   },
   "blocked": [
     "https://cdn.jsdelivr.net/gh/benory/jrp-scores-backup@main/scores/Agr/Agr1004b-no_edit.pdf",
