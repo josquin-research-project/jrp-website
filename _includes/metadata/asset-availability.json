@@ -40965,10 +40965,8 @@
 		}
 	},
 	"lastIncrementalUpdate": {
-		"generatedAt": "2026-11-27T14:15:54.609Z",
+		"generatedAt": "2026-11-28T12:31:59.521Z",
 		"ids": [
-			"Bin3018",
-			"Bin3018.2",
 			"Bus3047",
 			"Duf1004",
 			"Duf1004a",
@@ -41018,6 +41016,7 @@
 			"Jos2313",
 			"Jos2405",
 			"Jos2406",
+			"Jos2605",
 			"Jos2609",
 			"Mar2079",
 			"Mar3017",
